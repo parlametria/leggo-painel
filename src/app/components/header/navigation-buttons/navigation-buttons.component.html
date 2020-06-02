@@ -1,0 +1,43 @@
+<ng-template [ngIf]="true">
+    <div>
+      <a routerLink="proposicoes" routerLinkActivate="activate"  :to="{ name: 'proposicoes' }">
+        <img
+          class="logo"
+          src="@/assets/PNGleggo.png"
+        >
+      </a>
+      <div>
+        <input
+          id="menu-hamburguer"
+          type="checkbox"
+          ng-model="openMenu">
+        <label for="menu-hamburguer" >
+          <div class="menu" >
+            <span class="hamburguer"></span>
+          </div>
+        </label>
+      </div>
+      <div
+        class="menubar"
+        :class="{ menuexpanded: openMenu }">
+        <a routerLink="proposicoes" routerLinkActivate="activate" 
+          ng-if="getInteresse === 'leggo'"
+          :to="{ name: 'proposicoes' }"><span>Proposições</span></a>
+        <a routerLink="" routerLinkActivate="activate" 
+          ng-if="getInteresse !== 'leggo'"
+          :to="{ name: 'interesse', params: { slug_interesse: getInteresse } }"><span>Proposições</span></a>
+        <!--a routerLink="" routerLinkActivate="activate" 
+          :to="{ name: 'semanarios' }"><s>Semanário</span></a-->
+        <a routerLink="ajuda" routerLinkActivate="activate" 
+          :to="{ name: 'ajuda' }"><span>Ajuda</span></a>
+        <a
+          href="https://parlametria.github.io/leggo-frontend/"
+          target="_blank"><span>Relatórios</span></a>
+        <!-- <a routerLink="" routerLinkActivate="activate" 
+          :to="{ name: 'relatorios' }"><s>Relatórios</span></a> -->
+        <a routerLink="sobre" routerLinkActivate="activate" 
+          :to="{ name: 'sobre' }"><span>Sobre</span></a>
+      </div>
+    </div>
+  
+  </ng-template>
