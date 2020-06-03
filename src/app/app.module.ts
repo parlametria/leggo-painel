@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { AtorService } from './shared/services/ator.service';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -12,7 +14,9 @@ import { AppComponent } from './app.component';
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    AtorService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
