@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import { ttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 import { Ator } from '../models/ator.model';
-import {Proposicao} from '../models/proposicao.model';
+import { Proposicao } from '../models/proposicao.model';
 
 import { environment } from '../../../environments/environment';
 
