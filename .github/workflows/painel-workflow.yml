@@ -1,5 +1,9 @@
 name: Build Leggo Painel
 
+on:
+  pull_request:
+  push:
+
 jobs:
   build:
     name: Build
