@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://api.leggo.org.br'
+  baseUrl: 'http://localhost:8000/'
 };
 
 /*

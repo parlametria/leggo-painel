@@ -1,0 +1,15 @@
+# Compose used for development
+version: '3.5'
+
+services:
+
+  frontend-painel:
+    build:
+      context: ${FRONTEND_PAINEL_PATH:-.}
+    image: agoradigital/frontend-painel-dev
+    container_name: frontend_painel_dev
+    volumes:
+      - ${FRONTEND_PAINEL_PATH:-.}/:/app/
+      - /app/node_modules/  
+    ports:
+      - "4200:4200"
