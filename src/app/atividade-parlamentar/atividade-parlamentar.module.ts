@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { AtividadeParlamentarRoutingModule } from './atividade-parlamentar-routing.module';
 import { AtividadeParlamentarComponent } from './atividade-parlamentar.component';
 
+
 @NgModule({
-  declarations: [
-    AtividadeParlamentarComponent
-  ],
+  declarations: [AtividadeParlamentarComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    AtividadeParlamentarRoutingModule
   ]
 })
 export class AtividadeParlamentarModule { }
