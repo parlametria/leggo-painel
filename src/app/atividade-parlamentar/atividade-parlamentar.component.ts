@@ -20,13 +20,14 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
   constructor(private atorService: AtorService) { }
 
   ngOnInit(): void {
+    this.getDadosAtividadeParlamentar();
   }
 
   getDadosAtividadeParlamentar() {
     forkJoin(
       [
-        this.atorService.getAtoresAgregados,
-        this.atorService.getAutoriasAgregadas
+        this.atorService.getAtoresAgregados(),
+        this.atorService.getAutoriasAgregadas(),
       ]
     ).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
@@ -39,6 +40,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
         }));
 
         this.parlamentares = parlamentares;
+        console.log(this.parlamentares);
       },
         error => {
           console.log(error);
