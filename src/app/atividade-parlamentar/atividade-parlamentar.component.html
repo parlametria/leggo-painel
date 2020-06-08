@@ -1,1 +1,28 @@
-<p>atividade-parlamentar works!</p>
+<div ng-controller="ngswitchctrl">
+
+    <select
+        class="topMenu"
+        size="2"
+        [(ngModel)]="option"
+    >
+        <option 
+            class="topMenuOption"
+            value="lista"
+        >
+                Lista
+        <option 
+            class="topMenuOption"
+            value="painel" 
+        >
+                Painel
+    </select>
+    <div [ngSwitch]="option">
+        <ng-template ngSwitchCase="lista">
+            Lista
+        </ng-template>
+        <ng-template ngSwitchCase="painel">
+            Painel
+        </ng-template>
+    </div>
+
+</div>

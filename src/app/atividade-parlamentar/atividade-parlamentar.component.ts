@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./atividade-parlamentar.component.scss']
 })
 export class AtividadeParlamentarComponent implements OnInit {
-
+  option:string = "lista";
+  
   constructor() { }
 
   ngOnInit(): void {

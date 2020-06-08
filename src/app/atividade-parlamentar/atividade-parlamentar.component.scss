@@ -1,0 +1,24 @@
+.topMenu {
+    height: 3em;
+    line-height: normal;
+    width:100%;
+    overflow-y: hidden;
+}
+
+.topMenuOption::before {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+
+.topMenuOption {
+  display: inline-block;
+  text-align: center;
+  font-size: large;
+  vertical-align: middle;
+  line-height: normal;
+  width: 50vw; 
+  height: 2.25em;
+  margin: 0 auto;
+}
