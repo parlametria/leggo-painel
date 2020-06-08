@@ -6,8 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./painel.component.scss']
 })
 export class PainelComponent implements OnInit {
+  orderOptions:string[];
+  search:string;
 
-  constructor() { }
+  constructor() {
+    this.orderOptions = [
+      "Mais ativos no congresso",
+      "Mais ativos no Twitter",
+      "Mais papéis importantes",
+      "Maior peso político"
+    ]
+  }
 
   ngOnInit(): void {
   }

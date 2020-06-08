@@ -3,5 +3,12 @@
 <h3 class="MainTitle">Rede de Influência</h3>
 
 <select>
-    <option></option>
+    <option
+        *ngFor="let opt of orderOptions"
+        [value]="opt"
+    >
+        {{opt}}
+    </option>
 </select>
+
+<input type="search" [(ngModel)]="search" placeholder="Buscar parlamentar...">
