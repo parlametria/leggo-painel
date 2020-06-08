@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
 import { Observable } from 'rxjs';
 
 import { Ator } from '../models/ator.model';
@@ -20,9 +21,9 @@ export class AtorService {
     return this.http.get<Proposicao[]>(`${environment.baseUrl}/proposicoes`);
   }
 
-  getAtores(): Observable<Ator[]> {
-    let proposicoes: any = this.getProposicoes();
-    let atores: any;
+  getAtores(): any[] {
+    const proposicoes: any = this.getProposicoes();
+    const atores = [];
     proposicoes.forEach(proposicao => {
         atores.push(this.http.get<Ator>(`${this.atorUrl}/${proposicao.id_leggo}`));
     });
