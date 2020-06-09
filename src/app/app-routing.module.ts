@@ -3,6 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: ':interesse',
+    redirectTo: ':interesse/atividade-parlamentar',
+    pathMatch: 'full'
+  },
+  {
     path: ':interesse/atividade-parlamentar',
     loadChildren: () => import('./atividade-parlamentar/atividade-parlamentar.module').then(m => m.AtividadeParlamentarModule)
   },
