@@ -1,4 +1,7 @@
 <div class="container app-container">
   <h1 class="app-titulo text-center">Rede de Influência</h1>
-  <app-card-atividade></app-card-atividade>
+  <app-card-atividade
+    *ngFor="let parlamentar of parlamentares; index as i;"
+    [id]="i"
+    [parlamentar]="parlamentar"></app-card-atividade>
 </div>

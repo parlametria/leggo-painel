@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+
+import { AtorAgregado } from 'src/app/shared/models/atorAgregado.model';
 
 @Component({
   selector: 'app-card-atividade',
@@ -6,6 +8,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./card-atividade.component.scss']
 })
 export class CardAtividadeComponent implements OnInit {
+
+  @Input() id: number;
+  @Input() parlamentar: AtorAgregado;
 
   constructor() { }
 

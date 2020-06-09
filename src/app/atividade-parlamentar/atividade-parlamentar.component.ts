@@ -40,7 +40,6 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
         }));
 
         this.parlamentares = parlamentares;
-        console.log(this.parlamentares);
       },
         error => {
           console.log(error);

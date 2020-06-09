@@ -1,8 +1,8 @@
 <div class="card-atividade">
   <div class="card-atividade-cabecalho">
-    <div class="card-atividade-id">1</div>
+    <div class="card-atividade-id">{{ id + 1 }}</div>
     <div class="card-atividade-titulo">
-      Rodrigo Maia
+      {{ parlamentar.nome_autor }} <span class="text-muted">{{ parlamentar.partido }}/{{ parlamentar.uf }}</span>
     </div>
     <div class="card-atividade-icones">
     </div>
