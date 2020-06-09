@@ -15,11 +15,17 @@
       [label]="'Congresso'"
       [valor]="parlamentar.atividade_parlamentar"
       [exibirLabel]="id === 0"></app-progress>
-    <div class="d-flex justify-content-end">
-      <app-avaliacao
-        [label]="'Peso'"
-        [valor]="parlamentar.peso_documentos"
-        [exibirLabel]="id === 0"></app-avaliacao>
+    <div class="insignias">
+      <div>
+        <span class="icon-autor app-icon text-danger"></span>
+        <span class="badge badge-danger app-badge">{{ parlamentar.quantidade_autorias }}</span>
+      </div>
+      <div>
+        <app-avaliacao
+          [label]="'Peso'"
+          [valor]="parlamentar.peso_documentos"
+          [exibirLabel]="id === 0"></app-avaliacao>
+      </div>
     </div>
   </div>
 </div>
