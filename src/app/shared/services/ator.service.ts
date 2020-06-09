@@ -33,12 +33,12 @@ export class AtorService {
     return atores;
   }
 
-  getAtoresAgregados(): Observable<AtorAgregado[]> {
-    return this.http.get<AtorAgregado[]>(`${this.atorUrl}/agregados`);
+  getAtoresAgregados(interesse: string): Observable<AtorAgregado[]> {
+    return this.http.get<AtorAgregado[]>(`${this.atorUrl}/agregados?interesse=${interesse}`);
   }
 
-  getAutoriasAgregadas(): Observable<AutoriaAgregada[]> {
-    return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas`);
+  getAutoriasAgregadas(interesse: string): Observable<AutoriaAgregada[]> {
+    return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas?interesse=${interesse}`);
   }
 
 }

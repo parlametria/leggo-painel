@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { Subject, forkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -16,18 +17,24 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject();
 
   parlamentares: AtorAgregado[];
+  interesse: string;
 
-  constructor(private atorService: AtorService) { }
+  constructor(private atorService: AtorService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getDadosAtividadeParlamentar();
+      this.activatedRoute.paramMap
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(params => {
+        this.interesse = params.get('interesse');
+      });
+      this.getDadosAtividadeParlamentar();
   }
 
   getDadosAtividadeParlamentar() {
     forkJoin(
       [
-        this.atorService.getAtoresAgregados(),
-        this.atorService.getAutoriasAgregadas(),
+        this.atorService.getAtoresAgregados(this.interesse),
+        this.atorService.getAutoriasAgregadas(this.interesse),
       ]
     ).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
@@ -40,7 +47,6 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
         }));
 
         this.parlamentares = parlamentares;
-        console.log(this.parlamentares);
 
       },
         error => {
