@@ -46,13 +46,22 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
           ...a
         }));
 
-        this.parlamentares = parlamentares;
+        // Transforma os pesos para valores entre 0 e 1
+        const pesos = parlamentares.map(p => +p.peso_documentos);
+        parlamentares.forEach(p =>
+          p.atividade_parlamentar = this.normalizarAtividade(p.peso_documentos, Math.min(...pesos), Math.max(...pesos))
+        );
 
+        this.parlamentares = parlamentares;
       },
         error => {
           console.log(error);
         }
       );
+  }
+
+  normalizarAtividade(metrica: number, min: number, max: number): number {
+    return (metrica - min) / (max - min);
   }
 
   ngOnDestroy() {
