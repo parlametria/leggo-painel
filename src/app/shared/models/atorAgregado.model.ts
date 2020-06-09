@@ -7,4 +7,5 @@ export interface AtorAgregado {
   bancada: string;
   total_documentos: number;
   peso_documentos: number;
+  quantidade_autorias: number;
 }

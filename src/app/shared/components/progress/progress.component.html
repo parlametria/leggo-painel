@@ -2,10 +2,10 @@
   <div
     class="progress-bar app-progress-bar bg-success"
     role="progressbar"
-    style="width: 75%;"
-    aria-valuenow="75"
-    aria-valuemin="0"
-    aria-valuemax="100">
-    Congresso
+    [ngStyle]="{'width': (valor * 100)+'%'}"
+    [attr.aria-valuenow]="valor"
+    [attr.aria-valuemin]="min"
+    [attr.aria-valuemax]="max">
+    <span [hidden]="!exibirLabel">{{ label }}</span>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-avaliacao',
@@ -6,6 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./avaliacao.component.scss']
 })
 export class AvaliacaoComponent implements OnInit {
+
+  @Input() label: string;
+  @Input() valor: number;
+  @Input() exibirLabel: boolean;
 
   constructor() { }
 

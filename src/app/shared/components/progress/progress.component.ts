@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-progress',
@@ -6,6 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./progress.component.scss']
 })
 export class ProgressComponent implements OnInit {
+
+  @Input() label: string;
+  @Input() valor: number;
+  @Input() min: number;
+  @Input() max: number;
+  @Input() exibirLabel: boolean;
 
   constructor() { }
 

@@ -1,8 +1,8 @@
 <div class="avaliacao">
-  <span class="avaliacao-label">Peso</span>
-  <span class="avaliacao-bloco checked"></span>
-  <span class="avaliacao-bloco checked"></span>
-  <span class="avaliacao-bloco"></span>
-  <span class="avaliacao-bloco"></span>
-  <span class="avaliacao-bloco ultimo"></span>
+  <span class="avaliacao-label" [hidden]="!exibirLabel">Peso</span>
+  <span class="avaliacao-bloco" [ngClass]="{'checked': valor > 0}"></span>
+  <span class="avaliacao-bloco" [ngClass]="{'checked': valor > 1}"></span>
+  <span class="avaliacao-bloco" [ngClass]="{'checked': valor > 2}"></span>
+  <span class="avaliacao-bloco" [ngClass]="{'checked': valor > 3}"></span>
+  <span class="avaliacao-bloco ultimo" [ngClass]="{'checked': valor > 4}"></span>
 </div>
