@@ -18,6 +18,12 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
 
   parlamentares: AtorAgregado[];
   interesse: string;
+  opcoesOrdenacao: any = [
+    'Mais ativos no congresso',
+    'Mais ativos no Twitter',
+    'Mais papéis importantes',
+    'Maior peso político'
+  ];
 
   constructor(private atorService: AtorService, private activatedRoute: ActivatedRoute) { }
 
@@ -53,6 +59,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
         );
 
         this.parlamentares = parlamentares;
+        this.parlamentares.sort((a, b) => b.atividade_parlamentar - a.atividade_parlamentar);
       },
         error => {
           console.log(error);
@@ -62,6 +69,13 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
 
   normalizarAtividade(metrica: number, min: number, max: number): number {
     return (metrica - min) / (max - min);
+  }
+
+  mudarOrdenacao(event: any) {
+    const opcao: any = event.target.value;
+    if (opcao === 'Mais ativos no congresso') {
+      this.parlamentares.sort((a, b) => b.atividade_parlamentar - a.atividade_parlamentar);
+    }
   }
 
   ngOnDestroy() {
