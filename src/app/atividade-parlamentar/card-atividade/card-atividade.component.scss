@@ -1,0 +1,33 @@
+$base-color: #20201e;
+
+.card-atividade {
+  border: solid 1.5px $base-color;
+  margin-bottom: 0.5rem;
+  padding: 0;
+}
+
+.card-atividade-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-atividade-id {
+  width: 52px;
+  min-width: 42px;
+  background-color: $base-color;
+  padding: .25rem .5rem;
+  margin-right: .5rem;
+  color: #fff;
+  text-align: center;
+  font-size: .8rem;
+}
+
+.card-atividade-titulo {
+  margin-right: auto;
+  line-height: 1.7rem;
+}
+
+.card-atividade-corpo {
+  padding: 0.5rem;
+}

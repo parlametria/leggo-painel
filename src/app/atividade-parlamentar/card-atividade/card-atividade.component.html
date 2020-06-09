@@ -1,0 +1,25 @@
+<div class="card-atividade">
+  <div class="card-atividade-cabecalho">
+    <div class="card-atividade-id">{{ id + 1 }}</div>
+    <div class="card-atividade-titulo">
+      {{ parlamentar.nome_autor }}
+      <span class="text-muted">
+        {{ parlamentar.partido }}/{{ parlamentar.uf }}
+      </span>
+    </div>
+    <div class="card-atividade-icones"></div>
+  </div>
+
+  <div class="card-atividade-corpo">
+    <app-progress
+      [label]="'Congresso'"
+      [valor]="parlamentar.atividade_parlamentar"
+      [exibirLabel]="id === 0"></app-progress>
+    <div class="d-flex justify-content-end">
+      <app-avaliacao
+        [label]="'Peso'"
+        [valor]="parlamentar.peso_documentos"
+        [exibirLabel]="id === 0"></app-avaliacao>
+    </div>
+  </div>
+</div>

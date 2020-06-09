@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Ator } from '../models/ator.model';
+import { AutoriaAgregada } from '../models/autoriaAgregada.model';
+import { AtorAgregado } from '../models/atorAgregado.model';
 import { Proposicao } from '../models/proposicao.model';
 
 import { environment } from '../../../environments/environment';
@@ -14,6 +16,7 @@ import { environment } from '../../../environments/environment';
 export class AtorService {
 
   private atorUrl = `${environment.baseUrl}/atores`;
+  private autoriaUrl = `${environment.baseUrl}/autorias`;
 
   constructor(private http: HttpClient) { }
 
@@ -29,4 +32,13 @@ export class AtorService {
     });
     return atores;
   }
+
+  getAtoresAgregados(interesse: string): Observable<AtorAgregado[]> {
+    return this.http.get<AtorAgregado[]>(`${this.atorUrl}/agregados?interesse=${interesse}`);
+  }
+
+  getAutoriasAgregadas(interesse: string): Observable<AutoriaAgregada[]> {
+    return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas?interesse=${interesse}`);
+  }
+
 }

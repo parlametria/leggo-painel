@@ -1,1 +1,7 @@
-<p>atividade-parlamentar works!</p>
+<div class="container app-container">
+  <h1 class="app-titulo text-center">Atores chave</h1>
+  <app-card-atividade
+    *ngFor="let parlamentar of parlamentares; index as i;"
+    [id]="i"
+    [parlamentar]="parlamentar"></app-card-atividade>
+</div>

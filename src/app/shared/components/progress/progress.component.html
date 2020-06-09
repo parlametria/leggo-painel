@@ -1,0 +1,11 @@
+<div class="progress app-progress">
+  <div
+    class="progress-bar app-progress-bar bg-success"
+    role="progressbar"
+    [ngStyle]="{'width': (valor * 100)+'%'}"
+    [attr.aria-valuenow]="valor"
+    [attr.aria-valuemin]="min"
+    [attr.aria-valuemax]="max">
+    <span [hidden]="!exibirLabel">{{ label }}</span>
+  </div>
+</div>

@@ -4,9 +4,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { AtividadeParlamentarComponent } from './atividade-parlamentar.component';
 
 const routes: Routes = [
-  { 
+  {
     path: '',
-    component: AtividadeParlamentarComponent }
+    component: AtividadeParlamentarComponent
+  }
 ];
 
 @NgModule({

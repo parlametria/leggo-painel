@@ -1,0 +1,21 @@
+$base-color: #20201e;
+
+.avaliacao-label {
+  margin-right: 0.5rem;
+}
+
+.avaliacao-bloco {
+  border: solid 1px $base-color;
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  margin-right: 2px;
+}
+
+.ultimo {
+  margin-right: 0;
+}
+
+.checked {
+  background-color: $base-color;
+}
