@@ -1,7 +1,17 @@
 const express = require("express");
 const path = require("path");
+const cors = require("cors");
 
 const app = express();
+
+const corsOptions = {
+  origin: ['http://dev.api.leggo.org.br', 'http://api.leggo.org.br'],
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"],
+  exposedHeaders: ["authorization", ]
+};
+app.use(cors(corsOptions));
 
 app.use(express.static("dist/leggo-painel"));
 
