@@ -13,4 +13,4 @@ app.get("*", (req, res) => {
 
 const port = process.env.PORT || 8080
 
-app.listen(port, () => console.log(`Server running on ${port}`))
+app.listen(port, () => console.log(`Servidor web rodando em ${port}`))
