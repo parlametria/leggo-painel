@@ -1,13 +1,12 @@
-const express = require("express")
-const serveStatic = require("serve-static")
-const path = require("path")
+const express = require("express");
+const path = require("path");
 
-const app = express()
+const app = express();
 
-app.use(serveStatic("dist/leggo-painel"))
+app.use(express.static("dist/leggo-painel"));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "dist", "legoo-painel", "index.html"));
+  res.sendFile(path.resolve(__dirname, "dist", "leggo-painel", "index.html"));
 });
 
 const port = process.env.PORT || 8080
