@@ -6,7 +6,7 @@ const app = express();
 
 const corsOptions = {
   origin: ['http://dev.api.leggo.org.br', 'http://api.leggo.org.br'],
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  methods: "OPTIONS,GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"],
   exposedHeaders: ["authorization", ]
