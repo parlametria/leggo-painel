@@ -15,6 +15,7 @@ import { AtorAgregado } from '../shared/models/atorAgregado.model';
 export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
 
   private unsubscribe = new Subject();
+  p = 1; 
 
   parlamentares: AtorAgregado[];
   interesse: string;
@@ -60,8 +61,20 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
       );
   }
 
+  pageChange(p:number){
+    this.p = p;
+  }
+
   normalizarAtividade(metrica: number, min: number, max: number): number {
     return (metrica - min) / (max - min);
+  }
+
+  getParlamentarPosition(
+    index: number,
+    itensPerPage: number,
+    currentPage: number
+  ) {
+    return (itensPerPage * (currentPage - 1)) + index ;
   }
 
   ngOnDestroy() {
