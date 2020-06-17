@@ -1,0 +1,17 @@
+$base-color: #20201e;
+
+.cabecalho {
+  border-bottom: solid 2px #20201e;
+  margin-bottom: 0.5rem;
+}
+
+.card-detalhes {
+  border: solid 1.5px $base-color;
+  margin-bottom: 0.5rem;
+  padding: 5px;
+}
+
+.card-detalhes > .card-titulo {
+  font-size: 1.3rem;
+  font-weight: 400;
+}
