@@ -5,11 +5,13 @@ import { AtividadeParlamentarRoutingModule } from './atividade-parlamentar-routi
 import { AtividadeParlamentarComponent } from './atividade-parlamentar.component';
 import { CardAtividadeComponent } from './card-atividade/card-atividade.component';
 import { SharedComponentsModule } from '../shared/components/shared-components.module';
+import { DetalhesParlamentarComponent } from './detalhes-parlamentar/detalhes-parlamentar.component';
 
 @NgModule({
   declarations: [
     AtividadeParlamentarComponent,
-    CardAtividadeComponent
+    CardAtividadeComponent,
+    DetalhesParlamentarComponent
   ],
   imports: [
     CommonModule,
