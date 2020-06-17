@@ -17,6 +17,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject();
 
   parlamentares: AtorAgregado[];
+  pesquisados: AtorAgregado[] = this.parlamentares;
   interesse: string;
   opcoesOrdenacao: any = [
     'Mais ativos no congresso',
@@ -35,6 +36,11 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
       });
       this.getDadosAtividadeParlamentar();
   }
+
+  receiveSearachOutput($event: AtorAgregado[]) {
+    this.pesquisados = $event as AtorAgregado[];
+  }
+
 
   getDadosAtividadeParlamentar() {
     forkJoin(

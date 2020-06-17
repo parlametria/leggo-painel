@@ -3,6 +3,14 @@
   <select (change)="mudarOrdenacao($event)" class="seletor-ordenacao btn-block">
     <option *ngFor="let opcao of opcoesOrdenacao">{{ opcao }}</option>
   </select>
+
+  <app-pesquisar-parlamentar
+    placeHolder="Buscar parlamentar..."
+    [rawData]="parlamentares"
+    (searchOutput)="receiveSearachOutput($event)"
+  >
+  </app-pesquisar-parlamentar>
+
   <app-card-atividade
     *ngFor="let parlamentar of parlamentares; index as i;"
     [id]="i"
