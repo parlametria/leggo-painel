@@ -1,22 +1,27 @@
-<div class="cabecalho">
-  <div class="foto-parlamentar"><img [src]="urlFoto"></div>
-  <div class="titulo-parlamentar">
-    <div class="nome-parlamentar">{{ nome_autor }}</div>
-    <div class="partido-parlamentar">{{ partido }}/{{ uf }}</div>
+<div class="cabecalho d-flex justify-content-center">
+  <div class="foto-parlamentar col-sm-1 col-md-1">
+    <img [src]="urlFoto">
+  </div>
+  <div class="titulo-parlamentar align-self-center">
+    <h4>{{ nome_autor }}</h4>
+    <span class="text-muted">{{ partido }}/{{ uf }}</span>
   </div>
 </div>
+<div class="container">
+  <div class="card-detalhes card-peso-politico">
+    <h3 class="card-titulo">Peso Político</h3>
+    <div class="card-corpo">
+      <app-avaliacao nivel="Conhecida" valor="1" ehGrande=true></app-avaliacao>
+    </div>
+  </div>
 
-<div class="card-detalhes card-peso-politico">
-  <h3 class="card-titulo">Peso Político</h3>
-  <div class="card-corpo"></div>
-</div>
+  <div class="card-detalhes card-papeis-importantes">
+    <h3 class="card-titulo">Papéis Importantes</h3>
+    <div class="card-corpo"></div>
+  </div>
 
-<div class="card-detalhes card-papeis-importantes">
-  <h3 class="card-titulo">Papéis Importantes</h3>
-  <div class="card-corpo"></div>
-</div>
-
-<div class="card-detalhes card-atividade-congresso">
-  <h3 class="card-titulo">Atividade No Congresso</h3>
-  <div class="card-corpo"></div>
+  <div class="card-detalhes card-atividade-congresso">
+    <h3 class="card-titulo">Atividade No Congresso</h3>
+    <div class="card-corpo"></div>
+  </div>
 </div>
