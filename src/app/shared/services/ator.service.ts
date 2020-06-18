@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Ator } from '../models/ator.model';
 import { AutoriaAgregada } from '../models/autoriaAgregada.model';
 import { AtorAgregado } from '../models/atorAgregado.model';
+import { AtorRelator } from '../models/atorRelator.model';
 import { Proposicao } from '../models/proposicao.model';
 
 import { environment } from '../../../environments/environment';
@@ -35,6 +36,10 @@ export class AtorService {
 
   getAtoresAgregados(interesse: string): Observable<AtorAgregado[]> {
     return this.http.get<AtorAgregado[]>(`${this.atorUrl}/agregados?interesse=${interesse}`);
+  }
+
+  getAtoresRelatores(interesse: string): Observable<AtorRelator[]> {
+    return this.http.get<AtorRelator[]>(`${this.atorUrl}/relatorias?interesse=${interesse}`);
   }
 
   getAutoriasAgregadas(interesse: string): Observable<AutoriaAgregada[]> {
