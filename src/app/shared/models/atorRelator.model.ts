@@ -1,4 +1,4 @@
 export interface AtorRelator {
-    id_relator: number;
+    id_autor: number;
     quantidade_relatorias: number;
   }

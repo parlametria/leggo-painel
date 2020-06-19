@@ -45,7 +45,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
 
         const parlamentares = atores.map(a => ({
           ...autoriasAgregadas.find(p => a.id_autor === p.id_autor),
-          ...atoresRelatores.find(p => a.id_autor === p.id_relator),
+          ...atoresRelatores.find(p => a.id_autor === p.id_autor),
           ...a
         }));
 
