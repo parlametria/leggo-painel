@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AtorService } from '../../shared/services/ator.service';
+import { takeUntil } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
+import { Subject, Observable } from 'rxjs';
+import { Ator } from 'src/app/shared/models/ator.model';
+
 @Component({
   selector: 'app-detalhes-parlamentar',
   templateUrl: './detalhes-parlamentar.component.html',
@@ -7,19 +13,38 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetalhesParlamentarComponent implements OnInit {
 
-  urlFoto: string;
-  nome_autor: string;
-  partido: string;
-  uf: string;
+  private unsubscribe = new Subject();
 
-  constructor() { }
+  public parlamentar: Ator;
+  public idAtor: string;
+  public urlFoto: string;
+
+  constructor(
+    private atorService: AtorService,
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
-    const id_autor = 107283;
-    this.urlFoto = `https://www.camara.leg.br/internet/deputado/bandep/${id_autor}.jpg`;
-    this.nome_autor = 'Dep. Gleisi Hoffmann';
-    this.partido = 'PT';
-    this.uf = 'PR';
+    this.activatedRoute.paramMap
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(params => {
+        this.idAtor = params.get('id');
+      });
+    this.getDadosParlamentar();
+  }
+  getDadosParlamentar() {
+    this.atorService.getAtor(this.idAtor)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(parlamentar => {
+        this.parlamentar = parlamentar[0];
+        this.getUrlFoto();
+      });
+  }
+
+  getUrlFoto() {
+    const urlSenado = `https://www.senado.leg.br/senadores/img/fotos-oficiais/senador${this.parlamentar.id_ext}.jpg`;
+    const urlCamara = `https://www.camara.leg.br/internet/deputado/bandep/${this.parlamentar.id_autor}.jpg`;
+    this.urlFoto = this.parlamentar.casa === 'camara' ? urlCamara : urlSenado;
   }
 
 }
