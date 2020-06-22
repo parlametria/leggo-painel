@@ -9,6 +9,7 @@ import { AtorAgregado } from '../models/atorAgregado.model';
 import { Proposicao } from '../models/proposicao.model';
 
 import { environment } from '../../../environments/environment';
+import { Autoria } from '../models/autoria.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,10 @@ export class AtorService {
 
   getAtor(idAtor: string): Observable<Ator> {
     return this.http.get<Ator>(`${this.atorUrl}/${idAtor}`);
+  }
+
+  getAutorias(idAtor: string): Observable<Autoria[]> {
+    return this.http.get<Autoria[]>(`${this.atorUrl}/${idAtor}/autorias`);
   }
 
   getAtores(): any[] {
