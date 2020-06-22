@@ -35,14 +35,19 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
       [
         this.atorService.getAtoresAgregados(this.interesse),
         this.atorService.getAutoriasAgregadas(this.interesse),
+        this.atorService.getComissaoPresidencia()
       ]
     ).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
         const atores: any = data[0];
         const autoriasAgregadas: any = data[1];
+        const comissaoPresidencia: any = data[2];
+
+        console.log(comissaoPresidencia);
 
         const parlamentares = atores.map(a => ({
           ...autoriasAgregadas.find(p => a.id_autor === p.id_autor),
+          ...comissaoPresidencia.find(p => a.id_autor === p.id_autor),
           ...a
         }));
 
