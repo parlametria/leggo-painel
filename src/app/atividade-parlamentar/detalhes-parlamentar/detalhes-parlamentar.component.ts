@@ -99,12 +99,13 @@ export class DetalhesParlamentarComponent implements OnInit {
         // Desenha treemap
         const root = treemap(autoriasAgregadas);
         svg
-          .selectAll('rect')
+          .selectAll('g')
           .data(root.leaves())
           .join('g')
           .attr('transform', d => {
             return `translate(${d.x0},${d.y0})`;
           })
+          .attr('cursor', 'pointer')
           .call(g => {
             g.append('rect')
             .attr('id', d => `leaf-${d.data.parent}`)
@@ -123,13 +124,13 @@ export class DetalhesParlamentarComponent implements OnInit {
             g.append('text')
             .attr('clip-path', d => `clip-${d.data.parent}`)
             .selectAll('tspan')
-            .data(d => `Proposição ${d.data.parent}`.split(/(?=[A-Z][a-z])|\s+/g).concat(`(${d.data.value})`))
+            .data(d => `Proposição ${d.data.parent} (${d.data.value})`.split(/(?=[A-Z][a-z])|\s+/g))
             .join('tspan')
               .attr('x', 3)
-              .attr('y', (d, i, nodes) => `${(i === nodes.length - 1) * 0.3 + 1.1 + i * 0.9}em`)
+              .attr('y', (d, i, nodes) => `${(i === nodes.length - 1) * 0.3 + 1.1 + i}em`)
               .attr('fill-opacity', (d, i, nodes) => i === nodes.length - 1 ? 0.7 : null)
               .attr('fill', 'white')
-              .attr('text-decoration', 'underline')
+              .attr('text-decoration', (d, i, nodes) => i !== nodes.length - 1 ? 'underline' : null)
               .text(d => d);
           });
     });
