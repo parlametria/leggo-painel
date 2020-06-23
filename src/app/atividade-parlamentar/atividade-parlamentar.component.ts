@@ -15,19 +15,26 @@ import { AtorAgregado } from '../shared/models/atorAgregado.model';
 export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
 
   private unsubscribe = new Subject();
+  p = 1;
 
   parlamentares: AtorAgregado[];
   interesse: string;
+  opcoesOrdenacao: any = [
+    'Mais ativos no congresso',
+    'Mais ativos no Twitter',
+    'Mais papéis importantes',
+    'Maior peso político'
+  ];
 
   constructor(private atorService: AtorService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-      this.activatedRoute.paramMap
+    this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.interesse = params.get('interesse');
       });
-      this.getDadosAtividadeParlamentar();
+    this.getDadosAtividadeParlamentar();
   }
 
   getDadosAtividadeParlamentar() {
@@ -56,6 +63,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
         );
 
         this.parlamentares = parlamentares;
+        this.parlamentares.sort((a, b) => b.atividade_parlamentar - a.atividade_parlamentar);
       },
         error => {
           console.log(error);
@@ -63,8 +71,27 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
       );
   }
 
+  pageChange(p: number) {
+    this.p = p;
+  }
+
   normalizarAtividade(metrica: number, min: number, max: number): number {
     return (metrica - min) / (max - min);
+  }
+
+  getParlamentarPosition(
+    index: number,
+    itensPerPage: number,
+    currentPage: number
+  ) {
+    return (itensPerPage * (currentPage - 1)) + index;
+  }
+
+  mudarOrdenacao(event: any) {
+    const opcao: any = event.target.value;
+    if (opcao === 'Mais ativos no congresso') {
+      this.parlamentares.sort((a, b) => b.atividade_parlamentar - a.atividade_parlamentar);
+    }
   }
 
   ngOnDestroy() {
