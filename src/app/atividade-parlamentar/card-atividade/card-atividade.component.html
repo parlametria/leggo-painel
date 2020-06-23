@@ -7,7 +7,6 @@
         {{ parlamentar.partido }}/{{ parlamentar.uf }}
       </span>
     </div>
-    <div class="card-atividade-icones"></div>
   </div>
 
   <div class="card-atividade-corpo">
@@ -18,7 +17,10 @@
     <div class="insignias">
       <div>
         <span class="icon-autor app-icon text-danger"></span>
-        <span class="badge badge-danger app-badge">{{ parlamentar.quantidade_autorias }}</span>
+        <span class="badge badge-danger app-badge badge-color-white">{{ parlamentar.quantidade_autorias }}</span>
+
+        <span class="icon-relator app-icon text-success"></span>
+        <span class="badge badge-success app-badge badge-color-white">{{ parlamentar.quantidade_relatorias }}</span>
       </div>
       <div>
         <app-avaliacao
