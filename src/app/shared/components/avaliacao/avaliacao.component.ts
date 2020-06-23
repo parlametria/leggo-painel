@@ -10,6 +10,8 @@ export class AvaliacaoComponent implements OnInit {
   @Input() label: string;
   @Input() valor: number;
   @Input() exibirLabel: boolean;
+  @Input() nivel: string;
+  @Input() ehGrande: boolean;
 
   constructor() { }
 
