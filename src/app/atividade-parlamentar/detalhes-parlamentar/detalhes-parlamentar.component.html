@@ -1,0 +1,40 @@
+<div class="container">
+
+  <div class="parlamentar">
+    <div class="row gutters-sm">
+      <div class="col-auto">
+        <div class="foto-parlamentar">
+          <img [src]="urlFoto">
+        </div>
+      </div>
+      <div class="col">
+        <div class="parlamentar-titulo">{{ parlamentar.nome_autor }}</div>
+        <p>
+          {{ parlamentar.partido }}/{{ parlamentar.uf }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-detalhes card-peso-politico">
+    <h5 class="card-titulo">Peso Político</h5>
+    <div class="card-corpo">
+      <app-avaliacao
+        nivel="Conhecida"
+        valor="1"
+        ehGrande=true></app-avaliacao>
+    </div>
+  </div>
+
+  <div class="card-detalhes card-papeis-importantes">
+    <h5 class="card-titulo">Papéis Importantes</h5>
+    <div class="card-corpo"></div>
+  </div>
+
+  <div class="card-detalhes card-atividade-congresso">
+    <h5 class="card-titulo">Atividade No Congresso</h5>
+    <div
+      class="card-corpo"
+      id="vis-atividade-parlamentar"></div>
+  </div>
+</div>

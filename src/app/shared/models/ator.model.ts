@@ -1,9 +1,11 @@
 
 export interface Ator {
   id_autor: number;
+  id_ext: number;
   nome_autor: string;
   partido: string;
   uf: string;
+  casa: string;
   peso_total_documentos: number;
   num_documentos: number;
   tipo_generico: string;
