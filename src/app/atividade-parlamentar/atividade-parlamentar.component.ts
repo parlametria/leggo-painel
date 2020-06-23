@@ -59,10 +59,6 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
           ...a
         }));
 
-        console.log(parlamentares);
-        console.log(comissaoPresidencia);
-
-
         // Transforma os pesos para valores entre 0 e 1
         const pesos = parlamentares.map(p => +p.peso_documentos);
         parlamentares.forEach(p =>
