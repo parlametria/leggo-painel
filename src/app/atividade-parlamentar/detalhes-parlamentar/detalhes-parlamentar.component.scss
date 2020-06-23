@@ -1,21 +1,29 @@
 $base-color: #20201e;
 
-.cabecalho {
+.parlamentar {
+  margin-top: 15px;
   display: flex;
-  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.parlamentar-titulo {
+  font-weight: 700;
 }
 
 .foto-parlamentar {
-  border: solid 1.5px #20201e;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-  margin-left: 0.5rem;
-  padding: 0.5px;
-  width: 25%;
+  width: 90px;
+  @media (min-width: 576px) {
+    width: 100px;
+  }
+  @media (min-width: 768px) {
+    width: 125px;
+  }
 }
 
 .foto-parlamentar > img {
   width: 100%;
+  border: solid 2px $base-color;
 }
 
 .titulo-parlamentar {
@@ -25,10 +33,9 @@ $base-color: #20201e;
 .card-detalhes {
   border: solid 1.5px $base-color;
   margin-bottom: 0.5rem;
-  padding: 5px;
+  padding: .5rem;
 }
 
 .card-detalhes > .card-titulo {
-  font-size: 1.3rem;
   font-weight: 400;
 }

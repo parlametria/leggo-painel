@@ -17,6 +17,7 @@ $base-color: #20201e;
 }
 
 .bloco-grande {
+  border: solid 2px $base-color;
   width: 30px;
   height: 30px;
   margin-right: 5px;
