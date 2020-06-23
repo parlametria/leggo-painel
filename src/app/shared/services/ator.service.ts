@@ -68,7 +68,7 @@ export class AtorService {
   }
 
   getPesoPolitico(interesse: string): Observable<ParlamentarPesoPolitico[]> {
-    return this.http.get<ParlamentarPesoPolitico[]>(`${this.atorUrl}/peso_politico/?interesse=${interesse}`);
+    return this.http.get<ParlamentarPesoPolitico[]>(`${this.atoresUrl}/peso_politico/?interesse=${interesse}`);
   }
 
 }
