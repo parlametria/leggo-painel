@@ -15,7 +15,7 @@ import { AtorAgregado } from '../shared/models/atorAgregado.model';
 export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
 
   private unsubscribe = new Subject();
-  p = 1; 
+  p = 1;
 
   parlamentares: AtorAgregado[];
   interesse: string;
@@ -29,12 +29,12 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
   constructor(private atorService: AtorService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-      this.activatedRoute.paramMap
+    this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.interesse = params.get('interesse');
       });
-      this.getDadosAtividadeParlamentar();
+    this.getDadosAtividadeParlamentar();
   }
 
   getDadosAtividadeParlamentar() {
@@ -68,7 +68,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
       );
   }
 
-  pageChange(p:number){
+  pageChange(p: number) {
     this.p = p;
   }
 
@@ -81,9 +81,9 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
     itensPerPage: number,
     currentPage: number
   ) {
-    return (itensPerPage * (currentPage - 1)) + index ;
+    return (itensPerPage * (currentPage - 1)) + index;
   }
-      
+
   mudarOrdenacao(event: any) {
     const opcao: any = event.target.value;
     if (opcao === 'Mais ativos no congresso') {

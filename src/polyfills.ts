@@ -28,7 +28,7 @@
  */
 // import 'web-animations-js';  // Run `npm install --save web-animations-js`.
 
- import '@angular/localize/init';
+import '@angular/localize/init';
 
 /**
  * By default, zone.js will patch all possible macroTask and DomEvents
