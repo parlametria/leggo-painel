@@ -51,7 +51,7 @@
   <div *ngFor="let parlamentar of parlamentares | paginate: { itemsPerPage: 20, currentPage: p }; index as i;">
     <app-card-atividade
       [parlamentar]="parlamentar"
-      [id]="getParlamentarPosition(i, 1, p)">
+      [id]="getParlamentarPosition(i, 20, p)">
     </app-card-atividade>
   </div>
   <pagination-template
