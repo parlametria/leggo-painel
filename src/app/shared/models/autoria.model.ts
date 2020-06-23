@@ -6,3 +6,9 @@ export interface Autoria {
   descricao_tipo_documento: string;
   url_inteiro_teor: string;
 }
+
+export interface ArvoreAutorias {
+  parent?: string;
+  value?: number;
+  children?: ArvoreAutorias[];
+}

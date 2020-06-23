@@ -5,12 +5,12 @@ import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { Ator } from 'src/app/shared/models/ator.model';
-import { Autoria } from 'src/app/shared/models/autoria.model';
+import { Autoria, ArvoreAutorias } from 'src/app/shared/models/autoria.model';
 
 // Importa componentes do d3
 import { select, selectAll } from 'd3-selection';
 import { group } from 'd3-array';
-import { hierarchy, treemap, treemapBinary } from 'd3-hierarchy';
+import { hierarchy, treemap, treemapBinary, HierarchyRectangularNode } from 'd3-hierarchy';
 const d3 = Object.assign({}, {
   select,
   selectAll,
@@ -70,7 +70,7 @@ export class DetalhesParlamentarComponent implements OnInit {
 
     const svg = d3.select('#vis-atividade-parlamentar')
       .append('svg')
-      .attr('viewBox', [0, 0, W, H]);
+      .attr('viewBox', `0 0 ${W} ${H}`);
 
     this.atorService.getAutorias(this.idAtor)
       .pipe(takeUntil(this.unsubscribe))
@@ -78,33 +78,32 @@ export class DetalhesParlamentarComponent implements OnInit {
         this.autorias = d3.group(autorias, documento => documento.id_leggo);
 
         // Cria dados compatíveis com o treemap
-        const autoriasAgregadas = {parent: 'root', children: []};
+        const arvoreAutorias: ArvoreAutorias = {parent: 'root', children: []};
         this.autorias.forEach((filhos, doc) => {
-          autoriasAgregadas.children.push({
-            parent: doc,
+          arvoreAutorias.children.push({
+            parent: doc.toString(),
             value: filhos.length
           });
         });
 
         // Cria função de treemap
-        const treemap = data => d3.treemap()
+        const tm = data => d3.treemap()
           .tile(d3.treemapBinary)
           .size([W, H])
           .padding(1)
           .round(true)
-          (d3.hierarchy(autoriasAgregadas)
+          (d3.hierarchy(arvoreAutorias)
           .sum(d => d.value)
           .sort((a, b) => b.value - a.value));
 
         // Desenha treemap
-        const root = treemap(autoriasAgregadas);
+        const root: HierarchyRectangularNode<ArvoreAutorias> = tm(arvoreAutorias);
+        console.log(root.leaves());
         svg
           .selectAll('g')
           .data(root.leaves())
           .join('g')
-          .attr('transform', d => {
-            return `translate(${d.x0},${d.y0})`;
-          })
+          .attr('transform', d => `translate(${d.x0},${d.y0})`)
           .attr('cursor', 'pointer')
           .call(g => {
             g.append('rect')
@@ -127,7 +126,7 @@ export class DetalhesParlamentarComponent implements OnInit {
             .data(d => `Proposição ${d.data.parent} (${d.data.value})`.split(/(?=[A-Z][a-z])|\s+/g))
             .join('tspan')
               .attr('x', 3)
-              .attr('y', (d, i, nodes) => `${(i === nodes.length - 1) * 0.3 + 1.1 + i}em`)
+              .attr('y', (d, i, nodes) => `${(i === nodes.length - 1 ? 0.3 : 0) + 1.1 + i}em`)
               .attr('fill-opacity', (d, i, nodes) => i === nodes.length - 1 ? 0.7 : null)
               .attr('fill', 'white')
               .attr('text-decoration', (d, i, nodes) => i !== nodes.length - 1 ? 'underline' : null)
