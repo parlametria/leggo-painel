@@ -42,19 +42,26 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
       [
         this.atorService.getAtoresAgregados(this.interesse),
         this.atorService.getAutoriasAgregadas(this.interesse),
+        this.atorService.getComissaoPresidencia(),
         this.atorService.getAtoresRelatores(this.interesse),
       ]
     ).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
         const atores: any = data[0];
         const autoriasAgregadas: any = data[1];
-        const atoresRelatores: any = data[2];
+        const comissaoPresidencia: any = data[2];
+        const atoresRelatores: any = data[3];
 
         const parlamentares = atores.map(a => ({
           ...autoriasAgregadas.find(p => a.id_autor === p.id_autor),
+          ...comissaoPresidencia.find(p => a.id_autor === p.id_autor),
           ...atoresRelatores.find(p => a.id_autor === p.id_autor),
           ...a
         }));
+
+        console.log(parlamentares);
+        console.log(comissaoPresidencia);
+
 
         // Transforma os pesos para valores entre 0 e 1
         const pesos = parlamentares.map(p => +p.peso_documentos);

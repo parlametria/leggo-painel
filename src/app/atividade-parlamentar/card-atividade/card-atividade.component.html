@@ -21,6 +21,11 @@
 
         <span class="icon-relator app-icon text-success"></span>
         <span class="badge badge-success app-badge badge-color-white">{{ parlamentar.quantidade_relatorias }}</span>
+
+        <span 
+          *ngIf="parlamentar.hasOwnProperty('quantidade_comissao_presidente')" 
+          class="icon-presidente app-icon text-warning"></span>
+        <span class="badge badge-warning app-badge badge-color-white">{{ parlamentar.quantidade_comissao_presidente }}</span>
       </div>
       <div>
         <app-avaliacao

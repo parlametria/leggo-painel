@@ -8,6 +8,7 @@ import { AutoriaAgregada } from '../models/autoriaAgregada.model';
 import { AtorAgregado } from '../models/atorAgregado.model';
 import { AtorRelator } from '../models/atorRelator.model';
 import { Proposicao } from '../models/proposicao.model';
+import { ComissaoPresidencia } from '../models/comissaoPresidencia.model';
 
 import { environment } from '../../../environments/environment';
 
@@ -18,11 +19,12 @@ export class AtorService {
 
   private atorUrl = `${environment.baseUrl}/atores`;
   private autoriaUrl = `${environment.baseUrl}/autorias`;
-
+  private comissaoUrl = `${environment.baseUrl}/comissao/presidencia/`;
   constructor(private http: HttpClient) { }
 
   private getProposicoes(): Observable<Proposicao[]> {
     return this.http.get<Proposicao[]>(`${environment.baseUrl}/proposicoes`);
+
   }
 
   getAtores(): any[] {
@@ -44,6 +46,10 @@ export class AtorService {
 
   getAutoriasAgregadas(interesse: string): Observable<AutoriaAgregada[]> {
     return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas?interesse=${interesse}`);
+  }
+
+  getComissaoPresidencia(): Observable<ComissaoPresidencia[]> {
+    return this.http.get<ComissaoPresidencia[]>(`${this.comissaoUrl}`);
   }
 
   getAutoriasAgregadasById(interesse: string, idAutor: number): Observable<AutoriaAgregada[]> {
