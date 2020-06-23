@@ -1,6 +1,10 @@
 <div class="container app-container">
   <h1 class="app-titulo text-center">Atores chave</h1>
 
+  <select (change)="mudarOrdenacao($event)" class="seletor-ordenacao btn-block">
+    <option *ngFor="let opcao of opcoesOrdenacao">{{ opcao }}</option>
+  </select>
+
   <pagination-template
     #pag="paginationApi"
     maxSize="5"
@@ -88,4 +92,5 @@
       </ul>
     </nav>
   </pagination-template>
+
 </div>
