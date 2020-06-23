@@ -1,4 +1,4 @@
-import { Component, OnInit , Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AtorAgregado } from '../../shared/models/atorAgregado.model';
 
 
@@ -9,9 +9,9 @@ import { AtorAgregado } from '../../shared/models/atorAgregado.model';
 })
 export class PesquisarParlamentarComponent implements OnInit {
 
-  @Input() placeHolder:string;
-  @Input() searchInput:string;
-  @Input() rawData:AtorAgregado[];
+  @Input() placeHolder: string;
+  @Input() searchInput: string;
+  @Input() rawData: AtorAgregado[];
 
   @Output() searchOutput = new EventEmitter<AtorAgregado[]>();
 
@@ -22,6 +22,6 @@ export class PesquisarParlamentarComponent implements OnInit {
 
   sendSearchOutput() {
     this.searchOutput.emit(
-      this.rawData.filter(a => a.nome_autor.includes(this.searchInput)) as AtorAgregado[])
+      this.rawData.filter(a => a.nome_autor.includes(this.searchInput)) as AtorAgregado[]);
   }
 }
