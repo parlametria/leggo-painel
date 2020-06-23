@@ -15,6 +15,7 @@ import { AtorAgregado } from '../shared/models/atorAgregado.model';
 export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
 
   private unsubscribe = new Subject();
+  p = 1;
 
   parlamentares: AtorAgregado[];
   interesse: string;
@@ -28,12 +29,12 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
   constructor(private atorService: AtorService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-      this.activatedRoute.paramMap
+    this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.interesse = params.get('interesse');
       });
-      this.getDadosAtividadeParlamentar();
+    this.getDadosAtividadeParlamentar();
   }
 
   getDadosAtividadeParlamentar() {
@@ -41,14 +42,17 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
       [
         this.atorService.getAtoresAgregados(this.interesse),
         this.atorService.getAutoriasAgregadas(this.interesse),
+        this.atorService.getAtoresRelatores(this.interesse),
       ]
     ).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
         const atores: any = data[0];
         const autoriasAgregadas: any = data[1];
+        const atoresRelatores: any = data[2];
 
         const parlamentares = atores.map(a => ({
           ...autoriasAgregadas.find(p => a.id_autor === p.id_autor),
+          ...atoresRelatores.find(p => a.id_autor === p.id_autor),
           ...a
         }));
 
@@ -67,8 +71,20 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
       );
   }
 
+  pageChange(p: number) {
+    this.p = p;
+  }
+
   normalizarAtividade(metrica: number, min: number, max: number): number {
     return (metrica - min) / (max - min);
+  }
+
+  getParlamentarPosition(
+    index: number,
+    itensPerPage: number,
+    currentPage: number
+  ) {
+    return (itensPerPage * (currentPage - 1)) + index;
   }
 
   mudarOrdenacao(event: any) {
