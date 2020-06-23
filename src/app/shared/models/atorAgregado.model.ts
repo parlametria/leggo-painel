@@ -1,5 +1,6 @@
 export interface AtorAgregado {
   id_autor: number;
+  id_autor_parlametria: number;
   nome_autor: string;
   partido: string;
   uf: string;
