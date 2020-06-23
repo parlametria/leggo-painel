@@ -51,7 +51,7 @@ export class AtorService {
   }
 
   getAtoresRelatores(interesse: string): Observable<AtorRelator[]> {
-    return this.http.get<AtorRelator[]>(`${this.atorUrl}/relatorias?interesse=${interesse}`);
+    return this.http.get<AtorRelator[]>(`${this.atoresUrl}/relatorias?interesse=${interesse}`);
   }
 
   getAutoriasAgregadas(interesse: string): Observable<AutoriaAgregada[]> {
