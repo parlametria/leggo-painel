@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://api.leggo.org.br'
+  baseUrl: 'https://dev.api.leggo.org.br'
 };
