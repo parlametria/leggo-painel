@@ -37,13 +37,13 @@ $grays: map-merge(
 $blue:    #007bff !default;
 $indigo:  #6610f2 !default;
 $purple:  #6f42c1 !default;
-$pink:    #e83e8c !default;
-$red:     #b54142 !default;
+$pink:    #7f3c8b !default;
+$red:     #B54142 !default;
 $orange:  #fd7e14 !default;
 $yellow:  #ffc107 !default;
-$green:   #43a467 !default;
-$teal:    #20c997 !default;
-$cyan:    #17a2b8 !default;
+$green:   #43A467 !default;
+$teal:    #91DABF !default;
+$cyan:    #91BFDA !default;
 
 $colors: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
@@ -66,10 +66,10 @@ $colors: map-merge(
   $colors
 );
 
-$primary:       $blue !default;
-$secondary:     $gray-600 !default;
-$success:       $green !default;
-$info:          $cyan !default;
+$primary:       $green !default;
+$secondary:     $pink !default;
+$success:       $cyan !default;
+$info:          $gray-500 !default;
 $warning:       $yellow !default;
 $danger:        $red !default;
 $light:         $white !default;
@@ -819,7 +819,7 @@ $pagination-active-border-color:    $pagination-active-bg !default;
 
 $pagination-disabled-color:         $gray-600 !default;
 $pagination-disabled-bg:            $white !default;
-$pagination-disabled-border-color:  $gray-300 !default;
+$pagination-disabled-border-color:  $white !default;
 
 
 // Jumbotron
