@@ -36,17 +36,6 @@
     <div class="card-corpo">
       <div
         id="vis-atividade-parlamentar"></div>
-      <div [hidden]="!proposicoes">
-        <br>
-        <h6 *ngIf="proposicoes">{{ proposicoes.length }} {{ proposicoes.length === 1 ? 'ação' : 'ações' }} na proposição {{ proposicoes[0].id_leggo }}:</h6>
-        <ul>
-          <li
-            *ngFor="let proposicao of proposicoes; index as i">
-            <a [href]="proposicao.url_inteiro_teor" target="_blank">{{ proposicao.descricao_tipo_documento}} </a>
-            <span class="text-muted small">[{{ proposicao.data | date:"dd/MM/yyyy"}}]</span>
-          </li>
-        </ul>
-      </div>
     </div>
   </div>
 </div>
