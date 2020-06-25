@@ -1,8 +1,9 @@
-<div class="avaliacao">
+<div class="avaliacao d-flex align-items-center">
   <span class="avaliacao-label" [hidden]="!exibirLabel">Peso</span>
-  <span class="avaliacao-bloco" [ngClass]="{'checked': valor > 0}"></span>
-  <span class="avaliacao-bloco" [ngClass]="{'checked': valor > 1}"></span>
-  <span class="avaliacao-bloco" [ngClass]="{'checked': valor > 2}"></span>
-  <span class="avaliacao-bloco" [ngClass]="{'checked': valor > 3}"></span>
-  <span class="avaliacao-bloco ultimo" [ngClass]="{'checked': valor > 4}"></span>
+  <span class="avaliacao-bloco" [ngClass]="{'checked': valor > 0, 'bloco-grande': ehGrande}"></span>
+  <span class="avaliacao-bloco" [ngClass]="{'checked': valor > 1, 'bloco-grande': ehGrande}"></span>
+  <span class="avaliacao-bloco" [ngClass]="{'checked': valor > 2, 'bloco-grande': ehGrande}"></span>
+  <span class="avaliacao-bloco" [ngClass]="{'checked': valor > 3, 'bloco-grande': ehGrande}"></span>
+  <span class="avaliacao-bloco ultimo" [ngClass]="{'checked': valor > 4, 'bloco-grande': ehGrande}"></span>
+  <span class="avaliacao-nivel" [hidden]="!nivel">({{ nivel }})</span>
 </div>

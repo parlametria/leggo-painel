@@ -9,4 +9,6 @@ export interface AtorAgregado {
   peso_documentos: number;
   atividade_parlamentar: number;
   quantidade_autorias: number;
+  quantidade_comissao_presidente: number;
+  quantidade_relatorias: number;
 }
