@@ -9,6 +9,7 @@ import { AtorAgregado } from '../models/atorAgregado.model';
 import { AtorRelator } from '../models/atorRelator.model';
 import { Proposicao } from '../models/proposicao.model';
 import { ComissaoPresidencia } from '../models/comissaoPresidencia.model';
+import { ParlamentarPesoPolitico } from '../models/parlamentarPesoPolitico.model';
 
 import { environment } from '../../../environments/environment';
 import { Autoria } from '../models/autoria.model';
@@ -64,6 +65,10 @@ export class AtorService {
 
   getAutoriasAgregadasById(interesse: string, idAutor: number): Observable<AutoriaAgregada[]> {
     return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas/${idAutor}/?interesse=${interesse}`);
+  }
+
+  getPesoPolitico(interesse: string): Observable<ParlamentarPesoPolitico[]> {
+    return this.http.get<ParlamentarPesoPolitico[]>(`${this.atoresUrl}/peso_politico/?interesse=${interesse}`);
   }
 
 }
