@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 0.0.0.0",
+    "start": "node server.js",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "start-dev": "ng serve --host 0.0.0.0",
     "heroku-postbuild": "npm install && ng build --configuration=${NODE_ENV}"
   },
   "engines": {
