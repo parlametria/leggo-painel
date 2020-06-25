@@ -38,7 +38,7 @@
         id="vis-atividade-parlamentar"></div>
       <div [hidden]="!proposicoes">
         <br>
-        <h6>Documentos <span class="small">(Proposição {{ proposicoes[0].id_leggo }})</span></h6>
+        <h6 *ngIf="proposicoes">{{ proposicoes.length }} {{ proposicoes.length === 1 ? 'ação' : 'ações' }} na proposição {{ proposicoes[0].id_leggo }}:</h6>
         <ul>
           <li
             *ngFor="let proposicao of proposicoes; index as i">
