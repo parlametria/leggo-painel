@@ -66,4 +66,7 @@ export class AtorService {
     return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas/${idAutor}/?interesse=${interesse}`);
   }
 
+  getRelatoriasDetalhadaById(interesse: string, idAutor: string): Observable<AtorAgregado[]> {
+    return this.http.get<AtorAgregado[]>(`${this.atoresUrl}/relatorias/detalhada/${idAutor}/?interesse=${interesse}`);
+  }
 }
