@@ -5,11 +5,14 @@ export interface Autoria {
   data: string;
   descricao_tipo_documento: string;
   url_inteiro_teor: string;
+  tipo_documento: string;
 }
 
 export interface ArvoreAutorias {
-  parent?: string;
+  titulo?: string;
+  tipo?: string;
+  descricao_tipo_documento?: string;
+  url_inteiro_teor?: string;
   value?: number;
-  id_leggo?: number;
   children?: ArvoreAutorias[];
 }
