@@ -28,11 +28,12 @@ const d3 = Object.assign({}, {
 export class DetalhesParlamentarComponent implements OnInit {
 
   private unsubscribe = new Subject();
+  private autorias: Map<number, Autoria[]>;
 
   public parlamentar: Ator;
   public idAtor: string;
   public urlFoto: string;
-  public autorias: Map<number, Autoria[]>;
+  public proposicoes: Autoria[] = null;
 
   constructor(
     private atorService: AtorService,
@@ -79,9 +80,10 @@ export class DetalhesParlamentarComponent implements OnInit {
 
         // Cria dados compatíveis com o treemap
         const arvoreAutorias: ArvoreAutorias = {parent: 'root', children: []};
-        this.autorias.forEach((filhos, doc) => {
+        this.autorias.forEach((filhos, id) => {
           arvoreAutorias.children.push({
-            parent: doc.toString(),
+            parent: id.toString(),
+            id_leggo: id,
             value: filhos.length
           });
         });
@@ -107,6 +109,7 @@ export class DetalhesParlamentarComponent implements OnInit {
           .attr('cursor', 'pointer')
           .call(g => {
             g.append('rect')
+            .attr('class', 'tile-atividade')
             .attr('id', d => `leaf-${d.data.parent}`)
             .attr('width', d => d.x1 - d.x0)
             .attr('height', d => d.y1 - d.y0)
@@ -127,12 +130,48 @@ export class DetalhesParlamentarComponent implements OnInit {
             .join('tspan')
               .attr('x', 3)
               .attr('y', (d, i, nodes) => `${(i === nodes.length - 1 ? 0.3 : 0) + 1.1 + i}em`)
-              .attr('fill-opacity', (d, i, nodes) => i === nodes.length - 1 ? 0.7 : null)
-              .attr('fill', 'white')
-              .attr('text-decoration', (d, i, nodes) => i !== nodes.length - 1 ? 'underline' : null)
+              .style('fill-opacity', (d, i, nodes) => i === nodes.length - 1 ? 0.7 : null)
+              .style('fill', 'white')
+              .style('text-decoration', (d, i, nodes) => i !== nodes.length - 1 ? 'underline' : null)
               .text(d => d);
+          })
+          .on('mouseover', (d, i, nodes) => {
+            d3.select(nodes[i])
+              .select('rect')
+              .style('fill', (dd, ii, nnodes) => {
+                return !d3.select(nnodes[ii])
+                  .classed('tile-atividade-ativo') ? '#65b681' : '#398251';
+              });
+          })
+          .on('click', (d, i, nodes) => {
+            const tileAtivo = d3.select(nodes[i]).select('rect');
+            const eraAtivo = tileAtivo.classed('tile-atividade-ativo');
+
+            d3.selectAll('.tile-atividade')
+              .classed('tile-atividade-ativo', false)
+              .style('fill', '#43a467');
+
+            if (eraAtivo) {
+              this.atualizaListaProposicoes(null);
+            } else {
+              tileAtivo
+                .classed('tile-atividade-ativo', true)
+                .style('fill', '#398251');
+              this.atualizaListaProposicoes(d.data.id_leggo);
+            }
+          })
+          .on('mouseout', (d, i, nodes) => {
+            d3.select(nodes[i])
+              .select('rect')
+              .style('fill', (dd, ii, nnodes) => {
+                return !d3.select(nnodes[ii])
+                  .classed('tile-atividade-ativo') ? '#43a467' : '#398251';
+              });
           });
     });
 
+  }
+  atualizaListaProposicoes(idLeggo: number): void {
+    this.proposicoes = this.autorias.get(idLeggo);
   }
 }

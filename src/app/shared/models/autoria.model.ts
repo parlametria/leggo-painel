@@ -10,5 +10,6 @@ export interface Autoria {
 export interface ArvoreAutorias {
   parent?: string;
   value?: number;
+  id_leggo?: number;
   children?: ArvoreAutorias[];
 }
