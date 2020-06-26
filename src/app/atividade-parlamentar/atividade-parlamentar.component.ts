@@ -44,7 +44,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
         this.atorService.getAutoriasAgregadas(this.interesse),
         this.atorService.getComissaoPresidencia(),
         this.atorService.getAtoresRelatores(this.interesse),
-        this.atorService.getPesoPolitico(this.interesse)
+        this.atorService.getPesoPolitico()
       ]
     ).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {

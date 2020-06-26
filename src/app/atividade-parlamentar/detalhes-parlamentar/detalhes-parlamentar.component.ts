@@ -3,7 +3,7 @@ import { Component, OnInit, ɵSWITCH_COMPILE_DIRECTIVE__POST_R3__ } from '@angul
 import { AtorService } from '../../shared/services/ator.service';
 import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, forkJoin } from 'rxjs';
 import { Ator } from 'src/app/shared/models/ator.model';
 
 @Component({
@@ -30,16 +30,50 @@ export class DetalhesParlamentarComponent implements OnInit {
       .subscribe(params => {
         this.idAtor = params.get('id');
       });
-    this.getDadosParlamentar();
+    this.getDadosParlamentar(this.idAtor);
   }
 
-  getDadosParlamentar(): void {
-    this.atorService.getAtor(this.idAtor)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(parlamentar => {
+  getDadosParlamentar(idParlamentar) {
+    forkJoin(
+      [
+        this.atorService.getAtor(idParlamentar),
+        this.atorService.getPesoPolitico()
+      ]
+    ).pipe(takeUntil(this.unsubscribe))
+      .subscribe(data => {
+        const ator: any = data[0][0];
+        const pesoPolitico: any = data[1];
+
+        const parlamentar = [ator].map(a => ({
+          ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
+          ...a
+        }));
+
+        const pesosPoliticos = pesoPolitico.map(p => {
+          if (p.peso_politico) {
+            return +p.peso_politico;
+          }
+          return 0;
+        });
+
+        parlamentar.forEach(p => {
+          p.peso_politico = this.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
+        });
+
         this.parlamentar = parlamentar[0];
         this.getUrlFoto();
-      });
+      },
+        error => {
+          console.log(error);
+        }
+      );
+  }
+
+  normalizarPesoPolitico(metrica: number, max: number): number {
+    if (max !== 0) {
+      return (metrica / max);
+    }
+    return 0;
   }
 
   getUrlFoto(): void {

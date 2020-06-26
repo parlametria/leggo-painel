@@ -20,9 +20,9 @@
     <h5 class="card-titulo">Peso Político</h5>
     <div class="card-corpo">
       <app-avaliacao
-        nivel="Conhecida"
-        valor="1"
-        ehGrande=true></app-avaliacao>
+        [label]="'Peso'"
+        [valor]="parlamentar?.peso_politico * 5">
+      </app-avaliacao>
     </div>
   </div>
 
