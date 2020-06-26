@@ -3,7 +3,7 @@ import { Component, OnInit, ɵSWITCH_COMPILE_DIRECTIVE__POST_R3__ } from '@angul
 import { AtorService } from '../../shared/services/ator.service';
 import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, forkJoin } from 'rxjs';
 import { Ator } from 'src/app/shared/models/ator.model';
 import { Autoria, ArvoreAutorias } from 'src/app/shared/models/autoria.model';
 
@@ -31,6 +31,7 @@ export class DetalhesParlamentarComponent implements OnInit {
 
   public parlamentar: Ator;
   public idAtor: string;
+  public interesse: string;
   public urlFoto: string;
   public autorias: Map<number, Autoria[]>;
 
@@ -44,24 +45,38 @@ export class DetalhesParlamentarComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.idAtor = params.get('id');
+        this.interesse = params.get('interesse');
       });
     this.getDadosParlamentar();
     this.renderVisAtividade();
   }
 
   getDadosParlamentar(): void {
-    this.atorService.getAtor(this.idAtor)
+    forkJoin(
+      [
+        this.atorService.getAtor(this.idAtor),
+        this.atorService.getRelatoriasDetalhadaById(this.interesse, this.idAtor)
+      ]
+    )
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(parlamentar => {
-        this.parlamentar = parlamentar[0];
+        const ator: any = parlamentar[0];
+        const ids: any = parlamentar[1][0].ids_relatorias;
+        const quant: any = parlamentar[1][0].quantidade_relatorias;
+        this.parlamentar = ator.map(a => ({
+          ...a,
+          ids_relatorias: ids,
+          quantidade_relatorias: quant
+        }));
+        // this.parlamentar = {...ator, ids_relatorias: ids, quantidade_relatorias: quant};
         this.getUrlFoto();
-      });
+    });
   }
 
   getUrlFoto(): void {
-    const urlSenado = `https://www.senado.leg.br/senadores/img/fotos-oficiais/senador${this.parlamentar.id_ext}.jpg`;
-    const urlCamara = `https://www.camara.leg.br/internet/deputado/bandep/${this.parlamentar.id_autor}.jpg`;
-    this.urlFoto = this.parlamentar.casa === 'camara' ? urlCamara : urlSenado;
+    const urlSenado = `https://www.senado.leg.br/senadores/img/fotos-oficiais/senador${this.parlamentar[0].id_ext}.jpg`;
+    const urlCamara = `https://www.camara.leg.br/internet/deputado/bandep/${this.parlamentar[0].id_autor}.jpg`;
+    this.urlFoto = this.parlamentar[0].casa === 'camara' ? urlCamara : urlSenado;
   }
 
   renderVisAtividade(): void {

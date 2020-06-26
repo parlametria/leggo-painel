@@ -67,8 +67,8 @@ export class AtorService {
     return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas/${idAutor}/?interesse=${interesse}`);
   }
 
-  getRelatoriasDetalhadaById(interesse: string, idAutor: string): Observable<AtorAgregado[]> {
-    return this.http.get<AtorAgregado[]>(`${this.atoresUrl}/relatorias/detalhada/${idAutor}/?interesse=${interesse}`);
+  getRelatoriasDetalhadaById(interesse: string, idAutor: string): Observable<AtorRelator> {
+    return this.http.get<AtorRelator>(`${this.atoresUrl}/relatorias/detalhada/${idAutor}/?interesse=${interesse}`);
   }
   getPesoPolitico(interesse: string): Observable<ParlamentarPesoPolitico[]> {
     return this.http.get<ParlamentarPesoPolitico[]>(`${this.atoresUrl}/peso_politico/?interesse=${interesse}`);

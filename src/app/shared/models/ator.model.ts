@@ -12,4 +12,6 @@ export interface Ator {
   sigla_local_formatada: string;
   is_important: boolean;
   nome_partido_uf: string;
+  quantidade_relatorias: number;
+  ids_relatorias: object;
 }
