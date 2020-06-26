@@ -21,9 +21,9 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
   interesse: string;
   opcoesOrdenacao: any = [
     'Mais ativos no congresso',
-    'Mais ativos no Twitter',
-    'Mais papéis importantes',
-    'Maior peso político'
+    // 'Mais ativos no Twitter',
+    // 'Mais papéis importantes',
+    // 'Maior peso político'
   ];
 
   constructor(private atorService: AtorService, private activatedRoute: ActivatedRoute) { }
