@@ -115,11 +115,11 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     const node = g
       .selectAll('g')
       .data(root.children.concat(root))
-      .join('g');
+      .join('g')
+      .attr('cursor', d => d === root && !d.parent ? 'default' : 'pointer')
+      .on('click', d => d === root ? this.zoomout(d) : d.children ? this.zoomin(d) : this.abrirUrl(d));
 
-    node.filter(d => d === root ? d.parent : d.children)
-      .attr('cursor', 'pointer')
-      .on('click', d => d === root ? this.zoomout(d) : this.zoomin(d));
+    node.filter(d => d === root ? d.parent : d.children);
 
     node.append('title')
       .text(d => `${this.getTitulo(d)}`);
@@ -129,7 +129,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         return `leaf-${d.data.id}`;
       })
       .style('stroke', '#fff')
-      .style('fill', d => d === root ? '#fff' : '#43a467');
+      .style('fill', d => d === root ? '#fff' : d.children ? '#43a467' : '#60b27b');
 
     node.append('clipPath')
       .attr('id', d => `clip-${d.data.id}`)
@@ -162,7 +162,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     } else if (dados.children) {
       return `${dados.data.titulo} (${dados.value})`.split(/(?=[A-Z][a-z])|\s+/g);
     } else {
-      return [`${dados.data.titulo}`, `${d3.timeParse('%Y-%m-%d')(dados.data.data).toLocaleString('pt-BR', { day: 'numeric', month: 'numeric', year: 'numeric' })}`];
+      return [`[PDF] ${dados.data.titulo}`, `${d3.timeParse('%Y-%m-%d')(dados.data.data).toLocaleString('pt-BR', { day: 'numeric', month: 'numeric', year: 'numeric' })}`];
     }
   }
 
@@ -191,19 +191,25 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   }
 
   private zoomout(dados) {
-    const group0 = this.gPrincipal.attr('pointer-events', 'none');
-    const group1 = this.gPrincipal = this.svg.insert('g', '*').call(g => this.atualizaVisAtividade(g, dados.parent));
+    if (dados.parent) {
+      const group0 = this.gPrincipal.attr('pointer-events', 'none');
+      const group1 = this.gPrincipal = this.svg.insert('g', '*').call(g => this.atualizaVisAtividade(g, dados.parent));
 
-    this.x.domain([dados.parent.x0, dados.parent.x1]);
-    this.y.domain([dados.parent.y0, dados.parent.y1]);
+      this.x.domain([dados.parent.x0, dados.parent.x1]);
+      this.y.domain([dados.parent.y0, dados.parent.y1]);
 
-    this.svg.transition()
-        .duration(750)
-        .call(t => group0.transition(t).remove()
-          .attrTween('opacity', () => d3.interpolate(1, 0))
-          .call(g => this.position(g, dados)))
-        .call(t => group1.transition(t)
-          .call(g => this.position(g, dados.parent)));
+      this.svg.transition()
+          .duration(750)
+          .call(t => group0.transition(t).remove()
+            .attrTween('opacity', () => d3.interpolate(1, 0))
+            .call(g => this.position(g, dados)))
+          .call(t => group1.transition(t)
+            .call(g => this.position(g, dados.parent)));
+    }
+  }
+
+  private abrirUrl(dados) {
+    window.open(dados.data.url, '_blank');
   }
 
   private tile(node, x0, y0, x1, y1) {
