@@ -10,9 +10,10 @@ export interface Autoria {
 
 export interface ArvoreAutorias {
   titulo?: string;
-  tipo?: string;
-  descricao_tipo_documento?: string;
-  url_inteiro_teor?: string;
+  id?: number;
+  data?: string;
+  descricao?: string;
+  url?: string;
   value?: number;
   children?: ArvoreAutorias[];
 }

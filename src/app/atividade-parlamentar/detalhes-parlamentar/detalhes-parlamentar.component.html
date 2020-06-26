@@ -7,7 +7,7 @@
           <img [src]="urlFoto">
         </div>
       </div>
-      <div class="col">
+      <div *ngIf="parlamentar" class="col">
         <div class="parlamentar-titulo">{{ parlamentar.nome_autor }}</div>
         <p>
           {{ parlamentar.partido }}/{{ parlamentar.uf }}
@@ -34,8 +34,8 @@
   <div class="card-detalhes card-atividade-congresso">
     <h5 class="card-titulo">Atividade No Congresso</h5>
     <div class="card-corpo">
-      <div
-        id="vis-atividade-parlamentar"></div>
+      <app-vis-atividade-detalhada
+        [idAtor]="idAtor"></app-vis-atividade-detalhada>
     </div>
   </div>
 </div>
