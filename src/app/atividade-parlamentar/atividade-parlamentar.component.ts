@@ -44,6 +44,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
         this.atorService.getAutoriasAgregadas(this.interesse),
         this.atorService.getComissaoPresidencia(),
         this.atorService.getAtoresRelatores(this.interesse),
+        this.atorService.getPesoPolitico(this.interesse)
       ]
     ).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
@@ -51,19 +52,29 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
         const autoriasAgregadas: any = data[1];
         const comissaoPresidencia: any = data[2];
         const atoresRelatores: any = data[3];
+        const pesoPolitico: any = data[4];
 
         const parlamentares = atores.map(a => ({
-          ...autoriasAgregadas.find(p => a.id_autor === p.id_autor),
-          ...comissaoPresidencia.find(p => a.id_autor === p.id_autor),
-          ...atoresRelatores.find(p => a.id_autor === p.id_autor),
+          ...autoriasAgregadas.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
+          ...comissaoPresidencia.find(p => a.id_autor_parlametria === p.id_autor_voz),
+          ...atoresRelatores.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
+          ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...a
         }));
 
         // Transforma os pesos para valores entre 0 e 1
         const pesos = parlamentares.map(p => +p.peso_documentos);
-        parlamentares.forEach(p =>
-          p.atividade_parlamentar = this.normalizarAtividade(p.peso_documentos, Math.min(...pesos), Math.max(...pesos))
-        );
+        const pesosPoliticos = parlamentares.map(p => {
+          if (p.peso_politico) {
+            return +p.peso_politico;
+          }
+          return 0;
+        });
+
+        parlamentares.forEach(p => {
+          p.atividade_parlamentar = this.normalizarAtividade(p.peso_documentos, Math.min(...pesos), Math.max(...pesos));
+          p.peso_politico = this.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
+        });
 
         this.parlamentares = parlamentares;
         this.parlamentares.sort((a, b) => b.atividade_parlamentar - a.atividade_parlamentar);
@@ -80,6 +91,13 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
 
   normalizarAtividade(metrica: number, min: number, max: number): number {
     return (metrica - min) / (max - min);
+  }
+
+  normalizarPesoPolitico(metrica: number, max: number): number {
+    if (max !== 0) {
+      return (metrica / max);
+    }
+    return 0;
   }
 
   getParlamentarPosition(

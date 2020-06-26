@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 0.0.0.0",
+    "start": "node server.js",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "start-dev": "ng serve --host 0.0.0.0",
     "heroku-postbuild": "npm install && ng build --configuration=${NODE_ENV}"
   },
   "engines": {
@@ -33,18 +34,18 @@
     "@angular/platform-browser": "~9.1.9",
     "@angular/platform-browser-dynamic": "~9.1.9",
     "@angular/router": "~9.1.9",
+    "@ng-bootstrap/ng-bootstrap": "^6.1.0",
     "@types/d3": "^5.7.2",
     "bootstrap": "^4.5.0",
     "d3-array": "^2.4.0",
     "d3-hierarchy": "^1.1.9",
     "d3-selection": "^1.4.1",
-    "@ng-bootstrap/ng-bootstrap": "^6.1.0",
     "express": "^4.17.1",
-    "ngx-pagination": "^5.0.0",
     "force-ssl-heroku": "^1.0.2",
+    "ngx-pagination": "^5.0.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
-    "typescript": "~3.8.3",
+    "typescript": "^3.8.3",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
