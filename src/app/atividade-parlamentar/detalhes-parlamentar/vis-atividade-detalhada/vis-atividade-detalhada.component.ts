@@ -11,6 +11,7 @@ import { transition } from 'd3-transition';
 import { scaleLinear } from 'd3-scale';
 import { interpolate } from 'd3-interpolate';
 import { group } from 'd3-array';
+import { timeParse } from 'd3-time-format';
 import { hierarchy, treemap, treemapSquarify } from 'd3-hierarchy';
 select.prototype.transition = transition;
 
@@ -23,7 +24,8 @@ const d3 = Object.assign({}, {
   hierarchy,
   treemap,
   treemapSquarify,
-  interpolate
+  interpolate,
+  timeParse
 });
 
 @Component({
@@ -160,7 +162,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     } else if (dados.children) {
       return `${dados.data.titulo} (${dados.value})`.split(/(?=[A-Z][a-z])|\s+/g);
     } else {
-      return [`${dados.data.titulo}`, `[${dados.data.data}]`];
+      return [`${dados.data.titulo}`, `${d3.timeParse('%Y-%m-%d')(dados.data.data).toLocaleString('pt-BR', { day: 'numeric', month: 'numeric', year: 'numeric' })}`];
     }
   }
 
