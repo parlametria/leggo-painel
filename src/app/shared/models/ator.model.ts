@@ -13,5 +13,5 @@ export interface Ator {
   is_important: boolean;
   nome_partido_uf: string;
   quantidade_relatorias: number;
-  ids_relatorias: object;
+  ids_relatorias: number[];
 }

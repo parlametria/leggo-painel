@@ -39,7 +39,7 @@
         <ngb-panel id="static-2" title="Relatorias ({{ parlamentar[0].quantidade_relatorias }})">
           <ng-template ngbPanelContent>
             <li *ngFor="let item of parlamentar[0].ids_relatorias;  let i = index">
-              {{ parlamentar[0].ids_relatorias[i].id_leggo }}
+              {{ nomesRelatorias[i] }}
             </li>
           </ng-template>
         </ngb-panel>

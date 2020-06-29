@@ -30,6 +30,7 @@ export class DetalhesParlamentarComponent implements OnInit {
   private unsubscribe = new Subject();
 
   public parlamentar: Ator;
+  public nomesRelatorias: string[];
   public idAtor: string;
   public interesse: string;
   public urlFoto: string;
@@ -63,12 +64,19 @@ export class DetalhesParlamentarComponent implements OnInit {
         const ator: any = parlamentar[0];
         const ids: any = parlamentar[1][0].ids_relatorias;
         const quant: any = parlamentar[1][0].quantidade_relatorias;
+        this.nomesRelatorias = [];
         this.parlamentar = ator.map(a => ({
           ...a,
           ids_relatorias: ids,
           quantidade_relatorias: quant
         }));
-        // this.parlamentar = {...ator, ids_relatorias: ids, quantidade_relatorias: quant};
+        ids.forEach(id => {
+          this.atorService.getProposicoesById(this.interesse, id.id_leggo)
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(idProp => {
+              this.nomesRelatorias.push(idProp[0].etapas[0].sigla);
+            });
+        });
         this.getUrlFoto();
     });
   }
