@@ -1,5 +1,5 @@
-<div class="card-atividade">
-  <div class="card-atividade-cabecalho">
+<div class="card mb-2">
+  <div class="card-header d-flex">
     <div class="card-atividade-id">{{ id + 1 }}</div>
     <div class="card-atividade-titulo">
       {{ parlamentar.nome_autor }}
@@ -8,8 +8,7 @@
       </span>
     </div>
   </div>
-
-  <div class="card-atividade-corpo">
+  <div class="card-body">
     <app-progress
       [label]="'Congresso'"
       [valor]="parlamentar.atividade_parlamentar"
@@ -40,5 +39,6 @@
           [exibirLabel]="id === 0"></app-avaliacao>
       </div>
     </div>
+    <a [routerLink]="[parlamentar.id_autor_parlametria]" class="stretched-link"></a>
   </div>
 </div>
