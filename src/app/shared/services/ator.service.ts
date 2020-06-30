@@ -67,8 +67,12 @@ export class AtorService {
     return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas/${idAutor}/?interesse=${interesse}`);
   }
 
-  getPesoPolitico(interesse: string): Observable<ParlamentarPesoPolitico[]> {
-    return this.http.get<ParlamentarPesoPolitico[]>(`${this.atoresUrl}/peso_politico/?interesse=${interesse}`);
+  getPesoPolitico(): Observable<ParlamentarPesoPolitico[]> {
+    return this.http.get<ParlamentarPesoPolitico[]>(`${this.atoresUrl}/peso_politico/`);
+  }
+
+  getPesoPoliticoById(idAutor: number): Observable<ParlamentarPesoPolitico[]> {
+    return this.http.get<ParlamentarPesoPolitico[]>(`${this.atoresUrl}/peso_politico/${idAutor}`);
   }
 
 }

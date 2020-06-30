@@ -21,9 +21,9 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
   interesse: string;
   opcoesOrdenacao: any = [
     'Mais ativos no congresso',
-    'Mais ativos no Twitter',
-    'Mais papéis importantes',
-    'Maior peso político'
+    // 'Mais ativos no Twitter',
+    // 'Mais papéis importantes',
+    // 'Maior peso político'
   ];
 
   constructor(private atorService: AtorService, private activatedRoute: ActivatedRoute) { }
@@ -44,7 +44,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
         this.atorService.getAutoriasAgregadas(this.interesse),
         this.atorService.getComissaoPresidencia(),
         this.atorService.getAtoresRelatores(this.interesse),
-        this.atorService.getPesoPolitico(this.interesse)
+        this.atorService.getPesoPolitico()
       ]
     ).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {

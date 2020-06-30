@@ -9,12 +9,14 @@ import { AtividadeParlamentarComponent } from './atividade-parlamentar.component
 import { CardAtividadeComponent } from './card-atividade/card-atividade.component';
 import { SharedComponentsModule } from '../shared/components/shared-components.module';
 import { DetalhesParlamentarComponent } from './detalhes-parlamentar/detalhes-parlamentar.component';
+import { VisAtividadeDetalhadaComponent } from './detalhes-parlamentar/vis-atividade-detalhada/vis-atividade-detalhada.component';
 
 @NgModule({
   declarations: [
     AtividadeParlamentarComponent,
     CardAtividadeComponent,
-    DetalhesParlamentarComponent
+    DetalhesParlamentarComponent,
+    VisAtividadeDetalhadaComponent
   ],
   imports: [
     CommonModule,
