@@ -8,9 +8,9 @@
         </div>
       </div>
       <div class="col">
-        <div class="parlamentar-titulo">{{ parlamentar[0].nome_autor }}</div>
+        <div class="parlamentar-titulo">{{ parlamentar.nome_autor }}</div>
         <p>
-          {{ parlamentar[0].partido }}/{{ parlamentar[0].uf }}
+          {{ parlamentar.partido }}/{{ parlamentar.uf }}
         </p>
       </div>
     </div>
@@ -36,9 +36,9 @@
           </ng-template>
         </ngb-panel>
         <span class="icon-relator app-icon text-success"></span> 
-        <ngb-panel id="static-2" title="Relatorias ({{ parlamentar[0].quantidade_relatorias }})">
+        <ngb-panel id="static-2" title="Relatorias ({{ parlamentar.quantidade_relatorias }})">
           <ng-template ngbPanelContent>
-            <li *ngFor="let item of parlamentar[0].ids_relatorias;  let i = index">
+            <li *ngFor="let item of parlamentar.ids_relatorias;  let i = index">
               {{ nomesRelatorias[i] }}
             </li>
           </ng-template>

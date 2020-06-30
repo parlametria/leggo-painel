@@ -70,6 +70,7 @@ export class DetalhesParlamentarComponent implements OnInit {
           ids_relatorias: ids,
           quantidade_relatorias: quant
         }));
+        this.parlamentar = this.parlamentar[0];
         ids.forEach(id => {
           this.atorService.getProposicoesById(this.interesse, id.id_leggo)
             .pipe(takeUntil(this.unsubscribe))
@@ -82,9 +83,9 @@ export class DetalhesParlamentarComponent implements OnInit {
   }
 
   getUrlFoto(): void {
-    const urlSenado = `https://www.senado.leg.br/senadores/img/fotos-oficiais/senador${this.parlamentar[0].id_ext}.jpg`;
-    const urlCamara = `https://www.camara.leg.br/internet/deputado/bandep/${this.parlamentar[0].id_autor}.jpg`;
-    this.urlFoto = this.parlamentar[0].casa === 'camara' ? urlCamara : urlSenado;
+    const urlSenado = `https://www.senado.leg.br/senadores/img/fotos-oficiais/senador${this.parlamentar.id_ext}.jpg`;
+    const urlCamara = `https://www.camara.leg.br/internet/deputado/bandep/${this.parlamentar.id_autor}.jpg`;
+    this.urlFoto = this.parlamentar.casa === 'camara' ? urlCamara : urlSenado;
   }
 
   renderVisAtividade(): void {
