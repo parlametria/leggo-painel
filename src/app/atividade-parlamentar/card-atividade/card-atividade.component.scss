@@ -1,18 +1,6 @@
 $base-color: #20201e;
 $base-padding: 0.5rem;
 
-.card-atividade {
-  border: solid 1.5px $base-color;
-  margin-bottom: $base-padding;
-  padding: 0;
-}
-
-.card-atividade-cabecalho {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
 .card-atividade-id {
   width: 52px;
   min-width: 42px;
@@ -27,10 +15,6 @@ $base-padding: 0.5rem;
 .card-atividade-titulo {
   margin-right: auto;
   line-height: 1.7rem;
-}
-
-.card-atividade-corpo {
-  padding: $base-padding;
 }
 
 .insignias {
