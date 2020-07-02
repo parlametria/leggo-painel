@@ -1,3 +1,11 @@
 .navbar-light {
-  border-bottom: solid 2px #20201e;
+  border-bottom: solid 2px $black;
+}
+
+.card-header {
+  border-bottom: none;
+}
+
+.card-body {
+  padding: .75rem;
 }

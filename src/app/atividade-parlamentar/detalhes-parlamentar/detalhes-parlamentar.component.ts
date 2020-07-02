@@ -5,20 +5,6 @@ import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, forkJoin } from 'rxjs';
 import { Ator } from 'src/app/shared/models/ator.model';
-import { Autoria, ArvoreAutorias } from 'src/app/shared/models/autoria.model';
-
-// Importa componentes do d3
-import { select, selectAll } from 'd3-selection';
-import { group } from 'd3-array';
-import { hierarchy, treemap, treemapBinary, HierarchyRectangularNode } from 'd3-hierarchy';
-const d3 = Object.assign({}, {
-  select,
-  selectAll,
-  group,
-  hierarchy,
-  treemap,
-  treemapBinary
-});
 
 @Component({
   selector: 'app-detalhes-parlamentar',
@@ -34,7 +20,6 @@ export class DetalhesParlamentarComponent implements OnInit {
   public idAtor: string;
   public interesse: string;
   public urlFoto: string;
-  public autorias: Map<number, Autoria[]>;
 
   constructor(
     private atorService: AtorService,
@@ -48,29 +33,38 @@ export class DetalhesParlamentarComponent implements OnInit {
         this.idAtor = params.get('id');
         this.interesse = params.get('interesse');
       });
-    this.getDadosParlamentar();
-    this.renderVisAtividade();
+    this.getDadosParlamentar(this.idAtor);
   }
 
-  getDadosParlamentar(): void {
+  getDadosParlamentar(idParlamentar) {
     forkJoin(
       [
-        this.atorService.getAtor(this.idAtor),
+        this.atorService.getAtor(idParlamentar),
+        this.atorService.getPesoPolitico(),
         this.atorService.getRelatoriasDetalhadaById(this.interesse, this.idAtor)
       ]
-    )
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(parlamentar => {
-        const ator: any = parlamentar[0];
-        const ids: any = parlamentar[1][0].ids_relatorias;
-        const quant: any = parlamentar[1][0].quantidade_relatorias;
-        this.nomesRelatorias = [];
-        this.parlamentar = ator.map(a => ({
-          ...a,
+    ).pipe(takeUntil(this.unsubscribe))
+      .subscribe(data => {
+        const ator: any = data[0][0];
+        const pesoPolitico: any = data[1];
+        const ids: any = data[2][0].ids_relatorias;
+        const quant: any = data[2][0].quantidade_relatorias;
+
+        const parlamentar = [ator].map(a => ({
+          ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ids_relatorias: ids,
-          quantidade_relatorias: quant
+          quantidade_relatorias: quant,
+          ...a
         }));
-        this.parlamentar = this.parlamentar[0];
+
+        const pesosPoliticos = pesoPolitico.map(p => {
+          if (p.peso_politico) {
+            return +p.peso_politico;
+          }
+          return 0;
+        });
+
+        this.nomesRelatorias = [];
         ids.forEach(id => {
           this.atorService.getProposicoesById(this.interesse, id.id_leggo)
             .pipe(takeUntil(this.unsubscribe))
@@ -78,85 +72,30 @@ export class DetalhesParlamentarComponent implements OnInit {
               this.nomesRelatorias.push(idProp[0].etapas[0].sigla);
             });
         });
+
+        parlamentar.forEach(p => {
+          p.peso_politico = this.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
+        });
+
+        this.parlamentar = parlamentar[0];
         this.getUrlFoto();
-    });
+      },
+        error => {
+          console.log(error);
+        }
+      );
+  }
+
+  normalizarPesoPolitico(metrica: number, max: number): number {
+    if (max !== 0) {
+      return (metrica / max);
+    }
+    return 0;
   }
 
   getUrlFoto(): void {
-    const urlSenado = `https://www.senado.leg.br/senadores/img/fotos-oficiais/senador${this.parlamentar.id_ext}.jpg`;
+    const urlSenado = `https://www.senado.leg.br/senadores/img/fotos-oficiais/senador${this.parlamentar.id_autor}.jpg`;
     const urlCamara = `https://www.camara.leg.br/internet/deputado/bandep/${this.parlamentar.id_autor}.jpg`;
     this.urlFoto = this.parlamentar.casa === 'camara' ? urlCamara : urlSenado;
-  }
-
-  renderVisAtividade(): void {
-    const W = window.innerWidth;
-    const H = W > 700 ? 350 : 500;
-
-    const svg = d3.select('#vis-atividade-parlamentar')
-      .append('svg')
-      .attr('viewBox', `0 0 ${W} ${H}`);
-
-    this.atorService.getAutorias(this.idAtor)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(autorias => {
-        this.autorias = d3.group(autorias, documento => documento.id_leggo);
-
-        // Cria dados compatíveis com o treemap
-        const arvoreAutorias: ArvoreAutorias = {parent: 'root', children: []};
-        this.autorias.forEach((filhos, doc) => {
-          arvoreAutorias.children.push({
-            parent: doc.toString(),
-            value: filhos.length
-          });
-        });
-
-        // Cria função de treemap
-        const tm = data => d3.treemap()
-          .tile(d3.treemapBinary)
-          .size([W, H])
-          .padding(1)
-          .round(true)
-          (d3.hierarchy(arvoreAutorias)
-          .sum(d => d.value)
-          .sort((a, b) => b.value - a.value));
-
-        // Desenha treemap
-        const root: HierarchyRectangularNode<ArvoreAutorias> = tm(arvoreAutorias);
-        console.log(root.leaves());
-        svg
-          .selectAll('g')
-          .data(root.leaves())
-          .join('g')
-          .attr('transform', d => `translate(${d.x0},${d.y0})`)
-          .attr('cursor', 'pointer')
-          .call(g => {
-            g.append('rect')
-            .attr('id', d => `leaf-${d.data.parent}`)
-            .attr('width', d => d.x1 - d.x0)
-            .attr('height', d => d.y1 - d.y0)
-            .style('stroke', 'white')
-            .style('fill', '#43a467');
-          })
-          .call(g => {
-            g.append('clipPath')
-            .attr('id', d => `clip-${d.data.parent}`)
-            .append('use')
-            .attr('xlink:href', d => `leaf-${d.data.parent}`);
-          })
-          .call(g => {
-            g.append('text')
-            .attr('clip-path', d => `clip-${d.data.parent}`)
-            .selectAll('tspan')
-            .data(d => `Proposição ${d.data.parent} (${d.data.value})`.split(/(?=[A-Z][a-z])|\s+/g))
-            .join('tspan')
-              .attr('x', 3)
-              .attr('y', (d, i, nodes) => `${(i === nodes.length - 1 ? 0.3 : 0) + 1.1 + i}em`)
-              .attr('fill-opacity', (d, i, nodes) => i === nodes.length - 1 ? 0.7 : null)
-              .attr('fill', 'white')
-              .attr('text-decoration', (d, i, nodes) => i !== nodes.length - 1 ? 'underline' : null)
-              .text(d => d);
-          });
-    });
-
   }
 }
