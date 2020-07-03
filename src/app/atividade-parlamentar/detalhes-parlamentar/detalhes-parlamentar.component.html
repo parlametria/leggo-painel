@@ -39,7 +39,7 @@
         <ngb-panel id="static-2" title="Relatorias ({{ parlamentar.ids_relatorias.length }})">
           <ng-template ngbPanelContent>
             <li *ngFor="let item of parlamentar.ids_relatorias;  let i = index">
-              <a [href]="'https://leggo.org.br/#/proposicao/' + parlamentar.ids_relatorias[i] + '/leggo'">
+              <a [href]="'https://leggo.parlametria.org/#/proposicao/' + item.id_leggo + '/' + interesse">
                 {{ nomesRelatorias[i] }}
               </a>
             </li>
