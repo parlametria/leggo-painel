@@ -68,20 +68,10 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
       const tipos = [];
       const documentosPorTipo = d3.group(autoria, d => d.tipo_documento);
       documentosPorTipo.forEach((documento, tipo) => {
-        const documentos = [];
-        documento.forEach(d => {
-          documentos.push({
-            titulo: d.descricao_tipo_documento,
-            id: idLeggo,
-            data: d.data,
-            url: d.url_inteiro_teor,
-            value: 1
-          });
-        });
         tipos.push({
           titulo: tipo,
           id: idLeggo,
-          children: documentos
+          value: documento.length
         });
       });
       arvoreAutorias.children.push({
@@ -115,11 +105,12 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     const node = g
       .selectAll('g')
       .data(root.children.concat(root))
-      .join('g')
-      .attr('cursor', d => d === root && !d.parent ? 'default' : 'pointer')
-      .on('click', d => d === root ? this.zoomout(d) : d.children ? this.zoomin(d) : this.abrirUrl(d));
+      .join('g');
 
-    node.filter(d => d === root ? d.parent : d.children);
+    node
+      .filter(d => d === root ? d.parent : d.children)
+      .attr('cursor', 'pointer')
+      .on('click', d => d === root ? this.zoomout(d) : this.zoomin(d));
 
     node.append('title')
       .text(d => `${this.getTitulo(d)}`);
@@ -159,10 +150,8 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   private getLabel(dados, root) {
     if (dados === root) {
       return [dados.ancestors().reverse().map(d => d.data.titulo).join('/'), dados.value];
-    } else if (dados.children) {
-      return `${dados.data.titulo} (${dados.value})`.split(/(?=[A-Z][a-z])|\s+/g);
     } else {
-      return [`[PDF] ${dados.data.titulo}`, `${d3.timeParse('%Y-%m-%d')(dados.data.data).toLocaleString('pt-BR', { day: 'numeric', month: 'numeric', year: 'numeric' })}`];
+      return `${dados.data.titulo}`.split(/(?=[A-Z][a-z])|\s+/g).concat(`(${dados.value} doc.)`);
     }
   }
 
@@ -206,10 +195,6 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
           .call(t => group1.transition(t)
             .call(g => this.position(g, dados.parent)));
     }
-  }
-
-  private abrirUrl(dados) {
-    window.open(dados.data.url, '_blank');
   }
 
   private tile(node, x0, y0, x1, y1) {
