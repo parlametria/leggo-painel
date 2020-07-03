@@ -16,7 +16,9 @@ export class DetalhesParlamentarComponent implements OnInit {
   private unsubscribe = new Subject();
 
   public parlamentar: Ator;
+  public nomesRelatorias: string[];
   public idAtor: string;
+  public interesse: string;
   public urlFoto: string;
 
   constructor(
@@ -29,6 +31,7 @@ export class DetalhesParlamentarComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.idAtor = params.get('id');
+        this.interesse = params.get('interesse');
       });
     this.getDadosParlamentar(this.idAtor);
   }
@@ -37,15 +40,20 @@ export class DetalhesParlamentarComponent implements OnInit {
     forkJoin(
       [
         this.atorService.getAtor(idParlamentar),
-        this.atorService.getPesoPolitico()
+        this.atorService.getPesoPolitico(),
+        this.atorService.getRelatoriasDetalhadaById(this.interesse, this.idAtor)
       ]
     ).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
         const ator: any = data[0][0];
         const pesoPolitico: any = data[1];
+        const ids: any = data[2][0].ids_relatorias;
+        const quant: any = data[2][0].quantidade_relatorias;
 
         const parlamentar = [ator].map(a => ({
           ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
+          ids_relatorias: ids,
+          quantidade_relatorias: quant,
           ...a
         }));
 
@@ -54,6 +62,15 @@ export class DetalhesParlamentarComponent implements OnInit {
             return +p.peso_politico;
           }
           return 0;
+        });
+
+        this.nomesRelatorias = [];
+        ids.forEach(id => {
+          this.atorService.getProposicoesById(this.interesse, id.id_leggo)
+            .pipe(takeUntil(this.unsubscribe))
+            .subscribe(idProp => {
+              this.nomesRelatorias.push(idProp[0].etapas[0].sigla);
+            });
         });
 
         parlamentar.forEach(p => {
