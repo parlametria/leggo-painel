@@ -31,6 +31,9 @@ export class NavbarComponent implements OnInit {
           case 'congresso-remoto':
             this.interesse = 'Congresso Remoto';
             break;
+          case 'reforma-tributaria':
+            this.interesse = 'Reforma Tributária';
+            break;
           default:
             this.interesse = 'RAC';
             break;
