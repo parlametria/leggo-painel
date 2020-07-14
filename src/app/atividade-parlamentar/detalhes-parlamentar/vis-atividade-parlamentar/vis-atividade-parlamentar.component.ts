@@ -59,19 +59,19 @@ export class VisAtividadeParlamentarComponent implements OnInit {
                 this.interesse = params.get('interesse');
         });
         this.largura = window.innerWidth / 2;
-        this.altura = 230;
+        this.altura = 220;
         this.margin = ({
-            top: 20,
-            right: 70,
-            bottom: 40,
-            left: 120
+            top: 0,
+            right: 30,
+            bottom: 90,
+            left: 70
         });
         this.x = d3.scaleLinear()
             .range([0, this.largura - this.margin.right - this.margin.left]);
         this.y = d3.scaleBand()
             .rangeRound([this.altura - this.margin.top - this.margin.bottom, 0]);
         this.svg  = d3.select('#vis-atividade-parlamentar').append('svg')
-          .attr('viewBox', `0 0 ${this.largura} ${this.altura}`);
+          .attr('viewBox', `0 0 ${this.largura} ${this.altura / 1.3}`);
         this.carregaVisAtividade();
     }
 
@@ -95,7 +95,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
         const id = this.idAtor;
         const chart = g
             .attr('id', 'chart')
-            .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
+            .attr('transform', `translate(${this.margin.left}, ${this.margin.top * 3})`);
 
         const x = this.x
             .domain([0, maxQuant]);
@@ -106,8 +106,8 @@ export class VisAtividadeParlamentarComponent implements OnInit {
         // Eixo x
         chart.append('g')
             .attr('class', 'axis axis--x')
-            .attr('transform', `translate(0, ${this.altura - this.margin.top - this.margin.bottom})`)
-            .call(d3.axisBottom(x));
+            .attr('transform', `translate(0, ${this.altura - (this.margin.bottom * 1.1)})`)
+            .call(d3.axisBottom(x).ticks(4));
 
         // Eixo y
         chart.append('g')
@@ -151,7 +151,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
             .attr('class', 'tooltip')
             .attr('id', d => `${d.tipo_documento}-tooltip`)
             .attr('x', d => x(d.num_documentos) - 50)
-            .attr('y', d => y(d.tipo_documento) - 20)
+            .attr('y', d => y(d.tipo_documento) - 13)
             .style('opacity', d => d.tipo_documento === 'Emenda' ? 1 : 0)
             .style('pointer-events', 'none')
             .style('font-size', '9px')
@@ -174,7 +174,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
             let word;
             let line = [];
             let lineNumber = 0;
-            const lineHeight = 0.5; // ems
+            const lineHeight = 0; // ems
             const x = texto.attr('x');
             const y = texto.attr('y');
             const dy = 1.1;
