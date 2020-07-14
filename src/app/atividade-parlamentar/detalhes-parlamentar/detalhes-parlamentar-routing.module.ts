@@ -6,26 +6,26 @@ import { DetalhesParlamentarComponent } from './detalhes-parlamentar.component';
 
 const routes: Routes = [
     {
-      path: ':id',
+      path: '',
       component: DetalhesParlamentarComponent,
       children: [
-          {
-          path: '',
-          redirectTo: 'peso',
-          pathMatch: 'full',
-          },
-          {
-            path: 'peso',
-            component: PesoPoliticoComponent, 
-          },
-          {
-            path: 'papeisImportantes',
-            component: PapeisImportantesComponent,
-          },
-          {
-            path: 'atividades',
-            component: AtividadeNoCongressoComponent,
-          }
+        {
+        path: '',
+        redirectTo: 'peso',
+        pathMatch: 'full',
+        },
+        {
+          path: 'peso',
+          component: PesoPoliticoComponent,
+        },
+        {
+          path: 'papeisImportantes',
+          component: PapeisImportantesComponent,
+        },
+        {
+          path: 'atividades',
+          component: AtividadeNoCongressoComponent,
+        }
       ]
     }
 ];

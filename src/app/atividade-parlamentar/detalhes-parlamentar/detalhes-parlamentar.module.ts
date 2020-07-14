@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
 
 
 import { SharedComponentsModule } from '../../shared/components/shared-components.module';
@@ -20,7 +22,8 @@ import { DetalhesParlamentarRoutingModule } from './detalhes-parlamentar-routing
   ],
   imports: [
     CommonModule,
-    DetalhesParlamentarRoutingModule
+    DetalhesParlamentarRoutingModule,
+    RouterModule
   ]
 })
 export class DetalhesParlamentarModule { }
