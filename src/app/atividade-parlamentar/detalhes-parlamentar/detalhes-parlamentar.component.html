@@ -30,9 +30,11 @@
     <h5 class="card-titulo">Papéis Importantes</h5>
     <div class="card-corpo">
       <ngb-accordion [closeOthers]="true" activeIds="static-1">
-        <ngb-panel id="static-1" title="Presidente de comissão">
+        <ngb-panel id="static-1" title="Presidente de comissão({{ parlamentar.quantidade_comissao_presidente }})">
           <ng-template ngbPanelContent>
-            texto
+            <li *ngFor="let item of nomesComissoes;  let i = index">
+              {{ nomesComissoes[i] }}
+            </li>
           </ng-template>
         </ngb-panel>
         <span class="icon-relator app-icon text-success"></span> 

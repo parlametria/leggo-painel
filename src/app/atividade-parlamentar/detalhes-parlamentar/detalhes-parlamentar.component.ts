@@ -20,6 +20,8 @@ export class DetalhesParlamentarComponent implements OnInit {
   public idAtor: string;
   public interesse: string;
   public urlFoto: string;
+  public nomesComissoes: string[];
+  info: any;
 
   constructor(
     private atorService: AtorService,
@@ -41,7 +43,8 @@ export class DetalhesParlamentarComponent implements OnInit {
       [
         this.atorService.getAtor(idParlamentar),
         this.atorService.getPesoPolitico(),
-        this.atorService.getRelatoriasDetalhadaById(this.interesse, this.idAtor)
+        this.atorService.getRelatoriasDetalhadaById(this.interesse, this.idAtor),
+        this.atorService.getComissaoDetalhadaById(idParlamentar)
       ]
     ).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
@@ -49,11 +52,17 @@ export class DetalhesParlamentarComponent implements OnInit {
         const pesoPolitico: any = data[1];
         const ids: any = data[2][0].ids_relatorias;
         const quant: any = data[2][0].quantidade_relatorias;
+        const idComissao: any = data[3][0].id_comissao;
+        const info: any = data[3][0].info_comissao;
+        const quantComissao: any = data[3][0].quantidade_comissao_presidente;
+        this.nomesComissoes = [];
 
         const parlamentar = [ator].map(a => ({
           ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ids_relatorias: ids,
           quantidade_relatorias: quant,
+          id_comissao: idComissao,
+          quantidade_comissao_presidente: quantComissao,
           ...a
         }));
 
@@ -79,6 +88,7 @@ export class DetalhesParlamentarComponent implements OnInit {
 
         this.parlamentar = parlamentar[0];
         this.getUrlFoto();
+        this.nomesComissoes.push('Comissão: ' + info);
       },
         error => {
           console.log(error);
