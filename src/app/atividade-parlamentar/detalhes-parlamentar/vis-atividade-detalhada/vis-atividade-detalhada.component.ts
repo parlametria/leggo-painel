@@ -8,24 +8,23 @@ import { Autoria, ArvoreAutorias } from 'src/app/shared/models/autoria.model';
 // Importa componentes do d3
 import { select, selectAll } from 'd3-selection';
 import { transition } from 'd3-transition';
-import { scaleLinear } from 'd3-scale';
-import { interpolate } from 'd3-interpolate';
+import { scaleLinear, scaleOrdinal } from 'd3-scale';
+import { quantize, interpolateRgb } from 'd3-interpolate';
 import { group } from 'd3-array';
-import { timeParse } from 'd3-time-format';
-import { hierarchy, treemap, treemapSquarify } from 'd3-hierarchy';
+import { partition, hierarchy } from 'd3-hierarchy';
 select.prototype.transition = transition;
 
 const d3 = Object.assign({}, {
+  partition,
   select,
   selectAll,
   transition,
   scaleLinear,
   group,
   hierarchy,
-  treemap,
-  treemapSquarify,
-  interpolate,
-  timeParse
+  scaleOrdinal,
+  quantize,
+  interpolateRgb
 });
 
 @Component({
@@ -61,6 +60,13 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     this.carregaVisAtividade();
   }
 
+  private partition = data => d3.partition()
+    .size([this.altura, this.largura])
+    .padding(1)
+    (d3.hierarchy(data)
+    .sum(d => d.value)
+    .sort((a, b) => b.height - a.height || b.value - a.value))
+
   private getArvoreAutorias(autorias: Autoria[]): ArvoreAutorias {
     const arvoreAutorias: ArvoreAutorias = {titulo: 'Todas', id: 0, children: []};
     const autoriasPorId = d3.group(autorias, d => d.id_leggo);
@@ -89,123 +95,50 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
       .subscribe(autorias => {
         // Transforma dados tabulares em árvore
         const arvoreAutorias = this.getArvoreAutorias(autorias);
-        // Cria função de treemap
-        const tm = data => d3.treemap()
-          .tile((node, x0, y0, x1, y1) => this.tile(node, x0, y0, x1, y1))
-          (d3.hierarchy(arvoreAutorias)
-          .sum(d => d.value)
-          .sort((a, b) => b.value - a.value));
         // Inicializa visualização
         this.gPrincipal = this.svg.append('g')
-          .call(g => this.atualizaVisAtividade(g, tm(arvoreAutorias)));
+          .call(g => this.atualizaVisAtividade(g, arvoreAutorias));
     });
   }
 
-  private atualizaVisAtividade(g, root) {
-    const node = g
+  private atualizaVisAtividade(g, data) {
+    const root = this.partition(data);
+    const color = d3.scaleOrdinal(d3.quantize(d3.interpolateRgb('#4A8D7F', '#6CA17F'), data.children.length + 1));
+
+    const cell = g
       .selectAll('g')
-      .data(root.children.concat(root))
-      .join('g');
+      .data(root.descendants())
+      .join('g')
+        .attr('transform', d => `translate(${d.y0},${d.x0})`);
 
-    node
-      .filter(d => d === root ? d.parent : d.children)
-      .attr('cursor', 'pointer')
-      .on('click', d => d === root ? this.zoomout(d) : this.zoomin(d));
+    cell.append('rect')
+        .attr('width', d => d.y1 - d.y0)
+        .attr('height', d => d.x1 - d.x0)
+        .attr('fill-opacity', 0.6)
+        .attr('fill', d => {
+          if (!d.depth) {
+            return '#959D97';
+          }
+          while (d.depth > 1) {
+            d = d.parent;
+          }
+          return color(d.data.titulo);
+        });
 
-    node.append('title')
-      .text(d => `${this.getTitulo(d)}`);
+    const text = cell.filter(d => (d.x1 - d.x0) > 16).append('text')
+        .attr('x', 4)
+        .attr('y', 13);
 
-    node.append('rect')
-      .attr('id', d => {
-        return `leaf-${d.data.id}`;
-      })
-      .style('stroke', '#fff')
-      .style('fill', d => d === root ? '#fff' : d.children ? '#43a467' : '#60b27b');
+    text.append('tspan')
+        .text(d => d.data.titulo);
 
-    node.append('clipPath')
-      .attr('id', d => `clip-${d.data.id}`)
-      .append('use')
-      .attr('xlink:href', d => `leaf-${d.data.id}`);
+    text.append('tspan')
+        .attr('fill-opacity', 0.7)
+        .text(d => ` ${d.value}`);
 
-    node.append('text')
-    .attr('clip-path', d => `clip-${d.data.id}`)
-    .style('font-weight', d => d === root ? 'bold' : null)
-    .style('fill', d => d === root ? '#212529' : '#fff')
-      .selectAll('tspan')
-      .data(d => this.getLabel(d, root))
-      .join('tspan')
-        .attr('x', 3)
-        .attr('y', (d, i, nodes) => `${(i === nodes.length - 1 ? 0.3 : 0) + 1.1 + i}em`)
-        .style('fill-opacity', (d, i, nodes) => i === nodes.length - 1 ? 0.7 : null)
-        .style('text-decoration', (d, i, nodes) => i !== nodes.length - 1 ? 'underline' : null)
-        .text(d => d);
+    cell.append('title')
+        .text(d => `${d.ancestors().map(t => t.data.titulo).reverse().join('/')}\n${d.value}`);
 
-    g.call(gg => this.position(gg, root));
-  }
-
-  private getTitulo(dados) {
-    return dados.ancestors().reverse().map(d => d.data.titulo).join('/');
-  }
-
-  private getLabel(dados, root) {
-    if (dados === root) {
-      return [dados.ancestors().reverse().map(d => d.data.titulo).join('/'), dados.value];
-    } else {
-      return `${dados.data.titulo}`.split(/(?=[A-Z][a-z])|\s+/g).concat(`(${dados.value} doc.)`);
-    }
-  }
-
-  private position(g, root) {
-    g.selectAll('g')
-        .attr('transform', d => d === root ? `translate(0,-45)` : `translate(${this.x(d.x0)},${this.y(d.y0)})`)
-      .select('rect')
-        .attr('width', d => d === root ? this.largura : this.x(d.x1) - this.x(d.x0))
-        .attr('height', d => d === root ? 30 : this.y(d.y1) - this.y(d.y0));
-  }
-
-  private zoomin(dados) {
-    const group0 = this.gPrincipal.attr('pointer-events', 'none');
-    const group1 = this.gPrincipal = this.svg.append('g').call(g => this.atualizaVisAtividade(g, dados));
-
-    this.x.domain([dados.x0, dados.x1]);
-    this.y.domain([dados.y0, dados.y1]);
-
-    this.svg.transition()
-        .duration(750)
-        .call(t => group0.transition(t).remove()
-          .call(g => this.position(g, dados.parent)))
-        .call(t => group1.transition(t)
-          .attrTween('opacity', () => d3.interpolate(0, 1))
-          .call(g => this.position(g, dados)));
-  }
-
-  private zoomout(dados) {
-    if (dados.parent) {
-      const group0 = this.gPrincipal.attr('pointer-events', 'none');
-      const group1 = this.gPrincipal = this.svg.insert('g', '*').call(g => this.atualizaVisAtividade(g, dados.parent));
-
-      this.x.domain([dados.parent.x0, dados.parent.x1]);
-      this.y.domain([dados.parent.y0, dados.parent.y1]);
-
-      this.svg.transition()
-          .duration(750)
-          .call(t => group0.transition(t).remove()
-            .attrTween('opacity', () => d3.interpolate(1, 0))
-            .call(g => this.position(g, dados)))
-          .call(t => group1.transition(t)
-            .call(g => this.position(g, dados.parent)));
-    }
-  }
-
-  private tile(node, x0, y0, x1, y1) {
-    // Adapta o treemapBinary para a proporção de tela correta
-    // depois de aumentar/diminuir o zoom
-    d3.treemapSquarify(node, 0, 0, this.largura, this.altura);
-    for (const child of node.children) {
-      child.x0 = x0 + child.x0 / this.largura * (x1 - x0);
-      child.x1 = x0 + child.x1 / this.largura * (x1 - x0);
-      child.y0 = y0 + child.y0 / this.altura * (y1 - y0);
-      child.y1 = y0 + child.y1 / this.altura * (y1 - y0);
-    }
+    return g.node();
   }
 }
