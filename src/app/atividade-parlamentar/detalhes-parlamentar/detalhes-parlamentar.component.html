@@ -16,26 +16,45 @@
     </div>
   </div>
 
-  <div class="card-detalhes card-peso-politico">
-    <h5 class="card-titulo">Peso Político</h5>
-    <div class="card-corpo">
-      <app-avaliacao
-        [label]="'Peso'"
-        [valor]="parlamentar?.peso_politico * 5">
-      </app-avaliacao>
-    </div>
+  <div class="parlementar-subnav">
+    <ul class="nav nav-tabs justify-content-center">
+      <li class="nav-item">
+        <a
+          class="nav-link nav-link-parlamentar"
+          [routerLink]="['./peso']"
+          [routerLinkActive]="'active'"
+        >
+          Peso político
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link nav-link-parlamentar"
+          [routerLink]="['./papeisImportantes']"
+          [routerLinkActive]="'active'"
+        >
+        Papéis Importantes
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link nav-link-parlamentar"
+          [routerLink]="['./atividades']"
+          [routerLinkActive]="'active'"
+        >
+        Atividade No Congresso
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="parlamentar-pages container">
+    <router-outlet></router-outlet>
   </div>
 
-  <div class="card-detalhes card-papeis-importantes">
-    <h5 class="card-titulo">Papéis Importantes</h5>
-    <div class="card-corpo"></div>
-  </div>
+  <!--<app-peso-politico></app-peso-politico>
 
-  <div class="card-detalhes card-atividade-congresso">
-    <h5 class="card-titulo">Atividade No Congresso</h5>
-    <div class="card-corpo">
-      <app-vis-atividade-detalhada
-        [idAtor]="idAtor"></app-vis-atividade-detalhada>
-    </div>
-  </div>
+  <app-papeis-importantes></app-papeis-importantes>
+
+  <app-atividade-no-congresso></app-atividade-no-congresso>!-->
+
 </div>

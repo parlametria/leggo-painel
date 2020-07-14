@@ -39,3 +39,28 @@ $base-color: #20201e;
 .card-detalhes > .card-titulo {
   font-weight: 400;
 }
+
+.parlementar-subnav {
+  @media (max-width: 400px) {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+
+    > .nav {
+      flex: 0 0 auto;
+    }
+  }
+}
+
+/* NAVBAR */
+.navbar {
+  padding: 0;
+}
+.navbar-nav {
+  flex-direction: row;
+}
+
+.nav-item {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}

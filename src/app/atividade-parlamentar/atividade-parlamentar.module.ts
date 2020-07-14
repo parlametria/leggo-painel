@@ -10,13 +10,17 @@ import { CardAtividadeComponent } from './card-atividade/card-atividade.componen
 import { SharedComponentsModule } from '../shared/components/shared-components.module';
 import { DetalhesParlamentarComponent } from './detalhes-parlamentar/detalhes-parlamentar.component';
 import { VisAtividadeDetalhadaComponent } from './detalhes-parlamentar/vis-atividade-detalhada/vis-atividade-detalhada.component';
+import { PesoPoliticoComponent, PapeisImportantesComponent, AtividadeNoCongressoComponent } from './detalhes-parlamentar'
 
 @NgModule({
   declarations: [
     AtividadeParlamentarComponent,
     CardAtividadeComponent,
     DetalhesParlamentarComponent,
-    VisAtividadeDetalhadaComponent
+    VisAtividadeDetalhadaComponent,
+    PesoPoliticoComponent,
+    PapeisImportantesComponent,
+    AtividadeNoCongressoComponent
   ],
   imports: [
     CommonModule,
