@@ -16,6 +16,11 @@ const routes: Routes = [
     component: DetalhesParlamentarComponent,
     children: [
       {
+        path: '',
+        redirectTo: 'atividades',
+        pathMatch: 'full'
+      },
+      {
         path: 'peso',
         component: PesoPoliticoComponent,
       },
