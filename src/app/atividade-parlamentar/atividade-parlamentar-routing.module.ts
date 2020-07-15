@@ -13,19 +13,21 @@ const routes: Routes = [
   },
   {
     path: ':id',
-    component: DetalhesParlamentarComponent
-  },
-  {
-    path: ':id/peso',
-    component: PesoPoliticoComponent,
-  },
-  {
-    path: ':id/papeisImportantes',
-    component: PapeisImportantesComponent,
-  },
-  {
-    path: ':id/atividades',
-    component: AtividadeNoCongressoComponent,
+    component: DetalhesParlamentarComponent,
+    children: [
+      {
+        path: 'peso',
+        component: PesoPoliticoComponent,
+      },
+      {
+        path: 'papeis',
+        component: PapeisImportantesComponent,
+      },
+      {
+        path: 'atividades',
+        component: AtividadeNoCongressoComponent,
+      }
+    ]
   }
 ];
 

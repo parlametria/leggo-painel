@@ -25,7 +25,7 @@ export class AtividadeNoCongressoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap
+    this.activatedRoute.parent.paramMap
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.idAtor = params.get('id');
