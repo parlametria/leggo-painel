@@ -8,10 +8,11 @@ import { Autoria, ArvoreAutorias } from 'src/app/shared/models/autoria.model';
 // Importa componentes do d3
 import { select, selectAll } from 'd3-selection';
 import { transition } from 'd3-transition';
-import { scaleLinear, scaleOrdinal } from 'd3-scale';
+import { scaleLinear, scaleSequential } from 'd3-scale';
 import { quantize, interpolateRgb } from 'd3-interpolate';
 import { group } from 'd3-array';
-import { partition, hierarchy } from 'd3-hierarchy';
+import { partition, hierarchy, treemap } from 'd3-hierarchy';
+import { nest } from 'd3-collection';
 select.prototype.transition = transition;
 
 const d3 = Object.assign({}, {
@@ -20,11 +21,13 @@ const d3 = Object.assign({}, {
   selectAll,
   transition,
   scaleLinear,
+  scaleSequential,
   group,
   hierarchy,
-  scaleOrdinal,
   quantize,
-  interpolateRgb
+  interpolateRgb,
+  treemap,
+  nest
 });
 
 @Component({
@@ -52,23 +55,26 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
 
   ngOnInit(): void {
     this.largura = window.innerWidth;
-    this.altura = this.largura > 700 ? 400 : 500;
+    this.altura = this.largura > 700 ? 450 : 550;
     this.x = d3.scaleLinear().rangeRound([0, this.largura]);
     this.y = d3.scaleLinear().rangeRound([0, this.altura]);
     this.svg  = d3.select('#vis-atividade-detalhada').append('svg')
-      .attr('viewBox', `0.5 -40.5 ${this.largura} ${this.altura + 40.5}`);
+      .attr('viewBox', `0.5 0 ${this.largura} ${this.altura}`);
     this.carregaVisAtividade();
   }
 
-  private partition = data => d3.partition()
-    .size([this.altura, this.largura])
-    .padding(1)
+  private treemap = data => d3.treemap()
+    .size([this.largura, this.altura])
+    .paddingOuter(3)
+    .paddingTop(19)
+    .paddingInner(1)
+    .round(true)
     (d3.hierarchy(data)
     .sum(d => d.value)
-    .sort((a, b) => b.height - a.height || b.value - a.value))
+    .sort((a, b) => b.value - a.value))
 
   private getArvoreAutorias(autorias: Autoria[]): ArvoreAutorias {
-    const arvoreAutorias: ArvoreAutorias = {titulo: 'Todas', id: 0, children: []};
+    const arvoreAutorias: ArvoreAutorias = {titulo: 'Total', id: 0, children: []};
     const autoriasPorId = d3.group(autorias, d => d.id_leggo);
     autoriasPorId.forEach((autoria, idLeggo) => {
       const tipos = [];
@@ -86,6 +92,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         children: tipos
       });
     });
+    console.log(arvoreAutorias);
     return arvoreAutorias;
   }
 
@@ -102,42 +109,39 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   }
 
   private atualizaVisAtividade(g, data) {
-    const root = this.partition(data);
-    const color = d3.scaleOrdinal(d3.quantize(d3.interpolateRgb('#4A8D7F', '#6CA17F'), data.children.length + 1));
+    const root = this.treemap(data);
 
-    const cell = g
-      .selectAll('g')
-      .data(root.descendants())
-      .join('g')
-        .attr('transform', d => `translate(${d.y0},${d.x0})`);
+    const color = d3.scaleSequential(d3.interpolateRgb('green', 'white'));
 
-    cell.append('rect')
-        .attr('width', d => d.y1 - d.y0)
-        .attr('height', d => d.x1 - d.x0)
-        .attr('fill-opacity', 0.6)
-        .attr('fill', d => {
-          if (!d.depth) {
-            return '#959D97';
-          }
-          while (d.depth > 1) {
-            d = d.parent;
-          }
-          return color(d.data.titulo);
-        });
+    const node = g.selectAll('g')
+        .data(d3.nest().key(d => d.data.titulo).entries(root.descendants()))
+        .join('g')
+        .selectAll('g')
+        .data(d => d.values)
+        .join('g')
+        .attr('transform', d => `translate(${d.x0},${d.y0})`);
 
-    const text = cell.filter(d => (d.x1 - d.x0) > 16).append('text')
-        .attr('x', 4)
+    node.append('rect')
+        .attr('id', d => (d.data.titulo))
+        .attr('fill', d => color(d.height)) // color
+        .attr('width', d => d.x1 - d.x0)
+        .attr('height', d => d.y1 - d.y0);
+
+    node.append('text')
+        .selectAll('tspan')
+        .data(d => d.data.titulo.split(/(?=[A-Z][^A-Z])/g).concat(`- ${d.value}`))
+        .join('tspan')
+        .attr('fill-opacity', 0.9)
+        .attr('transform', `translate(0, 15)`)
+        .text(d => d);
+
+    node.filter(d => d.children).selectAll('tspan')
+        .attr('dx', 3)
         .attr('y', 13);
 
-    text.append('tspan')
-        .text(d => d.data.titulo);
-
-    text.append('tspan')
-        .attr('fill-opacity', 0.7)
-        .text(d => ` ${d.value}`);
-
-    cell.append('title')
-        .text(d => `${d.ancestors().map(t => t.data.titulo).reverse().join('/')}\n${d.value}`);
+    node.filter(d => !d.children).selectAll('tspan')
+        .attr('x', 3)
+        .attr('y', (d, i, nodes) => `${(nodes.length - 1) * 0.3 + 1.1 + i * 0.9}em`);
 
     return g.node();
   }
