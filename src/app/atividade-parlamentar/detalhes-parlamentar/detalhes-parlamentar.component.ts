@@ -5,6 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, forkJoin } from 'rxjs';
 import { Ator } from 'src/app/shared/models/ator.model';
+import { Autoria } from 'src/app/shared/models/autoria.model';
 
 @Component({
   selector: 'app-detalhes-parlamentar',
@@ -17,6 +18,7 @@ export class DetalhesParlamentarComponent implements OnInit {
 
   public parlamentar: Ator;
   public nomesRelatorias: string[];
+  public autorias: Autoria[];
   public idAtor: string;
   public interesse: string;
   public urlFoto: string;
@@ -41,19 +43,19 @@ export class DetalhesParlamentarComponent implements OnInit {
       [
         this.atorService.getAtor(idParlamentar),
         this.atorService.getPesoPolitico(),
-        this.atorService.getRelatoriasDetalhadaById(this.interesse, this.idAtor)
+        this.atorService.getRelatoriasDetalhadaById(this.interesse, idParlamentar),
+        this.atorService.getAutorias(idParlamentar)
       ]
     ).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
         const ator: any = data[0][0];
         const pesoPolitico: any = data[1];
         const ids: any = data[2][0].ids_relatorias;
-        const quant: any = data[2][0].quantidade_relatorias;
+        this.autorias = data[3];
 
         const parlamentar = [ator].map(a => ({
           ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ids_relatorias: ids,
-          quantidade_relatorias: quant,
           ...a
         }));
 
