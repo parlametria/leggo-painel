@@ -1,5 +1,15 @@
 $base-color: #20201e;
 
+.container {
+  display: inline;
+}
+
+.back-btn {
+  cursor: pointer;
+  padding-top: 15px;
+  font-size: 16px;
+}
+
 .parlamentar {
   margin-top: 15px;
   display: flex;
@@ -8,7 +18,7 @@ $base-color: #20201e;
 }
 
 .parlamentar-titulo {
-  font-weight: 700;
+  font-weight: 1900;
 }
 
 .foto-parlamentar {
@@ -41,6 +51,8 @@ $base-color: #20201e;
 }
 
 .parlementar-subnav {
+  padding-left: 0em;
+  padding-right: 0em;
   @media (max-width: 400px) {
     display: flex;
     flex-wrap: nowrap;
@@ -61,6 +73,11 @@ $base-color: #20201e;
 }
 
 .nav-item {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-left: 0rem;
+  padding-right: 0rem;
+}
+
+.nav-item > .nav-link-parlamentar {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
 }

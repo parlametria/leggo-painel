@@ -1,4 +1,13 @@
-<div class="container">
+<div class="container detalhes-parlamentar-container">
+
+  <div class="container">
+    <div class="back-btn"
+      [routerLink]="['../']"
+      [routerLinkActive]="'active'"
+    >
+      <!--<mdb-icon fas icon="angle-left">ATORES CHAVE</mdb-icon>!-->
+    </div>
+  </div>
 
   <div class="parlamentar">
     <div class="row gutters-sm">
@@ -16,7 +25,7 @@
     </div>
   </div>
 
-  <div class="parlementar-subnav">
+  <div class="parlamentar-subnav">
     <ul class="nav nav-tabs justify-content-center">
       <li class="nav-item">
         <a
@@ -24,7 +33,7 @@
           [routerLink]="['./atividades']"
           [routerLinkActive]="'active'"
         >
-        Atividade No Congresso
+          Atividade
         </a>
       </li>
       <li class="nav-item">
@@ -33,7 +42,7 @@
           [routerLink]="['./papeis']"
           [routerLinkActive]="'active'"
         >
-        Papéis Importantes
+          Papéis
         </a>
       </li>
       <li class="nav-item">
