@@ -92,7 +92,6 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         children: tipos
       });
     });
-    console.log(arvoreAutorias);
     return arvoreAutorias;
   }
 
@@ -114,7 +113,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     const color = d3.scaleSequential(d3.interpolateRgb('green', 'white'));
 
     const node = g.selectAll('g')
-        .data(d3.nest().key(d => d.data.titulo).entries(root.descendants()))
+        .data(d3.nest().key((d: any) => d.data.titulo).entries(root.descendants()))
         .join('g')
         .selectAll('g')
         .data(d => d.values)
@@ -123,7 +122,8 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
 
     node.append('rect')
         .attr('id', d => (d.data.titulo))
-        .attr('fill', d => color(d.height)) // color
+        .style('stroke', 'black')
+        .style('fill', d => color(d.height)) // color
         .attr('width', d => d.x1 - d.x0)
         .attr('height', d => d.y1 - d.y0);
 
@@ -131,9 +131,12 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         .selectAll('tspan')
         .data(d => d.data.titulo.split(/(?=[A-Z][^A-Z])/g).concat(`- ${d.value}`))
         .join('tspan')
-        .attr('fill-opacity', 0.9)
+        .style('fill-opacity', 0.9)
         .attr('transform', `translate(0, 15)`)
         .text(d => d);
+
+    node.selectAll('text')
+        .style('opacity', d => d.value <= 5 ? 0 : 0.9);
 
     node.filter(d => d.children).selectAll('tspan')
         .attr('dx', 3)
