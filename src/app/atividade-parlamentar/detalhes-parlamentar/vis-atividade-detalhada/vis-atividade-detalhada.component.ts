@@ -8,7 +8,7 @@ import { Autoria, ArvoreAutorias } from 'src/app/shared/models/autoria.model';
 // Importa componentes do d3
 import { select, selectAll } from 'd3-selection';
 import { transition } from 'd3-transition';
-import { scaleLinear, scaleSequential } from 'd3-scale';
+import { scaleLinear, scaleOrdinal } from 'd3-scale';
 import { quantize, interpolateRgb } from 'd3-interpolate';
 import { group } from 'd3-array';
 import { partition, hierarchy, treemap } from 'd3-hierarchy';
@@ -21,7 +21,7 @@ const d3 = Object.assign({}, {
   selectAll,
   transition,
   scaleLinear,
-  scaleSequential,
+  scaleOrdinal,
   group,
   hierarchy,
   quantize,
@@ -83,13 +83,15 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         tipos.push({
           titulo: tipo,
           id: idLeggo,
-          value: documento.length
+          value: documento.length,
+          categoria: tipo
         });
       });
       arvoreAutorias.children.push({
         titulo: `Proposição ${idLeggo.toString()}`,
         id: idLeggo,
-        children: tipos
+        children: tipos,
+        categoria: 'Proposição'
       });
     });
     return arvoreAutorias;
@@ -110,7 +112,8 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   private atualizaVisAtividade(g, data) {
     const root = this.treemap(data);
 
-    const color = d3.scaleSequential(d3.interpolateRgb('green', 'white'));
+    const myColor = d3.scaleOrdinal().domain(['Total', 'Proposição', 'Outros', 'Prop. Original / Apensada', 'Voto em Separado', 'Parecer', 'Requerimento', 'Emenda'])
+            .range(['white', 'white', '#959D97', '#959D97', '#959D97', '#959D97', '#6CA17F', '#4A8D7F']);
 
     const node = g.selectAll('g')
         .data(d3.nest().key((d: any) => d.data.titulo).entries(root.descendants()))
@@ -120,23 +123,44 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         .join('g')
         .attr('transform', d => `translate(${d.x0},${d.y0})`);
 
+    node.append('title')
+        .text(d => `${d.ancestors().reverse().map(t => t.data.titulo).join('/')}\n${d.value}`);
+
     node.append('rect')
         .attr('id', d => (d.data.titulo))
-        .style('stroke', 'black')
-        .style('fill', d => color(d.height)) // color
+        .style('stroke', d => d.data.categoria === 'Proposição' ? 'black' : 0)
+        .style('fill', d => myColor(d.data.categoria)) // color
         .attr('width', d => d.x1 - d.x0)
         .attr('height', d => d.y1 - d.y0);
 
     node.append('text')
         .selectAll('tspan')
-        .data(d => d.data.titulo.split(/(?=[A-Z][^A-Z])/g).concat(`- ${d.value}`))
+        .data(d => {
+          if (d.data.titulo !== 'Total') {
+            return d.data.titulo.split(/(?=[A-Z][^A-Z])/g).concat(`(${d.value})`);
+          } else {
+            return '';
+          }
+        })
         .join('tspan')
-        .style('fill-opacity', 0.9)
         .attr('transform', `translate(0, 15)`)
         .text(d => d);
 
     node.selectAll('text')
-        .style('opacity', d => d.value <= 5 ? 0 : 0.9);
+        .style('opacity', d => {
+          if (d.data.categoria === 'Proposição') {
+            return 0.9;
+          }
+          if (d.x1 - d.x0  >= 150) {
+            if (d.y1 - d.y0 >= 40) {
+              return 0.9;
+            } else {
+              return 0;
+            }
+          } else {
+            return 0;
+          }
+        });
 
     node.filter(d => d.children).selectAll('tspan')
         .attr('dx', 3)
