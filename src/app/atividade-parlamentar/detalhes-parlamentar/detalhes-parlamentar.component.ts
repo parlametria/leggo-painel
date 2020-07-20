@@ -53,11 +53,20 @@ export class DetalhesParlamentarComponent implements OnInit {
       .subscribe(data => {
         const ator: any = data[0][0];
         const pesoPolitico: any = data[1];
-        const ids: any = data[2][0].ids_relatorias;
-        const quant: any = data[2][0].quantidade_relatorias;
-        const idComissao: any = data[3][0].id_comissao;
-        const info: any = data[3][0].info_comissao;
-        const quantComissao: any = data[3][0].quantidade_comissao_presidente;
+        let ids = [];
+        let quant = 0;
+        if (data[2] !== undefined) {
+          ids = data[2][0].ids_relatorias;
+          quant = data[2][0].quantidade_relatorias;
+        }
+        let idComissao = 0;
+        let info = '';
+        let quantComissao = 0;
+        if (data[3].length !== 0) {
+          idComissao = data[3][0].id_comissao;
+          info = data[3][0].info_comissao;
+          quantComissao = data[3][0].quantidade_comissao_presidente;
+        }
         this.nomesComissoes = [];
         this.autorias = data[4];
 
@@ -69,7 +78,6 @@ export class DetalhesParlamentarComponent implements OnInit {
           quantidade_comissao_presidente: quantComissao,
           ...a
         }));
-
         const pesosPoliticos = pesoPolitico.map(p => {
           if (p.peso_politico) {
             return +p.peso_politico;
@@ -88,6 +96,7 @@ export class DetalhesParlamentarComponent implements OnInit {
         parlamentar.forEach(p => {
           p.peso_politico = this.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
         });
+
 
         this.parlamentar = parlamentar[0];
         this.getUrlFoto();
