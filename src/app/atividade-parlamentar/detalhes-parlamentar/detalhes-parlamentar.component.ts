@@ -5,6 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, forkJoin } from 'rxjs';
 import { Ator } from 'src/app/shared/models/ator.model';
+import { Autoria } from 'src/app/shared/models/autoria.model';
 
 @Component({
   selector: 'app-detalhes-parlamentar',
@@ -17,6 +18,7 @@ export class DetalhesParlamentarComponent implements OnInit {
 
   public parlamentar: Ator;
   public nomesRelatorias: string[];
+  public autorias: Autoria[];
   public idAtor: string;
   public interesse: string;
   public urlFoto: string;
@@ -43,8 +45,9 @@ export class DetalhesParlamentarComponent implements OnInit {
       [
         this.atorService.getAtor(idParlamentar),
         this.atorService.getPesoPolitico(),
-        this.atorService.getRelatoriasDetalhadaById(this.interesse, this.idAtor),
-        this.atorService.getComissaoDetalhadaById(idParlamentar)
+        this.atorService.getRelatoriasDetalhadaById(this.interesse, idParlamentar),
+        this.atorService.getComissaoDetalhadaById(idParlamentar),
+        this.atorService.getAutorias(idParlamentar)
       ]
     ).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
@@ -56,6 +59,7 @@ export class DetalhesParlamentarComponent implements OnInit {
         const info: any = data[3][0].info_comissao;
         const quantComissao: any = data[3][0].quantidade_comissao_presidente;
         this.nomesComissoes = [];
+        this.autorias = data[4];
 
         const parlamentar = [ator].map(a => ({
           ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
@@ -81,7 +85,6 @@ export class DetalhesParlamentarComponent implements OnInit {
               this.nomesRelatorias.push(idProp[0].etapas[0].sigla);
             });
         });
-
         parlamentar.forEach(p => {
           p.peso_politico = this.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
         });
