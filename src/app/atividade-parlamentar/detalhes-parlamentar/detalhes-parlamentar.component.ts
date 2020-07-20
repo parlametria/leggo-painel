@@ -97,10 +97,9 @@ export class DetalhesParlamentarComponent implements OnInit {
           p.peso_politico = this.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
         });
 
-
         this.parlamentar = parlamentar[0];
         this.getUrlFoto();
-        this.nomesComissoes.push('Comissão: ' + info);
+        this.nomesComissoes.push(info);
       },
         error => {
           console.log(error);
