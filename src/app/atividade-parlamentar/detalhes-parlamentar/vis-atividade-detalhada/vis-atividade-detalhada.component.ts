@@ -89,14 +89,14 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
           tipos.push({
             titulo: tipo,
             id: idLeggo,
-            value: documento.length,
+            value: this.somaPesos(documento),
             categoria: tipo
           });
         } else {
           tipos[0] = ({
             titulo: 'Outros',
             id: 0,
-            value: documento.length + tipos[0].value,
+            value: this.somaPesos(documento) + tipos[0].value,
             categoria: 'Outros'
           });
         }
@@ -110,6 +110,14 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     });
     console.log(arvoreAutorias);
     return arvoreAutorias;
+  }
+
+  private somaPesos(documento): number {
+    let pesoTotal = 0;
+    documento.forEach(doc => {
+      pesoTotal += doc.peso_autor_documento;
+    });
+    return pesoTotal;
   }
 
   private carregaVisAtividade() {
