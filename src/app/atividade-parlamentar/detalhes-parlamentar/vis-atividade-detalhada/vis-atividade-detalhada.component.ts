@@ -77,15 +77,29 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     const arvoreAutorias: ArvoreAutorias = {titulo: 'Total', id: 0, children: []};
     const autoriasPorId = d3.group(autorias, d => d.id_leggo);
     autoriasPorId.forEach((autoria, idLeggo) => {
-      const tipos = [];
+      const tipos = [{
+        titulo: 'Outros',
+        id: 0,
+        value: 0,
+        categoria: 'Outros'
+      }];
       const documentosPorTipo = d3.group(autoria, d => d.tipo_documento);
       documentosPorTipo.forEach((documento, tipo) => {
-        tipos.push({
-          titulo: tipo,
-          id: idLeggo,
-          value: documento.length,
-          categoria: tipo
-        });
+        if (tipo === 'Emenda' || tipo === 'Requerimento') {
+          tipos.push({
+            titulo: tipo,
+            id: idLeggo,
+            value: documento.length,
+            categoria: tipo
+          });
+        } else {
+          tipos[0] = ({
+            titulo: 'Outros',
+            id: 0,
+            value: documento.length + tipos[0].value,
+            categoria: 'Outros'
+          });
+        }
       });
       arvoreAutorias.children.push({
         titulo: `Proposição ${idLeggo.toString()}`,
@@ -94,6 +108,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         categoria: 'Proposição'
       });
     });
+    console.log(arvoreAutorias);
     return arvoreAutorias;
   }
 
@@ -137,6 +152,9 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         .selectAll('tspan')
         .data(d => {
           if (d.data.titulo !== 'Total') {
+            if (d.data.categoria === 'Proposição') {
+              return d.data.titulo.split(/(?=[A-Z][^A-Z])/g).concat(`(${d.value} autoria(s))`);
+            }
             return d.data.titulo.split(/(?=[A-Z][^A-Z])/g).concat(`(${d.value})`);
           } else {
             return '';
