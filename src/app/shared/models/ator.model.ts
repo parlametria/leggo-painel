@@ -15,4 +15,7 @@ export interface Ator {
   quantidade_relatorias: number;
   ids_relatorias: number[];
   peso_politico: number;
+  quantidade_comissao_presidente: number;
+  id_comissao: number;
+  info_comissao: number[];
 }
