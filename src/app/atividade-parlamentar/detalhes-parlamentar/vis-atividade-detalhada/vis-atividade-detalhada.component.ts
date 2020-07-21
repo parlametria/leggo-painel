@@ -108,7 +108,6 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         categoria: 'Proposição'
       });
     });
-    console.log(arvoreAutorias);
     return arvoreAutorias;
   }
 
