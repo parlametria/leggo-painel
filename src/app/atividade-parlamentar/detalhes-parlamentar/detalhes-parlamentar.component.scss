@@ -7,10 +7,17 @@ $base-padding: 0.5rem;
 }
 
 .back-btn {
+  display: flex;
+  vertical-align: center;
   margin-left: $base-padding;
   width: fit-content;
   cursor: pointer;
   font-size: 16px;
+}
+
+.back-btn-title {
+  padding: $base-padding;
+  vertical-align: center;
 }
 
 .parlamentar {
@@ -68,7 +75,7 @@ $base-padding: 0.5rem;
 .card-detalhes {
   border: solid 1.5px $base-color;
   margin-bottom: 0.5rem;
-  padding: .5rem;
+  padding: 0.5rem;
 }
 
 .card-detalhes > .card-titulo {

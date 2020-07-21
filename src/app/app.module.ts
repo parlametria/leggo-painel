@@ -16,7 +16,7 @@ import { SharedComponentsModule } from './shared/components/shared-components.mo
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    SharedComponentsModule
+    SharedComponentsModule,
   ],
   providers: [
     AtorService
