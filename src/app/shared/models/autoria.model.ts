@@ -7,6 +7,7 @@ export interface Autoria {
   url_inteiro_teor: string;
   tipo_documento: string;
   peso_autor_documento: number;
+  quantidade: number;
 }
 
 export interface ArvoreAutorias {

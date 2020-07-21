@@ -81,6 +81,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         titulo: 'Outros',
         id: 0,
         value: 0,
+        quantidade: 0,
         categoria: 'Outros'
       }];
       const documentosPorTipo = d3.group(autoria, d => d.tipo_documento);
@@ -89,14 +90,16 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
           tipos.push({
             titulo: tipo,
             id: idLeggo,
-            value: this.somaPesos(documento),
+            value: parseFloat(this.somaPesos(documento).toFixed(2)),
+            quantidade: documento.length,
             categoria: tipo
           });
         } else {
           tipos[0] = ({
             titulo: 'Outros',
             id: 0,
-            value: this.somaPesos(documento) + tipos[0].value,
+            value: parseFloat((this.somaPesos(documento) + tipos[0].value).toFixed(2)),
+            quantidade: documento.length + tipos[0].quantidade,
             categoria: 'Outros'
           });
         }
@@ -161,7 +164,8 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         .data(d => {
           if (d.data.titulo !== 'Total') {
             if (d.data.categoria === 'Proposição') {
-              return d.data.titulo.split(/(?=[A-Z][^A-Z])/g).concat(`(${d.value} autoria(s))`);
+              const quant = this.quantTotal(d.data.children);
+              return d.data.titulo.split(/(?=[A-Z][^A-Z])/g).concat(`(${quant} ${quant > 1 ? 'ações' : 'ação'})`);
             }
             return d.data.titulo.split(/(?=[A-Z][^A-Z])/g).concat(`(${d.value})`);
           } else {
@@ -197,5 +201,13 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         .attr('y', (d, i, nodes) => `${(nodes.length - 1) * 0.3 + 1.1 + i * 0.9}em`);
 
     return g.node();
+  }
+
+  private quantTotal(children): number {
+    let quantTotal = 0;
+    children.forEach(doc => {
+      quantTotal += doc.quantidade;
+    });
+    return quantTotal;
   }
 }
