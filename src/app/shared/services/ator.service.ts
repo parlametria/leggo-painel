@@ -37,7 +37,7 @@ export class AtorService {
   getAutorias(idAtor: string): Observable<Autoria[]> {
     return this.http.get<Autoria[]>(`${this.atorUrl}/${idAtor}/autorias`);
   }
-  
+
   getAtores(): any[] {
     const proposicoes: any = this.getProposicoes();
     const atores = [];
@@ -46,7 +46,7 @@ export class AtorService {
     });
     return atores;
   }
-  
+
   getAtorAgregado(interesse: string): Observable<AtorAgregado> {
     return this.http.get<AtorAgregado>(`${this.atoresUrl}/agregados?interesse=${interesse}`);
   }

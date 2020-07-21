@@ -76,7 +76,7 @@ export class DetalhesParlamentarComponent implements OnInit {
           p.peso_politico = this.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
         });
 
-        this.parlamentar = parlamentares.find(p => p.id_autor_parlametria == idParlamentar);
+        this.parlamentar = parlamentares.find(p => p.id_autor_parlametria === idParlamentar);
         this.getUrlFoto();
       },
         error => {
