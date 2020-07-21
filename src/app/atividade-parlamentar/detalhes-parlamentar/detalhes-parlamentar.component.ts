@@ -55,14 +55,16 @@ export class DetalhesParlamentarComponent implements OnInit {
         const pesoPolitico: any = data[1];
         let ids = [];
         let quant = 0;
-        if (data[2] !== undefined) {
+        const dataRelatoria = data[2];
+        const dataComissao = data[3];
+        if (dataRelatoria !== undefined) {
           ids = data[2][0].ids_relatorias;
           quant = data[2][0].quantidade_relatorias;
         }
         let idComissao = 0;
         let info = '';
         let quantComissao = 0;
-        if (data[3].length !== 0) {
+        if (dataComissao.length !== 0) {
           idComissao = data[3][0].id_comissao;
           info = data[3][0].info_comissao;
           quantComissao = data[3][0].quantidade_comissao_presidente;
