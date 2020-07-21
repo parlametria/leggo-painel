@@ -16,4 +16,5 @@ export interface ArvoreAutorias {
   url?: string;
   value?: number;
   children?: ArvoreAutorias[];
+  categoria?: string;
 }

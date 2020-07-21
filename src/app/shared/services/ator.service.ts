@@ -22,7 +22,8 @@ export class AtorService {
   private atorUrl = `${environment.baseUrl}/ator`;
   private atoresUrl = `${environment.baseUrl}/atores`;
   private autoriaUrl = `${environment.baseUrl}/autorias`;
-  private comissaoUrl = `${environment.baseUrl}/comissao/presidencia/`;
+  private comissaoUrl = `${environment.baseUrl}/comissao/presidencia`;
+  private proposicoesUrl = `${environment.baseUrl}/proposicoes`;
   constructor(private http: HttpClient) { }
 
   private getProposicoes(): Observable<Proposicao[]> {
@@ -67,6 +68,10 @@ export class AtorService {
     return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas/${idAutor}/?interesse=${interesse}`);
   }
 
+  getRelatoriasDetalhadaById(interesse: string, idAutor: string): Observable<AtorRelator> {
+    return this.http.get<AtorRelator>(`${this.atoresUrl}/relatorias/detalhada/${idAutor}/?interesse=${interesse}`);
+  }
+
   getPesoPolitico(): Observable<ParlamentarPesoPolitico[]> {
     return this.http.get<ParlamentarPesoPolitico[]>(`${this.atoresUrl}/peso_politico/`);
   }
@@ -75,4 +80,15 @@ export class AtorService {
     return this.http.get<ParlamentarPesoPolitico[]>(`${this.atoresUrl}/peso_politico/${idAutor}`);
   }
 
+  getComissaoDetalhadaById(idAutor: string): Observable<ComissaoPresidencia[]> {
+    return this.http.get<ComissaoPresidencia[]>(`${this.comissaoUrl}/${idAutor}`);
+  }
+
+  getProposicoesById(interesse: string, id: number): Observable<Proposicao> {
+    return this.http.get<Proposicao>(`${this.proposicoesUrl}/${id}?interesse=${interesse}`);
+  }
+
+  getAcoes(interesse: string): Observable<any[]> {
+    return this.http.get<Autoria[]>(`${this.autoriaUrl}/acoes/?interesse=${interesse}`);
+  }
 }
