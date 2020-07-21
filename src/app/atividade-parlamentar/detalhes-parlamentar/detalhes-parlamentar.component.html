@@ -1,16 +1,16 @@
 <div class="container detalhes-parlamentar-container">
 
-  <div class="container">
+  <div class="container-fluid">
     <div class="back-btn"
       [routerLink]="['../']"
       [routerLinkActive]="'active'"
     >
-      <!--<mdb-icon fas icon="angle-left">ATORES CHAVE</mdb-icon>!-->
+      <!--<mdb-icon fas icon="angle-left"></mdb-icon>!-->ATORES CHAVE
     </div>
   </div>
 
   <div class="parlamentar">
-    <div class="row gutters-sm">
+    <div class="row gutters-sm container-fluid">
       <div class="col-auto">
         <div class="foto-parlamentar">
           <img [src]="urlFoto">
@@ -18,11 +18,44 @@
       </div>
       <div *ngIf="parlamentar" class="col">
         <div class="parlamentar-titulo">{{ parlamentar.nome_autor }}</div>
-        <p>
+        <p class="parlamentar-partido">
           {{ parlamentar.partido }}/{{ parlamentar.uf }}
         </p>
+    
+
+      <app-progress class="pogresso"
+        [label]="'Congresso'"
+        [valor]="parlamentar.atividade_parlamentar"
+        [exibirLabel]="false"></app-progress>
+      <div class="insignias">
+      <div>
+        <span *ngIf="parlamentar.quantidade_autorias">
+          <span class="icon-autor app-icon text-danger"></span>
+          <span class="badge badge-danger app-badge badge-color-white">{{ parlamentar.quantidade_autorias }}</span>
+        </span>
+
+        <span *ngIf="parlamentar.quantidade_relatorias">
+          <span class="icon-relator app-icon text-success"></span>
+          <span class="badge badge-success app-badge badge-color-white">{{ parlamentar.quantidade_relatorias }}</span>
+        </span>
+
+        <span *ngIf="parlamentar.quantidade_comissao_presidente">
+          <span class="icon-presidente app-icon text-warning"></span>
+          <span class="badge badge-warning app-badge badge-color-white">
+            {{ parlamentar.quantidade_comissao_presidente }}
+          </span>
+        </span>
+      </div>
+      <div>
+        <app-avaliacao
+          [label]="'Peso'"
+          [valor]="parlamentar.peso_politico * 5"
+          [exibirLabel]="false"></app-avaliacao>
+      </div>
       </div>
     </div>
+    </div>
+
   </div>
 
   <div class="parlamentar-subnav">

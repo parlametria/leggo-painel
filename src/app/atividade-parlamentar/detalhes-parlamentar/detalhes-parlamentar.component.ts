@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, forkJoin } from 'rxjs';
 import { Ator } from 'src/app/shared/models/ator.model';
-
+import { AtorAgregado } from 'src/app/shared/models/atorAgregado.model';
 @Component({
   selector: 'app-detalhes-parlamentar',
   templateUrl: './detalhes-parlamentar.component.html',
@@ -14,14 +14,16 @@ import { Ator } from 'src/app/shared/models/ator.model';
 export class DetalhesParlamentarComponent implements OnInit {
 
   private unsubscribe = new Subject();
+  p = 1;
 
-  public parlamentar: Ator;
+  public parlamentar: AtorAgregado;
   public idAtor: string;
+  public interesse: string;
   public urlFoto: string;
 
   constructor(
     private atorService: AtorService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
@@ -29,26 +31,39 @@ export class DetalhesParlamentarComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.idAtor = params.get('id');
+        this.interesse = params.get('interesse');
       });
-    this.getDadosParlamentar(this.idAtor);
+    this.getDadosParlamentar(this.idAtor, this.interesse);
   }
 
-  getDadosParlamentar(idParlamentar) {
+  getDadosParlamentar(idParlamentar, interesse) {
     forkJoin(
       [
         this.atorService.getAtor(idParlamentar),
-        this.atorService.getPesoPolitico()
+        this.atorService.getPesoPolitico(),
+        this.atorService.getAtoresAgregados(interesse),
+        this.atorService.getComissaoPresidencia(),
+        this.atorService.getAtoresRelatores(this.interesse),
+        this.atorService.getAutoriasAgregadas(this.interesse)
       ]
     ).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
         const ator: any = data[0][0];
         const pesoPolitico: any = data[1];
+        const atores: any = data[2];
+        const comissaoPresidencia: any = data[3];
+        const atoresRelatores: any = data[4];
+        const autoriasAgregadas: any = data[5];
 
-        const parlamentar = [ator].map(a => ({
+        const parlamentares = atores.map(a => ({
+          ...autoriasAgregadas.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
+          ...comissaoPresidencia.find(p => a.id_autor_parlametria === p.id_autor_voz),
+          ...atoresRelatores.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...a
         }));
 
+        const pesos = atores.map(p => +p.peso_documentos);
         const pesosPoliticos = pesoPolitico.map(p => {
           if (p.peso_politico) {
             return +p.peso_politico;
@@ -56,11 +71,12 @@ export class DetalhesParlamentarComponent implements OnInit {
           return 0;
         });
 
-        parlamentar.forEach(p => {
+        parlamentares.forEach(p => {
+          p.atividade_parlamentar = this.normalizarAtividade(p.peso_documentos, Math.min(...pesos), Math.max(...pesos));
           p.peso_politico = this.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
         });
 
-        this.parlamentar = parlamentar[0];
+        this.parlamentar = parlamentares.find(p => p.id_autor_parlametria == idParlamentar);
         this.getUrlFoto();
       },
         error => {
@@ -75,6 +91,11 @@ export class DetalhesParlamentarComponent implements OnInit {
     }
     return 0;
   }
+
+  normalizarAtividade(metrica: number, min: number, max: number): number {
+    return (metrica - min) / (max - min);
+  }
+
 
   getUrlFoto(): void {
     const urlSenado = `https://www.senado.leg.br/senadores/img/fotos-oficiais/senador${this.parlamentar.id_autor}.jpg`;
