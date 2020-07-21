@@ -5,7 +5,7 @@ export interface Ator {
   nome_autor: string;
   partido: string;
   uf: string;
-  casa: string;
+  casa_autor: string;
   peso_total_documentos: number;
   num_documentos: number;
   tipo_generico: string;

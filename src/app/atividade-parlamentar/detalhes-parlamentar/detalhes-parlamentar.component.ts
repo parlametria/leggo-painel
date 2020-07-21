@@ -98,6 +98,6 @@ export class DetalhesParlamentarComponent implements OnInit {
   getUrlFoto(): void {
     const urlSenado = `https://www.senado.leg.br/senadores/img/fotos-oficiais/senador${this.parlamentar.id_autor}.jpg`;
     const urlCamara = `https://www.camara.leg.br/internet/deputado/bandep/${this.parlamentar.id_autor}.jpg`;
-    this.urlFoto = this.parlamentar.casa === 'camara' ? urlCamara : urlSenado;
+    this.urlFoto = this.parlamentar.casa_autor === 'camara' ? urlCamara : urlSenado;
   }
 }
