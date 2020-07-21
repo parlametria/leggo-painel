@@ -83,4 +83,8 @@ export class AtorService {
   getProposicoesById(interesse: string, id: number): Observable<Proposicao> {
     return this.http.get<Proposicao>(`${this.proposicoesUrl}/${id}?interesse=${interesse}`);
   }
+
+  getAcoes(interesse: string): Observable<any[]> {
+    return this.http.get<Autoria[]>(`${this.autoriaUrl}/acoes/?interesse=${interesse}`);
+  }
 }
