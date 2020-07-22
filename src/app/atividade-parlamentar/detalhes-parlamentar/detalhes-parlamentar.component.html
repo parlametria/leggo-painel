@@ -26,26 +26,36 @@
     </div>
   </div>
 
+  <div class="card-detalhes">
+    <h5 class="card-titulo">Ações</h5>
+    <div class="card-corpo">
+      <app-vis-atividade-parlamentar>
+      </app-vis-atividade-parlamentar>
+    </div>
+  </div>
+
   <div class="card-detalhes card-papeis-importantes">
     <h5 class="card-titulo">Papéis Importantes</h5>
     <div class="card-corpo">
       <ngb-accordion [closeOthers]="true" activeIds="static-1">
-        <ngb-panel id="static-1" title="Presidente de comissão">
+        <ngb-panel id="static-1" title="Presidente de comissão({{ parlamentar?.quantidade_comissao_presidente }})">
           <ng-template ngbPanelContent>
-            texto
+            <li *ngFor="let item of nomesComissoes;  let i = index">
+              {{ nomesComissoes[i] }}
+            </li>
           </ng-template>
         </ngb-panel>
         <span class="icon-relator app-icon text-success"></span> 
-        <ngb-panel id="static-2" title="Relatorias ({{ parlamentar.ids_relatorias.length }})">
+        <ngb-panel id="static-2" title="Relatorias ({{ parlamentar?.ids_relatorias.length }})">
           <ng-template ngbPanelContent>
-            <li *ngFor="let item of parlamentar.ids_relatorias;  let i = index">
+            <li *ngFor="let item of parlamentar?.ids_relatorias;  let i = index">
               <a [href]="'https://leggo.parlametria.org/#/proposicao/' + item.id_leggo + '/' + interesse">
                 {{ nomesRelatorias[i] }}
               </a>
             </li>
           </ng-template>
         </ngb-panel>
-        <ngb-panel id="static-3" title="Autorias ({{ autorias.length }})">
+        <ngb-panel id="static-3" title="Autorias ({{ autorias?.length }})">
           <ng-template ngbPanelContent>
             <li *ngFor="let item of autorias;  let i = index">
               <a [href]="[autorias[i].url_inteiro_teor]" target="_blank">

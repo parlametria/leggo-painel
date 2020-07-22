@@ -112,7 +112,6 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         sigla: autoria[0].sigla
       });
     });
-    console.log(arvoreAutorias);
     return arvoreAutorias;
   }
 
