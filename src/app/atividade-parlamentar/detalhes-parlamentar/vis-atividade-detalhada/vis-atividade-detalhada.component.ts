@@ -108,7 +108,8 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         titulo: `Proposição ${idLeggo.toString()}`,
         id: idLeggo,
         children: tipos,
-        categoria: 'Proposição'
+        categoria: 'Proposição',
+        sigla: autoria[0].sigla
       });
     });
     console.log(arvoreAutorias);
@@ -165,7 +166,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
           if (d.data.titulo !== 'Total') {
             if (d.data.categoria === 'Proposição') {
               const quant = this.quantTotal(d.data.children);
-              return d.data.titulo.split(/(?=[A-Z][^A-Z])/g).concat(`(${quant} ${quant > 1 ? 'ações' : 'ação'})`);
+              return d.data.sigla.split(/(?=[a-z][^a-z])/g).concat(`(${quant} ${quant > 1 ? 'ações' : 'ação'})`);
             }
             return d.data.titulo.split(/(?=[A-Z][^A-Z])/g).concat(`(${d.value})`);
           } else {
@@ -194,7 +195,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
 
     node.filter(d => d.children).selectAll('tspan')
         .attr('dx', 3)
-        .attr('y', 13);
+        .attr('y', 15);
 
     node.filter(d => !d.children).selectAll('tspan')
         .attr('x', 3)
