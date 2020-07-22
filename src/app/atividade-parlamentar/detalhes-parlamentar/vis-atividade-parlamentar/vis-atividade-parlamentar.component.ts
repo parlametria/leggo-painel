@@ -81,7 +81,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
         .subscribe(acoes => {
             const quantDomain = [];
             acoes.forEach(dado => {
-                quantDomain.push(dado.num_documentos);
+                quantDomain.push(dado.peso_total);
             });
             const maxQuant = Math.max(...quantDomain);
 
@@ -107,7 +107,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
         chart.append('g')
             .attr('class', 'axis axis--x')
             .attr('transform', `translate(0, ${this.altura - (this.margin.bottom * 1.1)})`)
-            .call(d3.axisBottom(x).ticks(4));
+            .call(d3.axisBottom(x).ticks(6));
 
         // Eixo y
         chart.append('g')
@@ -122,7 +122,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
         chart.append('g').attr('transform', `translate(0, -5)`)
             .selectAll('rect').data(dados).join('rect')
             .attr('class', 'bar')
-            .attr('x', d => x(d.num_documentos))
+            .attr('x', d => x(d.peso_total))
             .attr('y', d => y(d.tipo_documento))
             .attr('width', 2)
             .attr('height', 12)
@@ -135,7 +135,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
         chart.append('g').attr('transform', `translate(0, -5)`)
             .selectAll('rect').data(dados.filter(d => d.id_autor_parlametria === id)).join('rect')
             .attr('class', 'bar')
-            .attr('x', d => x(d.num_documentos))
+            .attr('x', d => x(d.peso_total))
             .attr('y', d => y(d.tipo_documento) - 1.5)
             .attr('width', 4)
             .attr('height', 15)
@@ -150,13 +150,13 @@ export class VisAtividadeParlamentarComponent implements OnInit {
             .join('text')
             .attr('class', 'tooltip')
             .attr('id', d => `${d.tipo_documento}-tooltip`)
-            .attr('x', d => x(d.num_documentos) - 50)
+            .attr('x', d => x(d.peso_total) - 50)
             .attr('y', d => y(d.tipo_documento) - 13)
             .style('opacity', d => d.tipo_documento === 'Emenda' ? 1 : 0)
             .style('pointer-events', 'none')
             .style('font-size', '9px')
             .text(d =>
-                `${d.ranking_documentos}º lugar em número de
+                `${d.ranking_documentos}º lugar em apresentação de
                 ${d.tipo_documento === 'Outros' ? d.tipo_documento.toLowerCase() : d.tipo_documento.toLowerCase() + `s`} nesta agenda`)
             .call(this.wrap);
     }
@@ -184,7 +184,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
                 word = words.pop();
                 line.push(word);
                 tspan.text(line.join(' '));
-                if (tspan.text().length >= 27) {
+                if (tspan.text().length >= 33) {
                     line.pop();
                     tspan.text(line.join(' '));
                     line = [word];
