@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterContentInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Subject, forkJoin } from 'rxjs';
@@ -12,7 +12,7 @@ import { AtorAgregado } from '../shared/models/atorAgregado.model';
   templateUrl: './atividade-parlamentar.component.html',
   styleUrls: ['./atividade-parlamentar.component.scss']
 })
-export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
+export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterContentInit {
 
   private unsubscribe = new Subject();
   p = 1;
@@ -27,6 +27,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
+    private cdRef: ChangeDetectorRef,
     private atorService: AtorService,
     private activatedRoute: ActivatedRoute,
     private router: Router) { }
@@ -39,6 +40,10 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
       });
     this.getDadosAtividadeParlamentar();
     this.updatePageViaURL();
+  }
+
+  ngAfterContentInit() {
+    this.cdRef.detectChanges();
   }
 
   getDadosAtividadeParlamentar() {
