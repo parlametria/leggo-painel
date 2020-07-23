@@ -9,6 +9,10 @@ import { SharedComponentsModule } from './shared/components/shared-components.mo
 import { AtorService } from './shared/services/ator.service';
 import { ProposicoesService } from './shared/services/proposicoes.service';
 import { AutoriasService } from './shared/services/autorias.service';
+import { ComissaoService } from './shared/services/comissao.service';
+import { PesoPoliticoService } from './shared/services/peso-politico.service';
+import { RelatoriaService } from './shared/services/relatoria.service';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +27,10 @@ import { AutoriasService } from './shared/services/autorias.service';
   providers: [
     AtorService,
     ProposicoesService,
-    AutoriasService
+    AutoriasService,
+    ComissaoService,
+    PesoPoliticoService,
+    RelatoriaService
   ],
   bootstrap: [AppComponent]
 })

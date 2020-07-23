@@ -13,6 +13,7 @@ import { Autoria } from '../models/autoria.model';
 export class AutoriasService {
 
   private autoriaUrl = `${environment.baseUrl}/autorias`;
+  private atorUrl = `${environment.baseUrl}/ator`;
 
   constructor(private http: HttpClient) { }
 
@@ -22,6 +23,10 @@ export class AutoriasService {
 
   getAutoriasAgregadasById(interesse: string, idAutor: number): Observable<AutoriaAgregada[]> {
     return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas/${idAutor}/?interesse=${interesse}`);
+  }
+
+  getAutorias(idAtor: string): Observable<Autoria[]> {
+    return this.http.get<Autoria[]>(`${this.atorUrl}/${idAtor}/autorias`);
   }
 
   getAcoes(interesse: string): Observable<any[]> {

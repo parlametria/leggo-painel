@@ -7,6 +7,9 @@ import { takeUntil } from 'rxjs/operators';
 import { AtorService } from '../shared/services/ator.service';
 import { AtorAgregado } from '../shared/models/atorAgregado.model';
 import { AutoriasService } from '../shared/services/autorias.service';
+import { ComissaoService } from 'src/app/shared/services/comissao.service';
+import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.service';
+import { RelatoriaService } from 'src/app/shared/services/relatoria.service';
 
 @Component({
   selector: 'app-atividade-parlamentar',
@@ -30,6 +33,9 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
   constructor(
     private atorService: AtorService,
     private autoriaService: AutoriasService,
+    private comissaoService: ComissaoService,
+    private pesoService: PesoPoliticoService,
+    private relatoriaService: RelatoriaService,
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -46,9 +52,9 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
       [
         this.atorService.getAtoresAgregados(this.interesse),
         this.autoriaService.getAutoriasAgregadas(this.interesse),
-        this.atorService.getComissaoPresidencia(),
-        this.atorService.getAtoresRelatores(this.interesse),
-        this.atorService.getPesoPolitico()
+        this.comissaoService.getComissaoPresidencia(),
+        this.relatoriaService.getAtoresRelatores(this.interesse),
+        this.pesoService.getPesoPolitico()
       ]
     ).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {

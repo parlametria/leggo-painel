@@ -4,6 +4,8 @@ import { takeUntil } from 'rxjs/operators';
 
 import { AtorService } from 'src/app/shared/services/ator.service';
 import { Autoria, ArvoreAutorias } from 'src/app/shared/models/autoria.model';
+import { AutoriasService } from 'src/app/shared/services/autorias.service';
+
 
 // Importa componentes do d3
 import { select, selectAll } from 'd3-selection';
@@ -50,7 +52,8 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   private gPrincipal: any;
 
   constructor(
-    private atorService: AtorService
+    private atorService: AtorService,
+    private autoriasService: AutoriasService
   ) { }
 
   ngOnInit(): void {
@@ -112,7 +115,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   }
 
   private carregaVisAtividade() {
-    this.atorService.getAutorias(this.idAtor)
+    this.autoriasService.getAutorias(this.idAtor)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(autorias => {
         // Transforma dados tabulares em árvore

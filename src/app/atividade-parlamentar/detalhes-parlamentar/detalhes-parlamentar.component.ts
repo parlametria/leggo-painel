@@ -7,6 +7,10 @@ import { Subject, forkJoin } from 'rxjs';
 import { Ator } from 'src/app/shared/models/ator.model';
 import { Autoria } from 'src/app/shared/models/autoria.model';
 import { ProposicoesService } from 'src/app/shared/services/proposicoes.service';
+import { ComissaoService } from 'src/app/shared/services/comissao.service';
+import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.service';
+import { RelatoriaService } from 'src/app/shared/services/relatoria.service';
+import { AutoriasService } from 'src/app/shared/services/autorias.service';
 
 @Component({
   selector: 'app-detalhes-parlamentar',
@@ -29,7 +33,11 @@ export class DetalhesParlamentarComponent implements OnInit {
   constructor(
     private atorService: AtorService,
     private proposicaoService: ProposicoesService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private comissaoService: ComissaoService,
+    private relatoriaService: RelatoriaService,
+    private autoriasService: AutoriasService,
+    private pesoService: PesoPoliticoService
   ) { }
 
   ngOnInit(): void {
@@ -46,10 +54,10 @@ export class DetalhesParlamentarComponent implements OnInit {
     forkJoin(
       [
         this.atorService.getAtor(idParlamentar),
-        this.atorService.getPesoPolitico(),
-        this.atorService.getRelatoriasDetalhadaById(this.interesse, idParlamentar),
-        this.atorService.getComissaoDetalhadaById(idParlamentar),
-        this.atorService.getAutorias(idParlamentar)
+        this.pesoService.getPesoPolitico(),
+        this.relatoriaService.getRelatoriasDetalhadaById(this.interesse, idParlamentar),
+        this.comissaoService.getComissaoDetalhadaById(idParlamentar),
+        this.autoriasService.getAutorias(idParlamentar)
       ]
     ).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
