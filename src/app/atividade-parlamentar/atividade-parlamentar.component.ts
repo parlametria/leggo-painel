@@ -1,15 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Subject, forkJoin } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { AtorService } from '../shared/services/ator.service';
 import { AtorAgregado } from '../shared/models/atorAgregado.model';
-import { AutoriasService } from '../shared/services/autorias.service';
-import { ComissaoService } from 'src/app/shared/services/comissao.service';
-import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.service';
-import { RelatoriaService } from 'src/app/shared/services/relatoria.service';
+import { ParlamentaresService } from '../shared/services/parlamentares.service';
 
 @Component({
   selector: 'app-atividade-parlamentar',
@@ -31,11 +27,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
-    private atorService: AtorService,
-    private autoriaService: AutoriasService,
-    private comissaoService: ComissaoService,
-    private pesoService: PesoPoliticoService,
-    private relatoriaService: RelatoriaService,
+    private parlamentaresService: ParlamentaresService,
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -48,66 +40,16 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
   }
 
   getDadosAtividadeParlamentar() {
-    forkJoin(
-      [
-        this.atorService.getAtoresAgregados(this.interesse),
-        this.autoriaService.getAutoriasAgregadas(this.interesse),
-        this.comissaoService.getComissaoPresidencia(),
-        this.relatoriaService.getAtoresRelatores(this.interesse),
-        this.pesoService.getPesoPolitico()
-      ]
-    ).pipe(takeUntil(this.unsubscribe))
-      .subscribe(data => {
-        const atores: any = data[0];
-        const autoriasAgregadas: any = data[1];
-        const comissaoPresidencia: any = data[2];
-        const atoresRelatores: any = data[3];
-        const pesoPolitico: any = data[4];
-
-        const parlamentares = atores.map(a => ({
-          ...autoriasAgregadas.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
-          ...comissaoPresidencia.find(p => a.id_autor_parlametria === p.id_autor_voz),
-          ...atoresRelatores.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
-          ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
-          ...a
-        }));
-
-        // Transforma os pesos para valores entre 0 e 1
-        const pesos = parlamentares.map(p => +p.peso_documentos);
-        const pesosPoliticos = parlamentares.map(p => {
-          if (p.peso_politico) {
-            return +p.peso_politico;
-          }
-          return 0;
-        });
-
-        parlamentares.forEach(p => {
-          p.atividade_parlamentar = this.normalizarAtividade(p.peso_documentos, Math.min(...pesos), Math.max(...pesos));
-          p.peso_politico = this.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
-        });
-
+    this.parlamentaresService.getParlamentares(this.interesse)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(parlamentares => {
+        console.log(parlamentares);
         this.parlamentares = parlamentares;
-        this.parlamentares.sort((a, b) => b.atividade_parlamentar - a.atividade_parlamentar);
-      },
-        error => {
-          console.log(error);
-        }
-      );
+      });
   }
 
   pageChange(p: number) {
     this.p = p;
-  }
-
-  normalizarAtividade(metrica: number, min: number, max: number): number {
-    return (metrica - min) / (max - min);
-  }
-
-  normalizarPesoPolitico(metrica: number, max: number): number {
-    if (max !== 0) {
-      return (metrica / max);
-    }
-    return 0;
   }
 
   getParlamentarPosition(
@@ -116,13 +58,6 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
     currentPage: number
   ) {
     return (itensPerPage * (currentPage - 1)) + index;
-  }
-
-  mudarOrdenacao(event: any) {
-    const opcao: any = event.target.value;
-    if (opcao === 'Mais ativos no congresso') {
-      this.parlamentares.sort((a, b) => b.atividade_parlamentar - a.atividade_parlamentar);
-    }
   }
 
   ngOnDestroy() {

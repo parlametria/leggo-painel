@@ -5,10 +5,7 @@ import { Observable } from 'rxjs';
 
 import { Ator } from '../models/ator.model';
 import { AtorAgregado } from '../models/atorAgregado.model';
-import { Proposicao } from '../models/proposicao.model';
-
 import { environment } from '../../../environments/environment';
-import { Autoria } from '../models/autoria.model';
 
 @Injectable({
   providedIn: 'root'
