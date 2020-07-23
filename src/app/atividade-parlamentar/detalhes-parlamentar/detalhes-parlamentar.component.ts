@@ -41,7 +41,6 @@ export class DetalhesParlamentarComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(parlamentar => {
         this.parlamentar = parlamentar;
-        console.log(parlamentar);
       });
   }
 
