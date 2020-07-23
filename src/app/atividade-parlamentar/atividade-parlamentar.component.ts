@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Subject, forkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -26,7 +26,10 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
     // 'Maior peso político'
   ];
 
-  constructor(private atorService: AtorService, private activatedRoute: ActivatedRoute) { }
+  constructor(
+    private atorService: AtorService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap
@@ -35,6 +38,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
         this.interesse = params.get('interesse');
       });
     this.getDadosAtividadeParlamentar();
+    this.updatePageViaURL();
   }
 
   getDadosAtividadeParlamentar() {
@@ -87,6 +91,24 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
 
   pageChange(p: number) {
     this.p = p;
+
+    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    queryParams.page = p;
+    this.router.navigate([], { queryParams });
+  }
+
+  updatePageViaURL() {
+    this.activatedRoute.queryParams
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(params => {
+        const page = params.page;
+
+        if (page !== undefined && page !== null) {
+          this.p = Number(page);
+        } else {
+          this.p = 1;
+        }
+      });
   }
 
   normalizarAtividade(metrica: number, min: number, max: number): number {
