@@ -47,7 +47,7 @@ export class DetalhesParlamentarComponent implements OnInit {
         this.atorService.getPesoPolitico(),
         this.atorService.getRelatoriasDetalhadaById(this.interesse, idParlamentar),
         this.atorService.getComissaoDetalhadaById(idParlamentar),
-        this.atorService.getAutorias(idParlamentar)
+        this.atorService.getAutorias(idParlamentar, this.interesse)
       ]
     ).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Subject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 
 import { AtorService } from 'src/app/shared/services/ator.service';
@@ -37,11 +38,12 @@ const d3 = Object.assign({}, {
 })
 export class VisAtividadeDetalhadaComponent implements OnInit {
 
-  @Input() idAtor: string;
   @Input() larguraJanela: number;
 
   private unsubscribe = new Subject();
 
+  idAtor: string;
+  interesse: string;
   private largura: number;
   private altura: number;
   private x: any;
@@ -50,10 +52,16 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   private gPrincipal: any;
 
   constructor(
-    private atorService: AtorService
-  ) { }
+    private atorService: AtorService, private activatedRoute: ActivatedRoute
+) { }
 
   ngOnInit(): void {
+    this.activatedRoute.paramMap
+    .pipe(takeUntil(this.unsubscribe))
+    .subscribe(params => {
+        this.idAtor = params.get('id');
+        this.interesse = params.get('interesse');
+    });
     this.largura = window.innerWidth;
     this.altura = this.largura > 700 ? 450 : 550;
     this.x = d3.scaleLinear().rangeRound([0, this.largura]);
@@ -124,7 +132,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   }
 
   private carregaVisAtividade() {
-    this.atorService.getAutorias(this.idAtor)
+    this.atorService.getAutorias(this.idAtor, this.interesse)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(autorias => {
         // Transforma dados tabulares em árvore
@@ -138,8 +146,8 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   private atualizaVisAtividade(g, data) {
     const root = this.treemap(data);
 
-    const myColor = d3.scaleOrdinal().domain(['Total', 'Proposição', 'Outros', 'Prop. Original / Apensada', 'Voto em Separado', 'Parecer', 'Requerimento', 'Emenda'])
-            .range(['white', 'white', '#959D97', '#959D97', '#959D97', '#959D97', '#6CA17F', '#4A8D7F']);
+    const myColor = d3.scaleOrdinal().domain(['Total', 'Proposição', 'Outros', 'Requerimento', 'Emenda'])
+            .range(['white', '#3D6664', '#C9ECB4', '#9DD8AC', '#8DBFB5']);
 
     const node = g.selectAll('g')
         .data(d3.nest().key((d: any) => d.data.titulo).entries(root.descendants()))
@@ -150,14 +158,14 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         .attr('transform', d => `translate(${d.x0},${d.y0})`);
 
     node.append('title')
-        .text(d => `${d.ancestors().reverse().map(t => t.data.titulo).join('/')}\n${d.value}`);
+        .text(d => `${d.ancestors().reverse().map(t => t.data.sigla).join('/')}\n${d.value}`);
 
     node.append('rect')
         .attr('id', d => (d.data.titulo))
-        .style('stroke', d => d.data.categoria === 'Proposição' ? 'black' : 0)
         .style('fill', d => myColor(d.data.categoria)) // color
         .attr('width', d => d.x1 - d.x0)
-        .attr('height', d => d.y1 - d.y0);
+        .attr('height', d => d.data.categoria === 'Proposição' ? d.y1 - d.y0 : (d.y1 - 3) - (d.y0 + 3))
+        .attr('transform', d => d.data.categoria === 'Proposição' ? '' : 'translate(0, 6)');
 
     node.append('text')
         .selectAll('tspan')
@@ -165,40 +173,55 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
           if (d.data.titulo !== 'Total') {
             if (d.data.categoria === 'Proposição') {
               const quant = this.quantTotal(d.data.children);
-              return d.data.sigla.split(/(?=[a-z][^a-z])/g).concat(`(${quant} ${quant > 1 ? 'ações' : 'ação'})`);
+              return d.data.sigla.split(/(?=[a-z][^a-z])/g).concat(` (${quant} ${quant > 1 ? 'ações' : 'ação'})`);
             }
-            return d.data.titulo.split(/(?=[A-Z][^A-Z])/g).concat(`(${d.value})`);
+            return d.data.titulo.split(/(?=[a-z][^a-z])/g).concat(`(${d.value})`);
           } else {
             return '';
           }
         })
         .join('tspan')
-        .attr('transform', `translate(0, 15)`)
-        .text(d => d);
+        .text(d => d)
+        .attr('transform', `translate(0, 15)`);
 
     node.selectAll('text')
         .style('opacity', d => {
           if (d.data.categoria === 'Proposição') {
-            return 0.9;
+            return 1;
           }
           if (d.x1 - d.x0  >= 150) {
             if (d.y1 - d.y0 >= 40) {
-              return 0.9;
+              return 1;
             } else {
               return 0;
             }
           } else {
             return 0;
           }
-        });
+        })
+        .attr('transform', 'translate(5, 2)');
 
     node.filter(d => d.children).selectAll('tspan')
+        .style('fill', 'white');
+
+    node.filter(d => d.children).select('tspan')
         .attr('dx', 3)
-        .attr('y', 15);
+        .attr('y', 15)
+        .style('font-weight', d => d.data.categoria === 'Proposição' ? 'bold' : '');
+
+    node.filter(d => d.children).select('tspan:nth-child(2)')
+        .style('opacity', 0.8);
 
     node.filter(d => !d.children).selectAll('tspan')
-        .attr('x', 3)
-        .attr('y', (d, i, nodes) => `${(nodes.length - 1) * 0.3 + 1.1 + i * 0.9}em`);
+        .attr('dx', 3)
+        .attr('y', 15)
+        .style('fill', '#333333');
+
+    node.filter(d => !d.children).selectAll('text')
+        .attr('transform', 'translate(5, 10)');
+
+    node.filter(d => !d.children).select('tspan:nth-child(2)')
+        .style('opacity', 0.8);
 
     return g.node();
   }

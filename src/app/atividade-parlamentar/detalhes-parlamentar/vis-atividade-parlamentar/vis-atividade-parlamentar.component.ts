@@ -93,6 +93,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
 
     private atualizaVisAtividade(g, dados, maxQuant) {
         const id = this.idAtor;
+        const domainDoc = ['Outros', 'Requerimento', 'Emenda'];
         const chart = g
             .attr('id', 'chart')
             .attr('transform', `translate(${this.margin.left}, ${this.margin.top * 3})`);
@@ -101,7 +102,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
             .domain([0, maxQuant]);
 
         const y = this.y.padding(1)
-            .domain(['Outros', 'Requerimento', 'Emenda']);
+            .domain(domainDoc);
 
         // Eixo x
         chart.append('g')
@@ -109,14 +110,22 @@ export class VisAtividadeParlamentarComponent implements OnInit {
             .attr('transform', `translate(0, ${this.altura - (this.margin.bottom * 1.1)})`)
             .call(d3.axisBottom(x).ticks(6));
 
+        chart.append('text')
+        .attr('transform',
+                'translate(' + (this.largura / 2.5) + ' ,' +
+                                ((this.altura / 1.4) - this.margin.top) + ')')
+        .style('text-anchor', 'middle')
+        .style('font-size', '11px')
+        .text('Ações');
+
         // Eixo y
         chart.append('g')
             .attr('class', 'axis axis--y')
             .call(d3.axisLeft(y).tickSize(0))
             .select('.domain').remove();
 
-        const myColor = d3.scaleOrdinal().domain(['Outros', 'Requerimento', 'Emenda'])
-            .range(['#959D97', '#6CA17F', '#4A8D7F']);
+        const myColor = d3.scaleOrdinal().domain(domainDoc)
+            .range(['#C9ECB4', '#9DD8AC', '#8DBFB5']);
 
         // Barras - outros atores
         chart.append('g').attr('transform', `translate(0, -5)`)
@@ -131,9 +140,14 @@ export class VisAtividadeParlamentarComponent implements OnInit {
             .on('mouseover mousemove', d => this.onHover(d))
             .on('mouseout', d => d3.selectAll('.tooltip').style('opacity', 0));
 
+        const atorAtual = dados.filter(d => d.id_autor_parlametria === id);
+        const tiposExistentes = atorAtual.map(d => d.tipo_documento);
+        const difference = domainDoc.filter(d => !tiposExistentes.includes(d));
+        difference.forEach(falta => atorAtual.push({ tipo_documento: falta, peso_total: 0}));
+
         // Barra - ator atual
         chart.append('g').attr('transform', `translate(0, -5)`)
-            .selectAll('rect').data(dados.filter(d => d.id_autor_parlametria === id)).join('rect')
+            .selectAll('rect').data(atorAtual).join('rect')
             .attr('class', 'bar')
             .attr('x', d => x(d.peso_total))
             .attr('y', d => y(d.tipo_documento) - 1.5)
@@ -146,7 +160,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
         // Tooltip
         chart.append('g').attr('transform', `translate(0, -5)`)
             .selectAll('text')
-            .data(dados.filter(d => d.id_autor_parlametria === id))
+            .data(atorAtual)
             .join('text')
             .attr('class', 'tooltip')
             .attr('id', d => `${d.tipo_documento}-tooltip`)
@@ -154,16 +168,23 @@ export class VisAtividadeParlamentarComponent implements OnInit {
             .attr('y', d => y(d.tipo_documento) - 13)
             .style('opacity', d => d.tipo_documento === 'Emenda' ? 1 : 0)
             .style('pointer-events', 'none')
-            .style('font-size', '9px')
-            .text(d =>
-                `${d.ranking_documentos}º lugar em apresentação de
-                ${d.tipo_documento === 'Outros' ? d.tipo_documento.toLowerCase() : d.tipo_documento.toLowerCase() + `s`} nesta agenda`)
+            .style('font-size', '7px')
+            .text(d => this.tooltip(d))
             .call(this.wrap);
     }
 
     private onHover(d) {
         d3.select(`#${d.tipo_documento}-tooltip`)
         .style('opacity', 1);
+    }
+
+    private tooltip(d) {
+        if (d.ranking_documentos === undefined) {
+            return 'O parlamentar não possui este tipo de ação';
+        } else {
+            return `${d.ranking_documentos}º lugar em apresentação de
+            ${d.tipo_documento === 'Outros' ? d.tipo_documento.toLowerCase() : d.tipo_documento.toLowerCase() + `s`} nesta agenda`;
+        }
     }
 
     // Wraps tooltip description text
