@@ -19,8 +19,15 @@ export class PesoPoliticoService {
     return this.http.get<ParlamentarPesoPolitico[]>(`${this.pesoPoliticoUrl}/`);
   }
 
-  getPesoPoliticoById(idAutor: number): Observable<ParlamentarPesoPolitico[]> {
+  getPesoPoliticoById(idAutor: string): Observable<ParlamentarPesoPolitico[]> {
     return this.http.get<ParlamentarPesoPolitico[]>(`${this.pesoPoliticoUrl}/${idAutor}`);
+  }
+
+  normalizarPesoPolitico(metrica: number, max: number): number {
+    if (max !== 0) {
+      return (metrica / max);
+    }
+    return 0;
   }
 
 }

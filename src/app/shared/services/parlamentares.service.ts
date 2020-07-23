@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { AtorAgregado } from '../models/atorAgregado.model';
 import { AtorService } from 'src/app/shared/services/ator.service';
@@ -15,13 +16,25 @@ import { RelatoriaService } from 'src/app/shared/services/relatoria.service';
 export class ParlamentaresService {
 
   private parlamentares = new BehaviorSubject<Array<AtorAgregado>>([]);
+  private parlamentaresFiltered = new BehaviorSubject<Array<AtorAgregado>>([]);
 
   constructor(
     private atorService: AtorService,
     private autoriaService: AutoriasService,
     private comissaoService: ComissaoService,
     private pesoService: PesoPoliticoService,
-    private relatoriaService: RelatoriaService) { }
+    private relatoriaService: RelatoriaService
+  ) {
+
+    this.parlamentares
+      .pipe(
+        tap(parlamentares => {
+          parlamentares.sort((a, b) => b.atividade_parlamentar - a.atividade_parlamentar);
+        }))
+      .subscribe(res => {
+        this.parlamentaresFiltered.next(res);
+      });
+  }
 
   getParlamentares(interesse: string): Observable<any> {
     forkJoin(
@@ -59,27 +72,19 @@ export class ParlamentaresService {
 
         parlamentares.forEach(p => {
           p.atividade_parlamentar = this.normalizarAtividade(p.peso_documentos, Math.min(...pesos), Math.max(...pesos));
-          p.peso_politico = this.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
+          p.peso_politico = this.pesoService.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
         });
 
-        parlamentares.sort((a, b) => b.atividade_parlamentar - a.atividade_parlamentar);
         this.parlamentares.next(parlamentares);
       },
         error => console.log(error)
       );
 
-    return this.parlamentares.asObservable();
+    return this.parlamentaresFiltered.asObservable();
   }
 
   private normalizarAtividade(metrica: number, min: number, max: number): number {
     return (metrica - min) / (max - min);
-  }
-
-  private normalizarPesoPolitico(metrica: number, max: number): number {
-    if (max !== 0) {
-      return (metrica / max);
-    }
-    return 0;
   }
 
 }

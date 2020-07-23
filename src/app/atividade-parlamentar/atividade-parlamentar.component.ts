@@ -43,7 +43,6 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
     this.parlamentaresService.getParlamentares(this.interesse)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(parlamentares => {
-        console.log(parlamentares);
         this.parlamentares = parlamentares;
       });
   }

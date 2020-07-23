@@ -1,16 +1,11 @@
 import { Component, OnInit, ɵSWITCH_COMPILE_DIRECTIVE__POST_R3__ } from '@angular/core';
-
-import { AtorService } from '../../shared/services/ator.service';
-import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { Subject, forkJoin } from 'rxjs';
-import { Ator } from 'src/app/shared/models/ator.model';
-import { Autoria } from 'src/app/shared/models/autoria.model';
-import { ProposicoesService } from 'src/app/shared/services/proposicoes.service';
-import { ComissaoService } from 'src/app/shared/services/comissao.service';
-import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.service';
-import { RelatoriaService } from 'src/app/shared/services/relatoria.service';
-import { AutoriasService } from 'src/app/shared/services/autorias.service';
+
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+
+import { ParlamentarDetalhadoService } from 'src/app/shared/services/parlamentar-detalhado.service';
+import { AtorDetalhado } from 'src/app/shared/models/atorDetalhado.model';
 
 @Component({
   selector: 'app-detalhes-parlamentar',
@@ -21,23 +16,13 @@ export class DetalhesParlamentarComponent implements OnInit {
 
   private unsubscribe = new Subject();
 
-  public parlamentar: Ator;
-  public nomesRelatorias: string[];
-  public autorias: Autoria[];
+  public parlamentar: AtorDetalhado;
   public idAtor: string;
   public interesse: string;
-  public urlFoto: string;
-  public nomesComissoes: string[];
-  info: any;
 
   constructor(
-    private atorService: AtorService,
-    private proposicaoService: ProposicoesService,
     private activatedRoute: ActivatedRoute,
-    private comissaoService: ComissaoService,
-    private relatoriaService: RelatoriaService,
-    private autoriasService: AutoriasService,
-    private pesoService: PesoPoliticoService
+    private parlamentarDetalhado: ParlamentarDetalhadoService
   ) { }
 
   ngOnInit(): void {
@@ -47,88 +32,17 @@ export class DetalhesParlamentarComponent implements OnInit {
         this.idAtor = params.get('id');
         this.interesse = params.get('interesse');
       });
-    this.getDadosParlamentar(this.idAtor);
+    this.getParlamentarDetalhado(this.idAtor, this.interesse);
   }
 
-  getDadosParlamentar(idParlamentar) {
-    forkJoin(
-      [
-        this.atorService.getAtor(idParlamentar),
-        this.pesoService.getPesoPolitico(),
-        this.relatoriaService.getRelatoriasDetalhadaById(this.interesse, idParlamentar),
-        this.comissaoService.getComissaoDetalhadaById(idParlamentar),
-        this.autoriasService.getAutorias(idParlamentar)
-      ]
-    ).pipe(takeUntil(this.unsubscribe))
-      .subscribe(data => {
-        const ator: any = data[0][0];
-        const pesoPolitico: any = data[1];
-        let ids = [];
-        let quant = 0;
-        const dataRelatoria = data[2];
-        const dataComissao = data[3];
-        if (dataRelatoria !== undefined) {
-          ids = data[2][0].ids_relatorias;
-          quant = data[2][0].quantidade_relatorias;
-        }
-        let idComissao = 0;
-        let info = '';
-        let quantComissao = 0;
-        if (dataComissao.length !== 0) {
-          idComissao = data[3][0].id_comissao;
-          info = data[3][0].info_comissao;
-          quantComissao = data[3][0].quantidade_comissao_presidente;
-        }
-        this.nomesComissoes = [];
-        this.autorias = data[4];
-
-        const parlamentar = [ator].map(a => ({
-          ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
-          ids_relatorias: ids,
-          quantidade_relatorias: quant,
-          id_comissao: idComissao,
-          quantidade_comissao_presidente: quantComissao,
-          ...a
-        }));
-        const pesosPoliticos = pesoPolitico.map(p => {
-          if (p.peso_politico) {
-            return +p.peso_politico;
-          }
-          return 0;
-        });
-
-        this.nomesRelatorias = [];
-        ids.forEach(id => {
-          this.proposicaoService.getProposicoesById(this.interesse, id.id_leggo)
-            .pipe(takeUntil(this.unsubscribe))
-            .subscribe(idProp => {
-              this.nomesRelatorias.push(idProp[0].etapas[0].sigla);
-            });
-        });
-        parlamentar.forEach(p => {
-          p.peso_politico = this.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
-        });
-
-        this.parlamentar = parlamentar[0];
-        this.getUrlFoto();
-        this.nomesComissoes.push(info);
-      },
-        error => {
-          console.log(error);
-        }
-      );
+  getParlamentarDetalhado(idAtor, interesse) {
+    this.parlamentarDetalhado
+      .getParlamentarDetalhado(idAtor, interesse)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(parlamentar => {
+        this.parlamentar = parlamentar;
+        console.log(parlamentar);
+      });
   }
 
-  normalizarPesoPolitico(metrica: number, max: number): number {
-    if (max !== 0) {
-      return (metrica / max);
-    }
-    return 0;
-  }
-
-  getUrlFoto(): void {
-    const urlSenado = `https://www.senado.leg.br/senadores/img/fotos-oficiais/senador${this.parlamentar.id_autor}.jpg`;
-    const urlCamara = `https://www.camara.leg.br/internet/deputado/bandep/${this.parlamentar.id_autor}.jpg`;
-    this.urlFoto = this.parlamentar.casa_autor === 'camara' ? urlCamara : urlSenado;
-  }
 }
