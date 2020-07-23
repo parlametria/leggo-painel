@@ -5,8 +5,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { AtorService } from './shared/services/ator.service';
 import { SharedComponentsModule } from './shared/components/shared-components.module';
+import { AtorService } from './shared/services/ator.service';
+import { ProposicoesService } from './shared/services/proposicoes.service';
+import { AutoriasService } from './shared/services/autorias.service';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { SharedComponentsModule } from './shared/components/shared-components.mo
     SharedComponentsModule
   ],
   providers: [
-    AtorService
+    AtorService,
+    ProposicoesService,
+    AutoriasService
   ],
   bootstrap: [AppComponent]
 })

@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subject, forkJoin } from 'rxjs';
 import { Ator } from 'src/app/shared/models/ator.model';
 import { Autoria } from 'src/app/shared/models/autoria.model';
+import { ProposicoesService } from 'src/app/shared/services/proposicoes.service';
 
 @Component({
   selector: 'app-detalhes-parlamentar',
@@ -27,6 +28,7 @@ export class DetalhesParlamentarComponent implements OnInit {
 
   constructor(
     private atorService: AtorService,
+    private proposicaoService: ProposicoesService,
     private activatedRoute: ActivatedRoute
   ) { }
 
@@ -89,7 +91,7 @@ export class DetalhesParlamentarComponent implements OnInit {
 
         this.nomesRelatorias = [];
         ids.forEach(id => {
-          this.atorService.getProposicoesById(this.interesse, id.id_leggo)
+          this.proposicaoService.getProposicoesById(this.interesse, id.id_leggo)
             .pipe(takeUntil(this.unsubscribe))
             .subscribe(idProp => {
               this.nomesRelatorias.push(idProp[0].etapas[0].sigla);

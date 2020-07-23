@@ -3,8 +3,6 @@ import { Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 
-import { AtorService } from 'src/app/shared/services/ator.service';
-
 // Importa componentes do d3
 import { select, selectAll, mouse } from 'd3-selection';
 import { scaleLinear, scaleBand, scaleOrdinal } from 'd3-scale';
@@ -12,6 +10,8 @@ import { group } from 'd3-array';
 import { axisLeft, axisBottom } from 'd3-axis';
 import { hsl } from 'd3-color';
 import { path } from 'd3-path';
+
+import { AutoriasService } from 'src/app/shared/services/autorias.service';
 
 const d3 = Object.assign({}, {
     select,
@@ -48,7 +48,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
     private svg: any;
 
     constructor(
-        private atorService: AtorService, private activatedRoute: ActivatedRoute
+        private autoriaService: AutoriasService, private activatedRoute: ActivatedRoute
     ) { }
 
     ngOnInit(): void {
@@ -76,7 +76,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
     }
 
     private carregaVisAtividade() {
-        this.atorService.getAcoes(this.interesse)
+        this.autoriaService.getAcoes(this.interesse)
         .pipe(takeUntil(this.unsubscribe))
         .subscribe(acoes => {
             const quantDomain = [];

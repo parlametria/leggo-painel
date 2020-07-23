@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { AtorService } from '../shared/services/ator.service';
 import { AtorAgregado } from '../shared/models/atorAgregado.model';
+import { AutoriasService } from '../shared/services/autorias.service';
 
 @Component({
   selector: 'app-atividade-parlamentar',
@@ -26,7 +27,10 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
     // 'Maior peso político'
   ];
 
-  constructor(private atorService: AtorService, private activatedRoute: ActivatedRoute) { }
+  constructor(
+    private atorService: AtorService,
+    private autoriaService: AutoriasService,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap
@@ -41,7 +45,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
     forkJoin(
       [
         this.atorService.getAtoresAgregados(this.interesse),
-        this.atorService.getAutoriasAgregadas(this.interesse),
+        this.autoriaService.getAutoriasAgregadas(this.interesse),
         this.atorService.getComissaoPresidencia(),
         this.atorService.getAtoresRelatores(this.interesse),
         this.atorService.getPesoPolitico()

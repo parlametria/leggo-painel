@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Ator } from '../models/ator.model';
-import { AutoriaAgregada } from '../models/autoriaAgregada.model';
 import { AtorAgregado } from '../models/atorAgregado.model';
 import { AtorRelator } from '../models/atorRelator.model';
 import { Proposicao } from '../models/proposicao.model';
@@ -21,9 +20,8 @@ export class AtorService {
 
   private atorUrl = `${environment.baseUrl}/ator`;
   private atoresUrl = `${environment.baseUrl}/atores`;
-  private autoriaUrl = `${environment.baseUrl}/autorias`;
   private comissaoUrl = `${environment.baseUrl}/comissao/presidencia`;
-  private proposicoesUrl = `${environment.baseUrl}/proposicoes`;
+
   constructor(private http: HttpClient) { }
 
   private getProposicoes(): Observable<Proposicao[]> {
@@ -56,16 +54,8 @@ export class AtorService {
     return this.http.get<AtorRelator[]>(`${this.atoresUrl}/relatorias?interesse=${interesse}`);
   }
 
-  getAutoriasAgregadas(interesse: string): Observable<AutoriaAgregada[]> {
-    return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas?interesse=${interesse}`);
-  }
-
   getComissaoPresidencia(): Observable<ComissaoPresidencia[]> {
     return this.http.get<ComissaoPresidencia[]>(`${this.comissaoUrl}`);
-  }
-
-  getAutoriasAgregadasById(interesse: string, idAutor: number): Observable<AutoriaAgregada[]> {
-    return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas/${idAutor}/?interesse=${interesse}`);
   }
 
   getRelatoriasDetalhadaById(interesse: string, idAutor: string): Observable<AtorRelator> {
@@ -84,11 +74,4 @@ export class AtorService {
     return this.http.get<ComissaoPresidencia[]>(`${this.comissaoUrl}/${idAutor}`);
   }
 
-  getProposicoesById(interesse: string, id: number): Observable<Proposicao> {
-    return this.http.get<Proposicao>(`${this.proposicoesUrl}/${id}?interesse=${interesse}`);
-  }
-
-  getAcoes(interesse: string): Observable<any[]> {
-    return this.http.get<Autoria[]>(`${this.autoriaUrl}/acoes/?interesse=${interesse}`);
-  }
 }
