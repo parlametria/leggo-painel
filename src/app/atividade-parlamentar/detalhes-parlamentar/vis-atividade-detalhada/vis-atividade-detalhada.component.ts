@@ -61,7 +61,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     this.altura = this.largura > 700 ? 450 : 550;
     this.x = d3.scaleLinear().rangeRound([0, this.largura]);
     this.y = d3.scaleLinear().rangeRound([0, this.altura]);
-    this.svg  = d3.select('#vis-atividade-detalhada').append('svg')
+    this.svg = d3.select('#vis-atividade-detalhada').append('svg')
       .attr('viewBox', `0.5 0 ${this.largura} ${this.altura}`);
     this.carregaVisAtividade();
   }
@@ -73,11 +73,11 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     .paddingInner(1)
     .round(true)
     (d3.hierarchy(data)
-    .sum(d => d.value)
-    .sort((a, b) => b.value - a.value))
+      .sum(d => d.value)
+      .sort((a, b) => b.value - a.value))
 
   private getArvoreAutorias(autorias: Autoria[]): ArvoreAutorias {
-    const arvoreAutorias: ArvoreAutorias = {titulo: 'Total', id: 0, children: []};
+    const arvoreAutorias: ArvoreAutorias = { titulo: 'Total', id: 0, children: [] };
     const autoriasPorId = d3.group(autorias, d => d.id_leggo);
     autoriasPorId.forEach((autoria, idLeggo) => {
       const tipos = [{
@@ -123,72 +123,72 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         // Inicializa visualização
         this.gPrincipal = this.svg.append('g')
           .call(g => this.atualizaVisAtividade(g, arvoreAutorias));
-    });
+      });
   }
 
   private atualizaVisAtividade(g, data) {
     const root = this.treemap(data);
 
     const myColor = d3.scaleOrdinal().domain(['Total', 'Proposição', 'Outros', 'Prop. Original / Apensada', 'Voto em Separado', 'Parecer', 'Requerimento', 'Emenda'])
-            .range(['white', 'white', '#959D97', '#959D97', '#959D97', '#959D97', '#6CA17F', '#4A8D7F']);
+      .range(['white', 'white', '#959D97', '#959D97', '#959D97', '#959D97', '#6CA17F', '#4A8D7F']);
 
     const node = g.selectAll('g')
-        .data(d3.nest().key((d: any) => d.data.titulo).entries(root.descendants()))
-        .join('g')
-        .selectAll('g')
-        .data(d => d.values)
-        .join('g')
-        .attr('transform', d => `translate(${d.x0},${d.y0})`);
+      .data(d3.nest().key((d: any) => d.data.titulo).entries(root.descendants()))
+      .join('g')
+      .selectAll('g')
+      .data(d => d.values)
+      .join('g')
+      .attr('transform', d => `translate(${d.x0},${d.y0})`);
 
     node.append('title')
-        .text(d => `${d.ancestors().reverse().map(t => t.data.titulo).join('/')}\n${d.value}`);
+      .text(d => `${d.ancestors().reverse().map(t => t.data.titulo).join('/')}\n${d.value}`);
 
     node.append('rect')
-        .attr('id', d => (d.data.titulo))
-        .style('stroke', d => d.data.categoria === 'Proposição' ? 'black' : 0)
-        .style('fill', d => myColor(d.data.categoria)) // color
-        .attr('width', d => d.x1 - d.x0)
-        .attr('height', d => d.y1 - d.y0);
+      .attr('id', d => (d.data.titulo))
+      .style('stroke', d => d.data.categoria === 'Proposição' ? 'black' : 0)
+      .style('fill', d => myColor(d.data.categoria)) // color
+      .attr('width', d => d.x1 - d.x0)
+      .attr('height', d => d.y1 - d.y0);
 
     node.append('text')
-        .selectAll('tspan')
-        .data(d => {
-          if (d.data.titulo !== 'Total') {
-            if (d.data.categoria === 'Proposição') {
-              return d.data.titulo.split(/(?=[A-Z][^A-Z])/g).concat(`(${d.value} autoria(s))`);
-            }
-            return d.data.titulo.split(/(?=[A-Z][^A-Z])/g).concat(`(${d.value})`);
-          } else {
-            return '';
+      .selectAll('tspan')
+      .data(d => {
+        if (d.data.titulo !== 'Total') {
+          if (d.data.categoria === 'Proposição') {
+            return d.data.titulo.split(/(?=[A-Z][^A-Z])/g).concat(`(${d.value} autoria(s))`);
           }
-        })
-        .join('tspan')
-        .attr('transform', `translate(0, 15)`)
-        .text(d => d);
+          return d.data.titulo.split(/(?=[A-Z][^A-Z])/g).concat(`(${d.value})`);
+        } else {
+          return '';
+        }
+      })
+      .join('tspan')
+      .attr('transform', `translate(0, 15)`)
+      .text(d => d);
 
     node.selectAll('text')
-        .style('opacity', d => {
-          if (d.data.categoria === 'Proposição') {
+      .style('opacity', d => {
+        if (d.data.categoria === 'Proposição') {
+          return 0.9;
+        }
+        if (d.x1 - d.x0 >= 150) {
+          if (d.y1 - d.y0 >= 40) {
             return 0.9;
-          }
-          if (d.x1 - d.x0  >= 150) {
-            if (d.y1 - d.y0 >= 40) {
-              return 0.9;
-            } else {
-              return 0;
-            }
           } else {
             return 0;
           }
-        });
+        } else {
+          return 0;
+        }
+      });
 
     node.filter(d => d.children).selectAll('tspan')
-        .attr('dx', 3)
-        .attr('y', 13);
+      .attr('dx', 3)
+      .attr('y', 13);
 
     node.filter(d => !d.children).selectAll('tspan')
-        .attr('x', 3)
-        .attr('y', (d, i, nodes) => `${(nodes.length - 1) * 0.3 + 1.1 + i * 0.9}em`);
+      .attr('x', 3)
+      .attr('y', (d, i, nodes) => `${(nodes.length - 1) * 0.3 + 1.1 + i * 0.9}em`);
 
     return g.node();
   }

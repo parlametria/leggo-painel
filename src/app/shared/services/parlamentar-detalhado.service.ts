@@ -26,6 +26,7 @@ export class ParlamentarDetalhadoService {
     private pesoService: PesoPoliticoService) { }
 
   getParlamentarDetalhado(idParlamentar: string, interesse: string): Observable<any> {
+    this.parlamentarDetalhado.next([]);
     forkJoin(
       [
         this.atorService.getAtor(idParlamentar),
