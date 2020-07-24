@@ -5,12 +5,14 @@ import { RouterModule } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ProgressComponent } from './progress/progress.component';
 import { AvaliacaoComponent } from './avaliacao/avaliacao.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
     NavbarComponent,
     ProgressComponent,
-    AvaliacaoComponent
+    AvaliacaoComponent,
+    LoadingComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +21,8 @@ import { AvaliacaoComponent } from './avaliacao/avaliacao.component';
   exports: [
     NavbarComponent,
     ProgressComponent,
-    AvaliacaoComponent
+    AvaliacaoComponent,
+    LoadingComponent
   ]
 })
 export class SharedComponentsModule { }
