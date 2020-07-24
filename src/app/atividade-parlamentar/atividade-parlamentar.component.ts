@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterContentInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, BehaviorSubject } from 'rxjs';
+import { takeUntil, skip } from 'rxjs/operators';
 
 import { AtorAgregado } from '../shared/models/atorAgregado.model';
 import { ParlamentaresService } from '../shared/services/parlamentares.service';
+import { indicate } from '../shared/functions/indicate.function';
 
 @Component({
   selector: 'app-atividade-parlamentar',
@@ -16,6 +17,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
 
   private unsubscribe = new Subject();
   p = 1;
+  public isLoading = new BehaviorSubject<boolean>(true);
 
   parlamentares: AtorAgregado[];
   interesse: string;
@@ -48,10 +50,18 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
 
   getDadosAtividadeParlamentar() {
     this.parlamentaresService.getParlamentares(this.interesse)
-      .pipe(takeUntil(this.unsubscribe))
+      .pipe(
+        skip(1),
+        indicate(this.isLoading),
+        takeUntil(this.unsubscribe))
       .subscribe(parlamentares => {
         this.parlamentares = parlamentares;
-      });
+        this.isLoading.next(false);
+      },
+        error => {
+          console.log(error);
+        }
+      );
   }
 
   pageChange(p: number) {

@@ -1,11 +1,12 @@
 import { Component, OnInit, ɵSWITCH_COMPILE_DIRECTIVE__POST_R3__ } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { takeUntil, skip } from 'rxjs/operators';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 import { ParlamentarDetalhadoService } from 'src/app/shared/services/parlamentar-detalhado.service';
 import { AtorDetalhado } from 'src/app/shared/models/atorDetalhado.model';
+import { indicate } from 'src/app/shared/functions/indicate.function';
 
 @Component({
   selector: 'app-detalhes-parlamentar',
@@ -19,6 +20,7 @@ export class DetalhesParlamentarComponent implements OnInit {
   public parlamentar: AtorDetalhado;
   public idAtor: string;
   public interesse: string;
+  public isLoading = new BehaviorSubject<boolean>(true);
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -38,9 +40,13 @@ export class DetalhesParlamentarComponent implements OnInit {
   getParlamentarDetalhado(idAtor, interesse) {
     this.parlamentarDetalhado
       .getParlamentarDetalhado(idAtor, interesse)
-      .pipe(takeUntil(this.unsubscribe))
+      .pipe(
+        skip(1),
+        indicate(this.isLoading),
+        takeUntil(this.unsubscribe))
       .subscribe(parlamentar => {
         this.parlamentar = parlamentar;
+        this.isLoading.next(false);
       });
   }
 
