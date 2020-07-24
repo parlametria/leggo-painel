@@ -16,6 +16,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
 
   private unsubscribe = new Subject();
   p = 1;
+  isLoading: boolean;
 
   parlamentares: AtorAgregado[];
   interesse: string;
@@ -33,6 +34,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
     private router: Router) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
@@ -87,6 +89,8 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
 
         this.parlamentares = parlamentares;
         this.parlamentares.sort((a, b) => b.atividade_parlamentar - a.atividade_parlamentar);
+
+        this.isLoading = false;
       },
         error => {
           console.log(error);

@@ -24,6 +24,7 @@ export class DetalhesParlamentarComponent implements OnInit {
   public urlFoto: string;
   public nomesComissoes: string[];
   info: any;
+  isLoading: boolean;
 
   constructor(
     private atorService: AtorService,
@@ -31,6 +32,7 @@ export class DetalhesParlamentarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
@@ -102,6 +104,7 @@ export class DetalhesParlamentarComponent implements OnInit {
         this.parlamentar = parlamentar[0];
         this.getUrlFoto();
         this.nomesComissoes.push(info);
+        this.isLoading = false;
       },
         error => {
           console.log(error);
