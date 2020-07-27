@@ -4,9 +4,8 @@
   <!-- <select (change)="mudarOrdenacao($event)" class="seletor-ordenacao btn-block">
     <option *ngFor="let opcao of opcoesOrdenacao">{{ opcao }}</option>
   </select> -->
-
-  <app-loading [hidden]="!isLoading"></app-loading>
-  <div [hidden]="isLoading">
+  <app-loading *ngIf="isLoading | async"></app-loading>
+  <div [hidden]="isLoading | async">
     <pagination-template
       #pag="paginationApi"
       maxSize="5"

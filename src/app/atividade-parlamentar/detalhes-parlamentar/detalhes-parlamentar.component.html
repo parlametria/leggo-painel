@@ -1,17 +1,16 @@
-<app-loading [hidden]="!isLoading"></app-loading>
+<app-loading *ngIf="isLoading | async"></app-loading>
 <div class="container">
-  
-  <div [hidden]="isLoading">
+  <div [hidden]="isLoading | async">
     <div class="parlamentar">
       <div class="row gutters-sm">
         <div class="col-auto">
           <div class="foto-parlamentar">
-            <img [src]="urlFoto" />
+            <img [src]="parlamentar?.urlFoto" />
           </div>
         </div>
         <div *ngIf="parlamentar" class="col">
-          <div class="parlamentar-titulo">{{ parlamentar.nome_autor }}</div>
-          <p>{{ parlamentar.partido }}/{{ parlamentar.uf }}</p>
+          <div class="parlamentar-titulo">{{ parlamentar?.nome_autor }}</div>
+          <p>{{ parlamentar?.partido }}/{{ parlamentar?.uf }}</p>
         </div>
       </div>
     </div>
@@ -19,10 +18,7 @@
     <div class="card-detalhes card-peso-politico">
       <h5 class="card-titulo">Peso Político</h5>
       <div class="card-corpo">
-        <app-avaliacao
-          [label]="'Peso'"
-          [valor]="parlamentar?.peso_politico * 5"
-        >
+        <app-avaliacao [label]="'Peso'" [valor]="parlamentar?.pesoPolitico * 5">
         </app-avaliacao>
       </div>
     </div>
@@ -41,52 +37,52 @@
           <ngb-panel
             id="static-1"
             title="Presidente de comissão({{
-              parlamentar?.quantidade_comissao_presidente
+              parlamentar?.comissoes?.quantidade_comissao_presidente
             }})"
           >
             <ng-template ngbPanelContent>
-              <li *ngFor="let item of nomesComissoes; let i = index">
-                {{ nomesComissoes[i] }}
+              <li>
+                {{ parlamentar?.comissoes?.info_comissao }}
               </li>
             </ng-template>
           </ngb-panel>
           <span class="icon-relator app-icon text-success"></span>
           <ngb-panel
             id="static-2"
-            title="Relatorias ({{ parlamentar?.ids_relatorias.length }})"
+            title="Relatorias ({{ parlamentar?.relatorias?.length }})"
           >
             <ng-template ngbPanelContent>
-              <li
-                *ngFor="let item of parlamentar?.ids_relatorias; let i = index"
-              >
+              <li *ngFor="let item of parlamentar?.relatorias; let i = index">
                 <a
                   [href]="
                     'https://leggo.parlametria.org/#/proposicao/' +
-                    item.id_leggo +
+                    item.idProp +
                     '/' +
                     interesse
                   "
                 >
-                  {{ nomesRelatorias[i] }}
+                  {{ item.sigla }}
                 </a>
               </li>
             </ng-template>
           </ngb-panel>
-          <ngb-panel id="static-3" title="Autorias ({{ autorias?.length }})">
+          <ngb-panel
+            id="static-3"
+            title="Autorias ({{ parlamentar?.autorias?.length }})"
+          >
             <ng-template ngbPanelContent>
-              <li *ngFor="let item of autorias; let i = index">
-                <a [href]="[autorias[i].url_inteiro_teor]" target="_blank">
-                  {{ autorias[i].descricao_tipo_documento }}:
-                  {{ autorias[i].data }}
+              <li *ngFor="let item of parlamentar?.autorias; let i = index">
+                <a [href]="[item.url_inteiro_teor]" target="_blank">
+                  {{ item.descricao_tipo_documento }}: {{ item.data }}
                 </a>
               </li>
             </ng-template>
           </ngb-panel>
-          <ngb-panel id="static-4" title="Influente">
-            <ng-template ngbPanelContent>
-              texto
-            </ng-template>
-          </ngb-panel>
+          <!-- <ngb-panel id="static-4" title="Influente">
+          <ng-template ngbPanelContent>
+            texto
+          </ng-template>
+        </ngb-panel> -->
         </ngb-accordion>
       </div>
     </div>

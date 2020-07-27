@@ -5,8 +5,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { AtorService } from './shared/services/ator.service';
 import { SharedComponentsModule } from './shared/components/shared-components.module';
+import { AtorService } from './shared/services/ator.service';
+import { ProposicoesService } from './shared/services/proposicoes.service';
+import { AutoriasService } from './shared/services/autorias.service';
+import { ComissaoService } from './shared/services/comissao.service';
+import { PesoPoliticoService } from './shared/services/peso-politico.service';
+import { RelatoriaService } from './shared/services/relatoria.service';
+import { ParlamentaresService } from './shared/services/parlamentares.service';
+import { ParlamentarDetalhadoService } from './shared/services/parlamentar-detalhado.service';
+
 
 @NgModule({
   declarations: [
@@ -19,7 +27,14 @@ import { SharedComponentsModule } from './shared/components/shared-components.mo
     SharedComponentsModule
   ],
   providers: [
-    AtorService
+    AtorService,
+    ProposicoesService,
+    AutoriasService,
+    ComissaoService,
+    PesoPoliticoService,
+    RelatoriaService,
+    ParlamentaresService,
+    ParlamentarDetalhadoService
   ],
   bootstrap: [AppComponent]
 })
