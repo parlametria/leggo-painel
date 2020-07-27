@@ -7,7 +7,7 @@ import { AtorService } from 'src/app/shared/services/ator.service';
 import { Autoria, ArvoreAutorias } from 'src/app/shared/models/autoria.model';
 
 // Importa componentes do d3
-import { select, selectAll } from 'd3-selection';
+import { select, selectAll, event } from 'd3-selection';
 import { transition } from 'd3-transition';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 import { quantize, interpolateRgb } from 'd3-interpolate';
@@ -28,7 +28,8 @@ const d3 = Object.assign({}, {
   quantize,
   interpolateRgb,
   treemap,
-  nest
+  nest,
+  event
 });
 
 @Component({
@@ -82,7 +83,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     .sort((a, b) => b.value - a.value))
 
   private getArvoreAutorias(autorias: Autoria[]): ArvoreAutorias {
-    const arvoreAutorias: ArvoreAutorias = {titulo: 'Total', id: 0, children: []};
+    const arvoreAutorias: ArvoreAutorias = {titulo: 'Total', id: 0, children: [], categoria: 'Total'};
     const autoriasPorId = d3.group(autorias, d => d.id_leggo);
     autoriasPorId.forEach((autoria, idLeggo) => {
       const tipos = [{
@@ -157,15 +158,44 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         .join('g')
         .attr('transform', d => `translate(${d.x0},${d.y0})`);
 
-    node.append('title')
-        .text(d => `${d.ancestors().reverse().map(t => t.data.sigla).join('/')}\n${d.value}`);
+    const tooltip = d3.select('body')
+        .append('div')
+        .style('position', 'absolute')
+        .style('font-size', '12px')
+        .style('background-color', 'white')
+        .style('border', 'solid')
+        .style('border-width', '2px')
+        .attr('data-html', 'true')
+        .style('visibility', 'hidden');
 
     node.append('rect')
         .attr('id', d => (d.data.titulo))
         .style('fill', d => myColor(d.data.categoria)) // color
         .attr('width', d => d.x1 - d.x0)
-        .attr('height', d => d.data.categoria === 'Proposição' ? d.y1 - d.y0 : (d.y1 - 3) - (d.y0 + 3))
-        .attr('transform', d => d.data.categoria === 'Proposição' ? '' : 'translate(0, 6)');
+        .attr('height', d => {
+          if (d.data.categoria === 'Proposição') {
+            return d.y1 - d.y0;
+          } else {
+            if ((d.y1 - 3) - (d.y0 + 3) >= 0) {
+              return (d.y1 - 3) - (d.y0 + 3);
+            } else {
+              return 0;
+            }
+          }
+        })
+        .attr('transform', d => d.data.categoria === 'Proposição' ? '' : 'translate(0, 6)')
+        .on('mouseover', d => {
+          if (d.data.categoria !== 'Total' && d.data.categoria !== 'Proposição') {
+            tooltip.style('visibility', 'visible')
+                  .style('width', '120px')
+                  .style('height', '90px')
+                  .html(this.tooltipText(d));
+            }
+          })
+        .on('mousemove', d => tooltip.style('top', (event.pageY - 10) + 'px')
+                                    .style('left', (event.pageX + 10) + 'px')
+                                    .html(this.tooltipText(d)))
+        .on('mouseout', () => tooltip.style('visibility', 'hidden'));
 
     node.append('text')
         .selectAll('tspan')
@@ -185,18 +215,18 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         .attr('transform', `translate(0, 15)`);
 
     node.selectAll('text')
-        .style('opacity', d => {
+        .style('visibility', d => {
           if (d.data.categoria === 'Proposição') {
-            return 1;
+            return 'visible';
           }
           if (d.x1 - d.x0  >= 150) {
             if (d.y1 - d.y0 >= 40) {
-              return 1;
+              return 'visible';
             } else {
-              return 0;
+              return 'hidden';
             }
           } else {
-            return 0;
+            return 'hidden';
           }
         })
         .attr('transform', 'translate(5, 2)');
@@ -232,5 +262,23 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
       quantTotal += doc.quantidade;
     });
     return quantTotal;
+  }
+
+  private tooltipText(doc): any {
+    let texto = '';
+    doc.parent.children.forEach(prop => {
+      if (prop.data.value !== 0) {
+        if (prop.data.categoria === 'Outros') {
+          texto += '<br>' + `${prop.data.value} ` + `${prop.data.categoria}`;
+        } else {
+          if (prop.data.value <= 1) {
+            texto += '<br>' + `${prop.data.value} ` + `${prop.data.categoria}`;
+          } else {
+            texto += '<br>' + `${prop.data.value} ` + `${prop.data.categoria}s`;
+          }
+        }
+      }
+    });
+    return '<b>' + `${doc.parent.data.sigla}` + '</b>' + texto ;
   }
 }
