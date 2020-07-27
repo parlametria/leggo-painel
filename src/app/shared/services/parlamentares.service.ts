@@ -9,6 +9,7 @@ import { AutoriasService } from 'src/app/shared/services/autorias.service';
 import { ComissaoService } from 'src/app/shared/services/comissao.service';
 import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.service';
 import { RelatoriaService } from 'src/app/shared/services/relatoria.service';
+import { EntidadeService } from 'src/app/shared/services/entidade.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,13 +24,24 @@ export class ParlamentaresService {
     private autoriaService: AutoriasService,
     private comissaoService: ComissaoService,
     private pesoService: PesoPoliticoService,
-    private relatoriaService: RelatoriaService
+    private relatoriaService: RelatoriaService,
+    private entidadeService: EntidadeService
   ) {
 
     this.parlamentares
       .pipe(
         tap(parlamentares => {
-          parlamentares.sort((a, b) => b.atividade_parlamentar - a.atividade_parlamentar);
+          parlamentares.sort((a, b) => {
+            if (isNaN(b.atividade_parlamentar)) {
+              return -1;
+            }
+
+            if (isNaN(a.atividade_parlamentar)) {
+              return 1;
+            }
+
+            return b.atividade_parlamentar - a.atividade_parlamentar;
+          });
         }))
       .subscribe(res => {
         this.parlamentaresFiltered.next(res);
@@ -39,6 +51,7 @@ export class ParlamentaresService {
   getParlamentares(interesse: string): Observable<any> {
     forkJoin(
       [
+        this.entidadeService.getParlamentaresExercicio(),
         this.atorService.getAtoresAgregados(interesse),
         this.autoriaService.getAutoriasAgregadas(interesse),
         this.comissaoService.getComissaoPresidencia(),
@@ -47,13 +60,15 @@ export class ParlamentaresService {
       ]
     )
       .subscribe(data => {
-        const atores: any = data[0];
-        const autoriasAgregadas: any = data[1];
-        const comissaoPresidencia: any = data[2];
-        const atoresRelatores: any = data[3];
-        const pesoPolitico: any = data[4];
+        const parlamentaresExercicio: any = data[0];
+        const atores: any = data[1];
+        const autoriasAgregadas: any = data[2];
+        const comissaoPresidencia: any = data[3];
+        const atoresRelatores: any = data[4];
+        const pesoPolitico: any = data[5];
 
-        const parlamentares = atores.map(a => ({
+        const parlamentares = parlamentaresExercicio.map(a => ({
+          ...atores.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...autoriasAgregadas.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...comissaoPresidencia.find(p => a.id_autor_parlametria === p.id_autor_voz),
           ...atoresRelatores.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
@@ -62,7 +77,12 @@ export class ParlamentaresService {
         }));
 
         // Transforma os pesos para valores entre 0 e 1
-        const pesos = parlamentares.map(p => +p.peso_documentos);
+        const pesos = parlamentares.map(p => {
+          if (p.peso_documentos) {
+            return +p.peso_documentos;
+          }
+          return 0;
+        });
         const pesosPoliticos = parlamentares.map(p => {
           if (p.peso_politico) {
             return +p.peso_politico;

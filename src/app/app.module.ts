@@ -14,6 +14,7 @@ import { PesoPoliticoService } from './shared/services/peso-politico.service';
 import { RelatoriaService } from './shared/services/relatoria.service';
 import { ParlamentaresService } from './shared/services/parlamentares.service';
 import { ParlamentarDetalhadoService } from './shared/services/parlamentar-detalhado.service';
+import { EntidadeService } from './shared/services/entidade.service';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { ParlamentarDetalhadoService } from './shared/services/parlamentar-detal
     PesoPoliticoService,
     RelatoriaService,
     ParlamentaresService,
-    ParlamentarDetalhadoService
+    ParlamentarDetalhadoService,
+    EntidadeService
   ],
   bootstrap: [AppComponent]
 })
