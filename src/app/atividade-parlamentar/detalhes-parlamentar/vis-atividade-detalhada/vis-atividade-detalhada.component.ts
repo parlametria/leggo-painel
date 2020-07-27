@@ -187,8 +187,8 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         .on('mouseover', d => {
           if (d.data.categoria !== 'Total' && d.data.categoria !== 'Proposição') {
             tooltip.style('visibility', 'visible')
-                  .style('width', '120px')
-                  .style('height', '90px')
+                  .style('width', '140px')
+                  .style('height', '100px')
                   .html(this.tooltipText(d));
             }
           })
@@ -279,6 +279,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         }
       }
     });
-    return '<b>' + `${doc.parent.data.sigla}` + '</b>' + texto ;
+    return ('<p style="margin-top: 10px; margin-left: 5px;">' +
+      '<b>' + `${doc.parent.data.sigla}` + '</b>' + texto + '</p>');
   }
 }
