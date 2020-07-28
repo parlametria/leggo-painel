@@ -192,9 +192,13 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
                   .html(this.tooltipText(d));
             }
           })
-        .on('mousemove', d => tooltip.style('top', (event.pageY - 10) + 'px')
-                                    .style('left', (event.pageX + 10) + 'px')
-                                    .html(this.tooltipText(d)))
+        .on('mousemove', d => {
+          if (d.data.categoria !== 'Total' && d.data.categoria !== 'Proposição') {
+            tooltip.style('top', (event.pageY - 10) + 'px')
+                  .style('left', (event.pageX + 10) + 'px')
+                  .html(this.tooltipText(d));
+            }
+          })
         .on('mouseout', () => tooltip.style('visibility', 'hidden'));
 
     node.append('text')
