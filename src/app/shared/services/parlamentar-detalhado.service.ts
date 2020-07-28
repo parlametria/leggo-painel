@@ -33,7 +33,7 @@ export class ParlamentarDetalhadoService {
         this.pesoService.getPesoPoliticoById(idParlamentar),
         this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar),
         this.comissaoService.getComissaoDetalhadaById(idParlamentar),
-        this.autoriasService.getAutorias(idParlamentar)
+        this.autoriasService.getAutorias(Number(idParlamentar))
       ]
     )
       .subscribe(data => {
@@ -51,7 +51,9 @@ export class ParlamentarDetalhadoService {
         parlamentarDetalhado.autorias = autorias;
         parlamentarDetalhado.relatorias = relatoriasInfo;
         parlamentarDetalhado.comissoes = comissoesInfo;
-        parlamentarDetalhado.pesoPolitico = pesoPolitico[0].peso_politico;
+        if (pesoPolitico.length) {
+          parlamentarDetalhado.pesoPolitico = pesoPolitico[0].peso_politico;
+        }
 
         this.parlamentarDetalhado.next(parlamentarDetalhado);
       },
