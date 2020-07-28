@@ -6,6 +6,9 @@ export interface Autoria {
   descricao_tipo_documento: string;
   url_inteiro_teor: string;
   tipo_documento: string;
+  peso_autor_documento: number;
+  quantidade: number;
+  sigla: string;
 }
 
 export interface ArvoreAutorias {
@@ -17,4 +20,5 @@ export interface ArvoreAutorias {
   value?: number;
   children?: ArvoreAutorias[];
   categoria?: string;
+  sigla?: string;
 }
