@@ -14,6 +14,7 @@ export class NavbarComponent implements OnInit {
   private unsubscribe = new Subject();
 
   public interesse: string;
+  public interesseSlug: string;
 
   constructor(
     private router: Router,
@@ -38,6 +39,7 @@ export class NavbarComponent implements OnInit {
             this.interesse = 'RAC';
             break;
         }
+        this.interesseSlug = event.snapshot.params.interesse;
       }
     });
   }
