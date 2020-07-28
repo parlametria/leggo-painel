@@ -1,9 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-
-import { AtorService } from 'src/app/shared/services/ator.service';
 
 // Importa componentes do d3
 import { select, selectAll, mouse } from 'd3-selection';
@@ -12,6 +10,8 @@ import { group } from 'd3-array';
 import { axisLeft, axisBottom } from 'd3-axis';
 import { hsl } from 'd3-color';
 import { path } from 'd3-path';
+
+import { AutoriasService } from 'src/app/shared/services/autorias.service';
 
 const d3 = Object.assign({}, {
     select,
@@ -35,10 +35,11 @@ const d3 = Object.assign({}, {
 
 export class VisAtividadeParlamentarComponent implements OnInit {
 
+    @Input() idAtor: number;
+    @Input() interesse: string;
+
     private unsubscribe = new Subject();
 
-    idAtor: number;
-    interesse: string;
     private largura: number;
     private altura: number;
     private gPrincipal: any;
@@ -48,16 +49,10 @@ export class VisAtividadeParlamentarComponent implements OnInit {
     private svg: any;
 
     constructor(
-        private atorService: AtorService, private activatedRoute: ActivatedRoute
+        private autoriaService: AutoriasService
     ) { }
 
     ngOnInit(): void {
-        this.activatedRoute.paramMap
-            .pipe(takeUntil(this.unsubscribe))
-            .subscribe(params => {
-                this.idAtor = parseInt(params.get('id'), 10);
-                this.interesse = params.get('interesse');
-        });
         this.largura = window.innerWidth / 2;
         this.altura = 220;
         this.margin = ({
@@ -76,7 +71,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
     }
 
     private carregaVisAtividade() {
-        this.atorService.getAcoes(this.interesse)
+        this.autoriaService.getAcoes(this.interesse)
         .pipe(takeUntil(this.unsubscribe))
         .subscribe(acoes => {
             const quantDomain = [];
@@ -92,7 +87,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
     }
 
     private atualizaVisAtividade(g, dados, maxQuant) {
-        const id = this.idAtor;
+        const id = Number(this.idAtor);
         const domainDoc = ['Outros', 'Requerimento', 'Emenda'];
         const chart = g
             .attr('id', 'chart')

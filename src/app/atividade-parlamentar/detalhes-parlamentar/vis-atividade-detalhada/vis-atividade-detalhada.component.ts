@@ -5,6 +5,8 @@ import { takeUntil } from 'rxjs/operators';
 
 import { AtorService } from 'src/app/shared/services/ator.service';
 import { Autoria, ArvoreAutorias } from 'src/app/shared/models/autoria.model';
+import { AutoriasService } from 'src/app/shared/services/autorias.service';
+
 
 // Importa componentes do d3
 import { select, selectAll, event } from 'd3-selection';
@@ -40,11 +42,11 @@ const d3 = Object.assign({}, {
 export class VisAtividadeDetalhadaComponent implements OnInit {
 
   @Input() larguraJanela: number;
+  @Input() idAtor: number;
+  @Input() interesse: string;
 
   private unsubscribe = new Subject();
 
-  idAtor: string;
-  interesse: string;
   private largura: number;
   private altura: number;
   private x: any;
@@ -53,21 +55,15 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   private gPrincipal: any;
 
   constructor(
-    private atorService: AtorService, private activatedRoute: ActivatedRoute
-) { }
+    private autoriasService: AutoriasService
+  ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap
-    .pipe(takeUntil(this.unsubscribe))
-    .subscribe(params => {
-        this.idAtor = params.get('id');
-        this.interesse = params.get('interesse');
-    });
     this.largura = window.innerWidth;
     this.altura = this.largura > 700 ? 450 : 550;
     this.x = d3.scaleLinear().rangeRound([0, this.largura]);
     this.y = d3.scaleLinear().rangeRound([0, this.altura]);
-    this.svg  = d3.select('#vis-atividade-detalhada').append('svg')
+    this.svg = d3.select('#vis-atividade-detalhada').append('svg')
       .attr('viewBox', `0.5 0 ${this.largura} ${this.altura}`);
     this.carregaVisAtividade();
   }
@@ -79,8 +75,8 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     .paddingInner(1)
     .round(true)
     (d3.hierarchy(data)
-    .sum(d => d.value)
-    .sort((a, b) => b.value - a.value))
+      .sum(d => d.value)
+      .sort((a, b) => b.value - a.value))
 
   private getArvoreAutorias(autorias: Autoria[]): ArvoreAutorias {
     const arvoreAutorias: ArvoreAutorias = {titulo: 'Total', id: 0, children: [], categoria: 'Total'};
@@ -133,7 +129,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   }
 
   private carregaVisAtividade() {
-    this.atorService.getAutorias(this.idAtor, this.interesse)
+    this.autoriasService.getAutorias(this.idAtor)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(autorias => {
         // Transforma dados tabulares em árvore
@@ -141,7 +137,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         // Inicializa visualização
         this.gPrincipal = this.svg.append('g')
           .call(g => this.atualizaVisAtividade(g, arvoreAutorias));
-    });
+      });
   }
 
   private atualizaVisAtividade(g, data) {
@@ -151,12 +147,12 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
             .range(['white', '#3D6664', '#C9ECB4', '#9DD8AC', '#8DBFB5']);
 
     const node = g.selectAll('g')
-        .data(d3.nest().key((d: any) => d.data.titulo).entries(root.descendants()))
-        .join('g')
-        .selectAll('g')
-        .data(d => d.values)
-        .join('g')
-        .attr('transform', d => `translate(${d.x0},${d.y0})`);
+      .data(d3.nest().key((d: any) => d.data.titulo).entries(root.descendants()))
+      .join('g')
+      .selectAll('g')
+      .data(d => d.values)
+      .join('g')
+      .attr('transform', d => `translate(${d.x0},${d.y0})`);
 
     const tooltip = d3.select('body')
         .append('div')
