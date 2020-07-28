@@ -17,8 +17,8 @@ export class AtorService {
 
   constructor(private http: HttpClient) { }
 
-  getAtor(idAtor: string): Observable<Ator> {
-    return this.http.get<Ator>(`${this.atorUrl}/${idAtor}`);
+  getAtor(interesse: string, idAtor: string): Observable<Ator> {
+    return this.http.get<Ator>(`${this.atorUrl}/${idAtor}?interesse=${interesse}`);
   }
 
   getAtoresAgregados(interesse: string): Observable<AtorAgregado[]> {
