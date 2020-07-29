@@ -1,6 +1,11 @@
 export interface AtorRelator {
-    id_autor: number;
-    id_autor_parlametria: number;
+    autor_id: number;
+    autor_id_parlametria: number;
     quantidade_relatorias: number;
-    ids_relatorias: object;
+    relatorias: Relatorias[];
+}
+
+export interface Relatorias {
+    id_leggo: number;
+    sigla: string;
 }
