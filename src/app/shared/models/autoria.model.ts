@@ -9,6 +9,7 @@ export interface Autoria {
   peso_autor_documento: number;
   quantidade: number;
   sigla: string;
+  tipo_acao: string;
 }
 
 export interface ArvoreAutorias {
