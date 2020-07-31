@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.1 (2020-07-31)
+- [x] Considera agenda na contagem de presidências nas comissões
+
 ## 1.0.0 (2020-07-28)
 
 - [x] Mantém o interesse quando clica na logo do leggo
