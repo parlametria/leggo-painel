@@ -54,7 +54,7 @@ export class ParlamentaresService {
         this.entidadeService.getParlamentaresExercicio(),
         this.atorService.getAtoresAgregados(interesse),
         this.autoriaService.getAutoriasAgregadas(interesse),
-        this.comissaoService.getComissaoPresidencia(),
+        this.comissaoService.getComissaoPresidencia(interesse),
         this.relatoriaService.getAtoresRelatores(interesse),
         this.pesoService.getPesoPolitico()
       ]
