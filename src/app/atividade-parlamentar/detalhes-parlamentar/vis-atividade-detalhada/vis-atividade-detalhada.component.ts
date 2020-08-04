@@ -1,31 +1,37 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Subject } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 
 import { AtorService } from 'src/app/shared/services/ator.service';
 import { Autoria, ArvoreAutorias } from 'src/app/shared/models/autoria.model';
+import { AutoriasService } from 'src/app/shared/services/autorias.service';
+
 
 // Importa componentes do d3
-import { select, selectAll } from 'd3-selection';
+import { select, selectAll, event } from 'd3-selection';
 import { transition } from 'd3-transition';
-import { scaleLinear } from 'd3-scale';
-import { interpolate } from 'd3-interpolate';
+import { scaleLinear, scaleOrdinal } from 'd3-scale';
+import { quantize, interpolateRgb } from 'd3-interpolate';
 import { group } from 'd3-array';
-import { timeParse } from 'd3-time-format';
-import { hierarchy, treemap, treemapSquarify } from 'd3-hierarchy';
+import { partition, hierarchy, treemap } from 'd3-hierarchy';
+import { nest } from 'd3-collection';
 select.prototype.transition = transition;
 
 const d3 = Object.assign({}, {
+  partition,
   select,
   selectAll,
   transition,
   scaleLinear,
+  scaleOrdinal,
   group,
   hierarchy,
+  quantize,
+  interpolateRgb,
   treemap,
-  treemapSquarify,
-  interpolate,
-  timeParse
+  nest,
+  event
 });
 
 @Component({
@@ -35,8 +41,9 @@ const d3 = Object.assign({}, {
 })
 export class VisAtividadeDetalhadaComponent implements OnInit {
 
-  @Input() idAtor: string;
   @Input() larguraJanela: number;
+  @Input() idAtor: number;
+  @Input() interesse: string;
 
   private unsubscribe = new Subject();
 
@@ -48,179 +55,231 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   private gPrincipal: any;
 
   constructor(
-    private atorService: AtorService
+    private autoriasService: AutoriasService
   ) { }
 
   ngOnInit(): void {
     this.largura = window.innerWidth;
-    this.altura = this.largura > 700 ? 400 : 500;
+    this.altura = this.largura > 700 ? 450 : 550;
     this.x = d3.scaleLinear().rangeRound([0, this.largura]);
     this.y = d3.scaleLinear().rangeRound([0, this.altura]);
-    this.svg  = d3.select('#vis-atividade-detalhada').append('svg')
-      .attr('viewBox', `0.5 -40.5 ${this.largura} ${this.altura + 40.5}`);
+    this.svg = d3.select('#vis-atividade-detalhada').append('svg')
+      .attr('viewBox', `0.5 0 ${this.largura} ${this.altura}`);
     this.carregaVisAtividade();
   }
 
+  private treemap = data => d3.treemap()
+    .size([this.largura, this.altura])
+    .paddingOuter(3)
+    .paddingTop(19)
+    .paddingInner(1)
+    .round(true)
+    (d3.hierarchy(data)
+      .sum(d => d.value)
+      .sort((a, b) => b.value - a.value))
+
   private getArvoreAutorias(autorias: Autoria[]): ArvoreAutorias {
-    const arvoreAutorias: ArvoreAutorias = {titulo: 'Todas', id: 0, children: []};
+    const arvoreAutorias: ArvoreAutorias = {titulo: 'Total', id: 0, children: [], categoria: 'Total'};
     const autoriasPorId = d3.group(autorias, d => d.id_leggo);
     autoriasPorId.forEach((autoria, idLeggo) => {
-      const tipos = [];
+      const tipos = [{
+        titulo: 'Outros',
+        id: 0,
+        value: 0,
+        quantidade: 0,
+        categoria: 'Outros'
+      }];
       const documentosPorTipo = d3.group(autoria, d => d.tipo_documento);
       documentosPorTipo.forEach((documento, tipo) => {
-        const documentos = [];
-        documento.forEach(d => {
-          documentos.push({
-            titulo: d.descricao_tipo_documento,
+        if (tipo === 'Emenda' || tipo === 'Requerimento') {
+          tipos.push({
+            titulo: tipo,
             id: idLeggo,
-            data: d.data,
-            url: d.url_inteiro_teor,
-            value: 1
+            value: parseFloat(this.somaPesos(documento).toFixed(2)),
+            quantidade: documento.length,
+            categoria: tipo
           });
-        });
-        tipos.push({
-          titulo: tipo,
-          id: idLeggo,
-          children: documentos
-        });
+        } else {
+          tipos[0] = ({
+            titulo: 'Outros',
+            id: 0,
+            value: parseFloat((this.somaPesos(documento) + tipos[0].value).toFixed(2)),
+            quantidade: documento.length + tipos[0].quantidade,
+            categoria: 'Outros'
+          });
+        }
       });
       arvoreAutorias.children.push({
         titulo: `Proposição ${idLeggo.toString()}`,
         id: idLeggo,
-        children: tipos
+        children: tipos,
+        categoria: 'Proposição',
+        sigla: autoria[0].sigla
       });
     });
     return arvoreAutorias;
   }
 
+  private somaPesos(documento): number {
+    let pesoTotal = 0;
+    documento.forEach(doc => {
+      pesoTotal += doc.peso_autor_documento;
+    });
+    return pesoTotal;
+  }
+
   private carregaVisAtividade() {
-    this.atorService.getAutorias(this.idAtor)
+    this.autoriasService.getAutorias(this.idAtor)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(autorias => {
         // Transforma dados tabulares em árvore
         const arvoreAutorias = this.getArvoreAutorias(autorias);
-        // Cria função de treemap
-        const tm = data => d3.treemap()
-          .tile((node, x0, y0, x1, y1) => this.tile(node, x0, y0, x1, y1))
-          (d3.hierarchy(arvoreAutorias)
-          .sum(d => d.value)
-          .sort((a, b) => b.value - a.value));
         // Inicializa visualização
         this.gPrincipal = this.svg.append('g')
-          .call(g => this.atualizaVisAtividade(g, tm(arvoreAutorias)));
-    });
+          .call(g => this.atualizaVisAtividade(g, arvoreAutorias));
+      });
   }
 
-  private atualizaVisAtividade(g, root) {
-    const node = g
-      .selectAll('g')
-      .data(root.children.concat(root))
+  private atualizaVisAtividade(g, data) {
+    const root = this.treemap(data);
+
+    const myColor = d3.scaleOrdinal().domain(['Total', 'Proposição', 'Outros', 'Requerimento', 'Emenda'])
+            .range(['white', '#3D6664', '#C9ECB4', '#9DD8AC', '#8DBFB5']);
+
+    const node = g.selectAll('g')
+      .data(d3.nest().key((d: any) => d.data.titulo).entries(root.descendants()))
       .join('g')
-      .attr('cursor', d => d === root && !d.parent ? 'default' : 'pointer')
-      .on('click', d => d === root ? this.zoomout(d) : d.children ? this.zoomin(d) : this.abrirUrl(d));
+      .selectAll('g')
+      .data(d => d.values)
+      .join('g')
+      .attr('transform', d => `translate(${d.x0},${d.y0})`);
 
-    node.filter(d => d === root ? d.parent : d.children);
-
-    node.append('title')
-      .text(d => `${this.getTitulo(d)}`);
+    const tooltip = d3.select('body')
+        .append('div')
+        .style('position', 'absolute')
+        .style('font-size', '12px')
+        .style('background-color', 'white')
+        .style('border', 'solid')
+        .style('border-width', '2px')
+        .attr('data-html', 'true')
+        .style('visibility', 'hidden');
 
     node.append('rect')
-      .attr('id', d => {
-        return `leaf-${d.data.id}`;
-      })
-      .style('stroke', '#fff')
-      .style('fill', d => d === root ? '#fff' : d.children ? '#43a467' : '#60b27b');
-
-    node.append('clipPath')
-      .attr('id', d => `clip-${d.data.id}`)
-      .append('use')
-      .attr('xlink:href', d => `leaf-${d.data.id}`);
+        .attr('id', d => (d.data.titulo))
+        .style('fill', d => myColor(d.data.categoria)) // color
+        .attr('width', d => d.x1 - d.x0)
+        .attr('height', d => {
+          if (d.data.categoria === 'Proposição') {
+            return d.y1 - d.y0;
+          } else {
+            if ((d.y1 - 3) - (d.y0 + 3) >= 0) {
+              return (d.y1 - 3) - (d.y0 + 3);
+            } else {
+              return 0;
+            }
+          }
+        })
+        .attr('transform', d => d.data.categoria === 'Proposição' ? '' : 'translate(0, 6)')
+        .on('mouseover', d => {
+          if (d.data.categoria !== 'Total' && d.data.categoria !== 'Proposição') {
+            tooltip.style('visibility', 'visible')
+                  .style('width', '140px')
+                  .style('height', '100px')
+                  .html(this.tooltipText(d));
+            }
+          })
+        .on('mousemove', d => {
+          if (d.data.categoria !== 'Total' && d.data.categoria !== 'Proposição') {
+            tooltip.style('top', (event.pageY - 10) + 'px')
+                  .style('left', (event.pageX + 10) + 'px')
+                  .html(this.tooltipText(d));
+            }
+          })
+        .on('mouseout', () => tooltip.style('visibility', 'hidden'));
 
     node.append('text')
-    .attr('clip-path', d => `clip-${d.data.id}`)
-    .style('font-weight', d => d === root ? 'bold' : null)
-    .style('fill', d => d === root ? '#212529' : '#fff')
-      .selectAll('tspan')
-      .data(d => this.getLabel(d, root))
-      .join('tspan')
-        .attr('x', 3)
-        .attr('y', (d, i, nodes) => `${(i === nodes.length - 1 ? 0.3 : 0) + 1.1 + i}em`)
-        .style('fill-opacity', (d, i, nodes) => i === nodes.length - 1 ? 0.7 : null)
-        .style('text-decoration', (d, i, nodes) => i !== nodes.length - 1 ? 'underline' : null)
-        .text(d => d);
+        .selectAll('tspan')
+        .data(d => {
+          if (d.data.titulo !== 'Total') {
+            if (d.data.categoria === 'Proposição') {
+              const quant = this.quantTotal(d.data.children);
+              return d.data.sigla.split(/(?=[a-z][^a-z])/g).concat(` (${quant} ${quant > 1 ? 'ações' : 'ação'})`);
+            }
+            return d.data.titulo.split(/(?=[a-z][^a-z])/g).concat(`(${d.value})`);
+          } else {
+            return '';
+          }
+        })
+        .join('tspan')
+        .text(d => d)
+        .attr('transform', `translate(0, 15)`);
 
-    g.call(gg => this.position(gg, root));
+    node.selectAll('text')
+        .style('visibility', d => {
+          if (d.data.categoria === 'Proposição') {
+            return 'visible';
+          }
+          if (d.x1 - d.x0  >= 150) {
+            if (d.y1 - d.y0 >= 40) {
+              return 'visible';
+            } else {
+              return 'hidden';
+            }
+          } else {
+            return 'hidden';
+          }
+        })
+        .attr('transform', 'translate(5, 2)');
+
+    node.filter(d => d.children).selectAll('tspan')
+        .style('fill', 'white');
+
+    node.filter(d => d.children).select('tspan')
+        .attr('dx', 3)
+        .attr('y', 15)
+        .style('font-weight', d => d.data.categoria === 'Proposição' ? 'bold' : '');
+
+    node.filter(d => d.children).select('tspan:nth-child(2)')
+        .style('opacity', 0.8);
+
+    node.filter(d => !d.children).selectAll('tspan')
+        .attr('dx', 3)
+        .attr('y', 15)
+        .style('fill', '#333333');
+
+    node.filter(d => !d.children).selectAll('text')
+        .attr('transform', 'translate(5, 10)');
+
+    node.filter(d => !d.children).select('tspan:nth-child(2)')
+        .style('opacity', 0.8);
+
+    return g.node();
   }
 
-  private getTitulo(dados) {
-    return dados.ancestors().reverse().map(d => d.data.titulo).join('/');
+  private quantTotal(children): number {
+    let quantTotal = 0;
+    children.forEach(doc => {
+      quantTotal += doc.quantidade;
+    });
+    return quantTotal;
   }
 
-  private getLabel(dados, root) {
-    if (dados === root) {
-      return [dados.ancestors().reverse().map(d => d.data.titulo).join('/'), dados.value];
-    } else if (dados.children) {
-      return `${dados.data.titulo} (${dados.value})`.split(/(?=[A-Z][a-z])|\s+/g);
-    } else {
-      return [`[PDF] ${dados.data.titulo}`, `${d3.timeParse('%Y-%m-%d')(dados.data.data).toLocaleString('pt-BR', { day: 'numeric', month: 'numeric', year: 'numeric' })}`];
-    }
-  }
-
-  private position(g, root) {
-    g.selectAll('g')
-        .attr('transform', d => d === root ? `translate(0,-45)` : `translate(${this.x(d.x0)},${this.y(d.y0)})`)
-      .select('rect')
-        .attr('width', d => d === root ? this.largura : this.x(d.x1) - this.x(d.x0))
-        .attr('height', d => d === root ? 30 : this.y(d.y1) - this.y(d.y0));
-  }
-
-  private zoomin(dados) {
-    const group0 = this.gPrincipal.attr('pointer-events', 'none');
-    const group1 = this.gPrincipal = this.svg.append('g').call(g => this.atualizaVisAtividade(g, dados));
-
-    this.x.domain([dados.x0, dados.x1]);
-    this.y.domain([dados.y0, dados.y1]);
-
-    this.svg.transition()
-        .duration(750)
-        .call(t => group0.transition(t).remove()
-          .call(g => this.position(g, dados.parent)))
-        .call(t => group1.transition(t)
-          .attrTween('opacity', () => d3.interpolate(0, 1))
-          .call(g => this.position(g, dados)));
-  }
-
-  private zoomout(dados) {
-    if (dados.parent) {
-      const group0 = this.gPrincipal.attr('pointer-events', 'none');
-      const group1 = this.gPrincipal = this.svg.insert('g', '*').call(g => this.atualizaVisAtividade(g, dados.parent));
-
-      this.x.domain([dados.parent.x0, dados.parent.x1]);
-      this.y.domain([dados.parent.y0, dados.parent.y1]);
-
-      this.svg.transition()
-          .duration(750)
-          .call(t => group0.transition(t).remove()
-            .attrTween('opacity', () => d3.interpolate(1, 0))
-            .call(g => this.position(g, dados)))
-          .call(t => group1.transition(t)
-            .call(g => this.position(g, dados.parent)));
-    }
-  }
-
-  private abrirUrl(dados) {
-    window.open(dados.data.url, '_blank');
-  }
-
-  private tile(node, x0, y0, x1, y1) {
-    // Adapta o treemapBinary para a proporção de tela correta
-    // depois de aumentar/diminuir o zoom
-    d3.treemapSquarify(node, 0, 0, this.largura, this.altura);
-    for (const child of node.children) {
-      child.x0 = x0 + child.x0 / this.largura * (x1 - x0);
-      child.x1 = x0 + child.x1 / this.largura * (x1 - x0);
-      child.y0 = y0 + child.y0 / this.altura * (y1 - y0);
-      child.y1 = y0 + child.y1 / this.altura * (y1 - y0);
-    }
+  private tooltipText(doc): any {
+    let texto = '';
+    doc.parent.children.forEach(prop => {
+      if (prop.data.value !== 0) {
+        if (prop.data.categoria === 'Outros') {
+          texto += '<br>' + `${prop.data.value} ` + `${prop.data.categoria}`;
+        } else {
+          if (prop.data.value <= 1) {
+            texto += '<br>' + `${prop.data.value} ` + `${prop.data.categoria}`;
+          } else {
+            texto += '<br>' + `${prop.data.value} ` + `${prop.data.categoria}s`;
+          }
+        }
+      }
+    });
+    return ('<p style="margin-top: 10px; margin-left: 5px;">' +
+      '<b>' + `${doc.parent.data.sigla}` + '</b>' + texto + '</p>');
   }
 }

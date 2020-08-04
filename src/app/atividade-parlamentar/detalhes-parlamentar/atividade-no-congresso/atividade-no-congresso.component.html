@@ -1,7 +1,14 @@
 <div class="card-detalhes card-atividade-congresso">
-    <h5 class="card-titulo">Ações</h5>
-    <div class="card-corpo">
-        <app-vis-atividade-detalhada
-        [idAtor]="idAtor"></app-vis-atividade-detalhada>
-    </div>
+  <h5 class="card-titulo">Por Tipo</h5>
+  <div class="card-corpo">
+    <app-vis-atividade-parlamentar
+      [idAtor]="idAtor"
+      [interesse]="interesse"></app-vis-atividade-parlamentar>
+  </div>
+  <h5 class="card-titulo">Por Proposição</h5>
+  <div class="card-corpo">
+    <app-vis-atividade-detalhada
+      [idAtor]="idAtor"
+      [interesse]="interesse"></app-vis-atividade-detalhada>
+  </div>
 </div>

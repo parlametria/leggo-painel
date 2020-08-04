@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-
-import { AtorService } from '../../../shared/services/ator.service';
-import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { Subject, forkJoin } from 'rxjs';
-import { Ator } from 'src/app/shared/models/ator.model';
+
+import { Subject, BehaviorSubject } from 'rxjs';
+import { takeUntil, skip } from 'rxjs/operators';
+
+import { ParlamentarPesoPolitico } from 'src/app/shared/models/parlamentarPesoPolitico.model';
+import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.service';
+import { indicate } from 'src/app/shared/functions/indicate.function';
 
 @Component({
   selector: 'app-peso-politico',
@@ -15,12 +17,13 @@ export class PesoPoliticoComponent implements OnInit {
 
   private unsubscribe = new Subject();
 
-  public parlamentar: Ator;
+  public peso: number;
   public idAtor: string;
+  public isLoading = new BehaviorSubject<boolean>(true);
 
   constructor(
-    private atorService: AtorService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private pesoPoliticoService: PesoPoliticoService
   ) { }
 
   ngOnInit(): void {
@@ -28,49 +31,21 @@ export class PesoPoliticoComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.idAtor = params.get('id');
+        this.getPesoPolitico(this.idAtor);
       });
-    this.getDadosParlamentar(this.idAtor);
   }
 
-  getDadosParlamentar(idParlamentar) {
-    forkJoin(
-      [
-        this.atorService.getAtor(idParlamentar),
-        this.atorService.getPesoPolitico()
-      ]
-    ).pipe(takeUntil(this.unsubscribe))
-      .subscribe(data => {
-        const ator: any = data[0][0];
-        const pesoPolitico: any = data[1];
+  getPesoPolitico(idAtor) {
+    this.pesoPoliticoService
+      .getPesoPoliticoById(idAtor)
+      .pipe(
+        indicate(this.isLoading),
+        takeUntil(this.unsubscribe))
+      .subscribe(parlamentar => {
+        this.peso = +parlamentar[0].peso_politico;
 
-        const parlamentar = [ator].map(a => ({
-          ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
-          ...a
-        }));
-
-        const pesosPoliticos = pesoPolitico.map(p => {
-          if (p.peso_politico) {
-            return +p.peso_politico;
-          }
-          return 0;
-        });
-
-        parlamentar.forEach(p => {
-          p.peso_politico = this.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
-        });
-
-        this.parlamentar = parlamentar[0];
-      },
-        error => {
-          console.log(error);
-        }
-      );
+        this.isLoading.next(false);
+      });
   }
 
-  normalizarPesoPolitico(metrica: number, max: number): number {
-    if (max !== 0) {
-      return (metrica / max);
-    }
-    return 0;
-  }
 }

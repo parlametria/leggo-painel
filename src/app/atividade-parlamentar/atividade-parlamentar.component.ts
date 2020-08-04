@@ -1,21 +1,23 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterContentInit } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { Subject, forkJoin } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject, BehaviorSubject } from 'rxjs';
+import { takeUntil, skip } from 'rxjs/operators';
 
-import { AtorService } from '../shared/services/ator.service';
 import { AtorAgregado } from '../shared/models/atorAgregado.model';
+import { ParlamentaresService } from '../shared/services/parlamentares.service';
+import { indicate } from '../shared/functions/indicate.function';
 
 @Component({
   selector: 'app-atividade-parlamentar',
   templateUrl: './atividade-parlamentar.component.html',
   styleUrls: ['./atividade-parlamentar.component.scss']
 })
-export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
+export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterContentInit {
 
   private unsubscribe = new Subject();
   p = 1;
+  public isLoading = new BehaviorSubject<boolean>(true);
 
   parlamentares: AtorAgregado[];
   interesse: string;
@@ -26,7 +28,11 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
     // 'Maior peso político'
   ];
 
-  constructor(private atorService: AtorService, private activatedRoute: ActivatedRoute) { }
+  constructor(
+    private parlamentaresService: ParlamentaresService,
+    private activatedRoute: ActivatedRoute,
+    private cdRef: ChangeDetectorRef,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap
@@ -35,49 +41,22 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
         this.interesse = params.get('interesse');
       });
     this.getDadosAtividadeParlamentar();
+    this.updatePageViaURL();
+  }
+
+  ngAfterContentInit() {
+    this.cdRef.detectChanges();
   }
 
   getDadosAtividadeParlamentar() {
-    forkJoin(
-      [
-        this.atorService.getAtoresAgregados(this.interesse),
-        this.atorService.getAutoriasAgregadas(this.interesse),
-        this.atorService.getComissaoPresidencia(),
-        this.atorService.getAtoresRelatores(this.interesse),
-        this.atorService.getPesoPolitico()
-      ]
-    ).pipe(takeUntil(this.unsubscribe))
-      .subscribe(data => {
-        const atores: any = data[0];
-        const autoriasAgregadas: any = data[1];
-        const comissaoPresidencia: any = data[2];
-        const atoresRelatores: any = data[3];
-        const pesoPolitico: any = data[4];
-
-        const parlamentares = atores.map(a => ({
-          ...autoriasAgregadas.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
-          ...comissaoPresidencia.find(p => a.id_autor_parlametria === p.id_autor_voz),
-          ...atoresRelatores.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
-          ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
-          ...a
-        }));
-
-        // Transforma os pesos para valores entre 0 e 1
-        const pesos = parlamentares.map(p => +p.peso_documentos);
-        const pesosPoliticos = parlamentares.map(p => {
-          if (p.peso_politico) {
-            return +p.peso_politico;
-          }
-          return 0;
-        });
-
-        parlamentares.forEach(p => {
-          p.atividade_parlamentar = this.normalizarAtividade(p.peso_documentos, Math.min(...pesos), Math.max(...pesos));
-          p.peso_politico = this.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
-        });
-
+    this.parlamentaresService.getParlamentares(this.interesse)
+      .pipe(
+        skip(1),
+        indicate(this.isLoading),
+        takeUntil(this.unsubscribe))
+      .subscribe(parlamentares => {
         this.parlamentares = parlamentares;
-        this.parlamentares.sort((a, b) => b.atividade_parlamentar - a.atividade_parlamentar);
+        this.isLoading.next(false);
       },
         error => {
           console.log(error);
@@ -87,17 +66,24 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
 
   pageChange(p: number) {
     this.p = p;
+
+    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    queryParams.page = p;
+    this.router.navigate([], { queryParams });
   }
 
-  normalizarAtividade(metrica: number, min: number, max: number): number {
-    return (metrica - min) / (max - min);
-  }
+  updatePageViaURL() {
+    this.activatedRoute.queryParams
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(params => {
+        const page = params.page;
 
-  normalizarPesoPolitico(metrica: number, max: number): number {
-    if (max !== 0) {
-      return (metrica / max);
-    }
-    return 0;
+        if (page !== undefined && page !== null) {
+          this.p = Number(page);
+        } else {
+          this.p = 1;
+        }
+      });
   }
 
   getParlamentarPosition(
@@ -106,13 +92,6 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy {
     currentPage: number
   ) {
     return (itensPerPage * (currentPage - 1)) + index;
-  }
-
-  mudarOrdenacao(event: any) {
-    const opcao: any = event.target.value;
-    if (opcao === 'Mais ativos no congresso') {
-      this.parlamentares.sort((a, b) => b.atividade_parlamentar - a.atividade_parlamentar);
-    }
   }
 
   ngOnDestroy() {

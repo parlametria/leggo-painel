@@ -11,6 +11,7 @@ import { SharedComponentsModule } from '../shared/components/shared-components.m
 import { DetalhesParlamentarComponent } from './detalhes-parlamentar/detalhes-parlamentar.component';
 import { VisAtividadeDetalhadaComponent } from './detalhes-parlamentar/vis-atividade-detalhada/vis-atividade-detalhada.component';
 import { PesoPoliticoComponent, PapeisImportantesComponent, AtividadeNoCongressoComponent } from './detalhes-parlamentar';
+import { VisAtividadeParlamentarComponent } from './detalhes-parlamentar/vis-atividade-parlamentar/vis-atividade-parlamentar.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { PesoPoliticoComponent, PapeisImportantesComponent, AtividadeNoCongresso
     VisAtividadeDetalhadaComponent,
     PesoPoliticoComponent,
     PapeisImportantesComponent,
-    AtividadeNoCongressoComponent
+    AtividadeNoCongressoComponent,
+    VisAtividadeParlamentarComponent
   ],
   imports: [
     CommonModule,

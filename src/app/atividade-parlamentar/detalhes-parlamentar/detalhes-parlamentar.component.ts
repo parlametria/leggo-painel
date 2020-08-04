@@ -1,11 +1,19 @@
-import { Component, OnInit, ɵSWITCH_COMPILE_DIRECTIVE__POST_R3__ } from '@angular/core';
-
-import { AtorService } from '../../shared/services/ator.service';
-import { takeUntil } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subject, forkJoin } from 'rxjs';
-import { Ator } from 'src/app/shared/models/ator.model';
+
+import { Subject, BehaviorSubject, forkJoin } from 'rxjs';
+import { takeUntil, skip } from 'rxjs/operators';
+
 import { AtorAgregado } from 'src/app/shared/models/atorAgregado.model';
+import { AtorDetalhado } from 'src/app/shared/models/atorDetalhado.model';
+import { AtorService } from 'src/app/shared/services/ator.service';
+import { ParlamentarDetalhadoService } from 'src/app/shared/services/parlamentar-detalhado.service';
+import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.service';
+import { ComissaoService } from 'src/app/shared/services/comissao.service';
+import { RelatoriaService } from 'src/app/shared/services/relatoria.service';
+import { AutoriasService } from 'src/app/shared/services/autorias.service';
+import { indicate } from 'src/app/shared/functions/indicate.function';
+
 @Component({
   selector: 'app-detalhes-parlamentar',
   templateUrl: './detalhes-parlamentar.component.html',
@@ -16,14 +24,21 @@ export class DetalhesParlamentarComponent implements OnInit {
   private unsubscribe = new Subject();
   p = 1;
 
-  public parlamentar: AtorAgregado;
+  public parlamentar: AtorDetalhado;
+  public parlamentarAgregado: AtorAgregado;
   public idAtor: string;
   public interesse: string;
   public urlFoto: string;
+  public isLoading = new BehaviorSubject<boolean>(true);
 
   constructor(
-    private atorService: AtorService,
     private activatedRoute: ActivatedRoute,
+    private atorService: AtorService,
+    private parlamentarDetalhadoService: ParlamentarDetalhadoService,
+    private pesoPoliticoService: PesoPoliticoService,
+    private comissaoService: ComissaoService,
+    private relatoriaService: RelatoriaService,
+    private autoriaService: AutoriasService
   ) { }
 
   ngOnInit(): void {
@@ -34,17 +49,31 @@ export class DetalhesParlamentarComponent implements OnInit {
         this.interesse = params.get('interesse');
       });
     this.getDadosParlamentar(this.idAtor, this.interesse);
+    this.getParlamentarDetalhado(this.idAtor, this.interesse);
+  }
+
+  getParlamentarDetalhado(idAtor, interesse) {
+    this.parlamentarDetalhadoService
+      .getParlamentarDetalhado(idAtor, interesse)
+      .pipe(
+        skip(1),
+        indicate(this.isLoading),
+        takeUntil(this.unsubscribe))
+      .subscribe(parlamentar => {
+        this.parlamentar = parlamentar;
+        this.isLoading.next(false);
+      });
   }
 
   getDadosParlamentar(idParlamentar, interesse) {
     forkJoin(
       [
         this.atorService.getAtor(idParlamentar),
-        this.atorService.getPesoPolitico(),
+        this.pesoPoliticoService.getPesoPolitico(),
         this.atorService.getAtoresAgregados(interesse),
-        this.atorService.getComissaoPresidencia(),
-        this.atorService.getAtoresRelatores(this.interesse),
-        this.atorService.getAutoriasAgregadas(this.interesse)
+        this.comissaoService.getComissaoPresidencia(),
+        this.relatoriaService.getAtoresRelatores(this.interesse),
+        this.autoriaService.getAutoriasAgregadas(this.interesse)
       ]
     ).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
@@ -76,7 +105,7 @@ export class DetalhesParlamentarComponent implements OnInit {
           p.peso_politico = this.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
         });
 
-        this.parlamentar = parlamentares.find(p => p.id_autor_parlametria === +idParlamentar);
+        this.parlamentarAgregado = parlamentares.find(p => p.id_autor_parlametria === +idParlamentar);
         this.getUrlFoto();
       },
         error => {
@@ -96,10 +125,11 @@ export class DetalhesParlamentarComponent implements OnInit {
     return (metrica - min) / (max - min);
   }
 
-
   getUrlFoto(): void {
-    const urlSenado = `https://www.senado.leg.br/senadores/img/fotos-oficiais/senador${this.parlamentar.id_autor}.jpg`;
-    const urlCamara = `https://www.camara.leg.br/internet/deputado/bandep/${this.parlamentar.id_autor}.jpg`;
-    this.urlFoto = this.parlamentar.casa === 'camara' ? urlCamara : urlSenado;
+    const urlSenado = `https://www.senado.leg.br/senadores/img/fotos-oficiais/senador${this.parlamentarAgregado.id_autor}.jpg`;
+    const urlCamara = `https://www.camara.leg.br/internet/deputado/bandep/${this.parlamentarAgregado.id_autor}.jpg`;
+    this.urlFoto = this.parlamentarAgregado.casa === 'camara' ? urlCamara : urlSenado;
+    this.getParlamentarDetalhado(this.idAtor, this.interesse);
   }
+
 }

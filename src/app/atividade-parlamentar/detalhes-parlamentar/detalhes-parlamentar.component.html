@@ -1,98 +1,90 @@
-<head>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-</head>
-  <div class="container detalhes-parlamentar-container">
-
-  <div class="container-fluid">
-    <div class="back-btn"
-      [routerLink]="['../']"
-      [routerLinkActive]="'active'"
-    >
-    <i class="fa fa-angle-left fa-2x"></i><div class="back-btn-title">ATORES CHAVE</div>
-    </div>
-  </div>
-
-  <div class="parlamentar">
-    <div class="row gutters-sm container-fluid">
+<app-loading *ngIf="isLoading | async"></app-loading>
+<div class="container">
+  <a
+    class="back-btn"
+    [routerLink]="['../']"
+    [routerLinkActive]="'active'">
+    ATORES CHAVE
+  </a>
+  <!-- <div class="parlamentar">
+    <div class="row gutters-sm">
       <div class="col-auto">
         <div class="foto-parlamentar">
           <img [src]="urlFoto">
         </div>
       </div>
-      <div *ngIf="parlamentar" class="col">
+      <div
+        *ngIf="parlamentar"
+        class="col">
         <div class="parlamentar-titulo">{{ parlamentar.nome_autor }}</div>
         <p class="parlamentar-partido">
           {{ parlamentar.partido }}/{{ parlamentar.uf }}
         </p>
-    
 
-      <app-progress class="pogresso"
-        [label]="'Congresso'"
-        [valor]="parlamentar.atividade_parlamentar"
-        [exibirLabel]="false"></app-progress>
-      <div class="insignias">
-      <div>
-        <span *ngIf="parlamentar.quantidade_autorias">
-          <span class="icon-autor app-icon text-danger"></span>
-          <span class="badge badge-danger app-badge badge-color-white">{{ parlamentar.quantidade_autorias }}</span>
-        </span>
+        <app-progress
+          class="pogresso"
+          [label]="'Congresso'"
+          [valor]="parlamentar.atividade_parlamentar"
+          [exibirLabel]="false"></app-progress>
+        <div class="insignias">
+          <div>
+            <span *ngIf="parlamentar.quantidade_autorias">
+              <span class="icon-autor app-icon text-danger"></span>
+              <span class="badge badge-danger app-badge badge-color-white">{{ parlamentar.quantidade_autorias }}</span>
+            </span>
 
-        <span *ngIf="parlamentar.quantidade_relatorias">
-          <span class="icon-relator app-icon text-success"></span>
-          <span class="badge badge-success app-badge badge-color-white">{{ parlamentar.quantidade_relatorias }}</span>
-        </span>
+            <span *ngIf="parlamentar.quantidade_relatorias">
+              <span class="icon-relator app-icon text-success"></span>
+              <span class="badge badge-success app-badge badge-color-white">{{ parlamentar.quantidade_relatorias }}</span>
+            </span>
 
-        <span *ngIf="parlamentar.quantidade_comissao_presidente">
-          <span class="icon-presidente app-icon text-warning"></span>
-          <span class="badge badge-warning app-badge badge-color-white">
-            {{ parlamentar.quantidade_comissao_presidente }}
-          </span>
-        </span>
-      </div>
-      <div>
-        <app-avaliacao
-          [label]="'Peso'"
-          [valor]="parlamentar.peso_politico * 5"
-          [exibirLabel]="false"></app-avaliacao>
-      </div>
+            <span *ngIf="parlamentar.quantidade_comissao_presidente">
+              <span class="icon-presidente app-icon text-warning"></span>
+              <span class="badge badge-warning app-badge badge-color-white">
+                {{ parlamentar.quantidade_comissao_presidente }}
+              </span>
+            </span>
+          </div>
+          <div>
+            <app-avaliacao
+              [label]="'Peso'"
+              [valor]="parlamentar.peso_politico * 5"
+              [exibirLabel]="false"></app-avaliacao>
+          </div>
+        </div>
       </div>
     </div>
-    </div>
+  </div> -->
+</div>
 
-  </div>
-
-  <div class="parlamentar-subnav">
-    <ul class="nav nav-tabs justify-content-center">
-      <li class="nav-item">
-        <a
-          class="nav-link nav-link-parlamentar"
-          [routerLink]="['./atividades']"
-          [routerLinkActive]="'active'"
-        >
-          Atividade
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="nav-link nav-link-parlamentar"
-          [routerLink]="['./papeis']"
-          [routerLinkActive]="'active'"
-        >
-          Papéis
-        </a>
-      </li>
-      <li class="nav-item">
-        <a
-          class="nav-link nav-link-parlamentar"
-          [routerLink]="['./peso']"
-          [routerLinkActive]="'active'"
-        >
-          Peso político
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div class="conteudo-abas container-fluid">
-    <router-outlet></router-outlet>
-  </div>
+<div class="parlamentar-subnav">
+  <ul class="nav nav-tabs justify-content-center">
+    <li class="nav-item">
+      <a
+        class="nav-link nav-link-parlamentar"
+        [routerLink]="['./atividades']"
+        [routerLinkActive]="'active'">
+        Atividade
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link nav-link-parlamentar"
+        [routerLink]="['./papeis']"
+        [routerLinkActive]="'active'">
+        Papéis
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link nav-link-parlamentar"
+        [routerLink]="['./peso']"
+        [routerLinkActive]="'active'">
+        Peso político
+      </a>
+    </li>
+  </ul>
+</div>
+<div class="container">
+  <router-outlet></router-outlet>
 </div>

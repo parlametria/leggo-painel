@@ -1,23 +1,28 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { ProgressComponent } from './progress/progress.component';
 import { AvaliacaoComponent } from './avaliacao/avaliacao.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
     NavbarComponent,
     ProgressComponent,
-    AvaliacaoComponent
+    AvaliacaoComponent,
+    LoadingComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   exports: [
     NavbarComponent,
     ProgressComponent,
-    AvaliacaoComponent
+    AvaliacaoComponent,
+    LoadingComponent
   ]
 })
 export class SharedComponentsModule { }
