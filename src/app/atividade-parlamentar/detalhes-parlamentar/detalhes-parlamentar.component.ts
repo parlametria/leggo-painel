@@ -7,6 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Ator } from 'src/app/shared/models/ator.model';
 import { ParlamentarDetalhadoService } from 'src/app/shared/services/parlamentar-detalhado.service';
 import { indicate } from 'src/app/shared/functions/indicate.function';
+import { AtorDetalhado } from 'src/app/shared/models/atorDetalhado.model';
 
 @Component({
   selector: 'app-detalhes-parlamentar',
@@ -18,7 +19,7 @@ export class DetalhesParlamentarComponent implements OnInit {
   private unsubscribe = new Subject();
   p = 1;
 
-  public parlamentar: Observable<any>;
+  public parlamentar: AtorDetalhado;
   public idAtor: string;
   public interesse: string;
   public urlFoto: string;

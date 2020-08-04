@@ -28,9 +28,9 @@
 
         <div class="insignias">
           <div>
-            <span *ngIf="parlamentar.quantidade_autorias">
+            <span *ngIf="parlamentar?.autorias?.length">
               <span class="icon-autor app-icon text-danger"></span>
-              <span class="badge badge-danger app-badge badge-color-white">{{ parlamentar.quantidade_autorias }}</span>
+              <span class="badge badge-danger app-badge badge-color-white">{{ parlamentar?.autorias?.length }}</span>
             </span>
 
             <span *ngIf="parlamentar?.relatorias?.length">

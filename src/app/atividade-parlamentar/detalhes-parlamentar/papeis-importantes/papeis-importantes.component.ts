@@ -45,7 +45,7 @@ export class PapeisImportantesComponent implements OnInit {
         indicate(this.isLoading),
         takeUntil(this.unsubscribe))
       .subscribe(parlamentar => {
-        this.parlamentar = parlamentar;
+        this.parlamentar = parlamentar[0];
         this.isLoading.next(false);
       });
   }
