@@ -48,7 +48,6 @@ export class DetalhesParlamentarComponent implements OnInit {
         takeUntil(this.unsubscribe))
       .subscribe(parlamentar => {
         this.parlamentar = parlamentar;
-        console.log(this.parlamentar);
         this.isLoading.next(false);
       });
   }

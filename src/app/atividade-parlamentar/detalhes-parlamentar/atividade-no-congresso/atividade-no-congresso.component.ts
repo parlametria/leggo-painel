@@ -29,5 +29,4 @@ export class AtividadeNoCongressoComponent implements OnInit {
       });
   }
 
-
 }

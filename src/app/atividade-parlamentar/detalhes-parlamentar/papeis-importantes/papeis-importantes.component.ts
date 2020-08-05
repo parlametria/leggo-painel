@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { Subject, BehaviorSubject, forkJoin } from 'rxjs';
 import { takeUntil, skip } from 'rxjs/operators';
-import { Subject, BehaviorSubject } from 'rxjs';
 
-import { AtorDetalhado } from 'src/app/shared/models/atorDetalhado.model';
-import { ParlamentarDetalhadoService } from 'src/app/shared/services/parlamentar-detalhado.service';
+import { ComissaoPresidencia } from 'src/app/shared/models/comissaoPresidencia.model';
+import { AtorRelator } from 'src/app/shared/models/atorRelator.model';
+import { Autoria } from 'src/app/shared/models/autoria.model';
+import { ComissaoService } from 'src/app/shared/services/comissao.service';
+import { RelatoriaService } from 'src/app/shared/services/relatoria.service';
+import { AutoriasService } from 'src/app/shared/services/autorias.service';
 import { indicate } from 'src/app/shared/functions/indicate.function';
 
 @Component({
@@ -17,14 +21,18 @@ export class PapeisImportantesComponent implements OnInit {
 
   private unsubscribe = new Subject();
 
-  public parlamentar: AtorDetalhado;
+  public comissao: ComissaoPresidencia;
+  public relatorias: AtorRelator;
+  public autorias: Autoria[];
   public idAtor: string;
   public interesse: string;
   public isLoading = new BehaviorSubject<boolean>(true);
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private parlamentarDetalhadoService: ParlamentarDetalhadoService
+    private comissaoService: ComissaoService,
+    private relatoriaService: RelatoriaService,
+    private autoriasService: AutoriasService
   ) { }
 
   ngOnInit(): void {
@@ -37,17 +45,21 @@ export class PapeisImportantesComponent implements OnInit {
       });
   }
 
-  getParlamentarDetalhado(idAtor, interesse) {
-    this.parlamentarDetalhadoService
-      .getParlamentarDetalhado(idAtor, interesse)
-      .pipe(
-        skip(1),
-        indicate(this.isLoading),
-        takeUntil(this.unsubscribe))
-      .subscribe(parlamentar => {
-        this.parlamentar = parlamentar[0];
-        this.isLoading.next(false);
-      });
+  getParlamentarDetalhado(idParlamentar, interesse) {
+    forkJoin(
+      [
+        this.comissaoService.getComissaoDetalhadaById(idParlamentar),
+        this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar),
+        this.autoriasService.getAutorias(Number(idParlamentar))
+      ]
+    )
+    .subscribe(data => {
+      console.log(data);
+      this.comissao = data[0][0];
+      this.relatorias = data[1][0];
+      this.autorias = data[2];
+      this.isLoading.next(false);
+    });
   }
 
 }

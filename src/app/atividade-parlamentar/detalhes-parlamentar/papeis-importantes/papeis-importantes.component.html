@@ -6,48 +6,40 @@
       activeIds="static-1">
       <ngb-panel
         id="static-1"
-        title="Presidente de comissão({{
-              parlamentar?.comissoes?.quantidade_comissao_presidente
-            }})">
+        title="Presidente de comissão({{ comissao?.quantidade_comissao_presidente }})">
         <ng-template ngbPanelContent>
-          <li>
-            {{ parlamentar?.comissoes?.info_comissao }}
-          </li>
+          <ul *ngIf="comissao?.quantidade_comissao_presidente">
+            <li>{{ comissao?.info_comissao }}</li>
+          </ul>
         </ng-template>
       </ngb-panel>
       <span class="icon-relator app-icon text-success"></span>
       <ngb-panel
         id="static-2"
-        title="Relatorias ({{ parlamentar?.relatorias?.length }})">
+        title="Relatorias ({{ relatorias?.quantidade_relatorias }})">
         <ng-template ngbPanelContent>
-          <li *ngFor="let item of parlamentar?.relatorias; let i = index">
-            <a [href]="
-                    'https://leggo.parlametria.org/#/proposicao/' +
-                    item.idProp +
-                    '/' +
-                    interesse
-                  ">{{ item.sigla }}</a>
-          </li>
+          <ul *ngIf="relatorias?.quantidade_relatorias">
+            <li *ngFor="let item of relatorias?.ids_relatorias; let i = index">
+              <a [href]="'https://leggo.parlametria.org/#/proposicao/' + item.id_leggo + '/' + interesse">{{ item.id_leggo }}</a>
+            </li>
+          </ul>
         </ng-template>
       </ngb-panel>
       <ngb-panel
         id="static-3"
-        title="Autorias ({{ parlamentar?.autorias?.length }})">
+        title="Autorias ({{ autorias?.length }})">
         <ng-template ngbPanelContent>
-          <li *ngFor="let item of parlamentar?.autorias; let i = index">
-            <a
-              [href]="[item.url_inteiro_teor]"
-              target="_blank">
-              {{ item.descricao_tipo_documento }}: {{ item.data }}
-            </a>
-          </li>
+          <ul *ngIf="autorias?.length">
+            <li *ngFor="let item of autorias; let i = index">
+              <a
+                [href]="[item.url_inteiro_teor]"
+                target="_blank">
+                {{ item.descricao_tipo_documento }}: {{ item.data }}
+              </a>
+            </li>
+          </ul>
         </ng-template>
       </ngb-panel>
-      <!-- <ngb-panel id="static-4" title="Influente">
-          <ng-template ngbPanelContent>
-            texto
-          </ng-template>
-        </ngb-panel> -->
     </ngb-accordion>
   </div>
 </div>
