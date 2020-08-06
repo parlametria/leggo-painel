@@ -15,8 +15,8 @@ export class PesoPoliticoService {
 
   constructor(private http: HttpClient) { }
 
-  getPesoPolitico(): Observable<ParlamentarPesoPolitico[]> {
-    return this.http.get<ParlamentarPesoPolitico[]>(`${this.pesoPoliticoUrl}/`);
+  getPesoPolitico(tema: string): Observable<ParlamentarPesoPolitico[]> {
+    return this.http.get<ParlamentarPesoPolitico[]>(`${this.pesoPoliticoUrl}/?tema=${tema}`);
   }
 
   getPesoPoliticoById(idAutor: string): Observable<ParlamentarPesoPolitico[]> {

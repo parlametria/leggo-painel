@@ -21,8 +21,8 @@ export class AtorService {
     return this.http.get<Ator>(`${this.atorUrl}/${idAtor}?interesse=${interesse}`);
   }
 
-  getAtoresAgregados(interesse: string): Observable<AtorAgregado[]> {
-    return this.http.get<AtorAgregado[]>(`${this.atoresUrl}/agregados?interesse=${interesse}`);
+  getAtoresAgregados(interesse: string, tema: string): Observable<AtorAgregado[]> {
+    return this.http.get<AtorAgregado[]>(`${this.atoresUrl}/agregados?interesse=${interesse}&tema=${tema}`);
   }
 
 }

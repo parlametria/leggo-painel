@@ -48,15 +48,15 @@ export class ParlamentaresService {
       });
   }
 
-  getParlamentares(interesse: string): Observable<any> {
+  getParlamentares(interesse: string, tema: string): Observable<any> {
     forkJoin(
       [
         this.entidadeService.getParlamentaresExercicio(),
-        this.atorService.getAtoresAgregados(interesse),
-        this.autoriaService.getAutoriasAgregadas(interesse),
-        this.comissaoService.getComissaoPresidencia(interesse),
-        this.relatoriaService.getAtoresRelatores(interesse),
-        this.pesoService.getPesoPolitico()
+        this.atorService.getAtoresAgregados(interesse, tema),
+        this.autoriaService.getAutoriasAgregadas(interesse, tema),
+        this.comissaoService.getComissaoPresidencia(interesse, tema),
+        this.relatoriaService.getAtoresRelatores(interesse, tema),
+        this.pesoService.getPesoPolitico(tema)
       ]
     )
       .subscribe(data => {
