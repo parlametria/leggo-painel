@@ -48,13 +48,12 @@ export class PapeisImportantesComponent implements OnInit {
   getParlamentarDetalhado(idParlamentar, interesse) {
     forkJoin(
       [
-        this.comissaoService.getComissaoDetalhadaById(idParlamentar),
+        this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar),
         this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar),
-        this.autoriasService.getAutorias(Number(idParlamentar))
+        this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse)
       ]
     )
     .subscribe(data => {
-      console.log(data);
       this.comissao = data[0][0];
       this.relatorias = data[1][0];
       this.autorias = data[2];

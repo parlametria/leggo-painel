@@ -33,7 +33,7 @@ export class ParlamentarDetalhadoService {
         this.pesoService.getPesoPoliticoById(idParlamentar),
         this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar),
         this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar),
-        this.autoriasService.getAutoriasOriginais(Number(idParlamentar))
+        this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse)
       ]
     )
       .subscribe(data => {
