@@ -33,8 +33,8 @@ export class AutoriasService {
     return this.http.get<Autoria[]>(`${this.autoriaUrl}/acoes/?interesse=${interesse}`);
   }
 
-  getAutoriasOriginais(idAtor: number): Observable<Autoria[]> {
-    return this.http.get<Autoria[]>(`${this.atorUrl}/${idAtor}/originais`);
+  getAutoriasOriginais(idAtor: number, interesse: string): Observable<Autoria[]> {
+    return this.http.get<Autoria[]>(`${this.atorUrl}/${idAtor}/originais/?interesse=${interesse}`);
   }
 
 }

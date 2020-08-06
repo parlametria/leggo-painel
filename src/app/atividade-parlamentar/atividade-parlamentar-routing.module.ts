@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AtividadeParlamentarComponent } from './atividade-parlamentar.component';
 import { DetalhesParlamentarComponent } from './detalhes-parlamentar/detalhes-parlamentar.component';
+import { PesoPoliticoComponent, PapeisImportantesComponent, AtividadeNoCongressoComponent } from './detalhes-parlamentar';
+
 
 const routes: Routes = [
   {
@@ -11,7 +13,26 @@ const routes: Routes = [
   },
   {
     path: ':id',
-    component: DetalhesParlamentarComponent
+    component: DetalhesParlamentarComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'atividades',
+        pathMatch: 'full'
+      },
+      {
+        path: 'peso',
+        component: PesoPoliticoComponent,
+      },
+      {
+        path: 'papeis',
+        component: PapeisImportantesComponent,
+      },
+      {
+        path: 'atividades',
+        component: AtividadeNoCongressoComponent,
+      }
+    ]
   }
 ];
 
