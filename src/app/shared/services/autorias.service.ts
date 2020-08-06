@@ -25,12 +25,16 @@ export class AutoriasService {
     return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas/${idAutor}/?interesse=${interesse}`);
   }
 
-  getAutorias(idAtor: number): Observable<Autoria[]> {
-    return this.http.get<Autoria[]>(`${this.atorUrl}/${idAtor}/autorias`);
+  getAutorias(idAtor: number, interesse: string): Observable<Autoria[]> {
+    return this.http.get<Autoria[]>(`${this.atorUrl}/${idAtor}/autorias/?interesse=${interesse}`);
   }
 
   getAcoes(interesse: string): Observable<any[]> {
     return this.http.get<Autoria[]>(`${this.autoriaUrl}/acoes/?interesse=${interesse}`);
+  }
+
+  getAutoriasOriginais(idAtor: number, interesse: string): Observable<Autoria[]> {
+    return this.http.get<Autoria[]>(`${this.atorUrl}/${idAtor}/originais/?interesse=${interesse}`);
   }
 
 }

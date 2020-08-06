@@ -10,6 +10,7 @@ import { CardAtividadeComponent } from './card-atividade/card-atividade.componen
 import { SharedComponentsModule } from '../shared/components/shared-components.module';
 import { DetalhesParlamentarComponent } from './detalhes-parlamentar/detalhes-parlamentar.component';
 import { VisAtividadeDetalhadaComponent } from './detalhes-parlamentar/vis-atividade-detalhada/vis-atividade-detalhada.component';
+import { PesoPoliticoComponent, PapeisImportantesComponent, AtividadeNoCongressoComponent } from './detalhes-parlamentar';
 import { VisAtividadeParlamentarComponent } from './detalhes-parlamentar/vis-atividade-parlamentar/vis-atividade-parlamentar.component';
 
 @NgModule({
@@ -18,6 +19,9 @@ import { VisAtividadeParlamentarComponent } from './detalhes-parlamentar/vis-ati
     CardAtividadeComponent,
     DetalhesParlamentarComponent,
     VisAtividadeDetalhadaComponent,
+    PesoPoliticoComponent,
+    PapeisImportantesComponent,
+    AtividadeNoCongressoComponent,
     VisAtividadeParlamentarComponent
   ],
   imports: [

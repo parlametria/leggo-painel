@@ -127,25 +127,25 @@ export class VisAtividadeParlamentarComponent implements OnInit {
             .selectAll('rect').data(dados).join('rect')
             .attr('class', 'bar')
             .attr('x', d => x(d.peso_total))
-            .attr('y', d => y(d.tipo_documento))
+            .attr('y', d => y(d.tipo_acao))
             .attr('width', 2)
             .attr('height', 12)
             .style('fill-opacity', 0.4)
-            .style('fill', d => myColor(d.tipo_documento))
+            .style('fill', d => myColor(d.tipo_acao))
             .on('mouseover mousemove', d => this.onHover(d))
             .on('mouseout', d => d3.selectAll('.tooltip').style('opacity', 0));
 
         const atorAtual = dados.filter(d => d.id_autor_parlametria === id);
-        const tiposExistentes = atorAtual.map(d => d.tipo_documento);
+        const tiposExistentes = atorAtual.map(d => d.tipo_acao);
         const difference = domainDoc.filter(d => !tiposExistentes.includes(d));
-        difference.forEach(falta => atorAtual.push({ tipo_documento: falta, peso_total: 0}));
+        difference.forEach(falta => atorAtual.push({ tipo_acao: falta, peso_total: 0}));
 
         // Barra - ator atual
         chart.append('g').attr('transform', `translate(0, -5)`)
             .selectAll('rect').data(atorAtual).join('rect')
             .attr('class', 'bar')
             .attr('x', d => x(d.peso_total))
-            .attr('y', d => y(d.tipo_documento) - 1.5)
+            .attr('y', d => y(d.tipo_acao) - 1.5)
             .attr('width', 4)
             .attr('height', 15)
             .style('fill', 'black')
@@ -158,10 +158,10 @@ export class VisAtividadeParlamentarComponent implements OnInit {
             .data(atorAtual)
             .join('text')
             .attr('class', 'tooltip')
-            .attr('id', d => `${d.tipo_documento}-tooltip`)
+            .attr('id', d => `${d.tipo_acao}-tooltip`)
             .attr('x', d => x(d.peso_total) - 50)
-            .attr('y', d => y(d.tipo_documento) - 13)
-            .style('opacity', d => d.tipo_documento === 'Emenda' ? 1 : 0)
+            .attr('y', d => y(d.tipo_acao) - 13)
+            .style('opacity', d => d.tipo_acao === 'Emenda' ? 1 : 0)
             .style('pointer-events', 'none')
             .style('font-size', '7px')
             .text(d => this.tooltip(d))
@@ -169,7 +169,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
     }
 
     private onHover(d) {
-        d3.select(`#${d.tipo_documento}-tooltip`)
+        d3.select(`#${d.tipo_acao}-tooltip`)
         .style('opacity', 1);
     }
 
@@ -178,7 +178,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
             return 'O parlamentar não possui este tipo de ação';
         } else {
             return `${d.ranking_documentos}º lugar em apresentação de
-            ${d.tipo_documento === 'Outros' ? d.tipo_documento.toLowerCase() : d.tipo_documento.toLowerCase() + `s`} nesta agenda`;
+            ${d.tipo_acao === 'Outros' ? d.tipo_acao.toLowerCase() : d.tipo_acao.toLowerCase() + `s`} nesta agenda`;
         }
     }
 

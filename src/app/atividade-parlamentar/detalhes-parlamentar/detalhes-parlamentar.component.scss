@@ -1,14 +1,30 @@
 $base-color: #20201e;
+$base-padding: 0.5rem;
+
+.back-btn {
+  display: flex;
+  vertical-align: center;
+  margin-left: $base-padding;
+  width: fit-content;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.back-btn-title {
+  padding: $base-padding;
+  vertical-align: center;
+}
 
 .parlamentar {
-  margin-top: 15px;
+  margin-top: 2 * $base-padding;
+  margin-left: $base-padding;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   margin-bottom: 15px;
 }
 
-.parlamentar-titulo {
-  font-weight: 700;
+.col {
+  margin: $base-padding;
 }
 
 .foto-parlamentar {
@@ -30,12 +46,70 @@ $base-color: #20201e;
   margin-left: 0.5rem;
 }
 
+.parlamentar-dados {
+  width: 100%;
+}
+
+.parlamentar-titulo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.parlamentar-partido {
+  font-size: 20px;
+  color: grey;
+}
+
+.insignias {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: $base-padding;
+}
+
 .card-detalhes {
   border: solid 1.5px $base-color;
   margin-bottom: 0.5rem;
-  padding: .5rem;
+  padding: 0.5rem;
 }
 
 .card-detalhes > .card-titulo {
   font-weight: 400;
+}
+
+.parlementar-subnav {
+  padding-left: 0em;
+  padding-right: 0em;
+  @media (max-width: 400px) {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+
+    > .nav {
+      flex: 0 0 auto;
+    }
+  }
+}
+
+/* NAVBAR */
+.navbar {
+  padding: 0;
+}
+.navbar-nav {
+  flex-direction: row;
+}
+
+.nav-item {
+  padding-left: 0rem;
+  padding-right: 0rem;
+}
+
+.nav-item > .nav-link-parlamentar {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
+.conteudo-abas {
+  display: flex;
+  justify-content: center;
 }
