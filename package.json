@@ -1,6 +1,6 @@
 {
   "name": "leggo-painel",
-  "version": "0.0.0",
+  "version": "1.0.2",
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
@@ -31,11 +31,13 @@
     "@angular/core": "~9.1.9",
     "@angular/forms": "~9.1.9",
     "@angular/localize": "^9.1.11",
+    "@angular/material": "^10.1.0",
     "@angular/platform-browser": "~9.1.9",
     "@angular/platform-browser-dynamic": "~9.1.9",
     "@angular/router": "~9.1.9",
     "@ng-bootstrap/ng-bootstrap": "^6.1.0",
     "@types/d3": "^5.7.2",
+    "angular-bootstrap-md": "^9.3.1",
     "bootstrap": "^4.5.0",
     "d3-array": "^2.4.0",
     "d3-collection": "^1.0.7",

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2 (2020-08-06)
+- [x] Considera agenda na contagem de autorias
+- [x] Exibe os detalhes do Ator Chave em abas
+
 ## 1.0.1 (2020-07-31)
 - [x] Considera agenda na contagem de presidências nas comissões
 
