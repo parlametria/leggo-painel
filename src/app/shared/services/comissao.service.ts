@@ -15,12 +15,12 @@ export class ComissaoService {
 
   constructor(private http: HttpClient) { }
 
-  getComissaoPresidencia(): Observable<ComissaoPresidencia[]> {
-    return this.http.get<ComissaoPresidencia[]>(`${this.comissaoUrl}`);
+  getComissaoPresidencia(interesse: string): Observable<ComissaoPresidencia[]> {
+    return this.http.get<ComissaoPresidencia[]>(`${this.comissaoUrl}?interesse=${interesse}`);
   }
 
-  getComissaoDetalhadaById(idAutor: string): Observable<ComissaoPresidencia[]> {
-    return this.http.get<ComissaoPresidencia[]>(`${this.comissaoUrl}/${idAutor}`);
+  getComissaoDetalhadaById(interesse: string, idAutor: string): Observable<ComissaoPresidencia[]> {
+    return this.http.get<ComissaoPresidencia[]>(`${this.comissaoUrl}/${idAutor}?interesse=${interesse}`);
   }
 
 }

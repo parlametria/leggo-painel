@@ -29,11 +29,11 @@ export class ParlamentarDetalhadoService {
     this.parlamentarDetalhado.next(null);
     forkJoin(
       [
-        this.atorService.getAtor(idParlamentar),
+        this.atorService.getAtor(interesse, idParlamentar),
         this.pesoService.getPesoPoliticoById(idParlamentar),
         this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar),
-        this.comissaoService.getComissaoDetalhadaById(idParlamentar),
-        this.autoriasService.getAutorias(Number(idParlamentar))
+        this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar),
+        this.autoriasService.getAutoriasOriginais(Number(idParlamentar))
       ]
     )
       .subscribe(data => {
