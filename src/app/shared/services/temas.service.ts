@@ -14,7 +14,7 @@ export class TemasService {
 
   constructor(private http: HttpClient) { }
 
-  getTemas(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.temasUrl}`);
+  getTemas(interesse: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.temasUrl}?interesse=${interesse}`);
   }
 }

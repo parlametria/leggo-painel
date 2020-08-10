@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterContentInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, AfterContentInit, ChangeDetectorRef, Input } from '@angular/core';
 import { Params, Router, ActivatedRoute } from '@angular/router';
 
 import { Subject } from 'rxjs';
@@ -13,6 +13,7 @@ import { TemasService } from '../../services/temas.service';
 })
 export class FiltraTemaComponent implements OnInit, AfterContentInit {
 
+  @Input() interesse: string;
   private unsubscribe = new Subject();
 
   readonly FILTRO_PADRAO_TEMA = 'todos';
@@ -33,7 +34,7 @@ export class FiltraTemaComponent implements OnInit, AfterContentInit {
   }
 
   getTemas() {
-    this.temasService.getTemas()
+    this.temasService.getTemas(this.interesse)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(tema =>
         tema.forEach(item => this.temasBusca.push(item))
