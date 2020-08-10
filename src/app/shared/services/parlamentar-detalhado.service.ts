@@ -25,15 +25,15 @@ export class ParlamentarDetalhadoService {
     private autoriasService: AutoriasService,
     private pesoService: PesoPoliticoService) { }
 
-  getParlamentarDetalhado(idParlamentar: string, interesse: string): Observable<AtorDetalhado> {
+  getParlamentarDetalhado(idParlamentar: string, interesse: string, tema: string): Observable<AtorDetalhado> {
     this.parlamentarDetalhado.next(null);
     forkJoin(
       [
         this.atorService.getAtor(interesse, idParlamentar),
         this.pesoService.getPesoPoliticoById(idParlamentar),
-        this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar),
-        this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar),
-        this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse)
+        this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar, tema),
+        this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar, tema),
+        this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse, tema)
       ]
     )
       .subscribe(data => {

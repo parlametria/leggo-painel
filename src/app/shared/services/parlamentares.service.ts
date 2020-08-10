@@ -56,7 +56,7 @@ export class ParlamentaresService {
         this.autoriaService.getAutoriasAgregadas(interesse, tema),
         this.comissaoService.getComissaoPresidencia(interesse, tema),
         this.relatoriaService.getAtoresRelatores(interesse, tema),
-        this.pesoService.getPesoPolitico(tema)
+        this.pesoService.getPesoPolitico()
       ]
     )
       .subscribe(data => {

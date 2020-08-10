@@ -19,8 +19,8 @@ export class ComissaoService {
     return this.http.get<ComissaoPresidencia[]>(`${this.comissaoUrl}?interesse=${interesse}&tema=${tema}`);
   }
 
-  getComissaoDetalhadaById(interesse: string, idAutor: string): Observable<ComissaoPresidencia[]> {
-    return this.http.get<ComissaoPresidencia[]>(`${this.comissaoUrl}/${idAutor}?interesse=${interesse}`);
+  getComissaoDetalhadaById(interesse: string, idAutor: string, tema: string): Observable<ComissaoPresidencia[]> {
+    return this.http.get<ComissaoPresidencia[]>(`${this.comissaoUrl}/${idAutor}?interesse=${interesse}&tema=${tema}`);
   }
 
 }

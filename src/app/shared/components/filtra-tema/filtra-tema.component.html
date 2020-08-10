@@ -3,9 +3,10 @@
     <p class="texto">Temas de proposições:</p>
     <select class="seletor-tema btn-block"
     #mySelector
-    (change)="onChangeTema($event.target.value)">
+    (change)="onChangeTema($event.target.value)"
+    [(ngModel)]="temaSelecionado">
     <option
-    *ngFor="let tema of temasBusca" [value]="tema.tema_slug">{{ tema.tema }}</option>
+    *ngFor="let t of temasBusca" [value]="t.tema_slug" [selected]="t.tema_slug === temaSelecionado">{{ t.tema }}</option>
     </select>
   </div>
 </div>

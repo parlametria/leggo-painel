@@ -24,6 +24,7 @@ export class DetalhesParlamentarComponent implements OnInit {
   public interesse: string;
   public urlFoto: string;
   public isLoading = new BehaviorSubject<boolean>(true);
+  public tema: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -36,13 +37,18 @@ export class DetalhesParlamentarComponent implements OnInit {
       .subscribe(params => {
         this.idAtor = params.get('id');
         this.interesse = params.get('interesse');
-        this.getParlamentarDetalhado(this.idAtor, this.interesse);
+      });
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        this.tema = params.tema;
+        this.tema === undefined ? this.tema = '' : this.tema = this.tema;
+        this.getParlamentarDetalhado(this.idAtor, this.interesse, this.tema);
       });
   }
 
-  getParlamentarDetalhado(idParlamentar, interesse) {
+  getParlamentarDetalhado(idParlamentar, interesse, tema) {
     this.parlamentarDetalhadoService
-      .getParlamentarDetalhado(idParlamentar, interesse)
+      .getParlamentarDetalhado(idParlamentar, interesse, tema)
       .pipe(
         indicate(this.isLoading),
         takeUntil(this.unsubscribe))

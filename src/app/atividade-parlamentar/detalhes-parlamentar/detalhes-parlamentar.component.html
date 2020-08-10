@@ -57,13 +57,16 @@
   </div>
 </div>
 
+<app-filtra-tema></app-filtra-tema>
+
 <div class="parlamentar-subnav">
   <ul class="nav nav-tabs justify-content-center">
     <li class="nav-item">
       <a
         class="nav-link nav-link-parlamentar"
         [routerLink]="['./atividades']"
-        [routerLinkActive]="'active'">
+        [routerLinkActive]="'active'"
+        queryParamsHandling="merge">
         Atividade
       </a>
     </li>
@@ -71,7 +74,8 @@
       <a
         class="nav-link nav-link-parlamentar"
         [routerLink]="['./papeis']"
-        [routerLinkActive]="'active'">
+        [routerLinkActive]="'active'"
+        queryParamsHandling="merge">
         Papéis
       </a>
     </li>
@@ -79,7 +83,8 @@
       <a
         class="nav-link nav-link-parlamentar"
         [routerLink]="['./peso']"
-        [routerLinkActive]="'active'">
+        [routerLinkActive]="'active'"
+        queryParamsHandling="merge">
         Peso político
       </a>
     </li>
