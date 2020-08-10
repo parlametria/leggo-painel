@@ -1,102 +1,92 @@
 <app-loading *ngIf="isLoading | async"></app-loading>
 <div class="container">
-  <div [hidden]="isLoading | async">
-    <div class="parlamentar">
-      <div class="row gutters-sm">
-        <div class="col-auto">
-          <div class="foto-parlamentar">
-            <img [src]="parlamentar?.urlFoto" />
+  <a
+    class="back-btn"
+    [routerLink]="['../']"
+    [routerLinkActive]="'active'">
+    ATORES CHAVE
+  </a>
+  <div
+    class="parlamentar"
+    *ngIf="parlamentar">
+    <div class="row gutters-sm">
+      <div class="col-auto">
+        <div class="foto-parlamentar">
+          <img [src]="parlamentar?.urlFoto">
+        </div>
+      </div>
+      <div class="col">
+        <div class="parlamentar-titulo">{{ parlamentar.nome_autor }}</div>
+        <p class="parlamentar-partido">
+          {{ parlamentar.partido }}/{{ parlamentar.uf }}
+        </p>
+        <!-- <app-progress
+          class="pogresso"
+          [label]="'Congresso'"
+          [valor]="parlamentar.atividade_parlamentar"
+          [exibirLabel]="false"></app-progress> -->
+
+        <div class="insignias">
+          <div>
+            <span *ngIf="parlamentar?.autorias?.length">
+              <span class="icon-autor app-icon text-danger"></span>
+              <span class="badge badge-danger app-badge badge-color-white">{{ parlamentar?.autorias?.length }}</span>
+            </span>
+
+            <span *ngIf="parlamentar?.relatorias?.length">
+              <span class="icon-relator app-icon text-success"></span>
+              <span class="badge badge-success app-badge badge-color-white">{{ parlamentar?.relatorias?.length }}</span>
+            </span>
+
+            <span *ngIf="parlamentar?.comissoes?.quantidade_comissao_presidente">
+              <span class="icon-presidente app-icon text-warning"></span>
+              <span class="badge badge-warning app-badge badge-color-white">
+                {{ parlamentar?.comissoes?.quantidade_comissao_presidente }}
+              </span>
+            </span>
+          </div>
+          <div class="ml-3">
+            <app-avaliacao
+              [label]="'Peso'"
+              [valor]="parlamentar.pesoPolitico * 5"
+              [exibirLabel]="false"></app-avaliacao>
           </div>
         </div>
-        <div *ngIf="parlamentar" class="col">
-          <div class="parlamentar-titulo">{{ parlamentar?.nome_autor }}</div>
-          <p>{{ parlamentar?.partido }}/{{ parlamentar?.uf }}</p>
-        </div>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="card-detalhes card-peso-politico">
-      <h5 class="card-titulo">Peso Político</h5>
-      <div class="card-corpo">
-        <app-avaliacao [label]="'Peso'" [valor]="parlamentar?.pesoPolitico * 5">
-        </app-avaliacao>
-      </div>
-    </div>
-
-  <div class="card-detalhes">
-    <h5 class="card-titulo">Por Tipo</h5>
-    <div class="card-corpo">
-      <app-vis-atividade-parlamentar
-        [idAtor]="idAtor"
-        [interesse]="interesse"
-      ></app-vis-atividade-parlamentar>
-    </div>
-
-    <div class="card-detalhes card-papeis-importantes">
-      <h5 class="card-titulo">Papéis Importantes</h5>
-      <div class="card-corpo">
-        <ngb-accordion [closeOthers]="true" activeIds="static-1">
-          <ngb-panel
-            id="static-1"
-            title="Presidente de comissão({{
-              parlamentar?.comissoes?.quantidade_comissao_presidente
-            }})"
-          >
-            <ng-template ngbPanelContent>
-              <li>
-                {{ parlamentar?.comissoes?.info_comissao }}
-              </li>
-            </ng-template>
-          </ngb-panel>
-          <span class="icon-relator app-icon text-success"></span>
-          <ngb-panel
-            id="static-2"
-            title="Relatorias ({{ parlamentar?.relatorias?.length }})"
-          >
-            <ng-template ngbPanelContent>
-              <li *ngFor="let item of parlamentar?.relatorias; let i = index">
-                <a
-                  [href]="
-                    'https://leggo.parlametria.org/#/proposicao/' +
-                    item.idProp +
-                    '/' +
-                    interesse
-                  "
-                >
-                  {{ item.sigla }}
-                </a>
-              </li>
-            </ng-template>
-          </ngb-panel>
-          <ngb-panel
-            id="static-3"
-            title="Autorias ({{ parlamentar?.autorias?.length }})"
-          >
-            <ng-template ngbPanelContent>
-              <li *ngFor="let item of parlamentar?.autorias; let i = index">
-                <a [href]="[item.url_inteiro_teor]" target="_blank">
-                  {{ item.descricao_tipo_documento }}: {{ item.data }}
-                </a>
-              </li>
-            </ng-template>
-          </ngb-panel>
-          <!-- <ngb-panel id="static-4" title="Influente">
-          <ng-template ngbPanelContent>
-            texto
-          </ng-template>
-        </ngb-panel> -->
-        </ngb-accordion>
-      </div>
-    </div>
-
-    <div class="card-detalhes card-atividade-congresso">
-      <h5 class="card-titulo">Por Proposição</h5>
-      <div class="card-corpo">
-        <app-vis-atividade-detalhada
-          [idAtor]="idAtor"
-          [interesse]="interesse"
-        ></app-vis-atividade-detalhada>
-      </div>
-    </div>
+<div class="parlamentar-subnav">
+  <ul class="nav nav-tabs justify-content-center">
+    <li class="nav-item">
+      <a
+        class="nav-link nav-link-parlamentar"
+        [routerLink]="['./atividades']"
+        [routerLinkActive]="'active'">
+        Atividade
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link nav-link-parlamentar"
+        [routerLink]="['./papeis']"
+        [routerLinkActive]="'active'">
+        Papéis
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link nav-link-parlamentar"
+        [routerLink]="['./peso']"
+        [routerLinkActive]="'active'">
+        Peso político
+      </a>
+    </li>
+  </ul>
+</div>
+<div class="container">
+  <div class="pt-4">
+    <router-outlet></router-outlet>
   </div>
 </div>

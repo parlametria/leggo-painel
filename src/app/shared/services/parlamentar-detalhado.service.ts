@@ -15,7 +15,7 @@ import { AtorDetalhado } from '../models/atorDetalhado.model';
 })
 export class ParlamentarDetalhadoService {
 
-  private parlamentarDetalhado = new BehaviorSubject<Array<AtorDetalhado>>([]);
+  private parlamentarDetalhado = new BehaviorSubject<AtorDetalhado>(null);
 
   constructor(
     private atorService: AtorService,
@@ -25,15 +25,15 @@ export class ParlamentarDetalhadoService {
     private autoriasService: AutoriasService,
     private pesoService: PesoPoliticoService) { }
 
-  getParlamentarDetalhado(idParlamentar: string, interesse: string): Observable<any> {
-    this.parlamentarDetalhado.next([]);
+  getParlamentarDetalhado(idParlamentar: string, interesse: string): Observable<AtorDetalhado> {
+    this.parlamentarDetalhado.next(null);
     forkJoin(
       [
         this.atorService.getAtor(interesse, idParlamentar),
         this.pesoService.getPesoPoliticoById(idParlamentar),
         this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar),
         this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar),
-        this.autoriasService.getAutorias(Number(idParlamentar))
+        this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse)
       ]
     )
       .subscribe(data => {
@@ -61,6 +61,7 @@ export class ParlamentarDetalhadoService {
           console.log(error);
         }
       );
+
     return this.parlamentarDetalhado.asObservable();
   }
 
