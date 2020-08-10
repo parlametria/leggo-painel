@@ -24,13 +24,20 @@
   margin-top: 0;
   margin-bottom: 2rem;
   font-size: $font-size-lg;
-  font-weight: 700;
+  font-weight: $font-weight-bold;
+}
+
+.titulo-sessao {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
 }
 
 .app-badge {
   margin-left: -10px;
   border: solid 2px;
-  width: 25px;
+  min-width: 25px;
   height: 25px;
   font-size: 12px;
   line-height: 14px;

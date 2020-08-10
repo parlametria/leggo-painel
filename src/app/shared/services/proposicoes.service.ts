@@ -15,6 +15,10 @@ export class ProposicoesService {
 
   constructor(private http: HttpClient) { }
 
+  getProposicoes(): Observable<Proposicao[]> {
+    return this.http.get<Proposicao[]>(`${this.proposicoesUrl}`);
+  }
+
   getProposicoesById(interesse: string, id: number): Observable<Proposicao> {
     return this.http.get<Proposicao>(`${this.proposicoesUrl}/${id}?interesse=${interesse}`);
   }
