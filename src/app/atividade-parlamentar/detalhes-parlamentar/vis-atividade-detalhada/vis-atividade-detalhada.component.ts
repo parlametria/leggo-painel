@@ -129,7 +129,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   }
 
   private carregaVisAtividade() {
-    this.autoriasService.getAutorias(this.idAtor)
+    this.autoriasService.getAutorias(this.idAtor, this.interesse)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(autorias => {
         // Transforma dados tabulares em árvore

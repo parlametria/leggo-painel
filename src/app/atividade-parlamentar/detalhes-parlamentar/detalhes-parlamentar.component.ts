@@ -1,12 +1,13 @@
-import { Component, OnInit, ɵSWITCH_COMPILE_DIRECTIVE__POST_R3__ } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { takeUntil, skip } from 'rxjs/operators';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject, BehaviorSubject, forkJoin, Observable } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
+import { Ator } from 'src/app/shared/models/ator.model';
 import { ParlamentarDetalhadoService } from 'src/app/shared/services/parlamentar-detalhado.service';
-import { AtorDetalhado } from 'src/app/shared/models/atorDetalhado.model';
 import { indicate } from 'src/app/shared/functions/indicate.function';
+import { AtorDetalhado } from 'src/app/shared/models/atorDetalhado.model';
 
 @Component({
   selector: 'app-detalhes-parlamentar',
@@ -16,15 +17,17 @@ import { indicate } from 'src/app/shared/functions/indicate.function';
 export class DetalhesParlamentarComponent implements OnInit {
 
   private unsubscribe = new Subject();
+  p = 1;
 
   public parlamentar: AtorDetalhado;
   public idAtor: string;
   public interesse: string;
+  public urlFoto: string;
   public isLoading = new BehaviorSubject<boolean>(true);
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private parlamentarDetalhado: ParlamentarDetalhadoService
+    private parlamentarDetalhadoService: ParlamentarDetalhadoService
   ) { }
 
   ngOnInit(): void {
@@ -33,15 +36,14 @@ export class DetalhesParlamentarComponent implements OnInit {
       .subscribe(params => {
         this.idAtor = params.get('id');
         this.interesse = params.get('interesse');
+        this.getParlamentarDetalhado(this.idAtor, this.interesse);
       });
-    this.getParlamentarDetalhado(this.idAtor, this.interesse);
   }
 
-  getParlamentarDetalhado(idAtor, interesse) {
-    this.parlamentarDetalhado
-      .getParlamentarDetalhado(idAtor, interesse)
+  getParlamentarDetalhado(idParlamentar, interesse) {
+    this.parlamentarDetalhadoService
+      .getParlamentarDetalhado(idParlamentar, interesse)
       .pipe(
-        skip(1),
         indicate(this.isLoading),
         takeUntil(this.unsubscribe))
       .subscribe(parlamentar => {
