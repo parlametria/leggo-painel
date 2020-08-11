@@ -3,7 +3,8 @@
   <a
     class="back-btn"
     [routerLink]="['../']"
-    [routerLinkActive]="'active'">
+    [routerLinkActive]="'active'"
+    queryParamsHandling="merge">
     ATORES CHAVE
   </a>
   <div
@@ -57,7 +58,8 @@
   </div>
 </div>
 
-<app-filtra-tema></app-filtra-tema>
+<app-filtra-tema
+  [interesse]="interesse"></app-filtra-tema>
 
 <div class="parlamentar-subnav">
   <ul class="nav nav-tabs justify-content-center">
