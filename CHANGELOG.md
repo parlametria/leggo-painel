@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.0 (2020-08-11)
+- [x] Filtra indicadores de atore-chave por tema
+
 ## 1.0.2 (2020-08-06)
 - [x] Considera agenda na contagem de autorias
 - [x] Exibe os detalhes do Ator Chave em abas
