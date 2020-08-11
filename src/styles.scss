@@ -27,6 +27,11 @@
   font-weight: $font-weight-bold;
 }
 
+.app-content {
+  margin: auto;
+  max-width: 760px;
+}
+
 .titulo-sessao {
   margin-top: 0;
   margin-bottom: 1rem;
@@ -56,6 +61,18 @@
     padding-right: 5px;
     padding-left: 5px;
   }
+}
+
+.app-seletor {
+  display: inline-block;
+  width: max-content;
+  margin-bottom: 0.2rem;
+  margin-right: 1rem;
+  padding: 0.2rem;
+  border: none;
+  border-bottom: solid 1.5px $black;
+  outline: none;
+  background-color: $white;
 }
 
 /* Paginação */

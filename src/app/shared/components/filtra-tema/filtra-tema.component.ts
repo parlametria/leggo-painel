@@ -18,7 +18,7 @@ export class FiltraTemaComponent implements OnInit, AfterContentInit {
 
   readonly FILTRO_PADRAO_TEMA = 'todos';
   public temaSelecionado: string;
-  temasBusca: any[] = [{ tema: 'Todos', tema_slug: 'todos' }];
+  temasBusca: any[] = [{ tema: 'todos os temas', tema_slug: 'todos' }];
 
   constructor(
     private temasService: TemasService,
