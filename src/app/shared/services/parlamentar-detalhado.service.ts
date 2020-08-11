@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { forkJoin, BehaviorSubject, Observable } from 'rxjs';
 
-import { AtorService } from '../../shared/services/ator.service';
 import { ProposicoesService } from 'src/app/shared/services/proposicoes.service';
 import { ComissaoService } from 'src/app/shared/services/comissao.service';
-import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.service';
 import { RelatoriaService } from 'src/app/shared/services/relatoria.service';
 import { AutoriasService } from 'src/app/shared/services/autorias.service';
 import { AtorDetalhado } from '../models/atorDetalhado.model';
@@ -18,41 +16,32 @@ export class ParlamentarDetalhadoService {
   private parlamentarDetalhado = new BehaviorSubject<AtorDetalhado>(null);
 
   constructor(
-    private atorService: AtorService,
     private proposicaoService: ProposicoesService,
     private comissaoService: ComissaoService,
     private relatoriaService: RelatoriaService,
-    private autoriasService: AutoriasService,
-    private pesoService: PesoPoliticoService) { }
+    private autoriasService: AutoriasService) { }
 
-  getParlamentarDetalhado(idParlamentar: string, interesse: string): Observable<AtorDetalhado> {
+  getParlamentarDetalhado(idParlamentar: string, interesse: string, tema: string): Observable<AtorDetalhado> {
     this.parlamentarDetalhado.next(null);
     forkJoin(
       [
-        this.atorService.getAtor(interesse, idParlamentar),
-        this.pesoService.getPesoPoliticoById(idParlamentar),
-        this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar),
-        this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar),
-        this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse)
+        this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar, tema),
+        this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar, tema),
+        this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse, tema)
       ]
     )
       .subscribe(data => {
-        const ator = data[0][0];
-        const pesoPolitico = data[1];
-        const relatorias = data[2];
-        const comissoesPresidencia = data[3];
-        const autorias = data[4];
+        const ator: any = { id_autor_parlametria: idParlamentar };
+        const relatorias = data[0];
+        const comissoesPresidencia = data[1];
+        const autorias = data[2];
 
         const comissoesInfo = this.getComissoesProcessadas(comissoesPresidencia);
 
         const parlamentarDetalhado = ator;
-        parlamentarDetalhado.urlFoto = this.getUrlFoto(ator);
         parlamentarDetalhado.autorias = autorias;
         parlamentarDetalhado.relatorias = relatorias;
         parlamentarDetalhado.comissoes = comissoesInfo;
-        if (pesoPolitico.length) {
-          parlamentarDetalhado.pesoPolitico = pesoPolitico[0].peso_politico;
-        }
 
         this.parlamentarDetalhado.next(parlamentarDetalhado);
       },

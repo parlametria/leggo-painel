@@ -1,0 +1,12 @@
+<div class="container app-container">
+  <div>
+    <p class="texto">Temas de proposições:</p>
+    <select class="seletor-tema btn-block"
+    #mySelector
+    (change)="onChangeTema($event.target.value)"
+    [(ngModel)]="temaSelecionado">
+    <option
+    *ngFor="let t of temasBusca" [value]="t.tema_slug" [selected]="t.tema_slug === temaSelecionado">{{ t.tema }}</option>
+    </select>
+  </div>
+</div>
