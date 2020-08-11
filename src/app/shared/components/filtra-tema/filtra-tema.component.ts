@@ -17,6 +17,7 @@ export class FiltraTemaComponent implements OnInit, AfterContentInit {
   private unsubscribe = new Subject();
 
   readonly FILTRO_PADRAO_TEMA = 'todos';
+  public temaSelecionado: string;
   temasBusca: any[] = [{ tema: 'Todos', tema_slug: 'todos' }];
 
   constructor(
@@ -27,6 +28,11 @@ export class FiltraTemaComponent implements OnInit, AfterContentInit {
 
   ngOnInit(): void {
     this.getTemas();
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        this.temaSelecionado = params.tema;
+        this.temaSelecionado === undefined ? this.temaSelecionado = this.FILTRO_PADRAO_TEMA : this.temaSelecionado = this.temaSelecionado;
+      });
   }
 
   ngAfterContentInit() {

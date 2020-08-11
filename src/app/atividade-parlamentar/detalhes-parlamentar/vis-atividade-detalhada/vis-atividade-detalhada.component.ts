@@ -53,8 +53,10 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   private y: any;
   private svg: any;
   private gPrincipal: any;
+  private tema: string;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private autoriasService: AutoriasService
   ) { }
 
@@ -65,7 +67,12 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     this.y = d3.scaleLinear().rangeRound([0, this.altura]);
     this.svg = d3.select('#vis-atividade-detalhada').append('svg')
       .attr('viewBox', `0.5 0 ${this.largura} ${this.altura}`);
-    this.carregaVisAtividade();
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        this.tema = params.tema;
+        this.tema === undefined ? this.tema = '' : this.tema = this.tema;
+        this.carregaVisAtividade();
+      });
   }
 
   private treemap = data => d3.treemap()
@@ -129,12 +136,15 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   }
 
   private carregaVisAtividade() {
-    this.autoriasService.getAutorias(this.idAtor, this.interesse)
+    this.autoriasService.getAutorias(this.idAtor, this.interesse, this.tema)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(autorias => {
         // Transforma dados tabulares em árvore
         const arvoreAutorias = this.getArvoreAutorias(autorias);
         // Inicializa visualização
+        if (this.gPrincipal) {
+          this.gPrincipal.selectAll('*').remove();
+        }
         this.gPrincipal = this.svg.append('g')
           .call(g => this.atualizaVisAtividade(g, arvoreAutorias));
       });

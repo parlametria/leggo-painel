@@ -3,22 +3,23 @@
   <a
     class="back-btn"
     [routerLink]="['../']"
-    [routerLinkActive]="'active'">
+    [routerLinkActive]="'active'"
+    queryParamsHandling="merge">
     ATORES CHAVE
   </a>
   <div
     class="parlamentar"
-    *ngIf="parlamentar">
+    *ngIf="parlamentarInfo">
     <div class="row gutters-sm">
       <div class="col-auto">
         <div class="foto-parlamentar">
-          <img [src]="parlamentar?.urlFoto">
+          <img [src]="parlamentarInfo?.url_foto">
         </div>
       </div>
       <div class="col">
-        <div class="parlamentar-titulo">{{ parlamentar.nome_autor }}</div>
+        <div class="parlamentar-titulo">{{ parlamentarInfo?.nome_autor }}</div>
         <p class="parlamentar-partido">
-          {{ parlamentar.partido }}/{{ parlamentar.uf }}
+          {{ parlamentarInfo?.partido }}/{{ parlamentarInfo?.uf }}
         </p>
         <!-- <app-progress
           class="pogresso"
@@ -48,7 +49,7 @@
           <div class="ml-3">
             <app-avaliacao
               [label]="'Peso'"
-              [valor]="parlamentar.pesoPolitico * 5"
+              [valor]="parlamentarInfo?.peso_politico * 5"
               [exibirLabel]="false"></app-avaliacao>
           </div>
         </div>
@@ -57,13 +58,17 @@
   </div>
 </div>
 
+<app-filtra-tema
+  [interesse]="interesse"></app-filtra-tema>
+
 <div class="parlamentar-subnav">
   <ul class="nav nav-tabs justify-content-center">
     <li class="nav-item">
       <a
         class="nav-link nav-link-parlamentar"
         [routerLink]="['./atividades']"
-        [routerLinkActive]="'active'">
+        [routerLinkActive]="'active'"
+        queryParamsHandling="merge">
         Atividade
       </a>
     </li>
@@ -71,7 +76,8 @@
       <a
         class="nav-link nav-link-parlamentar"
         [routerLink]="['./papeis']"
-        [routerLinkActive]="'active'">
+        [routerLinkActive]="'active'"
+        queryParamsHandling="merge">
         Papéis
       </a>
     </li>
@@ -79,7 +85,8 @@
       <a
         class="nav-link nav-link-parlamentar"
         [routerLink]="['./peso']"
-        [routerLinkActive]="'active'">
+        [routerLinkActive]="'active'"
+        queryParamsHandling="merge">
         Peso político
       </a>
     </li>
