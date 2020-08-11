@@ -26,17 +26,8 @@ export class AtorService {
     return this.http.get<Ator>(`${this.atorUrl}/${idAtor}?interesse=${interesse}`);
   }
 
-  getAtores(): any[] {
-    const proposicoes: any = this.proposicoesService.getProposicoes();
-    const atores = [];
-    proposicoes.forEach(proposicao => {
-      atores.push(this.http.get<Ator>(`${this.atoresUrl}/${proposicao.id_leggo}`));
-    });
-    return atores;
-  }
-
-  getAtoresAgregados(interesse: string): Observable<AtorAgregado[]> {
-    return this.http.get<AtorAgregado[]>(`${this.atoresUrl}/agregados?interesse=${interesse}`);
+  getAtoresAgregados(interesse: string, tema: string): Observable<AtorAgregado[]> {
+    return this.http.get<AtorAgregado[]>(`${this.atoresUrl}/agregados?interesse=${interesse}&tema=${tema}`);
   }
 
 }

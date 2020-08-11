@@ -4,6 +4,8 @@
   <!-- <select (change)="mudarOrdenacao($event)" class="seletor-ordenacao btn-block">
     <option *ngFor="let opcao of opcoesOrdenacao">{{ opcao }}</option>
   </select> -->
+  <app-filtra-tema
+    [interesse]="interesse"></app-filtra-tema>
   <app-loading *ngIf="isLoading | async"></app-loading>
   <div [hidden]="isLoading | async">
     <pagination-template

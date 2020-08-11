@@ -6,13 +6,15 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ProgressComponent } from './progress/progress.component';
 import { AvaliacaoComponent } from './avaliacao/avaliacao.component';
 import { LoadingComponent } from './loading/loading.component';
+import { FiltraTemaComponent } from './filtra-tema/filtra-tema.component';
 
 @NgModule({
   declarations: [
     NavbarComponent,
     ProgressComponent,
     AvaliacaoComponent,
-    LoadingComponent
+    LoadingComponent,
+    FiltraTemaComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +24,8 @@ import { LoadingComponent } from './loading/loading.component';
     NavbarComponent,
     ProgressComponent,
     AvaliacaoComponent,
-    LoadingComponent
+    LoadingComponent,
+    FiltraTemaComponent
   ]
 })
 export class SharedComponentsModule { }

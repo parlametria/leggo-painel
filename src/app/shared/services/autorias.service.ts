@@ -17,8 +17,8 @@ export class AutoriasService {
 
   constructor(private http: HttpClient) { }
 
-  getAutoriasAgregadas(interesse: string): Observable<AutoriaAgregada[]> {
-    return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas?interesse=${interesse}`);
+  getAutoriasAgregadas(interesse: string, tema: string): Observable<AutoriaAgregada[]> {
+    return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas?interesse=${interesse}&tema${tema}`);
   }
 
   getAutoriasAgregadasById(interesse: string, idAutor: number): Observable<AutoriaAgregada[]> {

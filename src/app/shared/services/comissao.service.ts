@@ -15,8 +15,8 @@ export class ComissaoService {
 
   constructor(private http: HttpClient) { }
 
-  getComissaoPresidencia(interesse: string): Observable<ComissaoPresidencia[]> {
-    return this.http.get<ComissaoPresidencia[]>(`${this.comissaoUrl}?interesse=${interesse}`);
+  getComissaoPresidencia(interesse: string, tema: string): Observable<ComissaoPresidencia[]> {
+    return this.http.get<ComissaoPresidencia[]>(`${this.comissaoUrl}?interesse=${interesse}&tema=${tema}`);
   }
 
   getComissaoDetalhadaById(interesse: string, idAutor: string): Observable<ComissaoPresidencia[]> {
