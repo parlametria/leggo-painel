@@ -18,4 +18,5 @@ export interface Ator {
   quantidade_comissao_presidente: number;
   id_comissao: number;
   info_comissao: number[];
+  url_foto: string;
 }

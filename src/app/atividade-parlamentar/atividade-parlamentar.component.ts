@@ -21,6 +21,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
 
   parlamentares: AtorAgregado[];
   interesse: string;
+  tema: string;
   opcoesOrdenacao: any = [
     'Mais ativos no congresso',
     // 'Mais ativos no Twitter',
@@ -40,7 +41,11 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
       .subscribe(params => {
         this.interesse = params.get('interesse');
       });
-    this.getDadosAtividadeParlamentar();
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        this.tema = params.tema;
+        this.getDadosAtividadeParlamentar();
+      });
     this.updatePageViaURL();
   }
 
@@ -49,7 +54,8 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
   }
 
   getDadosAtividadeParlamentar() {
-    this.parlamentaresService.getParlamentares(this.interesse)
+    this.tema === undefined ? this.tema = '' : this.tema = this.tema;
+    this.parlamentaresService.getParlamentares(this.interesse, this.tema)
       .pipe(
         skip(1),
         indicate(this.isLoading),
