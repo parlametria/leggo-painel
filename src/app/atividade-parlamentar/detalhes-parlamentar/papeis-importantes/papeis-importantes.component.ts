@@ -5,7 +5,7 @@ import { Subject, BehaviorSubject, forkJoin } from 'rxjs';
 import { takeUntil, skip } from 'rxjs/operators';
 
 import { ComissaoPresidencia } from 'src/app/shared/models/comissaoPresidencia.model';
-import { AtorRelator } from 'src/app/shared/models/atorRelator.model';
+import { Relatorias } from 'src/app/shared/models/atorRelator.model';
 import { Autoria } from 'src/app/shared/models/autoria.model';
 import { ComissaoService } from 'src/app/shared/services/comissao.service';
 import { RelatoriaService } from 'src/app/shared/services/relatoria.service';
@@ -22,7 +22,7 @@ export class PapeisImportantesComponent implements OnInit {
   private unsubscribe = new Subject();
 
   public comissao: ComissaoPresidencia;
-  public relatorias: AtorRelator;
+  public relatorias: Relatorias[];
   public autorias: Autoria[];
   public idAtor: string;
   public interesse: string;
@@ -55,7 +55,7 @@ export class PapeisImportantesComponent implements OnInit {
     )
     .subscribe(data => {
       this.comissao = data[0][0];
-      this.relatorias = data[1][0];
+      this.relatorias = data[1];
       this.autorias = data[2];
       this.isLoading.next(false);
     });
