@@ -17,24 +17,24 @@ export class AutoriasService {
 
   constructor(private http: HttpClient) { }
 
-  getAutoriasAgregadas(interesse: string): Observable<AutoriaAgregada[]> {
-    return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas?interesse=${interesse}`);
+  getAutoriasAgregadas(interesse: string, tema: string): Observable<AutoriaAgregada[]> {
+    return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas?interesse=${interesse}&tema=${tema}`);
   }
 
   getAutoriasAgregadasById(interesse: string, idAutor: number): Observable<AutoriaAgregada[]> {
     return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas/${idAutor}/?interesse=${interesse}`);
   }
 
-  getAutorias(idAtor: number, interesse: string): Observable<Autoria[]> {
-    return this.http.get<Autoria[]>(`${this.atorUrl}/${idAtor}/autorias/?interesse=${interesse}`);
+  getAutorias(idAtor: number, interesse: string, tema: string): Observable<Autoria[]> {
+    return this.http.get<Autoria[]>(`${this.atorUrl}/${idAtor}/autorias/?interesse=${interesse}&tema=${tema}`);
   }
 
-  getAcoes(interesse: string): Observable<any[]> {
-    return this.http.get<Autoria[]>(`${this.autoriaUrl}/acoes/?interesse=${interesse}`);
+  getAcoes(interesse: string, tema: string): Observable<any[]> {
+    return this.http.get<Autoria[]>(`${this.autoriaUrl}/acoes/?interesse=${interesse}&tema=${tema}`);
   }
 
-  getAutoriasOriginais(idAtor: number, interesse: string): Observable<Autoria[]> {
-    return this.http.get<Autoria[]>(`${this.atorUrl}/${idAtor}/originais/?interesse=${interesse}`);
+  getAutoriasOriginais(idAtor: number, interesse: string, tema: string): Observable<Autoria[]> {
+    return this.http.get<Autoria[]>(`${this.atorUrl}/${idAtor}/originais/?interesse=${interesse}&tema=${tema}`);
   }
 
 }
