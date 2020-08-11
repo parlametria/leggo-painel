@@ -1,17 +1,6 @@
-$base-color: #20201e;
-
-.seletor-tema {
-  width: max-content;
-  border: none;
-  border-bottom: solid 1.5px $base-color;
-  outline: none;
-  margin-bottom: 0.2rem;
-  margin-right: 1rem;
-  padding: 0.2rem;
-  display: inline-block;
-}
-
-.texto {
-  display: inline-block;
-  margin-right: 1rem;
+.filtro-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }

@@ -1,12 +1,15 @@
-<div class="container app-container">
-  <div>
-    <p class="texto">Temas de proposições:</p>
-    <select class="seletor-tema btn-block"
+<div class="filtro-wrapper mb-4">
+  <div class="mr-3">Proposições de</div>
+  <select
+    class="app-seletor"
     #mySelector
     (change)="onChangeTema($event.target.value)"
     [(ngModel)]="temaSelecionado">
     <option
-    *ngFor="let t of temasBusca" [value]="t.tema_slug" [selected]="t.tema_slug === temaSelecionado">{{ t.tema }}</option>
-    </select>
-  </div>
+      *ngFor="let t of temasBusca"
+      [value]="t.tema_slug"
+      [selected]="t.tema_slug === temaSelecionado">
+      {{ t.tema }}
+    </option>
+  </select>
 </div>

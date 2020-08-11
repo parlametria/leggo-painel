@@ -1,12 +1,17 @@
 <app-loading *ngIf="isLoading | async"></app-loading>
 <div class="container">
-  <a
-    class="back-btn"
-    [routerLink]="['../']"
-    [routerLinkActive]="'active'"
-    queryParamsHandling="merge">
-    ATORES CHAVE
-  </a>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a
+          class
+          [routerLink]="['../']"
+          queryParamsHandling="merge">
+          &lt; Atores-chave
+        </a>
+      </li>
+    </ol>
+  </nav>
   <div
     class="parlamentar"
     *ngIf="parlamentarInfo">
@@ -58,8 +63,7 @@
   </div>
 </div>
 
-<app-filtra-tema
-  [interesse]="interesse"></app-filtra-tema>
+<app-filtra-tema [interesse]="interesse"></app-filtra-tema>
 
 <div class="parlamentar-subnav">
   <ul class="nav nav-tabs justify-content-center">
