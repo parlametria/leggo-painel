@@ -9,17 +9,17 @@
   </a>
   <div
     class="parlamentar"
-    *ngIf="parlamentar">
+    *ngIf="parlamentarInfo">
     <div class="row gutters-sm">
       <div class="col-auto">
         <div class="foto-parlamentar">
-          <img [src]="parlamentar?.urlFoto">
+          <img [src]="parlamentarInfo?.url_foto">
         </div>
       </div>
       <div class="col">
-        <div class="parlamentar-titulo">{{ parlamentar.nome_autor }}</div>
+        <div class="parlamentar-titulo">{{ parlamentarInfo?.nome_autor }}</div>
         <p class="parlamentar-partido">
-          {{ parlamentar.partido }}/{{ parlamentar.uf }}
+          {{ parlamentarInfo?.partido }}/{{ parlamentarInfo?.uf }}
         </p>
         <!-- <app-progress
           class="pogresso"
@@ -49,7 +49,7 @@
           <div class="ml-3">
             <app-avaliacao
               [label]="'Peso'"
-              [valor]="parlamentar.pesoPolitico * 5"
+              [valor]="parlamentarInfo?.peso_politico * 5"
               [exibirLabel]="false"></app-avaliacao>
           </div>
         </div>
