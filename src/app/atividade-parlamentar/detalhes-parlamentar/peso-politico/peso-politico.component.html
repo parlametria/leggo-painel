@@ -1,8 +1,11 @@
 <h3 class="titulo-sessao">Peso Político</h3>
-<app-avaliacao
-  [label]="'Peso'"
-  [valor]="peso * 5">
-</app-avaliacao>
-<div class="mt-3">
-  <p>Em construção.</p>
+<app-loading *ngIf="isLoading | async"></app-loading>
+<div *ngIf="peso">
+  <app-avaliacao
+    [label]="'Peso'"
+    [valor]="peso * 5">
+  </app-avaliacao>
+  <p class="mt-4">
+    Mais informações sobre o peso político em breve.
+  </p>
 </div>
