@@ -47,8 +47,10 @@ export class VisAtividadeParlamentarComponent implements OnInit {
     private x: any;
     private y: any;
     private svg: any;
+    private tema: string;
 
     constructor(
+        private activatedRoute: ActivatedRoute,
         private autoriaService: AutoriasService
     ) { }
 
@@ -67,11 +69,16 @@ export class VisAtividadeParlamentarComponent implements OnInit {
             .rangeRound([this.altura - this.margin.top - this.margin.bottom, 0]);
         this.svg  = d3.select('#vis-atividade-parlamentar').append('svg')
           .attr('viewBox', `0 0 ${this.largura} ${this.altura / 1.3}`);
-        this.carregaVisAtividade();
+        this.activatedRoute.queryParams
+          .subscribe(params => {
+            this.tema = params.tema;
+            this.tema === undefined ? this.tema = '' : this.tema = this.tema;
+            this.carregaVisAtividade();
+          });
     }
 
     private carregaVisAtividade() {
-        this.autoriaService.getAcoes(this.interesse)
+        this.autoriaService.getAcoes(this.interesse, this.tema)
         .pipe(takeUntil(this.unsubscribe))
         .subscribe(acoes => {
             const quantDomain = [];
@@ -80,6 +87,9 @@ export class VisAtividadeParlamentarComponent implements OnInit {
             });
             const maxQuant = Math.max(...quantDomain);
 
+            if (this.gPrincipal) {
+              this.gPrincipal.selectAll('*').remove();
+            }
             this.gPrincipal = this.svg.append('g')
                 .call(g => this.atualizaVisAtividade(g, acoes, maxQuant));
         });
