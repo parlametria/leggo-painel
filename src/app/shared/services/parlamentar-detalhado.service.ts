@@ -66,12 +66,4 @@ export class ParlamentarDetalhadoService {
 
     return infoComissao;
   }
-
-  private getUrlFoto(parlamentar): string {
-    const urlSenado = `https://www.senado.leg.br/senadores/img/fotos-oficiais/senador${parlamentar.id_autor}.jpg`;
-    const urlCamara = `https://www.camara.leg.br/internet/deputado/bandep/${parlamentar.id_autor}.jpg`;
-    const urlFoto = parlamentar.casa_autor === 'camara' ? urlCamara : urlSenado;
-
-    return urlFoto;
-  }
 }
