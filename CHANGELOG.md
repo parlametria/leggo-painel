@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.0 (2020-08-13)
+- [x] Exibe autorias dos atores-chave
+
 ## 1.1.0 (2020-08-11)
 - [x] Filtra indicadores de atore-chave por tema
 
