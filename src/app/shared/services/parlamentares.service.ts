@@ -71,7 +71,7 @@ export class ParlamentaresService {
           ...atores.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...autoriasAgregadas.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...comissaoPresidencia.find(p => a.id_autor_parlametria === p.id_autor_voz),
-          ...atoresRelatores.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
+          ...atoresRelatores.find(p => a.id_autor_parlametria === p.autor_id_parlametria),
           ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...a
         }));

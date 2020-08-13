@@ -36,12 +36,11 @@ export class ParlamentarDetalhadoService {
         const comissoesPresidencia = data[1];
         const autorias = data[2];
 
-        const relatoriasInfo = this.getRelatoriasProcessadas(relatorias, interesse);
         const comissoesInfo = this.getComissoesProcessadas(comissoesPresidencia);
 
         const parlamentarDetalhado = ator;
         parlamentarDetalhado.autorias = autorias;
-        parlamentarDetalhado.relatorias = relatoriasInfo;
+        parlamentarDetalhado.relatorias = relatorias;
         parlamentarDetalhado.comissoes = comissoesInfo;
 
         this.parlamentarDetalhado.next(parlamentarDetalhado);
@@ -67,29 +66,4 @@ export class ParlamentarDetalhadoService {
 
     return infoComissao;
   }
-
-  // TODO: Modificar retorno da API para considerar a sigla da proposição
-  private getRelatoriasProcessadas(relatorias, interesse) {
-    let ids = [];
-    let quant = 0;
-
-    if (relatorias !== undefined) {
-      ids = relatorias[0].ids_relatorias;
-      quant = relatorias[0].quantidade_relatorias;
-    }
-
-    const relatoriasLista = [];
-    ids.forEach(id => {
-      this.proposicaoService.getProposicoesById(interesse, id.id_leggo)
-        .subscribe(idProp => {
-          const prop = {
-            idProp: id.id_leggo,
-            sigla: idProp[0].etapas[0].sigla
-          };
-          relatoriasLista.push(prop);
-        });
-    });
-    return relatoriasLista;
-  }
-
 }
