@@ -56,7 +56,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
 
     ngOnInit(): void {
         this.largura = window.innerWidth / 2;
-        this.altura = 220;
+        this.altura = 250;
         this.margin = ({
             top: 0,
             right: 30,
@@ -98,7 +98,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
 
     private atualizaVisAtividade(g, dados, maxQuant) {
         const id = Number(this.idAtor);
-        const domainDoc = ['Outros', 'Requerimento', 'Emenda'];
+        const domainDoc = ['Outros', 'Projeto', 'Requerimento', 'Emenda'];
         const chart = g
             .attr('id', 'chart')
             .attr('transform', `translate(${this.margin.left}, ${this.margin.top * 3})`);
@@ -130,7 +130,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
             .select('.domain').remove();
 
         const myColor = d3.scaleOrdinal().domain(domainDoc)
-            .range(['#C9ECB4', '#9DD8AC', '#8DBFB5']);
+            .range(['#C9ECB4', '#FFD449', '#9DD8AC', '#8DBFB5']);
 
         // Barras - outros atores
         chart.append('g').attr('transform', `translate(0, -5)`)

@@ -106,6 +106,15 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
             quantidade: documento.length,
             categoria: tipo
           });
+        }
+        if (tipo === 'Prop. Original / Apensada') {
+          tipos.push({
+            titulo: 'Projeto',
+            id: idLeggo,
+            value: parseFloat(this.somaPesos(documento).toFixed(2)),
+            quantidade: documento.length,
+            categoria: 'Projeto'
+          });
         } else {
           tipos[0] = ({
             titulo: 'Outros',
@@ -153,8 +162,8 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   private atualizaVisAtividade(g, data) {
     const root = this.treemap(data);
 
-    const myColor = d3.scaleOrdinal().domain(['Total', 'Proposição', 'Outros', 'Requerimento', 'Emenda'])
-            .range(['white', '#3D6664', '#C9ECB4', '#9DD8AC', '#8DBFB5']);
+    const myColor = d3.scaleOrdinal().domain(['Total', 'Proposição', 'Outros', 'Projeto', 'Requerimento', 'Emenda'])
+            .range(['white', '#3D6664', '#C9ECB4', '#FFD449', '#9DD8AC', '#8DBFB5']);
 
     const node = g.selectAll('g')
       .data(d3.nest().key((d: any) => d.data.titulo).entries(root.descendants()))
