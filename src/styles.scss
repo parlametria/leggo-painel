@@ -109,3 +109,12 @@
   border-radius: 0;
 }
 /* Paginação FIM */
+
+.nav-link {
+
+  > [class^="icon-"],
+  > [class*=" icon-"] {
+    font-size: 1.8rem;
+  }
+
+}

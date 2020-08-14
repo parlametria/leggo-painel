@@ -76,9 +76,7 @@ $base-padding: 0.5rem;
   font-weight: 400;
 }
 
-.parlementar-subnav {
-  padding-left: 0em;
-  padding-right: 0em;
+.parlamentar-subnav {
   @media (max-width: 400px) {
     display: flex;
     flex-wrap: nowrap;
@@ -88,27 +86,4 @@ $base-padding: 0.5rem;
       flex: 0 0 auto;
     }
   }
-}
-
-/* NAVBAR */
-.navbar {
-  padding: 0;
-}
-.navbar-nav {
-  flex-direction: row;
-}
-
-.nav-item {
-  padding-left: 0rem;
-  padding-right: 0rem;
-}
-
-.nav-item > .nav-link-parlamentar {
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
-}
-
-.conteudo-abas {
-  display: flex;
-  justify-content: center;
 }
