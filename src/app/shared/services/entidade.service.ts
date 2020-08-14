@@ -15,8 +15,8 @@ export class EntidadeService {
 
   constructor(private http: HttpClient) { }
 
-  getParlamentaresExercicio(): Observable<Entidade[]> {
-    return this.http.get<Entidade[]>(`${this.entidadeUrl}/parlamentares/exercicio`);
+  getParlamentaresExercicio(casa: string): Observable<Entidade[]> {
+    return this.http.get<Entidade[]>(`${this.entidadeUrl}/parlamentares/exercicio?casa=${casa}`);
   }
 
 }

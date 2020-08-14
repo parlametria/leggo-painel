@@ -12,6 +12,7 @@ import { DetalhesParlamentarComponent } from './detalhes-parlamentar/detalhes-pa
 import { VisAtividadeDetalhadaComponent } from './detalhes-parlamentar/vis-atividade-detalhada/vis-atividade-detalhada.component';
 import { PesoPoliticoComponent, PapeisImportantesComponent, AtividadeNoCongressoComponent } from './detalhes-parlamentar';
 import { VisAtividadeParlamentarComponent } from './detalhes-parlamentar/vis-atividade-parlamentar/vis-atividade-parlamentar.component';
+import { FiltroComponent } from './filtro/filtro.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { VisAtividadeParlamentarComponent } from './detalhes-parlamentar/vis-ati
     PesoPoliticoComponent,
     PapeisImportantesComponent,
     AtividadeNoCongressoComponent,
-    VisAtividadeParlamentarComponent
+    VisAtividadeParlamentarComponent,
+    FiltroComponent
   ],
   imports: [
     CommonModule,
