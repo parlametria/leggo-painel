@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -12,6 +13,7 @@ import { DetalhesParlamentarComponent } from './detalhes-parlamentar/detalhes-pa
 import { VisAtividadeDetalhadaComponent } from './detalhes-parlamentar/vis-atividade-detalhada/vis-atividade-detalhada.component';
 import { PesoPoliticoComponent, PapeisImportantesComponent, AtividadeNoCongressoComponent } from './detalhes-parlamentar';
 import { VisAtividadeParlamentarComponent } from './detalhes-parlamentar/vis-atividade-parlamentar/vis-atividade-parlamentar.component';
+import { FiltroComponent } from './filtro/filtro.component';
 
 @NgModule({
   declarations: [
@@ -22,14 +24,16 @@ import { VisAtividadeParlamentarComponent } from './detalhes-parlamentar/vis-ati
     PesoPoliticoComponent,
     PapeisImportantesComponent,
     AtividadeNoCongressoComponent,
-    VisAtividadeParlamentarComponent
+    VisAtividadeParlamentarComponent,
+    FiltroComponent
   ],
   imports: [
     CommonModule,
     AtividadeParlamentarRoutingModule,
     SharedComponentsModule,
     NgbModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    FormsModule
   ]
 })
 export class AtividadeParlamentarModule { }
