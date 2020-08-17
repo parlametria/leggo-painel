@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.1 (2020-08-17)
+- [x] Filtra parlamentares pela casa (deputados ou senadores)
+- [x] Fix: Letra minúscula para temas do filtro
+- [x] Exibe o siglas de autorias
+- [x] Melhora responsividade nas abas de detalhes do ator-chave
+- [x] Atualiza pacote de ícones
+
 ## 1.2.0 (2020-08-13)
 - [x] Exibe autorias dos atores-chave
 
