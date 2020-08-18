@@ -10,9 +10,9 @@
   </div>
   <div class="card-body">
     <app-progress
-      [label]="'Congresso'"
+      [label]="parlamentar.total_documentos + ' ações no congresso'"
       [valor]="parlamentar.atividade_parlamentar"
-      [exibirLabel]="id === 0"></app-progress>
+      [exibirLabel]="true"></app-progress>
     <div class="insignias">
       <div>
         <span *ngIf="parlamentar.quantidade_autorias">
@@ -36,7 +36,7 @@
         <app-avaliacao
           [label]="'Peso'"
           [valor]="parlamentar.peso_politico * 5"
-          [exibirLabel]="id === 0"></app-avaliacao>
+          [exibirLabel]="true"></app-avaliacao>
       </div>
     </div>
     <a [routerLink]="[parlamentar.id_autor_parlametria]" class="stretched-link" queryParamsHandling="merge"></a>
