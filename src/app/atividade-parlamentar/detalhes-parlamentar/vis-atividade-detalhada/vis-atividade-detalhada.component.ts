@@ -107,7 +107,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
             categoria: tipo
           });
         }
-        if (tipo === 'Prop. Original / Apensada') {
+        else if (tipo === 'Prop. Original / Apensada') {
           tipos.push({
             titulo: 'Projeto',
             id: idLeggo,

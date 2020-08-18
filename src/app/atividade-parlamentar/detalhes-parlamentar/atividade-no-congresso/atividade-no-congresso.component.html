@@ -1,12 +1,16 @@
 <a class="texto-auxiliar">Ações do parlamentar ponderadas pelo número de coautores</a>
-<h3 class="titulo-sessao">Por Tipo</h3>
-<ng-template #tipContent>aaaaaaaaaaaa</ng-template>
-<span
-  type="button"
-  class="icon-ajuda"
-  placement="right"
-  [ngbTooltip]="tipContent"
-  triggers="click:blur"></span>
+<div class="titulo-linha">
+  <h3 class="titulo-sessao">Por Tipo</h3>
+  <ng-template #tipContent>
+    Cada traço representa um parlamentar. A posição do parlamentar atual é o traço preto
+  </ng-template>
+  <span
+    type="button"
+    class="icon-ajuda icone"
+    placement="right"
+    [ngbTooltip]="tipContent"
+    triggers="click:blur"></span>
+</div>
 <app-vis-atividade-parlamentar
   [idAtor]="idAtor"
   [interesse]="interesse"></app-vis-atividade-parlamentar>
