@@ -14,11 +14,11 @@
   <span class="icon-relator app-icon text-success"></span>
   <ngb-panel
     id="static-2"
-    title="Relatorias ({{ relatorias?.quantidade_relatorias }})">
+    title="Relatorias ({{ relatorias?.length }})">
     <ng-template ngbPanelContent>
-      <ul *ngIf="relatorias?.quantidade_relatorias">
-        <li *ngFor="let item of relatorias?.ids_relatorias; let i = index">
-          <a [href]="'https://leggo.parlametria.org/#/proposicao/' + item.id_leggo + '/' + interesse">{{ item.id_leggo }}</a>
+      <ul *ngIf="relatorias?.length">
+        <li *ngFor="let item of relatorias; let i = index">
+          <a [href]="'https://leggo.parlametria.org/#/proposicao/' + item.id_leggo + '/' + interesse">{{ item.sigla }}</a>
         </li>
       </ul>
     </ng-template>
@@ -32,7 +32,7 @@
           <a
             [href]="[item.url_inteiro_teor]"
             target="_blank">
-            {{ item.descricao_tipo_documento }}: {{ item.data }}
+            {{ item.sigla }}: {{ item.data }}
           </a>
         </li>
       </ul>

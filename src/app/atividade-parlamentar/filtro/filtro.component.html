@@ -1,0 +1,27 @@
+<div class="filtro-wrapper mb-4">
+  <select
+    class="app-seletor"
+    #mySelector
+    (change)="onChangeCasa($event.target.value)"
+    [(ngModel)]="casaSelecionada">
+    <option
+      *ngFor="let c of casaBusca"
+      [value]="c.casa_slug"
+      [selected]="c.casa_slug === casaSelecionada">
+      {{ c.casa }}
+    </option>
+  </select>
+  <div class="mr-3">nas proposições de</div>
+  <select
+    class="app-seletor"
+    #mySelector
+    (change)="onChangeTema($event.target.value)"
+    [(ngModel)]="temaSelecionado">
+    <option
+      *ngFor="let t of temasBusca"
+      [value]="t.tema_slug"
+      [selected]="t.tema_slug === temaSelecionado">
+      {{ t.tema }}
+    </option>
+  </select>
+</div>

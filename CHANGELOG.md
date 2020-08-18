@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.2.1 (2020-08-17)
+- [x] Filtra parlamentares pela casa (deputados ou senadores)
+- [x] Fix: Letra minúscula para temas do filtro
+- [x] Exibe o siglas de autorias
+- [x] Melhora responsividade nas abas de detalhes do ator-chave
+- [x] Atualiza pacote de ícones
+
+## 1.2.0 (2020-08-13)
+- [x] Exibe autorias dos atores-chave
+
+## 1.1.0 (2020-08-11)
+- [x] Filtra indicadores de atore-chave por tema
+
+## 1.0.2 (2020-08-06)
+- [x] Considera agenda na contagem de autorias
+- [x] Exibe os detalhes do Ator Chave em abas
+
 ## 1.0.1 (2020-07-31)
 - [x] Considera agenda na contagem de presidências nas comissões
 

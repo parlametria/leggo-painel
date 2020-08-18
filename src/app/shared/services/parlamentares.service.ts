@@ -48,10 +48,10 @@ export class ParlamentaresService {
       });
   }
 
-  getParlamentares(interesse: string, tema: string): Observable<any> {
+  getParlamentares(interesse: string, tema: string, casa: string): Observable<any> {
     forkJoin(
       [
-        this.entidadeService.getParlamentaresExercicio(),
+        this.entidadeService.getParlamentaresExercicio(casa),
         this.atorService.getAtoresAgregados(interesse, tema),
         this.autoriaService.getAutoriasAgregadas(interesse, tema),
         this.comissaoService.getComissaoPresidencia(interesse, tema),
@@ -71,7 +71,7 @@ export class ParlamentaresService {
           ...atores.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...autoriasAgregadas.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...comissaoPresidencia.find(p => a.id_autor_parlametria === p.id_autor_voz),
-          ...atoresRelatores.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
+          ...atoresRelatores.find(p => a.id_autor_parlametria === p.autor_id_parlametria),
           ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...a
         }));
