@@ -130,7 +130,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
             .select('.domain').remove();
 
         const myColor = d3.scaleOrdinal().domain(domainDoc)
-            .range(['#C9ECB4', '#FFD449', '#9DD8AC', '#8DBFB5']);
+            .range(['#CAD7E2', '#7FE2EB', '#98D9A8', '#86BFB4']);
 
         // Barras - outros atores
         chart.append('g').attr('transform', `translate(0, -5)`)

@@ -163,7 +163,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     const root = this.treemap(data);
 
     const myColor = d3.scaleOrdinal().domain(['Total', 'Proposição', 'Outros', 'Projeto', 'Requerimento', 'Emenda'])
-            .range(['white', '#3D6664', '#C9ECB4', '#FFD449', '#9DD8AC', '#8DBFB5']);
+            .range(['white', '#306161', '#CAD7E2', '#7FE2EB', '#98D9A8', '#86BFB4']);
 
     const node = g.selectAll('g')
       .data(d3.nest().key((d: any) => d.data.titulo).entries(root.descendants()))

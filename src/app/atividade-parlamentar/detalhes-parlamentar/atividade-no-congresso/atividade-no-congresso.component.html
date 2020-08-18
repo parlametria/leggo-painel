@@ -1,4 +1,12 @@
+<a class="texto-auxiliar">Ações do parlamentar ponderadas pelo número de coautores</a>
 <h3 class="titulo-sessao">Por Tipo</h3>
+<ng-template #tipContent>aaaaaaaaaaaa</ng-template>
+<span
+  type="button"
+  class="icon-ajuda"
+  placement="right"
+  [ngbTooltip]="tipContent"
+  triggers="click:blur"></span>
 <app-vis-atividade-parlamentar
   [idAtor]="idAtor"
   [interesse]="interesse"></app-vis-atividade-parlamentar>
