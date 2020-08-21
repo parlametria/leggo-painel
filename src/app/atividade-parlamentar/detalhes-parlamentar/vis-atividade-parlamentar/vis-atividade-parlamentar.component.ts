@@ -194,7 +194,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
 
   // Wraps tooltip description text
   private wrap(text) {
-    text.each(() => {
+    text.each(function() {
       const texto = d3.select(this);
       const words = texto.text().split(/\s+/).reverse();
       let word;
