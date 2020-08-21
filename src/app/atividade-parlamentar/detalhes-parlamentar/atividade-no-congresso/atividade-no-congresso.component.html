@@ -2,14 +2,14 @@
 <div class="titulo-linha">
   <h3 class="titulo-sessao">Por Tipo</h3>
   <ng-template #tipContent>
-    Cada traço representa um parlamentar. A posição do parlamentar atual é o traço preto
+    Cada traço representa um parlamentar que atuou neste tema. A quantidade de ações do parlamentar atual é representada pela posição do traço preto.
   </ng-template>
-  <span
+  <i
     type="button"
     class="icon-ajuda icone"
     placement="right"
     [ngbTooltip]="tipContent"
-    triggers="click:blur"></span>
+    triggers="hover:blur"></i>
 </div>
 <app-vis-atividade-parlamentar
   [idAtor]="idAtor"
