@@ -20,7 +20,11 @@ $base-padding: 0.5rem;
   margin-top: 2 * $base-padding;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 6 * $base-padding;
+  margin-bottom: 3 * $base-padding;
+
+  @media (min-width: 375px) {
+    margin-bottom: 0;
+  }
 }
 
 .foto-parlamentar {
