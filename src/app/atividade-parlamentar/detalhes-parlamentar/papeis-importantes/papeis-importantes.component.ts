@@ -60,7 +60,7 @@ export class PapeisImportantesComponent implements OnInit {
       ]
     )
     .subscribe(data => {
-      this.comissao = data[0][0];
+      data[0][0].tramitou_agenda === true ? this.comissao = data[0][0] : this.comissao = undefined;
       this.relatorias = data[1];
       this.autorias = data[2];
       this.isLoading.next(false);
