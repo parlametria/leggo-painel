@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
@@ -19,8 +19,7 @@ export class AtorService {
   private atoresUrl = `${environment.baseUrl}/atores`;
 
   constructor(
-    private http: HttpClient,
-    private proposicoesService: ProposicoesService) { }
+    private http: HttpClient) { }
 
   getAtor(interesse: string, idAtor: string): Observable<Ator> {
     return this.http.get<Ator>(`${this.atorUrl}/${idAtor}?interesse=${interesse}`);
@@ -28,6 +27,13 @@ export class AtorService {
 
   getAtoresAgregados(interesse: string, tema: string): Observable<AtorAgregado[]> {
     return this.http.get<AtorAgregado[]>(`${this.atoresUrl}/agregados?interesse=${interesse}&tema=${tema}`);
+  }
+
+  getAtoresAgregadosByID(idAutor: number, interesse: string, tema: string): Observable<any[]> {
+    const params = new HttpParams()
+      .set('interesse', interesse)
+      .set('tema', tema);
+    return this.http.get<any[]>(`${this.atoresUrl}/agregados/${idAutor}`, { params });
   }
 
 }

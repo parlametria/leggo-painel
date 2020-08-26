@@ -15,23 +15,24 @@
   <div
     class="parlamentar"
     *ngIf="parlamentarInfo">
-    <div class="row gutters-sm">
-      <div class="col-auto">
+    <div class="info-parent">
+      <div class="col1">
         <div class="foto-parlamentar">
           <img [src]="parlamentarInfo?.url_foto">
         </div>
       </div>
-      <div class="col">
+      <div class="col2">
         <div class="parlamentar-titulo">{{ parlamentarInfo?.nome_autor }}</div>
         <p class="parlamentar-partido">
           {{ parlamentarInfo?.partido }}/{{ parlamentarInfo?.uf }}
         </p>
-        <!-- <app-progress
+        <app-progress
           class="pogresso"
           [label]="'Congresso'"
-          [valor]="parlamentar.atividade_parlamentar"
-          [exibirLabel]="false"></app-progress> -->
-
+          [valor]="parlamentar?.atividadeParlamentar?.atividade_parlamentar"
+          [exibirLabel]="false"></app-progress>
+      </div>
+      <div class="col3">
         <div class="insignias">
           <div>
             <span *ngIf="parlamentar?.autorias?.length">
@@ -51,7 +52,7 @@
               </span>
             </span>
           </div>
-          <div class="ml-3">
+          <div>
             <app-avaliacao
               [label]="'Peso'"
               [valor]="parlamentarInfo?.peso_politico * 5"

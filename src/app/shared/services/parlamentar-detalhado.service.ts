@@ -7,6 +7,7 @@ import { ComissaoService } from 'src/app/shared/services/comissao.service';
 import { RelatoriaService } from 'src/app/shared/services/relatoria.service';
 import { AutoriasService } from 'src/app/shared/services/autorias.service';
 import { AtorDetalhado } from '../models/atorDetalhado.model';
+import { AtorService } from './ator.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,8 @@ export class ParlamentarDetalhadoService {
     private proposicaoService: ProposicoesService,
     private comissaoService: ComissaoService,
     private relatoriaService: RelatoriaService,
-    private autoriasService: AutoriasService) { }
+    private autoriasService: AutoriasService,
+    private atorService: AtorService) { }
 
   getParlamentarDetalhado(idParlamentar: string, interesse: string, tema: string): Observable<AtorDetalhado> {
     this.parlamentarDetalhado.next(null);
@@ -27,7 +29,8 @@ export class ParlamentarDetalhadoService {
       [
         this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar, tema),
         this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar, tema),
-        this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse, tema)
+        this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse, tema),
+        this.atorService.getAtoresAgregadosByID(Number(idParlamentar), interesse, tema)
       ]
     )
       .subscribe(data => {
@@ -35,13 +38,19 @@ export class ParlamentarDetalhadoService {
         const relatorias = data[0];
         const comissoesPresidencia = data[1];
         const autorias = data[2];
+        const atividadeParlamentar = data[3][0];
 
         const comissoesInfo = this.getComissoesProcessadas(comissoesPresidencia);
+        atividadeParlamentar.atividade_parlamentar = this.normalizarAtividade(
+          atividadeParlamentar.peso_documentos,
+          atividadeParlamentar.min_peso_documentos,
+          atividadeParlamentar.max_peso_documentos);
 
         const parlamentarDetalhado = ator;
         parlamentarDetalhado.autorias = autorias;
         parlamentarDetalhado.relatorias = relatorias;
         parlamentarDetalhado.comissoes = comissoesInfo;
+        parlamentarDetalhado.atividadeParlamentar = atividadeParlamentar;
 
         this.parlamentarDetalhado.next(parlamentarDetalhado);
       },
@@ -66,4 +75,9 @@ export class ParlamentarDetalhadoService {
 
     return infoComissao;
   }
+
+  private normalizarAtividade(metrica: number, min: number, max: number): number {
+    return (metrica - min) / (max - min);
+  }
+
 }
