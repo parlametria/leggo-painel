@@ -55,20 +55,20 @@ export class VisAtividadeParlamentarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.largura = (window.innerWidth / 2 > 700) ? 700 : window.innerWidth / 2;
-    this.altura = 220;
+    this.largura = window.innerWidth / 2;
+    this.altura = 250;
     this.margin = ({
-      top: 0,
+      top: 5,
       right: 30,
-      bottom: 90,
+      bottom: 120,
       left: 70
     });
     this.x = d3.scaleLinear()
       .range([0, this.largura - this.margin.right - this.margin.left]);
     this.y = d3.scaleBand()
       .rangeRound([this.altura - this.margin.top - this.margin.bottom, 0]);
-    this.svg = d3.select('#vis-atividade-parlamentar').append('svg')
-      .attr('viewBox', `0 0 ${this.largura} ${this.altura / 1.3}`);
+    this.svg  = d3.select('#vis-atividade-parlamentar').append('svg')
+      .attr('viewBox', `0 0 ${this.largura} ${this.altura / 1.4}`);
     this.activatedRoute.queryParams
       .subscribe(params => {
         this.tema = params.tema;
@@ -79,26 +79,25 @@ export class VisAtividadeParlamentarComponent implements OnInit {
 
   private carregaVisAtividade() {
     this.autoriaService.getAcoes(this.interesse, this.tema)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(acoes => {
-        const quantDomain = [];
-        acoes.forEach(dado => {
-          quantDomain.push(dado.peso_total);
-        });
-        const maxQuant = Math.max(...quantDomain);
-
-        if (this.gPrincipal) {
-          this.gPrincipal.selectAll('*').remove();
-        }
-        this.gPrincipal = this.svg.append('g')
-          .call(g => this.atualizaVisAtividade(g, acoes, maxQuant));
+    .pipe(takeUntil(this.unsubscribe))
+    .subscribe(acoes => {
+      const quantDomain = [];
+      acoes.forEach(dado => {
+        quantDomain.push(dado.peso_total);
       });
+      const maxQuant = Math.max(...quantDomain);
 
+      if (this.gPrincipal) {
+        this.gPrincipal.selectAll('*').remove();
+      }
+      this.gPrincipal = this.svg.append('g')
+        .call(g => this.atualizaVisAtividade(g, acoes, maxQuant));
+    });
   }
 
   private atualizaVisAtividade(g, dados, maxQuant) {
     const id = Number(this.idAtor);
-    const domainDoc = ['Outros', 'Requerimento', 'Emenda'];
+    const domainDoc = ['Outros', 'Projeto', 'Requerimento', 'Emenda'];
     const chart = g
       .attr('id', 'chart')
       .attr('transform', `translate(${this.margin.left}, ${this.margin.top * 3})`);
@@ -116,12 +115,12 @@ export class VisAtividadeParlamentarComponent implements OnInit {
       .call(d3.axisBottom(x).ticks(6));
 
     chart.append('text')
-      .attr('transform',
-        'translate(' + (this.largura / 2.5) + ' ,' +
-        ((this.altura / 1.4) - this.margin.top) + ')')
-      .style('text-anchor', 'middle')
-      .style('font-size', '11px')
-      .text('Ações');
+    .attr('transform',
+          'translate(' + (this.largura / 2.5) + ' ,' +
+            ((this.altura / 1.5) - (this.margin.top + 8)) + ')')
+    .style('text-anchor', 'middle')
+    .style('font-size', '11px')
+    .text('Ações');
 
     // Eixo y
     chart.append('g')
@@ -130,11 +129,14 @@ export class VisAtividadeParlamentarComponent implements OnInit {
       .select('.domain').remove();
 
     const myColor = d3.scaleOrdinal().domain(domainDoc)
-      .range(['#C9ECB4', '#9DD8AC', '#8DBFB5']);
+      .range(['#CAD7E2', '#7FE2EB', '#98D9A8', '#86BFB4']);
 
     // Barras - outros atores
-    chart.append('g').attr('transform', `translate(0, -5)`)
-      .selectAll('rect').data(dados).join('rect')
+    chart.append('g')
+      .attr('transform', `translate(0, -5)`)
+      .selectAll('rect')
+      .data(dados)
+      .join('rect')
       .attr('class', 'bar')
       .attr('x', d => x(d.peso_total))
       .attr('y', d => y(d.tipo_acao))
@@ -143,16 +145,22 @@ export class VisAtividadeParlamentarComponent implements OnInit {
       .style('fill-opacity', 0.4)
       .style('fill', d => myColor(d.tipo_acao))
       .on('mouseover mousemove', d => this.onHover(d))
-      .on('mouseout', d => d3.selectAll('.tooltip').style('opacity', 0));
+      .on('mouseout', d => {
+        d3.selectAll('.tooltip').style('opacity', 0);
+        d3.selectAll('.tooltip-rect').style('opacity', 0);
+      });
 
     const atorAtual = dados.filter(d => d.id_autor_parlametria === id);
     const tiposExistentes = atorAtual.map(d => d.tipo_acao);
     const difference = domainDoc.filter(d => !tiposExistentes.includes(d));
-    difference.forEach(falta => atorAtual.push({ tipo_acao: falta, peso_total: 0 }));
+    difference.forEach(falta => atorAtual.push({ tipo_acao: falta, peso_total: 0}));
 
     // Barra - ator atual
-    chart.append('g').attr('transform', `translate(0, -5)`)
-      .selectAll('rect').data(atorAtual).join('rect')
+    chart.append('g')
+      .attr('transform', `translate(0, -5)`)
+      .selectAll('rect')
+      .data(atorAtual)
+      .join('rect')
       .attr('class', 'bar')
       .attr('x', d => x(d.peso_total))
       .attr('y', d => y(d.tipo_acao) - 1.5)
@@ -160,10 +168,32 @@ export class VisAtividadeParlamentarComponent implements OnInit {
       .attr('height', 15)
       .style('fill', 'black')
       .on('mouseover mousemove', d => this.onHover(d))
-      .on('mouseout', d => d3.selectAll('.tooltip').style('opacity', 0));
+      .on('mouseout', d => {
+        d3.selectAll('.tooltip').style('opacity', 0);
+        d3.selectAll('.tooltip-rect').style('opacity', 0);
+      });
+
+    // Tooltip-rect
+    chart.append('g')
+      .attr('transform', `translate(-5, -22)`)
+      .selectAll('rect')
+      .data(atorAtual)
+      .join('rect')
+      .attr('class', 'tooltip-rect')
+      .attr('id', d => `${d.tipo_acao}-tooltip-rect`)
+      .attr('x', d => x(d.peso_total) - 50)
+      .attr('y', d => y(d.tipo_acao) - 13)
+      .attr('height', 27)
+      .attr('width', 150)
+      .style('opacity', d => d.tipo_acao === 'Emenda' ? 1 : 0)
+      .style('fill', 'white')
+      .style('stroke', 'black')
+      .style('stroke-width', '1px')
+      .style('pointer-events', 'none');
 
     // Tooltip
-    chart.append('g').attr('transform', `translate(0, -5)`)
+    chart.append('g')
+      .attr('transform', `translate(0, -10)`)
       .selectAll('text')
       .data(atorAtual)
       .join('text')
@@ -173,13 +203,15 @@ export class VisAtividadeParlamentarComponent implements OnInit {
       .attr('y', d => y(d.tipo_acao) - 13)
       .style('opacity', d => d.tipo_acao === 'Emenda' ? 1 : 0)
       .style('pointer-events', 'none')
-      .style('font-size', '7px')
+      .style('font-size', '9px')
       .text(d => this.tooltip(d))
       .call(this.wrap);
   }
 
   private onHover(d) {
     d3.select(`#${d.tipo_acao}-tooltip`)
+      .style('opacity', 1);
+    d3.select(`#${d.tipo_acao}-tooltip-rect`)
       .style('opacity', 1);
   }
 
@@ -188,40 +220,40 @@ export class VisAtividadeParlamentarComponent implements OnInit {
       return 'O parlamentar não possui este tipo de ação';
     } else {
       return `${d.ranking_documentos}º lugar em apresentação de
-            ${d.tipo_acao === 'Outros' ? d.tipo_acao.toLowerCase() : d.tipo_acao.toLowerCase() + `s`} nesta agenda`;
+      ${d.tipo_acao === 'Outros' ? d.tipo_acao.toLowerCase() : d.tipo_acao.toLowerCase() + `s`} nesta agenda`;
     }
   }
 
-  // Wraps tooltip description text
-  private wrap(text) {
-    text.each(function() {
-      const texto = d3.select(this);
-      const words = texto.text().split(/\s+/).reverse();
-      let word;
-      let line = [];
-      let lineNumber = 0;
-      const lineHeight = 0; // ems
-      const x = texto.attr('x');
-      const y = texto.attr('y');
-      const dy = 1.1;
-      let tspan = texto.text(null).append('tspan').attr('x', x).attr('y', y);
+// Wraps tooltip description text
+private wrap(text) {
+  text.each(function() {
+    const texto = d3.select(this);
+    const words = texto.text().split(/\s+/).reverse();
+    let word;
+    let line = [];
+    let lineNumber = 0;
+    const lineHeight = 0; // ems
+    const x = texto.attr('x');
+    const y = texto.attr('y');
+    const dy = 1.1;
+    let tspan = texto.text(null).append('tspan').attr('x', x).attr('y', y);
 
-      while (words.length !== 0) {
-        word = words.pop();
-        line.push(word);
+    while (words.length !== 0) {
+      word = words.pop();
+      line.push(word);
+      tspan.text(line.join(' '));
+      if (tspan.text().length >= 33) {
+        line.pop();
         tspan.text(line.join(' '));
-        if (tspan.text().length >= 33) {
-          line.pop();
-          tspan.text(line.join(' '));
-          line = [word];
-          tspan = texto.append('tspan')
-            .attr('x', x)
-            .attr('y', y)
-            .attr('dy', ++lineNumber * lineHeight + dy + 'em')
-            .text(word);
-        }
+        line = [word];
+        tspan = texto.append('tspan')
+          .attr('x', x)
+          .attr('y', y)
+          .attr('dy', ++lineNumber * lineHeight + dy + 'em')
+          .text(word);
       }
-    });
-  }
+    }
+  });
+}
 
 }

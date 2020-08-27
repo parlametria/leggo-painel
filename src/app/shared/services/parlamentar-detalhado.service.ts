@@ -66,11 +66,19 @@ export class ParlamentarDetalhadoService {
     let infoComissao = {};
 
     if (comissao.length !== 0) {
-      infoComissao = {
-        idComissao: comissao[0].id_comissao,
-        info_comissao: comissao[0].info_comissao,
-        quantidade_comissao_presidente: comissao[0].quantidade_comissao_presidente
-      };
+      if (comissao[0].tramitou_agenda === true) {
+        infoComissao = {
+          idComissao: comissao[0].id_comissao,
+          info_comissao: comissao[0].info_comissao,
+          quantidade_comissao_presidente: comissao[0].quantidade_comissao_presidente
+        };
+      } else {
+        infoComissao = {
+          idComissao: comissao[0].id_comissao,
+          info_comissao: comissao[0].info_comissao,
+          quantidade_comissao_presidente: 0
+        };
+      }
     }
 
     return infoComissao;
