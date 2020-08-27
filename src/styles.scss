@@ -39,6 +39,11 @@
   font-weight: $font-weight-bold;
 }
 
+.titulo-sessao-com-icone {
+  display: flex !important;
+  align-items: baseline;
+}
+
 .app-badge {
   margin-left: -10px;
   border: solid 2px;
