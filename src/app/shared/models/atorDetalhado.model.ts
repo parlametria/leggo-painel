@@ -15,4 +15,5 @@ export interface AtorDetalhado {
     comissoes: ComissaoPresidencia;
     autorias: Autoria[];
     atividadeParlamentar: any;
+    atividadeTwitter: any;
 }
