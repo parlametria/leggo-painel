@@ -9,10 +9,20 @@
     </div>
   </div>
   <div class="card-body">
-    <app-progress
-      [label]="'Congresso'"
-      [valor]="parlamentar.atividade_parlamentar"
-      [exibirLabel]="id === 0"></app-progress>
+    <div>
+      <app-progress
+        [label]="'Congresso'"
+        [barraClasse]="'bg-primary'"
+        [valor]="parlamentar.atividade_parlamentar"
+        [exibirLabel]="id === 0"></app-progress>
+    </div>
+    <div class="space-between-bars">
+      <app-progress
+        [label]="'Twitter'"
+        [barraClasse]="'bg-twitter'"
+        [valor]="parlamentar.atividade_twitter"
+        [exibirLabel]="id === 0"></app-progress>
+    </div>
     <div class="insignias">
       <div>
         <span *ngIf="parlamentar.quantidade_autorias">

@@ -8,6 +8,7 @@ import { RelatoriaService } from 'src/app/shared/services/relatoria.service';
 import { AutoriasService } from 'src/app/shared/services/autorias.service';
 import { AtorDetalhado } from '../models/atorDetalhado.model';
 import { AtorService } from './ator.service';
+import { TwitterService } from 'src/app/shared/services/twitter.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,8 @@ export class ParlamentarDetalhadoService {
     private comissaoService: ComissaoService,
     private relatoriaService: RelatoriaService,
     private autoriasService: AutoriasService,
-    private atorService: AtorService) { }
+    private atorService: AtorService,
+    private twitterService: TwitterService) { }
 
   getParlamentarDetalhado(idParlamentar: string, interesse: string, tema: string): Observable<AtorDetalhado> {
     this.parlamentarDetalhado.next(null);
@@ -30,7 +32,8 @@ export class ParlamentarDetalhadoService {
         this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar, tema),
         this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar, tema),
         this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse, tema),
-        this.atorService.getAtoresAgregadosByID(Number(idParlamentar), interesse, tema)
+        this.atorService.getAtoresAgregadosByID(Number(idParlamentar), interesse, tema),
+        this.twitterService.getAtividadeDetalhadaTwitter(idParlamentar, interesse, tema)
       ]
     )
       .subscribe(data => {
@@ -39,6 +42,7 @@ export class ParlamentarDetalhadoService {
         const comissoesPresidencia = data[1];
         const autorias = data[2];
         const atividadeParlamentar = data[3][0];
+        const atividadeTwitter = data[4];
 
         const comissoesInfo = this.getComissoesProcessadas(comissoesPresidencia);
         atividadeParlamentar.atividade_parlamentar = this.normalizarAtividade(
@@ -51,6 +55,7 @@ export class ParlamentarDetalhadoService {
         parlamentarDetalhado.relatorias = relatorias;
         parlamentarDetalhado.comissoes = comissoesInfo;
         parlamentarDetalhado.atividadeParlamentar = atividadeParlamentar;
+        parlamentarDetalhado.atividadeTwitter = atividadeTwitter;
 
         this.parlamentarDetalhado.next(parlamentarDetalhado);
       },

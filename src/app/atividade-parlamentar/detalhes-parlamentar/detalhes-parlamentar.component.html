@@ -26,11 +26,22 @@
         <p class="parlamentar-partido">
           {{ parlamentarInfo?.partido }}/{{ parlamentarInfo?.uf }}
         </p>
-        <app-progress
-          class="pogresso"
-          [label]="'Congresso'"
-          [valor]="parlamentar?.atividadeParlamentar?.atividade_parlamentar"
-          [exibirLabel]="false"></app-progress>
+        <div>
+          <app-progress
+            class="pogresso"
+            [label]="'Congresso'"
+            [barraClasse]="'bg-primary'"
+            [valor]="parlamentar?.atividadeParlamentar?.atividade_parlamentar"
+            [exibirLabel]="false"></app-progress>
+        </div>
+        <div class="space-between-bars">
+          <app-progress
+            class="pogresso"
+            [label]="'Congresso'"
+            [barraClasse]="'bg-twitter'"
+            [valor]="parlamentar?.atividadeTwitter?.atividade_twitter"
+            [exibirLabel]="false"></app-progress>
+        </div>
       </div>
       <div class="col3">
         <div class="insignias">
