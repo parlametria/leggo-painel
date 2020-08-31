@@ -36,7 +36,7 @@ const d3 = Object.assign({}, {
 
 @Component({
   selector: 'app-vis-atividade-detalhada',
-  templateUrl: './vis-atividade-detalhada.component.html',
+  template: '<div id="vis-atividade-detalhada"></div>',
   styleUrls: ['./vis-atividade-detalhada.component.scss']
 })
 export class VisAtividadeDetalhadaComponent implements OnInit {
@@ -61,7 +61,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.largura = window.innerWidth;
+    this.largura = (window.innerWidth > 1100) ? 1100 : window.innerWidth;
     this.altura = this.largura > 700 ? 450 : 550;
     this.x = d3.scaleLinear().rangeRound([0, this.largura]);
     this.y = d3.scaleLinear().rangeRound([0, this.altura]);
@@ -86,7 +86,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
       .sort((a, b) => b.value - a.value))
 
   private getArvoreAutorias(autorias: Autoria[]): ArvoreAutorias {
-    const arvoreAutorias: ArvoreAutorias = {titulo: 'Total', id: 0, children: [], categoria: 'Total'};
+    const arvoreAutorias: ArvoreAutorias = { titulo: 'Total', id: 0, children: [], categoria: 'Total' };
     const autoriasPorId = d3.group(autorias, d => d.id_leggo);
     autoriasPorId.forEach((autoria, idLeggo) => {
       const tipos = [{
@@ -105,6 +105,15 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
             value: parseFloat(this.somaPesos(documento).toFixed(2)),
             quantidade: documento.length,
             categoria: tipo
+          });
+        }
+        else if (tipo === 'Prop. Original / Apensada') {
+          tipos.push({
+            titulo: 'Projeto',
+            id: idLeggo,
+            value: parseFloat(this.somaPesos(documento).toFixed(2)),
+            quantidade: documento.length,
+            categoria: 'Projeto'
           });
         } else {
           tipos[0] = ({
@@ -153,8 +162,8 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   private atualizaVisAtividade(g, data) {
     const root = this.treemap(data);
 
-    const myColor = d3.scaleOrdinal().domain(['Total', 'Proposição', 'Outros', 'Requerimento', 'Emenda'])
-            .range(['white', '#3D6664', '#C9ECB4', '#9DD8AC', '#8DBFB5']);
+    const myColor = d3.scaleOrdinal().domain(['Total', 'Proposição', 'Outros', 'Projeto', 'Requerimento', 'Emenda'])
+      .range(['white', '#306161', '#CAD7E2', '#7FE2EB', '#98D9A8', '#86BFB4']);
 
     const node = g.selectAll('g')
       .data(d3.nest().key((d: any) => d.data.titulo).entries(root.descendants()))
@@ -165,103 +174,103 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
       .attr('transform', d => `translate(${d.x0},${d.y0})`);
 
     const tooltip = d3.select('body')
-        .append('div')
-        .style('position', 'absolute')
-        .style('font-size', '12px')
-        .style('background-color', 'white')
-        .style('border', 'solid')
-        .style('border-width', '2px')
-        .attr('data-html', 'true')
-        .style('visibility', 'hidden');
+      .append('div')
+      .style('position', 'absolute')
+      .style('font-size', '12px')
+      .style('background-color', 'white')
+      .style('border', 'solid')
+      .style('border-width', '2px')
+      .attr('data-html', 'true')
+      .style('visibility', 'hidden');
 
     node.append('rect')
-        .attr('id', d => (d.data.titulo))
-        .style('fill', d => myColor(d.data.categoria)) // color
-        .attr('width', d => d.x1 - d.x0)
-        .attr('height', d => {
-          if (d.data.categoria === 'Proposição') {
-            return d.y1 - d.y0;
+      .attr('id', d => (d.data.titulo))
+      .style('fill', d => myColor(d.data.categoria)) // color
+      .attr('width', d => d.x1 - d.x0)
+      .attr('height', d => {
+        if (d.data.categoria === 'Proposição') {
+          return d.y1 - d.y0;
+        } else {
+          if ((d.y1 - 3) - (d.y0 + 3) >= 0) {
+            return (d.y1 - 3) - (d.y0 + 3);
           } else {
-            if ((d.y1 - 3) - (d.y0 + 3) >= 0) {
-              return (d.y1 - 3) - (d.y0 + 3);
-            } else {
-              return 0;
-            }
+            return 0;
           }
-        })
-        .attr('transform', d => d.data.categoria === 'Proposição' ? '' : 'translate(0, 6)')
-        .on('mouseover', d => {
-          if (d.data.categoria !== 'Total' && d.data.categoria !== 'Proposição') {
-            tooltip.style('visibility', 'visible')
-                  .style('width', '140px')
-                  .style('height', '100px')
-                  .html(this.tooltipText(d));
-            }
-          })
-        .on('mousemove', d => {
-          if (d.data.categoria !== 'Total' && d.data.categoria !== 'Proposição') {
-            tooltip.style('top', (event.pageY - 10) + 'px')
-                  .style('left', (event.pageX + 10) + 'px')
-                  .html(this.tooltipText(d));
-            }
-          })
-        .on('mouseout', () => tooltip.style('visibility', 'hidden'));
+        }
+      })
+      .attr('transform', d => d.data.categoria === 'Proposição' ? '' : 'translate(0, 6)')
+      .on('mouseover', d => {
+        if (d.data.categoria !== 'Total' && d.data.categoria !== 'Proposição') {
+          tooltip.style('visibility', 'visible')
+            .style('width', '140px')
+            .style('height', '100px')
+            .html(this.tooltipText(d));
+        }
+      })
+      .on('mousemove', d => {
+        if (d.data.categoria !== 'Total' && d.data.categoria !== 'Proposição') {
+          tooltip.style('top', (event.pageY - 10) + 'px')
+            .style('left', (event.pageX + 10) + 'px')
+            .html(this.tooltipText(d));
+        }
+      })
+      .on('mouseout', () => tooltip.style('visibility', 'hidden'));
 
     node.append('text')
-        .selectAll('tspan')
-        .data(d => {
-          if (d.data.titulo !== 'Total') {
-            if (d.data.categoria === 'Proposição') {
-              const quant = this.quantTotal(d.data.children);
-              return d.data.sigla.split(/(?=[a-z][^a-z])/g).concat(` (${quant} ${quant > 1 ? 'ações' : 'ação'})`);
-            }
-            return d.data.titulo.split(/(?=[a-z][^a-z])/g).concat(`(${d.value})`);
-          } else {
-            return '';
+      .selectAll('tspan')
+      .data(d => {
+        if (d.data.titulo !== 'Total') {
+          if (d.data.categoria === 'Proposição') {
+            const quant = this.quantTotal(d.data.children);
+            return d.data.sigla.split(/(?=[a-z][^a-z])/g).concat(` (${quant} ${quant > 1 ? 'ações' : 'ação'})`);
           }
-        })
-        .join('tspan')
-        .text(d => d)
-        .attr('transform', `translate(0, 15)`);
+          return d.data.titulo.split(/(?=[a-z][^a-z])/g).concat(`(${d.value})`);
+        } else {
+          return '';
+        }
+      })
+      .join('tspan')
+      .text(d => d)
+      .attr('transform', `translate(0, 15)`);
 
     node.selectAll('text')
-        .style('visibility', d => {
-          if (d.data.categoria === 'Proposição') {
+      .style('visibility', d => {
+        if (d.data.categoria === 'Proposição') {
+          return 'visible';
+        }
+        if (d.x1 - d.x0 >= 150) {
+          if (d.y1 - d.y0 >= 40) {
             return 'visible';
-          }
-          if (d.x1 - d.x0  >= 150) {
-            if (d.y1 - d.y0 >= 40) {
-              return 'visible';
-            } else {
-              return 'hidden';
-            }
           } else {
             return 'hidden';
           }
-        })
-        .attr('transform', 'translate(5, 2)');
+        } else {
+          return 'hidden';
+        }
+      })
+      .attr('transform', 'translate(5, 2)');
 
     node.filter(d => d.children).selectAll('tspan')
-        .style('fill', 'white');
+      .style('fill', 'white');
 
     node.filter(d => d.children).select('tspan')
-        .attr('dx', 3)
-        .attr('y', 15)
-        .style('font-weight', d => d.data.categoria === 'Proposição' ? 'bold' : '');
+      .attr('dx', 3)
+      .attr('y', 15)
+      .style('font-weight', d => d.data.categoria === 'Proposição' ? 'bold' : '');
 
     node.filter(d => d.children).select('tspan:nth-child(2)')
-        .style('opacity', 0.8);
+      .style('opacity', 0.8);
 
     node.filter(d => !d.children).selectAll('tspan')
-        .attr('dx', 3)
-        .attr('y', 15)
-        .style('fill', '#333333');
+      .attr('dx', 3)
+      .attr('y', 15)
+      .style('fill', '#333333');
 
     node.filter(d => !d.children).selectAll('text')
-        .attr('transform', 'translate(5, 10)');
+      .attr('transform', 'translate(5, 10)');
 
     node.filter(d => !d.children).select('tspan:nth-child(2)')
-        .style('opacity', 0.8);
+      .style('opacity', 0.8);
 
     return g.node();
   }

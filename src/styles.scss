@@ -39,6 +39,11 @@
   font-weight: $font-weight-bold;
 }
 
+.titulo-sessao-com-icone {
+  display: flex !important;
+  align-items: baseline;
+}
+
 .app-badge {
   margin-left: -10px;
   border: solid 2px;
@@ -48,7 +53,18 @@
   line-height: 14px;
 }
 
+.badge-color-white {
+  color: #ffffff;
+}
+
 .app-icon {
+  font-size: 2rem;
+}
+
+.title-icon {
+  position: relative;
+  top: 6px;
+  left: 5px;
   font-size: 2rem;
 }
 
@@ -118,3 +134,112 @@
   }
 
 }
+
+/* Árvore de itens */
+.arvore {
+  margin: 0 0 1rem 1rem;
+  padding: 0;
+  list-style: none;
+  position: relative;
+
+  &:before {
+    content: "";
+    display: block;
+    width: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    border-left: 2px solid;
+  }
+
+  &.success {
+    &:before {
+      color: $success;
+    }
+  }
+
+  &.warning {
+    &:before {
+      color: $warning;
+    }
+  }
+
+  &.danger {
+    &:before {
+      color: $danger;
+    }
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    left: -3px;
+    top: -8px;
+  }
+
+  > li {
+    margin: 0;
+    padding: 0 1.5em;
+    line-height: 2em;
+    position: relative;
+
+    &:before {
+      content: "";
+      display: block;
+      width: 15px;
+      height: 0;
+      border-top: 2px solid;
+      margin-top: -2px;
+      position: absolute;
+      top: 1em;
+      left: 0;
+    }
+
+    &.success {
+      &:before {
+        color: $success;
+      }
+    }
+
+    &.warning {
+      &:before {
+        color: $warning;
+      }
+    }
+
+    &.danger {
+      &:before {
+        color: $danger;
+      }
+    }
+
+    &:last-child:before {
+      background: #fff;
+      height: auto;
+      top: 1em;
+      bottom: 0;
+    }
+
+    &:after {
+      content: "";
+      position: absolute;
+      left: 9px;
+      top: -1px;
+    }
+
+  }
+}
+
+.arvore-icon {
+  margin-right: 0.5rem;
+}
+
+.arvore-titulo {
+  display: flex;
+  align-items: center;
+  margin-bottom: -2px;
+  margin-left: 1px;
+  font-size: 1.1rem;
+}
+/* Árvore de itens FIM */

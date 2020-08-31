@@ -14,4 +14,5 @@ export interface AtorDetalhado {
     relatorias: Array<any>;
     comissoes: ComissaoPresidencia;
     autorias: Autoria[];
+    atividadeParlamentar: any;
 }
