@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.2 (2020-08-31)
+- [x] Reformulação de leiaute da página de detalhes do ator
+- [x] Agrupa presidencias de comissões em sobre e tema e fora do tema
+- [x] Exibe a atividade parlamentar no cabeçalho dos detalhes do ator
+
 ## 1.2.1 (2020-08-17)
 - [x] Filtra parlamentares pela casa (deputados ou senadores)
 - [x] Fix: Letra minúscula para temas do filtro
