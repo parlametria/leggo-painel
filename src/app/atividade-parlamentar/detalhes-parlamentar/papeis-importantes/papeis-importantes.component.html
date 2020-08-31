@@ -5,7 +5,9 @@
     <h6 class="arvore-titulo">
       <span class="app-icon arvore-icon icon-presidente text-warning"></span>
       <strong>Presidente</strong>
-      &nbsp;de {{ comissoes?.length }} comissões
+      &nbsp;de {{ comissoes?.length }}
+      <span *ngIf="comissoes?.length === 1">&nbsp;comissão</span>
+      <span *ngIf="comissoes?.length !== 1">&nbsp;comissões</span>
     </h6>
     <ul
       *ngIf="comissoes?.length"
@@ -24,7 +26,9 @@
     <h6 class="arvore-titulo">
       <span class="app-icon arvore-icon icon-relator text-success"></span>
       <strong>Relator</strong>
-      &nbsp;de {{ relatorias?.length }} proposições
+      &nbsp;de {{ relatorias?.length }}
+      <span *ngIf="relatorias?.length === 1">&nbsp;proposição</span>
+      <span *ngIf="relatorias?.length !== 1">&nbsp;proposições</span>
     </h6>
     <ul
       *ngIf="relatorias?.length"
@@ -42,7 +46,9 @@
     <h6 class="arvore-titulo">
       <span class="app-icon arvore-icon icon-autor text-danger"></span>
       <strong>Autor</strong>
-      &nbsp;de {{ autorias?.length }} proposições
+      &nbsp;de {{ autorias?.length }}
+      <span *ngIf="autorias?.length === 1">&nbsp;proposição</span>
+      <span *ngIf="autorias?.length !== 1">&nbsp;proposições</span>
     </h6>
     <ul
       *ngIf="autorias?.length"
