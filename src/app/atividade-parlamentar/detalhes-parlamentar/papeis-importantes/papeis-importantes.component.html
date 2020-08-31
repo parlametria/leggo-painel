@@ -4,14 +4,14 @@
   <h6 class="arvore-titulo">
     <span class="app-icon arvore-icon icon-presidente text-warning"></span>
     <strong>Presidente</strong>
-    &nbsp;de {{ qtdComissoes }} comissões
+    &nbsp;de {{ comissoes?.length }} comissões
   </h6>
   <ul
-    *ngIf="qtdComissoes"
+    *ngIf="comissoes?.length"
     class="arvore warning">
-    <li class="warning">
+    <li *ngFor="let comissao of comissoes; let i = index" class="warning">
       {{ comissao?.info_comissao }}
-      <small *ngIf="comissao?.tramitou_agenda">* Algumas proposições dessa agenda tramitaram nessa comissão</small>
+      <small *ngIf="!comissao?.tramitou_agenda">(Comissão de outra agenda)</small>
     </li>
   </ul>
 </div>

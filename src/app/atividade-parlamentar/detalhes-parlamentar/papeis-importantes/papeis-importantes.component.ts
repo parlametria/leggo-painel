@@ -20,8 +20,7 @@ export class PapeisImportantesComponent implements OnInit {
 
   private unsubscribe = new Subject();
 
-  public comissao: ComissaoPresidencia;
-  public qtdComissoes = 0;
+  public comissoes: ComissaoPresidencia[];
   public relatorias: Relatorias[];
   public autorias: Autoria[];
   public idAtor: string;
@@ -60,10 +59,7 @@ export class PapeisImportantesComponent implements OnInit {
       ]
     )
     .subscribe(data => {
-      this.comissao = data[0][0];
-      if (typeof this.comissao !== 'undefined') {
-        this.qtdComissoes = this.comissao.quantidade_comissao_presidente;
-      }
+      this.comissoes = data[0];
       this.relatorias = data[1];
       this.autorias = data[2];
       this.isLoading.next(false);
