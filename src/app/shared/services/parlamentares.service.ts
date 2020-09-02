@@ -28,27 +28,7 @@ export class ParlamentaresService {
     private relatoriaService: RelatoriaService,
     private entidadeService: EntidadeService,
     private twitterService: TwitterService
-  ) {
-
-    this.parlamentares
-      .pipe(
-        tap(parlamentares => {
-          parlamentares.sort((a, b) => {
-            if (isNaN(b.atividade_parlamentar)) {
-              return -1;
-            }
-
-            if (isNaN(a.atividade_parlamentar)) {
-              return 1;
-            }
-
-            return b.atividade_parlamentar - a.atividade_parlamentar;
-          });
-        }))
-      .subscribe(res => {
-        this.parlamentaresFiltered.next(res);
-      });
-  }
+  ) { }
 
   getParlamentares(interesse: string, tema: string, casa: string): Observable<any> {
     forkJoin(
@@ -69,7 +49,7 @@ export class ParlamentaresService {
         const comissaoPresidencia: any = data[3];
         const atoresRelatores: any = data[4];
         const pesoPolitico: any = data[5];
-        const twitter: any = data[6];
+        const twitter: any = this.twitterService.getAtividadeTwitter(interesse, tema);
 
         const parlamentares = parlamentaresExercicio.map(a => ({
           ...atores.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
@@ -77,7 +57,7 @@ export class ParlamentaresService {
           ...comissaoPresidencia.find(p => a.id_autor_parlametria === p.id_autor_voz),
           ...atoresRelatores.find(p => a.id_autor_parlametria === p.autor_id_parlametria),
           ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
-          ...twitter,
+          ...twitter.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...a
         }));
 
@@ -105,7 +85,7 @@ export class ParlamentaresService {
         error => console.log(error)
       );
 
-    return this.parlamentaresFiltered.asObservable();
+    return this.parlamentares.asObservable();
   }
 
   private normalizarAtividade(metrica: number, min: number, max: number): number {

@@ -23,6 +23,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
   interesse: string;
   tema: string;
   casa: string;
+  ativo: string;
   opcoesOrdenacao: any = [
     'Mais ativos no congresso',
     // 'Mais ativos no Twitter',
@@ -46,8 +47,10 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
       .subscribe(params => {
         this.tema = params.tema;
         this.casa = params.casa;
+        this.ativo = params.ativo;
         this.tema === undefined ? this.tema = '' : this.tema = this.tema;
         this.casa === undefined ? this.casa = '' : this.casa = this.casa;
+        this.ativo === undefined ? this.ativo = '' : this.ativo = this.ativo;
         this.getDadosAtividadeParlamentar();
       });
     this.updatePageViaURL();
@@ -65,6 +68,31 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
         takeUntil(this.unsubscribe))
       .subscribe(parlamentares => {
         this.parlamentares = parlamentares;
+        if (this.ativo === 'twitter') {
+          this.parlamentares.sort((a, b) => {
+            if (isNaN(b.atividade_twitter)) {
+              return -1;
+            }
+
+            if (isNaN(a.atividade_twitter)) {
+              return 1;
+            }
+
+            return b.atividade_twitter - a.atividade_twitter;
+          });
+        } else {
+          this.parlamentares.sort((a, b) => {
+            if (isNaN(b.atividade_parlamentar)) {
+              return -1;
+            }
+
+            if (isNaN(a.atividade_parlamentar)) {
+              return 1;
+            }
+
+            return b.atividade_parlamentar - a.atividade_parlamentar;
+          });
+        }
         this.isLoading.next(false);
       },
         error => {

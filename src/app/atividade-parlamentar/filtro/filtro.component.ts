@@ -19,11 +19,15 @@ export class FiltroComponent implements OnInit, AfterContentInit {
   readonly FILTRO_PADRAO = 'todos';
   public temaSelecionado: string;
   public casaSelecionada: string;
+  public ativoSelecionado: string;
   temasBusca: any[] = [{ tema: 'todos os temas', tema_slug: 'todos' }];
   casaBusca: any[] = [
     { casa: 'Parlamentares', casa_slug: 'todos' },
     { casa: 'Deputados', casa_slug: 'camara' },
     { casa: 'Senadores', casa_slug: 'senado' }];
+  ativoBusca: any[] = [
+    { ativo: 'mais ativos no congresso', ativo_slug: 'congresso' },
+    { ativo: 'mais ativos no twitter', ativo_slug: 'twitter' }];
 
   constructor(
     private temasService: TemasService,
@@ -37,8 +41,10 @@ export class FiltroComponent implements OnInit, AfterContentInit {
       .subscribe(params => {
         this.temaSelecionado = params.tema;
         this.casaSelecionada = params.casa;
+        this.ativoSelecionado = params.ativo;
         this.temaSelecionado === undefined ? this.temaSelecionado = this.FILTRO_PADRAO : this.temaSelecionado = this.temaSelecionado;
         this.casaSelecionada === undefined ? this.casaSelecionada = this.FILTRO_PADRAO : this.casaSelecionada = this.casaSelecionada;
+        this.ativoSelecionado === undefined ? this.ativoSelecionado = 'congresso' : this.ativoSelecionado = this.ativoSelecionado;
       });
   }
 
@@ -73,6 +79,13 @@ export class FiltroComponent implements OnInit, AfterContentInit {
     } else {
       delete queryParams.casa;
     }
+    this.router.navigate([], { queryParams });
+  }
+
+  onChangeAtivo(item: string) {
+    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+
+    queryParams.ativo = item;
     this.router.navigate([], { queryParams });
   }
 

@@ -11,6 +11,18 @@
       {{ c.casa }}
     </option>
   </select>
+  <select
+  class="app-seletor"
+  #mySelector
+  (change)="onChangeAtivo($event.target.value)"
+  [(ngModel)]="ativoSelecionado">
+  <option
+    *ngFor="let a of ativoBusca"
+    [value]="a.ativo_slug"
+    [selected]="a.ativo_slug === ativoSelecionado">
+    {{ a.ativo }}
+  </option>
+</select>
   <div class="mr-3">nas proposições de</div>
   <select
     class="app-seletor"
