@@ -16,7 +16,6 @@
         *ngFor="let comissao of comissoes; let i = index"
         class="warning">
         {{ comissao?.info_comissao }}
-        <small *ngIf="!comissao?.tramitou_agenda">(Comissão de outra agenda)</small>
       </li>
     </ul>
   </div>
