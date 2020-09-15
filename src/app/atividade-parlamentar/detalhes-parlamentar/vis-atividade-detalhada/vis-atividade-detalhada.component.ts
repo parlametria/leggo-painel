@@ -89,47 +89,22 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     const arvoreAutorias: ArvoreAutorias = { titulo: 'Total', id: 0, children: [], categoria: 'Total' };
     const autoriasPorId = d3.group(autorias, d => d.id_leggo);
     autoriasPorId.forEach((autoria, idLeggo) => {
-      const tipos = [{
-        titulo: 'Outros',
-        id: 0,
-        value: 0,
-        quantidade: 0,
-        categoria: 'Outros'
-      }];
-      const documentosPorTipo = d3.group(autoria, d => d.tipo_documento);
+      const tipos = [];
+      const documentosPorTipo = d3.group(autoria, d => d.tipo_acao);
       documentosPorTipo.forEach((documento, tipo) => {
-        if (tipo === 'Emenda' || tipo === 'Requerimento') {
-          tipos.push({
-            titulo: tipo,
-            id: idLeggo,
-            value: parseFloat(this.somaPesos(documento).toFixed(2)),
-            quantidade: documento.length,
-            categoria: tipo
-          });
-        }
-        else if (tipo === 'Prop. Original / Apensada') {
-          tipos.push({
-            titulo: 'Projeto',
-            id: idLeggo,
-            value: parseFloat(this.somaPesos(documento).toFixed(2)),
-            quantidade: documento.length,
-            categoria: 'Projeto'
-          });
-        } else {
-          tipos[0] = ({
-            titulo: 'Outros',
-            id: 0,
-            value: parseFloat((this.somaPesos(documento) + tipos[0].value).toFixed(2)),
-            quantidade: documento.length + tipos[0].quantidade,
-            categoria: 'Outros'
-          });
-        }
+        tipos.push({
+          titulo: tipo,
+          id: idLeggo,
+          value: parseFloat(this.somaPesos(documento).toFixed(2)),
+          quantidade: documento.length,
+          categoria: tipo
+        });
       });
       arvoreAutorias.children.push({
-        titulo: `Proposição ${idLeggo.toString()}`,
+        titulo: `Proposta ${idLeggo.toString()}`,
         id: idLeggo,
         children: tipos,
-        categoria: 'Proposição',
+        categoria: 'Proposta',
         sigla: autoria[0].sigla
       });
     });
@@ -148,8 +123,14 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     this.autoriasService.getAutorias(this.idAtor, this.interesse, this.tema)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(autorias => {
+        const autoriasApresentadas = [];
+        autorias.forEach(dado => {
+          if (dado.tipo_acao !== 'Outros') {
+            autoriasApresentadas.push(dado);
+          }
+        });
         // Transforma dados tabulares em árvore
-        const arvoreAutorias = this.getArvoreAutorias(autorias);
+        const arvoreAutorias = this.getArvoreAutorias(autoriasApresentadas);
         // Inicializa visualização
         if (this.gPrincipal) {
           this.gPrincipal.selectAll('*').remove();
@@ -162,8 +143,8 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   private atualizaVisAtividade(g, data) {
     const root = this.treemap(data);
 
-    const myColor = d3.scaleOrdinal().domain(['Total', 'Proposição', 'Outros', 'Projeto', 'Requerimento', 'Emenda'])
-      .range(['white', '#306161', '#CAD7E2', '#7FE2EB', '#98D9A8', '#86BFB4']);
+    const myColor = d3.scaleOrdinal().domain(['Total', 'Proposta', 'Recurso', 'Proposição'])
+      .range(['white', '#306161', '#98D9A8', '#86BFB4']);
 
     const node = g.selectAll('g')
       .data(d3.nest().key((d: any) => d.data.titulo).entries(root.descendants()))
@@ -188,7 +169,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
       .style('fill', d => myColor(d.data.categoria)) // color
       .attr('width', d => d.x1 - d.x0)
       .attr('height', d => {
-        if (d.data.categoria === 'Proposição') {
+        if (d.data.categoria === 'Proposta') {
           return d.y1 - d.y0;
         } else {
           if ((d.y1 - 3) - (d.y0 + 3) >= 0) {
@@ -198,9 +179,9 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
           }
         }
       })
-      .attr('transform', d => d.data.categoria === 'Proposição' ? '' : 'translate(0, 6)')
+      .attr('transform', d => d.data.categoria === 'Proposta' ? '' : 'translate(0, 6)')
       .on('mouseover', d => {
-        if (d.data.categoria !== 'Total' && d.data.categoria !== 'Proposição') {
+        if (d.data.categoria !== 'Total' && d.data.categoria !== 'Proposta') {
           tooltip.style('visibility', 'visible')
             .style('width', '140px')
             .style('height', '100px')
@@ -208,7 +189,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         }
       })
       .on('mousemove', d => {
-        if (d.data.categoria !== 'Total' && d.data.categoria !== 'Proposição') {
+        if (d.data.categoria !== 'Total' && d.data.categoria !== 'Proposta') {
           tooltip.style('top', (event.pageY - 10) + 'px')
             .style('left', (event.pageX + 10) + 'px')
             .html(this.tooltipText(d));
@@ -220,7 +201,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
       .selectAll('tspan')
       .data(d => {
         if (d.data.titulo !== 'Total') {
-          if (d.data.categoria === 'Proposição') {
+          if (d.data.categoria === 'Proposta') {
             const quant = this.quantTotal(d.data.children);
             return d.data.sigla.split(/(?=[a-z][^a-z])/g).concat(` (${quant} ${quant > 1 ? 'ações' : 'ação'})`);
           }
@@ -235,7 +216,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
 
     node.selectAll('text')
       .style('visibility', d => {
-        if (d.data.categoria === 'Proposição') {
+        if (d.data.categoria === 'Proposta') {
           return 'visible';
         }
         if (d.x1 - d.x0 >= 150) {
@@ -256,12 +237,12 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     node.filter(d => d.children).select('tspan')
       .attr('dx', 3)
       .attr('y', 15)
-      .style('font-weight', d => d.data.categoria === 'Proposição' ? 'bold' : '');
+      .style('font-weight', d => d.data.categoria === 'Proposta' ? 'bold' : '');
 
     node.filter(d => d.children).select('tspan:nth-child(2)')
       .style('opacity', 0.8);
 
-    node.filter(d => !d.children).selectAll('tspan')
+    node.filter(d => !d.children).select('tspan')
       .attr('dx', 3)
       .attr('y', 15)
       .style('fill', '#333333');
@@ -293,7 +274,11 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
           if (prop.data.value <= 1) {
             texto += '<br>' + `${prop.data.value} ` + `${prop.data.categoria}`;
           } else {
-            texto += '<br>' + `${prop.data.value} ` + `${prop.data.categoria}s`;
+            if (prop.data.categoria === 'Proposição') {
+              texto += '<br>' + `${prop.data.value} ` + `Proposições`;
+            } else {
+              texto += '<br>' + `${prop.data.value} ` + `${prop.data.categoria}s`;
+            }
           }
         }
       }
