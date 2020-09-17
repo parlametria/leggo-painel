@@ -1,5 +1,6 @@
-import { Component, OnInit, AfterContentInit, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, OnInit, AfterContentInit, ChangeDetectorRef, Input, Output } from '@angular/core';
 import { Params, Router, ActivatedRoute } from '@angular/router';
+import { EventEmitter } from '@angular/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -14,6 +15,8 @@ import { TemasService } from '../../shared/services/temas.service';
 export class FiltroComponent implements OnInit, AfterContentInit {
 
   @Input() interesse: string;
+  @Output() filterChange = new EventEmitter<any>();
+
   private unsubscribe = new Subject();
 
   readonly FILTRO_PADRAO = 'todos';
@@ -25,11 +28,19 @@ export class FiltroComponent implements OnInit, AfterContentInit {
     { casa: 'Deputados', casa_slug: 'camara' },
     { casa: 'Senadores', casa_slug: 'senado' }];
 
+  nomePesquisado = '';
+  filtro: any;
+
   constructor(
     private temasService: TemasService,
     private activatedRoute: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
-    private router: Router) { }
+    private router: Router) {
+
+    this.filtro = {
+      nome: ''
+    };
+  }
 
   ngOnInit(): void {
     this.getTemas();
@@ -40,6 +51,7 @@ export class FiltroComponent implements OnInit, AfterContentInit {
         this.temaSelecionado === undefined ? this.temaSelecionado = this.FILTRO_PADRAO : this.temaSelecionado = this.temaSelecionado;
         this.casaSelecionada === undefined ? this.casaSelecionada = this.FILTRO_PADRAO : this.casaSelecionada = this.casaSelecionada;
       });
+    this.aplicarFiltro();
   }
 
   ngAfterContentInit() {
@@ -74,6 +86,14 @@ export class FiltroComponent implements OnInit, AfterContentInit {
       delete queryParams.casa;
     }
     this.router.navigate([], { queryParams });
+  }
+
+  aplicarFiltro() {
+    this.filtro = {
+      nome: this.nomePesquisado
+    };
+
+    this.filterChange.emit(this.filtro);
   }
 
 }

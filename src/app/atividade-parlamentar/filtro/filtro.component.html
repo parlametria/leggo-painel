@@ -25,3 +25,17 @@
     </option>
   </select>
 </div>
+<div class="filtro-wrapper mb-4">
+  <div class="col-lg-8">
+    <div class="form-group">
+      <input
+        type="text"
+        class="form-control"
+        id="searchParlamentar"
+        [(ngModel)]="nomePesquisado"
+        (ngModelChange)="aplicarFiltro()"
+        placeholder="Buscar parlamentar..."
+      >
+    </div>
+  </div>
+</div>

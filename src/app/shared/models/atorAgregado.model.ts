@@ -13,4 +13,5 @@ export interface AtorAgregado {
   quantidade_comissao_presidente: number;
   quantidade_relatorias: number;
   peso_politico: number;
+  nome_processado: string;
 }
