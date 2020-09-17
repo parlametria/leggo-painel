@@ -18,13 +18,13 @@ export class TwitterService {
     const params = new HttpParams()
       .set('interesse', interesse)
       .set('tema', tema);
-    return this.http.get<any[]>(`${this.twitterUrl}`, { params });
+    return this.http.get<any[]>(`${this.twitterUrl}/parlamentares`, { params });
   }
 
   getAtividadeDetalhadaTwitter(id: string, interesse: string, tema: string): Observable<any[]> {
     const params = new HttpParams()
       .set('interesse', interesse)
       .set('tema', tema);
-    return this.http.get<any[]>(`${this.twitterUrl}/parlamentar/${id}`, { params });
+    return this.http.get<any[]>(`${this.twitterUrl}/parlamentares/${id}`, { params });
   }
 }
