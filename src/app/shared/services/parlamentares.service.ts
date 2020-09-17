@@ -77,7 +77,7 @@ export class ParlamentaresService {
           ...comissaoPresidencia.find(p => a.id_autor_parlametria === p.id_autor_voz),
           ...atoresRelatores.find(p => a.id_autor_parlametria === p.autor_id_parlametria),
           ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
-          ...twitter,
+          ...twitter.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
           ...a
         }));
 
@@ -88,6 +88,7 @@ export class ParlamentaresService {
           }
           return 0;
         });
+
         const pesosPoliticos = parlamentares.map(p => {
           if (p.peso_politico) {
             return +p.peso_politico;
@@ -95,8 +96,16 @@ export class ParlamentaresService {
           return 0;
         });
 
+        const tweets = parlamentares.map(p => {
+          if (p.atividade_twitter) {
+            return +p.atividade_twitter;
+          }
+          return 0;
+        });
+
         parlamentares.forEach(p => {
           p.atividade_parlamentar = this.normalizarAtividade(p.peso_documentos, Math.min(...pesos), Math.max(...pesos));
+          p.atividade_twitter = this.normalizarAtividade(p.atividade_twitter, Math.min(...tweets), Math.max(...tweets));
           p.peso_politico = this.pesoService.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
         });
 

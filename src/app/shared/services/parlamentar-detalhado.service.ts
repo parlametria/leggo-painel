@@ -42,7 +42,7 @@ export class ParlamentarDetalhadoService {
         const comissoesPresidencia = data[1];
         const autorias = data[2];
         const atividadeParlamentar = data[3][0];
-        const atividadeTwitter = data[4];
+        const atividadeTwitter = data[4][0];
 
         const comissoesInfo = this.getComissoesProcessadas(comissoesPresidencia);
         atividadeParlamentar.atividade_parlamentar = this.normalizarAtividade(
