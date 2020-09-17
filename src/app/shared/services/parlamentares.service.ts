@@ -108,7 +108,6 @@ export class ParlamentaresService {
   }
 
   private orderByDesc(a: number, b: number) {
-
     if (isNaN(b)) {
       return -1;
     }
