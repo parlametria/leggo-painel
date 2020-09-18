@@ -29,7 +29,7 @@
     #mySelector
     (change)="onChangeTema($event.target.value)"
     [(ngModel)]="temaSelecionado"
-    [disabled]="orderBySelecionado === 'peso-politico'">
+    [disabled]="desabilitaSelecaoTemas()">
     <option
       *ngFor="let t of temasBusca"
       [value]="t.tema_slug"

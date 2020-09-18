@@ -115,4 +115,8 @@ export class FiltroComponent implements OnInit, AfterContentInit {
     this.filterChange.emit(this.filtro);
   }
 
+  desabilitaSelecaoTemas() {
+    return this.orderBySelecionado === 'peso-politico';
+  }
+
 }
