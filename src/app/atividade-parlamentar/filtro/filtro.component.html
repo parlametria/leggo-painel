@@ -11,6 +11,18 @@
       {{ c.casa }}
     </option>
   </select>
+  <select
+  class="app-seletor"
+  #mySelector
+  (change)="onChangeOrderBy($event.target.value)"
+  [(ngModel)]="orderBySelecionado">
+  <option
+    *ngFor="let o of orderBy"
+    [value]="o.order_by"
+    [selected]="o.order_by === orderBySelecionado">
+    {{ o.order }}
+  </option>
+</select>
   <div class="mr-3">nas proposições de</div>
   <select
     class="app-seletor"
