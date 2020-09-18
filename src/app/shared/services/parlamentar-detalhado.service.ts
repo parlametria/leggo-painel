@@ -42,13 +42,19 @@ export class ParlamentarDetalhadoService {
         const comissoesPresidencia = data[1];
         const autorias = data[2];
         const atividadeParlamentar = data[3][0];
-        const atividadeTwitter = data[4][0];
+        const atividadeTwitter = data[4];
 
         const comissoesInfo = this.getComissoesProcessadas(comissoesPresidencia);
         atividadeParlamentar.atividade_parlamentar = this.normalizarAtividade(
           atividadeParlamentar.peso_documentos,
           atividadeParlamentar.min_peso_documentos,
           atividadeParlamentar.max_peso_documentos);
+
+        atividadeTwitter.atividade_twitter = this.normalizarAtividade(
+          atividadeTwitter.atividade_twitter,
+          atividadeTwitter.min_atividade_twitter,
+          atividadeTwitter.max_atividade_twitter
+        );
 
         const parlamentarDetalhado = ator;
         parlamentarDetalhado.autorias = autorias;
