@@ -3,7 +3,6 @@ import { Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 
-import { AtorService } from 'src/app/shared/services/ator.service';
 import { Autoria, ArvoreAutorias } from 'src/app/shared/models/autoria.model';
 import { AutoriasService } from 'src/app/shared/services/autorias.service';
 
@@ -125,7 +124,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
       .subscribe(autorias => {
         const autoriasApresentadas = [];
         autorias.forEach(dado => {
-          if (dado.tipo_acao !== 'Outros') {
+          if (dado.tipo_acao === 'Proposição') {
             autoriasApresentadas.push(dado);
           }
         });
@@ -143,8 +142,8 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   private atualizaVisAtividade(g, data) {
     const root = this.treemap(data);
 
-    const myColor = d3.scaleOrdinal().domain(['Total', 'Proposta', 'Recurso', 'Proposição'])
-      .range(['white', '#306161', '#98D9A8', '#86BFB4']);
+    const myColor = d3.scaleOrdinal().domain(['Total', 'Proposta'])
+      .range(['white', '#86BFB4', '#86BFB4']);
 
     const node = g.selectAll('g')
       .data(d3.nest().key((d: any) => d.data.titulo).entries(root.descendants()))
@@ -202,8 +201,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
       .data(d => {
         if (d.data.titulo !== 'Total') {
           if (d.data.categoria === 'Proposta') {
-            const quant = this.quantTotal(d.data.children);
-            return d.data.sigla.split(/(?=[a-z][^a-z])/g).concat(` (${quant} ${quant > 1 ? 'ações' : 'ação'})`);
+            return d.data.sigla.split(/(?=[a-z][^a-z])/g).concat(` (${d.value} ${d.value > 1 ? 'ações' : 'ação'})`);
           }
           return d.data.titulo.split(/(?=[a-z][^a-z])/g).concat(`(${d.value})`);
         } else {
@@ -215,20 +213,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
       .attr('transform', `translate(0, 15)`);
 
     node.selectAll('text')
-      .style('visibility', d => {
-        if (d.data.categoria === 'Proposta') {
-          return 'visible';
-        }
-        if (d.x1 - d.x0 >= 150) {
-          if (d.y1 - d.y0 >= 40) {
-            return 'visible';
-          } else {
-            return 'hidden';
-          }
-        } else {
-          return 'hidden';
-        }
-      })
+      .style('visibility', d => d.data.categoria === 'Proposta' ? 'visible' : 'hidden')
       .attr('transform', 'translate(5, 2)');
 
     node.filter(d => d.children).selectAll('tspan')
@@ -256,30 +241,14 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     return g.node();
   }
 
-  private quantTotal(children): number {
-    let quantTotal = 0;
-    children.forEach(doc => {
-      quantTotal += doc.quantidade;
-    });
-    return quantTotal;
-  }
-
   private tooltipText(doc): any {
     let texto = '';
     doc.parent.children.forEach(prop => {
       if (prop.data.value !== 0) {
-        if (prop.data.categoria === 'Outros') {
+        if (prop.data.value <= 1) {
           texto += '<br>' + `${prop.data.value} ` + `${prop.data.categoria}`;
         } else {
-          if (prop.data.value <= 1) {
-            texto += '<br>' + `${prop.data.value} ` + `${prop.data.categoria}`;
-          } else {
-            if (prop.data.categoria === 'Proposição') {
-              texto += '<br>' + `${prop.data.value} ` + `Proposições`;
-            } else {
-              texto += '<br>' + `${prop.data.value} ` + `${prop.data.categoria}s`;
-            }
-          }
+          texto += '<br>' + `${prop.data.value} ` + `Proposições`;
         }
       }
     });
