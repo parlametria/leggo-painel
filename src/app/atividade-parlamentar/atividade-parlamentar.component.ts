@@ -101,6 +101,10 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
     return (itensPerPage * (currentPage - 1)) + index;
   }
 
+  search(filtro: any) {
+    this.parlamentaresService.search(filtro);
+  }
+
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
