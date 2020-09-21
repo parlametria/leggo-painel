@@ -1,7 +1,7 @@
 Ações do parlamentar ponderadas pelo número de coautores
 <div class="titulo-sessao-com-icone">
   <h3 class="titulo-sessao">Por Tipo</h3>
-  <ng-template #tipContent>
+<!--   <ng-template #tipContent>
     Cada traço representa um parlamentar que atuou neste tema. A quantidade de ações do parlamentar atual é representada pela posição do traço preto.
   </ng-template>
   <span
@@ -9,11 +9,18 @@ Ações do parlamentar ponderadas pelo número de coautores
     class="icon-ajuda title-icon"
     placement="right"
     [ngbTooltip]="tipContent"
-    triggers="hover:blur"></span>
+    triggers="hover:blur"></span> -->
 </div>
-<app-vis-atividade-parlamentar
+<!-- <app-vis-atividade-parlamentar
   [idAtor]="idAtor"
-  [interesse]="interesse"></app-vis-atividade-parlamentar>
+  [interesse]="interesse">
+</app-vis-atividade-parlamentar> -->
+<div>
+  {{ parlamentar?.ranking_documentos }}° parlamentar mais atuante nessa agenda e tema.
+  <div class="titulo">
+    Das {{ parlamentar?.peso_total }} ações{{ infoTexto }}.
+  </div>
+</div>
 <h3 class="titulo-sessao">Por Proposição</h3>
 <app-vis-atividade-detalhada
   [idAtor]="idAtor"

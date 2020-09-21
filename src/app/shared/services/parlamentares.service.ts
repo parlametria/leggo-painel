@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 
 import { AtorAgregado } from '../models/atorAgregado.model';
 import { AtorService } from 'src/app/shared/services/ator.service';
@@ -18,6 +18,10 @@ export class ParlamentaresService {
 
   private parlamentares = new BehaviorSubject<Array<AtorAgregado>>([]);
   private parlamentaresFiltered = new BehaviorSubject<Array<AtorAgregado>>([]);
+  private orderBy: string;
+  readonly ORDER_BY_PADRAO = 'atuacao-parlamentar';
+
+  private filtro = new BehaviorSubject<any>({});
 
   constructor(
     private atorService: AtorService,
@@ -30,18 +34,27 @@ export class ParlamentaresService {
 
     this.parlamentares
       .pipe(
+        switchMap(parlamentar =>
+          this.filtro.pipe(
+            debounceTime(400),
+            distinctUntilChanged(
+              (p: any, q: any) => {
+                return this.compareFilter(p, q);
+              }
+            ),
+            map(filters => this.filter(parlamentar, filters))
+          )
+        ),
         tap(parlamentares => {
-          parlamentares.sort((a, b) => {
-            if (isNaN(b.atividade_parlamentar)) {
-              return -1;
-            }
-
-            if (isNaN(a.atividade_parlamentar)) {
-              return 1;
-            }
-
-            return b.atividade_parlamentar - a.atividade_parlamentar;
-          });
+          if (this.orderBy === 'atuacao-parlamentar') {
+            parlamentares.sort((a, b) => {
+              return this.orderByDesc(a.atividade_parlamentar, b.atividade_parlamentar);
+            });
+          } else if (this.orderBy === 'peso-politico') {
+            parlamentares.sort((a, b) => {
+              return this.orderByDesc(a.peso_politico, b.peso_politico);
+            });
+          }
         }))
       .subscribe(res => {
         this.parlamentaresFiltered.next(res);
@@ -91,6 +104,7 @@ export class ParlamentaresService {
         });
 
         parlamentares.forEach(p => {
+          p.nome_processado = p.nome_autor.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
           p.atividade_parlamentar = this.normalizarAtividade(p.peso_documentos, Math.min(...pesos), Math.max(...pesos));
           p.peso_politico = this.pesoService.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
         });
@@ -105,6 +119,49 @@ export class ParlamentaresService {
 
   private normalizarAtividade(metrica: number, min: number, max: number): number {
     return (metrica - min) / (max - min);
+  }
+
+  search(filtro: any) {
+    this.filtro.next(filtro);
+  }
+
+  private filter(parlamentar: AtorAgregado[], filtro: any) {
+    const nome = filtro.nome;
+
+    return parlamentar.filter(p => {
+      let filtered = true;
+
+      filtered =
+        nome && filtered
+          ? p.nome_processado.toLowerCase().includes(nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase())
+          : filtered;
+
+      return filtered;
+    });
+  }
+
+  private compareFilter(p: any, q: any) {
+    return p.nome === q.nome;
+  }
+
+  private orderByDesc(a: number, b: number) {
+    if (isNaN(b)) {
+      return -1;
+    }
+
+    if (isNaN(a)) {
+      return 1;
+    }
+
+    return b - a;
+  }
+
+  setOrderBy(orderBy: string) {
+    if (orderBy === undefined || orderBy === '') {
+      this.orderBy = this.ORDER_BY_PADRAO;
+    } else {
+      this.orderBy = orderBy;
+    }
   }
 
 }

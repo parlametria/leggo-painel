@@ -23,12 +23,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
   interesse: string;
   tema: string;
   casa: string;
-  opcoesOrdenacao: any = [
-    'Mais ativos no congresso',
-    // 'Mais ativos no Twitter',
-    // 'Mais papéis importantes',
-    // 'Maior peso político'
-  ];
+  orderBy: string;
 
   constructor(
     private parlamentaresService: ParlamentaresService,
@@ -46,8 +41,10 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
       .subscribe(params => {
         this.tema = params.tema;
         this.casa = params.casa;
+        this.orderBy = params.orderBy;
         this.tema === undefined ? this.tema = '' : this.tema = this.tema;
         this.casa === undefined ? this.casa = '' : this.casa = this.casa;
+        this.orderBy === undefined ? this.orderBy = '' : this.orderBy = this.orderBy;
         this.getDadosAtividadeParlamentar();
       });
     this.updatePageViaURL();
@@ -58,6 +55,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
   }
 
   getDadosAtividadeParlamentar() {
+    this.parlamentaresService.setOrderBy(this.orderBy);
     this.parlamentaresService.getParlamentares(this.interesse, this.tema, this.casa)
       .pipe(
         skip(1),
@@ -101,6 +99,10 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
     currentPage: number
   ) {
     return (itensPerPage * (currentPage - 1)) + index;
+  }
+
+  search(filtro: any) {
+    this.parlamentaresService.search(filtro);
   }
 
   ngOnDestroy() {
