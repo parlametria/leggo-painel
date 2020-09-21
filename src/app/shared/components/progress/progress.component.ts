@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class ProgressComponent implements OnInit {
 
   @Input() label: string;
+  @Input() barraClasse: string;
   @Input() valor: number;
   @Input() min: number;
   @Input() max: number;
