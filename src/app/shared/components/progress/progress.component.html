@@ -1,6 +1,6 @@
 <div class="progress app-progress">
   <div
-    class="progress-bar app-progress-bar bg-primary"
+    class="progress-bar app-progress-bar {{ barraClasse }}"
     role="progressbar"
     [ngStyle]="{'width': (valor * 100)+'%'}"
     [attr.aria-valuenow]="valor"
