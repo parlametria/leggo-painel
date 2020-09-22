@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 import { group } from 'd3-array';
 
@@ -23,6 +23,7 @@ export class AtividadeNoCongressoComponent implements OnInit {
   public tema: string;
   public parlamentar: any;
   public infoTexto: string;
+  public isLoading = new BehaviorSubject<boolean>(true);
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -58,6 +59,7 @@ export class AtividadeNoCongressoComponent implements OnInit {
           }
         }
       });
+      this.isLoading.next(false);
     });
   }
 
