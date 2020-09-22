@@ -74,7 +74,7 @@ export class AtividadeNoCongressoComponent implements OnInit {
         this.infoTexto = '';
         const autoriasPorTipo = d3.group(autoriasApresentadas, d => d.tipo_documento);
         autoriasPorTipo.forEach((documento, tipo) => {
-          this.infoTexto += `, ${this.somaPesos(documento).toFixed(0)} foram ${tipo}`;
+          this.infoTexto += `, ${this.formataPesos(this.somaPesos(documento))} foram do tipo ${tipo.toLowerCase()}`;
         });
       });
   }
@@ -85,5 +85,9 @@ export class AtividadeNoCongressoComponent implements OnInit {
       pesoTotal += doc.peso_autor_documento;
     });
     return pesoTotal;
+  }
+
+  private formataPesos(peso): number {
+    return peso <= 1 && peso >= 0.01 ? peso.toFixed(2) : peso.toFixed(0);
   }
 }
