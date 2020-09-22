@@ -74,7 +74,7 @@ export class AtividadeNoCongressoComponent implements OnInit {
         this.infoTexto = '';
         const autoriasPorTipo = d3.group(autoriasApresentadas, d => d.tipo_documento);
         autoriasPorTipo.forEach((documento, tipo) => {
-          this.infoTexto += `, ${this.somaPesos(documento).toFixed(0)} foram ${tipo}`;
+          this.infoTexto += `, ${this.formataPesos(this.somaPesos(documento))} ${this.formataTipo(tipo, documento)}`;
         });
       });
   }
@@ -85,5 +85,30 @@ export class AtividadeNoCongressoComponent implements OnInit {
       pesoTotal += doc.peso_autor_documento;
     });
     return pesoTotal;
+  }
+
+  private formataPesos(peso): number {
+    return peso < 1 && peso >= 0.01 ? peso.toFixed(2) : peso.toFixed(0);
+  }
+
+  private formataTipo(tipo, documento): string {
+    const peso = this.somaPesos(documento);
+    let tipoFormatado = tipo.toLowerCase();
+    const isPlural = peso > 1;
+
+    if (tipoFormatado === 'prop. original / apensada') {
+      if (isPlural) {
+        tipoFormatado = 'foi proposição original ou apensada';
+      } else {
+        tipoFormatado = 'foram proposições originais ou apensadas';
+      }
+    } else {
+      if (isPlural) {
+        tipoFormatado = 'foram ' + tipoFormatado + 's';
+      } else {
+        tipoFormatado = 'foi ' + tipoFormatado;
+      }
+    }
+    return tipoFormatado;
   }
 }

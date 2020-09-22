@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 })
 export class TwitterService {
 
-  private twitterUrl = `${environment.twitterAPIUrl}/tweets`;
+  private twitterUrl = `${environment.twitterAPIUrl}/api/tweets`;
 
   constructor(private http: HttpClient) { }
 
