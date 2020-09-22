@@ -94,7 +94,7 @@ export class AtividadeNoCongressoComponent implements OnInit {
   private formataTipo(tipo, documento): string {
     let plural = tipo.toLowerCase();
     if (plural === 'prop. original / apensada') {
-      plural = 'props. originais / apensadas';
+      plural = 'proposições originais ou apensadas';
     } else {
       plural = plural + 's';
     }
