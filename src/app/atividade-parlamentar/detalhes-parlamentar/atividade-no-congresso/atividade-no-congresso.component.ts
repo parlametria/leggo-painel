@@ -94,7 +94,6 @@ export class AtividadeNoCongressoComponent implements OnInit {
   private formataTipo(tipo, documento): string {
     const peso = this.somaPesos(documento);
     let tipoFormatado = tipo.toLowerCase();
-    console.log(peso.toFixed(0));
     const isPlural = peso.toFixed(0) !== '1';
 
     if (tipoFormatado === 'prop. original / apensada') {
