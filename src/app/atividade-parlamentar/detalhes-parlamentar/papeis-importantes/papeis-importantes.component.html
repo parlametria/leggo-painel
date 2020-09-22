@@ -1,41 +1,66 @@
 <h3 class="titulo-sessao">Papéis Importantes</h3>
-<ngb-accordion
-  [closeOthers]="true"
-  activeIds="static-1">
-  <ngb-panel
-    id="static-1"
-    title="Presidente de comissão({{ comissao?.quantidade_comissao_presidente }})">
-    <ng-template ngbPanelContent>
-      <ul *ngIf="comissao?.quantidade_comissao_presidente">
-        <li>{{ comissao?.info_comissao }}</li>
-      </ul>
-    </ng-template>
-  </ngb-panel>
-  <span class="icon-relator app-icon text-success"></span>
-  <ngb-panel
-    id="static-2"
-    title="Relatorias ({{ relatorias?.length }})">
-    <ng-template ngbPanelContent>
-      <ul *ngIf="relatorias?.length">
-        <li *ngFor="let item of relatorias; let i = index">
-          <a [href]="'https://leggo.parlametria.org/#/proposicao/' + item.id_leggo + '/' + interesse">{{ item.sigla }}</a>
-        </li>
-      </ul>
-    </ng-template>
-  </ngb-panel>
-  <ngb-panel
-    id="static-3"
-    title="Autorias ({{ autorias?.length }})">
-    <ng-template ngbPanelContent>
-      <ul *ngIf="autorias?.length">
-        <li *ngFor="let item of autorias; let i = index">
-          <a
-            [href]="[item.url_inteiro_teor]"
-            target="_blank">
-            {{ item.sigla }}: {{ item.data }}
-          </a>
-        </li>
-      </ul>
-    </ng-template>
-  </ngb-panel>
-</ngb-accordion>
+<app-loading *ngIf="isLoading | async"></app-loading>
+<div [hidden]="isLoading | async">
+  <div class="mb-4">
+    <h6 class="arvore-titulo">
+      <span class="app-icon arvore-icon icon-presidente text-warning"></span>
+      <strong>Presidente</strong>
+      &nbsp;de {{ comissoes?.length }}
+      <span *ngIf="comissoes?.length === 1">&nbsp;comissão</span>
+      <span *ngIf="comissoes?.length !== 1">&nbsp;comissões</span>
+    </h6>
+    <ul
+      *ngIf="comissoes?.length"
+      class="arvore warning">
+      <li
+        *ngFor="let comissao of comissoes; let i = index"
+        class="warning">
+        {{ comissao?.info_comissao }}
+      </li>
+    </ul>
+  </div>
+
+  <div class="mb-4">
+
+    <h6 class="arvore-titulo">
+      <span class="app-icon arvore-icon icon-relator text-success"></span>
+      <strong>Relator</strong>
+      &nbsp;de {{ relatorias?.length }}
+      <span *ngIf="relatorias?.length === 1">&nbsp;proposição</span>
+      <span *ngIf="relatorias?.length !== 1">&nbsp;proposições</span>
+    </h6>
+    <ul
+      *ngIf="relatorias?.length"
+      class="arvore success">
+      <li
+        *ngFor="let item of relatorias; let i = index"
+        class="success">
+        <a [href]="'https://leggo.parlametria.org/#/proposicao/' + item.id_leggo + '/' + interesse">{{ item.sigla }}</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="mb-4">
+
+    <h6 class="arvore-titulo">
+      <span class="app-icon arvore-icon icon-autor text-danger"></span>
+      <strong>Autor</strong>
+      &nbsp;de {{ autorias?.length }}
+      <span *ngIf="autorias?.length === 1">&nbsp;proposição</span>
+      <span *ngIf="autorias?.length !== 1">&nbsp;proposições</span>
+    </h6>
+    <ul
+      *ngIf="autorias?.length"
+      class="arvore danger">
+      <li
+        *ngFor="let item of autorias; let i = index"
+        class="danger">
+        <a
+          [href]="[item.url_inteiro_teor]"
+          target="_blank">
+          {{ item.sigla }} de {{ item.data | date:'dd/MM/yyyy' }}
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

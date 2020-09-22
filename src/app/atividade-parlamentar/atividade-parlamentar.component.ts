@@ -23,13 +23,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
   interesse: string;
   tema: string;
   casa: string;
-  ativo: string;
-  opcoesOrdenacao: any = [
-    'Mais ativos no congresso',
-    // 'Mais ativos no Twitter',
-    // 'Mais papéis importantes',
-    // 'Maior peso político'
-  ];
+  orderBy: string;
 
   constructor(
     private parlamentaresService: ParlamentaresService,
@@ -47,10 +41,10 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
       .subscribe(params => {
         this.tema = params.tema;
         this.casa = params.casa;
-        this.ativo = params.ativo;
+        this.orderBy = params.orderBy;
         this.tema === undefined ? this.tema = '' : this.tema = this.tema;
         this.casa === undefined ? this.casa = '' : this.casa = this.casa;
-        this.ativo === undefined ? this.ativo = '' : this.ativo = this.ativo;
+        this.orderBy === undefined ? this.orderBy = '' : this.orderBy = this.orderBy;
         this.getDadosAtividadeParlamentar();
       });
     this.updatePageViaURL();
@@ -61,6 +55,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
   }
 
   getDadosAtividadeParlamentar() {
+    this.parlamentaresService.setOrderBy(this.orderBy);
     this.parlamentaresService.getParlamentares(this.interesse, this.tema, this.casa)
       .pipe(
         skip(1),
@@ -68,31 +63,6 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
         takeUntil(this.unsubscribe))
       .subscribe(parlamentares => {
         this.parlamentares = parlamentares;
-        if (this.ativo === 'twitter') {
-          this.parlamentares.sort((a, b) => {
-            if (isNaN(b.atividade_twitter)) {
-              return -1;
-            }
-
-            if (isNaN(a.atividade_twitter)) {
-              return 1;
-            }
-
-            return b.atividade_twitter - a.atividade_twitter;
-          });
-        } else {
-          this.parlamentares.sort((a, b) => {
-            if (isNaN(b.atividade_parlamentar)) {
-              return -1;
-            }
-
-            if (isNaN(a.atividade_parlamentar)) {
-              return 1;
-            }
-
-            return b.atividade_parlamentar - a.atividade_parlamentar;
-          });
-        }
         this.isLoading.next(false);
       },
         error => {
@@ -129,6 +99,10 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
     currentPage: number
   ) {
     return (itensPerPage * (currentPage - 1)) + index;
+  }
+
+  search(filtro: any) {
+    this.parlamentaresService.search(filtro);
   }
 
   ngOnDestroy() {

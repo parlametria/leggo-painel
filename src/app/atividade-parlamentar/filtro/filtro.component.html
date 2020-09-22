@@ -14,13 +14,13 @@
   <select
   class="app-seletor"
   #mySelector
-  (change)="onChangeAtivo($event.target.value)"
-  [(ngModel)]="ativoSelecionado">
+  (change)="onChangeOrderBy($event.target.value)"
+  [(ngModel)]="orderBySelecionado">
   <option
-    *ngFor="let a of ativoBusca"
-    [value]="a.ativo_slug"
-    [selected]="a.ativo_slug === ativoSelecionado">
-    {{ a.ativo }}
+    *ngFor="let o of orderBy"
+    [value]="o.order_by"
+    [selected]="o.order_by === orderBySelecionado">
+    {{ o.order }}
   </option>
 </select>
   <div class="mr-3">nas proposições de</div>
@@ -28,7 +28,8 @@
     class="app-seletor"
     #mySelector
     (change)="onChangeTema($event.target.value)"
-    [(ngModel)]="temaSelecionado">
+    [(ngModel)]="temaSelecionado"
+    [disabled]="desabilitaSelecaoTemas()">
     <option
       *ngFor="let t of temasBusca"
       [value]="t.tema_slug"
@@ -36,4 +37,18 @@
       {{ t.tema }}
     </option>
   </select>
+</div>
+<div class="filtro-wrapper mb-4">
+  <div class="col-lg-8">
+    <div class="form-group">
+      <input
+        type="text"
+        class="form-control"
+        id="searchParlamentar"
+        [(ngModel)]="nomePesquisado"
+        (ngModelChange)="aplicarFiltro()"
+        placeholder="Buscar parlamentar..."
+      >
+    </div>
+  </div>
 </div>

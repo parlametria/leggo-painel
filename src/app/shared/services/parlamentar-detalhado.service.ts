@@ -50,6 +50,12 @@ export class ParlamentarDetalhadoService {
           atividadeParlamentar.min_peso_documentos,
           atividadeParlamentar.max_peso_documentos);
 
+        atividadeTwitter.atividade_twitter = this.normalizarAtividade(
+          atividadeTwitter.atividade_twitter,
+          atividadeTwitter.min_atividade_twitter,
+          atividadeTwitter.max_atividade_twitter
+        );
+
         const parlamentarDetalhado = ator;
         parlamentarDetalhado.autorias = autorias;
         parlamentarDetalhado.relatorias = relatorias;
@@ -71,19 +77,11 @@ export class ParlamentarDetalhadoService {
     let infoComissao = {};
 
     if (comissao.length !== 0) {
-      if (comissao[0].tramitou_agenda === true) {
-        infoComissao = {
-          idComissao: comissao[0].id_comissao,
-          info_comissao: comissao[0].info_comissao,
-          quantidade_comissao_presidente: comissao[0].quantidade_comissao_presidente
-        };
-      } else {
-        infoComissao = {
-          idComissao: comissao[0].id_comissao,
-          info_comissao: comissao[0].info_comissao,
-          quantidade_comissao_presidente: 0
-        };
-      }
+      infoComissao = {
+        idComissao: comissao[0].id_comissao,
+        info_comissao: comissao[0].info_comissao,
+        quantidade_comissao_presidente: comissao[0].quantidade_comissao_presidente
+      };
     }
 
     return infoComissao;
