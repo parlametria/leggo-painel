@@ -88,6 +88,6 @@ export class AtividadeNoCongressoComponent implements OnInit {
   }
 
   private formataPesos(peso): number {
-    return peso <= 1 && peso >= 0.01 ? peso.toFixed(2) : peso.toFixed(0);
+    return peso < 1 && peso >= 0.01 ? peso.toFixed(2) : peso.toFixed(0);
   }
 }
