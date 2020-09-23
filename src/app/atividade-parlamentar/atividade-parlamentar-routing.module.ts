@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AtividadeParlamentarComponent } from './atividade-parlamentar.component';
 import { DetalhesParlamentarComponent } from './detalhes-parlamentar/detalhes-parlamentar.component';
 import { PesoPoliticoComponent, PapeisImportantesComponent, AtividadeNoCongressoComponent } from './detalhes-parlamentar';
-
+import { RedesSociaisComponent } from './detalhes-parlamentar/redes-sociais/redes-sociais.component';
 
 const routes: Routes = [
   {
@@ -31,6 +31,10 @@ const routes: Routes = [
       {
         path: 'atividades',
         component: AtividadeNoCongressoComponent,
+      },
+      {
+        path: 'redes-sociais',
+        component: RedesSociaisComponent,
       }
     ]
   }
