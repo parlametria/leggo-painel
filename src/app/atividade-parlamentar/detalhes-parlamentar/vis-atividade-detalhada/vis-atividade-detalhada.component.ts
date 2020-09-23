@@ -201,7 +201,8 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
       .data(d => {
         if (d.data.titulo !== 'Total') {
           if (d.data.categoria === 'Proposta') {
-            return d.data.sigla.split(/(?=[a-z][^a-z])/g).concat(` (${d.value} ${d.value > 1 ? 'ações' : 'ação'})`);
+            return d.data.sigla.split(/(?=[a-z][^a-z])/g)
+              .concat(` (${this.formataNumeroAcoes(d.value)} ${d.value > 1 ? 'ações' : 'ação'})`);
           }
           return d.data.titulo.split(/(?=[a-z][^a-z])/g).concat(`(${d.value})`);
         } else {
@@ -246,13 +247,17 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     doc.parent.children.forEach(prop => {
       if (prop.data.value !== 0) {
         if (prop.data.value <= 1) {
-          texto += '<br>' + `${prop.data.value} ` + `${prop.data.categoria}`;
+          texto += '<br>' + `${this.formataNumeroAcoes(prop.data.value)} ` + `${prop.data.categoria}`;
         } else {
-          texto += '<br>' + `${prop.data.value} ` + `Proposições`;
+          texto += '<br>' + `${this.formataNumeroAcoes(prop.data.value)} ` + `Proposições`;
         }
       }
     });
     return ('<p style="margin-top: 10px; margin-left: 5px;">' +
       '<b>' + `${doc.parent.data.sigla}` + '</b>' + texto + '</p>');
+  }
+
+  private formataNumeroAcoes(numero) {
+    return numero.toFixed(2).replace('.', ',').replace(/[.,]00$/, '');
   }
 }

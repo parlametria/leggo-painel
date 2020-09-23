@@ -34,7 +34,7 @@
       *ngFor="let t of temasBusca"
       [value]="t.tema_slug"
       [selected]="t.tema_slug === temaSelecionado">
-      {{ t.tema }}
+      {{ t.tema.toLowerCase() }}
     </option>
   </select>
 </div>

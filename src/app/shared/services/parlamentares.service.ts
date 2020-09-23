@@ -56,6 +56,10 @@ export class ParlamentaresService {
             parlamentares.sort((a, b) => {
               return this.orderByDesc(a.peso_politico, b.peso_politico);
             });
+          } else if (this.orderBy === 'atuacao-twitter') {
+            parlamentares.sort((a, b) => {
+              return this.orderByDesc(a.atividade_twitter, b.atividade_twitter);
+            });
           }
         }))
       .subscribe(res => {
