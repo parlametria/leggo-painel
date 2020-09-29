@@ -32,7 +32,7 @@ export class ParlamentarDetalhadoService {
         this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar, tema),
         this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar, tema),
         this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse, tema),
-        this.atorService.getAtoresAgregadosByID(Number(idParlamentar), interesse, tema),
+        this.autoriasService.getAutoriasAgregadasById(interesse, Number(idParlamentar), tema),
         this.twitterService.getAtividadeDetalhadaTwitter(idParlamentar, interesse, tema)
       ]
     )
@@ -41,7 +41,7 @@ export class ParlamentarDetalhadoService {
         const relatorias = data[0];
         const comissoesPresidencia = data[1];
         const autorias = data[2];
-        const atividadeParlamentar = data[3][0];
+        const atividadeParlamentar: any = data[3][0];
         const atividadeTwitter = data[4];
 
         const comissoesInfo = this.getComissoesProcessadas(comissoesPresidencia);
