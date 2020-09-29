@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
-    <a [routerLink]="interesseSlug" class="navbar-brand">
+    <a [routerLink]="interesse?.interesse" class="navbar-brand">
       <img
         src="assets/imgs/logo.svg"
         alt="leggo"
         width="120">
       &bull;
-      {{ interesse }}
+      {{ interesse?.nome_interesse }}
     </a>
   </div>
 </nav>
