@@ -25,7 +25,9 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.router.events.subscribe((event) => {
+    this.router.events
+    .pipe(takeUntil(this.unsubscribe))
+    .subscribe((event) => {
       if (event instanceof ChildActivationStart) {
         this.interesseParam = event.snapshot.params.interesse;
         if (this.interesseParam !== undefined) {
