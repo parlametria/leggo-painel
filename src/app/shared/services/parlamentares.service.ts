@@ -19,7 +19,7 @@ export class ParlamentaresService {
 
   private parlamentares = new BehaviorSubject<Array<AtorAgregado>>([]);
   private parlamentaresFiltered = new BehaviorSubject<Array<AtorAgregado>>([]);
-  private orderBy: string;
+  private orderBy = new BehaviorSubject<string>('');
   readonly ORDER_BY_PADRAO = 'atuacao-parlamentar';
 
   private filtro = new BehaviorSubject<any>({});
@@ -45,20 +45,27 @@ export class ParlamentaresService {
               }
             ),
             map(filters => this.filter(parlamentar, filters))
-          )
-        ),
+          )),
+        switchMap(parlamentares => {
+          return this.orderBy.pipe(map(par => parlamentares));
+        }),
         tap(parlamentares => {
-          if (this.orderBy === 'atuacao-parlamentar') {
+          if (this.orderBy.value === 'atuacao-parlamentar') {
             parlamentares.sort((a, b) => {
               return this.orderByDesc(a.atividade_parlamentar, b.atividade_parlamentar);
             });
-          } else if (this.orderBy === 'peso-politico') {
+          } else if (this.orderBy.value === 'peso-politico') {
             parlamentares.sort((a, b) => {
               return this.orderByDesc(a.peso_politico, b.peso_politico);
             });
-          } else if (this.orderBy === 'atuacao-twitter') {
+          } else if (this.orderBy.value === 'atuacao-twitter') {
             parlamentares.sort((a, b) => {
               return this.orderByDesc(a.atividade_twitter, b.atividade_twitter);
+            });
+          }
+          if (this.filtro.value.nome === '') { // evita que índice mude pela busca por nome
+            parlamentares.map((p, index) => {
+              p.indice = index;
             });
           }
         }))
@@ -176,9 +183,9 @@ export class ParlamentaresService {
 
   setOrderBy(orderBy: string) {
     if (orderBy === undefined || orderBy === '') {
-      this.orderBy = this.ORDER_BY_PADRAO;
+      this.orderBy.next(this.ORDER_BY_PADRAO);
     } else {
-      this.orderBy = orderBy;
+      this.orderBy.next(orderBy);
     }
   }
 
