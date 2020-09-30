@@ -83,7 +83,8 @@ export class ParlamentaresService {
         this.comissaoService.getComissaoPresidencia(interesse, tema),
         this.relatoriaService.getAtoresRelatores(interesse, tema),
         this.pesoService.getPesoPolitico(),
-        this.twitterService.getAtividadeTwitter(interesse, tema)
+        this.twitterService.getAtividadeTwitter(interesse, tema),
+        this.autoriaService.getAutoriasAgregadasProjetos(interesse, tema)
       ]
     )
       .subscribe(data => {
@@ -94,6 +95,7 @@ export class ParlamentaresService {
         const atoresRelatores: any = data[4];
         const pesoPolitico: any = data[5];
         const twitter: any = data[6];
+        const autoriasProjetos: any = data[7];
 
         const parlamentares = parlamentaresExercicio.map(a => ({
           ...atores.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
@@ -102,6 +104,7 @@ export class ParlamentaresService {
           ...atoresRelatores.find(p => a.id_autor_parlametria === p.autor_id_parlametria),
           ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...twitter.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
+          ...autoriasProjetos.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...a
         }));
 

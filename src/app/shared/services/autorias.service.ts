@@ -37,4 +37,7 @@ export class AutoriasService {
     return this.http.get<Autoria[]>(`${this.atorUrl}/${idAtor}/originais/?interesse=${interesse}&tema=${tema}`);
   }
 
+  getAutoriasAgregadasProjetos(interesse: string, tema: string): Observable<Autoria[]> {
+    return this.http.get<Autoria[]>(`${this.autoriaUrl}/projetos/?interesse=${interesse}&tema=${tema}`);
+  }
 }
