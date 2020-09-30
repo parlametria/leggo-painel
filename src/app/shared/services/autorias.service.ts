@@ -21,8 +21,8 @@ export class AutoriasService {
     return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas?interesse=${interesse}&tema=${tema}`);
   }
 
-  getAutoriasAgregadasById(interesse: string, idAutor: number): Observable<AutoriaAgregada[]> {
-    return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas/${idAutor}/?interesse=${interesse}`);
+  getAutoriasAgregadasById(interesse: string, idAutor: number, tema: string): Observable<AutoriaAgregada[]> {
+    return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas/${idAutor}/?interesse=${interesse}&tema=${tema}`);
   }
 
   getAutorias(idAtor: number, interesse: string, tema: string): Observable<Autoria[]> {
