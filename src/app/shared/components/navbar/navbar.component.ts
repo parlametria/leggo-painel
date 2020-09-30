@@ -4,44 +4,45 @@ import { Router, ChildActivationStart } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { InteresseService } from '../../services/interesse.service';
+import { Interesse } from '../../models/interesse.model';
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-
   private unsubscribe = new Subject();
 
-  public interesse: string;
-  public interesseSlug: string;
+  public interesse: Interesse;
+
+  public interesseParam: string;
 
   constructor(
+    private interesseService: InteresseService,
     private router: Router,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.router.events
     .pipe(takeUntil(this.unsubscribe))
-    .subscribe(event => {
+    .subscribe((event) => {
       if (event instanceof ChildActivationStart) {
-        switch (event.snapshot.params.interesse) {
-          case 'primeira-infancia':
-            this.interesse = 'Primeira Infância';
-            break;
-          case 'congresso-remoto':
-            this.interesse = 'Congresso Remoto';
-            break;
-          case 'reforma-tributaria':
-            this.interesse = 'Reforma Tributária';
-            break;
-          default:
-            this.interesse = 'RAC';
-            break;
+        this.interesseParam = event.snapshot.params.interesse;
+        if (this.interesseParam !== undefined) {
+          this.getInteresse(this.interesseParam);
         }
-        this.interesseSlug = event.snapshot.params.interesse;
       }
     });
   }
 
+  getInteresse(interesseArg: string) {
+    this.interesseService
+      .getInteresse(interesseArg)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((data) => {
+        this.interesse = data[0];
+      });
+  }
 }
