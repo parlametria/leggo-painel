@@ -10,7 +10,7 @@
   </div>
   <div class="card-body">
     <div>
-      <a [routerLink]="[parlamentar.id_autor_parlametria]">
+      <a [routerLink]="[parlamentar.id_autor_parlametria + '/atividades']">
         <app-progress
           [label]="'Congresso'"
           [barraClasse]="'bg-primary'"
@@ -19,7 +19,7 @@
       </a>
     </div>
     <div class="space-between-bars">
-      <a [routerLink]="[parlamentar.id_autor_parlametria]">
+      <a [routerLink]="[parlamentar.id_autor_parlametria + '/redes-sociais']">
         <app-progress
           [label]="'Twitter'"
           [barraClasse]="'bg-twitter'"
@@ -32,7 +32,8 @@
         <span
           class="cracha"
           *ngIf="parlamentar.quantidade_autorias"
-          [ngbPopover]="popAutorias">
+          [ngbPopover]="popAutorias"
+          [autoClose]="'outside'">
           <span class="icon-autor app-icon text-danger"></span>
           <span class="badge badge-danger app-badge badge-color-white">{{ parlamentar.quantidade_autorias }}</span>
           <ng-template #popAutorias>
@@ -40,13 +41,17 @@
             &nbsp;de {{ parlamentar.quantidade_autorias }}
             <span *ngIf="parlamentar.quantidade_autorias === 1">&nbsp;proposição</span>
             <span *ngIf="parlamentar.quantidade_autorias !== 1">&nbsp;proposições</span>
+            <div class="text-right">
+              <a [routerLink]="[parlamentar.id_autor_parlametria + '/papeis']" class="btn btn-link btn-sm">+ Detalhes</a>
+            </div>
           </ng-template>
         </span>
 
         <span
           class="cracha"
           *ngIf="parlamentar.quantidade_relatorias"
-          [ngbPopover]="popRelatorias">
+          [ngbPopover]="popRelatorias"
+          [autoClose]="'outside'">
           <span class="icon-relator app-icon text-success"></span>
           <span class="badge badge-success app-badge badge-color-white">{{ parlamentar.quantidade_relatorias }}</span>
           <ng-template #popRelatorias>
@@ -54,13 +59,17 @@
             &nbsp;de {{ parlamentar.quantidade_relatorias }}
             <span *ngIf="parlamentar.quantidade_relatorias === 1">&nbsp;proposição</span>
             <span *ngIf="parlamentar.quantidade_relatorias !== 1">&nbsp;proposições</span>
+            <div class="text-right">
+              <a [routerLink]="[parlamentar.id_autor_parlametria + '/papeis']" class="btn btn-link btn-sm">+ Detalhes</a>
+            </div>
           </ng-template>
         </span>
 
         <span
           class="cracha"
           *ngIf="parlamentar.quantidade_comissao_presidente"
-          [ngbPopover]="popPresidencia">
+          [ngbPopover]="popPresidencia"
+          [autoClose]="'outside'">
           <span class="icon-presidente app-icon text-warning"></span>
           <span class="badge badge-warning app-badge badge-color-white">
             {{ parlamentar.quantidade_comissao_presidente }}
@@ -70,14 +79,19 @@
             &nbsp;de {{ parlamentar.quantidade_comissao_presidente }}
             <span *ngIf="parlamentar.quantidade_comissao_presidente === 1">&nbsp;comissão</span>
             <span *ngIf="parlamentar.quantidade_comissao_presidente !== 1">&nbsp;comissões</span>
+            <div class="text-right">
+              <a [routerLink]="[parlamentar.id_autor_parlametria + '/papeis']" class="btn btn-link btn-sm">+ Detalhes</a>
+            </div>
           </ng-template>
         </span>
       </div>
       <div>
-        <app-avaliacao
-          [label]="'Peso'"
-          [valor]="parlamentar.peso_politico * 5"
-          [exibirLabel]="id === 0"></app-avaliacao>
+        <a [routerLink]="[parlamentar.id_autor_parlametria + '/peso']">
+          <app-avaliacao
+            [label]="'Peso'"
+            [valor]="parlamentar.peso_politico * 5"
+            [exibirLabel]="id === 0"></app-avaliacao>
+        </a>
       </div>
     </div>
     <!-- <a [routerLink]="[parlamentar.id_autor_parlametria]" class="stretched-link" queryParamsHandling="merge"></a> -->
