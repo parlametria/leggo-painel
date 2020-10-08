@@ -22,7 +22,13 @@
         </div>
       </div>
       <div class="col2">
-        <div class="parlamentar-titulo">{{ parlamentarInfo?.nome_autor }}</div>
+        <div class="parlamentar-titulo">
+          <span *ngIf="parlamentarInfo?.casa_autor == 'camara'" class="text-muted">
+            Dep.
+          </span>
+          <span *ngIf="parlamentarInfo?.casa_autor == 'senado'" class="text-muted">
+            Sen.
+          </span>{{ parlamentarInfo?.nome_autor }}</div>
         <p class="parlamentar-partido">
           {{ parlamentarInfo?.partido }}/{{ parlamentarInfo?.uf }}
         </p>
