@@ -17,4 +17,5 @@ export interface AtorAgregado {
   peso_politico: number;
   nome_processado: string;
   indice: number;
+  casa_autor: string;
 }
