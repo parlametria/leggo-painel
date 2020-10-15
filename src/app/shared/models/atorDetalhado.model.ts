@@ -16,4 +16,5 @@ export interface AtorDetalhado {
     autorias: Autoria[];
     atividadeParlamentar: any;
     atividadeTwitter: any;
+    total_peso_autorias: number;
 }
