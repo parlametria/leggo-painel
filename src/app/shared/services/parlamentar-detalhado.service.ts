@@ -57,7 +57,7 @@ export class ParlamentarDetalhadoService {
           atividadeTwitter.max_atividade_twitter
         );
 
-        const peso_total_autorias = this.calculaPesoTotalAutorias(autorias);
+        const pesoTotalAutorias = this.calculaPesoTotalAutorias(autorias);
 
         const parlamentarDetalhado = ator;
         parlamentarDetalhado.autorias = autorias;
@@ -65,7 +65,7 @@ export class ParlamentarDetalhadoService {
         parlamentarDetalhado.comissoes = comissoesInfo;
         parlamentarDetalhado.atividadeParlamentar = atividadeParlamentar;
         parlamentarDetalhado.atividadeTwitter = atividadeTwitter;
-        parlamentarDetalhado.total_peso_autorias = peso_total_autorias;
+        parlamentarDetalhado.total_peso_autorias = pesoTotalAutorias;
 
         this.parlamentarDetalhado.next(parlamentarDetalhado);
       },
@@ -96,8 +96,9 @@ export class ParlamentarDetalhadoService {
   }
 
   private calculaPesoTotalAutorias(autorias: Autoria[]): number {
-    let peso_total_autorias = autorias.reduce((a, b) => a + b.peso_autor_documento, 0);
-    return +peso_total_autorias.toFixed(2);
+    let pesoTotalAutorias = autorias.reduce((a, b) => a + b.peso_autor_documento, 0);
+    pesoTotalAutorias = +pesoTotalAutorias;
+    return pesoTotalAutorias % 1 !== 0 ? +pesoTotalAutorias.toFixed(2) : pesoTotalAutorias;
   }
 
 }
