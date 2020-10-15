@@ -135,6 +135,13 @@ export class ParlamentaresService {
           p.atividade_parlamentar = this.normalizarAtividade(p.peso_documentos, p.min_peso_documentos, p.max_peso_documentos);
           p.atividade_twitter = this.normalizarAtividade(p.atividade_twitter, Math.min(...tweets), Math.max(...tweets));
           p.peso_politico = this.pesoService.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
+          if (p.peso_autorias_projetos) {
+            if (p.peso_autorias_projetos % 1 !== 0) {
+              p.peso_autorias_projetos = +p.peso_autorias_projetos.toFixed(2);
+            }
+          } else {
+            p.peso_autorias_projetos = 0;
+          }
         });
 
         this.parlamentares.next(parlamentares);
