@@ -110,7 +110,11 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
         ...mediaTweets.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
         ...percentualTweets.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
         ...a
-      }));
+      })).filter(parlamentar => {
+        return !isNaN(parlamentar.media_tweets) && parlamentar.media_tweets !== undefined &&
+          !isNaN(parlamentar.percentual_atividade_twitter) && parlamentar.percentual_atividade_twitter !== undefined;
+      });
+
       console.log(parlamentares);
 
       if (this.g) {
@@ -145,13 +149,13 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
       .data(parlamentares)
       .enter()
       .append('circle')
-        .attr('class', 'circle')
-        .attr('tittle', (d: any) => 'media: ' + +d.media_tweets + ' perc: ' + d.percentual_atividade_twitter)
-        .attr('r', this.r)
-        .attr('cx', (d: any) => this.x(d.media_tweets))
-        .attr('cy', (d: any) => this.y(d.percentual_atividade_twitter) )
-        .attr('fill', '#59BAFF')
-        .attr('opacity', 0.6);
+      .attr('class', 'circle')
+      .attr('tittle', (d: any) => 'media: ' + +d.media_tweets + ' perc: ' + d.percentual_atividade_twitter)
+      .attr('r', this.r)
+      .attr('cx', (d: any) => this.x(d.media_tweets))
+      .attr('cy', (d: any) => this.y(d.percentual_atividade_twitter))
+      .attr('fill', '#59BAFF')
+      .attr('opacity', 0.6);
   }
 
 }
