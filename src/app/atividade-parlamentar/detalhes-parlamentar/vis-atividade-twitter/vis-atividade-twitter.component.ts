@@ -118,7 +118,10 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
         ...mediaTweets.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
         ...percentualTweets.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
         ...a
-      }));
+      })).filter(parlamentar => {
+        return !isNaN(parlamentar.media_tweets) && parlamentar.media_tweets !== undefined &&
+          !isNaN(parlamentar.percentual_atividade_twitter) && parlamentar.percentual_atividade_twitter !== undefined;
+      });
 
       if (this.g) {
         this.g.selectAll('*').remove();
