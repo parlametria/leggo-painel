@@ -1,7 +1,7 @@
 import { Component, AfterContentInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Subject } from 'rxjs';
+import { Subject, forkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { select, selectAll, mouse } from 'd3-selection';
 import { scaleLinear, scaleBand, scaleOrdinal } from 'd3-scale';
@@ -10,6 +10,7 @@ import { axisLeft, axisBottom } from 'd3-axis';
 import { hsl } from 'd3-color';
 import { path } from 'd3-path';
 
+import { EntidadeService } from 'src/app/shared/services/entidade.service';
 import { TwitterService } from 'src/app/shared/services/twitter.service';
 
 const d3 = Object.assign({}, {
@@ -53,18 +54,20 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private entidadeService: EntidadeService,
     private twitterService: TwitterService) { }
 
   ngAfterContentInit(): void {
+    const largura = (window.innerWidth > 800) ? 800 : window.innerWidth;
     this.margin = {
-      left: 20,
+      left: 40,
       right: 20,
       top: 20,
       bottom: 20
     };
-    this.width = 800 - this.margin.right - this.margin.left;
+    this.width = largura - this.margin.right - this.margin.left;
     this.height = 400 - this.margin.top - this.margin.bottom;
-    this.r = 5;
+    this.r = 6;
 
     this.x = d3.scaleLinear().range([0, this.width]);
     this.y = d3.scaleLinear().range([this.height, 0]);
@@ -93,33 +96,57 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
   }
 
   private carregarVis() {
-    this.twitterService.getMediaTweets(this.interesse, this.tema)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(mediaTweetsPorDia => {
-        if (this.g) {
-          this.g.selectAll('*').remove();
-        }
-        this.g.call(g => this.atualizarVis(g, mediaTweetsPorDia));
-      });
+    forkJoin([
+      this.entidadeService.getParlamentaresExercicio(''),
+      this.twitterService.getMediaTweets(this.interesse, this.tema),
+      this.twitterService.getPercentualTweets(this.interesse, this.tema)
+    ]).subscribe(data => {
+      const parlamentaresExercicio: any = data[0];
+      const mediaTweets: any = data[1];
+      const percentualTweets: any = data[2];
+
+      const parlamentares = parlamentaresExercicio.map(a => ({
+        ...mediaTweets.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
+        ...percentualTweets.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
+        ...a
+      }));
+      console.log(parlamentares);
+
+      if (this.g) {
+        this.g.selectAll('*').remove();
+      }
+      this.g.call(g => this.atualizarVis(g, parlamentares));
+    });
   }
 
-  private atualizarVis(g, mediaTweetsPorDia) {
-    const maximo = d3.max(mediaTweetsPorDia, (d: any) => d.media_tweets);
-    this.x.domain([0, maximo]);
+  private atualizarVis(g, parlamentares) {
+    const minimo = d3.min(parlamentares, (d: any) => d.media_tweets);
+    const maximo = d3.max(parlamentares, (d: any) => d.media_tweets);
+
+    this.x.domain([minimo, maximo]);
+    this.y.domain([0, 1]);
+
+    console.log('min', minimo, this.x(minimo));
+    console.log('max', maximo, this.x(maximo));
 
     this.g.append('g')
       .attr('transform', 'translate(0, ' + (this.height - this.margin.top - this.margin.bottom) + ')')
       .call(d3.axisBottom(this.x));
 
+    this.g.append('g')
+      .call(d3.axisLeft(this.y).ticks(3, '%'));
+
     this.g.selectAll('circle')
-      .data(mediaTweetsPorDia)
+      .data(parlamentares)
       .enter()
       .append('circle')
         .attr('class', 'circle')
+        .attr('tittle', (d: any) => 'media: ' + +d.media_tweets + ' perc: ' + d.percentual_atividade_twitter)
         .attr('r', this.r)
         .attr('cx', (d: any) => this.x(d.media_tweets))
-        .attr('cy', this.height * 0.5)
-        .attr('fill', '#59BAFF');
+        .attr('cy', (d: any) => this.y(d.percentual_atividade_twitter) )
+        .attr('fill', '#59BAFF')
+        .attr('opacity', 0.6);
   }
 
 }
