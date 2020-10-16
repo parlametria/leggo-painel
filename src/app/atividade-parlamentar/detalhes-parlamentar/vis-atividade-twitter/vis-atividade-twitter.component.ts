@@ -3,12 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Subject, forkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { select, selectAll, mouse } from 'd3-selection';
+import { select, selectAll, mouse, event } from 'd3-selection';
 import { scaleLinear, scaleBand, scaleOrdinal } from 'd3-scale';
 import { group, max, min } from 'd3-array';
 import { axisLeft, axisBottom } from 'd3-axis';
 import { hsl } from 'd3-color';
 import { path } from 'd3-path';
+import { format } from 'd3-format';
 
 import { EntidadeService } from 'src/app/shared/services/entidade.service';
 import { TwitterService } from 'src/app/shared/services/twitter.service';
@@ -41,6 +42,7 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
   private unsubscribe = new Subject();
 
   private tema: string;
+  private idParlamentarDestaque: number;
 
   private width;
   private height;
@@ -67,7 +69,7 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
     };
     this.width = largura - this.margin.right - this.margin.left;
     this.height = 400 - this.margin.top - this.margin.bottom;
-    this.r = 6;
+    this.r = 10;
 
     this.x = d3.scaleLinear().range([0, this.width]);
     this.y = d3.scaleLinear().range([this.height, 0]);
@@ -88,11 +90,17 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
         'translate(' + this.margin.left + ',' + this.margin.top + ')'
       );
 
-    this.activatedRoute.queryParams
+    this.activatedRoute.parent.paramMap
+      .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
-        this.tema = params.tema;
-        this.tema === undefined ? this.tema = '' : this.tema = this.tema;
-        this.carregarVis();
+        this.idParlamentarDestaque = +params.get('id');
+
+        this.activatedRoute.queryParams
+          .subscribe(query => {
+            this.tema = query.tema;
+            this.tema === undefined ? this.tema = '' : this.tema = this.tema;
+            this.carregarVis();
+          });
       });
   }
 
@@ -111,7 +119,6 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
         ...percentualTweets.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
         ...a
       }));
-      console.log(parlamentares);
 
       if (this.g) {
         this.g.selectAll('*').remove();
@@ -127,13 +134,6 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
     this.x.domain([minimo, maximo]);
     this.y.domain([0, 1]);
 
-    console.log('min', minimo, this.x(minimo));
-    console.log('max', maximo, this.x(maximo));
-
-
-    console.log('min', minimo, this.y(minimo));
-    console.log('max', maximo, this.y(maximo));
-
     this.g.append('g')
       .attr('transform', 'translate(0, ' + (this.height) + ')')
       .call(d3.axisBottom(this.x));
@@ -141,17 +141,42 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
     this.g.append('g')
       .call(d3.axisLeft(this.y).ticks(3, '%'));
 
-    this.g.selectAll('circle')
+    const tooltip = d3.select('body')
+      .append('div')
+      .attr('class', 'vis-tooltip')
+      .style('position', 'absolute')
+      .attr('data-html', 'true')
+      .style('visibility', 'hidden');
+
+    const node = this.g.selectAll('circle')
       .data(parlamentares)
       .enter()
       .append('circle')
-        .attr('class', 'circle')
-        .attr('tittle', (d: any) => 'media: ' + +d.media_tweets + ' perc: ' + d.percentual_atividade_twitter)
-        .attr('r', this.r)
-        .attr('cx', (d: any) => this.x(d.media_tweets))
-        .attr('cy', (d: any) => this.y(d.percentual_atividade_twitter) )
-        .attr('fill', '#59BAFF')
-        .attr('opacity', 0.6);
+      .attr('class', 'circle')
+      .attr('tittle', (d: any) => 'media: ' + +d.media_tweets + ' perc: ' + d.percentual_atividade_twitter)
+      .attr('r', this.r)
+      .attr('cx', (d: any) => this.x(d.media_tweets))
+      .attr('cy', (d: any) => this.y(d.percentual_atividade_twitter))
+      .attr('fill', (d: any) => (d.id_autor_parlametria === this.idParlamentarDestaque) ? 'red' : '#59BAFF')
+      .attr('stroke', (d: any) => (d.id_autor_parlametria === this.idParlamentarDestaque) ? 'black' : '#59BAFF')
+      .attr('stroke-widht', 2)
+      .attr('opacity', 0.6)
+      .on('mouseover', d => {
+        tooltip.style('visibility', 'visible')
+          .html(this.tooltipText(d));
+      })
+      .on('mousemove', d => {
+        tooltip.style('top', (event.pageY - 10) + 'px')
+          .style('left', (event.pageX + 10) + 'px');
+      })
+      .on('mouseout', () => tooltip.style('visibility', 'hidden'));
+
+  }
+
+  private tooltipText(d): any {
+    return `<p class="vis-tooltip-titulo"><strong>${d.nome_autor}</strong> ${d.partido}/${d.uf}</p>
+    <p><strong>Proporção de tweets sobre o tema:</strong> ${format('.2%')(d.percentual_atividade_twitter)}</p>
+    <p><strong>Tweets/mês:</strong> ${format('.1')(d.media_tweets)}</p>`;
   }
 
 }
