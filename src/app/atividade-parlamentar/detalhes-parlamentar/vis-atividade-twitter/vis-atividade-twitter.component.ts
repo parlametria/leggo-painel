@@ -78,7 +78,8 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
       .attr('version', '1.1')
       .attr('xmlns:svg', 'http://www.w3.org/2000/svg')
       .attr('xmlns', 'http://www.w3.org/2000/svg')
-      .attr('viewBox', '0 0 ' + this.width + ' ' + this.height);
+      .attr('viewBox', '0 0 ' +
+        (this.width + this.margin.left + this.margin.right) + ' ' + (this.height + this.margin.top + this.margin.bottom));
 
     this.g = this.svg
       .append('g')
@@ -129,8 +130,12 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
     console.log('min', minimo, this.x(minimo));
     console.log('max', maximo, this.x(maximo));
 
+
+    console.log('min', minimo, this.y(minimo));
+    console.log('max', maximo, this.y(maximo));
+
     this.g.append('g')
-      .attr('transform', 'translate(0, ' + (this.height - this.margin.top - this.margin.bottom) + ')')
+      .attr('transform', 'translate(0, ' + (this.height) + ')')
       .call(d3.axisBottom(this.x));
 
     this.g.append('g')
