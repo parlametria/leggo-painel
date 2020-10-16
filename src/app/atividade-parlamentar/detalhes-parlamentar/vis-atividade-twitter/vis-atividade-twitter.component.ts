@@ -62,10 +62,10 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
   ngAfterContentInit(): void {
     const largura = (window.innerWidth > 800) ? 800 : window.innerWidth;
     this.margin = {
-      left: 40,
+      left: 70,
       right: 20,
       top: 20,
-      bottom: 20
+      bottom: 40
     };
     this.width = largura - this.margin.right - this.margin.left;
     this.height = 400 - this.margin.top - this.margin.bottom;
@@ -134,12 +134,34 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
     this.x.domain([minimo, maximo]);
     this.y.domain([0, 1]);
 
-    this.g.append('g')
-      .attr('transform', 'translate(0, ' + (this.height) + ')')
-      .call(d3.axisBottom(this.x));
+    // Eixo X
+    const eixoX = this.g.append('g');
+    eixoX.call(d3.axisBottom(this.x)
+        .ticks(4)
+        .tickSize(this.height + (this.margin.top * 0.5)))
+      .selectAll('.tick line')
+        .attr('stroke', '#777')
+        .attr('stroke-dasharray', '10,2');
+    eixoX.select('.domain').remove();
+    this.g.append('text')
+      .attr('x', this.width)
+      .attr('y', (this.height + this.margin.bottom))
+      .attr('text-anchor', 'end')
+      .attr('font-size', '0.8rem')
+      .text('tweet/dia');
 
+    // Eixo Y
     this.g.append('g')
-      .call(d3.axisLeft(this.y).ticks(3, '%'));
+      .call(d3.axisLeft(this.y)
+        .ticks(3, '%')
+        .tickSize(15));
+    this.g.append('text')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('text-anchor', 'end')
+      .attr('transform', 'translate(' + (-this.margin.left * 0.8) + ', ' + (-5) + ') rotate(-90)')
+      .attr('font-size', '0.8rem')
+      .text('Proporção de tweets sobre o tema');
 
     const tooltip = d3.select('body')
       .append('div')
@@ -148,7 +170,9 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
       .attr('data-html', 'true')
       .style('visibility', 'hidden');
 
-    const node = this.g.selectAll('circle')
+    const nodes = this.g.append('g')
+      .attr('class', 'nodes');
+    nodes.selectAll('circle')
       .data(parlamentares)
       .enter()
       .append('circle')
@@ -157,10 +181,10 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
       .attr('r', this.r)
       .attr('cx', (d: any) => this.x(d.media_tweets))
       .attr('cy', (d: any) => this.y(d.percentual_atividade_twitter))
-      .attr('fill', (d: any) => (d.id_autor_parlametria === this.idParlamentarDestaque) ? 'red' : '#59BAFF')
-      .attr('stroke', (d: any) => (d.id_autor_parlametria === this.idParlamentarDestaque) ? 'black' : '#59BAFF')
-      .attr('stroke-widht', 2)
-      .attr('opacity', 0.6)
+      .attr('fill', (d: any) => (d.id_autor_parlametria === this.idParlamentarDestaque) ? '#476bfc' : '#59BAFF')
+      // .attr('stroke', (d: any) => (d.id_autor_parlametria === this.idParlamentarDestaque) ? 'black' : '#59BAFF')
+      // .attr('stroke-width', (d: any) => (d.id_autor_parlametria === this.idParlamentarDestaque) ? 2 : 0)
+      .attr('opacity', (d: any) => (d.id_autor_parlametria === this.idParlamentarDestaque) ? 1 : 0.4)
       .on('mouseover', d => {
         tooltip.style('visibility', 'visible')
           .html(this.tooltipText(d));
@@ -175,8 +199,9 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
 
   private tooltipText(d): any {
     return `<p class="vis-tooltip-titulo"><strong>${d.nome_autor}</strong> ${d.partido}/${d.uf}</p>
-    <p><strong>Proporção de tweets sobre o tema:</strong> ${format('.2%')(d.percentual_atividade_twitter)}</p>
-    <p><strong>Tweets/mês:</strong> ${format('.1')(d.media_tweets)}</p>`;
+    <p><strong>${(d.atividade_twitter)}</strong> tweets no período</p>
+    <p><strong>${format('.2%')(d.percentual_atividade_twitter)}</strong> de seus tweets são sobre o tema</p>
+    <p><strong>${format('.1')(d.media_tweets)}</strong> tweets por mês</p>`;
   }
 
 }
