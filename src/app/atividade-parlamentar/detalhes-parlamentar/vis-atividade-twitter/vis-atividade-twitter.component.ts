@@ -184,9 +184,9 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
       .attr('r', this.r)
       .attr('cx', (d: any) => this.x(d.media_tweets))
       .attr('cy', (d: any) => this.y(d.percentual_atividade_twitter))
-      .attr('fill', (d: any) => (d.id_autor_parlametria === this.idParlamentarDestaque) ? '#476bfc' : '#59BAFF')
-      // .attr('stroke', (d: any) => (d.id_autor_parlametria === this.idParlamentarDestaque) ? 'black' : '#59BAFF')
-      // .attr('stroke-width', (d: any) => (d.id_autor_parlametria === this.idParlamentarDestaque) ? 2 : 0)
+      .attr('fill', (d: any) => (d.id_autor_parlametria === this.idParlamentarDestaque) ? '#6f42c1' : '#59BAFF')
+      .attr('stroke', (d: any) => (d.id_autor_parlametria === this.idParlamentarDestaque) ? 'black' : '#59BAFF')
+      .attr('stroke-width', (d: any) => (d.id_autor_parlametria === this.idParlamentarDestaque) ? 2 : 0)
       .attr('opacity', (d: any) => (d.id_autor_parlametria === this.idParlamentarDestaque) ? 1 : 0.4)
       .on('mouseover', d => {
         tooltip.style('visibility', 'visible')
