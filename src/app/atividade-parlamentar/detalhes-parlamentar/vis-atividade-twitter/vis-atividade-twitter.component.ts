@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subject, forkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { select, selectAll, mouse, event } from 'd3-selection';
-import { scaleLinear, scaleBand, scaleOrdinal } from 'd3-scale';
+import { scaleLinear, scaleSqrt } from 'd3-scale';
 import { group, max, min } from 'd3-array';
 import { axisLeft, axisBottom } from 'd3-axis';
 import { hsl } from 'd3-color';
@@ -18,8 +18,7 @@ const d3 = Object.assign({}, {
   select,
   selectAll,
   scaleLinear,
-  scaleBand,
-  scaleOrdinal,
+  scaleSqrt,
   group,
   max,
   min,
@@ -47,10 +46,10 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
   private width;
   private height;
   private margin;
-  private r;
 
   private x: any;
   private y: any;
+  private r: any;
   private svg: any;
   private g: any;
 
@@ -69,10 +68,10 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
     };
     this.width = largura - this.margin.right - this.margin.left;
     this.height = 400 - this.margin.top - this.margin.bottom;
-    this.r = 10;
 
     this.x = d3.scaleLinear().range([0, this.width]);
     this.y = d3.scaleLinear().range([this.height, 0]);
+    this.r = d3.scaleSqrt().range([5, 25]);
 
     this.svg = d3
       .select('#vis-atividade-twitter')
@@ -108,19 +107,23 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
     forkJoin([
       this.entidadeService.getParlamentaresExercicio(''),
       this.twitterService.getMediaTweets(this.interesse, this.tema),
-      this.twitterService.getPercentualTweets(this.interesse, this.tema)
+      this.twitterService.getPercentualTweets(this.interesse, this.tema),
+      this.twitterService.getEngajamento(this.interesse, this.tema)
     ]).subscribe(data => {
       const parlamentaresExercicio: any = data[0];
       const mediaTweets: any = data[1];
       const percentualTweets: any = data[2];
+      const engajamento: any = data[3];
 
       const parlamentares = parlamentaresExercicio.map(a => ({
         ...mediaTweets.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
         ...percentualTweets.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
+        ...engajamento.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
         ...a
       })).filter(parlamentar => {
         return !isNaN(parlamentar.media_tweets) && parlamentar.media_tweets !== undefined &&
-          !isNaN(parlamentar.percentual_atividade_twitter) && parlamentar.percentual_atividade_twitter !== undefined;
+          !isNaN(parlamentar.percentual_atividade_twitter) && parlamentar.percentual_atividade_twitter !== undefined &&
+          !isNaN(parlamentar.engajamento) && parlamentar.engajamento !== undefined;
       });
 
       if (this.g) {
@@ -131,20 +134,18 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
   }
 
   private atualizarVis(g, parlamentares) {
-    const minimo = d3.min(parlamentares, (d: any) => d.media_tweets);
-    const maximo = d3.max(parlamentares, (d: any) => d.media_tweets);
-
-    this.x.domain([minimo, maximo]);
+    this.x.domain([d3.min(parlamentares, (d: any) => d.media_tweets), d3.max(parlamentares, (d: any) => d.media_tweets)]);
     this.y.domain([0, 1]);
+    this.r.domain([d3.min(parlamentares, (d: any) => d.engajamento), d3.max(parlamentares, (d: any) => d.engajamento)]);
 
     // Eixo X
     const eixoX = this.g.append('g');
     eixoX.call(d3.axisBottom(this.x)
-        .ticks(4)
-        .tickSize(this.height + (this.margin.top * 0.5)))
+      .ticks(4)
+      .tickSize(this.height + (this.margin.top * 0.5)))
       .selectAll('.tick line')
-        .attr('stroke', '#777')
-        .attr('stroke-dasharray', '10,2');
+      .attr('stroke', '#777')
+      .attr('stroke-dasharray', '10,2');
     eixoX.select('.domain').remove();
     this.g.append('text')
       .attr('x', this.width)
@@ -181,7 +182,7 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
       .append('circle')
       .attr('class', 'circle')
       .attr('tittle', (d: any) => 'media: ' + +d.media_tweets + ' perc: ' + d.percentual_atividade_twitter)
-      .attr('r', this.r)
+      .attr('r', (d: any) => this.r(d.engajamento))
       .attr('cx', (d: any) => this.x(d.media_tweets))
       .attr('cy', (d: any) => this.y(d.percentual_atividade_twitter))
       .attr('fill', (d: any) => (d.id_autor_parlametria === this.idParlamentarDestaque) ? '#6f42c1' : '#59BAFF')
@@ -204,7 +205,8 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
     return `<p class="vis-tooltip-titulo"><strong>${d.nome_autor}</strong> ${d.partido}/${d.uf}</p>
     <p><strong>${(d.atividade_twitter)}</strong> tweets no período</p>
     <p><strong>${format('.2%')(d.percentual_atividade_twitter)}</strong> de seus tweets são sobre o tema</p>
-    <p><strong>${format('.1')(d.media_tweets)}</strong> tweets por mês</p>`;
+    <p><strong>${format('.1')(d.media_tweets)}</strong> tweets por mês</p>
+    <p><strong>${d.engajamento}</strong> de engajamento</p>`;
   }
 
 }
