@@ -23,7 +23,12 @@
     {{ o.order }}
   </option>
 </select>
-  <div class="mr-3">nas proposições de</div>
+  <div *ngIf="numeroProposicoes > 1" class="mr-3">
+    nas <span>{{ numeroProposicoes }}</span> proposições de
+  </div>
+  <div *ngIf="numeroProposicoes === 1" class="mr-3">
+    na única proposição de
+  </div>
   <select
     class="app-seletor"
     #mySelector
