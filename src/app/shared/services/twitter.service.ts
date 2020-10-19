@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
+import { AtorTwitter } from '../models/atorTwitter.model';
 
 @Injectable({
   providedIn: 'root'
@@ -53,5 +54,9 @@ export class TwitterService {
       .set('data_inicial', '01-01-2000')
       .set('data_final', '10-10-2020');
     return this.http.get<any>(`${this.twitterUrl}/parlamentares/engajamento`, { params });
+  }
+
+  getAtividadePerfilTwitter(id: string): Observable<AtorTwitter> {
+    return this.http.get<any>(`${this.twitterUrl}/parlamentares/${id}`);
   }
 }

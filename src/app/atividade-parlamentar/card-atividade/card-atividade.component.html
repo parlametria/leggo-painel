@@ -2,6 +2,12 @@
   <div class="card-header d-flex">
     <div class="card-atividade-id">{{ parlamentar?.indice + 1 }}</div>
     <div class="card-atividade-titulo">
+      <span *ngIf="parlamentar?.casa_autor == 'camara'" class="text-muted">
+        Dep.
+      </span>
+      <span *ngIf="parlamentar?.casa_autor == 'senado'" class="text-muted">
+        Sen.
+      </span>
       <a [routerLink]="[parlamentar.id_autor_parlametria]">{{ parlamentar.nome_autor }}</a>
       <span class="text-muted">
         {{ parlamentar.partido }}/{{ parlamentar.uf }}
@@ -31,16 +37,16 @@
       <div>
         <span
           class="cracha"
-          *ngIf="parlamentar.quant_autorias_projetos"
+          *ngIf="parlamentar.peso_autorias_projetos"
           [ngbPopover]="popAutorias"
           [autoClose]="'outside'">
           <span class="icon-autor app-icon text-danger"></span>
-          <span class="badge badge-danger app-badge badge-color-white">{{ parlamentar.quant_autorias_projetos }}</span>
+          <span class="badge badge-danger app-badge badge-color-white">{{ parlamentar.peso_autorias_projetos }}</span>
           <ng-template #popAutorias>
             <strong>Autor</strong>
-            &nbsp;de {{ parlamentar.quant_autorias_projetos }}
-            <span *ngIf="parlamentar.quant_autorias_projetos === 1">&nbsp;proposição</span>
-            <span *ngIf="parlamentar.quant_autorias_projetos !== 1">&nbsp;proposições</span>
+            &nbsp;de {{ parlamentar.peso_autorias_projetos }}
+            <span *ngIf="parlamentar.peso_autorias_projetos === 1">&nbsp;proposição</span>
+            <span *ngIf="parlamentar.peso_autorias_projetos !== 1">&nbsp;proposições</span>
             <div class="text-right">
               <a [routerLink]="[parlamentar.id_autor_parlametria + '/papeis']" class="btn btn-link btn-sm">+ Detalhes</a>
             </div>

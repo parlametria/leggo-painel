@@ -9,6 +9,7 @@ import { AutoriasService } from 'src/app/shared/services/autorias.service';
 import { AtorDetalhado } from '../models/atorDetalhado.model';
 import { AtorService } from './ator.service';
 import { TwitterService } from 'src/app/shared/services/twitter.service';
+import { Autoria } from '../models/autoria.model';
 
 @Injectable({
   providedIn: 'root'
@@ -56,12 +57,15 @@ export class ParlamentarDetalhadoService {
           atividadeTwitter.max_atividade_twitter
         );
 
+        const pesoTotalAutorias = this.calculaPesoTotalAutorias(autorias);
+
         const parlamentarDetalhado = ator;
         parlamentarDetalhado.autorias = autorias;
         parlamentarDetalhado.relatorias = relatorias;
         parlamentarDetalhado.comissoes = comissoesInfo;
         parlamentarDetalhado.atividadeParlamentar = atividadeParlamentar;
         parlamentarDetalhado.atividadeTwitter = atividadeTwitter;
+        parlamentarDetalhado.total_peso_autorias = pesoTotalAutorias;
 
         this.parlamentarDetalhado.next(parlamentarDetalhado);
       },
@@ -89,6 +93,12 @@ export class ParlamentarDetalhadoService {
 
   private normalizarAtividade(metrica: number, min: number, max: number): number {
     return (metrica - min) / (max - min);
+  }
+
+  private calculaPesoTotalAutorias(autorias: Autoria[]): number {
+    let pesoTotalAutorias = autorias.reduce((a, b) => a + b.peso_autor_documento, 0);
+    pesoTotalAutorias = +pesoTotalAutorias;
+    return pesoTotalAutorias % 1 !== 0 ? +pesoTotalAutorias.toFixed(2) : pesoTotalAutorias;
   }
 
 }
