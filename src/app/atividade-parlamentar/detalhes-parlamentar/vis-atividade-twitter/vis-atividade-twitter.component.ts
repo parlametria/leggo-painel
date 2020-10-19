@@ -152,7 +152,7 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
       .attr('y', (this.height + this.margin.bottom))
       .attr('text-anchor', 'end')
       .attr('font-size', '0.8rem')
-      .text('tweet/dia');
+      .text('tweet/mês');
 
     // Eixo Y
     this.g.append('g')
@@ -206,7 +206,7 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
     <p><strong>${(d.atividade_twitter)}</strong> tweets no período</p>
     <p><strong>${format('.2%')(d.percentual_atividade_twitter)}</strong> de seus tweets são sobre o tema</p>
     <p><strong>${format('.1')(d.media_tweets)}</strong> tweets por mês</p>
-    <p><strong>${d.engajamento}</strong> de engajamento</p>`;
+    <p><strong>${d.engajamento}</strong> curtidas, respostas e retweets</p>`;
   }
 
 }
