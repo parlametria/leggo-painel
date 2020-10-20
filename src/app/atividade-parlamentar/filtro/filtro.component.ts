@@ -63,9 +63,7 @@ export class FiltroComponent implements OnInit, AfterContentInit, OnDestroy {
         this.temaSelecionado === undefined ? this.temaSelecionado = this.FILTRO_PADRAO : this.temaSelecionado = this.temaSelecionado;
         this.casaSelecionada === undefined ? this.casaSelecionada = this.FILTRO_PADRAO : this.casaSelecionada = this.casaSelecionada;
         this.orderBySelecionado === undefined ?
-          this.orderBySelecionado = this.ORDER_BY_PADRAO : this.orderBySelecionado = this.orderBySelecionado;
-        console.log(this.temaSelecionado);
-        console.log(this.interesse);
+        this.orderBySelecionado = this.ORDER_BY_PADRAO : this.orderBySelecionado = this.orderBySelecionado;
         this.getContagemProposicoes(this.interesse, this.temaSelecionado);
       });
     this.aplicarFiltro();
