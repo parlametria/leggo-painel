@@ -41,7 +41,7 @@ export class RedesSociaisComponent implements OnInit {
 
   private resgataTwitter(interesse, tema, idAtor) {
     forkJoin([
-      this.twitterService.getAtividadePerfilTwitter(idAtor),
+      this.twitterService.getUsernameTwitter(idAtor),
       this.twitterService.getAtividadeDetalhadaTwitter(idAtor, interesse , tema)
     ])
     .pipe(takeUntil(this.unsubscribe))
