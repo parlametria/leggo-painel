@@ -63,7 +63,7 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
     this.margin = {
       left: 70,
       right: 20,
-      top: 20,
+      top: 25,
       bottom: 40
     };
     this.width = largura - this.margin.right - this.margin.left;
@@ -138,6 +138,12 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
     this.y.domain([0, 1]);
     this.r.domain([d3.min(parlamentares, (d: any) => d.engajamento), d3.max(parlamentares, (d: any) => d.engajamento)]);
 
+    const parlamentarDestaque = parlamentares.filter(p => p.id_autor_parlametria === this.idParlamentarDestaque)[0];
+    const indexDestaque = parlamentares.indexOf(parlamentarDestaque);
+    if (indexDestaque > -1) {
+      parlamentares.splice(parlamentares.indexOf(parlamentarDestaque), 1);
+    }
+
     // Eixo X
     const eixoX = this.g.append('g');
     eixoX.call(d3.axisBottom(this.x)
@@ -181,14 +187,14 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
       .enter()
       .append('circle')
       .attr('class', 'circle')
-      .attr('tittle', (d: any) => 'media: ' + +d.media_tweets + ' perc: ' + d.percentual_atividade_twitter)
+      .attr('tittle', (d: any) => d.id_autor_parlametria)
       .attr('r', (d: any) => this.r(d.engajamento))
       .attr('cx', (d: any) => this.x(d.media_tweets))
       .attr('cy', (d: any) => this.y(d.percentual_atividade_twitter))
-      .attr('fill', (d: any) => (d.id_autor_parlametria === this.idParlamentarDestaque) ? '#6f42c1' : '#59BAFF')
-      .attr('stroke', (d: any) => (d.id_autor_parlametria === this.idParlamentarDestaque) ? 'black' : '#59BAFF')
-      .attr('stroke-width', (d: any) => (d.id_autor_parlametria === this.idParlamentarDestaque) ? 2 : 0)
-      .attr('opacity', (d: any) => (d.id_autor_parlametria === this.idParlamentarDestaque) ? 1 : 0.4)
+      .attr('fill', '#59BAFF')
+      .attr('stroke', '#59BAFF')
+      .attr('stroke-width', 0)
+      .attr('opacity', 0.4)
       .on('mouseover', d => {
         tooltip.style('visibility', 'visible')
           .html(this.tooltipText(d));
@@ -199,6 +205,19 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
       })
       .on('mouseout', () => tooltip.style('visibility', 'hidden'));
 
+    nodes.append('circle')
+      .attr('class', 'circle')
+      .attr('tittle', parlamentarDestaque.id_autor_parlametria)
+      .attr('r', this.r(parlamentarDestaque.engajamento))
+      .attr('cx', this.x(parlamentarDestaque.media_tweets))
+      .attr('cy', this.y(parlamentarDestaque.percentual_atividade_twitter))
+      .attr('fill', '#6f42c1')
+      .attr('stroke', 'black')
+      .attr('stroke-width', 2)
+      .attr('opacity', 1)
+      .on('mouseover', () => tooltip.style('visibility', 'visible').html(this.tooltipText(parlamentarDestaque)))
+      .on('mousemove', () => tooltip.style('top', (event.pageY - 10) + 'px').style('left', (event.pageX + 10) + 'px'))
+      .on('mouseout', () => tooltip.style('visibility', 'hidden'));
   }
 
   private tooltipText(d): any {
