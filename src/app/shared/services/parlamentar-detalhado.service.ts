@@ -9,6 +9,7 @@ import { AutoriasService } from 'src/app/shared/services/autorias.service';
 import { AtorDetalhado } from '../models/atorDetalhado.model';
 import { AtorService } from './ator.service';
 import { TwitterService } from 'src/app/shared/services/twitter.service';
+import { Autoria } from '../models/autoria.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,7 @@ export class ParlamentarDetalhadoService {
         this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar, tema),
         this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar, tema),
         this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse, tema),
-        this.atorService.getAtoresAgregadosByID(Number(idParlamentar), interesse, tema),
+        this.autoriasService.getAutoriasAgregadasById(interesse, Number(idParlamentar), tema),
         this.twitterService.getAtividadeDetalhadaTwitter(idParlamentar, interesse, tema)
       ]
     )
@@ -41,7 +42,7 @@ export class ParlamentarDetalhadoService {
         const relatorias = data[0];
         const comissoesPresidencia = data[1];
         const autorias = data[2];
-        const atividadeParlamentar = data[3][0];
+        const atividadeParlamentar: any = data[3][0];
         const atividadeTwitter = data[4];
 
         const comissoesInfo = this.getComissoesProcessadas(comissoesPresidencia);
@@ -56,12 +57,15 @@ export class ParlamentarDetalhadoService {
           atividadeTwitter.max_atividade_twitter
         );
 
+        const pesoTotalAutorias = this.calculaPesoTotalAutorias(autorias);
+
         const parlamentarDetalhado = ator;
         parlamentarDetalhado.autorias = autorias;
         parlamentarDetalhado.relatorias = relatorias;
         parlamentarDetalhado.comissoes = comissoesInfo;
         parlamentarDetalhado.atividadeParlamentar = atividadeParlamentar;
         parlamentarDetalhado.atividadeTwitter = atividadeTwitter;
+        parlamentarDetalhado.total_peso_autorias = pesoTotalAutorias;
 
         this.parlamentarDetalhado.next(parlamentarDetalhado);
       },
@@ -89,6 +93,12 @@ export class ParlamentarDetalhadoService {
 
   private normalizarAtividade(metrica: number, min: number, max: number): number {
     return (metrica - min) / (max - min);
+  }
+
+  private calculaPesoTotalAutorias(autorias: Autoria[]): number {
+    let pesoTotalAutorias = autorias.reduce((a, b) => a + b.peso_autor_documento, 0);
+    pesoTotalAutorias = +pesoTotalAutorias;
+    return pesoTotalAutorias % 1 !== 0 ? +pesoTotalAutorias.toFixed(2) : pesoTotalAutorias;
   }
 
 }

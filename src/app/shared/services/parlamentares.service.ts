@@ -19,7 +19,7 @@ export class ParlamentaresService {
 
   private parlamentares = new BehaviorSubject<Array<AtorAgregado>>([]);
   private parlamentaresFiltered = new BehaviorSubject<Array<AtorAgregado>>([]);
-  private orderBy: string;
+  private orderBy = new BehaviorSubject<string>('');
   readonly ORDER_BY_PADRAO = 'atuacao-parlamentar';
 
   private filtro = new BehaviorSubject<any>({});
@@ -45,20 +45,27 @@ export class ParlamentaresService {
               }
             ),
             map(filters => this.filter(parlamentar, filters))
-          )
-        ),
+          )),
+        switchMap(parlamentares => {
+          return this.orderBy.pipe(map(par => parlamentares));
+        }),
         tap(parlamentares => {
-          if (this.orderBy === 'atuacao-parlamentar') {
+          if (this.orderBy.value === 'atuacao-parlamentar') {
             parlamentares.sort((a, b) => {
               return this.orderByDesc(a.atividade_parlamentar, b.atividade_parlamentar);
             });
-          } else if (this.orderBy === 'peso-politico') {
+          } else if (this.orderBy.value === 'peso-politico') {
             parlamentares.sort((a, b) => {
               return this.orderByDesc(a.peso_politico, b.peso_politico);
             });
-          } else if (this.orderBy === 'atuacao-twitter') {
+          } else if (this.orderBy.value === 'atuacao-twitter') {
             parlamentares.sort((a, b) => {
               return this.orderByDesc(a.atividade_twitter, b.atividade_twitter);
+            });
+          }
+          if (this.filtro.value.nome === '') { // evita que índice mude pela busca por nome
+            parlamentares.map((p, index) => {
+              p.indice = index;
             });
           }
         }))
@@ -76,7 +83,8 @@ export class ParlamentaresService {
         this.comissaoService.getComissaoPresidencia(interesse, tema),
         this.relatoriaService.getAtoresRelatores(interesse, tema),
         this.pesoService.getPesoPolitico(),
-        this.twitterService.getAtividadeTwitter(interesse, tema)
+        this.twitterService.getAtividadeTwitter(interesse, tema),
+        this.autoriaService.getAutoriasAgregadasProjetos(interesse, tema)
       ]
     )
       .subscribe(data => {
@@ -87,6 +95,7 @@ export class ParlamentaresService {
         const atoresRelatores: any = data[4];
         const pesoPolitico: any = data[5];
         const twitter: any = data[6];
+        const autoriasProjetos: any = data[7];
 
         const parlamentares = parlamentaresExercicio.map(a => ({
           ...atores.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
@@ -95,6 +104,7 @@ export class ParlamentaresService {
           ...atoresRelatores.find(p => a.id_autor_parlametria === p.autor_id_parlametria),
           ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...twitter.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
+          ...autoriasProjetos.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...a
         }));
 
@@ -122,9 +132,16 @@ export class ParlamentaresService {
 
         parlamentares.forEach(p => {
           p.nome_processado = p.nome_autor.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-          p.atividade_parlamentar = this.normalizarAtividade(p.peso_documentos, Math.min(...pesos), Math.max(...pesos));
+          p.atividade_parlamentar = this.normalizarAtividade(p.peso_documentos, p.min_peso_documentos, p.max_peso_documentos);
           p.atividade_twitter = this.normalizarAtividade(p.atividade_twitter, Math.min(...tweets), Math.max(...tweets));
           p.peso_politico = this.pesoService.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
+          if (p.peso_autorias_projetos) {
+            if (p.peso_autorias_projetos % 1 !== 0) {
+              p.peso_autorias_projetos = +p.peso_autorias_projetos.toFixed(2);
+            }
+          } else {
+            p.peso_autorias_projetos = 0;
+          }
         });
 
         this.parlamentares.next(parlamentares);
@@ -176,9 +193,9 @@ export class ParlamentaresService {
 
   setOrderBy(orderBy: string) {
     if (orderBy === undefined || orderBy === '') {
-      this.orderBy = this.ORDER_BY_PADRAO;
+      this.orderBy.next(this.ORDER_BY_PADRAO);
     } else {
-      this.orderBy = orderBy;
+      this.orderBy.next(orderBy);
     }
   }
 

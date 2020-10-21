@@ -13,6 +13,10 @@ export interface AtorAgregado {
   quantidade_autorias: number;
   quantidade_comissao_presidente: number;
   quantidade_relatorias: number;
+  quant_autorias_projetos: number;
+  peso_autorias_projetos: number;
   peso_politico: number;
   nome_processado: string;
+  indice: number;
+  casa_autor: string;
 }

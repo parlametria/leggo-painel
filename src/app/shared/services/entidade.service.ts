@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
@@ -16,7 +16,12 @@ export class EntidadeService {
   constructor(private http: HttpClient) { }
 
   getParlamentaresExercicio(casa: string): Observable<Entidade[]> {
-    return this.http.get<Entidade[]>(`${this.entidadeUrl}/parlamentares/exercicio?casa=${casa}`);
+    let params = {};
+    if (casa !== '') {
+      params = new HttpParams()
+        .set('casa', casa);
+    }
+    return this.http.get<Entidade[]>(`${this.entidadeUrl}/parlamentares/exercicio`, { params });
   }
 
 }

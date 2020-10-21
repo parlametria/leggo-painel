@@ -39,13 +39,33 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
       });
     this.activatedRoute.queryParams
       .subscribe(params => {
-        this.tema = params.tema;
-        this.casa = params.casa;
-        this.orderBy = params.orderBy;
-        this.tema === undefined ? this.tema = '' : this.tema = this.tema;
-        this.casa === undefined ? this.casa = '' : this.casa = this.casa;
-        this.orderBy === undefined ? this.orderBy = '' : this.orderBy = this.orderBy;
-        this.getDadosAtividadeParlamentar();
+        const pTema = this.replaceUndefined(params.tema);
+        const pCasa = this.replaceUndefined(params.casa);
+        const pOrderBy = this.replaceUndefined(params.orderBy);
+
+        let mudouConsulta = true;
+
+        if (this.tema === pTema && this.casa === pCasa && this.parlamentares) {
+          mudouConsulta = false;
+        }
+
+        let mudouOrdenacao = true;
+        if (this.orderBy === pOrderBy && this.parlamentares) {
+          mudouOrdenacao = false;
+        }
+
+        this.tema = pTema;
+        this.casa = pCasa;
+        this.orderBy = pOrderBy;
+
+        if (mudouConsulta) {
+          this.getDadosAtividadeParlamentar();
+        }
+
+        if (mudouOrdenacao) {
+          this.parlamentaresService.setOrderBy(this.orderBy);
+        }
+
       });
     this.updatePageViaURL();
   }
@@ -103,6 +123,10 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
 
   search(filtro: any) {
     this.parlamentaresService.search(filtro);
+  }
+
+  private replaceUndefined(termo) {
+    return termo === undefined ? '' : termo;
   }
 
   ngOnDestroy() {

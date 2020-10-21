@@ -7,7 +7,7 @@
           class
           [routerLink]="['../']"
           queryParamsHandling="merge">
-          &lt; Atuação-parlamentar
+          &lt; Atuação parlamentar
         </a>
       </li>
     </ol>
@@ -22,7 +22,13 @@
         </div>
       </div>
       <div class="col2">
-        <div class="parlamentar-titulo">{{ parlamentarInfo?.nome_autor }}</div>
+        <div class="parlamentar-titulo">
+          <span *ngIf="parlamentarInfo?.casa_autor == 'camara'" class="text-muted">
+            Dep.
+          </span>
+          <span *ngIf="parlamentarInfo?.casa_autor == 'senado'" class="text-muted">
+            Sen.
+          </span>{{ parlamentarInfo?.nome_autor }}</div>
         <p class="parlamentar-partido">
           {{ parlamentarInfo?.partido }}/{{ parlamentarInfo?.uf }}
         </p>
@@ -46,21 +52,60 @@
       <div class="col3">
         <div class="insignias">
           <div>
-            <span *ngIf="parlamentar?.autorias?.length">
+            <span
+              class="cracha"
+              *ngIf="parlamentar?.total_peso_autorias"
+              [ngbPopover]="popAutorias"
+              [autoClose]="'outside'">
               <span class="icon-autor app-icon text-danger"></span>
-              <span class="badge badge-danger app-badge badge-color-white">{{ parlamentar?.autorias?.length }}</span>
+              <span class="badge badge-danger app-badge badge-color-white">{{ parlamentar?.total_peso_autorias }}</span>
+              <ng-template #popAutorias>
+                <strong>Autor</strong>
+                &nbsp;de {{ parlamentar?.total_peso_autorias }}
+                <span *ngIf="parlamentar?.autorias?.length === 1">&nbsp;proposição</span>
+                <span *ngIf="parlamentar?.autorias?.length !== 1">&nbsp;proposições</span>
+                <div class="text-right">
+                  <a [routerLink]="['./papeis']" class="btn btn-link btn-sm">+ Detalhes</a>
+                </div>
+              </ng-template>
             </span>
 
-            <span *ngIf="parlamentar?.relatorias?.length">
+            <span
+              class="cracha"
+              *ngIf="parlamentar?.relatorias?.length"
+              [ngbPopover]="popRelatorias"
+              [autoClose]="'outside'">
               <span class="icon-relator app-icon text-success"></span>
               <span class="badge badge-success app-badge badge-color-white">{{ parlamentar?.relatorias?.length }}</span>
+              <ng-template #popRelatorias>
+                <strong>Relator</strong>
+                &nbsp;de {{ parlamentar?.relatorias?.length }}
+                <span *ngIf="parlamentar?.relatorias?.length === 1">&nbsp;proposição</span>
+                <span *ngIf="parlamentar?.relatorias?.length !== 1">&nbsp;proposições</span>
+                <div class="text-right">
+                  <a [routerLink]="['./papeis']" class="btn btn-link btn-sm">+ Detalhes</a>
+                </div>
+              </ng-template>
             </span>
 
-            <span *ngIf="parlamentar?.comissoes?.quantidade_comissao_presidente">
+            <span
+              class="cracha"
+              *ngIf="parlamentar?.comissoes?.quantidade_comissao_presidente"
+              [ngbPopover]="popPresidencia"
+              [autoClose]="'outside'">
               <span class="icon-presidente app-icon text-warning"></span>
               <span class="badge badge-warning app-badge badge-color-white">
                 {{ parlamentar?.comissoes?.quantidade_comissao_presidente }}
               </span>
+              <ng-template #popPresidencia>
+                <strong>Presidente</strong>
+                &nbsp;de {{ parlamentar?.comissoes?.quantidade_comissao_presidente }}
+                <span *ngIf="parlamentar?.comissoes?.quantidade_comissao_presidente === 1">&nbsp;comissão</span>
+                <span *ngIf="parlamentar?.comissoes?.quantidade_comissao_presidente !== 1">&nbsp;comissões</span>
+                <div class="text-right">
+                  <a [routerLink]="['./papeis']" class="btn btn-link btn-sm">+ Detalhes</a>
+                </div>
+              </ng-template>
             </span>
           </div>
           <div>
@@ -109,10 +154,20 @@
         Peso político
       </a>
     </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [routerLink]="['./redes-sociais']"
+        [routerLinkActive]="'active'"
+        queryParamsHandling="merge">
+        <span class="icon-redes"></span>
+        Redes sociais
+      </a>
+    </li>
   </ul>
 </div>
 <div class="container">
-  <div class="pt-4">
+  <div class="py-4">
     <router-outlet></router-outlet>
   </div>
 </div>

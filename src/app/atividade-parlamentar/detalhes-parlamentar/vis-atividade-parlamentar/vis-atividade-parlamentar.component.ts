@@ -224,7 +224,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
       return 'O parlamentar não possui este tipo de ação';
     } else {
       return `${d.ranking_documentos}º lugar em apresentação de
-      ${d.tipo_acao === 'Proposição' ? 'proposições' : d.tipo_acao.toLowerCase() + 's'} nesta agenda`;
+      ${d.tipo_acao === 'Proposição' ? 'proposições' : d.tipo_acao.toLowerCase() + 's'} neste painel`;
     }
   }
 
