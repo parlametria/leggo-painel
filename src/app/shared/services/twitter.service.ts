@@ -56,7 +56,7 @@ export class TwitterService {
     return this.http.get<any>(`${this.twitterUrl}/parlamentares/engajamento`, { params });
   }
 
-  getAtividadePerfilTwitter(id: string): Observable<AtorTwitter> {
-    return this.http.get<any>(`${this.twitterUrl}/parlamentares/${id}`);
+  getUsernameTwitter(id: string): Observable<AtorTwitter> {
+    return this.http.get<any>(`${this.twitterUrl}/parlamentares/username/${id}`);
   }
 }
