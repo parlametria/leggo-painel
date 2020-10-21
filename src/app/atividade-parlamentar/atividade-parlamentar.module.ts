@@ -15,6 +15,7 @@ import { PesoPoliticoComponent, PapeisImportantesComponent, AtividadeNoCongresso
 import { VisAtividadeParlamentarComponent } from './detalhes-parlamentar/vis-atividade-parlamentar/vis-atividade-parlamentar.component';
 import { FiltroComponent } from './filtro/filtro.component';
 import { RedesSociaisComponent } from './detalhes-parlamentar/redes-sociais/redes-sociais.component';
+import { VisAtividadeTwitterComponent } from './detalhes-parlamentar/vis-atividade-twitter/vis-atividade-twitter.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { RedesSociaisComponent } from './detalhes-parlamentar/redes-sociais/rede
     AtividadeNoCongressoComponent,
     VisAtividadeParlamentarComponent,
     FiltroComponent,
-    RedesSociaisComponent
+    RedesSociaisComponent,
+    VisAtividadeTwitterComponent
   ],
   imports: [
     CommonModule,

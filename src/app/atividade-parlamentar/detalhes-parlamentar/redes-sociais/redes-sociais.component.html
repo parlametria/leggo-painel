@@ -6,7 +6,7 @@
     <a
     href="https://twitter.com/{{parlamentar?.username}}"
     target="_blank">@{{ parlamentar?.username }}</a>
-    possui {{ parlamentar?.quantidadeTweets }} tweets para este tema e agenda.
+    possui <strong>{{ parlamentar?.quantidadeTweets }}</strong> tweets para este tema e agenda.
   </p>
 
   <p *ngIf="parlamentar.quantidadeTweets == 0" class="mt-4">
@@ -16,6 +16,8 @@
     target="_blank">@{{ parlamentar?.username }}</a>
     não possui tweets para este tema e agenda.
   </p>
+
+  <app-vis-atividade-twitter></app-vis-atividade-twitter>
 </div>
 <div *ngIf="!parlamentar">
   <p class="mt-4">
