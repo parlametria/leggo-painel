@@ -132,7 +132,7 @@ export class ParlamentaresService {
 
         parlamentares.forEach(p => {
           p.nome_processado = p.nome_autor.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-          p.atividade_parlamentar = this.normalizarAtividade(p.peso_documentos, p.min_peso_documentos, p.max_peso_documentos);
+          p.atividade_parlamentar = this.normalizarAtividade(p.quantidade_autorias, p.min_quantidade_autorias, p.max_quantidade_autorias);
           p.atividade_twitter = this.normalizarAtividade(p.atividade_twitter, Math.min(...tweets), Math.max(...tweets));
           p.peso_politico = this.pesoService.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
           if (p.peso_autorias_projetos) {
