@@ -1,0 +1,22 @@
+<div class="card mb-2">
+  <div class="card-header d-flex mx-1">
+    <span class="cracha text-muted temas" [ngbPopover]="popTemas" [autoClose]="'outside'">
+      {{ this.temasResumido(proposicao?.interesse[0]?.temas) }}
+      <ng-template #popTemas>
+        <span *ngFor="let tema of proposicao?.interesse[0]?.temas">
+          {{tema}}
+          <br>
+        </span>
+      </ng-template>
+    </span>
+  </div>
+  <div class="card-body">
+    <a href="https://leggo.parlametria.org/#/proposicao/{{proposicao?.id_leggo}}/{{proposicao?.interesse[0]?.interesse}}" target="_blank">
+      <span class="proposicao-title">
+        {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }} <span
+          *ngIf="proposicao?.interesse[0]?.apelido && proposicao?.interesse[0]?.apelido !== 'nan'"> -
+          {{ proposicao?.interesse[0]?.apelido }}</span>
+      </span>
+    </a>
+  </div>
+</div>

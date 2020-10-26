@@ -31,8 +31,9 @@
           </ul>
         </nav>
       </pagination-template>
-      <div *ngFor="let proposicao of proposicoes | paginate: { itemsPerPage: 20, currentPage: p }; index as i">
-        {{ proposicao.id_leggo }}
+      <div *ngFor="let proposicao of proposicoes | paginate: { itemsPerPage: 20, currentPage: p }; index as i"
+        class="mt-3">
+        <app-card-proposicao [proposicao]="proposicao"></app-card-proposicao>
       </div>
       <pagination-template #pag="paginationApi" maxSize="5" (pageChange)="pageChange($event)">
         <nav aria-label="Paginação" class="pb-1">
