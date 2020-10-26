@@ -11,6 +11,7 @@ import { UltimaTemperaturaProposicao } from '../models/proposicoes/ultimaTempera
 import { UltimaPressaoProposicao } from '../models/proposicoes/ultimaPressaoProposicao.model';
 import { DataUltimoInsightProposicao } from '../models/proposicoes/dataUltimoInsightProposicao.model';
 import { ProgressoProposicao } from '../models/proposicoes/progressoProposicao.model';
+import { Proposicao } from '../models/proposicao.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,11 @@ export class ProposicoesService {
   private progressoUrl = `${environment.baseUrl}/progresso`;
 
   constructor(private http: HttpClient) { }
+
+  getProposicoes(interesse: string): Observable<Proposicao[]> {
+    const hoje = moment().format('YYYY-MM-DD');
+    return this.http.get<Proposicao[]>(`${this.proposicoesUrl}?interesse=${interesse}&data_referencia=${hoje}`);
+  }
 
   getContagemProposicoes(interesse: string, tema: string): Observable<ProposicaoContagem> {
     return this.http.get<ProposicaoContagem>(`${this.proposicoesUrl}/contagem?interesse=${interesse}&tema=${tema}`);
