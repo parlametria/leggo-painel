@@ -1,4 +1,4 @@
-import { Component, AfterContentInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Subject, forkJoin } from 'rxjs';
@@ -31,10 +31,10 @@ const d3 = Object.assign({}, {
 
 @Component({
   selector: 'app-vis-atividade-twitter',
-  template: '<div id="vis-atividade-twitter" class="vis"></div>',
+  templateUrl: './vis-atividade-twitter.component.html',
   styleUrls: ['./vis-atividade-twitter.component.scss']
 })
-export class VisAtividadeTwitterComponent implements AfterContentInit {
+export class VisAtividadeTwitterComponent implements OnInit {
 
   @Input() interesse: string;
 
@@ -53,12 +53,14 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
   private svg: any;
   private g: any;
 
+  private ativos = 0;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private entidadeService: EntidadeService,
     private twitterService: TwitterService) { }
 
-  ngAfterContentInit(): void {
+  ngOnInit(): void {
     const largura = (window.innerWidth > 800) ? 800 : window.innerWidth;
     this.margin = {
       left: 70,
@@ -121,9 +123,15 @@ export class VisAtividadeTwitterComponent implements AfterContentInit {
         ...engajamento.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
         ...a
       })).filter(parlamentar => {
-        return !isNaN(parlamentar.media_tweets) && parlamentar.media_tweets !== undefined &&
-          !isNaN(parlamentar.percentual_atividade_twitter) && parlamentar.percentual_atividade_twitter !== undefined &&
-          !isNaN(parlamentar.engajamento) && parlamentar.engajamento !== undefined;
+        if (
+          !isNaN(parlamentar.media_tweets) && parlamentar.media_tweets !== undefined &&
+          !isNaN(parlamentar.percentual_atividade_twitter) &&
+          parlamentar.percentual_atividade_twitter !== undefined &&
+          !isNaN(parlamentar.engajamento) && parlamentar.engajamento !== undefined
+        ) {
+          this.ativos++;
+          return parlamentar;
+        }
       });
 
       if (this.g) {
