@@ -53,7 +53,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
   private svg: any;
   private g: any;
 
-  private ativos = 0;
+  public ativos = 0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
