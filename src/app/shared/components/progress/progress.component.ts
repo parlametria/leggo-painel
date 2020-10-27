@@ -17,6 +17,9 @@ export class ProgressComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    if (this.max !== undefined) {
+      this.valor = this.valor / this.max;
+    }
   }
 
 }

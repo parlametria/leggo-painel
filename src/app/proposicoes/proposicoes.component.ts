@@ -1,11 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, forkJoin, Subject } from 'rxjs';
 import { skip, takeUntil } from 'rxjs/operators';
 
 import { ProposicoesListaService } from '../shared/services/proposicoes-lista.service';
+import { ProposicoesService } from '../shared/services/proposicoes.service';
 import { ProposicaoLista } from '../shared/models/proposicao.model';
+import { MaximaTemperaturaProposicao } from '../shared/models/proposicoes/maximaTemperaturaProposicao.model';
 import { indicate } from '../shared/functions/indicate.function';
 
 @Component({
@@ -20,10 +22,12 @@ export class ProposicoesComponent implements OnInit, OnDestroy {
 
   interesse: string;
   proposicoes: ProposicaoLista[];
+  maxTemperatura: MaximaTemperaturaProposicao;
   p = 1;
 
   constructor(
     private proposicoesListaService: ProposicoesListaService,
+    private proposicoesService: ProposicoesService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) { }
@@ -33,13 +37,15 @@ export class ProposicoesComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.interesse = params.get('interesse');
+        this.getMaxTemperatura(this.interesse);
         this.getProposicoes(this.interesse);
       });
     this.updatePageViaURL();
   }
 
-  getProposicoes(interesse) {
+  getProposicoes(interesse: string) {
     this.proposicoesListaService.setOrderBy('temperatura');
+
     this.proposicoesListaService.getProposicoes(interesse)
       .pipe(
         skip(1),
@@ -50,6 +56,15 @@ export class ProposicoesComponent implements OnInit, OnDestroy {
         this.proposicoes = proposicoes;
         this.isLoading.next(false);
       });
+  }
+
+  getMaxTemperatura(interesse: string) {
+    this.proposicoesService.getMaximaTemperaturaProposicoes(interesse)
+    .pipe(
+      takeUntil(this.unsubscribe)
+    ).subscribe(maxTemperatura => {
+      this.maxTemperatura = maxTemperatura;
+    });
   }
 
   pageChange(p: number) {
@@ -72,6 +87,14 @@ export class ProposicoesComponent implements OnInit, OnDestroy {
           this.p = 1;
         }
       });
+  }
+
+  getProposicaoPosition(
+    index: number,
+    itensPerPage: number,
+    currentPage: number
+  ) {
+    return (itensPerPage * (currentPage - 1)) + index;
   }
 
   ngOnDestroy(): void {

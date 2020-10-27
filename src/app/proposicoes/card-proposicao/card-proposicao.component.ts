@@ -9,7 +9,9 @@ import { ProposicaoLista } from 'src/app/shared/models/proposicao.model';
 })
 export class CardProposicaoComponent implements OnInit {
 
+  @Input() id: number;
   @Input() proposicao: ProposicaoLista;
+  @Input() maxTemperatura: number;
 
   constructor() { }
 

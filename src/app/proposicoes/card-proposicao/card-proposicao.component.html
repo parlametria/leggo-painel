@@ -11,12 +11,31 @@
     </span>
   </div>
   <div class="card-body">
-    <a href="https://leggo.parlametria.org/#/proposicao/{{proposicao?.id_leggo}}/{{proposicao?.interesse[0]?.interesse}}" target="_blank">
+    <a href="https://leggo.parlametria.org/#/proposicao/{{proposicao?.id_leggo}}/{{proposicao?.interesse[0]?.interesse}}"
+      target="_blank">
       <span class="proposicao-title">
-        {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }} <span
-          *ngIf="proposicao?.interesse[0]?.apelido && proposicao?.interesse[0]?.apelido !== 'nan'"> -
-          {{ proposicao?.interesse[0]?.apelido }}</span>
+        {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
+        <span *ngIf="proposicao?.interesse[0]?.apelido && proposicao?.interesse[0]?.apelido !== 'nan'">
+          -
+          {{ proposicao?.interesse[0]?.apelido }}
+        </span>
       </span>
     </a>
+    <div class="mt-2">
+      <app-progress class="barras" [label]="'Temperatura'" [barraClasse]="'bg-temperatura'"
+        [valor]="proposicao?.ultima_temperatura" [exibirLabel]="id === 0" [max]="maxTemperatura"
+        [ngbPopover]="popTemperatura" [autoClose]="'outside'"></app-progress>
+      <ng-template #popTemperatura>
+        Temperatura da semana: {{ proposicao?.ultima_temperatura }}
+      </ng-template>
+    </div>
+    <div class="space-between-bars">
+      <app-progress class="barras" [label]="'Pressão'" [barraClasse]="'bg-pressao'" [valor]="proposicao?.ultima_pressao"
+        [exibirLabel]="id === 0" [ngbPopover]="popPressao" [autoClose]="'outside'"></app-progress>
+      <ng-template #popPressao>
+        Pressão da semana: <span *ngIf="proposicao?.ultima_pressao">{{ proposicao?.ultima_pressao }}</span> <span
+          *ngIf="!proposicao?.ultima_pressao">0</span>
+      </ng-template>
+    </div>
   </div>
 </div>

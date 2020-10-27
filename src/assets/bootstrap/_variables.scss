@@ -75,6 +75,8 @@ $danger:        $red !default;
 $light:         $white !default;
 $dark:          $gray-800 !default;
 $twitter:       #59BAFF !default;
+$temperatura:       #9B5498 !default;
+$pressao:       #FFaB0F !default;
 
 $theme-colors: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
@@ -88,7 +90,9 @@ $theme-colors: map-merge(
     "danger":     $danger,
     "light":      $light,
     "dark":       $dark,
-    "twitter":    $twitter
+    "twitter":    $twitter,
+    "temperatura": $temperatura,
+    "pressao": $pressao,
   ),
   $theme-colors
 );
