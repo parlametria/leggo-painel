@@ -269,3 +269,26 @@
 .vis-tooltip-titulo {
   font-size: 1rem;
 }
+
+/* Badges */
+.badge-gray {
+  color: $white;
+  background-color: $gray-600;
+}
+
+.badge-orange {
+  color: $white;
+  background-color: $orange;
+}
+
+/* Badges FIM */
+
+/* Backgrounds */
+.bg-temperatura {
+  background-color: #9B5498 !important;
+}
+
+.bg-pressao {
+  background-color: #FFaB0F !important;
+}
+/* Backgrounds FIM */
