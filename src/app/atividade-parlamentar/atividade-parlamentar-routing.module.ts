@@ -10,33 +10,6 @@ const routes: Routes = [
   {
     path: '',
     component: AtividadeParlamentarComponent
-  },
-  {
-    path: ':id',
-    component: DetalhesParlamentarComponent,
-    children: [
-      {
-        path: '',
-        redirectTo: 'atividades',
-        pathMatch: 'full'
-      },
-      {
-        path: 'peso',
-        component: PesoPoliticoComponent,
-      },
-      {
-        path: 'papeis',
-        component: PapeisImportantesComponent,
-      },
-      {
-        path: 'atividades',
-        component: AtividadeNoCongressoComponent,
-      },
-      {
-        path: 'redes-sociais',
-        component: RedesSociaisComponent,
-      }
-    ]
   }
 ];
 

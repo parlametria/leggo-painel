@@ -9,27 +9,14 @@ import { AtividadeParlamentarRoutingModule } from './atividade-parlamentar-routi
 import { AtividadeParlamentarComponent } from './atividade-parlamentar.component';
 import { CardAtividadeComponent } from './card-atividade/card-atividade.component';
 import { SharedComponentsModule } from '../shared/components/shared-components.module';
-import { DetalhesParlamentarComponent } from './detalhes-parlamentar/detalhes-parlamentar.component';
-import { VisAtividadeDetalhadaComponent } from './detalhes-parlamentar/vis-atividade-detalhada/vis-atividade-detalhada.component';
-import { PesoPoliticoComponent, PapeisImportantesComponent, AtividadeNoCongressoComponent } from './detalhes-parlamentar';
-import { VisAtividadeParlamentarComponent } from './detalhes-parlamentar/vis-atividade-parlamentar/vis-atividade-parlamentar.component';
+import { DetalhesParlamentarModule } from './detalhes-parlamentar/detalhes-parlamentar.module';
 import { FiltroComponent } from './filtro/filtro.component';
-import { RedesSociaisComponent } from './detalhes-parlamentar/redes-sociais/redes-sociais.component';
-import { VisAtividadeTwitterComponent } from './detalhes-parlamentar/vis-atividade-twitter/vis-atividade-twitter.component';
 
 @NgModule({
   declarations: [
     AtividadeParlamentarComponent,
     CardAtividadeComponent,
-    DetalhesParlamentarComponent,
-    VisAtividadeDetalhadaComponent,
-    PesoPoliticoComponent,
-    PapeisImportantesComponent,
-    AtividadeNoCongressoComponent,
-    VisAtividadeParlamentarComponent,
-    FiltroComponent,
-    RedesSociaisComponent,
-    VisAtividadeTwitterComponent
+    FiltroComponent
   ],
   imports: [
     CommonModule,
@@ -37,7 +24,8 @@ import { VisAtividadeTwitterComponent } from './detalhes-parlamentar/vis-ativida
     SharedComponentsModule,
     NgbModule,
     NgxPaginationModule,
-    FormsModule
+    FormsModule,
+    DetalhesParlamentarModule
   ]
 })
 export class AtividadeParlamentarModule { }

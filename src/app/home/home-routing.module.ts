@@ -6,22 +6,33 @@ import { HomeComponent } from './home.component';
 const routes: Routes = [
   {
     path: ':interesse',
-    component: HomeComponent
+    component: HomeComponent,
+    children: [
+      {
+        path: 'atores-chave',
+        loadChildren: () =>
+          import('../atividade-parlamentar/atividade-parlamentar.module').then(
+            (m) => m.AtividadeParlamentarModule
+          ),
+      },
+    ],
   },
   {
     path: '',
     redirectTo: 'leggo',
-    pathMatch: 'full'
-
+    pathMatch: 'full',
   },
   {
-    path: ':interesse/atores-chave',
-    loadChildren: () => import('../atividade-parlamentar/atividade-parlamentar.module').then(m => m.AtividadeParlamentarModule)
-  }
+    path: ':interesse/atores-chave/:id',
+    loadChildren: () =>
+      import(
+        '../atividade-parlamentar/detalhes-parlamentar/detalhes-parlamentar.module'
+      ).then((m) => m.DetalhesParlamentarModule),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class HomeRoutingModule { }
+export class HomeRoutingModule {}

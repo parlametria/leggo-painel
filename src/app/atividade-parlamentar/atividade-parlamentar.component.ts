@@ -32,7 +32,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
     private router: Router) { }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap
+    this.activatedRoute.parent.parent.paramMap
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.interesse = params.get('interesse');

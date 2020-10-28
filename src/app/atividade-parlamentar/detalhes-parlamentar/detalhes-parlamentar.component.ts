@@ -40,8 +40,8 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
-        this.idAtor = params.get('id');
         this.interesse = params.get('interesse');
+        this.idAtor = params.get('id');
       });
     this.activatedRoute.queryParams
     .subscribe(params => {
