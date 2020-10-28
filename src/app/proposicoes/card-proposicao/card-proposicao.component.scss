@@ -10,12 +10,13 @@ $base-padding: 0.5rem;
   font-size: 1.15rem;
 }
 
-.barra {
+.pointer {
   cursor: pointer;
 }
 
 .tags {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   margin-top: $base-padding;
 }

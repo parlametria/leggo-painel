@@ -292,3 +292,46 @@
   background-color: #FFaB0F !important;
 }
 /* Backgrounds FIM */
+
+/* Fases */
+
+.fase {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #723234;
+  margin-right: 3px;
+  border: 2px solid #dadada;
+  position: relative;
+}
+
+.fase-camara {
+  background-color: #4eb65f;
+  border-color: #4eb65f;
+}
+
+.fase-senado {
+  background-color: #4e8cb6;
+  border-color: #4e8cb6;
+}
+
+.fase-sancao {
+  background-color: #b6af4e;
+  border-color: #b6af4e;
+}
+
+.fase-comissao-mista {
+  background-color: #037A76;
+  border-color: #037A76;
+}
+
+.fase-nao-realizada {
+  background-color: transparent;
+}
+
+.fase-pulou {
+  background-color: #dadada;
+  border-color: #dadada;
+}
+
+/* Fases FIM */
