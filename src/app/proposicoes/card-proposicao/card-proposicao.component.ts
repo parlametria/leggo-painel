@@ -32,7 +32,7 @@ export class CardProposicaoComponent implements OnInit {
         classes.push('badge-danger');
         break;
       case 'Prioridade':
-        classes.push('badge-orange');
+        classes.push('badge-warning');
         break;
       default:
         classes.push('badge-gray');

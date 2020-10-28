@@ -85,7 +85,7 @@
             >
                 {{ proposicao?.interesse[0]?.tipo_agenda }}
             </span>
-            <span
+            <!-- <span
                 *ngIf="proposicao?.anotacao_data_ultima_modificacao"
                 class="tag badge badge-gray"
                 ngbPopover="Data do último insight"
@@ -93,7 +93,7 @@
             >
                 Insight em
         {{ proposicao?.anotacao_data_ultima_modificacao | date:'dd/MM/yyyy' }}
-            </span>
+            </span> -->
             <span
                 class="tag badge badge-gray"
                 *ngIf="proposicao?.interesse[0]?.advocacy_link && proposicao?.interesse[0]?.advocacy_link !== 'nan'"
