@@ -54,6 +54,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
   private g: any;
 
   public ativos = 0;
+  public total = 0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -116,6 +117,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
       const mediaTweets: any = data[1];
       const percentualTweets: any = data[2];
       const engajamento: any = data[3];
+      this.total = parlamentaresExercicio.length;
 
       const parlamentares = parlamentaresExercicio.map(a => ({
         ...mediaTweets.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
