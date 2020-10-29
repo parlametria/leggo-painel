@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home.component';
+import { AtividadeParlamentarComponent } from '../atividade-parlamentar/atividade-parlamentar.component';
 
 const routes: Routes = [
   {
@@ -10,10 +11,7 @@ const routes: Routes = [
     children: [
       {
         path: 'atores-chave',
-        loadChildren: () =>
-          import('../atividade-parlamentar/atividade-parlamentar.module').then(
-            (m) => m.AtividadeParlamentarModule
-          ),
+        component: AtividadeParlamentarComponent
       },
     ],
   },

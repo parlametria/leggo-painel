@@ -7,11 +7,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedComponentsModule } from '../shared/components/shared-components.module';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
-import { AtividadeParlamentarModule } from '../atividade-parlamentar/atividade-parlamentar.module';
+import { AtividadeParlamentarComponent } from '../atividade-parlamentar/atividade-parlamentar.component';
+import { CardAtividadeComponent } from '../atividade-parlamentar/card-atividade/card-atividade.component';
+import { FiltroComponent } from '../atividade-parlamentar/filtro/filtro.component';
 
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
+    AtividadeParlamentarComponent,
+    CardAtividadeComponent,
+    FiltroComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +25,6 @@ import { AtividadeParlamentarModule } from '../atividade-parlamentar/atividade-p
     NgbModule,
     NgxPaginationModule,
     FormsModule,
-    AtividadeParlamentarModule
   ]
 })
 export class HomeModule { }
