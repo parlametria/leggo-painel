@@ -87,7 +87,7 @@ export class AtividadeNoCongressoComponent implements OnInit {
       });
   }
 
-  private formataTipo(tipo: string, qtd: number, ultimo: boolean): string {
+  public formataTipo(tipo: string, qtd: number, ultimo: boolean): string {
     let tipoFormatado = tipo.toLowerCase();
     const isPlural = qtd > 1;
     const separador = (ultimo) ? '.' : ', ';
