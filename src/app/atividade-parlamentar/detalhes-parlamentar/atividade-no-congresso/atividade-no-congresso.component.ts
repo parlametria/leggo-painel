@@ -80,7 +80,6 @@ export class AtividadeNoCongressoComponent implements OnInit {
            return 0;
           })
           .entries(autoriasApresentadas);
-        console.log(this.autoriasPorTipo);
 
         this.totalDocs = this.autoriasPorTipo.reduce((acc: any, current) => {
           return acc + current.values.length;
