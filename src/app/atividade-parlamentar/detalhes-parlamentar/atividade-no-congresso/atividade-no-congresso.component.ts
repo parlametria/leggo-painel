@@ -4,11 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Subject } from 'rxjs';
 
-import { group } from 'd3-array';
+import { nest } from 'd3-collection';
 
 import { AutoriasService } from 'src/app/shared/services/autorias.service';
 
-const d3 = Object.assign({}, { group });
+const d3 = Object.assign({}, { nest });
 
 @Component({
   selector: 'app-atividade-no-congresso',
@@ -22,8 +22,8 @@ export class AtividadeNoCongressoComponent implements OnInit {
   public interesse: string;
   public tema: string;
   public parlamentar: any;
-  public infoTexto: string;
   public totalDocs: number;
+  public autoriasPorTipo: any;
   public isLoading = new BehaviorSubject<boolean>(true);
 
   constructor(
@@ -68,32 +68,33 @@ export class AtividadeNoCongressoComponent implements OnInit {
     this.autoriaService.getAutorias(idAtor, interesse, tema)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(autorias => {
-        const autoriasApresentadas = [];
-        autorias.forEach(dado => {
-          if (dado.tipo_acao === 'Proposição') {
-            autoriasApresentadas.push(dado);
-          }
-        });
-        this.infoTexto = '';
-        this.totalDocs = 0;
-        const autoriasPorTipo = d3.group(autoriasApresentadas, d => d.tipo_documento);
-        autoriasPorTipo.forEach((documento, tipo) => {
-          this.infoTexto += `, ${documento.length} ${this.formataTipo(tipo, documento)}`;
-          this.totalDocs += documento.length;
-        });
+        const autoriasApresentadas = autorias.filter(a => a.tipo_acao === 'Proposição');
+        this.autoriasPorTipo = d3.nest()
+          .key((d: any) => d.tipo_documento)
+          .sortKeys((a, b) => {
+            if (a === 'Prop. Original / Apensada') {
+              return -1;
+            } else if (a === 'Requerimento') {
+              return 1;
+            }
+            return 0;
+          })
+          .entries(autoriasApresentadas);
+        this.totalDocs = this.autoriasPorTipo.reduce((acc: any, current) => {
+          return acc + current.values.length;
+        }, 0);
       });
   }
 
-  private formataTipo(tipo, documento): string {
-    const docs = documento.length;
+  private formataTipo(tipo: string, qtd: number, ultimo: boolean): string {
     let tipoFormatado = tipo.toLowerCase();
-    const isPlural = docs > 1;
-
+    const isPlural = qtd > 1;
+    const separador = (ultimo) ? '.' : ', ';
     if (tipoFormatado === 'prop. original / apensada') {
       if (!isPlural) {
-        tipoFormatado = 'foi proposição original ou apensada';
+        tipoFormatado = 'foi proposição';
       } else {
-        tipoFormatado = 'foram proposições originais ou apensadas';
+        tipoFormatado = 'foram proposições';
       }
     } else {
       if (isPlural) {
@@ -102,6 +103,6 @@ export class AtividadeNoCongressoComponent implements OnInit {
         tipoFormatado = 'foi ' + tipoFormatado;
       }
     }
-    return tipoFormatado;
+    return tipoFormatado + separador;
   }
 }

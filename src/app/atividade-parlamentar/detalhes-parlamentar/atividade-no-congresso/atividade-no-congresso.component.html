@@ -2,8 +2,8 @@
 <div [hidden]="isLoading | async">
   Ações do parlamentar ponderadas pelo número de coautores
   <div class="titulo-sessao-com-icone">
-    <h3 class="titulo-sessao mt-3">Por Tipo</h3>
-    <!--   <ng-template #tipContent>
+    <h3 class="titulo-sessao mt-4">Por Tipo</h3>
+    <!-- <ng-template #tipContent>
       Cada traço representa um parlamentar que atuou neste tema. A quantidade de ações do parlamentar atual é representada pela posição do traço preto.
     </ng-template>
     <span
@@ -21,13 +21,24 @@
     Não foi registrada atuação nas proposições selecionadas.
   </div>
   <div *ngIf="parlamentar?.ranking_documentos">
-    {{ parlamentar?.ranking_documentos }}° parlamentar mais atuante neste painel e tema.
-    <div class="titulo">
-      Das {{ totalDocs }} ações{{ infoTexto }}.
-    </div>
+    <p>
+      <strong>{{ parlamentar?.ranking_documentos }}°</strong>
+      parlamentar mais atuante neste painel e tema.
+    </p>
+    <p>
+      Das <strong>{{ totalDocs }}</strong>,
+      <span *ngFor="let autoria of autoriasPorTipo; let i = index">
+        <strong>{{ autoria.values.length }}</strong>
+        {{formataTipo(autoria.key, autoria.values.length, (i + 1) === autoriasPorTipo.length)}}
+      </span>
+    </p>
   </div>
-  <h3 *ngIf="parlamentar" class="titulo-sessao mt-3">Por Proposição</h3>
+  <h3
+    *ngIf="parlamentar"
+    class="titulo-sessao mt-4">
+    Por Proposição
+  </h3>
   <app-vis-atividade-detalhada
-  [idAtor]="idAtor"
-  [interesse]="interesse"></app-vis-atividade-detalhada>
+    [idAtor]="idAtor"
+    [interesse]="interesse"></app-vis-atividade-detalhada>
 </div>
