@@ -72,14 +72,16 @@ export class AtividadeNoCongressoComponent implements OnInit {
         this.autoriasPorTipo = d3.nest()
           .key((d: any) => d.tipo_documento)
           .sortKeys((a, b) => {
-            if (a === 'Prop. Original / Apensada') {
-              return -1;
-            } else if (a === 'Requerimento') {
-              return 1;
-            }
-            return 0;
+           if (a === 'Prop. Original / Apensada') {
+             return -1;
+           } else if (a === 'Emenda') {
+            return -1;
+           }
+           return 0;
           })
           .entries(autoriasApresentadas);
+        console.log(this.autoriasPorTipo);
+
         this.totalDocs = this.autoriasPorTipo.reduce((acc: any, current) => {
           return acc + current.values.length;
         }, 0);

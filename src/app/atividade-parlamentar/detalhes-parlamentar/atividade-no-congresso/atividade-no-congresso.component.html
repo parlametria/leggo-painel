@@ -26,7 +26,7 @@
       parlamentar mais atuante neste painel e tema.
     </p>
     <p>
-      Das <strong>{{ totalDocs }}</strong>,
+      Das <strong>{{ totalDocs }}</strong> ações,
       <span *ngFor="let autoria of autoriasPorTipo; let i = index">
         <strong>{{ autoria.values.length }}</strong>
         {{formataTipo(autoria.key, autoria.values.length, (i + 1) === autoriasPorTipo.length)}}
