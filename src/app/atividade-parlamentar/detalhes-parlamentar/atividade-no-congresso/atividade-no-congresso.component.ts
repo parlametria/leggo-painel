@@ -23,6 +23,7 @@ export class AtividadeNoCongressoComponent implements OnInit {
   public tema: string;
   public parlamentar: any;
   public infoTexto: string;
+  public totalDocs: number;
   public isLoading = new BehaviorSubject<boolean>(true);
 
   constructor(
@@ -54,7 +55,7 @@ export class AtividadeNoCongressoComponent implements OnInit {
         if (dado.tipo_acao === 'Proposição') {
           if (dado.id_autor_parlametria.toString() === idAtor.toString()) {
             this.parlamentar = dado;
-            this.parlamentar.peso_total = this.parlamentar.peso_total.toFixed(0);
+            this.parlamentar.peso_total = +this.parlamentar.peso_total;
             return;
           }
         }
@@ -74,29 +75,19 @@ export class AtividadeNoCongressoComponent implements OnInit {
           }
         });
         this.infoTexto = '';
+        this.totalDocs = 0;
         const autoriasPorTipo = d3.group(autoriasApresentadas, d => d.tipo_documento);
         autoriasPorTipo.forEach((documento, tipo) => {
-          this.infoTexto += `, ${this.formataPesos(this.somaPesos(documento))} ${this.formataTipo(tipo, documento)}`;
+          this.infoTexto += `, ${documento.length} ${this.formataTipo(tipo, documento)}`;
+          this.totalDocs += documento.length;
         });
       });
   }
 
-  private somaPesos(documento): number {
-    let pesoTotal = 0;
-    documento.forEach(doc => {
-      pesoTotal += doc.peso_autor_documento;
-    });
-    return pesoTotal;
-  }
-
-  private formataPesos(peso): number {
-    return peso % 1 !== 0 ? peso.toFixed(2) : peso;
-  }
-
   private formataTipo(tipo, documento): string {
-    const peso = this.somaPesos(documento);
+    const docs = documento.length;
     let tipoFormatado = tipo.toLowerCase();
-    const isPlural = peso.toFixed(0) !== '1';
+    const isPlural = docs > 1;
 
     if (tipoFormatado === 'prop. original / apensada') {
       if (!isPlural) {

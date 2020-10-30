@@ -1,0 +1,40 @@
+$base-color: #20201e;
+$base-padding: 0.5rem;
+
+.main {
+  max-width: 600px;
+  margin-top: 2 * $base-padding;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3 * $base-padding;
+
+
+  @media (min-width: 375px) {
+    margin-bottom: 0;
+  }
+}
+
+.main-titulo {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+.main-detalhes {
+  font-size: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+}
+
+.main-subnav {
+  @media (max-width: 400px) {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+
+    > .nav {
+      flex: 0 0 auto;
+    }
+  }
+}

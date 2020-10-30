@@ -54,14 +54,14 @@
           <div>
             <span
               class="cracha"
-              *ngIf="parlamentar?.total_peso_autorias"
+              *ngIf="parlamentar?.autorias?.length"
               [ngbPopover]="popAutorias"
               [autoClose]="'outside'">
               <span class="icon-autor app-icon text-danger"></span>
-              <span class="badge badge-danger app-badge badge-color-white">{{ parlamentar?.total_peso_autorias }}</span>
+              <span class="badge badge-danger app-badge badge-color-white">{{ parlamentar?.autorias?.length }}</span>
               <ng-template #popAutorias>
                 <strong>Autor</strong>
-                &nbsp;de {{ parlamentar?.total_peso_autorias }}
+                &nbsp;de {{ parlamentar?.autorias?.length }}
                 <span *ngIf="parlamentar?.autorias?.length === 1">&nbsp;proposição</span>
                 <span *ngIf="parlamentar?.autorias?.length !== 1">&nbsp;proposições</span>
                 <div class="text-right">

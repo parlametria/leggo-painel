@@ -121,9 +121,17 @@
                     *ngFor="let f of proposicao?.resumo_progresso"
                     class="fase pointer"
                     [ngClass]="getClassFaseProgresso(f)"
-                    ngbPopover="{{ f?.fase_global_local }}"
+                    [ngbPopover]="popProgresso"
                     [autoClose]="'outside'"
                 >
+                    <ng-template #popProgresso>
+                        <span *ngIf="f?.fase_global_local">
+                          {{ f?.fase_global_local }}
+                        </span>
+                        <span *ngIf="!f?.fase_global_local">
+                          {{ f?.fase_global }}
+                        </span>
+                    </ng-template>
                 </div>
             </div>
         </div>

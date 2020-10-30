@@ -47,9 +47,9 @@ export class ParlamentarDetalhadoService {
 
         const comissoesInfo = this.getComissoesProcessadas(comissoesPresidencia);
         atividadeParlamentar.atividade_parlamentar = this.normalizarAtividade(
-          atividadeParlamentar.peso_documentos,
-          atividadeParlamentar.min_peso_documentos,
-          atividadeParlamentar.max_peso_documentos);
+          atividadeParlamentar.quantidade_autorias,
+          atividadeParlamentar.min_quantidade_autorias,
+          atividadeParlamentar.max_quantidade_autorias);
 
         atividadeTwitter.atividade_twitter = this.normalizarAtividade(
           atividadeTwitter.atividade_twitter,

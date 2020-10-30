@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { BehaviorSubject, forkJoin, Subject } from 'rxjs';
@@ -15,7 +15,7 @@ import { indicate } from '../shared/functions/indicate.function';
   templateUrl: './proposicoes.component.html',
   styleUrls: ['./proposicoes.component.scss']
 })
-export class ProposicoesComponent implements OnInit, OnDestroy {
+export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit {
 
   private unsubscribe = new Subject();
   public isLoading = new BehaviorSubject<boolean>(true);
@@ -29,11 +29,12 @@ export class ProposicoesComponent implements OnInit, OnDestroy {
     private proposicoesListaService: ProposicoesListaService,
     private proposicoesService: ProposicoesService,
     private activatedRoute: ActivatedRoute,
+    private cdRef: ChangeDetectorRef,
     private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap
+    this.activatedRoute.parent.paramMap
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.interesse = params.get('interesse');
@@ -41,6 +42,10 @@ export class ProposicoesComponent implements OnInit, OnDestroy {
         this.getProposicoes(this.interesse);
       });
     this.updatePageViaURL();
+  }
+
+  ngAfterContentInit() {
+    this.cdRef.detectChanges();
   }
 
   getProposicoes(interesse: string) {
@@ -52,7 +57,6 @@ export class ProposicoesComponent implements OnInit, OnDestroy {
         indicate(this.isLoading),
         takeUntil(this.unsubscribe)
       ).subscribe(proposicoes => {
-        console.log(proposicoes);
         this.proposicoes = proposicoes;
         this.isLoading.next(false);
       });
