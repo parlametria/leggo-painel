@@ -11,6 +11,11 @@ const routes: Routes = [
     component: HomeComponent,
     children: [
       {
+        path: '',
+        redirectTo: 'atores-chave',
+        pathMatch: 'full'
+      },
+      {
         path: 'atores-chave',
         component: AtividadeParlamentarComponent
       },
