@@ -9,3 +9,10 @@
   align-items: flex-start;
   padding-left: 0.25rem;
 }
+
+.progress-bar span {
+  position: absolute;
+  display: inline-block;
+  color: #20201e;
+  text-align: right;
+}

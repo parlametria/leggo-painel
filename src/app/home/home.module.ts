@@ -10,13 +10,17 @@ import { HomeComponent } from './home.component';
 import { AtividadeParlamentarComponent } from '../atividade-parlamentar/atividade-parlamentar.component';
 import { CardAtividadeComponent } from '../atividade-parlamentar/card-atividade/card-atividade.component';
 import { FiltroComponent } from '../atividade-parlamentar/filtro/filtro.component';
+import { ProposicoesComponent } from '../proposicoes/proposicoes.component';
+import { CardProposicaoComponent } from '../proposicoes/card-proposicao/card-proposicao.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     AtividadeParlamentarComponent,
     CardAtividadeComponent,
-    FiltroComponent
+    FiltroComponent,
+    ProposicoesComponent,
+    CardProposicaoComponent
   ],
   imports: [
     CommonModule,

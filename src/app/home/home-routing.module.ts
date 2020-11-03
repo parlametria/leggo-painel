@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home.component';
 import { AtividadeParlamentarComponent } from '../atividade-parlamentar/atividade-parlamentar.component';
+import { ProposicoesComponent } from '../proposicoes/proposicoes.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,10 @@ const routes: Routes = [
         path: 'atores-chave',
         component: AtividadeParlamentarComponent
       },
+      {
+        path: 'proposicoes',
+        component: ProposicoesComponent
+      }
     ],
   },
   {
