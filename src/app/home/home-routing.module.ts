@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home.component';
 import { AtividadeParlamentarComponent } from '../atividade-parlamentar/atividade-parlamentar.component';
 import { ProposicoesComponent } from '../proposicoes/proposicoes.component';
+import { SobreComponent } from '../sobre/sobre.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,10 @@ const routes: Routes = [
       import(
         '../atividade-parlamentar/detalhes-parlamentar/detalhes-parlamentar.module'
       ).then((m) => m.DetalhesParlamentarModule),
+  },
+  {
+    path: ':interesse/sobre',
+    component: SobreComponent
   },
 ];
 
