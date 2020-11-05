@@ -11,7 +11,7 @@ const routes: Routes = [
     component: HomeComponent,
     children: [
       {
-        path: 'atores-chave',
+        path: 'parlamentares',
         component: AtividadeParlamentarComponent
       },
       {
@@ -26,7 +26,7 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: ':interesse/atores-chave/:id',
+    path: ':interesse/parlamentares/:id',
     loadChildren: () =>
       import(
         '../atividade-parlamentar/detalhes-parlamentar/detalhes-parlamentar.module'
