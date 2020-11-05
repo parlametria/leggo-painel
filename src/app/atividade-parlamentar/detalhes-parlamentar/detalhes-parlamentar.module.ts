@@ -13,6 +13,7 @@ import { VisAtividadeParlamentarComponent } from './vis-atividade-parlamentar/vi
 import { RedesSociaisComponent } from './redes-sociais/redes-sociais.component';
 import { VisAtividadeTwitterComponent } from './vis-atividade-twitter/vis-atividade-twitter.component';
 import { DetalhesParlamentarRoutingModule } from './detalhes-parlamentar-routing.module';
+import { TweetComponent } from './redes-sociais/tweet/tweet.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { DetalhesParlamentarRoutingModule } from './detalhes-parlamentar-routing
     AtividadeNoCongressoComponent,
     VisAtividadeParlamentarComponent,
     RedesSociaisComponent,
-    VisAtividadeTwitterComponent
+    VisAtividadeTwitterComponent,
+    TweetComponent
   ],
   imports: [
     CommonModule,

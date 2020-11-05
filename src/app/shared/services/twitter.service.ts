@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import { AtorTwitter } from '../models/atorTwitter.model';
+import { Tweet } from '../models/tweet.model';
 
 @Injectable({
   providedIn: 'root'
@@ -58,5 +59,22 @@ export class TwitterService {
 
   getUsernameTwitter(id: string): Observable<AtorTwitter> {
     return this.http.get<any>(`${this.twitterUrl}/parlamentares/username/${id}`);
+  }
+
+  getTweetsParlamentar(id: string, interesse: string, tema: string, limit: number): Observable<Tweet[]> {
+    let params = new HttpParams()
+    .set('interesse', interesse)
+    .set('data_inicial', '2000-05-01')
+    .set('data_final', '2020-12-31');
+
+    if (tema !== '' && tema !== undefined) {
+      params = params.set('tema', tema);
+    }
+
+    if (limit !== undefined) {
+      params = params.set('limit', limit.toString());
+    }
+
+    return this.http.get<Tweet[]>(`${this.twitterUrl}/tweets/${id}/texto`, { params });
   }
 }
