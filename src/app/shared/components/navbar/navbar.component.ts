@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ChildActivationStart } from '@angular/router';
+import { Router, ChildActivationStart, ActivationStart } from '@angular/router';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -19,6 +19,8 @@ export class NavbarComponent implements OnInit {
 
   public interesseParam: string;
 
+  public sobreUrl: string;
+
   constructor(
     private interesseService: InteresseService,
     private router: Router,
@@ -28,10 +30,11 @@ export class NavbarComponent implements OnInit {
     this.router.events
     .pipe(takeUntil(this.unsubscribe))
     .subscribe((event) => {
-      if (event instanceof ChildActivationStart) {
+      if (event instanceof ActivationStart) {
         this.interesseParam = event.snapshot.params.interesse;
         if (this.interesseParam !== undefined) {
           this.getInteresse(this.interesseParam);
+          this.sobreUrl = this.interesseParam + '/sobre';
         }
       }
     });
