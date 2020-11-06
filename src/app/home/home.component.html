@@ -1,0 +1,38 @@
+<app-loading *ngIf="isLoading | async"></app-loading>
+<div class="container main-container">
+  <div
+    class="main">
+    <!-- <div class="row py-2">
+      {{interesse?.descricao_interesse}}.
+    </div> -->
+  </div>
+</div>
+
+<div class="main-subnav">
+  <ul class="nav nav-tabs justify-content-center">
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [routerLink]="['./parlamentares']"
+        [routerLinkActive]="'active'"
+        queryParamsHandling="merge">
+        <span class="icon-atores"></span>
+        Parlamentares
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [routerLink]="['./proposicoes']"
+        [routerLinkActive]="'active'"
+        queryParamsHandling="merge">
+        <span class="icon-proposicao"></span>
+        Proposições
+      </a>
+    </li>
+  </ul>
+</div>
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
+
