@@ -3,11 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { NavbarComponent } from './navbar/navbar.component';
 import { ProgressComponent } from './progress/progress.component';
 import { AvaliacaoComponent } from './avaliacao/avaliacao.component';
 import { LoadingComponent } from './loading/loading.component';
 import { FiltraTemaComponent } from './filtra-tema/filtra-tema.component';
+import { TooltipAjudaComponent } from './tooltip-ajuda/tooltip-ajuda.component';
 
 @NgModule({
   declarations: [
@@ -15,19 +18,22 @@ import { FiltraTemaComponent } from './filtra-tema/filtra-tema.component';
     ProgressComponent,
     AvaliacaoComponent,
     LoadingComponent,
-    FiltraTemaComponent
+    FiltraTemaComponent,
+    TooltipAjudaComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    NgbModule
   ],
   exports: [
     NavbarComponent,
     ProgressComponent,
     AvaliacaoComponent,
     LoadingComponent,
-    FiltraTemaComponent
+    FiltraTemaComponent,
+    TooltipAjudaComponent
   ]
 })
 export class SharedComponentsModule { }
