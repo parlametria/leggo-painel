@@ -94,7 +94,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         tipos.push({
           titulo: tipo,
           id: idLeggo,
-          value: parseFloat(this.somaPesos(documento).toFixed(2)),
+          value: documento.length,
           quantidade: documento.length,
           categoria: tipo
         });

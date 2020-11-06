@@ -37,16 +37,16 @@
       <div>
         <span
           class="cracha"
-          *ngIf="parlamentar.peso_autorias_projetos"
+          *ngIf="parlamentar.quant_autorias_projetos"
           [ngbPopover]="popAutorias"
           [autoClose]="'outside'">
           <span class="icon-autor app-icon text-danger"></span>
-          <span class="badge badge-danger app-badge badge-color-white">{{ parlamentar.peso_autorias_projetos }}</span>
+          <span class="badge badge-danger app-badge badge-color-white">{{ parlamentar.quant_autorias_projetos }}</span>
           <ng-template #popAutorias>
             <strong>Autor</strong>
-            &nbsp;de {{ parlamentar.peso_autorias_projetos }}
-            <span *ngIf="parlamentar.peso_autorias_projetos === 1">&nbsp;proposição</span>
-            <span *ngIf="parlamentar.peso_autorias_projetos !== 1">&nbsp;proposições</span>
+            &nbsp;de {{ parlamentar.quant_autorias_projetos }}
+            <span *ngIf="parlamentar.quant_autorias_projetos === 1">&nbsp;proposição</span>
+            <span *ngIf="parlamentar.quant_autorias_projetos !== 1">&nbsp;proposições</span>
             <div class="text-right">
               <a [routerLink]="[parlamentar.id_autor_parlametria + '/papeis']" class="btn btn-link btn-sm">+ Detalhes</a>
             </div>

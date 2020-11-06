@@ -1,0 +1,27 @@
+$base-padding: 0.5rem;
+
+.temas {
+  padding-left: 0.75rem;
+  padding-top: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.proposicao-title {
+  font-size: 1.15rem;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.tags {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: $base-padding;
+}
+
+.tag {
+  margin-right: 5px;
+  cursor: pointer;
+}

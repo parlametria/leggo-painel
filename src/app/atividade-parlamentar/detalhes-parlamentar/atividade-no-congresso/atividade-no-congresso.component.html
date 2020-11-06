@@ -23,7 +23,7 @@
   <div *ngIf="parlamentar?.ranking_documentos">
     {{ parlamentar?.ranking_documentos }}° parlamentar mais atuante neste painel e tema.
     <div class="titulo">
-      Das {{ parlamentar?.peso_total }} ações{{ infoTexto }}.
+      Das {{ totalDocs }} ações{{ infoTexto }}.
     </div>
   </div>
   <h3 *ngIf="parlamentar" class="titulo-sessao mt-3">Por Proposição</h3>
