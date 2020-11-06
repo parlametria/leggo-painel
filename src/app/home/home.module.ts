@@ -13,6 +13,7 @@ import { FiltroComponent } from '../atividade-parlamentar/filtro/filtro.componen
 import { ProposicoesComponent } from '../proposicoes/proposicoes.component';
 import { CardProposicaoComponent } from '../proposicoes/card-proposicao/card-proposicao.component';
 import { FiltroProposicoesComponent } from '../proposicoes/filtro-proposicoes/filtro-proposicoes.component';
+import { SobreComponent } from '../sobre/sobre.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { FiltroProposicoesComponent } from '../proposicoes/filtro-proposicoes/fi
     FiltroComponent,
     ProposicoesComponent,
     CardProposicaoComponent,
-    FiltroProposicoesComponent
+    FiltroProposicoesComponent,
+    SobreComponent
   ],
   imports: [
     CommonModule,
