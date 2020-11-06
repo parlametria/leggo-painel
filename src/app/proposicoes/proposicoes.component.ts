@@ -71,6 +71,10 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
     });
   }
 
+  search(filtro){
+    this.proposicoesListaService.search(filtro);
+  }
+
   pageChange(p: number) {
     this.p = p;
 
