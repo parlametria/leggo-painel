@@ -13,11 +13,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'atores-chave',
+        redirectTo: 'parlamentares',
         pathMatch: 'full'
       },
       {
-        path: 'atores-chave',
+        path: 'parlamentares',
         component: AtividadeParlamentarComponent
       },
       {
@@ -32,7 +32,7 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: ':interesse/atores-chave/:id',
+    path: ':interesse/parlamentares/:id',
     loadChildren: () =>
       import(
         '../atividade-parlamentar/detalhes-parlamentar/detalhes-parlamentar.module'
