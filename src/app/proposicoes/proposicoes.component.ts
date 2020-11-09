@@ -23,6 +23,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   interesse: string;
   proposicoes: ProposicaoLista[];
   maxTemperatura: MaximaTemperaturaProposicao;
+  orderByProp: string;
   p = 1;
 
   constructor(
@@ -41,8 +42,25 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
         this.getMaxTemperatura(this.interesse);
         this.getProposicoes(this.interesse);
       });
+      this.activatedRoute.queryParams
+      .subscribe(params => {
+        const pOrderBy = this.replaceUndefined(params.orderByProp);
+        
+        let mudouOrdenacao = true;
+        if (this.orderByProp === pOrderBy && this.proposicoes) {
+          mudouOrdenacao = false;
+        }
+
+        this.orderByProp = pOrderBy;
+
+        if (mudouOrdenacao) {
+          this.proposicoesListaService.setOrderBy(this.orderByProp);
+        }
+      });
     this.updatePageViaURL();
   }
+
+  
 
   ngAfterContentInit() {
     this.cdRef.detectChanges();
@@ -103,6 +121,10 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
     currentPage: number
   ) {
     return (itensPerPage * (currentPage - 1)) + index;
+  }
+
+  private replaceUndefined(termo) {
+    return termo === undefined ? '' : termo;
   }
 
   ngOnDestroy(): void {
