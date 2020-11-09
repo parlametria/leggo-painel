@@ -42,25 +42,23 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
         this.getMaxTemperatura(this.interesse);
         this.getProposicoes(this.interesse);
       });
-      this.activatedRoute.queryParams
-      .subscribe(params => {
-        const pOrderBy = this.replaceUndefined(params.orderByProp);
-        
-        let mudouOrdenacao = true;
-        if (this.orderByProp === pOrderBy && this.proposicoes) {
-          mudouOrdenacao = false;
-        }
+    this.activatedRoute.queryParams
+    .subscribe(params => {
+      const pOrderBy = this.replaceUndefined(params.orderByProp);
 
-        this.orderByProp = pOrderBy;
+      let mudouOrdenacao = true;
+      if (this.orderByProp === pOrderBy && this.proposicoes) {
+        mudouOrdenacao = false;
+      }
 
-        if (mudouOrdenacao) {
-          this.proposicoesListaService.setOrderBy(this.orderByProp);
-        }
-      });
+      this.orderByProp = pOrderBy;
+
+      if (mudouOrdenacao) {
+        this.proposicoesListaService.setOrderBy(this.orderByProp);
+      }
+    });
     this.updatePageViaURL();
   }
-
-  
 
   ngAfterContentInit() {
     this.cdRef.detectChanges();

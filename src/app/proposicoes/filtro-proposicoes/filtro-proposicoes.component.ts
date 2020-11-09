@@ -10,22 +10,19 @@ import { Params, Router, ActivatedRoute } from '@angular/router';
 export class FiltroProposicoesComponent implements OnInit {
 
   @Output() filterChange = new EventEmitter<any>();
-  
   readonly ORDER_BY_PADRAO = 'maior-temperatura';
   public orderBySelecionado: string;
   orderBy: any[] = [
     { order: 'maior temperatura', order_by: 'maior-temperatura' },
     { order: 'menor temperatura', order_by: 'menor-temperatura' },
     { order: 'maior pressão', order_by: 'maior-pressao' },
-    { order: 'menor pressão', order_by: 'menor-pressao' },];
-
+    { order: 'menor pressão', order_by: 'menor-pressao' }, ];
   proposicaoPesquisada = '';
   filtro: any;
-    
+
   constructor(
     private activatedRoute: ActivatedRoute,
-    private router: Router
-  ) { }
+    private router: Router) { }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams
@@ -33,7 +30,7 @@ export class FiltroProposicoesComponent implements OnInit {
         this.orderBySelecionado = params.orderByProp;
         this.orderBySelecionado === undefined ?
         this.orderBySelecionado = this.ORDER_BY_PADRAO : this.orderBySelecionado = this.orderBySelecionado;
-      })
+      });
   }
 
   aplicarFiltro() {
