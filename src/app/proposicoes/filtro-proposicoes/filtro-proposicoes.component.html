@@ -9,9 +9,8 @@
         (ngModelChange)="aplicarFiltro()"
         placeholder="Buscar proposição...">
     </div>
-    <div>
-      <select
-        class="app-seletor"
+    <div class="filtro-wrapper mb-4">
+      <select class="seletor-ordenacao app-seletor"
         #mySelector
         (change)="onChangeOrderBy($event.target.value)"
         [(ngModel)]="orderBySelecionado">
