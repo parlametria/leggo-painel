@@ -36,12 +36,12 @@ const d3 = Object.assign({}, {
 })
 export class VisAtividadeTwitterComponent implements OnInit {
 
-  @Input() interesse: string;
 
   private unsubscribe = new Subject();
 
   private tema: string;
   private idParlamentarDestaque: number;
+  private interesse: string;
 
   private width;
   private height;
@@ -93,6 +93,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.idParlamentarDestaque = +params.get('id');
+        this.interesse = params.get('interesse');
 
         this.activatedRoute.queryParams
           .subscribe(query => {
