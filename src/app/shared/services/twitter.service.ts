@@ -30,12 +30,10 @@ export class TwitterService {
     return this.http.get<any>(`${this.twitterUrl}/tweets/parlamentares/${id}`, { params });
   }
 
-  getMediaTweets(interesse: string, tema: string): Observable<any> {
+  getMediaTweets(): Observable<any> {
     const params = new HttpParams()
-      .set('interesse', interesse)
-      .set('tema', tema)
-      .set('data_inicial', '01-01-2000')
-      .set('data_final', '10-10-2020');
+      .set('data_inicial', '2000-01-01')
+      .set('data_final', '2020-12-31');
     return this.http.get<any>(`${this.twitterUrl}/parlamentares/media`, { params });
   }
 
@@ -48,12 +46,10 @@ export class TwitterService {
     return this.http.get<any>(`${this.twitterUrl}/parlamentares/percentual_atividade_agenda`, { params });
   }
 
-  getEngajamento(interesse: string, tema: string): Observable<any> {
+  getEngajamento(): Observable<any> {
     const params = new HttpParams()
-      .set('interesse', interesse)
-      .set('tema', tema)
-      .set('data_inicial', '01-01-2000')
-      .set('data_final', '10-10-2020');
+      .set('data_inicial', '2000-01-01')
+      .set('data_final', '2020-12-31');
     return this.http.get<any>(`${this.twitterUrl}/parlamentares/engajamento`, { params });
   }
 
