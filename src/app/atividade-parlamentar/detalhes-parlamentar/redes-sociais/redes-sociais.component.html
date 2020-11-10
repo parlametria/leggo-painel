@@ -39,7 +39,7 @@
         não possui tweets para este tema e agenda.
     </p>
 
-    <app-vis-atividade-twitter></app-vis-atividade-twitter>
+    <app-vis-atividade-twitter *ngIf="parlamentar.quantidadeTweets > 0"></app-vis-atividade-twitter>
 
     <div class="mt-4">
         <p>
