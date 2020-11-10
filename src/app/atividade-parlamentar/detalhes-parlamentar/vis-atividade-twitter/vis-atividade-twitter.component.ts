@@ -36,12 +36,12 @@ const d3 = Object.assign({}, {
 })
 export class VisAtividadeTwitterComponent implements OnInit {
 
-  @Input() interesse: string;
 
   private unsubscribe = new Subject();
 
   private tema: string;
   private idParlamentarDestaque: number;
+  private interesse: string;
 
   private width;
   private height;
@@ -93,6 +93,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.idParlamentarDestaque = +params.get('id');
+        this.interesse = params.get('interesse');
 
         this.activatedRoute.queryParams
           .subscribe(query => {
@@ -106,9 +107,9 @@ export class VisAtividadeTwitterComponent implements OnInit {
   private carregarVis() {
     forkJoin([
       this.entidadeService.getParlamentaresExercicio(''),
-      this.twitterService.getMediaTweets(this.interesse, this.tema),
+      this.twitterService.getMediaTweets(),
       this.twitterService.getPercentualTweets(this.interesse, this.tema),
-      this.twitterService.getEngajamento(this.interesse, this.tema)
+      this.twitterService.getEngajamento()
     ]).subscribe(data => {
       const parlamentaresExercicio: any = data[0];
       const mediaTweets: any = data[1];
@@ -229,8 +230,8 @@ export class VisAtividadeTwitterComponent implements OnInit {
     return `<p class="vis-tooltip-titulo"><strong>${d.nome_autor}</strong> ${d.partido}/${d.uf}</p>
     <p><strong>${(d.atividade_twitter)}</strong> tweets no período</p>
     <p><strong>${format('.2%')(d.percentual_atividade_twitter)}</strong> de seus tweets são sobre o tema</p>
-    <p><strong>${format('.1')(d.media_tweets)}</strong> tweets por mês</p>
-    <p><strong>${format('.2f')(d.engajamento)}</strong> curtidas, respostas e retweets em média</p>`;
+    <p><strong>${format('.1f')(d.media_tweets)}</strong> tweets por mês</p>
+    <p><strong>${format('.1f')(d.engajamento)}</strong> curtidas, respostas e retweets em média</p>`;
   }
 
 }

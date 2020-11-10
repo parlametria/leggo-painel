@@ -15,22 +15,13 @@ export class ProposicoesListaService {
   private proposicoesFiltered = new BehaviorSubject<Array<ProposicaoLista>>([]);
 
   private orderBy = new BehaviorSubject<string>('');
-  readonly ORDER_BY_PADRAO = 'temperatura';
+  readonly ORDER_BY_PADRAO = 'maior-temperatura';
 
   private filtro = new BehaviorSubject<any>({});
 
   constructor(
     private proposicoesService: ProposicoesService
   ) {
-    // this.filtro.pipe(
-    //   debounceTime(400),
-    //   distinctUntilChanged(
-    //     (p: any, q: any) => {
-    //       return this.compareFilter(p, q);
-    //     }
-    //   ),
-    //   map(filters => this.filter(parlamentar, filters))
-    // )),
 
     this.proposicoes
       .pipe(
@@ -48,9 +39,24 @@ export class ProposicoesListaService {
           return this.orderBy.pipe(map(par => proposicoes));
         }),
         tap(proposicoes => {
-          if (this.orderBy.value === 'temperatura') {
+          if (this.orderBy.value === 'maior-temperatura') {
             proposicoes.sort((a, b) => {
               return this.orderByDesc(a.ultima_temperatura, b.ultima_temperatura);
+            });
+          }
+          if (this.orderBy.value === 'menor-temperatura') {
+            proposicoes.sort((b, a) => {
+              return this.orderByDesc(a.ultima_temperatura, b.ultima_temperatura);
+            });
+          }
+          if (this.orderBy.value === 'maior-pressao') {
+            proposicoes.sort((a, b) => {
+              return this.orderByDesc(a.ultima_pressao, b.ultima_pressao);
+            });
+          }
+          if (this.orderBy.value === 'menor-pressao') {
+            proposicoes.sort((b, a) => {
+              return this.orderByDesc(a.ultima_pressao, b.ultima_pressao);
             });
           }
         }))
