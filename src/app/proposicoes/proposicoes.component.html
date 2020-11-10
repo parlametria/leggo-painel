@@ -1,10 +1,12 @@
 <div class="container app-container">
+    <app-filtro-proposicoes (filterChange)="search($event)">
+    </app-filtro-proposicoes>
     <div class="app-content">
         <app-loading *ngIf="isLoading | async"></app-loading>
 
         <div [hidden]="isLoading | async">
             <div>
-                Nesta agenda existem {{ proposicoes?.length }} proposições.
+                {{ proposicoes?.length }} proposições.
             </div>
 
             <pagination-template

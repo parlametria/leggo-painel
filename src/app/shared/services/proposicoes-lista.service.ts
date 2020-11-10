@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 
 import { ProposicoesService } from './proposicoes.service';
 import { ProposicaoLista } from '../models/proposicao.model';
@@ -17,18 +17,39 @@ export class ProposicoesListaService {
   private orderBy = new BehaviorSubject<string>('');
   readonly ORDER_BY_PADRAO = 'temperatura';
 
+  private filtro = new BehaviorSubject<any>({});
+
   constructor(
     private proposicoesService: ProposicoesService
   ) {
+    // this.filtro.pipe(
+    //   debounceTime(400),
+    //   distinctUntilChanged(
+    //     (p: any, q: any) => {
+    //       return this.compareFilter(p, q);
+    //     }
+    //   ),
+    //   map(filters => this.filter(parlamentar, filters))
+    // )),
 
     this.proposicoes
       .pipe(
-        switchMap(parlamentares => {
-          return this.orderBy.pipe(map(par => parlamentares));
+        switchMap(proposicoes =>
+          this.filtro.pipe(
+            debounceTime(400),
+            distinctUntilChanged(
+              (p: any, q: any) => {
+                return this.compareFilter(p, q);
+              }
+            ),
+            map(filters => this.filter(proposicoes, filters))
+          )),
+        switchMap(proposicoes => {
+          return this.orderBy.pipe(map(par => proposicoes));
         }),
-        tap(parlamentares => {
+        tap(proposicoes => {
           if (this.orderBy.value === 'temperatura') {
-            parlamentares.sort((a, b) => {
+            proposicoes.sort((a, b) => {
               return this.orderByDesc(a.ultima_temperatura, b.ultima_temperatura);
             });
           }
@@ -95,6 +116,29 @@ export class ProposicoesListaService {
     } else {
       return objeto[property];
     }
+  }
+
+  search(filtro: any) {
+    this.filtro.next(filtro);
+  }
+
+  private compareFilter(p: any, q: any) {
+    return p.nome === q.nome;
+  }
+
+  private filter(proposicoes: ProposicaoLista[], filtro: any) {
+    const nome = filtro.nome;
+
+    return proposicoes.filter(p => {
+      let filtered = true;
+
+      filtered =
+        nome && filtered
+          ? (p.sigla_camara + p.sigla_senado + p.interesse[0].apelido).toLowerCase().includes(nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase())
+          : filtered;
+
+      return filtered;
+    });
   }
 
   private orderByDesc(a: number, b: number) {

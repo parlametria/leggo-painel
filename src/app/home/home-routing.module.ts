@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home.component';
 import { AtividadeParlamentarComponent } from '../atividade-parlamentar/atividade-parlamentar.component';
 import { ProposicoesComponent } from '../proposicoes/proposicoes.component';
+import { SobreComponent } from '../sobre/sobre.component';
 
 const routes: Routes = [
   {
@@ -11,7 +12,12 @@ const routes: Routes = [
     component: HomeComponent,
     children: [
       {
-        path: 'atores-chave',
+        path: '',
+        redirectTo: 'parlamentares',
+        pathMatch: 'full'
+      },
+      {
+        path: 'parlamentares',
         component: AtividadeParlamentarComponent
       },
       {
@@ -26,11 +32,15 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: ':interesse/atores-chave/:id',
+    path: ':interesse/parlamentares/:id',
     loadChildren: () =>
       import(
         '../atividade-parlamentar/detalhes-parlamentar/detalhes-parlamentar.module'
       ).then((m) => m.DetalhesParlamentarModule),
+  },
+  {
+    path: ':interesse/sobre',
+    component: SobreComponent
   },
 ];
 

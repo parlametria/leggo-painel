@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { forkJoin, Subject } from 'rxjs';
+import { BehaviorSubject, forkJoin, Subject } from 'rxjs';
 
 import { TwitterService } from 'src/app/shared/services/twitter.service';
+import { indicate } from 'src/app/shared/functions/indicate.function';
+
 import { AtorTwitter } from 'src/app/shared/models/atorTwitter.model';
 import { Tweet } from 'src/app/shared/models/tweet.model';
+import { InfoTwitter } from 'src/app/shared/models/infoTwitter.model';
 
 @Component({
   selector: 'app-redes-sociais',
@@ -17,11 +20,16 @@ export class RedesSociaisComponent implements OnInit {
   readonly NUMERO_TWEETS = 5;
 
   private unsubscribe = new Subject();
+  public isLoading = new BehaviorSubject<boolean>(true);
+
   public idAtor: string;
   public interesse: string;
   public tema: string;
   public parlamentar: AtorTwitter;
   public tweets: Tweet[];
+  public infoTwitter: InfoTwitter;
+
+  readonly TOTAL_PARLAMENTARES = 594;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -36,27 +44,32 @@ export class RedesSociaisComponent implements OnInit {
         this.interesse = params.get('interesse');
       });
     this.activatedRoute.queryParams
-    .subscribe(params => {
-      this.tema = params.tema;
-      this.tema === undefined ? this.tema = '' : this.tema = this.tema;
-      this.resgataTwitter(this.interesse, this.tema, this.idAtor);
-    });
+      .subscribe(params => {
+        this.tema = params.tema;
+        this.tema === undefined ? this.tema = '' : this.tema = this.tema;
+        this.resgataTwitter(this.interesse, this.tema, this.idAtor);
+      });
   }
 
   private resgataTwitter(interesse, tema, idAtor) {
     forkJoin([
       this.twitterService.getUsernameTwitter(idAtor),
-      this.twitterService.getAtividadeDetalhadaTwitter(idAtor, interesse , tema),
-      this.twitterService.getTweetsParlamentar(idAtor, interesse, tema, this.NUMERO_TWEETS)
+      this.twitterService.getAtividadeDetalhadaTwitter(idAtor, interesse, tema),
+      this.twitterService.getTweetsParlamentar(idAtor, interesse, tema, this.NUMERO_TWEETS),
+      this.twitterService.getInfoTwitter()
     ])
-    .pipe(takeUntil(this.unsubscribe))
-    .subscribe(data => {
-      this.parlamentar = data[0];
-      this.parlamentar.id_autor_parlametria = data[1].id_parlamentar_parlametria;
-      this.parlamentar.quantidadeTweets = data[1].atividade_twitter;
+      .pipe(
+        indicate(this.isLoading),
+        takeUntil(this.unsubscribe))
+      .subscribe(data => {
+        this.parlamentar = data[0];
+        this.parlamentar.id_autor_parlametria = data[1].id_parlamentar_parlametria;
+        this.parlamentar.quantidadeTweets = data[1].atividade_twitter;
 
-      this.tweets = data[2];
-    });
+        this.tweets = data[2];
+        this.infoTwitter = data[3];
+        this.isLoading.next(false);
+      });
   }
 
 }

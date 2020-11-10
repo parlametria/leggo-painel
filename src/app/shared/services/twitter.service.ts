@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AtorTwitter } from '../models/atorTwitter.model';
 import { Tweet } from '../models/tweet.model';
+import { InfoTwitter } from '../models/infoTwitter.model';
 
 @Injectable({
   providedIn: 'root'
@@ -76,5 +77,9 @@ export class TwitterService {
     }
 
     return this.http.get<Tweet[]>(`${this.twitterUrl}/tweets/${id}/texto`, { params });
+  }
+
+  getInfoTwitter(): Observable<InfoTwitter> {
+    return this.http.get<InfoTwitter>(`${this.twitterUrl}/tweets/info`);
   }
 }

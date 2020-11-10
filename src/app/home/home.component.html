@@ -1,14 +1,10 @@
 <app-loading *ngIf="isLoading | async"></app-loading>
 <div class="container main-container">
   <div
-    class="main py-3">
-    <div class="row main-titulo">
-      {{ interesse?.nome_interesse }}
-    </div>
-    <div class="row py-2">
-      Aqui você encontra todos os detalhes sobre atuação parlamentar, proposições,
-      pressão e temperatura, insights e redes sociais dos parlamentares sobre a agenda {{interesse?.nome_interesse}}.
-    </div>
+    class="main">
+    <!-- <div class="row py-2">
+      {{interesse?.descricao_interesse}}.
+    </div> -->
   </div>
 </div>
 
@@ -17,11 +13,11 @@
     <li class="nav-item">
       <a
         class="nav-link"
-        [routerLink]="['./atores-chave']"
+        [routerLink]="['./parlamentares']"
         [routerLinkActive]="'active'"
         queryParamsHandling="merge">
         <span class="icon-atores"></span>
-        Atuação parlamentar
+        Parlamentares
       </a>
     </li>
     <li class="nav-item">

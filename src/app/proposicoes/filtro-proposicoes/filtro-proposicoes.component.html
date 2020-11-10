@@ -1,0 +1,13 @@
+<div class="filtro-wrapper mt-4 mb-4">
+  <div class="col-lg-8">
+    <div class="form-group">
+      <input
+        type="text"
+        class="form-control"
+        id="searchProposicao"
+        [(ngModel)]="proposicaoPesquisada"
+        (ngModelChange)="aplicarFiltro()"
+        placeholder="Buscar proposição...">
+    </div>
+  </div>
+</div>
