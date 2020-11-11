@@ -70,14 +70,14 @@
                 >
                     {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao }}
                 </span>
-                <span
+                <!-- <span
                     *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.forma_apreciacao === 'Plenário'"
                     class="tag badge badge-gray"
                     ngbPopover="Forma de apreciação"
                     [autoClose]="'outside'"
                 >
                     {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.forma_apreciacao }}
-                </span>
+                </span> -->
                 <span
                     *ngIf="proposicao?.interesse[0]?.tipo_agenda && proposicao?.interesse[0]?.tipo_agenda !== 'nan'"
                     class="tag badge badge-gray"

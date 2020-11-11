@@ -61,7 +61,9 @@ export class ProposicoesListaService {
           }
         }))
       .subscribe(res => {
-        this.proposicoesFiltered.next(res);
+        if (this.proposicoes.value.length !== 0) {
+          this.proposicoesFiltered.next(res);
+        }
       });
   }
 
