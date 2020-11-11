@@ -228,10 +228,26 @@ export class VisAtividadeTwitterComponent implements OnInit {
 
   private tooltipText(d): any {
     return `<p class="vis-tooltip-titulo"><strong>${d.nome_autor}</strong> ${d.partido}/${d.uf}</p>
-    <p><strong>${(d.atividade_twitter)}</strong> tweets no período</p>
-    <p><strong>${format('.2%')(d.percentual_atividade_twitter)}</strong> de seus tweets são sobre o tema</p>
-    <p><strong>${format('.1f')(d.media_tweets)}</strong> tweets por mês</p>
-    <p><strong>${format('.1f')(d.engajamento)}</strong> curtidas, respostas e retweets em média</p>`;
+    <table class="table table-sm table-borderless vis-tooltip-table">
+      <tbody>
+        <tr>
+          <td class="text-right"><strong>${(d.atividade_twitter)}</strong></td>
+          <td>tweets no período</td>
+        </tr>
+        <tr>
+          <td class="text-right"><strong>${format('.2%')(d.percentual_atividade_twitter)}</strong></td>
+          <td>de seus tweets são sobre o tema</td>
+        </tr>
+        <tr>
+          <td class="text-right"><strong>${format('.1f')(d.media_tweets)}</strong></td>
+          <td>tweets por mês</td>
+        </tr>
+        <tr>
+          <td class="text-right"><strong>${format('.1f')(d.engajamento)}</strong></td>
+          <td>curtidas, respostas e retweets em média</td>
+        </tr>
+      </tbody>
+    </table>`;
   }
 
 }
