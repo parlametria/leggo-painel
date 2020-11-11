@@ -31,7 +31,7 @@ const d3 = Object.assign({}, {
 
 @Component({
   selector: 'app-vis-atividade-twitter',
-  templateUrl: './vis-atividade-twitter.component.html',
+  template: '<div id="vis-atividade-twitter" class="vis"></div>',
   styleUrls: ['./vis-atividade-twitter.component.scss']
 })
 export class VisAtividadeTwitterComponent implements OnInit {
