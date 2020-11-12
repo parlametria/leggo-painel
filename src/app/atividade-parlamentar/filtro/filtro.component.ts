@@ -34,7 +34,7 @@ export class FiltroComponent implements OnInit, AfterContentInit, OnDestroy {
     { casa: 'Deputados', casa_slug: 'camara' },
     { casa: 'Senadores', casa_slug: 'senado' }];
   orderBy: any[] = [
-    { order: 'mais ativos no congresso', order_by: 'atuacao-parlamentar' },
+    { order: 'mais atuantes', order_by: 'atuacao-parlamentar' },
     { order: 'com maior peso político', order_by: 'peso-politico' },
     { order: 'mais ativos no twitter', order_by: 'atuacao-twitter' }];
 

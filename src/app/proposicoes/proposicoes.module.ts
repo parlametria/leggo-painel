@@ -10,9 +10,10 @@ import { ProposicoesRoutingModule } from './proposicoes-routing.module';
 import { ProposicoesComponent } from './proposicoes.component';
 import { CardProposicaoComponent } from './card-proposicao/card-proposicao.component';
 import { FiltroProposicoesComponent } from './filtro-proposicoes/filtro-proposicoes.component';
+import { DetalhesProposicaoComponent } from './detalhes-proposicao/detalhes-proposicao.component';
 
 @NgModule({
-  declarations: [ProposicoesComponent, CardProposicaoComponent, FiltroProposicoesComponent],
+  declarations: [ProposicoesComponent, CardProposicaoComponent, FiltroProposicoesComponent, DetalhesProposicaoComponent],
   imports: [
     CommonModule,
     ProposicoesRoutingModule,

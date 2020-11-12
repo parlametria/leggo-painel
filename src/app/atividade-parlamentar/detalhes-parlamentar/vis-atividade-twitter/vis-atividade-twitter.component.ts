@@ -163,7 +163,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
       .attr('y', (this.height + this.margin.bottom))
       .attr('text-anchor', 'end')
       .attr('font-size', '0.8rem')
-      .text('tweet/mês');
+      .text('tweet/semana');
 
     // Eixo Y
     this.g.append('g')
@@ -228,7 +228,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
   private tooltipText(d): any {
     return `<p class="vis-tooltip-titulo"><strong>${d.nome_autor}</strong> ${d.partido}/${d.uf}</p>
     <p><strong>${(d.atividade_twitter)}</strong> tweets nesse tema e agenda</p>
-    <p><strong>${format('.1f')(d.media_tweets)}</strong> tweets por mês</p>
+    <p><strong>${format('.1f')(d.media_tweets)}</strong> tweets por semana</p>
     <p><strong>${format('.1f')(d.engajamento)}</strong> curtidas, respostas e retweets em média</p>`;
   }
 
