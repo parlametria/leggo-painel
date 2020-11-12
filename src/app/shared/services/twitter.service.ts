@@ -41,15 +41,6 @@ export class TwitterService {
     return this.http.get<any>(`${this.twitterUrl}/parlamentares/media`, { params });
   }
 
-  getPercentualTweets(interesse: string, tema: string): Observable<any> {
-    const params = new HttpParams()
-      .set('interesse', interesse)
-      .set('tema', tema)
-      .set('data_inicial', '2000-01-01')
-      .set('data_final', '2020-12-31');
-    return this.http.get<any>(`${this.twitterUrl}/parlamentares/percentual_atividade_agenda`, { params });
-  }
-
   getEngajamento(): Observable<any> {
     const params = new HttpParams()
       .set('data_inicial', '2000-01-01')
