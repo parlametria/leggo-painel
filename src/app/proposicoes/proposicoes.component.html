@@ -1,13 +1,12 @@
 <div class="container app-container">
-    <app-filtro-proposicoes (filterChange)="search($event)">
-    </app-filtro-proposicoes>
+    <app-filtro-proposicoes (filterChange)="search($event)"></app-filtro-proposicoes>
     <div class="app-content">
         <app-loading *ngIf="isLoading | async"></app-loading>
 
         <div [hidden]="isLoading | async">
-            <div>
-                {{ proposicoes?.length }} proposições.
-            </div>
+            <div *ngIf="proposicoes?.length > 1">{{ proposicoes?.length }} proposições.</div>
+            <div *ngIf="proposicoes?.length === 1">{{ proposicoes?.length }} proposição.</div>
+            <div *ngIf="proposicoes?.length === 0">Nenhuma proposição encontrada.</div>
 
             <pagination-template
                 #pag="paginationApi"

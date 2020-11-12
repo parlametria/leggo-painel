@@ -65,8 +65,6 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   }
 
   getProposicoes(interesse: string) {
-    this.proposicoesListaService.setOrderBy('temperatura');
-
     this.proposicoesListaService.getProposicoes(interesse)
       .pipe(
         skip(1),
