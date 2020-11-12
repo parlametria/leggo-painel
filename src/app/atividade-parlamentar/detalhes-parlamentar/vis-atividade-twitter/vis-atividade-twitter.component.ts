@@ -164,7 +164,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
       .attr('y', (this.height + this.margin.bottom))
       .attr('text-anchor', 'end')
       .attr('font-size', '0.8rem')
-      .text('tweet/mês');
+      .text('tweet/semana');
 
     // Eixo Y
     this.g.append('g')
