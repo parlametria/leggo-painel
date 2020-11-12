@@ -140,6 +140,8 @@ export class VisAtividadeTwitterComponent implements OnInit {
   }
 
   private atualizarVis(g, parlamentares) {
+    console.log(parlamentares);
+
     this.x.domain([d3.min(parlamentares, (d: any) => d.media_tweets), d3.max(parlamentares, (d: any) => d.media_tweets)]);
     this.y.domain([0, 1]);
     this.r.domain([d3.min(parlamentares, (d: any) => d.engajamento), d3.max(parlamentares, (d: any) => d.engajamento)]);
@@ -149,6 +151,8 @@ export class VisAtividadeTwitterComponent implements OnInit {
     if (indexDestaque > -1) {
       parlamentares.splice(parlamentares.indexOf(parlamentarDestaque), 1);
     }
+    console.log(parlamentarDestaque);
+
 
     // Eixo X
     const eixoX = this.g.append('g');
