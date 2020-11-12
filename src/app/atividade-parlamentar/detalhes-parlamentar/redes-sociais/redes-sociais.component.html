@@ -7,7 +7,10 @@
     </app-tooltip-ajuda>
 </div>
 <app-loading *ngIf="isLoading | async"></app-loading>
-<div [hidden]="isLoading | async" *ngIf="parlamentar && parlamentar?.username !== undefined">
+<div
+    [hidden]="isLoading | async"
+    *ngIf="parlamentar && parlamentar?.username !== undefined"
+>
     <p
         *ngIf="parlamentar.quantidadeTweets > 0"
         class="mt-4"
@@ -58,21 +61,28 @@
             e
             <strong>
                 {{ infoTwitter?.data_final | date:'dd/MM/yyyy' }}
-            </strong>.
+            </strong>
+            .
         </p>
     </div>
 
-    <div *ngIf="tweets?.length">
-        <h3 class="titulo-sessao mt-4">Tweets com mais engajamento</h3>
+    <div
+        *ngIf="tweets?.length"
+        class="mt-4"
+    >
+        <h3 class="titulo-sessao">Tweets com mais engajamento</h3>
         <div
             *ngFor="let tweet of tweets"
             class="mt-3"
         >
-            <app-tweet [tweet]=tweet></app-tweet>
+            <app-embed-tweet [tweetId]="tweet?.id_tweet"></app-embed-tweet>
         </div>
     </div>
 </div>
-<div *ngIf="!parlamentar || parlamentar?.username === undefined" [hidden]="isLoading | async">
+<div
+    *ngIf="!parlamentar || parlamentar?.username === undefined"
+    [hidden]="isLoading | async"
+>
     <p class="mt-4">
         O parlamentar não possui atividade ou perfil no twitter.
     </p>

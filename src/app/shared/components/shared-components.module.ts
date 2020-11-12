@@ -11,6 +11,7 @@ import { AvaliacaoComponent } from './avaliacao/avaliacao.component';
 import { LoadingComponent } from './loading/loading.component';
 import { FiltraTemaComponent } from './filtra-tema/filtra-tema.component';
 import { TooltipAjudaComponent } from './tooltip-ajuda/tooltip-ajuda.component';
+import { EmbedTweetComponent } from './embed-tweet/embed-tweet.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { TooltipAjudaComponent } from './tooltip-ajuda/tooltip-ajuda.component';
     AvaliacaoComponent,
     LoadingComponent,
     FiltraTemaComponent,
-    TooltipAjudaComponent
+    TooltipAjudaComponent,
+    EmbedTweetComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +35,8 @@ import { TooltipAjudaComponent } from './tooltip-ajuda/tooltip-ajuda.component';
     AvaliacaoComponent,
     LoadingComponent,
     FiltraTemaComponent,
-    TooltipAjudaComponent
+    TooltipAjudaComponent,
+    EmbedTweetComponent
   ]
 })
 export class SharedComponentsModule { }

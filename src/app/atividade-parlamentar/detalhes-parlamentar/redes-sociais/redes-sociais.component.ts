@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, forkJoin, Subject } from 'rxjs';
@@ -15,7 +15,7 @@ import { InfoTwitter } from 'src/app/shared/models/infoTwitter.model';
   templateUrl: './redes-sociais.component.html',
   styleUrls: ['./redes-sociais.component.scss']
 })
-export class RedesSociaisComponent implements OnInit {
+export class RedesSociaisComponent implements OnInit, OnDestroy {
 
   readonly NUMERO_TWEETS = 5;
 
@@ -70,6 +70,11 @@ export class RedesSociaisComponent implements OnInit {
         this.infoTwitter = data[3];
         this.isLoading.next(false);
       });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
 }
