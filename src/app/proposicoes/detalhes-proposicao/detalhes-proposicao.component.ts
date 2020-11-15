@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Subject, BehaviorSubject, forkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { Proposicao } from 'src/app/shared/models/proposicao.model'
+import { Proposicao } from 'src/app/shared/models/proposicao.model';
 import { ProposicaoDetalhadaService } from 'src/app/shared/services/proposicao-detalhada.service';
 import { indicate } from 'src/app/shared/functions/indicate.function';
 
@@ -13,7 +13,7 @@ import { indicate } from 'src/app/shared/functions/indicate.function';
   templateUrl: './detalhes-proposicao.component.html',
   styleUrls: ['./detalhes-proposicao.component.scss']
 })
-export class DetalhesProposicaoComponent implements OnInit {
+export class DetalhesProposicaoComponent implements OnInit, OnDestroy  {
 
   private unsubscribe = new Subject();
 
@@ -33,13 +33,14 @@ export class DetalhesProposicaoComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.interesse = params.get('interesse');
-        this.idProposicao = params.get('id');
+        this.idProposicao = params.get('id_leggo');
       });
     this.activatedRoute.queryParams
     .subscribe(params => {
       this.tema = params.tema;
       this.tema === undefined ? this.tema = '' : this.tema = this.tema;
-    });  
+    });
+    console.log(this.getProposicaodetalhada(this.idProposicao, this.interesse));
   }
 
   getProposicaodetalhada(idProposicao, interesse) {
@@ -51,7 +52,7 @@ export class DetalhesProposicaoComponent implements OnInit {
       .subscribe(proposicao => {
         this.proposicao = proposicao;
         this.isLoading.next(false);
-      })
+      });
   }
 
   ngOnDestroy() {

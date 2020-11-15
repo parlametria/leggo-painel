@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -14,9 +14,9 @@ export class ProposicaoDetalhadaService {
 
   constructor(private http: HttpClient) { }
 
-  getProposicaoDetalhada(id: string, interesse: string): Observable<Proposicao> {
+  getProposicaoDetalhada(idLeggo: string, interesse: string): Observable<Proposicao> {
     const params = new HttpParams()
     .set('interesse', interesse);
-    return this.http.get<Proposicao>(`${this.proposicoesUrl}/${id}`, { params });
+    return this.http.get<Proposicao>(`${this.proposicoesUrl}/${idLeggo}`, { params });
   }
 }

@@ -1,1 +1,18 @@
-<p>detalhes-proposicao works!</p>
+<app-loading *ngIf="isLoading | async"></app-loading>
+<div class="container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a
+          class
+          [routerLink]="['../']">
+          &lt; Proposicões
+        </a>
+      </li>
+    </ol>
+  </nav>
+  <div>
+    {{ proposicao.id | json }}
+  </div>
+    {{ proposicao | json }}
+</div>

@@ -19,7 +19,7 @@
             href="https://leggo.parlametria.org/#/proposicao/{{proposicao?.id_leggo}}/{{proposicao?.interesse[0]?.interesse}}"
             target="_blank"
         >!-->
-        <a [routerLink]="[proposicao.id]">{{ proposicao.id }}
+        <a [routerLink]="[proposicao.id_leggo]">
 
             <span class="proposicao-title">
                 {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
