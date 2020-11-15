@@ -12,31 +12,31 @@
     </ol>
   </nav>
   <div>
-    {{ proposicao[0].interesse[0].temas[0] | json }}
+    {{ proposicao[0].interesse[0].temas[0] }}
   </div>
   <div>
-    {{ proposicao[0].etapas[0].sigla | json }}
+    {{ proposicao[0].etapas[0].sigla }}
   </div>
   <div>
-    {{ proposicao[0].interesse[0].apelido | json }}
+    {{ proposicao[0].interesse[0].apelido }}
   </div>
   <div>
-    {{ proposicao[0].etapas[1].resumo_tramitacao.slice(-1)[0].evento | json }}
+    {{ proposicao[0].etapas[1].resumo_tramitacao.slice(-1)[0].evento }}
   </div>
   <div>
-    {{ proposicao[0].etapas[0].casa | json }}
-    {{ proposicao[0].etapas[0].sigla | json }}
+    {{ proposicao[0].etapas[0].casa }}
+    {{ proposicao[0].etapas[0].sigla }}
   </div><div>
-    {{ proposicao[0].etapas[1].casa | json }}
-    {{ proposicao[0].etapas[1].sigla | json }}
+    {{ proposicao[0].etapas[1].casa }}
+    {{ proposicao[0].etapas[1].sigla }}
   </div>
   <div>
-    Autor {{ proposicao[0].autoresProposicao[0].autor.nome | json }}
+    Autor {{ proposicao[0].autoresProposicao[0].autor.nome }}
   </div>
   <div>
-    Relator(a) {{ proposicao[0].etapas[1].relatoria.nome | json }}
-    {{ proposicao[0].etapas[1].relatoria.partido | json }}
-    {{ proposicao[0].etapas[1].relatoria.uf| json }}
+    Relator(a) {{ proposicao[0].etapas[1].relatoria.nome }}
+    {{ proposicao[0].etapas[1].relatoria.partido }}
+    {{ proposicao[0].etapas[1].relatoria.uf }}
   </div>
     <!--{{ proposicao | json }}!-->
 </div>
