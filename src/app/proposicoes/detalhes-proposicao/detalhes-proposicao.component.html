@@ -11,32 +11,44 @@
       </li>
     </ol>
   </nav>
-  <div>
+  <div class="proposicao-tema">
     {{ proposicao[0].interesse[0].temas[0] }}
   </div>
-  <div>
-    {{ proposicao[0].etapas[0].sigla }}
-  </div>
-  <div>
+  <div class="proposicao-apelido">
     {{ proposicao[0].interesse[0].apelido }}
   </div>
-  <div>
-    {{ proposicao[0].etapas[1].resumo_tramitacao.slice(-1)[0].evento }}
+  <div class="proposicao-tramitacao">
+    {{ (proposicao[0].etapas[1].resumo_tramitacao.slice(-1)[0].evento).replace('_',' em ') }}
   </div>
-  <div>
-    {{ proposicao[0].etapas[0].casa }}
+  <div class="proposicao-casa">
     {{ proposicao[0].etapas[0].sigla }}
-  </div><div>
-    {{ proposicao[0].etapas[1].casa }}
+  </div>
+  <div class="proposicao-casa-label">
+    {{ proposicao[0].etapas[0].casa }}
+  </div>
+  <div class="proposicao-casa">
     {{ proposicao[0].etapas[1].sigla }}
   </div>
-  <div>
-    Autor {{ proposicao[0].autoresProposicao[0].autor.nome }}
+  <div  class="proposicao-casa-label">
+    {{ proposicao[0].etapas[1].casa }}
   </div>
-  <div>
-    Relator(a) {{ proposicao[0].etapas[1].relatoria.nome }}
+  <div class="proposicao-autor">
+    {{ proposicao[0].autoresProposicao[0].autor.nome }}
+  </div>
+  <div class='proposicao-autor-label'>
+    Autor
+  </div>
+  <div class="proposicao-relator">
+    {{ proposicao[0].etapas[1].relatoria.nome }}
     {{ proposicao[0].etapas[1].relatoria.partido }}
     {{ proposicao[0].etapas[1].relatoria.uf }}
   </div>
-    <!--{{ proposicao | json }}!-->
+  <div class='proposicao-relator-label'>
+    Relator(a) 
+  </div>
+</div>
+<div class="container">
+  <div class="py-4">
+    <router-outlet></router-outlet>
+  </div>
 </div>
