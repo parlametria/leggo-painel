@@ -18,7 +18,7 @@
     <div>
       <a [routerLink]="[parlamentar.id_autor_parlametria + '/atividades']">
         <app-progress
-          [label]="'Congresso'"
+          [label]="parlamentar.quantidade_autorias + ' ações na agenda'"
           [barraClasse]="'bg-primary'"
           [valor]="parlamentar.atividade_parlamentar"
           [exibirLabel]="true"></app-progress>
@@ -27,7 +27,7 @@
     <div class="space-between-bars">
       <a [routerLink]="[parlamentar.id_autor_parlametria + '/redes-sociais']">
         <app-progress
-          [label]="'Twitter'"
+          [label]="parlamentar.quantidade_tweets + ' tweets relacionados'"
           [barraClasse]="'bg-twitter'"
           [valor]="parlamentar.atividade_twitter"
           [exibirLabel]="true"></app-progress>
