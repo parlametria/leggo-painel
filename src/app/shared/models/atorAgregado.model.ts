@@ -19,4 +19,5 @@ export interface AtorAgregado {
   nome_processado: string;
   indice: number;
   casa_autor: string;
+  quantidade_tweets: number;
 }
