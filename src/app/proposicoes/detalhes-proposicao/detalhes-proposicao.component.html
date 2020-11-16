@@ -15,10 +15,10 @@
     {{ proposicao[0].interesse[0].temas[0] }}
   </div>
   <div class="proposicao-apelido">
-    {{ proposicao[0].interesse[0].apelido }}
+    {{ proposicao[0].etapas[0].sigla }}
   </div>
   <div class="proposicao-tramitacao">
-    {{ (proposicao[0].etapas[1].resumo_tramitacao.slice(-1)[0].evento).replace('_',' em ') }}
+    {{ (proposicao[0].etapas.slice(-1)[0].resumo_tramitacao.slice(-1)[0].evento).replace('_',' em ') }}
   </div>
   <div class="proposicao-casa">
     {{ proposicao[0].etapas[0].sigla }}
@@ -27,10 +27,10 @@
     {{ proposicao[0].etapas[0].casa }}
   </div>
   <div class="proposicao-casa">
-    {{ proposicao[0].etapas[1].sigla }}
+    {{ proposicao[0].etapas.slice(-1)[0].sigla }}
   </div>
   <div  class="proposicao-casa-label">
-    {{ proposicao[0].etapas[1].casa }}
+    {{ proposicao[0].etapas.slice(-1)[0].casa }}
   </div>
   <div class="proposicao-autor">
     {{ proposicao[0].autoresProposicao[0].autor.nome }}
@@ -39,9 +39,9 @@
     Autor
   </div>
   <div class="proposicao-relator">
-    {{ proposicao[0].etapas[1].relatoria.nome }}
-    {{ proposicao[0].etapas[1].relatoria.partido }}
-    {{ proposicao[0].etapas[1].relatoria.uf }}
+    {{ proposicao[0].etapas.slice(-1)[0].relatoria.nome }}
+    {{ proposicao[0].etapas.slice(-1)[0].relatoria.partido }}
+    {{ proposicao[0].etapas.slice(-1)[0].relatoria.uf }}
   </div>
   <div class='proposicao-relator-label'>
     Relator(a) 
