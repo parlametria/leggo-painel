@@ -45,6 +45,8 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
       });
     this.activatedRoute.queryParams
     .subscribe(params => {
+      this.tema = params.tema;
+      this.tema === undefined ? this.tema = '' : this.tema = this.tema;
       this.getParlamentarDetalhado(this.idAtor, this.interesse, this.tema);
     });
     this.getAtorInfo(this.idAtor, this.interesse);
