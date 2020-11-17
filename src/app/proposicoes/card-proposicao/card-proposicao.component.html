@@ -14,9 +14,7 @@
     </span>
   </div>
   <div class="card-body">
-    <a
-      href="https://leggo.parlametria.org/#/proposicao/{{proposicao?.id_leggo}}/{{proposicao?.interesse[0]?.interesse}}"
-      target="_blank">
+    <a [routerLink]="[proposicao.id_leggo]">
       <span class="proposicao-title">
         {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
         <span *ngIf="proposicao?.interesse[0]?.apelido && proposicao?.interesse[0]?.apelido !== 'nan'">

@@ -16,7 +16,11 @@ import { DetalhesProposicaoRoutingModule } from './detalhes-proposicao-routing.m
   ],
   imports: [
     CommonModule,
+<<<<<<< Updated upstream
     DetalhesProposicaoRoutingModule,
+=======
+    DetalhesProposicaoComponent,
+>>>>>>> Stashed changes
     SharedComponentsModule,
     NgbModule,
     NgxPaginationModule,
