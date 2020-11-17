@@ -39,8 +39,8 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy  {
     .subscribe(params => {
       this.tema = params.tema;
       this.tema === undefined ? this.tema = '' : this.tema = this.tema;
+      this.getProposicaodetalhada(this.idProposicao, this.interesse);
     });
-    console.log(this.getProposicaodetalhada(this.idProposicao, this.interesse));
   }
 
   getProposicaodetalhada(idProposicao, interesse) {
@@ -50,7 +50,7 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy  {
         indicate(this.isLoading),
         takeUntil(this.unsubscribe))
       .subscribe(proposicao => {
-        this.proposicao = proposicao;
+        this.proposicao = proposicao[0];
         this.isLoading.next(false);
       });
   }

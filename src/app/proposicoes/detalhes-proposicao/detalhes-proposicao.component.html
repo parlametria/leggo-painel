@@ -5,43 +5,43 @@
       <li class="breadcrumb-item">
         <a
           class
-          [routerLink]="['../']">
+          [routerLink]="['?.?./']">
           &lt; Proposicões
         </a>
       </li>
     </ol>
   </nav>
   <div class="proposicao-tema">
-    {{ proposicao[0].interesse[0].temas[0] }}
+    {{ proposicao?.interesse[0]?.temas[0] }}
   </div>
   <div class="proposicao-apelido">
-    {{ proposicao[0].etapas[0].sigla }}
+    {{ proposicao?.etapas[0]?.sigla }}
   </div>
   <div class="proposicao-tramitacao">
-    {{ (proposicao[0].etapas.slice(-1)[0].resumo_tramitacao.slice(-1)[0].evento).replace('_',' em ') }}
+    {{ (proposicao?.etapas?.slice(-1)[0]?.resumo_tramitacao?.slice(-1)[0]?.evento)?.replace('_',' em ') }}
   </div>
   <div class="proposicao-casa">
-    {{ proposicao[0].etapas[0].sigla }}
+    {{ proposicao?.sigla_camara }}
   </div>
   <div class="proposicao-casa-label">
-    {{ proposicao[0].etapas[0].casa }}
+    Câmara
   </div>
   <div class="proposicao-casa">
-    {{ proposicao[0].etapas.slice(-1)[0].sigla }}
+    {{ proposicao?.sigla_senado }}
   </div>
   <div  class="proposicao-casa-label">
-    {{ proposicao[0].etapas.slice(-1)[0].casa }}
+    Senado
   </div>
   <div class="proposicao-autor">
-    {{ proposicao[0].autoresProposicao[0].autor.nome }}
+    {{ proposicao?.autoresProposicao?.autor?.nome }}
   </div>
   <div class='proposicao-autor-label'>
     Autor
   </div>
   <div class="proposicao-relator">
-    {{ proposicao[0].etapas.slice(-1)[0].relatoria.nome }}
-    {{ proposicao[0].etapas.slice(-1)[0].relatoria.partido }}
-    {{ proposicao[0].etapas.slice(-1)[0].relatoria.uf }}
+    {{ proposicao?.etapas?.slice(-1)[0]?.relatoria?.nome }}
+    {{ proposicao?.etapas?.slice(-1)[0]?.relatoria?.partido }}
+    {{ proposicao?.etapas?.slice(-1)[0]?.relatoria?.uf }}
   </div>
   <div class='proposicao-relator-label'>
     Relator(a) 
