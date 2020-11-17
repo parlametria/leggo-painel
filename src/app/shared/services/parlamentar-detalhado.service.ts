@@ -51,6 +51,8 @@ export class ParlamentarDetalhadoService {
           atividadeParlamentar.min_quantidade_autorias,
           atividadeParlamentar.max_quantidade_autorias);
 
+        atividadeTwitter.quantidade_tweets = +atividadeTwitter.atividade_twitter;
+
         atividadeTwitter.atividade_twitter = this.normalizarAtividade(
           atividadeTwitter.atividade_twitter,
           atividadeTwitter.min_atividade_twitter,
