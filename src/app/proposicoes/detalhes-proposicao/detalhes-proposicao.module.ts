@@ -9,7 +9,6 @@ import { SharedComponentsModule } from '../../shared/components/shared-component
 import { DetalhesProposicaoComponent } from './detalhes-proposicao.component';
 import { DetalhesProposicaoRoutingModule } from './detalhes-proposicao-routing.module';
 
-
 @NgModule({
   declarations: [
     DetalhesProposicaoComponent
