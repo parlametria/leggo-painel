@@ -59,10 +59,10 @@ export class VisAtividadeTwitterComponent implements OnInit {
     private twitterService: TwitterService) { }
 
   ngOnInit(): void {
-    const largura = (window.innerWidth > 800) ? 800 : window.innerWidth;
+    const largura = (window.innerWidth > 1000) ? 1000 : window.innerWidth;
     this.margin = {
-      left: 50,
-      right: 20,
+      left: 70,
+      right: 200,
       top: 25,
       bottom: 40
     };
@@ -223,6 +223,18 @@ export class VisAtividadeTwitterComponent implements OnInit {
       .on('mouseover', () => tooltip.style('visibility', 'visible').html(this.tooltipText(parlamentarDestaque)))
       .on('mousemove', () => tooltip.style('top', (event.pageY - 10) + 'px').style('left', (event.pageX + 10) + 'px'))
       .on('mouseout', () => tooltip.style('visibility', 'hidden'));
+
+    const legendaCirculo = this.svg.append('g');
+
+    const legenda = this.legendCircle(
+        legendaCirculo,
+        this.r,
+        [20, 2000, 10000],
+        (d, i, e) => i === 0 ? d : d.toString().slice(0, -3) + ' mil',
+        7
+      );
+
+    legendaCirculo.call(legenda);
   }
 
   private tooltipText(d): any {
@@ -230,6 +242,50 @@ export class VisAtividadeTwitterComponent implements OnInit {
     <p><strong>${(d.atividade_twitter)}</strong> tweets nesse tema e agenda</p>
     <p><strong>${format('.1f')(d.media_tweets)}</strong> tweets por semana</p>
     <p><strong>${format('.1f')(d.engajamento)}</strong> curtidas, respostas e retweets em média</p>`;
+  }
+
+  private legendCircle(g, scale, tickValues, tickFormat, tickSize){
+
+    g.attr('transform', `translate(${[(this.width + this.margin.left + this.margin.right) - 150, 30]})`);
+
+    const ticks = tickValues || scale.ticks();
+
+    const maxT = ticks[ticks.length - 1];
+
+    g.selectAll('circle')
+      .data(ticks.slice().reverse())
+    .enter().append('circle')
+      .attr('fill', 'none')
+      .attr('stroke', 'currentColor')
+      .attr('cx', scale(maxT))
+      .attr('cy', scale)
+      .attr('r', scale);
+
+    g.selectAll('line')
+      .data(ticks)
+    .enter().append('line')
+      .attr('stroke', 'currentColor')
+      .attr('stroke-dasharray', '4, 2')
+      .attr('x1', scale(maxT))
+      .attr('x2', tickSize + scale(maxT) * 2)
+      .attr('y1', d => scale(d) * 2)
+      .attr('y2', d => scale(d) * 2);
+
+    g.selectAll('text')
+      .data(ticks)
+    .enter().append('text')
+      .attr('font-size', 11)
+      .attr('dx', 3)
+      .attr('dy', 4)
+      .attr('x', tickSize + scale(maxT) * 2)
+      .attr('y', d => scale(d) * 2)
+      .text(tickFormat);
+
+    g.append('text')
+      .attr('x', 0)
+      .attr('y', -10)
+      .attr('font-size', '0.8rem')
+      .text('Engajamento médio');
   }
 
 }
