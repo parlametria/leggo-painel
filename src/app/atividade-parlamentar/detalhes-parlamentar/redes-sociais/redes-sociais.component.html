@@ -6,7 +6,11 @@
     >
     </app-tooltip-ajuda>
 </div>
-<div *ngIf="parlamentar">
+<app-loading *ngIf="isLoading | async"></app-loading>
+<div
+    [hidden]="isLoading | async"
+    *ngIf="parlamentar && parlamentar?.username !== undefined"
+>
     <p
         *ngIf="parlamentar.quantidadeTweets > 0"
         class="mt-4"
@@ -38,14 +42,16 @@
         não possui tweets para este tema e agenda.
     </p>
 
-    <app-vis-atividade-twitter></app-vis-atividade-twitter>
+    <app-vis-atividade-twitter *ngIf="parlamentar.quantidadeTweets > 0"></app-vis-atividade-twitter>
+
     <div class="mt-4">
         <p>
             Existem
             <strong>
                 {{ TOTAL_PARLAMENTARES - infoTwitter?.total_parlamentares }}
             </strong>
-            parlamentares que não possuem atividade ou perfil no Twitter.<br>
+            parlamentares que não possuem atividade ou perfil no Twitter.
+            <br>
             Foram capturados
             <strong>{{ infoTwitter?.total_tweets }}</strong>
             tweets de parlamentares entre
@@ -59,9 +65,25 @@
             .
         </p>
     </div>
+
+    <div
+        *ngIf="tweets?.length"
+        class="mt-4"
+    >
+        <h3 class="titulo-sessao">Tweets com mais engajamento</h3>
+        <div
+            *ngFor="let tweet of tweets"
+            class="mt-3"
+        >
+            <app-embed-tweet [tweetId]="tweet?.id_tweet"></app-embed-tweet>
+        </div>
+    </div>
 </div>
-<div *ngIf="!parlamentar">
+<div
+    *ngIf="!parlamentar || parlamentar?.username === undefined"
+    [hidden]="isLoading | async"
+>
     <p class="mt-4">
-        O parlamentar não possui conta no Twitter.
+        O parlamentar não possui atividade ou perfil no twitter.
     </p>
 </div>

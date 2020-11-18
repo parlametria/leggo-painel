@@ -39,6 +39,13 @@ const routes: Routes = [
       ).then((m) => m.DetalhesParlamentarModule),
   },
   {
+    path: ':interesse/proposicoes/:id_leggo',
+    loadChildren: () =>
+      import(
+        '../proposicoes/detalhes-proposicao/detalhes-proposicao.module'
+      ).then((m) => m.DetalhesProposicaoModule),
+  },
+  {
     path: ':interesse/sobre',
     component: SobreComponent
   },

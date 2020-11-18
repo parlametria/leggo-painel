@@ -10,6 +10,21 @@ interface InteresseProposicao {
   tipo_agenda: string;
 }
 
+interface AutoresProposicao {
+  id_leggo: string;
+  id_autor_parlametria: number;
+  id_autor: number;
+  autor: AutorProposicao;
+}
+
+interface AutorProposicao {
+  nome: string;
+  uf: string;
+  partido: string;
+  is_parlamentar: boolean;
+  casa: 'camara' | 'senado';
+}
+
 interface EtapasProposicao {
   id: number;
   id_ext: number;
@@ -32,6 +47,7 @@ export interface Proposicao {
   id: number;
   interesse: InteresseProposicao[];
   id_leggo: string;
+  autoresProposicao: AutoresProposicao[];
   etapas: EtapasProposicao[];
   sigla_camara: string;
   sigla_senado: string;
