@@ -31,7 +31,7 @@ const d3 = Object.assign({}, {
 
 @Component({
   selector: 'app-vis-atividade-twitter',
-  templateUrl: './vis-atividade-twitter.component.html',
+  template: '<div id="vis-atividade-twitter" class="vis"></div>',
   styleUrls: ['./vis-atividade-twitter.component.scss']
 })
 export class VisAtividadeTwitterComponent implements OnInit {
@@ -239,9 +239,22 @@ export class VisAtividadeTwitterComponent implements OnInit {
 
   private tooltipText(d): any {
     return `<p class="vis-tooltip-titulo"><strong>${d.nome_autor}</strong> ${d.partido}/${d.uf}</p>
-    <p><strong>${(d.atividade_twitter)}</strong> tweets nesse tema e agenda</p>
-    <p><strong>${format('.1f')(d.media_tweets)}</strong> tweets por semana</p>
-    <p><strong>${format('.1f')(d.engajamento)}</strong> curtidas, respostas e retweets em média</p>`;
+    <table class="table table-sm table-borderless vis-tooltip-table">
+      <tbody>
+        <tr>
+          <td class="text-right"><strong>${(d.atividade_twitter)}</strong></td>
+          <td>tweets nesse tema e agenda</td>
+        </tr>
+        <tr>
+          <td class="text-right"><strong>${format('.1f')(d.media_tweets)}</strong></td>
+          <td>tweets por semana</td>
+        </tr>
+        <tr>
+          <td class="text-right"><strong>${format('.1f')(d.engajamento)}</strong></td>
+          <td>curtidas, respostas e retweets em média</td>
+        </tr>
+      </tbody>
+    </table>`;
   }
 
   private legendCircle(g, scale, tickValues, tickFormat, tickSize){
