@@ -62,7 +62,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
     const largura = (window.innerWidth > 1000) ? 1000 : window.innerWidth;
     this.margin = {
       left: 70,
-      right: 250,
+      right: 200,
       top: 25,
       bottom: 40
     };
@@ -246,7 +246,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
 
   private legendCircle(g, scale, tickValues, tickFormat, tickSize){
 
-    g.attr('transform', `translate(${[770, 30]})`);
+    g.attr('transform', `translate(${[(this.width + this.margin.left + this.margin.right) - 150, 30]})`);
 
     const ticks = tickValues || scale.ticks();
 
