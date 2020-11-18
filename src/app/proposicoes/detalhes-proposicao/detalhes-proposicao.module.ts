@@ -7,6 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedComponentsModule } from '../../shared/components/shared-components.module';
 import { DetalhesProposicaoComponent } from './detalhes-proposicao.component';
+import { DetalhesProposicaoRoutingModule } from './detalhes-proposicao-routing.module';
 
 @NgModule({
   declarations: [
@@ -14,10 +15,11 @@ import { DetalhesProposicaoComponent } from './detalhes-proposicao.component';
   ],
   imports: [
     CommonModule,
+    DetalhesProposicaoRoutingModule,
     SharedComponentsModule,
     NgbModule,
     NgxPaginationModule,
-    FormsModule
+    FormsModule,
   ]
 })
 export class DetalhesProposicaoModule { }

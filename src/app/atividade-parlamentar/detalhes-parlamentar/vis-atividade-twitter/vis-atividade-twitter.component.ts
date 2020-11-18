@@ -108,24 +108,23 @@ export class VisAtividadeTwitterComponent implements OnInit {
     forkJoin([
       this.entidadeService.getParlamentaresExercicio(''),
       this.twitterService.getMediaTweets(),
-      this.twitterService.getPercentualTweets(this.interesse, this.tema),
+      this.twitterService.getAtividadeTwitter(this.interesse, this.tema),
       this.twitterService.getEngajamento()
     ]).subscribe(data => {
       const parlamentaresExercicio: any = data[0];
       const mediaTweets: any = data[1];
-      const percentualTweets: any = data[2];
+      const atividade: any = data[2];
       const engajamento: any = data[3];
 
       const parlamentares = parlamentaresExercicio.map(a => ({
         ...mediaTweets.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
-        ...percentualTweets.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
+        ...atividade.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
         ...engajamento.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
         ...a
       })).filter(parlamentar => {
         if (
           !isNaN(parlamentar.media_tweets) && parlamentar.media_tweets !== undefined &&
-          !isNaN(parlamentar.percentual_atividade_twitter) &&
-          parlamentar.percentual_atividade_twitter !== undefined &&
+          !isNaN(parlamentar.atividade_twitter) && parlamentar.atividade_twitter !== undefined &&
           !isNaN(parlamentar.engajamento) && parlamentar.engajamento !== undefined
         ) {
           return parlamentar;
@@ -141,7 +140,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
 
   private atualizarVis(g, parlamentares) {
     this.x.domain([d3.min(parlamentares, (d: any) => d.media_tweets), d3.max(parlamentares, (d: any) => d.media_tweets)]);
-    this.y.domain([0, 1]);
+    this.y.domain([0, d3.max(parlamentares, (d: any) => +d.atividade_twitter)]);
     this.r.domain([d3.min(parlamentares, (d: any) => d.engajamento), d3.max(parlamentares, (d: any) => d.engajamento)]);
 
     const parlamentarDestaque = parlamentares.filter(p => p.id_autor_parlametria === this.idParlamentarDestaque)[0];
@@ -169,7 +168,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
     // Eixo Y
     this.g.append('g')
       .call(d3.axisLeft(this.y)
-        .ticks(3, '%')
+        .ticks(4)
         .tickSize(15));
     this.g.append('text')
       .attr('x', 0)
@@ -177,7 +176,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
       .attr('text-anchor', 'end')
       .attr('transform', 'translate(' + (-this.margin.left * 0.8) + ', ' + (-5) + ') rotate(-90)')
       .attr('font-size', '0.8rem')
-      .text('Proporção de tweets sobre o tema');
+      .text('Quantidade de tweets');
 
     const tooltip = d3.select('body')
       .append('div')
@@ -196,7 +195,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
       .attr('tittle', (d: any) => d.id_autor_parlametria)
       .attr('r', (d: any) => this.r(d.engajamento))
       .attr('cx', (d: any) => this.x(d.media_tweets))
-      .attr('cy', (d: any) => this.y(d.percentual_atividade_twitter))
+      .attr('cy', (d: any) => this.y(d.atividade_twitter))
       .attr('fill', '#59BAFF')
       .attr('stroke', '#59BAFF')
       .attr('stroke-width', 0)
@@ -216,7 +215,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
       .attr('tittle', parlamentarDestaque.id_autor_parlametria)
       .attr('r', this.r(parlamentarDestaque.engajamento))
       .attr('cx', this.x(parlamentarDestaque.media_tweets))
-      .attr('cy', this.y(parlamentarDestaque.percentual_atividade_twitter))
+      .attr('cy', this.y(parlamentarDestaque.atividade_twitter))
       .attr('fill', '#6f42c1')
       .attr('stroke', 'black')
       .attr('stroke-width', 2)
@@ -240,8 +239,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
 
   private tooltipText(d): any {
     return `<p class="vis-tooltip-titulo"><strong>${d.nome_autor}</strong> ${d.partido}/${d.uf}</p>
-    <p><strong>${(d.atividade_twitter)}</strong> tweets no período</p>
-    <p><strong>${format('.2%')(d.percentual_atividade_twitter)}</strong> de seus tweets são sobre o tema</p>
+    <p><strong>${(d.atividade_twitter)}</strong> tweets nesse tema e agenda</p>
     <p><strong>${format('.1f')(d.media_tweets)}</strong> tweets por semana</p>
     <p><strong>${format('.1f')(d.engajamento)}</strong> curtidas, respostas e retweets em média</p>`;
   }
