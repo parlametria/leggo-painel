@@ -59,10 +59,10 @@ export class VisAtividadeTwitterComponent implements OnInit {
     private twitterService: TwitterService) { }
 
   ngOnInit(): void {
-    const largura = (window.innerWidth > 1050) ? 1050 : window.innerWidth;
+    const largura = (window.innerWidth > 1000) ? 1000 : window.innerWidth;
     this.margin = {
       left: 70,
-      right: 300,
+      right: 250,
       top: 25,
       bottom: 40
     };
@@ -230,7 +230,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
         legendaCirculo,
         d3.scaleSqrt().domain([0, 10000]).range([5, 30]),
         [20, 2000, 10000],
-        (d, i, e) => i === e.length - 1 ? '10 mil engajamentos' : d,
+        (d, i, e) => i === 0 ? d : d.toString().slice(0, -3) + ' mil engajamentos',
         7
       );
 
@@ -246,7 +246,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
 
   private legendCircle(g, scale, tickValues, tickFormat, tickSize){
 
-    g.attr('transform', `translate(${[800, 30]})`);
+    g.attr('transform', `translate(${[770, 30]})`);
 
     const ticks = tickValues || scale.ticks();
 
@@ -285,7 +285,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
       .attr('x', 0)
       .attr('y', -10)
       .attr('font-size', '0.8rem')
-      .text('Engajamento médio produzido');
-}
+      .text('Engajamento médio');
+  }
 
 }
