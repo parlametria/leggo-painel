@@ -230,7 +230,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
         legendaCirculo,
         d3.scaleSqrt().domain([0, 10000]).range([5, 30]),
         [20, 2000, 10000],
-        (d, i, e) => i === 0 ? d : d.toString().slice(0, -3) + ' mil engajamentos',
+        (d, i, e) => i === 0 ? d : d.toString().slice(0, -3) + ' mil',
         7
       );
 
