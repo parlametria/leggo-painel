@@ -1,3 +1,27 @@
-.logo {
-  padding-left: 10px;
+.navbar-nav {
+  order: 0;
+  @media (min-width: 768px) {
+    order: 1;
+  }
+}
+
+.navbar-logo-wrapper {
+  order: 1;
+  @media (min-width: 768px) {
+    display: flex;
+    order: 0;
+  }
+}
+
+.navbar-logo {
+  text-align: center;
+}
+
+.nome-painel {
+  color: #6c757d;
+}
+
+.navbar-link-icon:active,
+.navbar-link-icon:hover {
+  text-decoration: none;
 }

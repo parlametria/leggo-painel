@@ -58,7 +58,11 @@
 }
 
 .app-icon {
-  font-size: 2rem;
+  font-size: 1.7rem;
+
+  @media (min-width: 576px) {
+    font-size: 2rem;
+  }
 }
 
 .title-icon {
