@@ -5,6 +5,7 @@ import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/op
 
 import { ProposicoesService } from './proposicoes.service';
 import { ProposicaoLista } from '../models/proposicao.model';
+import { PressaoService } from './pressao.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,8 @@ export class ProposicoesListaService {
   private filtro = new BehaviorSubject<any>({});
 
   constructor(
-    private proposicoesService: ProposicoesService
+    private proposicoesService: ProposicoesService,
+    private pressaoService: PressaoService
   ) {
 
     this.proposicoes
@@ -72,7 +74,7 @@ export class ProposicoesListaService {
       [
         this.proposicoesService.getProposicoes(interesse),
         this.proposicoesService.getUltimaTemperaturaProposicoes(interesse),
-        this.proposicoesService.getUltimaPressaoProposicoes(interesse),
+        this.pressaoService.getUltimaPressaoProposicoes(interesse),
         this.proposicoesService.getDataUltimoInsightProposicoes(interesse),
         this.proposicoesService.getProgressoProposicoes(interesse)
       ]

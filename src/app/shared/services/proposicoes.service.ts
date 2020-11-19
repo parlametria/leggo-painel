@@ -44,10 +44,6 @@ export class ProposicoesService {
     return this.http.get<MaximaTemperaturaProposicao>(`${this.temperaturaUrl}/max?interesse=${interesse}&data_inicio=${dataInicio}`);
   }
 
-  getUltimaPressaoProposicoes(interesse: string): Observable<UltimaPressaoProposicao[]> {
-    return this.http.get<UltimaPressaoProposicao[]>(`${this.pressaoUrl}/ultima?interesse=${interesse}`);
-  }
-
   getDataUltimoInsightProposicoes(interesse: string): Observable<DataUltimoInsightProposicao[]> {
     return this.http.get<DataUltimoInsightProposicao[]>(`${this.insightUrl}/ultima?interesse=${interesse}`);
   }
