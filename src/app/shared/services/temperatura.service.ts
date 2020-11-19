@@ -15,11 +15,11 @@ export class TemperaturaService {
 
   constructor(private http: HttpClient) { }
 
-  getMaximaTemperatura(): Observable<MaximaTemperaturaProposicao> {
-    return this.http.get<MaximaTemperaturaProposicao>(`${this.temperaturaUrl}/max`);
+  getMaximaTemperatura(interesse: string): Observable<MaximaTemperaturaProposicao> {
+    return this.http.get<MaximaTemperaturaProposicao>(`${this.temperaturaUrl}/max?interesse=${interesse}`);
   }
 
-  getUltimasTemperaturas(): Observable<UltimaTemperaturaProposicao[]> {
-    return this.http.get<UltimaTemperaturaProposicao[]>(`${this.temperaturaUrl}/ultima`);
+  getUltimasTemperaturas(interesse: string): Observable<UltimaTemperaturaProposicao[]> {
+    return this.http.get<UltimaTemperaturaProposicao[]>(`${this.temperaturaUrl}/ultima?interesse=${interesse}`);
   }
 }
