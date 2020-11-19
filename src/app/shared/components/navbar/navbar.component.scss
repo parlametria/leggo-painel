@@ -1,5 +1,14 @@
+.navbar-container {
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+}
+
 .navbar-nav {
   order: 0;
+
   @media (min-width: 768px) {
     order: 1;
   }
@@ -11,10 +20,6 @@
     display: flex;
     order: 0;
   }
-}
-
-.navbar-logo {
-  text-align: center;
 }
 
 .nome-painel {
