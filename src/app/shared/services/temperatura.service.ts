@@ -20,6 +20,6 @@ export class TemperaturaService {
   }
 
   getUltimasTemperaturas(): Observable<UltimaTemperaturaProposicao> {
-    return this.http.get<UltimaTemperaturaProposicao>(`${this.temperaturaUrl}/ultima`)
+    return this.http.get<UltimaTemperaturaProposicao>(`${this.temperaturaUrl}/ultima`);
   }
 }
