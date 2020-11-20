@@ -8,10 +8,12 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedComponentsModule } from '../../shared/components/shared-components.module';
 import { DetalhesProposicaoComponent } from './detalhes-proposicao.component';
 import { DetalhesProposicaoRoutingModule } from './detalhes-proposicao-routing.module';
+import { ProgressoComponent } from './progresso/progresso.component';
 
 @NgModule({
   declarations: [
-    DetalhesProposicaoComponent
+    DetalhesProposicaoComponent,
+    ProgressoComponent
   ],
   imports: [
     CommonModule,

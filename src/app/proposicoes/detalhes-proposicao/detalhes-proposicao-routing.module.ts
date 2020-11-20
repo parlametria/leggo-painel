@@ -2,13 +2,20 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { DetalhesProposicaoComponent } from './detalhes-proposicao.component';
+import { ProgressoComponent } from './progresso/progresso.component';
 
 const appRoutes: Routes = [
     {
         path: '',
         component: DetalhesProposicaoComponent,
-        pathMatch: 'full'
-    }
+        children: [
+          {
+            path: 'progresso',
+            component: ProgressoComponent
+          },
+
+        ],
+      }
 ];
 
 @NgModule({
