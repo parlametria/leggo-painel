@@ -1,15 +1,34 @@
-<nav class="navbar navbar-expand-lg bg-light">
-  <div class="container">
-    <a [routerLink]="interesse?.interesse" class="navbar-brand logo">
-      <img
-        src="assets/imgs/logotipo-parlametria.png"
-        alt="leggo"
-        width="200">
-      &bull;
-      Painel {{ interesse?.nome_interesse }}
-    </a>
-    <a [routerLink]="sobreUrl">
-      sobre
-    </a>
+<nav class="navbar bg-light">
+  <div class="container navbar-container">
+    <div class="navbar-logo-wrapper">
+      <div class="text-center pr-2">
+        <a
+          [routerLink]="interesse?.interesse"
+          class="navbar-brand">
+          <img
+            src="assets/imgs/logotipo-parlametria.png"
+            alt="leggo"
+            width="200">
+        </a>
+      </div>
+      <div class="text-center">
+        <a
+          [routerLink]="interesse?.interesse"
+          class="navbar-brand">
+          <span class="d-none d-md-inline-block">&bull;</span>
+          Painel
+          <span class="nome-painel">{{ interesse?.nome_interesse }}</span>
+        </a>
+      </div>
+    </div>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a
+          [routerLink]="sobreUrl"
+          class="navbar-link-icon">
+          <span class="icon-sobre app-icon"></span>
+        </a>
+      </li>
+    </ul>
   </div>
 </nav>
