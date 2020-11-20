@@ -1,2 +1,24 @@
 <app-loading *ngIf="isLoading | async"></app-loading>
-<p>progresso works!</p>
+<div>
+  <ul class="progressbar">
+    <div
+      [ngbPopover]="popProgresso"
+      [autoClose]="'outside'"
+      *ngFor="let fase of fasesResumidas"
+    >
+      <ng-template #popProgresso>
+        <p class="fase-titulo">{{ formataFase(fase) }}</p>
+        <div class="fase-body">
+        <p *ngIf="exibeCasa(fase)"> {{ fase.local_casa == 'camara' ? 'Câmara' : 'Senado' }} </p>
+        <p *ngIf="exibeData(fase.data_inicio)">Início:  {{ formatDate(fase.data_inicio) }}</p>
+        <p *ngIf="exibeData(fase.data_fim)">Fim: {{ formatDate(fase.data_fim) }}</p>
+        <p *ngIf="fase.pulou">Esta proposição não precisou passar por esta fase.</p>
+        <p *ngIf="isInProgress(fase)">Fase atual desta proposição.</p>
+        <p *ngIf="isFuture(fase)">Esta proposição ainda não chegou nesta fase.</p>
+        </div>
+      </ng-template>
+      <li [ngClass]="styleFase(fase)"></li>
+    </div>
+    <hr class="linha" />
+  </ul>
+</div>
