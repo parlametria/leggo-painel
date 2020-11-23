@@ -93,15 +93,3 @@ $base-padding: 0.5rem;
 .card-detalhes > .card-titulo {
   font-weight: 400;
 }
-
-.parlamentar-subnav {
-  @media (max-width: 400px) {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-
-    > .nav {
-      flex: 0 0 auto;
-    }
-  }
-}

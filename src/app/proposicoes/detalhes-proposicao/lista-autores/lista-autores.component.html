@@ -1,0 +1,10 @@
+<div class="mb-2">
+  <span>{{ getPrimeiroAtor() }}</span>
+  <span [hidden]="!showMais">{{ getMaisAtores() }}</span>&nbsp;<button
+    [hidden]="!getTemMaisAutores()"
+    class="btn btn-light btn-xs"
+    (click)="toogleShowMais()">
+    e {{ getQtdMaisAtores() }} outros...
+  </button>
+  <div class="text-muted">{{ getTitulo() }}</div>
+</div>

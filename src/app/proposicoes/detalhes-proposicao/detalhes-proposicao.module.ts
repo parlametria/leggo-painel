@@ -8,10 +8,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedComponentsModule } from '../../shared/components/shared-components.module';
 import { DetalhesProposicaoComponent } from './detalhes-proposicao.component';
 import { DetalhesProposicaoRoutingModule } from './detalhes-proposicao-routing.module';
+import { ListaAutoresComponent } from './lista-autores/lista-autores.component';
+import { ListaRelatoresComponent } from './lista-relatores/lista-relatores.component';
 
 @NgModule({
   declarations: [
-    DetalhesProposicaoComponent
+    DetalhesProposicaoComponent,
+    ListaAutoresComponent,
+    ListaRelatoresComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +23,7 @@ import { DetalhesProposicaoRoutingModule } from './detalhes-proposicao-routing.m
     SharedComponentsModule,
     NgbModule,
     NgxPaginationModule,
-    FormsModule,
+    FormsModule
   ]
 })
 export class DetalhesProposicaoModule { }

@@ -51,8 +51,14 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy  {
         takeUntil(this.unsubscribe))
       .subscribe(proposicao => {
         this.proposicao = proposicao[0];
+        console.log(this.proposicao);
+
         this.isLoading.next(false);
       });
+  }
+
+  getURLEtapa(etapa): string {
+    return '';
   }
 
   ngOnDestroy() {

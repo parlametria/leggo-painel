@@ -17,10 +17,9 @@ import { ParlamentarDetalhadoService } from './shared/services/parlamentar-detal
 import { EntidadeService } from './shared/services/entidade.service';
 import { ProposicoesListaService } from './shared/services/proposicoes-lista.service';
 
-
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
