@@ -26,6 +26,12 @@ export class AtividadeNoCongressoComponent implements OnInit {
   public autoriasPorTipo: any;
   public isLoading = new BehaviorSubject<boolean>(true);
 
+  readonly ORDER_TIPOS_PROPOSICAO = [
+    'Prop. Original / Apensada',
+    'Emenda',
+    'Requerimento'
+  ];
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private autoriaService: AutoriasService
@@ -45,23 +51,23 @@ export class AtividadeNoCongressoComponent implements OnInit {
         this.resgataRanking(this.interesse, this.tema, this.idAtor);
         this.resgataDocumentos(this.interesse, this.tema, parseInt(this.idAtor, 10));
       });
-    }
+  }
 
   private resgataRanking(interesse, tema, idAtor) {
     this.autoriaService.getAcoes(interesse, tema)
-    .pipe(takeUntil(this.unsubscribe))
-    .subscribe(acoes => {
-      acoes.forEach(dado => {
-        if (dado.tipo_acao === 'Proposição') {
-          if (dado.id_autor_parlametria.toString() === idAtor.toString()) {
-            this.parlamentar = dado;
-            this.parlamentar.peso_total = +this.parlamentar.peso_total;
-            return;
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(acoes => {
+        acoes.forEach(dado => {
+          if (dado.tipo_acao === 'Proposição') {
+            if (dado.id_autor_parlametria.toString() === idAtor.toString()) {
+              this.parlamentar = dado;
+              this.parlamentar.peso_total = +this.parlamentar.peso_total;
+              return;
+            }
           }
-        }
+        });
+        this.isLoading.next(false);
       });
-      this.isLoading.next(false);
-    });
   }
 
   private resgataDocumentos(interesse, tema, idAtor) {
@@ -72,12 +78,15 @@ export class AtividadeNoCongressoComponent implements OnInit {
         this.autoriasPorTipo = d3.nest()
           .key((d: any) => d.tipo_documento)
           .sortKeys((a, b) => {
-           if (a === 'Prop. Original / Apensada') {
-             return -1;
-           } else if (a === 'Emenda') {
-            return -1;
-           }
-           return 0;
+            const orderA = this.ORDER_TIPOS_PROPOSICAO.indexOf(a);
+            const orderB = this.ORDER_TIPOS_PROPOSICAO.indexOf(b)
+            if (orderA === -1) {
+              return 1;
+            }
+            if (orderB === -1) {
+              return -1;
+            }
+            return orderA - orderB;
           })
           .entries(autoriasApresentadas);
 
