@@ -79,7 +79,7 @@ export class AtividadeNoCongressoComponent implements OnInit {
           .key((d: any) => d.tipo_documento)
           .sortKeys((a, b) => {
             const orderA = this.ORDER_TIPOS_PROPOSICAO.indexOf(a);
-            const orderB = this.ORDER_TIPOS_PROPOSICAO.indexOf(b)
+            const orderB = this.ORDER_TIPOS_PROPOSICAO.indexOf(b);
             if (orderA === -1) {
               return 1;
             }
