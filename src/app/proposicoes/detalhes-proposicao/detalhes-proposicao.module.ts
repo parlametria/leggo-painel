@@ -7,13 +7,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { SharedComponentsModule } from '../../shared/components/shared-components.module';
 import { DetalhesProposicaoComponent } from './detalhes-proposicao.component';
+import { TemperaturaPressaoComponent } from './temperatura-pressao/temperatura-pressao.component';
 import { DetalhesProposicaoRoutingModule } from './detalhes-proposicao-routing.module';
 import { ProgressoComponent } from './progresso/progresso.component';
 
 @NgModule({
   declarations: [
     DetalhesProposicaoComponent,
-    ProgressoComponent
+    ProgressoComponent,
+    TemperaturaPressaoComponent
   ],
   imports: [
     CommonModule,
