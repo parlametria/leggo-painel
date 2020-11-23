@@ -1,26 +1,89 @@
-<h3 class="titulo-sessao">Atividade no Twitter</h3>
-
-<div *ngIf="parlamentar">
-  <p *ngIf="parlamentar.quantidadeTweets > 0" class="mt-4">
-    O perfil de
-    <a
-    href="https://twitter.com/{{parlamentar?.username}}"
-    target="_blank">@{{ parlamentar?.username }}</a>
-    possui <strong>{{ parlamentar?.quantidadeTweets }}</strong> tweets para este tema e agenda.
-  </p>
-
-  <p *ngIf="parlamentar.quantidadeTweets == 0" class="mt-4">
-    O perfil de
-    <a
-    href="https://twitter.com/{{parlamentar?.username}}"
-    target="_blank">@{{ parlamentar?.username }}</a>
-    não possui tweets para este tema e agenda.
-  </p>
-
-  <app-vis-atividade-twitter></app-vis-atividade-twitter>
+<div class="d-flex">
+    <h3 class="titulo-sessao">Atividade no Twitter</h3>
+    <app-tooltip-ajuda
+        [posicao]="'top'"
+        [descricao]="'Cada parlamentar corresponde a um círculo, que mostra a média de tweets  por mês e a proporção dos tweets do parlamentar que tratam desse tema e  agenda. O tamanho do círculo é a média da soma de curtidas, respostas e  retweets.'"
+    >
+    </app-tooltip-ajuda>
 </div>
-<div *ngIf="!parlamentar">
-  <p class="mt-4">
-    O parlamentar não possui conta no Twitter.
-  </p>
+<app-loading *ngIf="isLoading | async"></app-loading>
+<div
+    [hidden]="isLoading | async"
+    *ngIf="parlamentar && parlamentar?.username !== undefined"
+>
+    <p
+        *ngIf="parlamentar.quantidadeTweets > 0"
+        class="mt-4"
+    >
+        <strong>{{ parlamentar?.quantidadeTweets }}</strong>
+        dos
+        <strong>{{ parlamentar?.total_tweets }}</strong>
+        tweets de
+        <a
+            href="https://twitter.com/{{parlamentar?.username}}"
+            target="_blank"
+        >
+            @{{ parlamentar?.username }}
+        </a>
+        (em destaque) são sobre esse tema e agenda.
+    </p>
+
+    <p
+        *ngIf="parlamentar.quantidadeTweets == 0"
+        class="mt-4"
+    >
+        O perfil de
+        <a
+            href="https://twitter.com/{{parlamentar?.username}}"
+            target="_blank"
+        >
+            @{{ parlamentar?.username }}
+        </a>
+        não possui tweets para este tema e agenda.
+    </p>
+
+    <app-vis-atividade-twitter *ngIf="parlamentar.quantidadeTweets > 0"></app-vis-atividade-twitter>
+
+    <div class="mt-4">
+        <p>
+            Existem
+            <strong>
+                {{ TOTAL_PARLAMENTARES - infoTwitter?.total_parlamentares }}
+            </strong>
+            parlamentares que não possuem atividade ou perfil no Twitter.
+            <br>
+            Foram capturados
+            <strong>{{ infoTwitter?.total_tweets }}</strong>
+            tweets de parlamentares entre
+            <strong>
+                {{ infoTwitter?.data_inicial | date:'dd/MM/yyyy' }}
+            </strong>
+            e
+            <strong>
+                {{ infoTwitter?.data_final | date:'dd/MM/yyyy' }}
+            </strong>
+            .
+        </p>
+    </div>
+
+    <div
+        *ngIf="tweets?.length"
+        class="mt-4"
+    >
+        <h3 class="titulo-sessao">Tweets com mais engajamento</h3>
+        <div
+            *ngFor="let tweet of tweets"
+            class="mt-3"
+        >
+            <app-embed-tweet [tweetId]="tweet?.id_tweet"></app-embed-tweet>
+        </div>
+    </div>
+</div>
+<div
+    *ngIf="!parlamentar || parlamentar?.username === undefined"
+    [hidden]="isLoading | async"
+>
+    <p class="mt-4">
+        O parlamentar não possui atividade ou perfil no twitter.
+    </p>
 </div>

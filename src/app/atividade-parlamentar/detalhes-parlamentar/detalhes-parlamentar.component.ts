@@ -40,8 +40,8 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
-        this.idAtor = params.get('id');
         this.interesse = params.get('interesse');
+        this.idAtor = params.get('id');
       });
     this.activatedRoute.queryParams
     .subscribe(params => {
@@ -91,6 +91,15 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
     const urlFoto = parlamentar.casa_autor === 'camara' ? urlCamara : urlSenado;
 
     return urlFoto;
+  }
+
+  getLabel(valor: any, messagem: string): string {
+    let label = '';
+    if (valor !== undefined && valor !== null) {
+      label = valor + messagem;
+    }
+
+    return label;
   }
 
   ngOnDestroy() {

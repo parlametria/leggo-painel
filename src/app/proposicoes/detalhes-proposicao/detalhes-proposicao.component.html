@@ -1,0 +1,66 @@
+<app-loading *ngIf="isLoading | async"></app-loading>
+<div class="container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a
+          class
+          [routerLink]="['../']">
+          &lt; Proposicões
+        </a>
+      </li>
+    </ol>
+  </nav>
+  <div *ngFor="let temas of proposicao?.interesse[0]?.temas">
+    <div class="proposicao-tema">
+      {{ temas }}
+    </div>
+  </div>
+  <div class="proposicao-apelido">
+    {{ proposicao?.etapas[0]?.sigla }}
+  </div>
+  <div *ngIf="proposicao?.etapas?.slice(-1)[0]?.resumo_tramitacao?.slice(-1)[0]?.evento as tramitacao">
+    <div *ngIf="tramitacao != 'nan'" class="proposicao-tramitacao">
+      {{ tramitacao.replace('_',' em ') }}
+    </div>
+  </div>
+  <div *ngIf="proposicao?.sigla_camara as sigla">
+    <div class="proposicao-casa">
+      {{ sigla }}
+    </div>
+    <div class="proposicao-casa-label">
+      Câmara
+    </div>
+  </div>
+  <div *ngIf="proposicao?.sigla_senado as sigla">
+    <div class="proposicao-casa">
+      {{ sigla }}
+    </div>
+    <div  class="proposicao-casa-label">
+      Senado
+    </div>
+  </div>
+  <div class="proposicao-autor">
+    <span *ngFor="let autores of proposicao?.autoresProposicao">
+      {{ autores?.autor?.nome }}
+    </span>
+  </div>
+  <div class='proposicao-autor-label'>
+    Autor
+  </div>
+  <div *ngFor="let etapas of proposicao?.etapas">
+    <div class="proposicao-relator">
+      {{ etapas?.relatoria?.nome }}
+      {{ etapas?.relatoria?.partido }}
+      {{ etapas?.relatoria?.uf }}
+    </div>
+  </div>
+  <div class='proposicao-relator-label'>
+    Relator(a)
+  </div>
+</div>
+<div class="container">
+  <div class="py-4">
+    <router-outlet></router-outlet>
+  </div>
+</div>

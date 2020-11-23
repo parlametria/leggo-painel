@@ -7,7 +7,7 @@
           class
           [routerLink]="['../']"
           queryParamsHandling="merge">
-          &lt; Atuação parlamentar
+          &lt; Parlamentares
         </a>
       </li>
     </ol>
@@ -35,18 +35,18 @@
         <div>
           <app-progress
             class="pogresso"
-            [label]="'Congresso'"
+            [label]="getLabel(parlamentar?.atividadeParlamentar?.quantidade_autorias, ' ações na agenda')"
             [barraClasse]="'bg-primary'"
             [valor]="parlamentar?.atividadeParlamentar?.atividade_parlamentar"
-            [exibirLabel]="false"></app-progress>
+            [exibirLabel]="true"></app-progress>
         </div>
         <div class="space-between-bars">
           <app-progress
             class="pogresso"
-            [label]="'Congresso'"
+            [label]="getLabel(parlamentar?.atividadeTwitter?.quantidade_tweets, ' tweets relacionados')"
             [barraClasse]="'bg-twitter'"
             [valor]="parlamentar?.atividadeTwitter?.atividade_twitter"
-            [exibirLabel]="false"></app-progress>
+            [exibirLabel]="true"></app-progress>
         </div>
       </div>
       <div class="col3">
