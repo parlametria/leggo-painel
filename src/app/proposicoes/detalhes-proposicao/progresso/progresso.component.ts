@@ -178,19 +178,12 @@ export class ProgressoComponent implements OnInit, OnDestroy {
   }
 
   showHistoricoComissoes(fase) {
-    return !(fase.is_mpv || fase.local === 'Plenário');
-  }
-
-  siglaFormatada() {
-    let siglaFormatada = this.ultimaTramitacao.local;
-    if (this.hasNumber(siglaFormatada)) {
-      siglaFormatada = 'Comissão Especial - ' + siglaFormatada;
-    }
-    return siglaFormatada;
-  }
-
-  hasNumber(myString) {
-    return /\d/.test(myString);
+    return !(
+      fase.is_mpv ||
+      fase.local === 'Plenário' ||
+      fase.local === 'Presidência da República' ||
+      this.isFuture(fase)
+    );
   }
 
   ngOnDestroy(): void {

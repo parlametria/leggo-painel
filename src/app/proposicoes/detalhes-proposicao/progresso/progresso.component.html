@@ -1,6 +1,10 @@
+<h3 class="titulo-sessao">Progresso da Tramitação</h3>
 <app-loading *ngIf="isLoading | async"></app-loading>
-<div>
-  <div>
+<div [hidden]="isLoading | async">
+  <div *ngIf="exibeData(ultimaTramitacao?.data)">
+    Desde {{ formatDate(ultimaTramitacao?.data) }} na {{ ultimaTramitacao?.local }}.
+  </div>
+  <div class="py-4">
     <ul class="progressbar">
       <div
         [ngbPopover]="popProgresso"
@@ -23,8 +27,5 @@
       </div>
       <hr class="linha" />
     </ul>
-  </div>
-  <div class="progresso-ultima-tramitacao">
-    <p *ngIf="exibeData(ultimaTramitacao?.data)">Desde {{ formatDate(ultimaTramitacao?.data) }} na {{ siglaFormatada() }}.</p>
   </div>
 </div>
