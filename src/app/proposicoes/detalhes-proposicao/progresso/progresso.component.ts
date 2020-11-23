@@ -80,8 +80,6 @@ export class ProgressoComponent implements OnInit, OnDestroy {
             .slice(-1)[0]
             .resumo_tramitacao.slice(-1)[0];
 
-          console.log(this.ultimaTramitacao);
-
           this.fasesResumidas = this.resumirFases(
             this.ordenaProgresso(this.progresso)
           );
