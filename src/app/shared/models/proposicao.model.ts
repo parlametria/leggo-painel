@@ -41,6 +41,8 @@ interface EtapasProposicao {
   em_pauta: string;
   pauta_historico: any;
   relatoria: any;
+  comissoes_passadas: string[];
+  resumo_tramitacao: TramitacaoProposicao[];
 }
 
 export interface Proposicao {
@@ -64,4 +66,14 @@ export interface ProposicaoLista {
   ultima_pressao: number;
   anotacao_data_ultima_modificacao: Date;
   resumo_progresso: ProgressoProposicao[];
+}
+
+export interface TramitacaoProposicao {
+  data: string;
+  casa: string;
+  sigla_local: string;
+  local: string;
+  evento: string;
+  texto_tramitacao: string;
+  link_inteiro_teor: string;
 }
