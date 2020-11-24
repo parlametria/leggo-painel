@@ -1,16 +1,5 @@
-.fase-titulo {
-  font-weight: 100;
-  font-size: .7rem;
-}
-
 .progressbar p {
-  margin: 0rem;
-}
-
-.fase-body {
-  margin: 0px;
-  font-size: .6rem;
-  color: grey;
+  margin: 0;
 }
 
 .progressbar {
@@ -42,7 +31,7 @@
   width: 99%;
   height: 2px;
   position: absolute;
-  background-color: grey;
+  background-color: #6c757d;
   top: 5px;
   left: 1%;
   z-index: -1;
