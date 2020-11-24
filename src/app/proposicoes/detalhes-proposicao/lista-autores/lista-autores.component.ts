@@ -55,7 +55,7 @@ export class ListaAutoresComponent {
     return 0;
   }
 
-  getTitulo() {
+  getTitulo(): string {
     if (this.autores && this.autores.length === 1) {
       return 'Autor';
     } else {
@@ -63,7 +63,7 @@ export class ListaAutoresComponent {
     }
   }
 
-  getTemMaisAutores() {
+  getTemMaisAutores(): boolean {
     return (this.autores && this.autores.length > 1);
   }
 

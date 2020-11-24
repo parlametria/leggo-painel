@@ -4,7 +4,8 @@
     [hidden]="!getTemMaisAutores()"
     class="btn btn-light btn-xs"
     (click)="toogleShowMais()">
-    e {{ getQtdMaisAtores() }} outros...
+    <span [hidden]="showMais">e {{ getQtdMaisAtores() }} outros...</span>
+    <span [hidden]="!showMais">ver menos</span>
   </button>
   <div class="text-muted">{{ getTitulo() }}</div>
 </div>
