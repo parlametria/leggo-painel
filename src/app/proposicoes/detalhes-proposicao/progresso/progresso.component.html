@@ -1,8 +1,8 @@
 <h3 class="titulo-sessao">Progresso da Tramitação</h3>
 <app-loading *ngIf="isLoading | async"></app-loading>
 <div [hidden]="isLoading | async">
-  <div *ngIf="exibeData(ultimaTramitacao?.data)">
-    Desde {{ formatDate(ultimaTramitacao?.data) }} na {{ ultimaTramitacao?.local }}.
+  <div *ngIf="exibeData(ultimaTramitacao?.data)" class="mb-4">
+    Esta proposição está desde <strong>{{ formatDate(ultimaTramitacao?.data) }}</strong> na <strong>{{ ultimaTramitacao?.local }}</strong>.
   </div>
   <div class="py-4">
     <ul class="progressbar">
@@ -12,16 +12,16 @@
         *ngFor="let fase of fasesResumidas"
       >
         <ng-template #popProgresso>
-          <p class="fase-titulo">{{ formataFase(fase) }}</p>
-          <div class="fase-body">
-          <p *ngIf="exibeCasa(fase)"> {{ fase.local_casa == 'camara' ? 'Câmara' : 'Senado' }} </p>
-          <p *ngIf="exibeData(fase?.data_inicio)">Início:  {{ formatDate(fase.data_inicio) }}</p>
-          <p *ngIf="exibeData(fase?.data_fim)">Fim: {{ formatDate(fase.data_fim) }}</p>
-          <p *ngIf="showHistoricoComissoes(fase)">Histórico de comissões: {{ comissoesHistoric(fase) }}</p>
+          <div class="mb-2">
+            <p><strong>{{ formataFase(fase) }}</strong></p>
+            <p *ngIf="exibeCasa(fase)">{{ fase.local_casa == 'camara' ? 'Câmara' : 'Senado' }}</p>
+          </div>
+          <p *ngIf="exibeData(fase?.data_inicio)"><strong>Início:</strong>  {{ formatDate(fase.data_inicio) }}</p>
+          <p *ngIf="exibeData(fase?.data_fim)"><strong>Fim:</strong> {{ formatDate(fase.data_fim) }}</p>
+          <p *ngIf="showHistoricoComissoes(fase)"><strong>Histórico de comissões:</strong> {{ comissoesHistoric(fase) }}</p>
           <p *ngIf="fase.pulou">Esta proposição não precisou passar por esta fase.</p>
           <p *ngIf="isInProgress(fase)">Fase atual desta proposição.</p>
           <p *ngIf="isFuture(fase)">Esta proposição ainda não chegou nesta fase.</p>
-          </div>
         </ng-template>
         <li [ngClass]="styleFase(fase)"></li>
       </div>
