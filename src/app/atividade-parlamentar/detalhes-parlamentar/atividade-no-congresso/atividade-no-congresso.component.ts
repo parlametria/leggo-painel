@@ -4,11 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Subject } from 'rxjs';
 
-import { group } from 'd3-array';
+import { nest } from 'd3-collection';
 
 import { AutoriasService } from 'src/app/shared/services/autorias.service';
 
-const d3 = Object.assign({}, { group });
+const d3 = Object.assign({}, { nest });
 
 @Component({
   selector: 'app-atividade-no-congresso',
@@ -22,9 +22,15 @@ export class AtividadeNoCongressoComponent implements OnInit {
   public interesse: string;
   public tema: string;
   public parlamentar: any;
-  public infoTexto: string;
   public totalDocs: number;
+  public autoriasPorTipo: any;
   public isLoading = new BehaviorSubject<boolean>(true);
+
+  readonly ORDER_TIPOS_PROPOSICAO = [
+    'Prop. Original / Apensada',
+    'Emenda',
+    'Requerimento'
+  ];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -45,55 +51,60 @@ export class AtividadeNoCongressoComponent implements OnInit {
         this.resgataRanking(this.interesse, this.tema, this.idAtor);
         this.resgataDocumentos(this.interesse, this.tema, parseInt(this.idAtor, 10));
       });
-    }
+  }
 
   private resgataRanking(interesse, tema, idAtor) {
     this.autoriaService.getAcoes(interesse, tema)
-    .pipe(takeUntil(this.unsubscribe))
-    .subscribe(acoes => {
-      acoes.forEach(dado => {
-        if (dado.tipo_acao === 'Proposição') {
-          if (dado.id_autor_parlametria.toString() === idAtor.toString()) {
-            this.parlamentar = dado;
-            this.parlamentar.peso_total = +this.parlamentar.peso_total;
-            return;
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(acoes => {
+        acoes.forEach(dado => {
+          if (dado.tipo_acao === 'Proposição') {
+            if (dado.id_autor_parlametria.toString() === idAtor.toString()) {
+              this.parlamentar = dado;
+              this.parlamentar.peso_total = +this.parlamentar.peso_total;
+              return;
+            }
           }
-        }
+        });
+        this.isLoading.next(false);
       });
-      this.isLoading.next(false);
-    });
   }
 
   private resgataDocumentos(interesse, tema, idAtor) {
     this.autoriaService.getAutorias(idAtor, interesse, tema)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(autorias => {
-        const autoriasApresentadas = [];
-        autorias.forEach(dado => {
-          if (dado.tipo_acao === 'Proposição') {
-            autoriasApresentadas.push(dado);
-          }
-        });
-        this.infoTexto = '';
-        this.totalDocs = 0;
-        const autoriasPorTipo = d3.group(autoriasApresentadas, d => d.tipo_documento);
-        autoriasPorTipo.forEach((documento, tipo) => {
-          this.infoTexto += `, ${documento.length} ${this.formataTipo(tipo, documento)}`;
-          this.totalDocs += documento.length;
-        });
+        const autoriasApresentadas = autorias.filter(a => a.tipo_acao === 'Proposição');
+        this.autoriasPorTipo = d3.nest()
+          .key((d: any) => d.tipo_documento)
+          .sortKeys((a, b) => {
+            const orderA = this.ORDER_TIPOS_PROPOSICAO.indexOf(a);
+            const orderB = this.ORDER_TIPOS_PROPOSICAO.indexOf(b);
+            if (orderA === -1) {
+              return 1;
+            }
+            if (orderB === -1) {
+              return -1;
+            }
+            return orderA - orderB;
+          })
+          .entries(autoriasApresentadas);
+
+        this.totalDocs = this.autoriasPorTipo.reduce((acc: any, current) => {
+          return acc + current.values.length;
+        }, 0);
       });
   }
 
-  private formataTipo(tipo, documento): string {
-    const docs = documento.length;
+  public formataTipo(tipo: string, qtd: number, ultimo: boolean): string {
     let tipoFormatado = tipo.toLowerCase();
-    const isPlural = docs > 1;
-
+    const isPlural = qtd > 1;
+    const separador = (ultimo) ? '.' : ', ';
     if (tipoFormatado === 'prop. original / apensada') {
       if (!isPlural) {
-        tipoFormatado = 'foi proposição original ou apensada';
+        tipoFormatado = 'foi proposição';
       } else {
-        tipoFormatado = 'foram proposições originais ou apensadas';
+        tipoFormatado = 'foram proposições';
       }
     } else {
       if (isPlural) {
@@ -102,6 +113,6 @@ export class AtividadeNoCongressoComponent implements OnInit {
         tipoFormatado = 'foi ' + tipoFormatado;
       }
     }
-    return tipoFormatado;
+    return tipoFormatado + separador;
   }
 }
