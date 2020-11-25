@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { DetalhesProposicaoComponent } from './detalhes-proposicao.component';
+import { ProgressoComponent } from './progresso/progresso.component';
 import { TemperaturaPressaoComponent } from './temperatura-pressao/temperatura-pressao.component';
 
 const appRoutes: Routes = [
@@ -17,6 +18,10 @@ const appRoutes: Routes = [
       {
         path: 'temperatura-pressao',
         component: TemperaturaPressaoComponent,
+      },
+      {
+        path: 'progresso',
+        component: ProgressoComponent
       },
     ]
   }

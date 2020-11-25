@@ -10,7 +10,6 @@ import { MaximaTemperaturaProposicao } from '../models/proposicoes/maximaTempera
 import { UltimaTemperaturaProposicao } from '../models/proposicoes/ultimaTemperaturaProposicao.model';
 import { UltimaPressaoProposicao } from '../models/proposicoes/ultimaPressaoProposicao.model';
 import { DataUltimoInsightProposicao } from '../models/proposicoes/dataUltimoInsightProposicao.model';
-import { ProgressoProposicao } from '../models/proposicoes/progressoProposicao.model';
 import { Proposicao } from '../models/proposicao.model';
 
 @Injectable({
@@ -22,7 +21,6 @@ export class ProposicoesService {
   private temperaturaUrl = `${environment.baseUrl}/temperatura`;
   private pressaoUrl = `${environment.baseUrl}/pressao`;
   private insightUrl = `${environment.baseUrl}/anotacoes`;
-  private progressoUrl = `${environment.baseUrl}/progresso`;
 
   constructor(private http: HttpClient) { }
 
@@ -46,10 +44,6 @@ export class ProposicoesService {
 
   getDataUltimoInsightProposicoes(interesse: string): Observable<DataUltimoInsightProposicao[]> {
     return this.http.get<DataUltimoInsightProposicao[]>(`${this.insightUrl}/ultima?interesse=${interesse}`);
-  }
-
-  getProgressoProposicoes(interesse: string): Observable<ProgressoProposicao[]> {
-    return this.http.get<ProgressoProposicao[]>(`${this.progressoUrl}/?interesse=${interesse}`);
   }
 
 }

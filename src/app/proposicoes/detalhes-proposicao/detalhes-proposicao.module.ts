@@ -11,12 +11,14 @@ import { TemperaturaPressaoComponent } from './temperatura-pressao/temperatura-p
 import { DetalhesProposicaoRoutingModule } from './detalhes-proposicao-routing.module';
 import { ListaAutoresComponent } from './lista-autores/lista-autores.component';
 import { ListaRelatoresComponent } from './lista-relatores/lista-relatores.component';
+import { ProgressoComponent } from './progresso/progresso.component';
 
 @NgModule({
   declarations: [
     DetalhesProposicaoComponent,
     ListaAutoresComponent,
     ListaRelatoresComponent,
+    ProgressoComponent,
     TemperaturaPressaoComponent
   ],
   imports: [
