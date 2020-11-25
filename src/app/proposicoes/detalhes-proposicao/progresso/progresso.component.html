@@ -4,7 +4,7 @@
   <div *ngIf="exibeData(ultimaTramitacao?.data)" class="mb-4">
     Esta proposição está desde <strong>{{ formatDate(ultimaTramitacao?.data) }}</strong> na <strong>{{ ultimaTramitacao?.local }}</strong>.
   </div>
-  <div class="py-4">
+  <div class="progresso-wrapper">
     <ul class="progressbar">
       <div
         [ngbPopover]="popProgresso"
