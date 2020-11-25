@@ -9,11 +9,15 @@ import { SharedComponentsModule } from '../../shared/components/shared-component
 import { DetalhesProposicaoComponent } from './detalhes-proposicao.component';
 import { TemperaturaPressaoComponent } from './temperatura-pressao/temperatura-pressao.component';
 import { DetalhesProposicaoRoutingModule } from './detalhes-proposicao-routing.module';
+import { ListaAutoresComponent } from './lista-autores/lista-autores.component';
+import { ListaRelatoresComponent } from './lista-relatores/lista-relatores.component';
 import { ProgressoComponent } from './progresso/progresso.component';
 
 @NgModule({
   declarations: [
     DetalhesProposicaoComponent,
+    ListaAutoresComponent,
+    ListaRelatoresComponent,
     ProgressoComponent,
     TemperaturaPressaoComponent
   ],
@@ -23,7 +27,7 @@ import { ProgressoComponent } from './progresso/progresso.component';
     SharedComponentsModule,
     NgbModule,
     NgxPaginationModule,
-    FormsModule,
+    FormsModule
   ]
 })
 export class DetalhesProposicaoModule { }

@@ -99,6 +99,13 @@
   background-color: $white;
 }
 
+.app-link:link,
+.app-link:active,
+.app-link:hover,
+.app-link:visited {
+  color: $secondary;
+}
+
 /* Paginação */
 .page-item.active .page-link {
   z-index: 1;
@@ -141,6 +148,18 @@
     font-size: 1.8rem;
   }
 
+}
+
+.view-subnav {
+  @media (max-width: 400px) {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+
+    > .nav {
+      flex: 0 0 auto;
+    }
+  }
 }
 
 /* Árvore de itens */
