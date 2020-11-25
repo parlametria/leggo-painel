@@ -17,7 +17,7 @@ export class PressaoService {
   constructor(private http: HttpClient) { }
 
   getPressaoList(interesse: string, id: string): Observable<Pressao[]> {
-    return this.http.get<Pressao[]>(`${this.pressaoUrl}?id=${id}&interesse=${interesse}`);
+    return this.http.get<Pressao[]>(`${this.pressaoUrl}/${id}/?interesse=${interesse}`);
   }
 
   getUltimaPressaoProposicoes(interesse: string): Observable<UltimaPressaoProposicao[]> {

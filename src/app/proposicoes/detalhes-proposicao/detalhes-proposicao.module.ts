@@ -8,12 +8,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedComponentsModule } from '../../shared/components/shared-components.module';
 import { DetalhesProposicaoComponent } from './detalhes-proposicao.component';
 import { TemperaturaPressaoComponent } from './temperatura-pressao/temperatura-pressao.component';
+import { VisTemperaturaPressaoComponent } from './vis-temperatura-pressao/vis-temperatura-pressao.component';
 import { DetalhesProposicaoRoutingModule } from './detalhes-proposicao-routing.module';
 
 @NgModule({
   declarations: [
     DetalhesProposicaoComponent,
-    TemperaturaPressaoComponent
+    TemperaturaPressaoComponent,
+    VisTemperaturaPressaoComponent
   ],
   imports: [
     CommonModule,
