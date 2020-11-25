@@ -100,7 +100,9 @@
 }
 
 .app-link:link,
-.app-link:hover {
+.app-link:active,
+.app-link:hover,
+.app-link:visited {
   color: $secondary;
 }
 

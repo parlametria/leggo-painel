@@ -55,7 +55,12 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy  {
       });
   }
 
-  getURLEtapa(etapa): string {
+  getCasaFormatada(casa): string {
+    if (casa === 'camara') {
+      return 'Câmara';
+    } else if (casa === 'senado') {
+      return 'Senado';
+    }
     return '';
   }
 

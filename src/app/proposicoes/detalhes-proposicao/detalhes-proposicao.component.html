@@ -1,5 +1,5 @@
 <app-loading *ngIf="isLoading | async"></app-loading>
-<div class="container">
+<div class="container mb-4">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
@@ -20,30 +20,19 @@
       </li>
     </ol>
     <h2>{{ proposicao?.etapas[0]?.sigla }}</h2>
+
     <ol class="breadcrumb proposicao-temas mb-4">
       <li
-        *ngIf="proposicao?.sigla_camara as sigla"
+        *ngFor="let etapa of proposicao?.etapas"
         class="breadcrumb-item text-muted">
         <a
-          href="#"
+          [href]="etapa.url"
           class="app-link"
           target="_blank">
-          {{ sigla }}
+          {{ etapa.sigla }}
         </a>
         &nbsp;
-        <span class="text-muted">Câmara</span>
-      </li>
-      <li
-        *ngIf="proposicao?.sigla_senado as sigla"
-        class="breadcrumb-item text-muted">
-        <a
-          href="#"
-          class="app-link"
-          target="_blank">
-          {{ sigla }}
-        </a>
-        &nbsp;
-        <span class="text-muted">Senado</span>
+        <span class="text-muted">{{ getCasaFormatada(etapa.casa) }}</span>
       </li>
     </ol>
 
