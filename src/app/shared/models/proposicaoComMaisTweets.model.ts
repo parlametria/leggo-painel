@@ -1,5 +1,5 @@
 export class ProposicaoComMaisTweets {
-    id_proposicao_leggo: string;
+    idProposicaoLeggo: string;
     sigla: string;
-    num_tweets: string;
+    numTweets: string;
 }
