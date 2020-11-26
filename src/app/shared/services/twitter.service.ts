@@ -5,12 +5,9 @@ import { Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import { AtorTwitter } from '../models/atorTwitter.model';
-<<<<<<< HEAD
 import { ProposicaoComMaisTweets } from '../models/proposicaoComMaisTweets.model';
-=======
 import { Tweet } from '../models/tweet.model';
 import { InfoTwitter } from '../models/infoTwitter.model';
->>>>>>> origin/sprint-40
 
 @Injectable({
   providedIn: 'root'
