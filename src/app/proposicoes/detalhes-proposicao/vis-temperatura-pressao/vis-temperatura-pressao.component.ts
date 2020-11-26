@@ -119,34 +119,29 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       this.temperaturaService.getMaximaTemperatura(this.interesse)
 
     ]).subscribe(data => {
+      console.log(data);
       const pressao: any = data[0];
       const temperatura: any = data[1];
       const temperaturaMax: any = data[2];
-
       let temperaturaPressao;
       if (pressao.length > temperatura.length) {
         temperaturaPressao = pressao.map(a => ({
-          ...temperatura.find(p => a.date === p.periodo),
-          ...a
+          data: moment(this.getProperty(temperatura.find(p => a.date === p.periodo),
+          'periodo') ?? a.date),
+          valorTemperatura: this.getProperty(temperatura.find(p => a.date === p.periodo),
+          'temperatura_recente') ?? 0,
+          valorPressao: a.trends_max_pressao_principal
         }));
-        temperaturaPressao.map(t => {
-          t.data = new Date(t.date),
-          t.valorTemperatura = t.temperatura_recente ?? 0,
-          t.valorPressao = t.trends_max_popularity ?? 0;
-          return t;
-        });
       } else {
         temperaturaPressao = temperatura.map(a => ({
-          ...pressao.find(p => a.periodo === p.date),
-          ...a
+          data: moment(this.getProperty(pressao.find(p => a.periodo === p.date),
+          'date') ?? a.periodo),
+          valorTemperatura: a.temperatura_recente,
+          valorPressao: this.getProperty(pressao.find(p => a.periodo === p.date),
+          'trends_max_pressao_principal') ?? 0
         }));
-        temperaturaPressao.map(t => {
-          t.data = new Date(t.periodo),
-          t.valorTemperatura = t.temperatura_recente ?? 0,
-          t.valorPressao = t.trends_max_popularity ?? 0;
-          return t;
-        });
       }
+      console.log(temperaturaPressao);
       if (this.g) {
         this.g.selectAll('*').remove();
       }
@@ -217,5 +212,13 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('stroke-linecap', 'round')
       .attr('d', linePressao);
 
+  }
+
+  private getProperty(objeto: any, property: string) {
+    if (objeto === undefined) {
+      return undefined;
+    } else {
+      return objeto[property];
+    }
   }
 }
