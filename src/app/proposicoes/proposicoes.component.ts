@@ -23,6 +23,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   interesse: string;
   proposicoes: ProposicaoLista[];
   maxTemperatura: MaximaTemperaturaProposicao;
+  orderByProp: string;
   p = 1;
 
   constructor(
@@ -41,6 +42,21 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
         this.getMaxTemperatura(this.interesse);
         this.getProposicoes(this.interesse);
       });
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        const pOrderBy = this.replaceUndefined(params.orderByProp);
+
+        let mudouOrdenacao = true;
+        if (this.orderByProp === pOrderBy && this.proposicoes) {
+          mudouOrdenacao = false;
+        }
+
+        this.orderByProp = pOrderBy;
+
+        if (mudouOrdenacao) {
+          this.proposicoesListaService.setOrderBy(this.orderByProp);
+        }
+      });
     this.updatePageViaURL();
   }
 
@@ -49,8 +65,6 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   }
 
   getProposicoes(interesse: string) {
-    this.proposicoesListaService.setOrderBy('temperatura');
-
     this.proposicoesListaService.getProposicoes(interesse)
       .pipe(
         skip(1),
@@ -64,14 +78,14 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
 
   getMaxTemperatura(interesse: string) {
     this.proposicoesService.getMaximaTemperaturaProposicoes(interesse)
-    .pipe(
-      takeUntil(this.unsubscribe)
-    ).subscribe(maxTemperatura => {
-      this.maxTemperatura = maxTemperatura;
-    });
+      .pipe(
+        takeUntil(this.unsubscribe)
+      ).subscribe(maxTemperatura => {
+        this.maxTemperatura = maxTemperatura;
+      });
   }
 
-  search(filtro){
+  search(filtro) {
     this.proposicoesListaService.search(filtro);
   }
 
@@ -103,6 +117,10 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
     currentPage: number
   ) {
     return (itensPerPage * (currentPage - 1)) + index;
+  }
+
+  private replaceUndefined(termo) {
+    return termo === undefined ? '' : termo;
   }
 
   ngOnDestroy(): void {

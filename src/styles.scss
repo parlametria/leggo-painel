@@ -58,7 +58,11 @@
 }
 
 .app-icon {
-  font-size: 2rem;
+  font-size: 1.7rem;
+
+  @media (min-width: 576px) {
+    font-size: 2rem;
+  }
 }
 
 .title-icon {
@@ -270,6 +274,10 @@
   font-size: 1rem;
 }
 
+.vis-tooltip-table {
+  margin-bottom: 0;
+}
+
 /* Badges */
 .badge-gray {
   color: $white;
@@ -285,7 +293,7 @@
 
 /* Backgrounds */
 .bg-temperatura {
-  background-color: #9B5498 !important;
+  background-color: #CF7CC9 !important;
 }
 
 .bg-pressao {
