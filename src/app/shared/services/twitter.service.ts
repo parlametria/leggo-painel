@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import { AtorTwitter } from '../models/atorTwitter.model';
+import { ProposicaoComMaisTweets } from '../models/proposicaoComMaisTweets.model';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +55,19 @@ export class TwitterService {
       .set('data_inicial', '01-01-2000')
       .set('data_final', '10-10-2020');
     return this.http.get<any>(`${this.twitterUrl}/parlamentares/engajamento`, { params });
+  }
+
+  getProposicoesComMaisTweets(
+      interesse: string, tema: string, dataInicial: string, dataFinal: string, id: string, qtd: string
+    ): Observable<ProposicaoComMaisTweets[]> {
+    const params = new HttpParams()
+      .set('interesse', interesse)
+      .set('tema', tema)
+      .set('dataInicial', dataInicial)
+      .set('dataFinal', dataFinal)
+      .set('id', id)
+      .set('qtd', qtd);
+    return this.http.get<any>(`${this.twitterUrl}/tweets/parlamentares/${id}`, { params });
   }
 
   getUsernameTwitter(id: string): Observable<AtorTwitter> {
