@@ -10,7 +10,7 @@ import { group, max, min, extent } from 'd3-array';
 import { axisLeft, axisBottom } from 'd3-axis';
 import { hsl } from 'd3-color';
 import { path } from 'd3-path';
-import { interpolateHcl } from 'd3-interpolate';
+import { interpolatePurples, interpolateOranges } from 'd3-scale-chromatic';
 import { timeParse } from 'd3-time-format';
 import { line, curveMonotoneX } from 'd3-shape';
 import { nest } from 'd3-collection';
@@ -32,7 +32,8 @@ const d3 = Object.assign({}, {
   hsl,
   path,
   scaleSequential,
-  interpolateHcl,
+  interpolatePurples,
+  interpolateOranges,
   line,
   curveMonotoneX,
   extent,
@@ -56,14 +57,15 @@ export class VisTemperaturaPressaoComponent implements OnInit {
 
   private width;
   private height;
-  private heightG;
+  private heightGrafico;
   private margin;
 
   private x: any;
   private yTemperatura: any;
   private yPressao: any;
   private svg: any;
-  private g: any;
+  private gTemperatura: any;
+  private gPressao: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -71,7 +73,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     private temperaturaService: TemperaturaService) { }
 
   ngOnInit(): void {
-    const largura = (window.innerWidth > 1000) ? 1000 : window.innerWidth;
+    const largura = (window.innerWidth > 800) ? 800 : window.innerWidth;
     this.margin = {
       left: 25,
       right: 60,
@@ -79,13 +81,13 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       bottom: 25
     };
     this.width = largura - this.margin.right - this.margin.left;
-    this.height = 400 - this.margin.top - this.margin.bottom;
+    this.height = 300 - this.margin.top - this.margin.bottom;
 
-    this.heightG = (this.height * 0.5) - this.margin.bottom;
+    this.heightGrafico = (this.height * 0.5) - this.margin.bottom;
 
     this.x = d3.scaleTime().range([0, this.width]);
-    this.yTemperatura = d3.scaleLinear().range([this.heightG, 0]);
-    this.yPressao = d3.scaleLinear().range([this.heightG, 0]);
+    this.yTemperatura = d3.scaleLinear().range([this.heightGrafico, 0]);
+    this.yPressao = d3.scaleLinear().range([this.heightGrafico, 0]);
 
     this.svg = d3
       .select('#vis-temperatura-pressao')
@@ -96,11 +98,18 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('viewBox', '0 0 ' +
         (this.width + this.margin.left + this.margin.right) + ' ' + (this.height + this.margin.top + this.margin.bottom));
 
-    this.g = this.svg
+    this.gTemperatura = this.svg
       .append('g')
       .attr(
         'transform',
         'translate(' + this.margin.left + ',' + this.margin.top + ')'
+      );
+
+    this.gPressao = this.svg
+      .append('g')
+      .attr(
+        'transform',
+        'translate(' + this.margin.left + ',' + (this.heightGrafico + this.margin.top * 2) + ')'
       );
 
     this.activatedRoute.parent.paramMap
@@ -119,7 +128,6 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       this.temperaturaService.getMaximaTemperatura(this.interesse)
 
     ]).subscribe(data => {
-      console.log(data);
       const pressao: any = data[0];
       const temperatura: any = data[1];
       const temperaturaMax: any = data[2];
@@ -142,10 +150,10 @@ export class VisTemperaturaPressaoComponent implements OnInit {
         }));
       }
       console.log(temperaturaPressao);
-      if (this.g) {
-        this.g.selectAll('*').remove();
+      if (this.gTemperatura) {
+        this.gTemperatura.selectAll('*').remove();
       }
-      this.g.call(g => this.atualizarVis(g, temperaturaPressao, temperaturaMax.max_temperatura_periodo));
+      this.gTemperatura.call(g => this.atualizarVis(g, temperaturaPressao, temperaturaMax.max_temperatura_periodo));
     });
   }
 
@@ -153,21 +161,6 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     this.x.domain(d3.extent(dados, (d: any) => d.data));
     this.yTemperatura.domain([0, temperaturaMax]);
     this.yPressao.domain([0, d3.max(dados, (d: any) => d.valorPressao)]);
-
-    this.g.append('g')
-      .attr('transform', `translate(${this.margin.left}, ${this.heightG})`)
-      .call(d3.axisBottom(this.x));
-    this.g.append('g')
-      .attr('transform', `translate(${this.margin.left}, ${this.height - this.margin.bottom})`)
-      .call(d3.axisBottom(this.x));
-    this.g.append('g')
-      .attr('transform', `translate(${this.margin.left}, 0)`)
-      .call(d3.axisLeft(this.yTemperatura).ticks(4));
-    this.g.append('g')
-      .attr('transform', `translate(${this.margin.left}, ${(this.heightG + this.margin.bottom)})`)
-      .call(d3.axisLeft(this.yPressao).ticks(4));
-
-    const color = d3.scaleSequential(this.yTemperatura.domain());
 
     const lineTemperatura = d3.line()
       .curve(d3.curveMonotoneX)
@@ -178,40 +171,62 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .x((d: any) => this.x(d.data))
       .y((d: any) => this.yPressao(d.valorPressao));
 
-    this.g.append('linearGradient')
-      .attr('id', 'line-gradient')
+    const colorTemperatura = d3.scaleSequential(d3.interpolatePurples);
+    this.gTemperatura.append('linearGradient')
+      .attr('id', 'gradient-temperatura')
       .attr('gradientUnits', 'userSpaceOnUse')
       .attr('x1', 0)
-      .attr('y1', 0)
+      .attr('y1', this.heightGrafico)
       .attr('x2', 0)
-      .attr('y2', this.heightG)
+      .attr('y2', this.margin.top)
       .selectAll('stop')
-        .data([
-          {offset: '0%', color: 'blue'},
-          {offset: '100%', color: 'red'}
-        ])
+      .data([0, 0.5, 1])
       .enter().append('stop')
-        .attr('offset', d => d.offset)
-        .attr('stop-color', d => d.color);
-
-    this.g.append('path')
+      .attr('offset', d => d)
+      .attr('stop-color', colorTemperatura.interpolator());
+    this.gTemperatura.append('path')
       .datum(dados)
       .attr('fill', 'none')
-      .attr('stroke', 'url(\'#line-gradient\'')
+      .attr('stroke', 'url(\'#gradient-temperatura\'')
       .attr('stroke-width', 3)
       .attr('stroke-linejoin', 'round')
       .attr('stroke-linecap', 'round')
       .attr('d', lineTemperatura);
 
-    this.g.append('path')
+    const colorPressao = d3.scaleSequential(d3.interpolateOranges);
+    this.gPressao.append('linearGradient')
+      .attr('id', 'gradient-pressao')
+      .attr('gradientUnits', 'userSpaceOnUse')
+      .attr('x1', 0)
+      .attr('y1', this.heightGrafico)
+      .attr('x2', 0)
+      .attr('y2', this.margin.top)
+      .selectAll('stop')
+      .data([0, 0.5, 1])
+      .enter().append('stop')
+      .attr('offset', d => d)
+      .attr('stop-color', colorPressao.interpolator());
+    this.gPressao.append('path')
       .datum(dados)
       .attr('fill', 'none')
-      .attr('stroke', 'url(\'#line-gradient\'')
+      .attr('stroke', 'url(\'#gradient-pressao\'')
       .attr('stroke-width', 3)
       .attr('stroke-linejoin', 'round')
       .attr('stroke-linecap', 'round')
       .attr('d', linePressao);
 
+    this.gTemperatura.append('g')
+      .attr('transform', `translate(0, ${this.heightGrafico})`)
+      .call(d3.axisBottom(this.x));
+    this.gTemperatura.append('g')
+      .attr('transform', `translate(0, 0)`)
+      .call(d3.axisLeft(this.yTemperatura).ticks(3));
+    this.gPressao.append('g')
+      .attr('transform', `translate(0, ${this.heightGrafico})`)
+      .call(d3.axisBottom(this.x));
+    this.gPressao.append('g')
+      .attr('transform', `translate(0, 0)`)
+      .call(d3.axisLeft(this.yPressao).ticks(3));
   }
 
   private getProperty(objeto: any, property: string) {
