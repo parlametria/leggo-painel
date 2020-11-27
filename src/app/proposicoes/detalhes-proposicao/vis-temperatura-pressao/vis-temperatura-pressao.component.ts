@@ -10,7 +10,7 @@ import { group, max, min, extent } from 'd3-array';
 import { axisLeft, axisBottom } from 'd3-axis';
 import { hsl } from 'd3-color';
 import { path } from 'd3-path';
-import { interpolateHcl } from 'd3-interpolate';
+import { interpolatePurples, interpolateOranges } from 'd3-scale-chromatic';
 import { timeParse } from 'd3-time-format';
 import { line, curveMonotoneX } from 'd3-shape';
 import { nest } from 'd3-collection';
@@ -32,7 +32,8 @@ const d3 = Object.assign({}, {
   hsl,
   path,
   scaleSequential,
-  interpolateHcl,
+  interpolatePurples,
+  interpolateOranges,
   line,
   curveMonotoneX,
   extent,
@@ -72,7 +73,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     private temperaturaService: TemperaturaService) { }
 
   ngOnInit(): void {
-    const largura = (window.innerWidth > 1000) ? 1000 : window.innerWidth;
+    const largura = (window.innerWidth > 800) ? 800 : window.innerWidth;
     this.margin = {
       left: 25,
       right: 60,
@@ -80,7 +81,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       bottom: 25
     };
     this.width = largura - this.margin.right - this.margin.left;
-    this.height = 400 - this.margin.top - this.margin.bottom;
+    this.height = 300 - this.margin.top - this.margin.bottom;
 
     this.heightGrafico = (this.height * 0.5) - this.margin.bottom;
 
@@ -176,52 +177,61 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .x((d: any) => this.x(d.data))
       .y((d: any) => this.yPressao(d.valorPressao));
 
-    this.gTemperatura.append('g')
-      .attr('transform', `translate(0, ${this.heightGrafico})`)
-      .call(d3.axisBottom(this.x));
-    this.gTemperatura.append('g')
-      .attr('transform', `translate(0, 0)`)
-      .call(d3.axisLeft(this.yTemperatura).ticks(4));
-    this.gPressao.append('g')
-      .attr('transform', `translate(0, ${this.heightGrafico})`)
-      .call(d3.axisBottom(this.x));
-    this.gPressao.append('g')
-      .attr('transform', `translate(0, 0)`)
-      .call(d3.axisLeft(this.yPressao).ticks(4));
-
+    const colorTemperatura = d3.scaleSequential(d3.interpolatePurples);
     this.gTemperatura.append('linearGradient')
-      .attr('id', 'line-gradient')
+      .attr('id', 'gradient-temperatura')
       .attr('gradientUnits', 'userSpaceOnUse')
       .attr('x1', 0)
-      .attr('y1', 0)
+      .attr('y1', this.heightGrafico)
       .attr('x2', 0)
-      .attr('y2', this.heightGrafico)
+      .attr('y2', this.margin.top)
       .selectAll('stop')
-      .data([
-        { offset: '0%', color: 'blue' },
-        { offset: '100%', color: 'red' }
-      ])
+      .data([0, 0.5, 1])
       .enter().append('stop')
-      .attr('offset', d => d.offset)
-      .attr('stop-color', d => d.color);
-
+      .attr('offset', d => d)
+      .attr('stop-color', colorTemperatura.interpolator());
     this.gTemperatura.append('path')
       .datum(dados)
       .attr('fill', 'none')
-      .attr('stroke', 'url(\'#line-gradient\'')
+      .attr('stroke', 'url(\'#gradient-temperatura\'')
       .attr('stroke-width', 3)
       .attr('stroke-linejoin', 'round')
       .attr('stroke-linecap', 'round')
       .attr('d', lineTemperatura);
 
+    const colorPressao = d3.scaleSequential(d3.interpolateOranges);
+    this.gPressao.append('linearGradient')
+      .attr('id', 'gradient-pressao')
+      .attr('gradientUnits', 'userSpaceOnUse')
+      .attr('x1', 0)
+      .attr('y1', this.heightGrafico)
+      .attr('x2', 0)
+      .attr('y2', this.margin.top)
+      .selectAll('stop')
+      .data([0, 0.5, 1])
+      .enter().append('stop')
+      .attr('offset', d => d)
+      .attr('stop-color', colorPressao.interpolator());
     this.gPressao.append('path')
       .datum(dados)
       .attr('fill', 'none')
-      .attr('stroke', 'url(\'#line-gradient\'')
+      .attr('stroke', 'url(\'#gradient-pressao\'')
       .attr('stroke-width', 3)
       .attr('stroke-linejoin', 'round')
       .attr('stroke-linecap', 'round')
       .attr('d', linePressao);
 
+    this.gTemperatura.append('g')
+      .attr('transform', `translate(0, ${this.heightGrafico})`)
+      .call(d3.axisBottom(this.x));
+    this.gTemperatura.append('g')
+      .attr('transform', `translate(0, 0)`)
+      .call(d3.axisLeft(this.yTemperatura).ticks(3));
+    this.gPressao.append('g')
+      .attr('transform', `translate(0, ${this.heightGrafico})`)
+      .call(d3.axisBottom(this.x));
+    this.gPressao.append('g')
+      .attr('transform', `translate(0, 0)`)
+      .call(d3.axisLeft(this.yPressao).ticks(3));
   }
 }
