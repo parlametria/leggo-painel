@@ -55,6 +55,15 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy  {
       });
   }
 
+  getCasaFormatada(casa): string {
+    if (casa === 'camara') {
+      return 'Câmara';
+    } else if (casa === 'senado') {
+      return 'Senado';
+    }
+    return '';
+  }
+
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();

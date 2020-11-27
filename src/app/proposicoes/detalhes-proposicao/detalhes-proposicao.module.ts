@@ -10,12 +10,18 @@ import { DetalhesProposicaoComponent } from './detalhes-proposicao.component';
 import { TemperaturaPressaoComponent } from './temperatura-pressao/temperatura-pressao.component';
 import { VisTemperaturaPressaoComponent } from './vis-temperatura-pressao/vis-temperatura-pressao.component';
 import { DetalhesProposicaoRoutingModule } from './detalhes-proposicao-routing.module';
+import { ListaAutoresComponent } from './lista-autores/lista-autores.component';
+import { ListaRelatoresComponent } from './lista-relatores/lista-relatores.component';
+import { ProgressoComponent } from './progresso/progresso.component';
 
 @NgModule({
   declarations: [
     DetalhesProposicaoComponent,
+    ListaAutoresComponent,
+    ListaRelatoresComponent,
     TemperaturaPressaoComponent,
-    VisTemperaturaPressaoComponent
+    VisTemperaturaPressaoComponent,
+    ProgressoComponent
   ],
   imports: [
     CommonModule,
@@ -23,7 +29,7 @@ import { DetalhesProposicaoRoutingModule } from './detalhes-proposicao-routing.m
     SharedComponentsModule,
     NgbModule,
     NgxPaginationModule,
-    FormsModule,
+    FormsModule
   ]
 })
 export class DetalhesProposicaoModule { }

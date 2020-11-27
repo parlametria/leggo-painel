@@ -1,0 +1,79 @@
+.progresso-wrapper {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.progressbar p {
+  margin: 0;
+}
+
+.progressbar {
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.progressbar li {
+  list-style-type: none;
+  position: relative;
+  cursor: pointer;
+}
+
+/* os before fazem os circulos */
+
+.progressbar li:before {
+  width: 30px;
+  height: 30px;
+  content: '';
+  position: relative;
+  display: block;
+  margin: 0 auto 10px auto;
+  background-size: cover;
+}
+
+/* linhas */
+.linha {
+  width: 99%;
+  height: 2px;
+  position: absolute;
+  background-color: #6c757d;
+  top: 5px;
+  left: 1%;
+  z-index: -1;
+  border: none;
+  margin-top: 0.5rem;
+}
+
+.camara:before {
+  background-image: url("../../../../assets/imgs/colored_camara.png");
+  background-size: cover;
+}
+
+.senado:before {
+  background-image: url("../../../../assets/imgs/colored_senado.png");
+}
+
+.future:before {
+  filter: brightness(1.4) saturate(.1);
+}
+
+.planalto:before {
+  background-image: url("../../../../assets/imgs/colored_planalto.png");
+}
+
+.comissao-mista:before {
+  background-image: url("../../../../assets/imgs/colored_comissao_mista.png");
+}
+
+.jumped:before {
+  background-image: url("../../../../assets/imgs/colored_vazio.png");
+}
+
+.inProgress:before {
+  transform: scale(1.7);
+  z-index: 1;
+}
