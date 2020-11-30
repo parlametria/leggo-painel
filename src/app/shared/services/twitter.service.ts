@@ -59,7 +59,7 @@ export class TwitterService {
       .set('dataInicial', dataInicial)
       .set('dataFinal', dataFinal)
       .set('qtd', qtd);
-    return this.http.get<any>(`${this.twitterUrl}/propoaicoes/parlamentar/${id}`, { params });
+    return this.http.get<any>(`${this.twitterUrl}/proposicoes/parlamentar/${id}`, { params });
   }
 
   getUsernameTwitter(id: string): Observable<AtorTwitter> {
