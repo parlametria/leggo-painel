@@ -6,7 +6,7 @@ import { Subject, forkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { select, selectAll, mouse, event } from 'd3-selection';
 import { scaleLinear, scaleSqrt, scaleSequential, scaleTime } from 'd3-scale';
-import { group, max, min, extent } from 'd3-array';
+import { group, max, min, extent, bisect } from 'd3-array';
 import { axisLeft, axisBottom } from 'd3-axis';
 import { hsl } from 'd3-color';
 import { path } from 'd3-path';
@@ -26,9 +26,12 @@ const d3 = Object.assign({}, {
   group,
   max,
   min,
+  extent,
+  bisect,
   axisLeft,
   axisBottom,
   mouse,
+  event,
   hsl,
   path,
   scaleSequential,
@@ -36,7 +39,6 @@ const d3 = Object.assign({}, {
   interpolateOranges,
   line,
   curveMonotoneX,
-  extent,
   timeParse,
   scaleTime,
   nest
@@ -59,6 +61,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
   private height;
   private heightGrafico;
   private margin;
+  private r;
 
   private x: any;
   private yTemperatura: any;
@@ -74,6 +77,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
 
   ngOnInit(): void {
     const largura = (window.innerWidth > 800) ? 800 : window.innerWidth;
+    this.r = 6;
     this.margin = {
       left: 25,
       right: 60,
@@ -122,9 +126,11 @@ export class VisTemperaturaPressaoComponent implements OnInit {
   }
 
   private carregarVis() {
+    const dataInicio = moment().subtract(3, 'months').format('YYYY-MM-DD'); // 3 meses atrás
+    const dataFim = moment().format('YYYY-MM-DD');                          // hoje
     forkJoin([
-      this.pressaoService.getPressaoList(this.interesse, this.idProposicaoDestaque),
-      this.temperaturaService.getTemperaturasById(this.interesse, this.idProposicaoDestaque),
+      this.pressaoService.getPressaoList(this.interesse, this.idProposicaoDestaque, dataInicio, dataFim),
+      this.temperaturaService.getTemperaturasById(this.interesse, this.idProposicaoDestaque, dataInicio, dataFim),
       this.temperaturaService.getMaximaTemperatura(this.interesse)
 
     ]).subscribe(data => {
@@ -135,21 +141,23 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       if (pressao.length > temperatura.length) {
         temperaturaPressao = pressao.map(a => ({
           data: moment(this.getProperty(temperatura.find(p => a.date === p.periodo),
-          'periodo') ?? a.date),
+            'periodo') ?? a.date),
           valorTemperatura: this.getProperty(temperatura.find(p => a.date === p.periodo),
-          'temperatura_recente') ?? 0,
+            'temperatura_recente') ?? 0,
           valorPressao: a.trends_max_pressao_principal
         }));
       } else {
         temperaturaPressao = temperatura.map(a => ({
           data: moment(this.getProperty(pressao.find(p => a.periodo === p.date),
-          'date') ?? a.periodo),
+            'date') ?? a.periodo),
           valorTemperatura: a.temperatura_recente,
           valorPressao: this.getProperty(pressao.find(p => a.periodo === p.date),
-          'trends_max_pressao_principal') ?? 0
+            'trends_max_pressao_principal') ?? 0
         }));
       }
-      console.log(temperaturaPressao);
+      temperaturaPressao.sort((a, b) => {
+        return moment(a.data).diff(b.data);
+      });
       if (this.gTemperatura) {
         this.gTemperatura.selectAll('*').remove();
       }
@@ -160,7 +168,12 @@ export class VisTemperaturaPressaoComponent implements OnInit {
   private atualizarVis(g, dados, temperaturaMax) {
     this.x.domain(d3.extent(dados, (d: any) => d.data));
     this.yTemperatura.domain([0, temperaturaMax]);
-    this.yPressao.domain([0, d3.max(dados, (d: any) => d.valorPressao)]);
+    const maxPressao = +d3.max(dados, (d: any) => d.valorPressao);
+    if (maxPressao > 0) {
+      this.yPressao.domain([0, maxPressao]);
+    } else {
+      this.yPressao.domain([0, 1]);
+    }
 
     const lineTemperatura = d3.line()
       .curve(d3.curveMonotoneX)
@@ -180,7 +193,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('x2', 0)
       .attr('y2', this.margin.top)
       .selectAll('stop')
-      .data([0, 0.5, 1])
+      .data([0.25, 1])
       .enter().append('stop')
       .attr('offset', d => d)
       .attr('stop-color', colorTemperatura.interpolator());
@@ -202,7 +215,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('x2', 0)
       .attr('y2', this.margin.top)
       .selectAll('stop')
-      .data([0, 0.5, 1])
+      .data([0.25, 1])
       .enter().append('stop')
       .attr('offset', d => d)
       .attr('stop-color', colorPressao.interpolator());
@@ -227,6 +240,58 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     this.gPressao.append('g')
       .attr('transform', `translate(0, 0)`)
       .call(d3.axisLeft(this.yPressao).ticks(3));
+
+    const bar = this.svg
+      .append('line')
+      .attr('style', 'stroke:#adb5bd; stroke-width:1; stroke-dasharray: 5 3;')
+      .attr('y2', this.height)
+      .attr('x1', 0)
+      .attr('x2', 0);
+    const markerTemperatura = this.gTemperatura
+      .append('circle')
+      .attr('r', this.r)
+      .attr('cx', -100)
+      .attr('fill', '#fff')
+      .attr('stroke', '#3f007d')
+      .attr('stroke-width', 3);
+    const markerPressao = this.gPressao
+      .append('circle')
+      .attr('r', this.r)
+      .attr('cx', -100)
+      .attr('fill', '#fff')
+      .attr('stroke', '#7f2704')
+      .attr('stroke-width', 3);
+
+    const mouseArea = this.svg.append('g')
+      .append('rect')
+      .attr('transform', `translate(${this.margin.top}, ${this.margin.left})`)
+      .attr('class', 'chart-overlay')
+      .attr('width', this.width)
+      .attr('height', this.height);
+
+    const datas = dados.map(d => d.data);
+    mouseArea.on('mousemove', () => {
+      const xMouse = d3.mouse(this.svg.node())[0];
+      const i = d3.bisect(datas, this.x.invert(xMouse));
+      markerTemperatura
+        .style('display', null)
+        .attr('cx', this.x(dados[i - 1].data))
+        .attr('cy', this.yTemperatura(dados[i - 1].valorTemperatura));
+      markerPressao
+        .style('display', null)
+        .attr('cx', this.x(dados[i - 1].data))
+        .attr('cy', this.yPressao(dados[i - 1].valorPressao));
+      bar
+        .style('display', null)
+        .attr('transform', `translate(${this.x(dados[i - 1].data) + this.margin.left}, 0)`);
+
+      return null;
+    })
+      .on('mouseout', () => {
+        bar.style('display', 'none');
+        markerPressao.style('display', 'none');
+        markerTemperatura.style('display', 'none');
+      });
   }
 
   private getProperty(objeto: any, property: string) {
