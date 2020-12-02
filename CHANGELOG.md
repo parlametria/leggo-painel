@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.3 (2020-12-02)
+- [x] Reformulação de leiaute da página de detalhes da proposição
+- [x] Reformulação do progresso da proposição
+- [x] Visualização da atividade no twitter (média x proporção sobre a agenda x engajamento)
+- [x] Exibe tweets do parlamentar com mais engajamento
+- [x] Melhorias no texto
+
 ## 1.2.2 (2020-08-31)
 - [x] Reformulação de leiaute da página de detalhes do ator
 - [x] Agrupa presidencias de comissões em sobre e tema e fora do tema
