@@ -1,0 +1,79 @@
+<app-loading *ngIf="isLoading | async"></app-loading>
+<div class="container mb-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a
+          [routerLink]="['../']"
+          class="btn btn-sm btn-light">
+          &lt; Proposicões
+        </a>
+      </li>
+    </ol>
+  </nav>
+  <div [hidden]="isLoading | async">
+    <ol class="breadcrumb proposicao-temas">
+      <li
+        class="breadcrumb-item text-muted"
+        *ngFor="let temas of proposicao?.interesse[0]?.temas">
+        {{ temas }}
+      </li>
+    </ol>
+    <h2>{{ proposicao?.etapas[0]?.sigla }}</h2>
+
+    <ol class="breadcrumb proposicao-temas mb-4">
+      <li
+        *ngFor="let etapa of proposicao?.etapas"
+        class="breadcrumb-item text-muted">
+        <a
+          [href]="etapa.url"
+          class="app-link"
+          target="_blank">
+          {{ etapa.sigla }}
+        </a>
+        &nbsp;
+        <span class="text-muted">{{ getCasaFormatada(etapa.casa) }}</span>
+      </li>
+    </ol>
+
+    <app-lista-autores [autores]="this.proposicao?.autoresProposicao"></app-lista-autores>
+    <app-lista-relatores [etapas]="proposicao?.etapas"></app-lista-relatores>
+
+    <!-- <div *ngIf="proposicao?.etapas?.slice(-1)[0]?.resumo_tramitacao?.slice(-1)[0]?.evento as tramitacao">
+      <div
+        *ngIf="tramitacao != 'nan'"
+        class="proposicao-tramitacao">
+        {{ tramitacao.replace('_',' em ') }}
+      </div>
+    </div> -->
+  </div>
+</div>
+<div class="view-subnav">
+  <ul class="nav nav-tabs justify-content-center">
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [routerLink]="['./temperatura-pressao']"
+        [routerLinkActive]="'active'"
+        queryParamsHandling="merge">
+        <span class="icon-temperatura"></span>
+        Temperatura e pressão
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [routerLink]="['./progresso']"
+        [routerLinkActive]="'active'"
+        queryParamsHandling="merge">
+        <span class="icon-progresso"></span>
+        Progresso
+      </a>
+    </li>
+  </ul>
+</div>
+<div class="container">
+  <div class="py-4">
+    <router-outlet></router-outlet>
+  </div>
+</div>

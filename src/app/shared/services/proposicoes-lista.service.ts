@@ -5,6 +5,8 @@ import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/op
 
 import { ProposicoesService } from './proposicoes.service';
 import { ProposicaoLista } from '../models/proposicao.model';
+import { PressaoService } from './pressao.service';
+import { ProgressoService } from './progresso.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,22 +17,15 @@ export class ProposicoesListaService {
   private proposicoesFiltered = new BehaviorSubject<Array<ProposicaoLista>>([]);
 
   private orderBy = new BehaviorSubject<string>('');
-  readonly ORDER_BY_PADRAO = 'temperatura';
+  readonly ORDER_BY_PADRAO = 'maior-temperatura';
 
   private filtro = new BehaviorSubject<any>({});
 
   constructor(
-    private proposicoesService: ProposicoesService
+    private proposicoesService: ProposicoesService,
+    private progressoService: ProgressoService,
+    private pressaoService: PressaoService
   ) {
-    // this.filtro.pipe(
-    //   debounceTime(400),
-    //   distinctUntilChanged(
-    //     (p: any, q: any) => {
-    //       return this.compareFilter(p, q);
-    //     }
-    //   ),
-    //   map(filters => this.filter(parlamentar, filters))
-    // )),
 
     this.proposicoes
       .pipe(
@@ -48,14 +43,31 @@ export class ProposicoesListaService {
           return this.orderBy.pipe(map(par => proposicoes));
         }),
         tap(proposicoes => {
-          if (this.orderBy.value === 'temperatura') {
+          if (this.orderBy.value === 'maior-temperatura') {
             proposicoes.sort((a, b) => {
               return this.orderByDesc(a.ultima_temperatura, b.ultima_temperatura);
             });
           }
+          if (this.orderBy.value === 'menor-temperatura') {
+            proposicoes.sort((b, a) => {
+              return this.orderByDesc(a.ultima_temperatura, b.ultima_temperatura);
+            });
+          }
+          if (this.orderBy.value === 'maior-pressao') {
+            proposicoes.sort((a, b) => {
+              return this.orderByDesc(a.ultima_pressao, b.ultima_pressao);
+            });
+          }
+          if (this.orderBy.value === 'menor-pressao') {
+            proposicoes.sort((b, a) => {
+              return this.orderByDesc(a.ultima_pressao, b.ultima_pressao);
+            });
+          }
         }))
       .subscribe(res => {
-        this.proposicoesFiltered.next(res);
+        if (this.proposicoes.value.length !== 0) {
+          this.proposicoesFiltered.next(res);
+        }
       });
   }
 
@@ -64,9 +76,9 @@ export class ProposicoesListaService {
       [
         this.proposicoesService.getProposicoes(interesse),
         this.proposicoesService.getUltimaTemperaturaProposicoes(interesse),
-        this.proposicoesService.getUltimaPressaoProposicoes(interesse),
+        this.pressaoService.getUltimaPressaoProposicoes(interesse),
         this.proposicoesService.getDataUltimoInsightProposicoes(interesse),
-        this.proposicoesService.getProgressoProposicoes(interesse)
+        this.progressoService.getProgressoProposicoes(interesse)
       ]
     )
       .subscribe(data => {

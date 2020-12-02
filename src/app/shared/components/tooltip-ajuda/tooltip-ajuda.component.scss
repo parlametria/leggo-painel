@@ -1,0 +1,19 @@
+.tooltip-wrapper {
+  display: inline-block;
+  padding-top: 1rem;
+}
+
+.tooltip-base {
+  border-radius: 100%;
+  color: white;
+  cursor: pointer;
+}
+
+.tooltip-help {
+  background-color: #6c757d;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: .8rem;
+}

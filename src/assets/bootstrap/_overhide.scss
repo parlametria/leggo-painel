@@ -1,7 +1,3 @@
-.navbar-light {
-  border-bottom: solid 2px $black;
-}
-
 .card-header {
   border-bottom: none;
 }
@@ -10,27 +6,14 @@
   padding: 0.75rem;
 }
 
-/* NAVBAR */
-.navbar {
-  padding: 0;
+.btn-xs, .btn-group-xs > .btn {
+  padding: 0.2rem 0.2rem;
+  font-size: 0.8rem;
+  line-height: 1;
+  border-radius: 0;
 }
-.navbar-nav {
-  flex-direction: row;
-}
-
-.nav-item {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}
-
-.nav-link {
-  display: flex;
-  align-items: center;
-}
-
 
 /* FORMS */
-
 .form-control {
   background-color: $white;
   background-clip: padding-box;

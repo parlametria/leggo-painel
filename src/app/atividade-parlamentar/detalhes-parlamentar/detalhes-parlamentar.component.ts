@@ -93,6 +93,15 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
     return urlFoto;
   }
 
+  getLabel(valor: any, messagem: string): string {
+    let label = '';
+    if (valor !== undefined && valor !== null) {
+      label = valor + messagem;
+    }
+
+    return label;
+  }
+
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
