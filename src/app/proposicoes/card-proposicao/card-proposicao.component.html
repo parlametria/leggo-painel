@@ -72,6 +72,13 @@
                     {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.forma_apreciacao }}
                 </span> -->
         <span
+          *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.status !== 'Ativa'"
+          class="tag badge badge-gray"
+          ngbPopover="A proposição foi finalizada"
+          [autoClose]="'outside'">
+          {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.status }}
+        </span>
+        <span
           *ngIf="proposicao?.interesse[0]?.tipo_agenda && proposicao?.interesse[0]?.tipo_agenda !== 'nan'"
           class="tag badge badge-gray"
           ngbPopover="Tipo da Agenda"
