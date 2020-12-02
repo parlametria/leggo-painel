@@ -193,7 +193,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('x2', 0)
       .attr('y2', this.margin.top)
       .selectAll('stop')
-      .data([0.25, 1])
+      .data([0.35, 1])
       .enter().append('stop')
       .attr('offset', d => d)
       .attr('stop-color', colorTemperatura.interpolator());
@@ -215,7 +215,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('x2', 0)
       .attr('y2', this.margin.top)
       .selectAll('stop')
-      .data([0.25, 1])
+      .data([0.35, 1])
       .enter().append('stop')
       .attr('offset', d => d)
       .attr('stop-color', colorPressao.interpolator());
