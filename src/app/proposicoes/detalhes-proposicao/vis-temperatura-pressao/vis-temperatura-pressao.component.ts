@@ -77,13 +77,19 @@ export class VisTemperaturaPressaoComponent implements OnInit {
 
   ngOnInit(): void {
     const largura = (window.innerWidth > 800) ? 800 : window.innerWidth;
-    this.r = 6;
+    this.r = 7;
     this.margin = {
       left: 25,
       right: 60,
       top: 25,
       bottom: 25
     };
+    moment.updateLocale('en', {
+      monthsShort: [
+        'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+        'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+      ]
+    });
     this.width = largura - this.margin.right - this.margin.left;
     this.height = 300 - this.margin.top - this.margin.bottom;
 
@@ -241,7 +247,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('transform', `translate(0, 0)`)
       .call(d3.axisLeft(this.yPressao).ticks(3));
 
-    const bar = this.svg
+    const bar = this.gTemperatura
       .append('line')
       .attr('style', 'stroke:#adb5bd; stroke-width:1; stroke-dasharray: 5 3;')
       .attr('y2', this.height)
@@ -261,6 +267,27 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('fill', '#fff')
       .attr('stroke', '#7f2704')
       .attr('stroke-width', 3);
+
+    const tooltipTemperatura = this.svg.append('foreignObject')
+      .attr('x', 15)
+      .attr('y', 40)
+      .attr('width', 250)
+      .attr('height', 100)
+      .style('display', 'none');
+    const tooltipTemperaturaContent = tooltipTemperatura.append('xhtml:div')
+      .attr('class', 'vis-tooltip');
+    const tooltipTemperaturaTitle = tooltipTemperaturaContent.append('p');
+    const tooltipTemperaturaBody = tooltipTemperaturaContent.append('p');
+    const tooltipPressao = this.svg.append('foreignObject')
+      .attr('x', 15)
+      .attr('y', 40)
+      .attr('width', 250)
+      .attr('height', 100)
+      .style('display', 'none');
+    const tooltipPressaoContent = tooltipPressao.append('xhtml:div')
+      .attr('class', 'vis-tooltip');
+    const tooltipPressaoTitle = tooltipPressaoContent.append('p');
+    const tooltipPressaoBody = tooltipPressaoContent.append('p');
 
     const mouseArea = this.svg.append('g')
       .append('rect')
@@ -283,7 +310,27 @@ export class VisTemperaturaPressaoComponent implements OnInit {
         .attr('cy', this.yPressao(dados[i - 1].valorPressao));
       bar
         .style('display', null)
-        .attr('transform', `translate(${this.x(dados[i - 1].data) + this.margin.left}, 0)`);
+        .attr('transform', `translate(${this.x(dados[i - 1].data)}, 0)`);
+      tooltipTemperaturaTitle
+        .text('Semana de ' +
+          moment(dados[i - 1].data).format('D MMM') + ' a ' +
+          moment(dados[i - 1].data).add(7, 'days').format('D MMM'));
+      tooltipTemperaturaBody.html(`<strong>${dados[i - 1].valorTemperatura}</strong> de temperatura</strong>`);
+      tooltipPressaoTitle
+      .text('Semana de ' +
+        moment(dados[i - 1].data).format('D MMM') + ' a ' +
+        moment(dados[i - 1].data).add(7, 'days').format('D MMM'));
+      tooltipPressaoBody.html(`<strong>${dados[i - 1].valorPressao}</strong> de pressão</strong>`);
+      let xTooltip = this.x(dados[i - 1].data);
+      if (xTooltip > 500) {
+        xTooltip = xTooltip - 280;
+      }
+      tooltipTemperatura
+        .style('display', null)
+        .attr('transform', `translate(${xTooltip + this.margin.left}, 0)`);
+      tooltipPressao
+        .style('display', null)
+        .attr('transform', `translate(${xTooltip + this.margin.left}, ${this.heightGrafico + this.margin.top})`);
 
       return null;
     })
@@ -291,6 +338,8 @@ export class VisTemperaturaPressaoComponent implements OnInit {
         bar.style('display', 'none');
         markerPressao.style('display', 'none');
         markerTemperatura.style('display', 'none');
+        tooltipTemperatura.style('display', 'none');
+        tooltipPressao.style('display', 'none');
       });
   }
 
