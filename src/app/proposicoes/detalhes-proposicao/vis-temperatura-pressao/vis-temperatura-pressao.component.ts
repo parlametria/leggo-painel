@@ -14,6 +14,8 @@ import { interpolatePurples, interpolateOranges } from 'd3-scale-chromatic';
 import { timeParse } from 'd3-time-format';
 import { line, curveMonotoneX } from 'd3-shape';
 import { nest } from 'd3-collection';
+import { timeFormat, timeFormatLocale } from 'd3-time-format';
+import { timeMonday } from 'd3-time';
 
 import { PressaoService } from 'src/app/shared/services/pressao.service';
 import { TemperaturaService } from 'src/app/shared/services/temperatura.service';
@@ -41,7 +43,10 @@ const d3 = Object.assign({}, {
   curveMonotoneX,
   timeParse,
   scaleTime,
-  nest
+  nest,
+  timeFormat,
+  timeFormatLocale,
+  timeMonday
 });
 
 @Component({
@@ -69,6 +74,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
   private svg: any;
   private gTemperatura: any;
   private gPressao: any;
+  private localizacao: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -79,11 +85,21 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     const largura = (window.innerWidth > 800) ? 800 : window.innerWidth;
     this.r = 7;
     this.margin = {
-      left: 25,
+      left: 35,
       right: 60,
       top: 25,
       bottom: 25
     };
+    this.localizacao = d3.timeFormatLocale({
+      dateTime: '%A, %e %B %Y г. %X',
+      date: '%d.%m.%Y',
+      time: '%H:%M:%S',
+      periods: ['AM', 'PM'],
+      days: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+      shortDays: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+      months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+      shortMonths: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+    });
     moment.updateLocale('en', {
       monthsShort: [
         'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
@@ -235,17 +251,17 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('d', linePressao);
 
     this.gTemperatura.append('g')
-      .attr('transform', `translate(0, ${this.heightGrafico})`)
-      .call(d3.axisBottom(this.x));
-    this.gTemperatura.append('g')
-      .attr('transform', `translate(0, 0)`)
-      .call(d3.axisLeft(this.yTemperatura).ticks(3));
+      .attr('transform', `translate(-10, 0)`)
+      .call(d3.axisLeft(this.yTemperatura).ticks(3))
+      .call((d: any) => d.select('.domain').remove());
     this.gPressao.append('g')
-      .attr('transform', `translate(0, ${this.heightGrafico})`)
-      .call(d3.axisBottom(this.x));
+      .attr('transform', `translate(0, ${this.heightGrafico + 10})`)
+      .call(d3.axisBottom(this.x).ticks(d3.timeMonday).tickFormat(this.localizacao.format('%d %b')))
+      .call((d: any) => d.select('.domain').remove());
     this.gPressao.append('g')
-      .attr('transform', `translate(0, 0)`)
-      .call(d3.axisLeft(this.yPressao).ticks(3));
+      .attr('transform', `translate(-10, 0)`)
+      .call(d3.axisLeft(this.yPressao).ticks(3))
+      .call((d: any) => d.select('.domain').remove());
 
     const bar = this.gTemperatura
       .append('line')
@@ -317,9 +333,9 @@ export class VisTemperaturaPressaoComponent implements OnInit {
           moment(dados[i - 1].data).add(7, 'days').format('D MMM'));
       tooltipTemperaturaBody.html(`<strong>${dados[i - 1].valorTemperatura}</strong> de temperatura</strong>`);
       tooltipPressaoTitle
-      .text('Semana de ' +
-        moment(dados[i - 1].data).format('D MMM') + ' a ' +
-        moment(dados[i - 1].data).add(7, 'days').format('D MMM'));
+        .text('Semana de ' +
+          moment(dados[i - 1].data).format('D MMM') + ' a ' +
+          moment(dados[i - 1].data).add(7, 'days').format('D MMM'));
       tooltipPressaoBody.html(`<strong>${dados[i - 1].valorPressao}</strong> de pressão</strong>`);
       let xTooltip = this.x(dados[i - 1].data);
       if (xTooltip > 500) {
