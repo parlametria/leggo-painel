@@ -3,7 +3,7 @@
     <app-tooltip-ajuda
         [posicao]="'top'"
         [descricao]="'Cada parlamentar corresponde a um círculo, que mostra a média de tweets  por mês e a proporção dos tweets do parlamentar que tratam desse tema e  agenda. O tamanho do círculo é a média da soma de curtidas, respostas e  retweets.'"
-    >
+        >
     </app-tooltip-ajuda>
 </div>
 <app-loading *ngIf="isLoading | async"></app-loading>
@@ -63,6 +63,13 @@
             .
         </p>
     </div>
+
+    <app-vis-proposicoes-com-mais-tweets
+        [id]='idAtor'
+        [tema]="tema"
+        [interesse]="interesse"
+    >
+    </app-vis-proposicoes-com-mais-tweets>
 
     <div
         *ngIf="tweets?.length"

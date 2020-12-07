@@ -1,5 +1,5 @@
-export class ProposicaoComMaisTweets {
-    idProposicaoLeggo: string;
+export interface ProposicaoComMaisTweets {
+    id_proposicao_Leggo: string;
     sigla: string;
-    numTweets: string;
+    num_tweets: number;
 }

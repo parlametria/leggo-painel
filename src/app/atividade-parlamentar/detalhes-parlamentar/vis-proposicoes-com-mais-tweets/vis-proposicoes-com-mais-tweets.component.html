@@ -1,0 +1,9 @@
+<p>As 3 proposicoes mais mencionadas no último ano</p>
+<div *ngFor="let proposicao of proposicaoComMaisTweets">
+  {{ proposicao.sigla }}
+  <app-progress
+      [barraClasse]="'bg-twitter'"
+      [valor]="normalizarComentariosNoTwitterPorPeriodo(proposicao.num_tweets)"
+      >
+    </app-progress>
+</div>
