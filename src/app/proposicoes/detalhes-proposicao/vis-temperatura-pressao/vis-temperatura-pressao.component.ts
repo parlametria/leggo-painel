@@ -109,7 +109,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     this.width = largura - this.margin.right - this.margin.left;
     this.height = 300 - this.margin.top - this.margin.bottom;
 
-    this.heightGrafico = (this.height * 0.5) - this.margin.bottom;
+    this.heightGrafico = (this.height * 0.5) - this.margin.bottom - 10;
 
     this.x = d3.scaleTime().range([0, this.width]);
     this.yTemperatura = d3.scaleLinear().range([this.heightGrafico, 0]);
@@ -135,7 +135,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .append('g')
       .attr(
         'transform',
-        'translate(' + this.margin.left + ',' + (this.heightGrafico + this.margin.top * 2) + ')'
+        'translate(' + this.margin.left + ',' + (this.heightGrafico + (this.margin.top * 2) + 10) + ')'
       );
 
     this.activatedRoute.parent.paramMap
@@ -251,24 +251,27 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('d', linePressao);
 
     this.gTemperatura.append('g')
-      .attr('transform', `translate(-10, 0)`)
-      .call(d3.axisLeft(this.yTemperatura).ticks(3))
+      .attr('transform', `translate(0, ${this.heightGrafico + 5})`)
+      .call(d3.axisBottom(this.x).ticks(d3.timeMonday).tickFormat(this.localizacao.format('%d %b')))
       .call((d: any) => d.select('.domain').remove());
+    this.gTemperatura.append('g')
+      .attr('transform', `translate(-10, 0)`)
+      .call(d3.axisLeft(this.yTemperatura).ticks(3));
     this.gPressao.append('g')
-      .attr('transform', `translate(0, ${this.heightGrafico + 10})`)
+      .attr('transform', `translate(0, ${this.heightGrafico + 5})`)
       .call(d3.axisBottom(this.x).ticks(d3.timeMonday).tickFormat(this.localizacao.format('%d %b')))
       .call((d: any) => d.select('.domain').remove());
     this.gPressao.append('g')
       .attr('transform', `translate(-10, 0)`)
-      .call(d3.axisLeft(this.yPressao).ticks(3))
-      .call((d: any) => d.select('.domain').remove());
+      .call(d3.axisLeft(this.yPressao).ticks(3));
 
     const bar = this.gTemperatura
       .append('line')
       .attr('style', 'stroke:#adb5bd; stroke-width:1; stroke-dasharray: 5 3;')
       .attr('y2', this.height)
       .attr('x1', 0)
-      .attr('x2', 0);
+      .attr('x2', 0)
+      .attr('transform', `translate(-100, 0)`);
     const markerTemperatura = this.gTemperatura
       .append('circle')
       .attr('r', this.r)
