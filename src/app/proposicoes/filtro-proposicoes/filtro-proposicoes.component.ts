@@ -25,7 +25,7 @@ export class FiltroProposicoesComponent implements OnInit {
   status = [
     { statusName: 'tramitando', statusValue: 'tramitando' },
     { statusName: 'finalizadas', statusValue: 'finalizada' },
-    { statusName: 'deste painel', statusValue: 'todas' }
+    { statusName: 'tramitando ou finalizadas', statusValue: 'todas' }
   ];
 
   proposicaoPesquisada = '';
