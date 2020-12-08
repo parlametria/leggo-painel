@@ -43,6 +43,7 @@ interface EtapasProposicao {
   relatoria: any;
   comissoes_passadas: string[];
   resumo_tramitacao: TramitacaoProposicao[];
+  status: string;
 }
 
 export interface Proposicao {
