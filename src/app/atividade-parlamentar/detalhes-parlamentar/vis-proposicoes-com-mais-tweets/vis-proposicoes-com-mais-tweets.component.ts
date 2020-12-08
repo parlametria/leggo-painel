@@ -38,6 +38,8 @@ export class VisProposicoesComMaisTweetsComponent implements OnInit {
       this.interesse, tema, this.dataInicial, this.dataFinal, this.id, qtd
     ).subscribe(proposicoes => {
       this.proposicaoComMaisTweets = proposicoes;
+      console.log(this.proposicaoComMaisTweets);
+
     });
   }
 

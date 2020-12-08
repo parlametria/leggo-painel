@@ -56,15 +56,17 @@
     </p>
   </div>
 
-  <app-vis-proposicoes-com-mais-tweets
-    [id]='idAtor'
-    [tema]="tema"
-    [interesse]="interesse">
-  </app-vis-proposicoes-com-mais-tweets>
+  <div class="sessao">
+    <app-vis-proposicoes-com-mais-tweets
+      [id]='idAtor'
+      [tema]="tema"
+      [interesse]="interesse">
+    </app-vis-proposicoes-com-mais-tweets>
+  </div>
 
   <div
     *ngIf="tweets?.length"
-    class="mt-4">
+    class="sessao">
     <h3 class="titulo-sessao">Tweets com mais engajamento</h3>
     <div
       *ngFor="let tweet of tweets"
