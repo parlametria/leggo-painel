@@ -1,11 +1,20 @@
 <h3 class="titulo-sessao">Proposições mais mencionadas em tweets</h3>
 <div class="vis">
-  <div *ngFor="let proposicao of proposicaoComMaisTweets">
-    {{ proposicao.sigla }}
-    <app-progress
-      [barraClasse]="'bg-twitter'"
-      [valor]="normalizarComentariosNoTwitterPorPeriodo(proposicao.num_tweets)">
-    </app-progress>
-    {{ proposicao.num_tweets }}
+  <div class="row gutters-sm" *ngFor="let proposicao of proposicaoComMaisTweets">
+    <div class="col-3 text-right">
+      {{ proposicao.sigla }}
+    </div>
+    <div class="col">
+      <app-progress
+        [barraClasse]="'bg-twitter'"
+        [min]="0"
+        [max]="10"
+        [valor]="proposicao.num_tweets"
+        [label]="proposicao.num_tweets">
+      </app-progress>
+    </div>
+    <div class="col-1">
+      {{ proposicao.num_tweets }}
+    </div>
   </div>
 </div>
