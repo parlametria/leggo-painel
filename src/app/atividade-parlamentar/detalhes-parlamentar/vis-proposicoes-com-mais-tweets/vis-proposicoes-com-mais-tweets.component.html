@@ -2,14 +2,14 @@
 <div class="vis">
   <div
     class="row gutters-sm"
-    *ngFor="let proposicao of proposicaoComMaisTweets">
+    *ngFor="let proposicao of proposicoesComMaisTweets">
     <div class="col-3 text-right">{{ proposicao.sigla }}</div>
     <div class="col">
       <app-progress
         [barraClasse]="'bg-twitter'"
         [min]="minComentariosPeriodo"
         [max]="maxComentariosPeriodo"
-        [valor]="normalizarComentariosNoTwitterPorPeriodo(proposicao.num_tweets)"
+        [valor]="proposicao.num_tweets"
         [label]="proposicao.num_tweets">
       </app-progress>
     </div>

@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import * as moment from 'moment';
-import { forkJoin } from 'rxjs';
 import { ProposicaoComMaisTweets } from 'src/app/shared/models/proposicaoComMaisTweets.model';
 import { TwitterService } from 'src/app/shared/services/twitter.service';
 
@@ -17,33 +16,24 @@ export class VisProposicoesComMaisTweetsComponent implements OnInit {
   @Input() interesse: string;
 
   public proposicoesComMaisTweets: ProposicaoComMaisTweets[];
-  private proposicoesComMaitTweetsPeriodo: ProposicaoComMaisTweets[];
   private dataInicial = moment().subtract(1, 'years').format('YYYY-MM-DD');
   private dataFinal = moment().format('YYYY-MM-DD');
   private qtd = '3';
+  public maxComentariosPeriodo;
+  public minComentariosPeriodo;
 
   constructor(
     private twitterService: TwitterService,
   ) { }
 
   ngOnInit(): void {
-    forkJoin([
-      this.twitterService.getProposicoesComMaisTweets(this.interesse, this.tema, this.dataInicial, this.dataFinal, this.id, this.qtd),
-      this.twitterService.getProposicoesComMaisTweetsPeriodo(this.interesse, this.dataInicial, this.dataFinal),
-    ]).subscribe(data => {
-      this.proposicoesComMaisTweets = data[0];
-      this.proposicoesComMaitTweetsPeriodo = data[1];
-    });
+    this.twitterService.getProposicoesComMaisTweets(this.interesse, this.tema, this.dataInicial, this.dataFinal, this.id, this.qtd)
+      .subscribe(proposicoes => {
+        this.proposicoesComMaisTweets = proposicoes;
+        this.minComentariosPeriodo = 0;
+        this.maxComentariosPeriodo = this.proposicoesComMaisTweets.reduce((min, p) => {
+          return p.num_tweets < min ? p.num_tweets : min;
+        }, this.proposicoesComMaisTweets[0].num_tweets);
+      });
   }
-
-  public normalizarComentariosNoTwitterPorPeriodo(numTweets: number) {
-    const maxComentariosPeriodo = this.proposicoesComMaitTweetsPeriodo[0].num_tweets;
-    const minComentariosPeriodo = this.proposicoesComMaitTweetsPeriodo.slice(-1)[0].num_tweets;
-    return this.normalizar(numTweets, minComentariosPeriodo, maxComentariosPeriodo);
-  }
-
-  public normalizar(metrica: number, min: number, max: number): number {
-    return (metrica - min) / (max - min);
-  }
-
 }
