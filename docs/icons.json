@@ -2,146 +2,240 @@
   "metadata": {
     "name": "leggo-painel",
     "lastOpened": 0,
-    "created": 1597162846087
+    "created": 1600793725517
   },
   "iconSets": [
+    {
+      "selection": [
+        {
+          "order": 1,
+          "id": 0,
+          "prevSize": 24,
+          "code": 59666,
+          "name": "external-link",
+          "tempChar": ""
+        }
+      ],
+      "id": 2,
+      "metadata": {
+        "name": "Feather (subset)",
+        "importSize": {
+          "width": 24,
+          "height": 24
+        },
+        "url": "https://feathericons.com/",
+        "designer": "Cole Bemis",
+        "designerURL": "http://colebemis.com/",
+        "license": "MIT",
+        "licenseURL": "https://github.com/feathericons/feather/blob/master/LICENSE",
+        "iconsHash": 555821689
+      },
+      "height": 1024,
+      "prevSize": 24,
+      "icons": [
+        {
+          "id": 0,
+          "paths": [
+            "M725.333 554.667v256c0 11.776-4.736 22.4-12.501 30.165s-18.389 12.501-30.165 12.501h-469.333c-11.776 0-22.4-4.736-30.165-12.501s-12.501-18.389-12.501-30.165v-469.333c0-11.776 4.736-22.4 12.501-30.165s18.389-12.501 30.165-12.501h256c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-256c-35.328 0-67.413 14.379-90.496 37.504s-37.504 55.168-37.504 90.496v469.333c0 35.328 14.379 67.413 37.504 90.496s55.168 37.504 90.496 37.504h469.333c35.328 0 67.413-14.379 90.496-37.504s37.504-55.168 37.504-90.496v-256c0-23.552-19.115-42.667-42.667-42.667s-42.667 19.115-42.667 42.667zM456.832 627.499l396.501-396.501v153.003c0 23.552 19.115 42.667 42.667 42.667s42.667-19.115 42.667-42.667v-256c0-5.803-1.152-11.307-3.243-16.341s-5.163-9.728-9.216-13.781c-0.043-0.043-0.043-0.043-0.085-0.085-3.925-3.925-8.619-7.083-13.781-9.216-5.035-2.091-10.539-3.243-16.341-3.243h-256c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667h153.003l-396.501 396.501c-16.683 16.683-16.683 43.691 0 60.331s43.691 16.683 60.331 0z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "tags": [
+            "external-link"
+          ],
+          "grid": 24
+        }
+      ],
+      "invisible": false,
+      "colorThemes": []
+    },
+    {
+      "selection": [
+        {
+          "order": 1,
+          "id": 0,
+          "prevSize": 24,
+          "code": 59665,
+          "name": "redes",
+          "tempChar": ""
+        }
+      ],
+      "id": 1,
+      "metadata": {
+        "name": "Typicons (subset)",
+        "url": "http://typicons.com/",
+        "designer": "Stephen Hutchings",
+        "designerURL": "https://github.com/stephenhutchings",
+        "license": "CC BY-SA 3.0",
+        "licenseURL": "http://creativecommons.org/licenses/by-sa/3.0/",
+        "iconsHash": 1073131028,
+        "importSize": {
+          "width": 24,
+          "height": 24
+        }
+      },
+      "height": 1024,
+      "prevSize": 24,
+      "icons": [
+        {
+          "id": 0,
+          "paths": [
+            "M774.736 366.035h-87.58c0-48.168-39.411-87.58-87.58-87.58h-350.316c-48.168 0-87.58 39.411-87.58 87.58v204.351c0 48.168 39.411 87.58 87.58 87.58v87.58l87.58-87.58c0 48.168 39.411 87.58 87.58 87.58h233.545l87.58 87.58v-87.58h29.193c48.168 0 87.58-39.411 87.58-87.58v-204.351c0-48.168-39.411-87.58-87.58-87.58zM249.264 599.58c-15.822 0-29.193-13.369-29.193-29.193v-204.351c0-15.822 13.369-29.193 29.193-29.193h350.316c15.822 0 29.193 13.369 29.193 29.193v29.193h-189.753c-40.257 0-72.983 32.725-72.983 72.983v131.368h-116.772zM803.931 657.965c0 15.822-13.369 29.193-29.193 29.193h-350.316c-15.822 0-29.193-13.369-29.193-29.193v-189.753c0-24.142 19.647-43.788 43.788-43.788h335.719c15.822 0 29.193 13.369 29.193 29.193v204.351z"
+          ],
+          "attrs": [
+            {}
+          ],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "tags": [
+            "messages"
+          ],
+          "grid": 16
+        }
+      ],
+      "invisible": false,
+      "colorThemes": []
+    },
     {
       "selection": [
         {
           "order": 2,
           "id": 3,
           "name": "autor",
-          "prevSize": 32,
+          "prevSize": 24,
           "code": 59648,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 4,
           "id": 1,
           "name": "presidente",
-          "prevSize": 32,
+          "prevSize": 24,
           "code": 59650,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 3,
           "id": 2,
           "name": "comentario",
-          "prevSize": 32,
+          "prevSize": 24,
           "code": 59649,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 5,
           "id": 0,
           "name": "relator",
-          "prevSize": 32,
+          "prevSize": 24,
           "code": 59651,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 6,
           "id": 16,
           "name": "temperatura",
-          "prevSize": 32,
+          "prevSize": 24,
           "code": 59652,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 7,
           "id": 14,
           "name": "relatorio",
-          "prevSize": 32,
+          "prevSize": 24,
           "code": 59653,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 8,
           "id": 13,
           "name": "proposicao",
-          "prevSize": 32,
+          "prevSize": 24,
           "code": 59654,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 9,
           "id": 12,
           "name": "progresso",
-          "prevSize": 32,
+          "prevSize": 24,
           "code": 59655,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 10,
           "id": 11,
           "name": "peso",
-          "prevSize": 32,
+          "prevSize": 24,
           "code": 59656,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 11,
           "id": 10,
           "name": "papeis",
-          "prevSize": 32,
+          "prevSize": 24,
           "code": 59657,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 12,
           "id": 9,
           "name": "painel",
-          "prevSize": 32,
+          "prevSize": 24,
           "code": 59658,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 13,
           "id": 8,
           "name": "insight",
-          "prevSize": 32,
+          "prevSize": 24,
           "code": 59659,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 14,
           "id": 7,
           "name": "grafo",
-          "prevSize": 32,
+          "prevSize": 24,
           "code": 59660,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 15,
           "id": 6,
           "name": "atores",
-          "prevSize": 32,
+          "prevSize": 24,
           "code": 59661,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 16,
           "id": 5,
           "name": "atividade",
-          "prevSize": 32,
+          "prevSize": 24,
           "code": 59662,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
-          "order": 17,
+          "order": 19,
           "id": 15,
           "name": "sobre",
-          "prevSize": 32,
+          "prevSize": 24,
           "code": 59663,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 18,
           "id": 4,
           "name": "ajuda",
-          "prevSize": 32,
+          "prevSize": 24,
           "code": 59664,
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 0,

@@ -321,7 +321,6 @@
 /* Backgrounds FIM */
 
 /* Fases */
-
 .fase {
   width: 14px;
   height: 14px;
@@ -360,5 +359,11 @@
   background-color: #dadada;
   border-color: #dadada;
 }
-
 /* Fases FIM */
+
+/* Gráficos */
+.chart-overlay {
+  fill: none;
+  pointer-events: all;
+}
+/* Gráficos FIM */

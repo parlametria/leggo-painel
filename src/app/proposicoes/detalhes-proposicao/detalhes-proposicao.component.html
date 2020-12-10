@@ -11,6 +11,15 @@
       </li>
     </ol>
   </nav>
+  <div class="my-4 text-center">
+    <a
+      href="https://leggo.parlametria.org/#/proposicao/{{proposicao?.id_leggo}}/{{proposicao?.interesse[0]?.interesse}}"
+      class="btn btn-light"
+      target="_blank">
+      Versão anterior da página de Proposição
+      <span class="icon-external-link"></span>
+    </a>
+  </div>
   <div [hidden]="isLoading | async">
     <ol class="breadcrumb proposicao-temas">
       <li
