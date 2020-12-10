@@ -21,7 +21,8 @@ export class VisProposicoesComMaisTweetsComponent implements OnInit {
   private dataInicial = moment().subtract(1, 'years').format('YYYY-MM-DD');
   private dataFinal = moment().format('YYYY-MM-DD');
   private qtd = '3';
-
+  public maxComentariosPeriodo;
+  public minComentariosPeriodo;
   constructor(
     private twitterService: TwitterService,
   ) { }
@@ -33,17 +34,9 @@ export class VisProposicoesComMaisTweetsComponent implements OnInit {
     ]).subscribe(data => {
       this.proposicoesComMaisTweets = data[0];
       this.proposicoesComMaitTweetsPeriodo = data[1];
+
+      this.maxComentariosPeriodo = this.proposicoesComMaitTweetsPeriodo[0].num_tweets;
+      this.minComentariosPeriodo = this.proposicoesComMaitTweetsPeriodo.slice(-1)[0].num_tweets;
     });
   }
-
-  public normalizarComentariosNoTwitterPorPeriodo(numTweets: number) {
-    const maxComentariosPeriodo = this.proposicoesComMaitTweetsPeriodo[0].num_tweets;
-    const minComentariosPeriodo = this.proposicoesComMaitTweetsPeriodo.slice(-1)[0].num_tweets;
-    return this.normalizar(numTweets, minComentariosPeriodo, maxComentariosPeriodo);
-  }
-
-  public normalizar(metrica: number, min: number, max: number): number {
-    return (metrica - min) / (max - min);
-  }
-
 }
