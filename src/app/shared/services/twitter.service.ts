@@ -51,15 +51,23 @@ export class TwitterService {
   }
 
   getProposicoesComMaisTweets(
-      interesse: string, tema: string, dataInicial: string, dataFinal: string, id: string, qtd: string
-    ): Observable<ProposicaoComMaisTweets[]> {
+    interesse: string, tema: string, dataInicial: string, dataFinal: string, id: string, qtd: string
+  ): Observable<ProposicaoComMaisTweets[]> {
     const params = new HttpParams()
       .set('interesse', interesse)
       .set('tema', tema)
-      .set('dataInicial', dataInicial)
-      .set('dataFinal', dataFinal)
+      .set('data_inicial', dataInicial)
+      .set('data_final', dataFinal)
       .set('qtd', qtd);
     return this.http.get<any>(`${this.twitterUrl}/proposicoes/parlamentar/${id}`, { params });
+  }
+
+  getProposicoesComMaisTweetsPeriodo(interesse: string, dataInicial: string, dataFinal: string): Observable<ProposicaoComMaisTweets[]>{
+    const params = new HttpParams()
+      .set('interesse', interesse)
+      .set('data_inicial', dataInicial)
+      .set('data_final', dataFinal);
+    return this.http.get<any>(`${this.twitterUrl}/proposicoes/mais-comentadas`, { params });
   }
 
   getUsernameTwitter(id: string): Observable<AtorTwitter> {
@@ -68,9 +76,9 @@ export class TwitterService {
 
   getTweetsParlamentar(id: string, interesse: string, tema: string, limit: number): Observable<Tweet[]> {
     let params = new HttpParams()
-    .set('interesse', interesse)
-    .set('data_inicial', '2000-05-01')
-    .set('data_final', '2020-12-31');
+      .set('interesse', interesse)
+      .set('data_inicial', '2000-05-01')
+      .set('data_final', '2020-12-31');
 
     if (tema !== '' && tema !== undefined) {
       params = params.set('tema', tema);
