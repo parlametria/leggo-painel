@@ -35,7 +35,7 @@
       <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
         <app-progress
           class="pointer"
-          [label]="'Pressão da semana: ' + proposicao?.ultima_pressao === undefined ? '0' : proposicao?.ultima_pressao"
+          [label]="'Pressão da semana: ' + (!proposicao?.ultima_pressao ? '0' : (proposicao?.ultima_pressao * 100))"
           [barraClasse]="'bg-pressao'"
           [valor]="proposicao?.ultima_pressao"
           [exibirLabel]="true"></app-progress>
