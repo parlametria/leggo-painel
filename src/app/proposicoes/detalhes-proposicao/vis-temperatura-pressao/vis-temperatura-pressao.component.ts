@@ -82,10 +82,10 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     private temperaturaService: TemperaturaService) { }
 
   ngOnInit(): void {
-    const largura = (window.innerWidth > 800) ? 800 : window.innerWidth;
+    const largura = (window.innerWidth > 800) ? 900 : window.innerWidth;
     this.r = 7;
     this.margin = {
-      left: 35,
+      left: 50,
       right: 60,
       top: 25,
       bottom: 25
@@ -107,7 +107,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       ]
     });
     this.width = largura - this.margin.right - this.margin.left;
-    this.height = 300 - this.margin.top - this.margin.bottom;
+    this.height = 350 - this.margin.top - this.margin.bottom;
 
     this.heightGrafico = (this.height * 0.5) - this.margin.bottom - 10;
 
@@ -228,6 +228,14 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('stroke-linecap', 'round')
       .attr('d', lineTemperatura);
 
+    this.gTemperatura.append('text')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('text-anchor', 'end')
+      .attr('transform', 'translate(' + (- this.margin.left * 0.75) + ') rotate(-90)')
+      .attr('font-size', '0.8rem')
+      .text('Maior temperatura');
+
     const colorPressao = d3.scaleSequential(d3.interpolateOranges);
     this.gPressao.append('linearGradient')
       .attr('id', 'gradient-pressao')
@@ -249,6 +257,15 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('stroke-linejoin', 'round')
       .attr('stroke-linecap', 'round')
       .attr('d', linePressao);
+
+    this.gPressao.append('text')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('text-anchor', 'end')
+      .attr('transform', 'translate(' + (-this.margin.left * 0.75) + ') rotate(-90)')
+      .attr('font-size', '0.8rem')
+      .text('Maior pressao');
+
 
     this.gTemperatura.append('g')
       .attr('transform', `translate(0, ${this.heightGrafico + 5})`)
