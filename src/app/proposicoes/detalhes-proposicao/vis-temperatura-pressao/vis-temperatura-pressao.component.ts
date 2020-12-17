@@ -87,7 +87,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
   ngOnInit(): void {
     const largura = (window.innerWidth > 900) ? 900 : window.innerWidth;
     this.r = 7;
-    this.leftOffset = 120;
+    this.leftOffset = 150;
     this.margin = {
       left: 50,
       right: 60,
@@ -194,9 +194,12 @@ export class VisTemperaturaPressaoComponent implements OnInit {
   private atualizarVis(g, dados, temperaturaMax) {
     this.x.domain(d3.extent(dados, (d: any) => d.data));
     this.yTemperatura.domain([0, temperaturaMax]);
+    const maxTemperatura = +d3.max(dados, (d: any) => d.valorTemperatura);
+    let pressaoScale = 1;
     const maxPressao = +d3.max(dados, (d: any) => d.valorPressao);
     if (maxPressao > 0) {
       this.yPressao.domain([0, maxPressao]);
+      pressaoScale = maxPressao;
     } else {
       this.yPressao.domain([0, 1]);
     }
@@ -234,11 +237,11 @@ export class VisTemperaturaPressaoComponent implements OnInit {
 
     this.gTemperatura.append('text')
       .attr('x', 0)
-      .attr('y', 0)
+      .attr('y', (1 - maxTemperatura / temperaturaMax) * this.heightGrafico)
       .attr('text-anchor', 'end')
-      .attr('transform', 'translate(' + (-this.margin.left * 0.75) + ', ' + (7.5) + ')')
+      .attr('transform', 'translate(' + (-this.margin.left * 0.9) + ', ' + (5) + ')')
       .attr('font-size', '0.8rem')
-      .text('Maior temperatura');
+      .text(`Maior temperatura: ${maxTemperatura}`);
 
     const colorPressao = d3.scaleSequential(d3.interpolateOranges);
     this.gPressao.append('linearGradient')
@@ -264,12 +267,11 @@ export class VisTemperaturaPressaoComponent implements OnInit {
 
     this.gPressao.append('text')
       .attr('x', 0)
-      .attr('y', 0)
+      .attr('y', (1 - maxPressao / pressaoScale) * this.heightGrafico)
       .attr('text-anchor', 'end')
-      .attr('transform', 'translate(' + (-this.margin.left * 0.75) + ', ' + (7.5) + ')')
+      .attr('transform', 'translate(' + (-this.margin.left * 0.9) + ')')
       .attr('font-size', '0.8rem')
-      .text('Maior pressao');
-
+      .text(`Maior pressao: ${maxPressao}`);
 
     this.gTemperatura.append('g')
       .attr('transform', `translate(0, ${this.heightGrafico + 5})`)
