@@ -88,7 +88,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     const largura = (window.innerWidth > 800) ? 800 : window.innerWidth;
     this.r = 7;
     this.margin = {
-      left: 35,
+      left: 25,
       right: 60,
       top: 35,
       bottom: 35
