@@ -66,11 +66,14 @@ export class VisTemperaturaPressaoComponent implements OnInit {
   private height;
   private heightGrafico;
   private margin;
+  private leftOffset;
   private r;
 
   private x: any;
   private yTemperatura: any;
+  private maxTemperatura: any;
   private yPressao: any;
+  private maxPressao: any;
   private svg: any;
   private gTemperatura: any;
   private gPressao: any;
@@ -82,8 +85,9 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     private temperaturaService: TemperaturaService) { }
 
   ngOnInit(): void {
-    const largura = (window.innerWidth > 800) ? 900 : window.innerWidth;
+    const largura = (window.innerWidth > 900) ? 900 : window.innerWidth;
     this.r = 7;
+    this.leftOffset = 120;
     this.margin = {
       left: 50,
       right: 60,
@@ -106,7 +110,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
         'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
       ]
     });
-    this.width = largura - this.margin.right - this.margin.left;
+    this.width = largura - this.margin.right - this.margin.left + 120;
     this.height = 350 - this.margin.top - this.margin.bottom;
 
     this.heightGrafico = (this.height * 0.5) - this.margin.bottom - 10;
@@ -128,14 +132,14 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .append('g')
       .attr(
         'transform',
-        'translate(' + this.margin.left + ',' + this.margin.top + ')'
+        'translate(' + (this.margin.left + this.leftOffset) + ',' + this.margin.top + ')'
       );
 
     this.gPressao = this.svg
       .append('g')
       .attr(
         'transform',
-        'translate(' + this.margin.left + ',' + (this.heightGrafico + (this.margin.top * 2) + 10) + ')'
+        'translate(' + (this.margin.left + this.leftOffset) + ',' + (this.heightGrafico + (this.margin.top * 2) + 10) + ')'
       );
 
     this.activatedRoute.parent.paramMap
@@ -232,7 +236,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('x', 0)
       .attr('y', 0)
       .attr('text-anchor', 'end')
-      .attr('transform', 'translate(' + (- this.margin.left * 0.75) + ') rotate(-90)')
+      .attr('transform', 'translate(' + (-this.margin.left * 0.75) + ', ' + (7.5) + ')')
       .attr('font-size', '0.8rem')
       .text('Maior temperatura');
 
@@ -262,7 +266,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('x', 0)
       .attr('y', 0)
       .attr('text-anchor', 'end')
-      .attr('transform', 'translate(' + (-this.margin.left * 0.75) + ') rotate(-90)')
+      .attr('transform', 'translate(' + (-this.margin.left * 0.75) + ', ' + (7.5) + ')')
       .attr('font-size', '0.8rem')
       .text('Maior pressao');
 
@@ -327,14 +331,14 @@ export class VisTemperaturaPressaoComponent implements OnInit {
 
     const mouseArea = this.svg.append('g')
       .append('rect')
-      .attr('transform', `translate(${this.margin.top}, ${this.margin.left})`)
+      .attr('transform', `translate(${this.margin.left + this.leftOffset}, ${this.margin.top})`)
       .attr('class', 'chart-overlay')
       .attr('width', this.width)
       .attr('height', this.height);
 
     const datas = dados.map(d => d.data);
     mouseArea.on('mousemove', () => {
-      const xMouse = d3.mouse(this.svg.node())[0];
+      const xMouse = d3.mouse(this.svg.node())[0] - this.leftOffset;
       const i = d3.bisect(datas, this.x.invert(xMouse));
       markerTemperatura
         .style('display', null)
@@ -363,10 +367,10 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       }
       tooltipTemperatura
         .style('display', null)
-        .attr('transform', `translate(${xTooltip + this.margin.left}, 0)`);
+        .attr('transform', `translate(${xTooltip + this.margin.left + this.leftOffset}, 0)`);
       tooltipPressao
         .style('display', null)
-        .attr('transform', `translate(${xTooltip + this.margin.left}, ${this.heightGrafico + this.margin.top})`);
+        .attr('transform', `translate(${xTooltip + this.margin.left + this.leftOffset}, ${this.heightGrafico + this.margin.top})`);
 
       return null;
     })
