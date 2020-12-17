@@ -85,11 +85,10 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     private temperaturaService: TemperaturaService) { }
 
   ngOnInit(): void {
-    const largura = (window.innerWidth > 900) ? 900 : window.innerWidth;
+    const largura = (window.innerWidth > 800) ? 800 : window.innerWidth;
     this.r = 7;
-    this.leftOffset = 150;
     this.margin = {
-      left: 50,
+      left: 35,
       right: 60,
       top: 35,
       bottom: 35
@@ -132,14 +131,14 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .append('g')
       .attr(
         'transform',
-        'translate(' + (this.margin.left + this.leftOffset) + ',' + this.margin.top + ')'
+        'translate(' + this.margin.left + ',' + this.margin.top + ')'
       );
 
     this.gPressao = this.svg
       .append('g')
       .attr(
         'transform',
-        'translate(' + (this.margin.left + this.leftOffset) + ',' + (this.heightGrafico + (this.margin.top * 2) + 10) + ')'
+        'translate(' + this.margin.left + ',' + (this.heightGrafico + (this.margin.top * 2) + 10) + ')'
       );
 
     this.activatedRoute.parent.paramMap
@@ -333,14 +332,14 @@ export class VisTemperaturaPressaoComponent implements OnInit {
 
     const mouseArea = this.svg.append('g')
       .append('rect')
-      .attr('transform', `translate(${this.margin.left + this.leftOffset}, ${this.margin.top})`)
+      .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
       .attr('class', 'chart-overlay')
       .attr('width', this.width)
       .attr('height', this.height);
 
     const datas = dados.map(d => d.data);
     mouseArea.on('mousemove', () => {
-      const xMouse = d3.mouse(this.svg.node())[0] - this.leftOffset;
+      const xMouse = d3.mouse(this.svg.node())[0];
       const i = d3.bisect(datas, this.x.invert(xMouse));
       markerTemperatura
         .style('display', null)
@@ -369,10 +368,10 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       }
       tooltipTemperatura
         .style('display', null)
-        .attr('transform', `translate(${xTooltip + this.margin.left + this.leftOffset}, 0)`);
+        .attr('transform', `translate(${xTooltip + this.margin.left}, 0)`);
       tooltipPressao
         .style('display', null)
-        .attr('transform', `translate(${xTooltip + this.margin.left + this.leftOffset}, ${this.heightGrafico + this.margin.top})`);
+        .attr('transform', `translate(${xTooltip + this.margin.left}, ${this.heightGrafico + this.margin.top})`);
 
       return null;
     })
