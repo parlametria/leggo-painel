@@ -91,8 +91,8 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     this.margin = {
       left: 50,
       right: 60,
-      top: 25,
-      bottom: 25
+      top: 35,
+      bottom: 35
     };
     this.localizacao = d3.timeFormatLocale({
       dateTime: '%A, %e %B %Y г. %X',
@@ -110,8 +110,8 @@ export class VisTemperaturaPressaoComponent implements OnInit {
         'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
       ]
     });
-    this.width = largura - this.margin.right - this.margin.left + 120;
-    this.height = 350 - this.margin.top - this.margin.bottom;
+    this.width = largura - this.margin.right - this.margin.left;
+    this.height = 370 - this.margin.top - this.margin.bottom;
 
     this.heightGrafico = (this.height * 0.5) - this.margin.bottom - 10;
 
@@ -237,9 +237,9 @@ export class VisTemperaturaPressaoComponent implements OnInit {
 
     this.gTemperatura.append('text')
       .attr('x', 0)
-      .attr('y', (1 - maxTemperatura / temperaturaMax) * this.heightGrafico)
-      .attr('text-anchor', 'end')
-      .attr('transform', 'translate(' + (-this.margin.left * 0.9) + ', ' + (5) + ')')
+      .attr('y', 0)
+      .attr('text-anchor', 'start')
+      .attr('transform', 'translate(' + (this.margin.left * 0.15) + ', ' + (7.5) + ')')
       .attr('font-size', '0.8rem')
       .text(`Maior temperatura: ${maxTemperatura}`);
 
@@ -267,9 +267,9 @@ export class VisTemperaturaPressaoComponent implements OnInit {
 
     this.gPressao.append('text')
       .attr('x', 0)
-      .attr('y', (1 - maxPressao / pressaoScale) * this.heightGrafico)
-      .attr('text-anchor', 'end')
-      .attr('transform', 'translate(' + (-this.margin.left * 0.9) + ')')
+      .attr('y', 0)
+      .attr('text-anchor', 'start')
+      .attr('transform', 'translate(' + (this.margin.left * 0.15) + ', ' + (7.5) + ')')
       .attr('font-size', '0.8rem')
       .text(`Maior pressao: ${maxPressao}`);
 
