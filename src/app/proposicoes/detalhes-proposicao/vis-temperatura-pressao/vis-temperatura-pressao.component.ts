@@ -85,7 +85,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     const largura = (window.innerWidth > 800) ? 800 : window.innerWidth;
     this.r = 7;
     this.margin = {
-      left: 35,
+      left: 55,
       right: 60,
       top: 25,
       bottom: 25
@@ -189,7 +189,8 @@ export class VisTemperaturaPressaoComponent implements OnInit {
 
   private atualizarVis(g, dados, temperaturaMax) {
     this.x.domain(d3.extent(dados, (d: any) => d.data));
-    this.yTemperatura.domain([0, temperaturaMax]);
+    this.yTemperatura.domain([0, 100]);
+    const fatorConversaoTemperaturaParaCelsius = 100 / temperaturaMax;
     const maxPressao = +d3.max(dados, (d: any) => d.valorPressao);
     if (maxPressao > 0) {
       this.yPressao.domain([0, maxPressao]);
@@ -200,7 +201,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     const lineTemperatura = d3.line()
       .curve(d3.curveMonotoneX)
       .x((d: any) => this.x(d.data))
-      .y((d: any) => this.yTemperatura(d.valorTemperatura));
+      .y((d: any) => this.yTemperatura(d.valorTemperatura * fatorConversaoTemperaturaParaCelsius));
     const linePressao = d3.line()
       .curve(d3.curveMonotoneX)
       .x((d: any) => this.x(d.data))
@@ -256,7 +257,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .call((d: any) => d.select('.domain').remove());
     this.gTemperatura.append('g')
       .attr('transform', `translate(-10, 0)`)
-      .call(d3.axisLeft(this.yTemperatura).ticks(3));
+      .call(d3.axisLeft(this.yTemperatura).ticks(3).tickFormat( t => `${ t } ºC`));
     this.gPressao.append('g')
       .attr('transform', `translate(0, ${this.heightGrafico + 5})`)
       .call(d3.axisBottom(this.x).ticks(d3.timeMonday).tickFormat(this.localizacao.format('%d %b')))
@@ -322,7 +323,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       markerTemperatura
         .style('display', null)
         .attr('cx', this.x(dados[i - 1].data))
-        .attr('cy', this.yTemperatura(dados[i - 1].valorTemperatura));
+        .attr('cy', this.yTemperatura(dados[i - 1].valorTemperatura * fatorConversaoTemperaturaParaCelsius));
       markerPressao
         .style('display', null)
         .attr('cx', this.x(dados[i - 1].data))
@@ -334,7 +335,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
         .text('Semana de ' +
           moment(dados[i - 1].data).format('D MMM') + ' a ' +
           moment(dados[i - 1].data).add(7, 'days').format('D MMM'));
-      tooltipTemperaturaBody.html(`<strong>${dados[i - 1].valorTemperatura}</strong> de temperatura</strong>`);
+      tooltipTemperaturaBody.html(`<strong>${(dados[i - 1].valorTemperatura * fatorConversaoTemperaturaParaCelsius).toFixed(2)} ºC</strong> de temperatura</strong>`);
       tooltipPressaoTitle
         .text('Semana de ' +
           moment(dados[i - 1].data).format('D MMM') + ' a ' +
