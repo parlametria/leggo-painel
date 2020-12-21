@@ -55,7 +55,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
           mudouOrdenacao = false;
         }
 
-        this.tema = pTema === 'destaque' ? '': pTema;
+        this.tema = pTema === 'destaque' ? '' : pTema;
         this.destaque = pTema === 'destaque';
         this.casa = pCasa;
         this.orderBy = pOrderBy;
