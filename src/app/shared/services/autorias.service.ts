@@ -17,8 +17,8 @@ export class AutoriasService {
 
   constructor(private http: HttpClient) { }
 
-  getAutoriasAgregadas(interesse: string, tema: string): Observable<AutoriaAgregada[]> {
-    return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas?interesse=${interesse}&tema=${tema}`);
+  getAutoriasAgregadas(interesse: string, tema: string, destaque: boolean): Observable<AutoriaAgregada[]> {
+    return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas?interesse=${interesse}&tema=${tema}&destaque=${destaque}`);
   }
 
   getAutoriasAgregadasById(interesse: string, idAutor: number, tema: string): Observable<AutoriaAgregada[]> {
@@ -37,7 +37,7 @@ export class AutoriasService {
     return this.http.get<Autoria[]>(`${this.atorUrl}/${idAtor}/originais/?interesse=${interesse}&tema=${tema}`);
   }
 
-  getAutoriasAgregadasProjetos(interesse: string, tema: string): Observable<Autoria[]> {
-    return this.http.get<Autoria[]>(`${this.autoriaUrl}/projetos/?interesse=${interesse}&tema=${tema}`);
+  getAutoriasAgregadasProjetos(interesse: string, tema: string, destaque: boolean): Observable<Autoria[]> {
+    return this.http.get<Autoria[]>(`${this.autoriaUrl}/projetos/?interesse=${interesse}&tema=${tema}&destaque=${destaque}`);
   }
 }

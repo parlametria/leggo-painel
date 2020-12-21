@@ -18,10 +18,11 @@ export class TwitterService {
 
   constructor(private http: HttpClient) { }
 
-  getAtividadeTwitter(interesse: string, tema: string): Observable<any[]> {
+  getAtividadeTwitter(interesse: string, tema: string, destaque: boolean): Observable<any[]> {
     const params = new HttpParams()
       .set('interesse', interesse)
       .set('tema', tema)
+      .set('destaque', String(destaque))
       .set('data_inicial', '2000-01-01')
       .set('data_final', '2020-12-31');
     return this.http.get<any[]>(`${this.twitterUrl}/tweets/parlamentares`, { params });

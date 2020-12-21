@@ -108,7 +108,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
     forkJoin([
       this.entidadeService.getParlamentaresExercicio(''),
       this.twitterService.getMediaTweets(),
-      this.twitterService.getAtividadeTwitter(this.interesse, this.tema),
+      this.twitterService.getAtividadeTwitter(this.interesse, this.tema, false),
       this.twitterService.getEngajamento()
     ]).subscribe(data => {
       const parlamentaresExercicio: any = data[0];

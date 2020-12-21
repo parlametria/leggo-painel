@@ -28,7 +28,7 @@ export class FiltroComponent implements OnInit, AfterContentInit, OnDestroy {
 
   numeroProposicoes: number;
 
-  temasBusca: any[] = [{ tema: 'todos os temas', tema_slug: 'todos' }];
+  temasBusca: any[] = [{ tema: 'todos os temas', tema_slug: 'todos' }, { tema: 'destaque', tema_slug: 'destaque' }];
   casaBusca: any[] = [
     { casa: 'Parlamentares', casa_slug: 'todos' },
     { casa: 'Deputados', casa_slug: 'camara' },
