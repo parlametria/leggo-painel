@@ -1,6 +1,9 @@
 <div class="card mb-2">
   <div class="card-header d-flex mx-1">
-    <span class="cracha text-muted temas" [ngbPopover]="popTemas" [autoClose]="'outside'">
+    <span
+      class="cracha text-muted temas"
+      [ngbPopover]="popTemas"
+      [autoClose]="'outside'">
       {{ this.temasResumido(proposicao?.interesse[0]?.temas) }}
       <ng-template #popTemas>
         <span *ngFor="let tema of proposicao?.interesse[0]?.temas">
@@ -47,51 +50,64 @@
           *ngIf="!['Ordinária', 'Indefinido'].includes(proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao)"
           class="tag"
           [ngClass]="getClassRegimeTramitacao(proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao)"
-          ngbPopover="Regime de tramitação" [autoClose]="'outside'">
+          ngbPopover="Regime de tramitação"
+          [autoClose]="'outside'">
           {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao }}
         </span>
         <!-- <span
-                    *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.forma_apreciacao === 'Plenário'"
-                    class="tag badge badge-gray"
-                    ngbPopover="Forma de apreciação"
-                    [autoClose]="'outside'"
-                >
-                    {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.forma_apreciacao }}
-                </span> -->
-        <span *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.status !== 'Ativa'" class="tag badge badge-gray"
-          ngbPopover="A proposição foi finalizada" [autoClose]="'outside'">
+          *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.forma_apreciacao === 'Plenário'"
+          class="tag badge badge-gray"
+          ngbPopover="Forma de apreciação"
+          [autoClose]="'outside'">
+            {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.forma_apreciacao }}
+        </span> -->
+        <span
+          *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.status !== 'Ativa'"
+          class="tag badge badge-gray"
+          ngbPopover="A proposição foi finalizada"
+          [autoClose]="'outside'">
           {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.status }}
         </span>
-        <span *ngIf="proposicao?.interesse[0]?.tipo_agenda && proposicao?.interesse[0]?.tipo_agenda !== 'nan'"
-          class="tag badge badge-gray" ngbPopover="Tipo da Agenda" [autoClose]="'outside'">
+        <span
+          *ngIf="proposicao?.interesse[0]?.tipo_agenda && proposicao?.interesse[0]?.tipo_agenda !== 'nan'"
+          class="tag badge badge-gray"
+          ngbPopover="Tipo da Agenda"
+          [autoClose]="'outside'">
           {{ proposicao?.interesse[0]?.tipo_agenda }}
         </span>
         <!-- <span
-                    *ngIf="proposicao?.anotacao_data_ultima_modificacao"
-                    class="tag badge badge-gray"
-                    ngbPopover="Data do último insight"
-                    [autoClose]="'outside'"
-                >
-                    Insight em
-        {{ proposicao?.anotacao_data_ultima_modificacao | date:'dd/MM/yyyy' }}
-                </span> -->
-        <span class="tag badge badge-gray"
+          *ngIf="proposicao?.anotacao_data_ultima_modificacao"
+          class="tag badge badge-gray"
+          ngbPopover="Data do último insight"
+          [autoClose]="'outside'">
+            Insight em {{ proposicao?.anotacao_data_ultima_modificacao | date:'dd/MM/yyyy' }}
+        </span> -->
+        <span
+          class="tag badge badge-gray"
           *ngIf="proposicao?.interesse[0]?.advocacy_link && proposicao?.interesse[0]?.advocacy_link !== 'nan'"
-          [ngbPopover]="popAdvocacy" [autoClose]="'outside'">
+          [ngbPopover]="popAdvocacy"
+          [autoClose]="'outside'">
           advocacy box
         </span>
         <ng-template #popAdvocacy>
           Existem notas técnicas de OSCs disponíveis para esta proposição.
           <div class="text-right">
-            <a href="{{proposicao?.interesse[0]?.advocacy_link}}" target="_blank" class="btn btn-link btn-sm">
+            <a
+              href="{{proposicao?.interesse[0]?.advocacy_link}}"
+              target="_blank"
+              class="btn btn-link btn-sm">
               Ver notas
             </a>
           </div>
         </ng-template>
       </div>
       <div class="d-flex">
-        <div *ngFor="let f of proposicao?.resumo_progresso" class="fase pointer" [ngClass]="getClassFaseProgresso(f)"
-          [ngbPopover]="popProgresso" [autoClose]="'outside'">
+        <div
+          *ngFor="let f of proposicao?.resumo_progresso"
+          class="fase pointer"
+          [ngClass]="getClassFaseProgresso(f)"
+          [ngbPopover]="popProgresso"
+          [autoClose]="'outside'">
           <ng-template #popProgresso>
             <span *ngIf="f?.fase_global_local">{{ f?.fase_global_local }}</span>
             <span *ngIf="!f?.fase_global_local">{{ f?.fase_global }}</span>
