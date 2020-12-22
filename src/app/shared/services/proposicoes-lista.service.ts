@@ -15,6 +15,7 @@ export class ProposicoesListaService {
 
   private proposicoes = new BehaviorSubject<Array<ProposicaoLista>>([]);
   private proposicoesFiltered = new BehaviorSubject<Array<ProposicaoLista>>([]);
+  private proposicoesDestaque = new BehaviorSubject<Array<ProposicaoLista>>([]);
 
   private orderBy = new BehaviorSubject<string>('');
   readonly ORDER_BY_PADRAO = 'maior-temperatura';
@@ -111,6 +112,45 @@ export class ProposicoesListaService {
     return this.proposicoesFiltered.asObservable();
   }
 
+  getDestaques(interesse: string) {
+    forkJoin(
+      [
+        this.proposicoesService.getProposicoes(interesse),
+        this.proposicoesService.getUltimaTemperaturaProposicoes(interesse),
+        this.pressaoService.getUltimaPressaoProposicoes(interesse),
+        this.proposicoesService.getDataUltimoInsightProposicoes(interesse),
+        this.progressoService.getProgressoProposicoes(interesse)
+      ]
+    )
+      .subscribe(data => {
+        const proposicoes: any = data[0];
+        const ultimaTemperatura: any = data[1];
+        const ultimaPressao: any = data[2];
+        const dataUltimoInsight: any = data[3];
+        const progresso: any = data[4];
+
+        const progressos = this.processaProgresso(progresso);
+
+        const propsDestaque = proposicoes.filter(p => this.isDestaque(p) === true);
+        const proposicoesLista = propsDestaque.map(a => ({
+          ultima_temperatura: this.getProperty(ultimaTemperatura.find(p => a.id_leggo === p.id_leggo),
+            'ultima_temperatura'),
+          ultima_pressao: this.getProperty(ultimaPressao.find(p => a.id_leggo === p.id_leggo),
+            'ultima_pressao'),
+          anotacao_data_ultima_modificacao: this.getProperty(dataUltimoInsight.find(p => a.id_leggo === p.id_leggo),
+            'anotacao_data_ultima_modificacao'),
+          resumo_progresso: progressos[a.id_leggo],
+          ...a
+        }));
+
+        this.proposicoesDestaque.next(proposicoesLista);
+      },
+        error => console.log(error)
+      );
+
+    return this.proposicoesDestaque.asObservable();
+  }
+
   private processaProgresso(progresso: any) {
     const progressoProcessado = progresso.reduce((acc, curr) => {
       const k = curr.id_leggo;
@@ -130,6 +170,13 @@ export class ProposicoesListaService {
     } else {
       return objeto[property];
     }
+  }
+
+  private isDestaque(prop: any) {
+    if (prop.destaques.length !== 0) {
+      return true;
+    }
+    return false;
   }
 
   search(filtro: any) {

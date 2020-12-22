@@ -22,6 +22,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
 
   interesse: string;
   proposicoes: ProposicaoLista[];
+  proposicoesDestaque: ProposicaoLista[];
   maxTemperatura: MaximaTemperaturaProposicao;
   orderByProp: string;
   p = 1;
@@ -41,6 +42,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
         this.interesse = params.get('interesse');
         this.getMaxTemperatura(this.interesse);
         this.getProposicoes(this.interesse);
+        this.getDestaques(this.interesse);
       });
     this.activatedRoute.queryParams
       .subscribe(params => {
@@ -72,6 +74,18 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
         takeUntil(this.unsubscribe)
       ).subscribe(proposicoes => {
         this.proposicoes = proposicoes;
+        this.isLoading.next(false);
+      });
+  }
+
+  getDestaques(interesse: string) {
+    this.proposicoesListaService.getDestaques(interesse)
+      .pipe(
+        skip(1),
+        indicate(this.isLoading),
+        takeUntil(this.unsubscribe)
+      ).subscribe(proposicoes => {
+        this.proposicoesDestaque = proposicoes;
         this.isLoading.next(false);
       });
   }
