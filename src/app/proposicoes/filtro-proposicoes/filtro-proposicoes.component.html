@@ -1,19 +1,7 @@
-<div class="filtro-wrapper mt-4 mb-4">
-  <div class="col-lg-8">
+<div class="pb-4 my-4">
+  <div class="app-content">
     <div class="filtro-wrapper mb-4">
-      <span>Proposições de &nbsp;</span>
-      <select
-        class="app-seletor"
-        #mySelector
-        (change)="onChangeOrderBy($event.target.value)"
-        [(ngModel)]="orderBySelecionado">
-        <option
-          *ngFor="let o of orderBy"
-          [value]="o.order_by"
-          [selected]="o.order_by === orderBySelecionado">
-          {{ o.order }}
-        </option>
-      </select>
+      <span>Proposições &nbsp;</span>
       <select
         class="app-seletor"
         #selectorStatus
@@ -24,6 +12,19 @@
           [value]="s.statusValue"
           [selected]="s.statusValue === statusSelecionado">
           {{ s.statusName }}
+        </option>
+      </select>
+      <span>ordenadas por &nbsp;</span>
+      <select
+        class="app-seletor"
+        #mySelector
+        (change)="onChangeOrderBy($event.target.value)"
+        [(ngModel)]="orderBySelecionado">
+        <option
+          *ngFor="let o of orderBy"
+          [value]="o.order_by"
+          [selected]="o.order_by === orderBySelecionado">
+          {{ o.order }}
         </option>
       </select>
     </div>
