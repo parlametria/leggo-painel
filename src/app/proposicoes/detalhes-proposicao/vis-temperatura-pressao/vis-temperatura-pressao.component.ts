@@ -71,9 +71,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
 
   private x: any;
   private yTemperatura: any;
-  private maxTemperatura: any;
   private yPressao: any;
-  private maxPressao: any;
   private svg: any;
   private gTemperatura: any;
   private gPressao: any;
@@ -193,7 +191,6 @@ export class VisTemperaturaPressaoComponent implements OnInit {
   private atualizarVis(g, dados, temperaturaMax) {
     this.x.domain(d3.extent(dados, (d: any) => d.data));
     this.yTemperatura.domain([0, temperaturaMax]);
-    const maxTemperatura = +d3.max(dados, (d: any) => d.valorTemperatura);
     const maxPressao = +d3.max(dados, (d: any) => d.valorPressao);
     if (maxPressao > 0) {
       this.yPressao.domain([0, maxPressao]);
@@ -238,7 +235,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('text-anchor', 'start')
       .attr('transform', 'translate(' + (this.margin.left * 0.15) + ', ' + (7.5) + ')')
       .attr('font-size', '0.8rem')
-      .text(`Maior temperatura: ${maxTemperatura}`);
+      .text(`Maior temperatura`);
 
     const colorPressao = d3.scaleSequential(d3.interpolateOranges);
     this.gPressao.append('linearGradient')
@@ -268,7 +265,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('text-anchor', 'start')
       .attr('transform', 'translate(' + (this.margin.left * 0.15) + ', ' + (7.5) + ')')
       .attr('font-size', '0.8rem')
-      .text(`Maior pressao: ${maxPressao}`);
+      .text(`Maior pressao`);
 
     this.gTemperatura.append('g')
       .attr('transform', `translate(0, ${this.heightGrafico + 5})`)
