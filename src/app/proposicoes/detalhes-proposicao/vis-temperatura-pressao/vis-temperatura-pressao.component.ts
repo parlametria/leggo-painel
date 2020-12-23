@@ -87,8 +87,8 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     this.margin = {
       left: 35,
       right: 60,
-      top: 25,
-      bottom: 25
+      top: 35,
+      bottom: 35
     };
     this.localizacao = d3.timeFormatLocale({
       dateTime: '%A, %e %B %Y г. %X',
@@ -107,7 +107,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       ]
     });
     this.width = largura - this.margin.right - this.margin.left;
-    this.height = 300 - this.margin.top - this.margin.bottom;
+    this.height = 370 - this.margin.top - this.margin.bottom;
 
     this.heightGrafico = (this.height * 0.5) - this.margin.bottom - 10;
 
@@ -228,6 +228,14 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('stroke-linecap', 'round')
       .attr('d', lineTemperatura);
 
+    this.gTemperatura.append('text')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('text-anchor', 'start')
+      .attr('transform', 'translate(' + (this.margin.left * 0.15) + ', ' + (7.5) + ')')
+      .attr('font-size', '0.8rem')
+      .text(`Maior temperatura`);
+
     const colorPressao = d3.scaleSequential(d3.interpolateOranges);
     this.gPressao.append('linearGradient')
       .attr('id', 'gradient-pressao')
@@ -249,6 +257,14 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('stroke-linejoin', 'round')
       .attr('stroke-linecap', 'round')
       .attr('d', linePressao);
+
+    this.gPressao.append('text')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('text-anchor', 'start')
+      .attr('transform', 'translate(' + (this.margin.left * 0.15) + ', ' + (7.5) + ')')
+      .attr('font-size', '0.8rem')
+      .text(`Maior pressao`);
 
     this.gTemperatura.append('g')
       .attr('transform', `translate(0, ${this.heightGrafico + 5})`)
@@ -310,7 +326,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
 
     const mouseArea = this.svg.append('g')
       .append('rect')
-      .attr('transform', `translate(${this.margin.top}, ${this.margin.left})`)
+      .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
       .attr('class', 'chart-overlay')
       .attr('width', this.width)
       .attr('height', this.height);
