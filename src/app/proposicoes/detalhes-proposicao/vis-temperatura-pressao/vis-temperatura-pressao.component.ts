@@ -66,7 +66,6 @@ export class VisTemperaturaPressaoComponent implements OnInit {
   private height;
   private heightGrafico;
   private margin;
-  private leftOffset;
   private r;
 
   private x: any;
