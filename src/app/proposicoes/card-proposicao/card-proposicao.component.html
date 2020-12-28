@@ -45,28 +45,7 @@
       </a>
     </div>
     <div class="tags mt-3">
-      <div *ngFor="let destaque of proposicao?.destaques">
-        <span
-          *ngIf="destaque.criterio_aprovada_em_uma_casa"
-          class="tag badge badge-danger"
-          [ngbPopover]="popCriterioAprovadoCasa"
-          [autoClose]="'outside'">
-          {{ getCriterioAprovadoCasa(destaque.casa_aprovacao) }}
-          <ng-template #popCriterioAprovadoCasa>
-            {{ getCriterioAprovadoCasa(destaque.casa_aprovacao) }}
-          </ng-template>
-        </span>
-        <span
-          *ngIf="destaque.criterio_avancou_comissoes"
-          class="tag badge badge-danger"
-          [ngbPopover]="popCriterioAvancouComissao"
-          [autoClose]="'outside'">
-          Avançou nas comissões
-          <ng-template #popCriterioAvancouComissao>
-            {{ getCriterioAvancouComissao(destaque.comissoes_camara, destaque.comissoes_senado) }}
-          </ng-template>
-        </span>
-      </div>
+      <app-destaques-proposicao [destaques]="destaques" *ngFor="let destaques of proposicao?.destaques"></app-destaques-proposicao>
       <div *ngIf="!proposicao?.destaques.length">
         <span
           *ngIf="!['Ordinária', 'Indefinido'].includes(proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao)"
