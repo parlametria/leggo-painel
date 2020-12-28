@@ -77,7 +77,7 @@ export class CardProposicaoComponent implements OnInit {
     return classe;
   }
 
-  getCriterioAprovadoCasa(casa: string):string {
+  getCriterioAprovadoCasa(casa: string): string {
     let str = 'Aprovado ';
     if (casa === 'camara') {
       str += 'na Câmara';
@@ -87,7 +87,7 @@ export class CardProposicaoComponent implements OnInit {
     return str;
   }
 
-  getCriterioAvancouComissao(comissoesCamara: string, comissoesSenado: string):string {
+  getCriterioAvancouComissao(comissoesCamara: string, comissoesSenado: string): string {
     let str = '';
     if (comissoesCamara !== null) {
       str += 'Avançou na ' + comissoesCamara + ' da Câmara';
