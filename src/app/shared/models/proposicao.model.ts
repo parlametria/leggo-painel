@@ -54,6 +54,7 @@ export interface Proposicao {
   etapas: EtapasProposicao[];
   sigla_camara: string;
   sigla_senado: string;
+  destaques: any;
 }
 
 export interface ProposicaoLista {
