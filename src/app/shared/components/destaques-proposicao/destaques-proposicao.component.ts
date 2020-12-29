@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-destaques-proposicao',
   templateUrl: './destaques-proposicao.component.html',
@@ -42,6 +44,18 @@ export class DestaquesProposicaoComponent implements OnInit {
       str = str.slice(0, -2);
       str += ' do Senado';
     }
+    return str;
+  }
+
+  getCriterioRequerimentoUrgencia(
+    tipoRequerimento: string, casaRequerimento: string, dataRequerimento: Date) {
+    let str = tipoRequerimento;
+    if (casaRequerimento === 'camara') {
+      str += ' na Câmara';
+    } else if (casaRequerimento === 'senado') {
+      str += ' no Senado';
+    }
+    str += ' em ' + moment(dataRequerimento).format('DD/MM/YYYY');
     return str;
   }
 

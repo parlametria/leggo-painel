@@ -18,3 +18,23 @@
     {{ getCriterioAvancouComissao(destaques?.comissoes_camara, destaques?.comissoes_senado) }}
   </ng-template>
 </span>
+<span
+  *ngIf="destaques?.criterio_req_urgencia_apresentado"
+  class="tag badge badge-danger"
+  [ngbPopover]="popCriterioReqUrgenciaApresentado"
+  [autoClose]="'outside'">
+  Requerimento de urgência apresentado
+  <ng-template #popCriterioReqUrgenciaApresentado>
+    {{ getCriterioRequerimentoUrgencia('Apresentado', destaques?.casa_req_urgencia_apresentado, destaques?.data_req_urgencia_apresentado) }}
+  </ng-template>
+</span>
+<span
+  *ngIf="destaques?.criterio_req_urgencia_aprovado"
+  class="tag badge badge-danger"
+  [ngbPopover]="popCriterioReqUrgenciaAprovado"
+  [autoClose]="'outside'">
+  Requerimento de urgência aprovado
+  <ng-template #popCriterioReqUrgenciaAprovado>
+    {{ getCriterioRequerimentoUrgencia('Aprovado', destaques?.casa_req_urgencia_aprovado, destaques?.data_req_urgencia_aprovado) }}
+  </ng-template>
+</span>
