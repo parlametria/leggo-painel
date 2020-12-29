@@ -47,16 +47,25 @@ export class DestaquesProposicaoComponent implements OnInit {
     return str;
   }
 
-  getCriterioRequerimentoUrgencia(
-    tipoRequerimento: string, casaRequerimento: string, dataRequerimento: Date) {
-    let str = tipoRequerimento;
-    if (casaRequerimento === 'camara') {
-      str += ' na Câmara';
-    } else if (casaRequerimento === 'senado') {
-      str += ' no Senado';
+  getCriterioRequerimentoUrgencia(destaques: any) {
+    let str = '';
+    if (destaques.criterio_req_urgencia_aprovado) {
+      str += ' Requerimento de urgência aprovado';
+      if (destaques.casa_req_urgencia_aprovado === 'camara') {
+        str += ' na Câmara';
+      } else if (destaques.casa_req_urgencia_aprovado === 'senado') {
+        str += ' no Senado';
+      }
+      str += ' em ' + moment(destaques.data_req_urgencia_aprovado).format('DD/MM/YYYY');
+    } else if (destaques.criterio_req_urgencia_apresentado) {
+      str += ' Requerimento de urgência apresentado';
+      if (destaques.casa_req_urgencia_apresentado === 'camara') {
+        str += ' na Câmara';
+      } else if (destaques.casa_req_urgencia_apresentado === 'senado') {
+        str += ' no Senado';
+      }
+      str += ' em ' + moment(destaques.data_req_urgencia_apresentado).format('DD/MM/YYYY');
     }
-    str += ' em ' + moment(dataRequerimento).format('DD/MM/YYYY');
     return str;
   }
-
 }
