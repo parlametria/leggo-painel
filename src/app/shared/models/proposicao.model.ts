@@ -43,6 +43,7 @@ interface EtapasProposicao {
   relatoria: any;
   comissoes_passadas: string[];
   resumo_tramitacao: TramitacaoProposicao[];
+  status: string;
 }
 
 export interface Proposicao {
@@ -53,6 +54,7 @@ export interface Proposicao {
   etapas: EtapasProposicao[];
   sigla_camara: string;
   sigla_senado: string;
+  destaques: any;
 }
 
 export interface ProposicaoLista {
@@ -66,6 +68,7 @@ export interface ProposicaoLista {
   ultima_pressao: number;
   anotacao_data_ultima_modificacao: Date;
   resumo_progresso: ProgressoProposicao[];
+  destaques: any;
 }
 
 export interface TramitacaoProposicao {

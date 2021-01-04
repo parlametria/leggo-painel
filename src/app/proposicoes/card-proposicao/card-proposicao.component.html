@@ -23,38 +23,30 @@
         </span>
       </span>
     </a>
-    <div class="mt-2">
-      <app-progress
-        class="pointer"
-        [label]="'Temperatura'"
-        [barraClasse]="'bg-temperatura'"
-        [valor]="proposicao?.ultima_temperatura"
-        [exibirLabel]="true"
-        [max]="maxTemperatura"
-        [ngbPopover]="popTemperatura"
-        [autoClose]="'outside'"></app-progress>
-      <ng-template #popTemperatura>
-        Temperatura da semana: {{ proposicao?.ultima_temperatura }}
-      </ng-template>
+    <div>
+      <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
+        <app-progress
+          class="pointer"
+          [label]="'Temperatura da semana: ' + proposicao?.ultima_temperatura"
+          [barraClasse]="'bg-temperatura'"
+          [valor]="proposicao?.ultima_temperatura"
+          [exibirLabel]="true"
+          [max]="maxTemperatura"></app-progress>
+      </a>
     </div>
     <div class="space-between-bars">
-      <app-progress
-        class="pointer"
-        [label]="'Pressão'"
-        [barraClasse]="'bg-pressao'"
-        [valor]="proposicao?.ultima_pressao"
-        [exibirLabel]="true"
-        [ngbPopover]="popPressao"
-        [autoClose]="'outside'">
-      </app-progress>
-      <ng-template #popPressao>
-        Pressão da semana:
-        <span *ngIf="proposicao?.ultima_pressao">{{ proposicao?.ultima_pressao * 100 }}</span>
-        <span *ngIf="!proposicao?.ultima_pressao">0</span>
-      </ng-template>
+      <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
+        <app-progress
+          class="pointer"
+          [label]="'Pressão da semana: ' + (!proposicao?.ultima_pressao ? '0' : (proposicao?.ultima_pressao * 100))"
+          [barraClasse]="'bg-pressao'"
+          [valor]="proposicao?.ultima_pressao"
+          [exibirLabel]="true"></app-progress>
+      </a>
     </div>
     <div class="tags mt-3">
-      <div>
+      <app-destaques-proposicao [destaques]="destaques" *ngFor="let destaques of proposicao?.destaques"></app-destaques-proposicao>
+      <div *ngIf="!proposicao?.destaques.length">
         <span
           *ngIf="!['Ordinária', 'Indefinido'].includes(proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao)"
           class="tag"
@@ -64,13 +56,19 @@
           {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao }}
         </span>
         <!-- <span
-                    *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.forma_apreciacao === 'Plenário'"
-                    class="tag badge badge-gray"
-                    ngbPopover="Forma de apreciação"
-                    [autoClose]="'outside'"
-                >
-                    {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.forma_apreciacao }}
-                </span> -->
+          *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.forma_apreciacao === 'Plenário'"
+          class="tag badge badge-gray"
+          ngbPopover="Forma de apreciação"
+          [autoClose]="'outside'">
+            {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.forma_apreciacao }}
+        </span> -->
+        <span
+          *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.status !== 'Ativa'"
+          class="tag badge badge-gray"
+          ngbPopover="A proposição foi finalizada"
+          [autoClose]="'outside'">
+          {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.status }}
+        </span>
         <span
           *ngIf="proposicao?.interesse[0]?.tipo_agenda && proposicao?.interesse[0]?.tipo_agenda !== 'nan'"
           class="tag badge badge-gray"
@@ -79,14 +77,12 @@
           {{ proposicao?.interesse[0]?.tipo_agenda }}
         </span>
         <!-- <span
-                    *ngIf="proposicao?.anotacao_data_ultima_modificacao"
-                    class="tag badge badge-gray"
-                    ngbPopover="Data do último insight"
-                    [autoClose]="'outside'"
-                >
-                    Insight em
-        {{ proposicao?.anotacao_data_ultima_modificacao | date:'dd/MM/yyyy' }}
-                </span> -->
+          *ngIf="proposicao?.anotacao_data_ultima_modificacao"
+          class="tag badge badge-gray"
+          ngbPopover="Data do último insight"
+          [autoClose]="'outside'">
+            Insight em {{ proposicao?.anotacao_data_ultima_modificacao | date:'dd/MM/yyyy' }}
+        </span> -->
         <span
           class="tag badge badge-gray"
           *ngIf="proposicao?.interesse[0]?.advocacy_link && proposicao?.interesse[0]?.advocacy_link !== 'nan'"

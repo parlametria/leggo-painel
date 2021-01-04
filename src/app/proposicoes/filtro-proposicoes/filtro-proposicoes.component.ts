@@ -11,12 +11,23 @@ export class FiltroProposicoesComponent implements OnInit {
 
   @Output() filterChange = new EventEmitter<any>();
   readonly ORDER_BY_PADRAO = 'maior-temperatura';
+  readonly STATUS_PADRAO = 'tramitando';
+
   public orderBySelecionado: string;
   orderBy: any[] = [
     { order: 'maior temperatura', order_by: 'maior-temperatura' },
     { order: 'menor temperatura', order_by: 'menor-temperatura' },
     { order: 'maior pressão', order_by: 'maior-pressao' },
-    { order: 'menor pressão', order_by: 'menor-pressao' }, ];
+    { order: 'menor pressão', order_by: 'menor-pressao' }
+  ];
+
+  public statusSelecionado: string;
+  status = [
+    { statusName: 'tramitando', statusValue: 'tramitando' },
+    { statusName: 'finalizadas', statusValue: 'finalizada' },
+    { statusName: 'tramitando ou finalizadas', statusValue: 'todas' }
+  ];
+
   proposicaoPesquisada = '';
   filtro: any;
 
@@ -29,13 +40,19 @@ export class FiltroProposicoesComponent implements OnInit {
       .subscribe(params => {
         this.orderBySelecionado = params.orderByProp;
         this.orderBySelecionado === undefined ?
-        this.orderBySelecionado = this.ORDER_BY_PADRAO : this.orderBySelecionado = this.orderBySelecionado;
+          this.orderBySelecionado = this.ORDER_BY_PADRAO : this.orderBySelecionado = this.orderBySelecionado;
+
+        this.statusSelecionado = params.statusProp;
+        this.statusSelecionado === undefined ?
+          this.statusSelecionado = this.STATUS_PADRAO : this.statusSelecionado = this.statusSelecionado;
       });
+    this.aplicarFiltro();
   }
 
   aplicarFiltro() {
     this.filtro = {
-      nome: this.proposicaoPesquisada
+      nome: this.proposicaoPesquisada,
+      status: this.statusSelecionado
     };
     this.filterChange.emit(this.filtro);
   }
@@ -49,6 +66,19 @@ export class FiltroProposicoesComponent implements OnInit {
       delete queryParams.orderByProp;
     }
     this.router.navigate([], { queryParams });
+  }
+
+  onChangeStatus(status: string) {
+    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+
+    if (status !== this.STATUS_PADRAO) {
+      queryParams.statusProp = status;
+    } else {
+      delete queryParams.statusProp;
+    }
+    this.router.navigate([], { queryParams });
+
+    this.aplicarFiltro();
   }
 
 }

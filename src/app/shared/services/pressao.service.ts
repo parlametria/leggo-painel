@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
@@ -16,8 +16,12 @@ export class PressaoService {
 
   constructor(private http: HttpClient) { }
 
-  getPressaoList(interesse: string, id: string): Observable<Pressao[]> {
-    return this.http.get<Pressao[]>(`${this.pressaoUrl}?id=${id}&interesse=${interesse}`);
+  getPressaoList(interesse: string, id: string, dataInicio, dataFim): Observable<Pressao[]> {
+    const params = new HttpParams()
+      .set('interesse', interesse)
+      .set('data_inicio', dataInicio)
+      .set('data_fim', dataFim);
+    return this.http.get<Pressao[]>(`${this.pressaoUrl}/${id}/`, { params });
   }
 
   getUltimaPressaoProposicoes(interesse: string): Observable<UltimaPressaoProposicao[]> {

@@ -15,9 +15,12 @@ export class ProposicoesListaService {
 
   private proposicoes = new BehaviorSubject<Array<ProposicaoLista>>([]);
   private proposicoesFiltered = new BehaviorSubject<Array<ProposicaoLista>>([]);
+  private proposicoesDestaque = new BehaviorSubject<Array<ProposicaoLista>>([]);
 
   private orderBy = new BehaviorSubject<string>('');
   readonly ORDER_BY_PADRAO = 'maior-temperatura';
+
+  readonly STATUS_PADRAO = 'tramitando';
 
   private filtro = new BehaviorSubject<any>({});
 
@@ -130,16 +133,25 @@ export class ProposicoesListaService {
     }
   }
 
+  private isDestaque(prop: any) {
+    return (typeof prop.destaques !== 'undefined' && prop.destaques.length !== 0);
+  }
+
   search(filtro: any) {
+    if (filtro.status === undefined || filtro.status === '') {
+      filtro.status = this.STATUS_PADRAO;
+    }
     this.filtro.next(filtro);
   }
 
   private compareFilter(p: any, q: any) {
-    return p.nome === q.nome;
+    return p.nome === q.nome &&
+      p.status === q.status;
   }
 
   private filter(proposicoes: ProposicaoLista[], filtro: any) {
     const nome = filtro.nome;
+    const status = filtro.status;
 
     return proposicoes.filter(p => {
       let filtered = true;
@@ -147,6 +159,11 @@ export class ProposicoesListaService {
       filtered =
         nome && filtered
           ? (p.sigla_camara + p.sigla_senado + p.interesse[0].apelido).toLowerCase().includes(nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase())
+          : filtered;
+
+      filtered =
+        status && filtered
+          ? this.checkProposicaoAtiva(p.etapas[p?.etapas.length - 1].status, status)
           : filtered;
 
       return filtered;
@@ -169,6 +186,18 @@ export class ProposicoesListaService {
     } else {
       this.orderBy.next(orderBy);
     }
+  }
+
+  private checkProposicaoAtiva(statusProposicao: string, statusFiltro: string) {
+    const check = (statusFiltro === 'tramitando' && statusProposicao === 'Ativa') ||
+      (statusFiltro === 'finalizada' && statusProposicao !== 'Ativa') ||
+      (statusFiltro === 'todas');
+
+    if (check === undefined) {
+      return true;
+    }
+
+    return check;
   }
 
 }

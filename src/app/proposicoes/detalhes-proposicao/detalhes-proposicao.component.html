@@ -11,6 +11,15 @@
       </li>
     </ol>
   </nav>
+  <div class="my-4 text-center">
+    <a
+      href="https://leggo.parlametria.org/#/proposicao/{{proposicao?.id_leggo}}/{{proposicao?.interesse[0]?.interesse}}"
+      class="btn btn-light"
+      target="_blank">
+      Versão anterior da página de Proposição
+      <span class="icon-external-link"></span>
+    </a>
+  </div>
   <div [hidden]="isLoading | async">
     <ol class="breadcrumb proposicao-temas">
       <li
@@ -19,24 +28,33 @@
         {{ temas }}
       </li>
     </ol>
-    <h2>{{ proposicao?.etapas[0]?.sigla }}</h2>
+    <h2>{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}</h2>
 
-    <ol class="breadcrumb proposicao-temas mb-4">
-      <li
-        *ngFor="let etapa of proposicao?.etapas"
-        class="breadcrumb-item text-muted">
-        <a
-          [href]="etapa.url"
-          class="app-link"
-          target="_blank">
-          {{ etapa.sigla }}
-        </a>
-        &nbsp;
-        <span class="text-muted">{{ getCasaFormatada(etapa.casa) }}</span>
-      </li>
-    </ol>
-
-    <app-lista-autores [autores]="this.proposicao?.autoresProposicao"></app-lista-autores>
+    <div class="mb-4">
+      <ol class="breadcrumb proposicao-temas">
+        <li
+          *ngFor="let etapa of proposicao?.etapas"
+          class="breadcrumb-item text-muted">
+          <a
+            [href]="etapa.url"
+            class="app-link"
+            target="_blank">
+            {{ etapa.sigla }}
+          </a>
+          &nbsp;
+          <span class="text-muted">{{ getCasaFormatada(etapa.casa) }}</span>
+        </li>
+      </ol>
+      <span
+        *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.status !== 'Ativa'"
+        class="tag badge badge-gray"
+        ngbPopover="A proposição foi finalizada"
+        [autoClose]="'outside'">
+        {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.status }}
+      </span>
+      <app-destaques-proposicao [destaques]="destaques" *ngFor="let destaques of proposicao?.destaques"></app-destaques-proposicao>
+    </div>
+    <app-lista-autores [autores]="proposicao?.autoresProposicao"></app-lista-autores>
     <app-lista-relatores [etapas]="proposicao?.etapas"></app-lista-relatores>
 
     <!-- <div *ngIf="proposicao?.etapas?.slice(-1)[0]?.resumo_tramitacao?.slice(-1)[0]?.evento as tramitacao">

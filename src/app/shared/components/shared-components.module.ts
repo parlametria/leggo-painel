@@ -12,6 +12,7 @@ import { LoadingComponent } from './loading/loading.component';
 import { FiltraTemaComponent } from './filtra-tema/filtra-tema.component';
 import { TooltipAjudaComponent } from './tooltip-ajuda/tooltip-ajuda.component';
 import { EmbedTweetComponent } from './embed-tweet/embed-tweet.component';
+import { DestaquesProposicaoComponent } from './destaques-proposicao/destaques-proposicao.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { EmbedTweetComponent } from './embed-tweet/embed-tweet.component';
     LoadingComponent,
     FiltraTemaComponent,
     TooltipAjudaComponent,
+    DestaquesProposicaoComponent,
     EmbedTweetComponent
   ],
   imports: [
@@ -36,6 +38,7 @@ import { EmbedTweetComponent } from './embed-tweet/embed-tweet.component';
     LoadingComponent,
     FiltraTemaComponent,
     TooltipAjudaComponent,
+    DestaquesProposicaoComponent,
     EmbedTweetComponent
   ]
 })
