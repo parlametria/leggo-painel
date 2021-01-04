@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.4 (2021-01-04)
+- [x] Exibe proposições mais comentadas no twitter por um parlamentar
+- [x] Visualização da temperatura e pressão de uma proposição
+- [x] Adiciona critério de estado ao filtro da lista de proposições (tramitando ou finalizadas)
+- [x] Exibe lista de proposições em destaque considerando aprovação em casas, avanço nas comissões e requerimentos de urgência apresentados ou aprovados
+
 ## 1.2.3 (2020-12-02)
 - [x] Reformulação de leiaute da página de detalhes da proposição
 - [x] Reformulação do progresso da proposição
