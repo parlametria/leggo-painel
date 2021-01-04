@@ -18,3 +18,13 @@
     {{ getCriterioAvancouComissao(destaques?.comissoes_camara, destaques?.comissoes_senado) }}
   </ng-template>
 </span>
+<span
+  *ngIf="destaques?.criterio_req_urgencia_apresentado || destaques?.criterio_req_urgencia_aprovado"
+  class="tag badge badge-danger"
+  [ngbPopover]="popCriterioReqUrgencia"
+  [autoClose]="'outside'">
+  Urgência
+  <ng-template #popCriterioReqUrgencia>
+    {{ getCriterioRequerimentoUrgencia(destaques) }}
+  </ng-template>
+</span>
