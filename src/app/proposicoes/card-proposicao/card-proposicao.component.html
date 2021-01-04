@@ -45,7 +45,8 @@
       </a>
     </div>
     <div class="tags mt-3">
-      <div>
+      <app-destaques-proposicao [destaques]="destaques" *ngFor="let destaques of proposicao?.destaques"></app-destaques-proposicao>
+      <div *ngIf="!proposicao?.destaques.length">
         <span
           *ngIf="!['Ordinária', 'Indefinido'].includes(proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao)"
           class="tag"

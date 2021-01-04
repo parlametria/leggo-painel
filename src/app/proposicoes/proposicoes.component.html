@@ -1,12 +1,28 @@
-<div class="container app-container">
+<div class="app-container">
   <app-filtro-proposicoes (filterChange)="search($event)"></app-filtro-proposicoes>
-  <div class="app-content">
+  <div class="app-content pb-4 mb-4">
     <app-loading *ngIf="isLoading | async"></app-loading>
-
     <div [hidden]="isLoading | async">
-      <div *ngIf="proposicoes?.length > 1">{{ proposicoes?.length }} proposições.</div>
-      <div *ngIf="proposicoes?.length === 1">{{ proposicoes?.length }} proposição.</div>
-      <div *ngIf="proposicoes?.length === 0">Nenhuma proposição encontrada.</div>
+      <h3 class="titulo-sessao">Proposições em destaque</h3>
+      <div *ngIf="proposicoesDestaque?.length > 1"><strong>{{ proposicoesDestaque?.length }}</strong> proposições em destaque</div>
+      <div *ngIf="proposicoesDestaque?.length === 1"><strong>{{ proposicoesDestaque?.length }}</strong> proposição em destaque</div>
+      <div *ngIf="proposicoesDestaque?.length === 0">Nenhuma proposição em destaque</div>
+      <div
+        *ngFor="let proposicao of proposicoesDestaque; index as i"
+        class="mt-3">
+        <app-card-proposicao
+          [proposicao]="proposicao"
+          [id]="getProposicaoPosition(i, 20, p)"
+          [maxTemperatura]="maxTemperatura?.max_temperatura_periodo"></app-card-proposicao>
+      </div>
+    </div>
+  </div>
+  <div class="app-content">
+    <div [hidden]="isLoading | async">
+      <h3 class="titulo-sessao">Todas as proposições</h3>
+      <div *ngIf="proposicoes?.length > 1"><strong>{{ proposicoes?.length }}</strong> proposições</div>
+      <div *ngIf="proposicoes?.length === 1"><strong>{{ proposicoes?.length }}</strong> proposição</div>
+      <div *ngIf="proposicoes?.length === 0">Nenhuma proposição encontrada</div>
 
       <pagination-template
         #pag="paginationApi"
