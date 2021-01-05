@@ -13,6 +13,7 @@ import { FiltraTemaComponent } from './filtra-tema/filtra-tema.component';
 import { TooltipAjudaComponent } from './tooltip-ajuda/tooltip-ajuda.component';
 import { EmbedTweetComponent } from './embed-tweet/embed-tweet.component';
 import { DestaquesProposicaoComponent } from './destaques-proposicao/destaques-proposicao.component';
+import { ProgressStackedComponent } from './progress-stacked/progress-stacked.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { DestaquesProposicaoComponent } from './destaques-proposicao/destaques-p
     FiltraTemaComponent,
     TooltipAjudaComponent,
     DestaquesProposicaoComponent,
-    EmbedTweetComponent
+    EmbedTweetComponent,
+    ProgressStackedComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +41,8 @@ import { DestaquesProposicaoComponent } from './destaques-proposicao/destaques-p
     FiltraTemaComponent,
     TooltipAjudaComponent,
     DestaquesProposicaoComponent,
-    EmbedTweetComponent
+    EmbedTweetComponent,
+    ProgressStackedComponent
   ]
 })
 export class SharedComponentsModule { }

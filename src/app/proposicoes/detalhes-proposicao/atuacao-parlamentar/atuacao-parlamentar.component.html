@@ -1,1 +1,32 @@
 <h3 class="titulo-sessao">Atuação parlamentar</h3>
+<app-progress-stacked
+  [categorias]="[
+    {
+      'valor': 75,
+      'classe': 'bg-primary'
+    },
+    {
+      'valor': 25,
+      'classe': 'bg-secondary'
+    }
+  ]"
+  [min]=0
+  [max]=100></app-progress-stacked>
+<br>
+  <app-progress-stacked
+  [categorias]="[
+    {
+      'valor': 10,
+      'classe': 'bg-secondary'
+    },
+    {
+      'valor': 80,
+      'classe': 'bg-primary'
+    },
+    {
+      'valor': 10,
+      'classe': 'bg-warning'
+    }
+  ]"
+  [min]=0
+  [max]=100></app-progress-stacked>
