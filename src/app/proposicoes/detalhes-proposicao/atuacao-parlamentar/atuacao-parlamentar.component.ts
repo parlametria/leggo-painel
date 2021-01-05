@@ -43,8 +43,8 @@ export class AtuacaoParlamentarComponent implements OnInit, OnDestroy {
     ])
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
-        const autorias = data[0]
-        const bancadas = data[1]
+        const autorias = data[0];
+        const bancadas = data[1];
 
         const atuacao = autorias.map(a => ({
           bancada: this.getProperty(bancadas.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
