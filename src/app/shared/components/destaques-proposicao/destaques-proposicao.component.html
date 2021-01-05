@@ -9,13 +9,13 @@
   </ng-template>
 </span>
 <span
-  *ngIf="destaques?.criterio_avancou_comissoes"
+  *ngIf="temCriterioAvancouComissao(destaques?.comissoes_camara, destaques?.comissoes_senado, destaques?.casa_aprovacao)"
   class="tag badge badge-danger"
   [ngbPopover]="popCriterioAvancouComissao"
   [autoClose]="'outside'">
   Avançou nas comissões
   <ng-template #popCriterioAvancouComissao>
-    {{ getCriterioAvancouComissao(destaques?.comissoes_camara, destaques?.comissoes_senado) }}
+    {{ getCriterioAvancouComissao(destaques?.comissoes_camara, destaques?.comissoes_senado, destaques?.casa_aprovacao) }}
   </ng-template>
 </span>
 <span
