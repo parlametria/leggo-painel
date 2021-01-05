@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AutoriaAgregada } from '../models/autoriaAgregada.model';
 import { Autoria } from '../models/autoria.model';
+import { AutoriaProposicao } from '../models/autoriaProposicao';
 
 @Injectable({
   providedIn: 'root'
@@ -40,4 +41,9 @@ export class AutoriasService {
   getAutoriasAgregadasProjetos(interesse: string, tema: string): Observable<Autoria[]> {
     return this.http.get<Autoria[]>(`${this.autoriaUrl}/projetos/?interesse=${interesse}&tema=${tema}`);
   }
+
+  getAutoriasPorProposicao(idLeggo: string): Observable<AutoriaProposicao[]> {
+    return this.http.get<AutoriaProposicao[]>(`${this.autoriaUrl}/${idLeggo}/parlamentares`);
+  }
+
 }

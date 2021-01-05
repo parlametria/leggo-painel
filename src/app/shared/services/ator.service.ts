@@ -5,10 +5,9 @@ import { Observable } from 'rxjs';
 
 import { Ator } from '../models/ator.model';
 import { AtorAgregado } from '../models/atorAgregado.model';
-import { Autoria } from '../models/autoria.model';
 
 import { environment } from '../../../environments/environment';
-import { ProposicoesService } from './proposicoes.service';
+import { AtorBancada } from '../models/atorBancada.model';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +33,10 @@ export class AtorService {
       .set('interesse', interesse)
       .set('tema', tema);
     return this.http.get<any[]>(`${this.atoresUrl}/agregados/${idAutor}`, { params });
+  }
+
+  getAtoresBancadas(): Observable<AtorBancada[]> {
+    return this.http.get<AtorBancada[]>(`${this.atoresUrl}/bancadas`);
   }
 
 }

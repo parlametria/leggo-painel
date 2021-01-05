@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DetalhesProposicaoComponent } from './detalhes-proposicao.component';
 import { ProgressoComponent } from './progresso/progresso.component';
 import { TemperaturaPressaoComponent } from './temperatura-pressao/temperatura-pressao.component';
+import { AtuacaoParlamentarComponent } from './atuacao-parlamentar/atuacao-parlamentar.component';
 
 const appRoutes: Routes = [
   {
@@ -22,6 +23,10 @@ const appRoutes: Routes = [
       {
         path: 'progresso',
         component: ProgressoComponent
+      },
+      {
+        path: 'atuacao',
+        component: AtuacaoParlamentarComponent
       },
     ]
   }
