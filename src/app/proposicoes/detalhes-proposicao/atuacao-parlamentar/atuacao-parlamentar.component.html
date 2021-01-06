@@ -1,32 +1,34 @@
 <h3 class="titulo-sessao">Atuação parlamentar</h3>
-<app-progress-stacked
-  [categorias]="[
-    {
-      'valor': 75,
-      'classe': 'bg-primary'
-    },
-    {
-      'valor': 25,
-      'classe': 'bg-secondary'
-    }
-  ]"
-  [min]=0
-  [max]=100></app-progress-stacked>
-<br>
-  <app-progress-stacked
-  [categorias]="[
-    {
-      'valor': 10,
-      'classe': 'bg-secondary'
-    },
-    {
-      'valor': 80,
-      'classe': 'bg-primary'
-    },
-    {
-      'valor': 10,
-      'classe': 'bg-warning'
-    }
-  ]"
-  [min]=0
-  [max]=100></app-progress-stacked>
+<app-loading *ngIf="isLoading | async"></app-loading>
+<div [hidden]="isLoading | async">
+  <div class="my-4">
+    <div class="legend">
+      <app-legend
+        [title]="'Proposição'"
+        [classe]="'bg-proposicao'"></app-legend>
+
+      <app-legend
+        [title]="'Emenda'"
+        [classe]="'bg-emenda'"></app-legend>
+
+      <app-legend
+        [title]="'Requerimento'"
+        [classe]="'bg-requerimento'"></app-legend>
+    </div>
+  </div>
+  <div
+    class="mb-2"
+    *ngFor="let parlamentar of atuacao">
+    <a [routerLink]="['/', interesse, 'parlamentares', parlamentar?.values[0].id_autor_parlametria]">
+      <span *ngIf="parlamentar?.values[0].casa_autor == 'camara'">Dep.</span>
+      <span *ngIf="parlamentar?.values[0].casa_autor == 'senado'">Sen.</span>
+      {{ parlamentar?.values[0].nome_autor }}
+      {{ parlamentar?.values[0].partido }}/{{ parlamentar?.values[0].uf }}
+    </a>
+    <app-progress-stacked
+      [categorias]=parlamentar?.values
+      [min]=0
+      [max]=maximoDocumentos></app-progress-stacked>
+    {{ parlamentar?.soma_documentos }}
+  </div>
+</div>

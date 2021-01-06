@@ -375,3 +375,23 @@
   pointer-events: all;
 }
 /* Gráficos FIM */
+
+/* Backgrounds Tipos de documento */
+
+.bg-proposicao {
+  background-color: #32626F;
+}
+
+.bg-emenda {
+  background-color: #57B494;
+}
+
+.bg-requerimento {
+  background-color: #B1EAA3;
+}
+
+.bg-neutro {
+  background-color: $info;
+}
+
+/* Backgrounds Tipos de documento FIM */
