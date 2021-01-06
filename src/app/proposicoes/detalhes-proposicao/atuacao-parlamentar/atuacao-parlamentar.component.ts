@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subject, forkJoin, BehaviorSubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { nest } from 'd3-collection';
-import { max } from "d3-array";
+import { max } from 'd3-array';
 const d3 = Object.assign({}, { nest, max });
 
 import { AutoriasService } from 'src/app/shared/services/autorias.service';
@@ -72,13 +72,13 @@ export class AtuacaoParlamentarComponent implements OnInit, OnDestroy {
           .key((d: any) => d.id_autor_parlametria)
           .entries(atuacao);
 
-        this.atuacao.map(a => {
-          a.values.map(atuacao => {
-            atuacao.valor = atuacao.total_documentos;
-            atuacao.classe = this.getClasseTipoDocumento(atuacao.tipo_documento);
-            atuacao.tooltip = this.getTooltip(atuacao);
-          })
-          a.values.sort((a, b) => {
+        this.atuacao.map(parlamentar => {
+          parlamentar.values.map(autoria => {
+            autoria.valor = autoria.total_documentos;
+            autoria.classe = this.getClasseTipoDocumento(autoria.tipo_documento);
+            autoria.tooltip = this.getTooltip(autoria);
+          });
+          parlamentar.values.sort((a, b) => {
             const orderA = this.ORDER_TIPOS_PROPOSICAO.indexOf(a.tipo_documento);
             const orderB = this.ORDER_TIPOS_PROPOSICAO.indexOf(b.tipo_documento);
             if (orderA === -1) {
@@ -88,13 +88,13 @@ export class AtuacaoParlamentarComponent implements OnInit, OnDestroy {
               return -1;
             }
             return orderA - orderB;
-          })
-          a.soma_documentos = a.values.reduce((accum, item) => accum + item.total_documentos, 0)
-          return a
-        })
+          });
+          parlamentar.soma_documentos = parlamentar.values.reduce((accum, item) => accum + item.total_documentos, 0);
+          return parlamentar;
+        });
         this.atuacao.sort((a, b) => b.soma_documentos - a.soma_documentos);
 
-        this.maximoDocumentos = d3.max(this.atuacao, d => { return +d.soma_documentos; });
+        this.maximoDocumentos = d3.max(this.atuacao, d => +d.soma_documentos );
 
         this.isLoading.next(false);
         console.log(this.atuacao);
@@ -102,7 +102,7 @@ export class AtuacaoParlamentarComponent implements OnInit, OnDestroy {
   }
 
   private getClasseTipoDocumento(tipoDocumento: string) {
-    let classe = ""
+    let classe = '';
     switch (tipoDocumento) {
       case 'Prop. Original / Apensada':
         classe = 'bg-proposicao';
