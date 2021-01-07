@@ -394,12 +394,16 @@
   background-color: $info;
 }
 
-.bg-oposicao {
-  background-color: #fdc9b4;
-}
-
-.bg-centro-governo {
-  background-color: #cfe1f2;
-}
-
 /* Backgrounds FIM */
+
+.text-oposicao {
+  text-decoration-color: #c4191c;
+  text-decoration-line: underline;
+  text-decoration-thickness: 3px;
+}
+
+.text-centro-governo {
+  text-decoration-color: #4592c6;
+  text-decoration-line: underline;
+  text-decoration-thickness: 3px;
+}
