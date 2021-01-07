@@ -4,34 +4,34 @@
 }
 
 .atuacao-body {
-  display: flex;
-  justify-content: space-between;
+  @media (min-width: 992px) {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 .barra {
   display: flex;
-  // justify-content: space-between;
-  // align-items: center;
-  width: 70%;
-  height: 27px;
+  width: 75%;
+  height: 32px;
 
-  // @media (min-width: 992px) {
-  //   width: 70%;
-  // }
+  @media (max-width: 992px) {
+    width: 100%;
+  }
 }
 
 .autor {
   display: flex;
-  max-width: 30%;
+  width: 25%;
   font-size: 0.9rem;
+
+  @media (max-width: 992px) {
+    width: 100%;
+  }
 }
 
 .barra-progresso {
   width: 100%;
-
-  // @media (min-width: 992px) {
-  //   width: 100%;
-  // }
 }
 
 .barra-score {
