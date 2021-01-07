@@ -3,6 +3,10 @@
   flex-wrap: wrap;
 }
 
+.legend-title {
+  margin-right: 1rem;
+}
+
 .atuacao-body {
   @media (min-width: 992px) {
     display: flex;

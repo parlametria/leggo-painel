@@ -14,6 +14,9 @@
       <app-legend
         [title]="'Requerimento'"
         [classe]="'bg-requerimento'"></app-legend>
+        <span class="bg-oposicao legend-title">Oposição</span>
+        <span class="bg-centro-governo legend-title">Centro/Governo</span>
+
     </div>
   </div>
   <div
@@ -21,10 +24,20 @@
     *ngFor="let parlamentar of atuacao|slice:0:numeroParlamentares let i=index">
     <div class="autor">
       <a [routerLink]="['/', interesse, 'parlamentares', parlamentar?.values[0].id_autor_parlametria]">
-        <span *ngIf="parlamentar?.values[0].casa_autor == 'camara'">Dep.</span>
-        <span *ngIf="parlamentar?.values[0].casa_autor == 'senado'">Sen.</span>
+        <span *ngIf="parlamentar?.values[0].casa_autor === 'camara'">Dep.</span>
+        <span *ngIf="parlamentar?.values[0].casa_autor === 'senado'">Sen.</span>
         {{ parlamentar?.values[0].nome_autor }}
-        {{ parlamentar?.values[0].partido }}/{{ parlamentar?.values[0].uf }}
+        <span
+          *ngIf="parlamentar?.values[0].bancada === 'oposição'"
+          class="bg-oposicao">
+          {{ parlamentar?.values[0].partido }}
+        </span>
+        <span
+          *ngIf="parlamentar?.values[0].bancada === 'governo'"
+          class="bg-centro-governo">
+          {{ parlamentar?.values[0].partido }}
+        </span>
+        /{{ parlamentar?.values[0].uf }}
       </a>
     </div>
     <div class="barra">
