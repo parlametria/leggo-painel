@@ -21,12 +21,14 @@
 }
 
 .autor {
-  display: flex;
   width: 25%;
   font-size: 0.9rem;
+  margin-right: 5px;
+  text-align: right;
 
   @media (max-width: 992px) {
     width: 100%;
+    text-align: left;
   }
 }
 

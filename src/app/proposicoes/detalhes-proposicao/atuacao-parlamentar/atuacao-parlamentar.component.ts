@@ -26,10 +26,12 @@ export class AtuacaoParlamentarComponent implements OnInit, OnDestroy {
     'Emenda',
     'Requerimento'
   ];
+  readonly NUMERO_PARLAMENTARES = 15;
 
   idLeggo: string;
   interesse: string;
   maximoDocumentos: number;
+  numeroParlamentares = this.NUMERO_PARLAMENTARES;
 
   atuacao: any[];
 
@@ -97,8 +99,15 @@ export class AtuacaoParlamentarComponent implements OnInit, OnDestroy {
         this.maximoDocumentos = d3.max(this.atuacao, d => +d.soma_documentos );
 
         this.isLoading.next(false);
-        console.log(this.atuacao);
       });
+  }
+
+  toogleShowParlamentares() {
+    if (this.numeroParlamentares < this.atuacao.length) {
+      this.numeroParlamentares = this.atuacao.length;
+    } else {
+      this.numeroParlamentares = this.NUMERO_PARLAMENTARES;
+    }
   }
 
   private getClasseTipoDocumento(tipoDocumento: string) {

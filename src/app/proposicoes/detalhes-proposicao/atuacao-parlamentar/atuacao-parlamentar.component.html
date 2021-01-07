@@ -18,7 +18,7 @@
   </div>
   <div
     class="mb-2 atuacao-body"
-    *ngFor="let parlamentar of atuacao">
+    *ngFor="let parlamentar of atuacao|slice:0:numeroParlamentares let i=index">
     <div class="autor">
       <a [routerLink]="['/', interesse, 'parlamentares', parlamentar?.values[0].id_autor_parlametria]">
         <span *ngIf="parlamentar?.values[0].casa_autor == 'camara'">Dep.</span>
@@ -36,6 +36,14 @@
           [score]=parlamentar?.soma_documentos></app-progress-stacked>
       </div>
     </div>
+  </div>
+  <div *ngIf="atuacao?.length > NUMERO_PARLAMENTARES">
+    <button
+      class="btn btn-light btn-xs"
+      (click)="toogleShowParlamentares()">
+      <span [hidden]="numeroParlamentares === NUMERO_PARLAMENTARES">ver apenas os mais atuantes</span>
+      <span [hidden]="numeroParlamentares > NUMERO_PARLAMENTARES">ver todos os parlamentares</span>
+    </button>
   </div>
   <div class="mt-4">
     <span>
