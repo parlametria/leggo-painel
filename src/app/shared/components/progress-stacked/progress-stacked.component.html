@@ -9,4 +9,7 @@
     [attr.aria-valuemax]="max"
     [hidden]="!categoria.valor"
     [ngbPopover]="categoria.tooltip"></div>
+    <div *ngIf="score" class="progress-bar-value">
+      {{ score }}
+    </div>
 </div>

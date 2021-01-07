@@ -17,18 +17,27 @@
     </div>
   </div>
   <div
-    class="mb-2"
+    class="mb-2 atuacao-body"
     *ngFor="let parlamentar of atuacao">
-    <a [routerLink]="['/', interesse, 'parlamentares', parlamentar?.values[0].id_autor_parlametria]">
-      <span *ngIf="parlamentar?.values[0].casa_autor == 'camara'">Dep.</span>
-      <span *ngIf="parlamentar?.values[0].casa_autor == 'senado'">Sen.</span>
-      {{ parlamentar?.values[0].nome_autor }}
-      {{ parlamentar?.values[0].partido }}/{{ parlamentar?.values[0].uf }}
-    </a>
-    <app-progress-stacked
-      [categorias]=parlamentar?.values
-      [min]=0
-      [max]=maximoDocumentos></app-progress-stacked>
-    {{ parlamentar?.soma_documentos }}
+    <div class="autor">
+      <a [routerLink]="['/', interesse, 'parlamentares', parlamentar?.values[0].id_autor_parlametria]">
+        <span *ngIf="parlamentar?.values[0].casa_autor == 'camara'">Dep.</span>
+        <span *ngIf="parlamentar?.values[0].casa_autor == 'senado'">Sen.</span>
+        {{ parlamentar?.values[0].nome_autor }}
+        {{ parlamentar?.values[0].partido }}/{{ parlamentar?.values[0].uf }}
+      </a>
+    </div>
+    <div class="barra">
+      <div class="barra-progresso">
+        <app-progress-stacked
+          [categorias]=parlamentar?.values
+          [min]=0
+          [max]=maximoDocumentos
+          [score]=parlamentar?.soma_documentos></app-progress-stacked>
+      </div>
+    </div>
   </div>
+  <span>
+    Dados de atuação parlamentar a partir de 2019.
+  </span>
 </div>

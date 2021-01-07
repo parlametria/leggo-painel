@@ -2,3 +2,39 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+.atuacao-body {
+  display: flex;
+  justify-content: space-between;
+}
+
+.barra {
+  display: flex;
+  // justify-content: space-between;
+  // align-items: center;
+  width: 70%;
+  height: 27px;
+
+  // @media (min-width: 992px) {
+  //   width: 70%;
+  // }
+}
+
+.autor {
+  display: flex;
+  max-width: 30%;
+  font-size: 0.9rem;
+}
+
+.barra-progresso {
+  width: 100%;
+
+  // @media (min-width: 992px) {
+  //   width: 100%;
+  // }
+}
+
+.barra-score {
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+}

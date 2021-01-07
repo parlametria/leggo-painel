@@ -10,6 +10,7 @@ export class ProgressStackedComponent {
   @Input() categorias: any[];
   @Input() min: number;
   @Input() max: number;
+  @Input() score: number;
 
   constructor() { }
 

@@ -121,11 +121,10 @@ export class AtuacaoParlamentarComponent implements OnInit, OnDestroy {
   }
 
   private getTooltip(atuacao) {
-    let tipo = atuacao.tipo_documento;
-    if (tipo === 'Prop. Original / Apensada') {
-      tipo = 'Proposição';
-    }
-    return tipo + ': ' + atuacao.total_documentos + ' ações';
+    const tipo = atuacao.tipo_documento === 'Prop. Original / Apensada' ? 'Proposição' : atuacao.tipo_documento;
+    const acoes = atuacao.total_documentos === 1 ? ' ação': ' ações';
+
+    return tipo + ': ' + atuacao.total_documentos + acoes;
   }
 
   private getProperty(objeto: any, property: string) {
