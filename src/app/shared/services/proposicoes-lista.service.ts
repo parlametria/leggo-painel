@@ -15,6 +15,7 @@ export class ProposicoesListaService {
 
   private proposicoes = new BehaviorSubject<Array<ProposicaoLista>>([]);
   private proposicoesFiltered = new BehaviorSubject<Array<ProposicaoLista>>([]);
+  private proposicoesDestaque = new BehaviorSubject<Array<ProposicaoLista>>([]);
 
   private orderBy = new BehaviorSubject<string>('');
   readonly ORDER_BY_PADRAO = 'maior-temperatura';
@@ -130,6 +131,10 @@ export class ProposicoesListaService {
     } else {
       return objeto[property];
     }
+  }
+
+  private isDestaque(prop: any) {
+    return (typeof prop.destaques !== 'undefined' && prop.destaques.length !== 0);
   }
 
   search(filtro: any) {

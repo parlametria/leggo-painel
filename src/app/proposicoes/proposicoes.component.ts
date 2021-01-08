@@ -22,6 +22,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
 
   interesse: string;
   proposicoes: ProposicaoLista[];
+  proposicoesDestaque: ProposicaoLista[];
   maxTemperatura: MaximaTemperaturaProposicao;
   orderByProp: string;
   p = 1;
@@ -71,7 +72,8 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
         indicate(this.isLoading),
         takeUntil(this.unsubscribe)
       ).subscribe(proposicoes => {
-        this.proposicoes = proposicoes;
+        this.proposicoes = proposicoes.filter(p => (typeof p.destaques !== 'undefined' && p.destaques.length === 0));
+        this.proposicoesDestaque = proposicoes.filter(p => (typeof p.destaques !== 'undefined' && p.destaques.length !== 0));
         this.isLoading.next(false);
       });
   }

@@ -28,7 +28,7 @@
         {{ temas }}
       </li>
     </ol>
-    <h2>{{ proposicao?.etapas[0]?.sigla }}</h2>
+    <h2>{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}</h2>
 
     <div class="mb-4">
       <ol class="breadcrumb proposicao-temas">
@@ -52,9 +52,9 @@
         [autoClose]="'outside'">
         {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.status }}
       </span>
+      <app-destaques-proposicao [destaques]="destaques" *ngFor="let destaques of proposicao?.destaques"></app-destaques-proposicao>
     </div>
-
-    <app-lista-autores [autores]="this.proposicao?.autoresProposicao"></app-lista-autores>
+    <app-lista-autores [autores]="proposicao?.autoresProposicao"></app-lista-autores>
     <app-lista-relatores [etapas]="proposicao?.etapas"></app-lista-relatores>
 
     <!-- <div *ngIf="proposicao?.etapas?.slice(-1)[0]?.resumo_tramitacao?.slice(-1)[0]?.evento as tramitacao">
