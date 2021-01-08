@@ -14,9 +14,8 @@
       <app-legend
         [title]="'Requerimento'"
         [classe]="'bg-requerimento'"></app-legend>
-        <span class="bg-oposicao legend-title">Oposição</span>
-        <span class="bg-centro-governo legend-title">Centro/Governo</span>
 
+      <span class="bg-centro-governo legend-title">Centro/Governo</span>
     </div>
   </div>
   <div
@@ -27,11 +26,7 @@
         <span *ngIf="parlamentar?.values[0].casa_autor === 'camara'">Dep.</span>
         <span *ngIf="parlamentar?.values[0].casa_autor === 'senado'">Sen.</span>
         {{ parlamentar?.values[0].nome_autor }}
-        <span
-          *ngIf="parlamentar?.values[0].bancada === 'oposição'"
-          class="bg-oposicao">
-          {{ parlamentar?.values[0].partido }}
-        </span>
+        <span *ngIf="parlamentar?.values[0].bancada === 'oposição'">{{ parlamentar?.values[0].partido }}</span>
         <span
           *ngIf="parlamentar?.values[0].bancada === 'governo'"
           class="bg-centro-governo">
