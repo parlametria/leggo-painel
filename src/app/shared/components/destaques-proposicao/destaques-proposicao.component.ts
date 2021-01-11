@@ -26,9 +26,19 @@ export class DestaquesProposicaoComponent implements OnInit {
     return str;
   }
 
-  getCriterioAvancouComissao(comissoesCamara: string, comissoesSenado: string): string {
+  temCriterioAvancouComissao(comissoesCamara: string, comissoesSenado: string, casaAprovada: string): boolean {
+    if (comissoesCamara !== null && casaAprovada !== 'camara') {
+      return true;
+    } else if (comissoesSenado !== null && casaAprovada !== 'senado') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getCriterioAvancouComissao(comissoesCamara: string, comissoesSenado: string, casaAprovada: string): string {
     let str = '';
-    if (comissoesCamara !== null) {
+    if (comissoesCamara !== null && casaAprovada !== 'camara') {
       str += 'Avançou na ' + comissoesCamara + ' da Câmara';
       if (comissoesSenado !== null) {
         str += ' e na ';
@@ -37,7 +47,7 @@ export class DestaquesProposicaoComponent implements OnInit {
         str = str.slice(0, -2);
         str += ' no Senado';
       }
-    } else if (comissoesSenado !== null) {
+    } else if (comissoesSenado !== null && casaAprovada !== 'senado') {
       str += 'Avançou na ';
       const comissoes = comissoesSenado.split(';');
       comissoes.forEach(c => str += c + ', ');
