@@ -16,12 +16,12 @@
         [classe]="'bg-requerimento'"></app-legend>
 
         <!-- SUBLINHADO -->
-        <span class="text-oposicao legend-title">Oposição</span>
-        <span class="text-centro-governo legend-title">Centro/Governo</span>
+        <!-- <span class="text-oposicao legend-title">Oposição</span>
+        <span class="text-centro-governo legend-title">Centro/Governo</span> -->
 
         <!-- PREENCHIDO -->
-        <!-- <span class="bg-oposicao legend-title">Oposição</span>
-        <span class="bg-centro-governo legend-title">Centro/Governo</span> -->
+        <span class="bg-oposicao legend-title">Oposição</span>
+        <span class="bg-centro-governo legend-title">Centro/Governo</span>
 
         <!-- PREENCHIDO APENAS GOVERNO -->
         <!-- <span class="legend-title">Oposição</span>
@@ -39,7 +39,7 @@
         <span *ngIf="parlamentar?.values[0].casa_autor === 'senado'">Sen.</span>
         {{ parlamentar?.values[0].nome_autor }}
         <!-- SUBLINHADO -->
-        <span
+        <!-- <span
           *ngIf="parlamentar?.values[0].bancada === 'oposição'"
           class="text-oposicao">
           {{ parlamentar?.values[0].partido }}
@@ -48,10 +48,10 @@
           *ngIf="parlamentar?.values[0].bancada === 'governo'"
           class="text-centro-governo">
           {{ parlamentar?.values[0].partido }}
-        </span>
+        </span> -->
 
         <!-- PREENCHIDO -->
-        <!-- <span
+        <span
           *ngIf="parlamentar?.values[0].bancada === 'oposição'"
           class="bg-oposicao">
           {{ parlamentar?.values[0].partido }}
@@ -60,7 +60,7 @@
           *ngIf="parlamentar?.values[0].bancada === 'governo'"
           class="bg-centro-governo">
           {{ parlamentar?.values[0].partido }}
-        </span> -->
+        </span>
 
         <!-- PREENCHIDO APENAS GOVERNO -->
         <!-- <span>
