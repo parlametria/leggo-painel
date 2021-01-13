@@ -375,3 +375,31 @@
   pointer-events: all;
 }
 /* Gráficos FIM */
+
+/* Backgrounds */
+
+.bg-proposicao {
+  background-color: #32626F;
+}
+
+.bg-emenda {
+  background-color: #57B494;
+}
+
+.bg-requerimento {
+  background-color: #B1EAA3;
+}
+
+.bg-neutro {
+  background-color: $info;
+}
+
+.bg-oposicao {
+  background-color: #fdc9b4;
+}
+
+.bg-centro-governo {
+  background-color: #cfe1f2;
+}
+
+/* Backgrounds FIM */
