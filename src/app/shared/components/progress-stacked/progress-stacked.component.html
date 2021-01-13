@@ -1,0 +1,15 @@
+<div class="progress progress-stacked">
+  <div
+    *ngFor="let categoria of categorias"
+    role="progressbar"
+    [ngStyle]="{'width': (categoria.valor / max)*100+'%'}"
+    class="progress-bar progress-stacked-bar progress-bordered {{ categoria.classe }}"
+    [attr.aria-valuenow]="categoria.valor"
+    [attr.aria-valuemin]="min"
+    [attr.aria-valuemax]="max"
+    [hidden]="!categoria.valor"
+    [ngbPopover]="categoria.tooltip"></div>
+    <div *ngIf="score" class="progress-bar-value">
+      {{ score }}
+    </div>
+</div>

@@ -13,6 +13,7 @@ import { DetalhesProposicaoRoutingModule } from './detalhes-proposicao-routing.m
 import { ListaAutoresComponent } from './lista-autores/lista-autores.component';
 import { ListaRelatoresComponent } from './lista-relatores/lista-relatores.component';
 import { ProgressoComponent } from './progresso/progresso.component';
+import { AtuacaoParlamentarComponent } from './atuacao-parlamentar/atuacao-parlamentar.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ProgressoComponent } from './progresso/progresso.component';
     ListaRelatoresComponent,
     TemperaturaPressaoComponent,
     VisTemperaturaPressaoComponent,
-    ProgressoComponent
+    ProgressoComponent,
+    AtuacaoParlamentarComponent
   ],
   imports: [
     CommonModule,
