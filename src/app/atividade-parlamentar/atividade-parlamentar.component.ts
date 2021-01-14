@@ -24,6 +24,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
   tema: string;
   casa: string;
   orderBy: string;
+  destaque: boolean;
 
   constructor(
     private parlamentaresService: ParlamentaresService,
@@ -54,7 +55,8 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
           mudouOrdenacao = false;
         }
 
-        this.tema = pTema;
+        this.destaque = pTema === 'destaque';
+        this.destaque ? this.tema = '' : this.tema = pTema;
         this.casa = pCasa;
         this.orderBy = pOrderBy;
 
@@ -76,7 +78,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
 
   getDadosAtividadeParlamentar() {
     this.parlamentaresService.setOrderBy(this.orderBy);
-    this.parlamentaresService.getParlamentares(this.interesse, this.tema, this.casa)
+    this.parlamentaresService.getParlamentares(this.interesse, this.tema, this.casa, this.destaque)
       .pipe(
         skip(1),
         indicate(this.isLoading),

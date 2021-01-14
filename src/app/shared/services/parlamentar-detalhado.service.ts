@@ -26,7 +26,7 @@ export class ParlamentarDetalhadoService {
     private atorService: AtorService,
     private twitterService: TwitterService) { }
 
-  getParlamentarDetalhado(idParlamentar: string, interesse: string, tema: string): Observable<AtorDetalhado> {
+  getParlamentarDetalhado(idParlamentar: string, interesse: string, tema: string, destaque: boolean): Observable<AtorDetalhado> {
     this.parlamentarDetalhado.next(null);
     forkJoin(
       [
@@ -34,7 +34,7 @@ export class ParlamentarDetalhadoService {
         this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar, tema),
         this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse, tema),
         this.autoriasService.getAutoriasAgregadasById(interesse, Number(idParlamentar), tema),
-        this.twitterService.getAtividadeDetalhadaTwitter(idParlamentar, interesse, tema)
+        this.twitterService.getAtividadeDetalhadaTwitter(idParlamentar, interesse, tema, destaque)
       ]
     )
       .subscribe(data => {

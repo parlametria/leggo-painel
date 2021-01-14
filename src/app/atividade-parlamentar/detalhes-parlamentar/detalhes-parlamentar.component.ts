@@ -28,6 +28,7 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
   public urlFoto: string;
   public isLoading = new BehaviorSubject<boolean>(true);
   public tema: string;
+  public destaque: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -46,15 +47,16 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
     this.activatedRoute.queryParams
     .subscribe(params => {
       this.tema = params.tema;
-      this.tema === undefined ? this.tema = '' : this.tema = this.tema;
-      this.getParlamentarDetalhado(this.idAtor, this.interesse, this.tema);
+      this.destaque = this.tema === 'destaque';
+      this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;
+      this.getParlamentarDetalhado(this.idAtor, this.interesse, this.tema, this.destaque);
     });
     this.getAtorInfo(this.idAtor, this.interesse);
   }
 
-  getParlamentarDetalhado(idParlamentar, interesse, tema) {
+  getParlamentarDetalhado(idParlamentar, interesse, tema, destaque) {
     this.parlamentarDetalhadoService
-      .getParlamentarDetalhado(idParlamentar, interesse, tema)
+      .getParlamentarDetalhado(idParlamentar, interesse, tema, destaque)
       .pipe(
         indicate(this.isLoading),
         takeUntil(this.unsubscribe))

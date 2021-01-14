@@ -49,7 +49,6 @@ export class RedesSociaisComponent implements OnInit, OnDestroy {
         this.tema = params.tema;
         this.destaque = this.tema === 'destaque';
         this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;
-        console.log(this.tema);
         this.resgataTwitter(this.interesse, this.tema, this.idAtor, this.destaque);
       });
   }

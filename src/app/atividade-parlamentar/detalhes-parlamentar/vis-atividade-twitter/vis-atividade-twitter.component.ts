@@ -42,6 +42,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
   private tema: string;
   private idParlamentarDestaque: number;
   private interesse: string;
+  private destaque: boolean;
 
   private width;
   private height;
@@ -98,7 +99,8 @@ export class VisAtividadeTwitterComponent implements OnInit {
         this.activatedRoute.queryParams
           .subscribe(query => {
             this.tema = query.tema;
-            this.tema === undefined ? this.tema = '' : this.tema = this.tema;
+            this.destaque = this.tema === 'destaque';
+            this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;
             this.carregarVis();
           });
       });
@@ -108,7 +110,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
     forkJoin([
       this.entidadeService.getParlamentaresExercicio(''),
       this.twitterService.getMediaTweets(),
-      this.twitterService.getAtividadeTwitter(this.interesse, this.tema),
+      this.twitterService.getAtividadeTwitter(this.interesse, this.tema, this.destaque),
       this.twitterService.getEngajamento()
     ]).subscribe(data => {
       const parlamentaresExercicio: any = data[0];
