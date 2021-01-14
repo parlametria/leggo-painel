@@ -28,7 +28,8 @@ export class VisProposicoesComMaisTweetsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.twitterService.getProposicoesComMaisTweets(this.interesse, this.tema, this.dataInicial, this.dataFinal, this.id, this.qtd, this.destaque)
+    this.twitterService.getProposicoesComMaisTweets(
+      this.interesse, this.tema, this.dataInicial, this.dataFinal, this.id, this.qtd, this.destaque)
       .subscribe(proposicoes => {
         this.proposicoesComMaisTweets = proposicoes;
         this.minComentariosPeriodo = 0;
