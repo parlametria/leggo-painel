@@ -74,31 +74,28 @@ export class ParlamentaresService {
       });
   }
 
-  getParlamentares(interesse: string, tema: string, casa: string): Observable<any> {
+  getParlamentares(interesse: string, tema: string, casa: string, destaque: boolean): Observable<any> {
     forkJoin(
       [
         this.entidadeService.getParlamentaresExercicio(casa),
-        this.atorService.getAtoresAgregados(interesse, tema),
-        this.autoriaService.getAutoriasAgregadas(interesse, tema),
-        this.comissaoService.getComissaoPresidencia(interesse, tema),
-        this.relatoriaService.getAtoresRelatores(interesse, tema),
+        this.autoriaService.getAutoriasAgregadas(interesse, tema, destaque),
+        this.comissaoService.getComissaoPresidencia(interesse, tema, destaque),
+        this.relatoriaService.getAtoresRelatores(interesse, tema, destaque),
         this.pesoService.getPesoPolitico(),
-        this.twitterService.getAtividadeTwitter(interesse, tema),
-        this.autoriaService.getAutoriasAgregadasProjetos(interesse, tema)
+        this.twitterService.getAtividadeTwitter(interesse, tema, destaque),
+        this.autoriaService.getAutoriasAgregadasProjetos(interesse, tema, destaque)
       ]
     )
       .subscribe(data => {
         const parlamentaresExercicio: any = data[0];
-        const atores: any = data[1];
-        const autoriasAgregadas: any = data[2];
-        const comissaoPresidencia: any = data[3];
-        const atoresRelatores: any = data[4];
-        const pesoPolitico: any = data[5];
-        const twitter: any = data[6];
-        const autoriasProjetos: any = data[7];
+        const autoriasAgregadas: any = data[1];
+        const comissaoPresidencia: any = data[2];
+        const atoresRelatores: any = data[3];
+        const pesoPolitico: any = data[4];
+        const twitter: any = data[5];
+        const autoriasProjetos: any = data[6];
 
         const parlamentares = parlamentaresExercicio.map(a => ({
-          ...atores.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...autoriasAgregadas.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...comissaoPresidencia.find(p => a.id_autor_parlametria === p.id_autor_voz),
           ...atoresRelatores.find(p => a.id_autor_parlametria === p.autor_id_parlametria),
@@ -107,14 +104,6 @@ export class ParlamentaresService {
           ...autoriasProjetos.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...a
         }));
-
-        // Transforma os pesos para valores entre 0 e 1
-        const pesos = parlamentares.map(p => {
-          if (p.peso_documentos) {
-            return +p.peso_documentos;
-          }
-          return 0;
-        });
 
         const pesosPoliticos = parlamentares.map(p => {
           if (p.peso_politico) {
