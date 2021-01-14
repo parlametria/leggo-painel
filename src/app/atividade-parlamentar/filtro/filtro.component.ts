@@ -127,11 +127,12 @@ export class FiltroComponent implements OnInit, AfterContentInit, OnDestroy {
   }
 
   getContagemProposicoes(interesse: string, tema: string) {
-    if (tema === this.FILTRO_PADRAO || tema === undefined) {
+    const destaque = tema === 'destaque';
+    if (tema === this.FILTRO_PADRAO || tema === undefined || destaque) {
       tema = '';
     }
 
-    this.proposicoesService.getContagemProposicoes(interesse, tema)
+    this.proposicoesService.getContagemProposicoes(interesse, tema, destaque)
       .pipe(take(1))
       .subscribe(count => {
         this.numeroProposicoes = count.numero_proposicoes;
