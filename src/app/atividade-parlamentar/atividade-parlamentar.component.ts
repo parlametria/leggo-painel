@@ -22,9 +22,9 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
   parlamentares: AtorAgregado[];
   interesse: string;
   tema: string;
+  destaque: boolean;
   casa: string;
   orderBy: string;
-  destaque: boolean;
 
   constructor(
     private parlamentaresService: ParlamentaresService,
@@ -46,7 +46,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
 
         let mudouConsulta = true;
 
-        if (this.tema === pTema && this.casa === pCasa && this.parlamentares) {
+        if (this.tema === pTema && this.casa === pCasa && !this.destaque && this.parlamentares) {
           mudouConsulta = false;
         }
 
@@ -55,8 +55,8 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
           mudouOrdenacao = false;
         }
 
+        this.tema = pTema === 'destaque' ? '' : pTema;
         this.destaque = pTema === 'destaque';
-        this.destaque ? this.tema = '' : this.tema = pTema;
         this.casa = pCasa;
         this.orderBy = pOrderBy;
 

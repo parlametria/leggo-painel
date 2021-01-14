@@ -15,8 +15,8 @@ export class RelatoriaService {
 
   constructor(private http: HttpClient) { }
 
-  getAtoresRelatores(interesse: string, tema: string): Observable<AtorRelator[]> {
-    return this.http.get<AtorRelator[]>(`${this.relatoriaUrl}?interesse=${interesse}&tema=${tema}`);
+  getAtoresRelatores(interesse: string, tema: string, destaque: boolean): Observable<AtorRelator[]> {
+    return this.http.get<AtorRelator[]>(`${this.relatoriaUrl}?interesse=${interesse}&tema=${tema}&destaque=${destaque}`);
   }
 
   getRelatoriasDetalhadaById(interesse: string, idAutor: string, tema: string): Observable<Relatorias[]> {

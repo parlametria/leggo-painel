@@ -22,9 +22,10 @@ export class TwitterService {
     const params = new HttpParams()
       .set('interesse', interesse)
       .set('tema', tema)
+      .set('destaque', String(destaque))
       .set('data_inicial', '2000-01-01')
       .set('data_final', '2020-12-31')
-      .set('destaque', destaque);
+      .set('destaque', destaque.toString());
     return this.http.get<any[]>(`${this.twitterUrl}/tweets/parlamentares`, { params });
   }
 
@@ -34,7 +35,7 @@ export class TwitterService {
       .set('tema', tema)
       .set('data_inicial', '2000-01-01')
       .set('data_final', '2020-12-31')
-      .set('destaque', destaque);
+      .set('destaque', destaque.toString());
     return this.http.get<any>(`${this.twitterUrl}/tweets/parlamentares/${id}`, { params });
   }
 
@@ -61,7 +62,7 @@ export class TwitterService {
       .set('data_inicial', dataInicial)
       .set('data_final', dataFinal)
       .set('qtd', qtd)
-      .set('destaque', destaque);
+      .set('destaque', destaque.toString());
     return this.http.get<any>(`${this.twitterUrl}/proposicoes/parlamentar/${id}`, { params });
   }
 
@@ -82,7 +83,7 @@ export class TwitterService {
       .set('interesse', interesse)
       .set('data_inicial', '2000-05-01')
       .set('data_final', '2020-12-31')
-      .set('destaque', destaque);
+      .set('destaque', destaque.toString());
 
     if (tema !== '' && tema !== undefined) {
       params = params.set('tema', tema);
