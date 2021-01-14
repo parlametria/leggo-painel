@@ -28,6 +28,7 @@ export class RedesSociaisComponent implements OnInit, OnDestroy {
   public parlamentar: AtorTwitter;
   public tweets: Tweet[];
   public infoTwitter: InfoTwitter;
+  public destaque: boolean;
 
   readonly TOTAL_PARLAMENTARES = 594;
 
@@ -46,16 +47,18 @@ export class RedesSociaisComponent implements OnInit, OnDestroy {
     this.activatedRoute.queryParams
       .subscribe(params => {
         this.tema = params.tema;
-        this.tema === undefined ? this.tema = '' : this.tema = this.tema;
-        this.resgataTwitter(this.interesse, this.tema, this.idAtor);
+        this.destaque = this.tema === 'destaque';
+        this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;
+        console.log(this.tema);
+        this.resgataTwitter(this.interesse, this.tema, this.idAtor, this.destaque);
       });
   }
 
-  private resgataTwitter(interesse, tema, idAtor) {
+  private resgataTwitter(interesse, tema, idAtor, destaque) {
     forkJoin([
       this.twitterService.getUsernameTwitter(idAtor),
-      this.twitterService.getAtividadeDetalhadaTwitter(idAtor, interesse, tema),
-      this.twitterService.getTweetsParlamentar(idAtor, interesse, tema, this.NUMERO_TWEETS),
+      this.twitterService.getAtividadeDetalhadaTwitter(idAtor, interesse, tema, destaque),
+      this.twitterService.getTweetsParlamentar(idAtor, interesse, tema, this.NUMERO_TWEETS, destaque),
       this.twitterService.getInfoTwitter()
     ])
       .pipe(

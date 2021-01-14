@@ -14,6 +14,7 @@ export class VisProposicoesComMaisTweetsComponent implements OnInit {
   @Input() id: string;
   @Input() tema = '';
   @Input() interesse: string;
+  @Input() destaque: boolean;
 
   public proposicoesComMaisTweets: ProposicaoComMaisTweets[];
   private dataInicial = moment().subtract(1, 'years').format('YYYY-MM-DD');
@@ -27,7 +28,7 @@ export class VisProposicoesComMaisTweetsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.twitterService.getProposicoesComMaisTweets(this.interesse, this.tema, this.dataInicial, this.dataFinal, this.id, this.qtd)
+    this.twitterService.getProposicoesComMaisTweets(this.interesse, this.tema, this.dataInicial, this.dataFinal, this.id, this.qtd, this.destaque)
       .subscribe(proposicoes => {
         this.proposicoesComMaisTweets = proposicoes;
         this.minComentariosPeriodo = 0;
