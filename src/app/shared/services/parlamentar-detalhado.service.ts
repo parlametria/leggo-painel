@@ -30,10 +30,10 @@ export class ParlamentarDetalhadoService {
     this.parlamentarDetalhado.next(null);
     forkJoin(
       [
-        this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar, tema),
-        this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar, tema),
-        this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse, tema),
-        this.autoriasService.getAutoriasAgregadasById(interesse, Number(idParlamentar), tema),
+        this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar, tema, destaque),
+        this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar, tema, destaque),
+        this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse, tema, destaque),
+        this.autoriasService.getAutoriasAgregadasById(interesse, Number(idParlamentar), tema, destaque),
         this.twitterService.getAtividadeDetalhadaTwitter(idParlamentar, interesse, tema, destaque)
       ]
     )

@@ -25,6 +25,7 @@ export class AtividadeNoCongressoComponent implements OnInit {
   public totalDocs: number;
   public autoriasPorTipo: any;
   public isLoading = new BehaviorSubject<boolean>(true);
+  public destaque: boolean;
 
   readonly ORDER_TIPOS_PROPOSICAO = [
     'Prop. Original / Apensada',
@@ -47,14 +48,15 @@ export class AtividadeNoCongressoComponent implements OnInit {
     this.activatedRoute.queryParams
       .subscribe(params => {
         this.tema = params.tema;
-        this.tema === undefined ? this.tema = '' : this.tema = this.tema;
-        this.resgataRanking(this.interesse, this.tema, this.idAtor);
-        this.resgataDocumentos(this.interesse, this.tema, parseInt(this.idAtor, 10));
+        this.destaque = this.tema === 'destaque';
+        this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;
+        this.resgataRanking(this.interesse, this.tema, this.idAtor, this.destaque);
+        this.resgataDocumentos(this.interesse, this.tema, parseInt(this.idAtor, 10), this.destaque);
       });
   }
 
-  private resgataRanking(interesse, tema, idAtor) {
-    this.autoriaService.getAcoes(interesse, tema)
+  private resgataRanking(interesse, tema, idAtor, destaque) {
+    this.autoriaService.getAcoes(interesse, tema, destaque)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(acoes => {
         acoes.forEach(dado => {
@@ -70,8 +72,8 @@ export class AtividadeNoCongressoComponent implements OnInit {
       });
   }
 
-  private resgataDocumentos(interesse, tema, idAtor) {
-    this.autoriaService.getAutorias(idAtor, interesse, tema)
+  private resgataDocumentos(interesse, tema, idAtor, destaque) {
+    this.autoriaService.getAutorias(idAtor, interesse, tema, destaque)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(autorias => {
         const autoriasApresentadas = autorias.filter(a => a.tipo_acao === 'Proposição');
