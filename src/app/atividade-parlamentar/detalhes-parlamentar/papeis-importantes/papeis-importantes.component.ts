@@ -47,7 +47,6 @@ export class PapeisImportantesComponent implements OnInit {
       .subscribe(params => {
         this.tema = params.tema;
         this.destaque = this.tema === 'destaque';
-        console.log(this.destaque)
         this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;
         this.getParlamentarDetalhado(this.idAtor, this.interesse, this.tema, this.destaque);
       });

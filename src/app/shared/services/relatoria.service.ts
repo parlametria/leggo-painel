@@ -19,7 +19,10 @@ export class RelatoriaService {
     return this.http.get<AtorRelator[]>(`${this.relatoriaUrl}?interesse=${interesse}&tema=${tema}&destaque=${destaque}`);
   }
 
-  getRelatoriasDetalhadaById(interesse: string, idAutor: string, tema: string, destaque: boolean): Observable<Relatorias[]> {
-    return this.http.get<Relatorias[]>(`${this.relatoriaUrl}/detalhada/${idAutor}/?interesse=${interesse}&tema=${tema}&destaque=${destaque}`);
+  getRelatoriasDetalhadaById(
+    interesse: string, idAutor: string, tema: string, destaque: boolean):
+    Observable<Relatorias[]> {
+    return this.http.get<Relatorias[]>(
+      `${this.relatoriaUrl}/detalhada/${idAutor}/?interesse=${interesse}&tema=${tema}&destaque=${destaque}`);
   }
 }
