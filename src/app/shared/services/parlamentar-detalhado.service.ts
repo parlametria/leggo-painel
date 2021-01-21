@@ -46,18 +46,23 @@ export class ParlamentarDetalhadoService {
         const atividadeTwitter = data[4];
 
         const comissoesInfo = this.getComissoesProcessadas(comissoesPresidencia);
-        atividadeParlamentar.atividade_parlamentar = this.normalizarAtividade(
-          atividadeParlamentar.quantidade_autorias,
-          atividadeParlamentar.min_quantidade_autorias,
-          atividadeParlamentar.max_quantidade_autorias);
 
-        atividadeTwitter.quantidade_tweets = +atividadeTwitter.atividade_twitter;
+        if (atividadeParlamentar !== undefined) {
+          atividadeParlamentar.atividade_parlamentar = this.normalizarAtividade(
+            atividadeParlamentar.quantidade_autorias,
+            atividadeParlamentar.min_quantidade_autorias,
+            atividadeParlamentar.max_quantidade_autorias);
+        }
 
-        atividadeTwitter.atividade_twitter = this.normalizarAtividade(
-          atividadeTwitter.atividade_twitter,
-          atividadeTwitter.min_atividade_twitter,
-          atividadeTwitter.max_atividade_twitter
-        );
+        if (atividadeTwitter !== undefined) {
+          atividadeTwitter.quantidade_tweets = +atividadeTwitter.atividade_twitter;
+
+          atividadeTwitter.atividade_twitter = this.normalizarAtividade(
+            atividadeTwitter.atividade_twitter,
+            atividadeTwitter.min_atividade_twitter,
+            atividadeTwitter.max_atividade_twitter
+          );
+        }
 
         const pesoTotalAutorias = this.calculaPesoTotalAutorias(autorias);
 

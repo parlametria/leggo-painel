@@ -97,9 +97,10 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
 
   getLabel(valor: any, messagem: string): string {
     let label = '';
-    if (valor !== undefined && valor !== null) {
-      label = valor + messagem;
+    if (valor === undefined || valor === null) {
+      valor = '0';
     }
+    label = valor + messagem;
 
     return label;
   }
