@@ -17,7 +17,7 @@ export class VisProposicoesComMaisTweetsComponent implements OnInit {
   @Input() destaque: boolean;
 
   public proposicoesComMaisTweets: ProposicaoComMaisTweets[];
-  private dataInicial = moment().subtract(1, 'years').format('YYYY-MM-DD');
+  private dataInicial = '2019-01-01';
   private dataFinal = moment().format('YYYY-MM-DD');
   private qtd = '3';
   public maxComentariosPeriodo;
