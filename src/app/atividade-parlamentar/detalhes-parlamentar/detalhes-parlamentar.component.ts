@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Subject, BehaviorSubject, forkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import * as moment from 'moment';
 
 import { Ator } from 'src/app/shared/models/ator.model';
 import { ParlamentarDetalhadoService } from 'src/app/shared/services/parlamentar-detalhado.service';
@@ -55,8 +56,10 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
   }
 
   getParlamentarDetalhado(idParlamentar, interesse, tema, destaque) {
+    const dataInicial = '2019-01-01';
+    const dataFinal = moment().format('YYYY-MM-DD');
     this.parlamentarDetalhadoService
-      .getParlamentarDetalhado(idParlamentar, interesse, tema, destaque)
+      .getParlamentarDetalhado(idParlamentar, interesse, tema, dataInicial, dataFinal, destaque)
       .pipe(
         indicate(this.isLoading),
         takeUntil(this.unsubscribe))

@@ -18,38 +18,40 @@ export class TwitterService {
 
   constructor(private http: HttpClient) { }
 
-  getAtividadeTwitter(interesse: string, tema: string, destaque: boolean): Observable<any[]> {
+  getAtividadeTwitter(interesse: string, tema: string, dataInicial: string, dataFinal: string, destaque: boolean): Observable<any[]> {
     const params = new HttpParams()
       .set('interesse', interesse)
       .set('tema', tema)
       .set('destaque', String(destaque))
-      .set('data_inicial', '2000-01-01')
-      .set('data_final', '2020-12-31')
+      .set('data_inicial', dataInicial)
+      .set('data_final', dataFinal)
       .set('destaque', destaque.toString());
     return this.http.get<any[]>(`${this.twitterUrl}/tweets/parlamentares`, { params });
   }
 
-  getAtividadeDetalhadaTwitter(id: string, interesse: string, tema: string, destaque: boolean): Observable<any> {
+  getAtividadeDetalhadaTwitter(
+    id: string, interesse: string, tema: string, dataInicial: string, dataFinal: string, destaque: boolean
+  ): Observable<any> {
     const params = new HttpParams()
       .set('interesse', interesse)
       .set('tema', tema)
-      .set('data_inicial', '2000-01-01')
-      .set('data_final', '2020-12-31')
+      .set('data_inicial', dataInicial)
+      .set('data_final', dataFinal)
       .set('destaque', destaque.toString());
     return this.http.get<any>(`${this.twitterUrl}/tweets/parlamentares/${id}`, { params });
   }
 
-  getMediaTweets(): Observable<any> {
+  getMediaTweets(dataInicial: string, dataFinal: string): Observable<any> {
     const params = new HttpParams()
-      .set('data_inicial', '2000-01-01')
-      .set('data_final', '2020-12-31');
+      .set('data_inicial', dataInicial)
+      .set('data_final', dataFinal);
     return this.http.get<any>(`${this.twitterUrl}/parlamentares/media`, { params });
   }
 
-  getEngajamento(): Observable<any> {
+  getEngajamento(dataInicial: string, dataFinal: string): Observable<any> {
     const params = new HttpParams()
-      .set('data_inicial', '2000-01-01')
-      .set('data_final', '2020-12-31');
+      .set('data_inicial', dataInicial)
+      .set('data_final', dataFinal);
     return this.http.get<any>(`${this.twitterUrl}/parlamentares/engajamento`, { params });
   }
 
@@ -78,11 +80,13 @@ export class TwitterService {
     return this.http.get<any>(`${this.twitterUrl}/parlamentares/username/${id}`);
   }
 
-  getTweetsParlamentar(id: string, interesse: string, tema: string, limit: number, destaque: boolean): Observable<Tweet[]> {
+  getTweetsParlamentar(
+    id: string, interesse: string, tema: string, dataInicial: string, dataFinal: string, limit: number, destaque: boolean
+  ): Observable<Tweet[]> {
     let params = new HttpParams()
       .set('interesse', interesse)
-      .set('data_inicial', '2000-05-01')
-      .set('data_final', '2020-12-31')
+      .set('data_inicial', dataInicial)
+      .set('data_final', dataFinal)
       .set('destaque', destaque.toString());
 
     if (tema !== '' && tema !== undefined) {

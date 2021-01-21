@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, forkJoin, Subject } from 'rxjs';
+import * as moment from 'moment';
 
 import { TwitterService } from 'src/app/shared/services/twitter.service';
 import { indicate } from 'src/app/shared/functions/indicate.function';
@@ -54,10 +55,12 @@ export class RedesSociaisComponent implements OnInit, OnDestroy {
   }
 
   private resgataTwitter(interesse, tema, idAtor, destaque) {
+    const dataInicial = '2019-01-01';
+    const dataFinal = moment().format('YYYY-MM-DD');
     forkJoin([
       this.twitterService.getUsernameTwitter(idAtor),
-      this.twitterService.getAtividadeDetalhadaTwitter(idAtor, interesse, tema, destaque),
-      this.twitterService.getTweetsParlamentar(idAtor, interesse, tema, this.NUMERO_TWEETS, destaque),
+      this.twitterService.getAtividadeDetalhadaTwitter(idAtor, interesse, tema, dataInicial, dataFinal, destaque),
+      this.twitterService.getTweetsParlamentar(idAtor, interesse, tema, dataInicial, dataFinal, this.NUMERO_TWEETS, destaque),
       this.twitterService.getInfoTwitter()
     ])
       .pipe(

@@ -10,6 +10,7 @@ import { axisLeft, axisBottom } from 'd3-axis';
 import { hsl } from 'd3-color';
 import { path } from 'd3-path';
 import { format } from 'd3-format';
+import * as moment from 'moment';
 
 import { EntidadeService } from 'src/app/shared/services/entidade.service';
 import { TwitterService } from 'src/app/shared/services/twitter.service';
@@ -107,11 +108,13 @@ export class VisAtividadeTwitterComponent implements OnInit {
   }
 
   private carregarVis() {
+    const dataInicial = '2019-01-01';
+    const dataFinal = moment().format('YYYY-MM-DD');
     forkJoin([
       this.entidadeService.getParlamentaresExercicio(''),
-      this.twitterService.getMediaTweets(),
-      this.twitterService.getAtividadeTwitter(this.interesse, this.tema, this.destaque),
-      this.twitterService.getEngajamento()
+      this.twitterService.getMediaTweets(dataInicial, dataFinal),
+      this.twitterService.getAtividadeTwitter(this.interesse, this.tema, dataInicial, dataFinal, this.destaque),
+      this.twitterService.getEngajamento(dataInicial, dataFinal)
     ]).subscribe(data => {
       const parlamentaresExercicio: any = data[0];
       const mediaTweets: any = data[1];
