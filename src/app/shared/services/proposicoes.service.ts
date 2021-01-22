@@ -29,8 +29,8 @@ export class ProposicoesService {
     return this.http.get<Proposicao[]>(`${this.proposicoesUrl}?interesse=${interesse}&data_referencia=${hoje}`);
   }
 
-  getContagemProposicoes(interesse: string, tema: string): Observable<ProposicaoContagem> {
-    return this.http.get<ProposicaoContagem>(`${this.proposicoesUrl}/contagem?interesse=${interesse}&tema=${tema}`);
+  getContagemProposicoes(interesse: string, tema: string, destaque: boolean): Observable<ProposicaoContagem> {
+    return this.http.get<ProposicaoContagem>(`${this.proposicoesUrl}/contagem?interesse=${interesse}&tema=${tema}&destaque=${destaque}`);
   }
 
   getUltimaTemperaturaProposicoes(interesse: string): Observable<UltimaTemperaturaProposicao[]> {

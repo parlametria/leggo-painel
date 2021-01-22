@@ -26,15 +26,17 @@ export class ParlamentarDetalhadoService {
     private atorService: AtorService,
     private twitterService: TwitterService) { }
 
-  getParlamentarDetalhado(idParlamentar: string, interesse: string, tema: string): Observable<AtorDetalhado> {
+  getParlamentarDetalhado(
+    idParlamentar: string, interesse: string, tema: string, dataInicial: string, dataFinal: string, destaque: boolean
+  ): Observable<AtorDetalhado> {
     this.parlamentarDetalhado.next(null);
     forkJoin(
       [
-        this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar, tema),
-        this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar, tema),
-        this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse, tema),
-        this.autoriasService.getAutoriasAgregadasById(interesse, Number(idParlamentar), tema),
-        this.twitterService.getAtividadeDetalhadaTwitter(idParlamentar, interesse, tema)
+        this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar, tema, destaque),
+        this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar, tema, destaque),
+        this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse, tema, destaque),
+        this.autoriasService.getAutoriasAgregadasById(interesse, Number(idParlamentar), tema, destaque),
+        this.twitterService.getAtividadeDetalhadaTwitter(idParlamentar, interesse, tema, dataInicial, dataFinal, destaque)
       ]
     )
       .subscribe(data => {
@@ -46,18 +48,23 @@ export class ParlamentarDetalhadoService {
         const atividadeTwitter = data[4];
 
         const comissoesInfo = this.getComissoesProcessadas(comissoesPresidencia);
-        atividadeParlamentar.atividade_parlamentar = this.normalizarAtividade(
-          atividadeParlamentar.quantidade_autorias,
-          atividadeParlamentar.min_quantidade_autorias,
-          atividadeParlamentar.max_quantidade_autorias);
 
-        atividadeTwitter.quantidade_tweets = +atividadeTwitter.atividade_twitter;
+        if (atividadeParlamentar !== undefined) {
+          atividadeParlamentar.atividade_parlamentar = this.normalizarAtividade(
+            atividadeParlamentar.quantidade_autorias,
+            atividadeParlamentar.min_quantidade_autorias,
+            atividadeParlamentar.max_quantidade_autorias);
+        }
 
-        atividadeTwitter.atividade_twitter = this.normalizarAtividade(
-          atividadeTwitter.atividade_twitter,
-          atividadeTwitter.min_atividade_twitter,
-          atividadeTwitter.max_atividade_twitter
-        );
+        if (atividadeTwitter !== undefined) {
+          atividadeTwitter.quantidade_tweets = +atividadeTwitter.atividade_twitter;
+
+          atividadeTwitter.atividade_twitter = this.normalizarAtividade(
+            atividadeTwitter.atividade_twitter,
+            atividadeTwitter.min_atividade_twitter,
+            atividadeTwitter.max_atividade_twitter
+          );
+        }
 
         const pesoTotalAutorias = this.calculaPesoTotalAutorias(autorias);
 

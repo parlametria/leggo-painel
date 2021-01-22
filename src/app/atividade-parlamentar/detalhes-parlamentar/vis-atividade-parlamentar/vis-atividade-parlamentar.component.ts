@@ -48,6 +48,7 @@ export class VisAtividadeParlamentarComponent implements OnInit {
   private y: any;
   private svg: any;
   private tema: string;
+  private destaque: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -72,13 +73,14 @@ export class VisAtividadeParlamentarComponent implements OnInit {
     this.activatedRoute.queryParams
       .subscribe(params => {
         this.tema = params.tema;
-        this.tema === undefined ? this.tema = '' : this.tema = this.tema;
+        this.destaque = this.tema === 'destaque';
+        this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;
         this.carregaVisAtividade();
       });
   }
 
   private carregaVisAtividade() {
-    this.autoriaService.getAcoes(this.interesse, this.tema)
+    this.autoriaService.getAcoes(this.interesse, this.tema, this.destaque)
     .pipe(takeUntil(this.unsubscribe))
     .subscribe(acoes => {
       const quantDomain = [];

@@ -53,6 +53,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   private svg: any;
   private gPrincipal: any;
   private tema: string;
+  private destaque: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -69,7 +70,8 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     this.activatedRoute.queryParams
       .subscribe(params => {
         this.tema = params.tema;
-        this.tema === undefined ? this.tema = '' : this.tema = this.tema;
+        this.destaque = this.tema === 'destaque';
+        this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;
         this.carregaVisAtividade();
       });
   }
@@ -119,7 +121,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   }
 
   private carregaVisAtividade() {
-    this.autoriasService.getAutorias(this.idAtor, this.interesse, this.tema)
+    this.autoriasService.getAutorias(this.idAtor, this.interesse, this.tema, this.destaque)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(autorias => {
         const autoriasApresentadas = [];
