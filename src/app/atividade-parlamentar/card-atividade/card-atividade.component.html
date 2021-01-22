@@ -18,7 +18,7 @@
     <div>
       <a [routerLink]="[parlamentar.id_autor_parlametria + '/atividades']">
         <app-progress
-          [label]="parlamentar.quantidade_autorias + ' ações na agenda'"
+          [label]="(parlamentar.quantidade_autorias ? parlamentar.quantidade_autorias : 0) + ' ações na agenda'"
           [barraClasse]="'bg-primary'"
           [valor]="parlamentar.atividade_parlamentar"
           [exibirLabel]="true"></app-progress>

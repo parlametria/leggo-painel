@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Subject, BehaviorSubject, forkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import * as moment from 'moment';
 
 import { Ator } from 'src/app/shared/models/ator.model';
 import { ParlamentarDetalhadoService } from 'src/app/shared/services/parlamentar-detalhado.service';
@@ -28,6 +29,7 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
   public urlFoto: string;
   public isLoading = new BehaviorSubject<boolean>(true);
   public tema: string;
+  public destaque: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -46,15 +48,18 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
     this.activatedRoute.queryParams
     .subscribe(params => {
       this.tema = params.tema;
-      this.tema === undefined ? this.tema = '' : this.tema = this.tema;
-      this.getParlamentarDetalhado(this.idAtor, this.interesse, this.tema);
+      this.destaque = this.tema === 'destaque';
+      this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;
+      this.getParlamentarDetalhado(this.idAtor, this.interesse, this.tema, this.destaque);
     });
     this.getAtorInfo(this.idAtor, this.interesse);
   }
 
-  getParlamentarDetalhado(idParlamentar, interesse, tema) {
+  getParlamentarDetalhado(idParlamentar, interesse, tema, destaque) {
+    const dataInicial = '2019-01-01';
+    const dataFinal = moment().format('YYYY-MM-DD');
     this.parlamentarDetalhadoService
-      .getParlamentarDetalhado(idParlamentar, interesse, tema)
+      .getParlamentarDetalhado(idParlamentar, interesse, tema, dataInicial, dataFinal, destaque)
       .pipe(
         indicate(this.isLoading),
         takeUntil(this.unsubscribe))
@@ -95,9 +100,10 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
 
   getLabel(valor: any, messagem: string): string {
     let label = '';
-    if (valor !== undefined && valor !== null) {
-      label = valor + messagem;
+    if (valor === undefined || valor === null) {
+      valor = '0';
     }
+    label = valor + messagem;
 
     return label;
   }

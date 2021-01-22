@@ -27,6 +27,7 @@ export class PapeisImportantesComponent implements OnInit {
   public interesse: string;
   public isLoading = new BehaviorSubject<boolean>(true);
   public tema: string;
+  public destaque: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -45,17 +46,18 @@ export class PapeisImportantesComponent implements OnInit {
     this.activatedRoute.queryParams
       .subscribe(params => {
         this.tema = params.tema;
-        this.tema === undefined ? this.tema = '' : this.tema = this.tema;
-        this.getParlamentarDetalhado(this.idAtor, this.interesse, this.tema);
+        this.destaque = this.tema === 'destaque';
+        this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;
+        this.getParlamentarDetalhado(this.idAtor, this.interesse, this.tema, this.destaque);
       });
   }
 
-  getParlamentarDetalhado(idParlamentar, interesse, tema) {
+  getParlamentarDetalhado(idParlamentar, interesse, tema, destaque) {
     forkJoin(
       [
-        this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar, tema),
-        this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar, tema),
-        this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse, tema)
+        this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar, tema, destaque),
+        this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar, tema, destaque),
+        this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse, tema, destaque)
       ]
     )
     .subscribe(data => {

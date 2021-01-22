@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Subject, BehaviorSubject } from 'rxjs';
 import { takeUntil, skip } from 'rxjs/operators';
+import * as moment from 'moment';
 
 import { AtorAgregado } from '../shared/models/atorAgregado.model';
 import { ParlamentaresService } from '../shared/services/parlamentares.service';
@@ -22,6 +23,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
   parlamentares: AtorAgregado[];
   interesse: string;
   tema: string;
+  destaque: boolean;
   casa: string;
   orderBy: string;
 
@@ -45,7 +47,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
 
         let mudouConsulta = true;
 
-        if (this.tema === pTema && this.casa === pCasa && this.parlamentares) {
+        if (this.tema === pTema && this.casa === pCasa && !this.destaque && this.parlamentares) {
           mudouConsulta = false;
         }
 
@@ -54,7 +56,8 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
           mudouOrdenacao = false;
         }
 
-        this.tema = pTema;
+        this.tema = pTema === 'destaque' ? '' : pTema;
+        this.destaque = pTema === 'destaque';
         this.casa = pCasa;
         this.orderBy = pOrderBy;
 
@@ -75,8 +78,10 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
   }
 
   getDadosAtividadeParlamentar() {
+    const dataInicial = '2019-01-01';
+    const dataFinal = moment().format('YYYY-MM-DD');
     this.parlamentaresService.setOrderBy(this.orderBy);
-    this.parlamentaresService.getParlamentares(this.interesse, this.tema, this.casa)
+    this.parlamentaresService.getParlamentares(this.interesse, this.tema, this.casa, dataInicial, dataFinal, this.destaque)
       .pipe(
         skip(1),
         indicate(this.isLoading),

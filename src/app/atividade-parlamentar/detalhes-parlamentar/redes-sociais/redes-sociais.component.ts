@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, forkJoin, Subject } from 'rxjs';
+import * as moment from 'moment';
 
 import { TwitterService } from 'src/app/shared/services/twitter.service';
 import { indicate } from 'src/app/shared/functions/indicate.function';
@@ -28,6 +29,7 @@ export class RedesSociaisComponent implements OnInit, OnDestroy {
   public parlamentar: AtorTwitter;
   public tweets: Tweet[];
   public infoTwitter: InfoTwitter;
+  public destaque: boolean;
 
   readonly TOTAL_PARLAMENTARES = 594;
 
@@ -46,16 +48,19 @@ export class RedesSociaisComponent implements OnInit, OnDestroy {
     this.activatedRoute.queryParams
       .subscribe(params => {
         this.tema = params.tema;
-        this.tema === undefined ? this.tema = '' : this.tema = this.tema;
-        this.resgataTwitter(this.interesse, this.tema, this.idAtor);
+        this.destaque = this.tema === 'destaque';
+        this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;
+        this.resgataTwitter(this.interesse, this.tema, this.idAtor, this.destaque);
       });
   }
 
-  private resgataTwitter(interesse, tema, idAtor) {
+  private resgataTwitter(interesse, tema, idAtor, destaque) {
+    const dataInicial = '2019-01-01';
+    const dataFinal = moment().format('YYYY-MM-DD');
     forkJoin([
       this.twitterService.getUsernameTwitter(idAtor),
-      this.twitterService.getAtividadeDetalhadaTwitter(idAtor, interesse, tema),
-      this.twitterService.getTweetsParlamentar(idAtor, interesse, tema, this.NUMERO_TWEETS),
+      this.twitterService.getAtividadeDetalhadaTwitter(idAtor, interesse, tema, dataInicial, dataFinal, destaque),
+      this.twitterService.getTweetsParlamentar(idAtor, interesse, tema, dataInicial, dataFinal, this.NUMERO_TWEETS, destaque),
       this.twitterService.getInfoTwitter()
     ])
       .pipe(
