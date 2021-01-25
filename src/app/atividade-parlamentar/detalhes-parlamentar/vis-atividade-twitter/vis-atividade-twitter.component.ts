@@ -302,7 +302,7 @@ export class VisAtividadeTwitterComponent implements OnInit {
     g.append('text')
       .attr('x', 0)
       .attr('y', -10)
-      .attr('font-size', '0.8rem')
+      .attr('font-size', '0.7rem')
       .text('Engajamento médio');
   }
 
