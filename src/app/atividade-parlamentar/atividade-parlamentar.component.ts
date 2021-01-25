@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Subject, BehaviorSubject } from 'rxjs';
 import { takeUntil, skip } from 'rxjs/operators';
+import * as moment from 'moment';
 
 import { AtorAgregado } from '../shared/models/atorAgregado.model';
 import { ParlamentaresService } from '../shared/services/parlamentares.service';
@@ -77,8 +78,10 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
   }
 
   getDadosAtividadeParlamentar() {
+    const dataInicial = '2019-01-01';
+    const dataFinal = moment().format('YYYY-MM-DD');
     this.parlamentaresService.setOrderBy(this.orderBy);
-    this.parlamentaresService.getParlamentares(this.interesse, this.tema, this.casa, this.destaque)
+    this.parlamentaresService.getParlamentares(this.interesse, this.tema, this.casa, dataInicial, dataFinal, this.destaque)
       .pipe(
         skip(1),
         indicate(this.isLoading),
