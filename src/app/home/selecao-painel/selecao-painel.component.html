@@ -1,1 +1,19 @@
-<p>selecao-painel works!</p>
+<div class="paineis">
+  <div class="container app-container">
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-6">
+        <h2 class="text-center mb-4">Selecione o painel</h2>
+        <div class="py-4">
+          <div class="list-group">
+            <a
+              *ngFor="let interesse of interesses"
+              [routerLink]="'/' + interesse.interesse"
+              class="list-group-item list-group-item-action">
+              <strong>{{ interesse.nome_interesse }}</strong>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

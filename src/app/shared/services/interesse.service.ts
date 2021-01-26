@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
@@ -17,7 +17,13 @@ export class InteresseService {
 
   constructor(private http: HttpClient) { }
 
+  getInteresses(): Observable<Interesse[]> {
+    return this.http.get<Interesse[]>(`${this.interessesUrl}`);
+  }
+
   getInteresse(interesse: string): Observable<Interesse[]> {
-    return this.http.get<Interesse[]>(`${this.interessesUrl}?interesse=${interesse}`);
+    const params = new HttpParams()
+      .set('interesse', interesse);
+    return this.http.get<Interesse[]>(this.interessesUrl, { params });
   }
 }
