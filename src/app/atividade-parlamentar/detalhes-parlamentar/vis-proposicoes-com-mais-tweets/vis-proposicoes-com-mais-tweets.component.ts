@@ -17,12 +17,15 @@ export class VisProposicoesComMaisTweetsComponent implements OnInit {
   @Input() interesse: string;
   @Input() destaque: boolean;
 
+  readonly NUMERO_PROPOSICOES = 4;
+
   public proposicoesComMaisTweets: ProposicaoComMaisTweets[];
   private dataInicial = '2019-01-01';
   private dataFinal = moment().format('YYYY-MM-DD');
-  private qtd = '3';
+  private qtd = '';
   public maxComentariosPeriodo;
   public minComentariosPeriodo;
+  public numeroProposicoes = this.NUMERO_PROPOSICOES;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -49,6 +52,14 @@ export class VisProposicoesComMaisTweetsComponent implements OnInit {
           return p.num_tweets < min ? p.num_tweets : min;
         }, this.proposicoesComMaisTweets[0].num_tweets);
       });
+  }
+
+  toogleShowProposicoes() {
+    if (this.numeroProposicoes < this.proposicoesComMaisTweets.length) {
+      this.numeroProposicoes = this.proposicoesComMaisTweets.length;
+    } else {
+      this.numeroProposicoes = this.NUMERO_PROPOSICOES;
+    }
   }
 
 }

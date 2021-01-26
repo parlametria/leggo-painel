@@ -2,7 +2,7 @@
 <div class="vis">
   <div
     class="row gutters-sm"
-    *ngFor="let proposicao of proposicoesComMaisTweets">
+    *ngFor="let proposicao of proposicoesComMaisTweets|slice:0:numeroProposicoes">
     <div class="col-3 text-right">{{ proposicao.sigla }}</div>
     <div class="col">
       <app-progress
@@ -15,4 +15,14 @@
     </div>
     <div class="col-1">{{ proposicao.num_tweets }}</div>
   </div>
+</div>
+
+<div *ngIf="proposicoesComMaisTweets?.length > NUMERO_PROPOSICOES"
+  class="mt-2">
+  <button
+    class="btn btn-light btn-xs"
+    (click)="toogleShowProposicoes()">
+    <span [hidden]="numeroProposicoes === NUMERO_PROPOSICOES">ver apenas as mais mencionadas</span>
+    <span [hidden]="numeroProposicoes > NUMERO_PROPOSICOES">ver todas as proposições</span>
+  </button>
 </div>
