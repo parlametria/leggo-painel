@@ -4,9 +4,18 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home.component';
 import { AtividadeParlamentarComponent } from '../atividade-parlamentar/atividade-parlamentar.component';
 import { ProposicoesComponent } from '../proposicoes/proposicoes.component';
-import { SobreComponent } from '../sobre/sobre.component';
+import { SobreComponent } from './sobre/sobre.component';
+import { SelecaoPainelComponent } from './selecao-painel/selecao-painel.component';
 
 const routes: Routes = [
+  {
+    path: 'paineis',
+    component: SelecaoPainelComponent
+  },
+  {
+    path: 'sobre',
+    component: SobreComponent
+  },
   {
     path: ':interesse',
     component: HomeComponent,
@@ -28,7 +37,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'leggo',
+    redirectTo: 'paineis',
     pathMatch: 'full',
   },
   {
@@ -44,11 +53,7 @@ const routes: Routes = [
       import(
         '../proposicoes/detalhes-proposicao/detalhes-proposicao.module'
       ).then((m) => m.DetalhesProposicaoModule),
-  },
-  {
-    path: ':interesse/sobre',
-    component: SobreComponent
-  },
+  }
 ];
 
 @NgModule({

@@ -19,8 +19,6 @@ export class NavbarComponent implements OnInit {
 
   public interesseParam: string;
 
-  public sobreUrl: string;
-
   constructor(
     private interesseService: InteresseService,
     private router: Router,
@@ -34,7 +32,6 @@ export class NavbarComponent implements OnInit {
         this.interesseParam = event.snapshot.params.interesse;
         if (this.interesseParam !== undefined) {
           this.getInteresse(this.interesseParam);
-          this.sobreUrl = this.interesseParam + '/sobre';
         }
       }
     });

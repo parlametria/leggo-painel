@@ -3,15 +3,15 @@
     <div class="navbar-logo-wrapper">
       <div class="text-center pr-2">
         <a
-          [routerLink]="interesse?.interesse"
+          [routerLink]="''"
           class="navbar-brand">
           <img
             src="assets/imgs/logotipo-parlametria.png"
-            alt="leggo"
+            alt="Parlametria"
             width="200">
         </a>
       </div>
-      <div class="text-center">
+      <div class="text-center" *ngIf="interesse?.interesse">
         <a
           [routerLink]="interesse?.interesse"
           class="navbar-brand">
@@ -24,7 +24,7 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
         <a
-          [routerLink]="sobreUrl"
+          [routerLink]="'/sobre'"
           class="navbar-link-icon">
           <span class="icon-sobre app-icon"></span>
         </a>
