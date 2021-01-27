@@ -1,5 +1,20 @@
 .paineis {
-  height: 60vh;
   display: flex;
   align-items: center;
+  @media (min-width: 768px) {
+    height: 60vh;
+  }
+}
+
+.paineis-selecao {
+  padding: 1rem;
+  margin-bottom: 1rem;
+
+  @media (min-width: 992px) {
+    padding: 3rem;
+  }
+
+  @media (min-width: 1200px) {
+    padding: 3.6rem;
+  }
 }
