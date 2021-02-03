@@ -22,7 +22,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'parlamentares',
+        redirectTo: 'proposicoes',
         pathMatch: 'full'
       },
       {
