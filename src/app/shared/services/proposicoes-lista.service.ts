@@ -162,7 +162,7 @@ export class ProposicoesListaService {
 
       filtered =
         nome && filtered
-          ? termos.includes(nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase())
+          ? termos.includes(nome.normalize('NFD').replace(/[\u0300-\u036f]|\s*$/g, '').toLowerCase())
           : filtered;
 
       filtered =
