@@ -19,7 +19,7 @@ export class EventosService {
     const params = new HttpParams()
       .set('interesse', interesse)
       .set('data_inicial', dataInicial)
-      .set('data_final', dataFinal)
-      return this.http.get<any>(`${this.eventosUrl}/eventos_tramitacao/${idLeggo}`, { params });
+      .set('data_final', dataFinal);
+    return this.http.get<any>(`${this.eventosUrl}/eventos_tramitacao/${idLeggo}`, { params });
   }
 }
