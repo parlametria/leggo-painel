@@ -21,6 +21,7 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy  {
 
   public proposicao: Proposicao;
   public eventos: Evento[];
+  public eventosAgrupados: any;
   public idProposicao: string;
   public interesse: string;
   public isLoading = new BehaviorSubject<boolean>(true);
@@ -60,13 +61,23 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy  {
       });
   }
 
-  getEventosProposicao(idProposicao, interesse){
+  private groupBy = key => array =>
+  array.reduce((objectsByKeyValue, obj) => {
+    const value = obj[key];
+    objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat(obj);
+    return objectsByKeyValue;
+  }, {});
+
+  getEventosProposicao(idProposicao, interesse) {
     this.eventosProposicaoService
       .getEventosTramitação(idProposicao, interesse)
       .pipe(
         takeUntil(this.unsubscribe))
       .subscribe(eventos => {
         this.eventos = eventos;
+        const eventosGroupByTitulo = this.groupBy('titulo_evento');
+        this.eventosAgrupados = eventosGroupByTitulo(eventos);
+        console.log(this.eventosAgrupados);
       });
   }
 
