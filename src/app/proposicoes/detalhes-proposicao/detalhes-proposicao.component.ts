@@ -66,7 +66,7 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy  {
     const value = obj[key];
     objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat(obj);
     return objectsByKeyValue;
-  }, {});
+  }, {})
 
   getEventosProposicao(idProposicao, interesse) {
     this.eventosProposicaoService
