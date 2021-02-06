@@ -6,7 +6,9 @@ import { takeUntil } from 'rxjs/operators';
 
 import { Proposicao } from 'src/app/shared/models/proposicao.model';
 import { ProposicaoDetalhadaService } from 'src/app/shared/services/proposicao-detalhada.service';
+import { EventosService } from 'src/app/shared/services/eventos.service';
 import { indicate } from 'src/app/shared/functions/indicate.function';
+import { Evento } from 'src/app/shared/models/evento.model';
 
 @Component({
   selector: 'app-detalhes-proposicao',
@@ -18,6 +20,7 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy  {
   private unsubscribe = new Subject();
 
   public proposicao: Proposicao;
+  public eventos: Evento[];
   public idProposicao: string;
   public interesse: string;
   public isLoading = new BehaviorSubject<boolean>(true);
@@ -26,6 +29,7 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy  {
   constructor(
     private activatedRoute: ActivatedRoute,
     private proposicaoDetalhadaService: ProposicaoDetalhadaService,
+    private eventosProposicaoService: EventosService,
   ) { }
 
   ngOnInit(): void {
@@ -40,6 +44,7 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy  {
       this.tema = params.tema;
       this.tema === undefined ? this.tema = '' : this.tema = this.tema;
       this.getProposicaodetalhada(this.idProposicao, this.interesse);
+      this.getEventosProposicao(this.idProposicao, this.interesse);
     });
   }
 
@@ -52,6 +57,16 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy  {
       .subscribe(proposicao => {
         this.proposicao = proposicao[0];
         this.isLoading.next(false);
+      });
+  }
+
+  getEventosProposicao(idProposicao, interesse){
+    this.eventosProposicaoService
+      .getEventosTramitação(idProposicao, interesse)
+      .pipe(
+        takeUntil(this.unsubscribe))
+      .subscribe(eventos => {
+        this.eventos = eventos;
       });
   }
 
