@@ -45,7 +45,29 @@
       </a>
     </div>
     <div class="tags mt-3">
-      <app-destaques-proposicao [destaques]="destaques" *ngFor="let destaques of proposicao?.destaques"></app-destaques-proposicao>
+      <div>
+        <app-destaques-proposicao
+          [destaques]="destaques"
+          *ngFor="let destaques of proposicao?.destaques"></app-destaques-proposicao>
+        <span
+          class="tag badge badge-gray"
+          *ngIf="proposicao?.interesse[0]?.advocacy_link && proposicao?.interesse[0]?.advocacy_link !== 'nan'"
+          [ngbPopover]="popAdvocacy"
+          [autoClose]="'outside'">
+          advocacy box
+        </span>
+        <ng-template #popAdvocacy>
+          Existem notas técnicas de OSCs disponíveis para esta proposição.
+          <div class="text-right">
+            <a
+              href="{{proposicao?.interesse[0]?.advocacy_link}}"
+              target="_blank"
+              class="btn btn-link btn-sm">
+              Ver notas
+            </a>
+          </div>
+        </ng-template>
+      </div>
       <div *ngIf="!proposicao?.destaques.length">
         <span
           *ngIf="!['Ordinária', 'Indefinido'].includes(proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao)"
@@ -83,24 +105,6 @@
           [autoClose]="'outside'">
             Insight em {{ proposicao?.anotacao_data_ultima_modificacao | date:'dd/MM/yyyy' }}
         </span> -->
-        <span
-          class="tag badge badge-gray"
-          *ngIf="proposicao?.interesse[0]?.advocacy_link && proposicao?.interesse[0]?.advocacy_link !== 'nan'"
-          [ngbPopover]="popAdvocacy"
-          [autoClose]="'outside'">
-          advocacy box
-        </span>
-        <ng-template #popAdvocacy>
-          Existem notas técnicas de OSCs disponíveis para esta proposição.
-          <div class="text-right">
-            <a
-              href="{{proposicao?.interesse[0]?.advocacy_link}}"
-              target="_blank"
-              class="btn btn-link btn-sm">
-              Ver notas
-            </a>
-          </div>
-        </ng-template>
       </div>
       <div class="d-flex">
         <div
