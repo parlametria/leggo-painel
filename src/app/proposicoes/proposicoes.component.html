@@ -1,11 +1,19 @@
 <div class="app-container">
-  <app-filtro-proposicoes (filterChange)="search($event)"></app-filtro-proposicoes>
+  <app-filtro-proposicoes
+    (filterChange)="search($event)"
+    [numeroProposicoes]="proposicoesDestaque?.length + proposicoes?.length"></app-filtro-proposicoes>
   <div class="app-content pb-4 mb-4">
     <app-loading *ngIf="isLoading | async"></app-loading>
     <div [hidden]="isLoading | async">
       <h3 class="titulo-sessao">Proposições em destaque</h3>
-      <div *ngIf="proposicoesDestaque?.length > 1"><strong>{{ proposicoesDestaque?.length }}</strong> proposições em destaque</div>
-      <div *ngIf="proposicoesDestaque?.length === 1"><strong>{{ proposicoesDestaque?.length }}</strong> proposição em destaque</div>
+      <div *ngIf="proposicoesDestaque?.length > 1">
+        <strong>{{ proposicoesDestaque?.length }}</strong>
+        proposições em destaque
+      </div>
+      <div *ngIf="proposicoesDestaque?.length === 1">
+        <strong>{{ proposicoesDestaque?.length }}</strong>
+        proposição em destaque
+      </div>
       <div *ngIf="proposicoesDestaque?.length === 0">Nenhuma proposição em destaque</div>
       <div
         *ngFor="let proposicao of proposicoesDestaque; index as i"
@@ -19,9 +27,15 @@
   </div>
   <div class="app-content">
     <div [hidden]="isLoading | async">
-      <h3 class="titulo-sessao">Todas as proposições</h3>
-      <div *ngIf="proposicoes?.length > 1"><strong>{{ proposicoes?.length }}</strong> proposições</div>
-      <div *ngIf="proposicoes?.length === 1"><strong>{{ proposicoes?.length }}</strong> proposição</div>
+      <h3 class="titulo-sessao">Demais proposições</h3>
+      <div *ngIf="proposicoes?.length > 1">
+        <strong>{{ proposicoes?.length }}</strong>
+        proposições
+      </div>
+      <div *ngIf="proposicoes?.length === 1">
+        <strong>{{ proposicoes?.length }}</strong>
+        proposição
+      </div>
       <div *ngIf="proposicoes?.length === 0">Nenhuma proposição encontrada</div>
 
       <pagination-template
