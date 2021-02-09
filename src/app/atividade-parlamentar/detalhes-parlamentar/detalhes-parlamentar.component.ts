@@ -67,10 +67,6 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
       .subscribe(parlamentar => {
         this.parlamentar = parlamentar;
         this.isLoading.next(false);
-
-        if (this.parlamentar === undefined || this.parlamentar === null) {
-          this.router.navigate(['notFound'], { skipLocationChange: true });
-        }
       });
   }
 

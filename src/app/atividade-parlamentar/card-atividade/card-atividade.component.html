@@ -12,7 +12,11 @@
         class="text-muted">
         Sen.
       </span>
-      <a [routerLink]="[parlamentar.id_autor_parlametria]">{{ parlamentar.nome_autor }}</a>
+      <a
+        [routerLink]="[parlamentar.id_autor_parlametria]"
+        queryParamsHandling="merge">
+        {{ parlamentar.nome_autor }}
+      </a>
       <span class="text-muted">
         {{ parlamentar.partido }}/{{ parlamentar.uf }}
       </span>
