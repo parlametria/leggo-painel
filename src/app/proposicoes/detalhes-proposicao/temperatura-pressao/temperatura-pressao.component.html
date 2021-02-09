@@ -1,2 +1,22 @@
 <h3 class="titulo-sessao">Temperatura e Pressão</h3>
-<app-vis-temperatura-pressao></app-vis-temperatura-pressao>
+<div class="row no-gutters">
+  <div class="col-md-8 vis-wrapper">
+    <app-vis-temperatura-pressao (dataOnChange)="dataOnChange($event)"></app-vis-temperatura-pressao>
+  </div>
+  <div class="col-md-4">
+    <p>
+      <strong>Semana de 21 Dez a 28 Dez</strong>
+    </p>
+    <p>
+      <strong class="color-temperatura">8.02</strong>
+      de temperatura
+    </p>
+    <p>
+      <strong class="color-pressao">0</strong>
+      de pressão
+    </p>
+  </div>
+</div>
+<pre>
+  {{ eventos | json }}
+</pre>

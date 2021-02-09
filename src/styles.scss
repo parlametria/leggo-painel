@@ -285,7 +285,7 @@
   font-size: 0.9rem;
   background-color: $white;
   border: solid 2px $black;
-  padding: 0.5rem;
+  padding: 0.25rem 0.5rem;
 
   > p {
     margin: 0;
@@ -410,3 +410,7 @@
   color: #7f2704;
 }
 /* Backgrounds FIM */
+
+.vis-wrapper {
+  overflow-x: auto;
+}
