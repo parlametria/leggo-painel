@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subject, BehaviorSubject, forkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -33,6 +33,7 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private parlamentarDetalhadoService: ParlamentarDetalhadoService,
     private atorService: AtorService,
     private pesoService: PesoPoliticoService
@@ -66,6 +67,10 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
       .subscribe(parlamentar => {
         this.parlamentar = parlamentar;
         this.isLoading.next(false);
+
+        if (this.parlamentar === undefined || this.parlamentar === null) {
+          this.router.navigate(['notFound'], { skipLocationChange: true });
+        }
       });
   }
 

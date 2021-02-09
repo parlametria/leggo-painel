@@ -156,9 +156,13 @@ export class ProposicoesListaService {
     return proposicoes.filter(p => {
       let filtered = true;
 
+      const termos = (p.sigla_camara + p.sigla_senado + p.interesse[0].apelido)
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase();
+
       filtered =
         nome && filtered
-          ? (p.sigla_camara + p.sigla_senado + p.interesse[0].apelido).toLowerCase().includes(nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase())
+          ? termos.includes(nome.normalize('NFD').replace(/[\u0300-\u036f]|\s*$/g, '').toLowerCase())
           : filtered;
 
       filtered =
