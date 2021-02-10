@@ -24,8 +24,8 @@
     <ol class="breadcrumb proposicao-temas">
       <li
         class="breadcrumb-item text-muted"
-        *ngFor="let temas of proposicao?.interesse[0]?.temas">
-        {{ temas }}
+        *ngFor="let tema of proposicao?.interesse[0]?.temas">
+        <span *ngIf="tema !== 'nan'">{{ tema }}</span>
       </li>
     </ol>
     <h2>
