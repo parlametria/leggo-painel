@@ -9,6 +9,13 @@
 .paineis-selecao {
   padding: 1rem;
   margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (min-width: 576px) {
+    height: 100px;
+  }
 
   @media (min-width: 992px) {
     padding: 3rem;

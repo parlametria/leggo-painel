@@ -1,6 +1,10 @@
 <app-loading *ngIf="isLoading | async"></app-loading>
 
-<div class="main-subnav mt-4 pt-4">
+<div class="container descricao-interesse">
+  {{ interesse.descricao_interesse }}
+</div>
+
+<div class="main-subnav">
   <ul class="nav nav-tabs justify-content-center">
     <li class="nav-item">
       <a
