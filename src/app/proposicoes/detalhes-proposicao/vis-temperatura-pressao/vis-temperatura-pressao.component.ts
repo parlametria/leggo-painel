@@ -382,6 +382,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
         markerTemperatura.style('display', 'none');
         tooltipTemperatura.style('display', 'none');
         tooltipPressao.style('display', 'none');
+        this.dataOnChange.emit({});
       });
   }
 

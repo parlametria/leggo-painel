@@ -19,6 +19,7 @@ export class TemperaturaPressaoComponent implements OnInit {
   public isLoading = new BehaviorSubject<boolean>(true);
 
   public eventos;
+  public filtro;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -37,7 +38,7 @@ export class TemperaturaPressaoComponent implements OnInit {
   }
 
   getEventos(idLeggo) {
-    this.eventosService.getEventosTramitação(idLeggo, 'reforma-tributaria')
+    this.eventosService.getEventosTramitacao(idLeggo, 'reforma-tributaria')
       .pipe(indicate(this.isLoading))
       .subscribe(eventos => {
         this.eventos = eventos;
@@ -45,8 +46,14 @@ export class TemperaturaPressaoComponent implements OnInit {
   }
 
   dataOnChange(event) {
-    console.log(event);
+    this.filtro = event;
+    this.eventosService.pesquisar(event);
+  }
 
+  getSemanaString(data) {
+    return 'Semana';
+    // Semana de {{ filtro?.data.format('D') }} de {{ filtro?.data.format('MMM') }} a
+    //       <!-- {{ filtro?.data.add(7, 'days').format('D') }} de {{ filtro?.data.add(7, 'days').format('MMM') }} -->
   }
 
 }
