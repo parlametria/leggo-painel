@@ -51,9 +51,19 @@ export class TemperaturaPressaoComponent implements OnInit {
   }
 
   getSemanaString(data) {
-    return 'Semana';
-    // Semana de {{ filtro?.data.format('D') }} de {{ filtro?.data.format('MMM') }} a
-    //       <!-- {{ filtro?.data.add(7, 'days').format('D') }} de {{ filtro?.data.add(7, 'days').format('MMM') }} -->
+    const dataInicial = data.clone();
+    const dataFinal = data.clone().add(7, 'days');
+    return `Semana de ${dataInicial.format('D')} de ${dataInicial.format('MMM')} a
+      ${dataFinal.format('D')} de ${dataFinal.format('MMM')}`;
+  }
+
+  getTextoEvento(evento) {
+    if (typeof evento.titulo_evento !== 'undefined' && evento.titulo_evento !== 'nan') {
+      return evento.titulo_evento;
+    } else if (typeof evento.texto_tramitacao !== 'undefined') {
+      return evento.texto_tramitacao.split('.')[0];
+    }
+    return '';
   }
 
 }

@@ -4,20 +4,16 @@
     <app-vis-temperatura-pressao (dataOnChange)="dataOnChange($event)"></app-vis-temperatura-pressao>
   </div>
   <div class="col-md-4">
-    <div class="vis-tooltip" *ngIf="filtro?.data">
-      <p>
-        <strong>
-          {{ getSemanaString(filtro?.data) }}
-        </strong>
-      </p>
+    <div
+      class="vis-tooltip vis-tooltip-lg"
+      *ngIf="filtro?.data">
+      <div class="vis-tooltip-titulo-lg">{{ getSemanaString(filtro?.data) }}</div>
       <div class="mb-3">
         <p>
           <strong class="color-temperatura">{{ filtro?.valorTemperatura }}</strong>
           de temperatura
         </p>
-        <ul *ngFor="let evento of eventos">
-          <li>{{ evento.texto_tramitacao }}</li>
-        </ul>
+        <div *ngFor="let evento of eventos">{{ getTextoEvento(evento) }}</div>
       </div>
       <p>
         <strong class="color-pressao">{{ filtro?.valorPressao }}</strong>
@@ -26,4 +22,17 @@
     </div>
   </div>
 </div>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>

@@ -309,24 +309,20 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     const tooltipTemperatura = this.svg.append('foreignObject')
       .attr('x', 15)
       .attr('y', 40)
-      .attr('width', 50)
-      .attr('height', 300)
+      .attr('width', 200)
+      .attr('height', 100)
       .style('display', 'none');
     const tooltipTemperaturaContent = tooltipTemperatura.append('xhtml:div')
       .attr('class', 'vis-tooltip');
-    // const tooltipTemperaturaTitle = tooltipTemperaturaContent.append('p')
-    //   .style('font-weight', '700')
-    //   .style('margin-bottom', '1rem');
     const tooltipTemperaturaBody = tooltipTemperaturaContent.append('p');
     const tooltipPressao = this.svg.append('foreignObject')
       .attr('x', 15)
       .attr('y', 40)
-      .attr('width', 50)
+      .attr('width', 200)
       .attr('height', 100)
       .style('display', 'none');
     const tooltipPressaoContent = tooltipPressao.append('xhtml:div')
       .attr('class', 'vis-tooltip');
-    // const tooltipPressaoTitle = tooltipPressaoContent.append('p');
     const tooltipPressaoBody = tooltipPressaoContent.append('p');
 
     const mouseArea = this.svg.append('g')
@@ -353,26 +349,18 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       bar
         .style('display', null)
         .attr('transform', `translate(${this.x(dados[i - 1].data)}, 0)`);
-      // tooltipTemperaturaTitle
-      //   .text('Semana de ' +
-      //     moment(dados[i - 1].data).format('D MMM') + ' a ' +
-      //     moment(dados[i - 1].data).add(7, 'days').format('D MMM'));
-      tooltipTemperaturaBody.html(`<strong class="color-temperatura">${dados[i - 1].valorTemperatura}</strong>`);
-      // tooltipPressaoTitle
-      //   .text('Semana de ' +
-      //     moment(dados[i - 1].data).format('D MMM') + ' a ' +
-      //     moment(dados[i - 1].data).add(7, 'days').format('D MMM'));
-      tooltipPressaoBody.html(`<strong class="color-pressao">${dados[i - 1].valorPressao}</strong>`);
+      tooltipTemperaturaBody.html(`<strong class="color-temperatura">${dados[i - 1].valorTemperatura}</strong> de temperatura`);
+      tooltipPressaoBody.html(`<strong class="color-pressao">${dados[i - 1].valorPressao}</strong> de pressão`);
       let xTooltip = this.x(dados[i - 1].data);
-      if (xTooltip > 600) {
-        xTooltip = xTooltip - 82;
+      if (xTooltip > 500) {
+        xTooltip = xTooltip - 230;
       }
       tooltipTemperatura
         .style('display', null)
-        .attr('transform', `translate(${xTooltip + this.margin.left}, ${this.yTemperatura(dados[i - 1].valorTemperatura) - 40})`);
+        .attr('transform', `translate(${xTooltip + this.margin.left}, ${this.yTemperatura(dados[i - 1].valorTemperatura) - 22})`);
       tooltipPressao
         .style('display', null)
-        .attr('transform', `translate(${xTooltip + this.margin.left}, ${this.heightGrafico + this.yPressao(dados[i - 1].valorPressao)})`);
+        .attr('transform', `translate(${xTooltip + this.margin.left}, ${this.heightGrafico + (this.margin.top * 2) + this.yPressao(dados[i - 1].valorPressao) - 8})`);
 
       return null;
     })
