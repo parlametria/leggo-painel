@@ -15,6 +15,7 @@ import { EmbedTweetComponent } from './embed-tweet/embed-tweet.component';
 import { DestaquesProposicaoComponent } from './destaques-proposicao/destaques-proposicao.component';
 import { ProgressStackedComponent } from './progress-stacked/progress-stacked.component';
 import { LegendComponent } from './legend/legend.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { LegendComponent } from './legend/legend.component';
     DestaquesProposicaoComponent,
     EmbedTweetComponent,
     ProgressStackedComponent,
-    LegendComponent
+    LegendComponent,
+    PageNotFoundComponent
   ],
   imports: [
     CommonModule,

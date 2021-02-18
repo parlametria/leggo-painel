@@ -1,17 +1,11 @@
 <app-loading *ngIf="isLoading | async"></app-loading>
 
-<div class="main-subnav mt-4 pt-4">
+<div class="container descricao-interesse">
+  {{ interesse.descricao_interesse }}
+</div>
+
+<div class="main-subnav">
   <ul class="nav nav-tabs justify-content-center">
-    <li class="nav-item">
-      <a
-        class="nav-link"
-        [routerLink]="['./parlamentares']"
-        [routerLinkActive]="'active'"
-        queryParamsHandling="merge">
-        <span class="icon-atores"></span>
-        Parlamentares
-      </a>
-    </li>
     <li class="nav-item">
       <a
         class="nav-link"
@@ -22,9 +16,18 @@
         Proposições
       </a>
     </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [routerLink]="['./parlamentares']"
+        [routerLinkActive]="'active'"
+        queryParamsHandling="merge">
+        <span class="icon-atores"></span>
+        Parlamentares
+      </a>
+    </li>
   </ul>
 </div>
 <div class="container">
   <router-outlet></router-outlet>
 </div>
-

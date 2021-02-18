@@ -6,6 +6,7 @@ import { AtividadeParlamentarComponent } from '../atividade-parlamentar/atividad
 import { ProposicoesComponent } from '../proposicoes/proposicoes.component';
 import { SobreComponent } from './sobre/sobre.component';
 import { SelecaoPainelComponent } from './selecao-painel/selecao-painel.component';
+import { PageNotFoundComponent } from '../shared/components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
@@ -17,12 +18,16 @@ const routes: Routes = [
     component: SobreComponent
   },
   {
+    path: 'notFound',
+    component: PageNotFoundComponent
+  },
+  {
     path: ':interesse',
     component: HomeComponent,
     children: [
       {
         path: '',
-        redirectTo: 'parlamentares',
+        redirectTo: 'proposicoes',
         pathMatch: 'full'
       },
       {
@@ -53,11 +58,12 @@ const routes: Routes = [
       import(
         '../proposicoes/detalhes-proposicao/detalhes-proposicao.module'
       ).then((m) => m.DetalhesProposicaoModule),
-  }
+  },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class HomeRoutingModule {}
+export class HomeRoutingModule { }

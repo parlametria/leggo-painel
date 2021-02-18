@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subject, BehaviorSubject, forkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -29,6 +29,7 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy  {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private proposicaoDetalhadaService: ProposicaoDetalhadaService,
     private eventosProposicaoService: EventosService,
   ) { }
@@ -58,6 +59,10 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy  {
       .subscribe(proposicao => {
         this.proposicao = proposicao[0];
         this.isLoading.next(false);
+
+        if (this.proposicao === undefined || this.proposicao === null) {
+          this.router.navigate(['notFound'], { skipLocationChange: true });
+        }
       });
   }
 

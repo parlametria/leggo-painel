@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Params, Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -9,6 +9,7 @@ import { Params, Router, ActivatedRoute } from '@angular/router';
 
 export class FiltroProposicoesComponent implements OnInit {
 
+  @Input() numeroProposicoes: number;
   @Output() filterChange = new EventEmitter<any>();
   readonly ORDER_BY_PADRAO = 'maior-temperatura';
   readonly STATUS_PADRAO = 'tramitando';

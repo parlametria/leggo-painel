@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { InteresseService } from '../shared/services/interesse.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { Interesse } from '../shared/models/interesse.model';
@@ -21,7 +21,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private interesseService: InteresseService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
  ) { }
 
   ngOnInit(): void {
@@ -44,6 +45,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         this.interesse = data[0];
         this.isLoading.next(false);
+
+        if (this.interesse === undefined) {
+          this.router.navigate(['notFound'], { skipLocationChange: true });
+        }
       });
   }
 
