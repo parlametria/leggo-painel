@@ -7,13 +7,14 @@
     <div
       class="vis-tooltip vis-tooltip-lg"
       *ngIf="filtro?.data">
-      <div class="vis-tooltip-titulo-lg">{{ getSemanaString(filtro?.data) }}</div>
+      <div class="vis-tooltip-titulo-lg">
+        Semana de {{ getSemanaString(filtro?.data) }}
+      </div>
       <div class="mb-3">
         <p>
           <strong class="color-temperatura">{{ filtro?.valorTemperatura }}</strong>
           de temperatura
         </p>
-        <div *ngFor="let evento of eventos">{{ getTextoEvento(evento) }}</div>
       </div>
       <p>
         <strong class="color-pressao">{{ filtro?.valorPressao }}</strong>
@@ -21,6 +22,19 @@
       </p>
     </div>
   </div>
+</div>
+<div
+  class="p-4"
+  *ngIf="filtro?.data">
+  <h3 class="titulo-sessao">
+    Ações legislativas de {{ getSemanaString(filtro?.data) }}
+  </h3>
+  <div *ngIf="!eventos.length">Nenhuma ação legislativa nesta semana.</div>
+  <ul class="list-group">
+    <app-evento-tramitacao
+      [evento]="evento"
+      *ngFor="let evento of eventos"></app-evento-tramitacao>
+  </ul>
 </div>
 <br>
 <br>
