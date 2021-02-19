@@ -49,7 +49,7 @@ export class VisProposicoesComMaisTweetsComponent implements OnInit {
         this.proposicoesComMaisTweets = proposicoes;
         this.minComentariosPeriodo = 0;
         this.maxComentariosPeriodo = this.proposicoesComMaisTweets.reduce((sum, p) => {
-          return p.num_tweets + sum;
+          return +p.num_tweets + +sum;
         }, 0);
       });
   }
