@@ -48,9 +48,9 @@ export class VisProposicoesComMaisTweetsComponent implements OnInit {
       .subscribe(proposicoes => {
         this.proposicoesComMaisTweets = proposicoes;
         this.minComentariosPeriodo = 0;
-        this.maxComentariosPeriodo = this.proposicoesComMaisTweets.reduce((max, p) => {
-          return p.num_tweets > max ? p.num_tweets : max;
-        }, this.proposicoesComMaisTweets[0].num_tweets);
+        this.maxComentariosPeriodo = this.proposicoesComMaisTweets.reduce((sum, p) => {
+          return p.num_tweets + sum;
+        }, 0);
       });
   }
 
