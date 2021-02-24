@@ -23,7 +23,11 @@ export class EventoTramitacaoComponent {
     if (this.isEvento()) {
       return this.evento.titulo_evento;
     } else if (typeof this.evento.texto_tramitacao !== 'undefined') {
-      return this.evento.texto_tramitacao.split('. ')[0];
+      if (this.evento.texto_tramitacao.length > 50) {
+        return this.evento.texto_tramitacao.substring(0, 50);
+      } else {
+        return this.evento.texto_tramitacao;
+      }
     }
     return '';
   }
@@ -37,11 +41,11 @@ export class EventoTramitacaoComponent {
     return '';
   }
 
-  getTemMaisTexto(): boolean {
+  temMaisTexto(): boolean {
     if (this.isEvento()) {
       return false;
     } else if (typeof this.evento.texto_tramitacao !== 'undefined') {
-      return (this.evento.texto_tramitacao.split('. ').length > 0);
+      return (this.evento.texto_tramitacao.length > 50);
     }
     return false;
   }

@@ -24,13 +24,12 @@
   </div>
 </div>
 <div
-  class="p-4"
   *ngIf="filtro?.data">
   <h3 class="titulo-sessao">
     Ações legislativas de {{ getSemanaString(filtro?.data) }}
   </h3>
   <div *ngIf="!eventos.length">Nenhuma ação legislativa nesta semana.</div>
-  <ul class="list-group">
+  <ul>
     <app-evento-tramitacao
       [evento]="evento"
       *ngFor="let evento of eventos"></app-evento-tramitacao>

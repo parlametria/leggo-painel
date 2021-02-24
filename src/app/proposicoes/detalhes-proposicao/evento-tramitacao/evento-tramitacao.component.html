@@ -1,8 +1,9 @@
-<li class="list-group-item">
+<li>
   <span [hidden]="showMais">{{ getResumo() }}</span>
   <span [hidden]="!showMais">{{ getTexto() }}</span>
+  &nbsp;
   <button
-    [hidden]="!getTemMaisTexto()"
+    [hidden]="!temMaisTexto()"
     class="btn btn-light btn-xs"
     (click)="toogleShowMais()">
     <span [hidden]="showMais">...</span>
