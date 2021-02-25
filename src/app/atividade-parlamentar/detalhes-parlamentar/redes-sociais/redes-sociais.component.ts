@@ -37,7 +37,12 @@ export class RedesSociaisComponent implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private twitterService: TwitterService,
-  ) { }
+    config: NgbCarouselConfig
+  ) {
+    config.interval = 6000;
+    config.keyboard = true;
+    config.pauseOnHover = true;
+  }
 
   ngOnInit(): void {
     this.activatedRoute.parent.paramMap
