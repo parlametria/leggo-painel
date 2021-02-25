@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, forkJoin, Subject } from 'rxjs';
+import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 
 import { TwitterService } from 'src/app/shared/services/twitter.service';
