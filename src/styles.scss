@@ -403,3 +403,17 @@
 }
 
 /* Backgrounds FIM */
+
+/* Crousel Tweets */
+
+.carousel-indicators,
+.carousel-control-next,
+.carousel-control-prev /*, .carousel-indicators */ {
+    filter: invert(100%);
+}
+
+.carousel-indicators {
+  position: relative;
+}
+
+/* Crousel Tweets FIM */ 

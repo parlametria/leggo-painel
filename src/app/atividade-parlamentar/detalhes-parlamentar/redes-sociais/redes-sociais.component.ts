@@ -41,7 +41,9 @@ export class RedesSociaisComponent implements OnInit, OnDestroy {
   ) {
     config.interval = 6000;
     config.keyboard = true;
+    config.wrap = true;
     config.pauseOnHover = true;
+    config.showNavigationArrows = true;
   }
 
   ngOnInit(): void {
