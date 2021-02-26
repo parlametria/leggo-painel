@@ -412,8 +412,20 @@
     filter: invert(100%);
 }
 
+ngb-carousel {
+  display: flex !important;
+  flex-direction: column;
+  align-content: space-between;
+}
+
+.carousel-inner {
+  order: 2
+}
+
 .carousel-indicators {
   position: relative;
+  bottom: 100%;
+  order: 3;
 }
 
 /* Crousel Tweets FIM */ 
