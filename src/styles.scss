@@ -413,10 +413,18 @@ ngb-carousel {
   display: flex !important;
   flex-direction: column;
   align-content: space-between;
+  justify-content: center;
+  outline: none;
 }
 
 .carousel-inner {
   order: 2;
+  min-height: 360px;
+  outline: none;
+}
+
+.carousel-item {
+  outline: none;
 }
 
 .carousel-indicators {
