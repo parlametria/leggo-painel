@@ -285,7 +285,7 @@
   font-size: 0.9rem;
   background-color: $white;
   border: solid 2px $black;
-  padding: 0.5rem;
+  padding: 0.25rem 0.5rem;
 
   > p {
     margin: 0;
@@ -293,8 +293,18 @@
   }
 }
 
+.vis-tooltip-lg {
+  padding: 1rem 1rem;
+}
+
 .vis-tooltip-titulo {
   font-size: 1rem;
+}
+
+.vis-tooltip-titulo-lg {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
 }
 
 .vis-tooltip-table {
@@ -402,4 +412,15 @@
   background-color: #cfe1f2;
 }
 
+.color-temperatura {
+  color: #3f007d;
+}
+
+.color-pressao {
+  color: #7f2704;
+}
 /* Backgrounds FIM */
+
+.vis-wrapper {
+  overflow-x: auto;
+}

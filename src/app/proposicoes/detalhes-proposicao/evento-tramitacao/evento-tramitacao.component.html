@@ -1,0 +1,12 @@
+<li>
+  <span [hidden]="showMais">{{ getResumo() }}</span>
+  <span [hidden]="!showMais">{{ getTexto() }}</span>
+  &nbsp;
+  <button
+    [hidden]="!temMaisTexto()"
+    class="btn btn-light btn-xs"
+    (click)="toogleShowMais()">
+    <span [hidden]="showMais">...</span>
+    <span [hidden]="!showMais">ver menos</span>
+  </button>
+</li>
