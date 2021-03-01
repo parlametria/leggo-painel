@@ -125,14 +125,14 @@
   width: 35px;
   height: 35px;
   text-align: center;
-  font-size: .9rem;
+  font-size: 0.9rem;
 }
 .page-link {
   position: relative;
   display: block;
-  padding: .55rem .45rem;
+  padding: 0.55rem 0.45rem;
   margin-left: -2px;
-  line-height: .9;
+  line-height: 0.9;
   color: #20201e;
   background-color: #fff;
   border: 2px solid #fff;
@@ -146,12 +146,10 @@
 /* Paginação FIM */
 
 .nav-link {
-
   > [class^="icon-"],
   > [class*=" icon-"] {
     font-size: 1.8rem;
   }
-
 }
 
 .view-subnav {
@@ -258,7 +256,6 @@
       left: 9px;
       top: -1px;
     }
-
   }
 }
 
@@ -320,11 +317,11 @@
 
 /* Backgrounds */
 .bg-temperatura {
-  background-color: #CF7CC9 !important;
+  background-color: #cf7cc9 !important;
 }
 
 .bg-pressao {
-  background-color: #FFaB0F !important;
+  background-color: #ffab0f !important;
 }
 /* Backgrounds FIM */
 
@@ -355,8 +352,8 @@
 }
 
 .fase-comissao-mista {
-  background-color: #037A76;
-  border-color: #037A76;
+  background-color: #037a76;
+  border-color: #037a76;
 }
 
 .fase-nao-realizada {
@@ -379,15 +376,15 @@
 /* Backgrounds */
 
 .bg-proposicao {
-  background-color: #32626F;
+  background-color: #32626f;
 }
 
 .bg-emenda {
-  background-color: #57B494;
+  background-color: #57b494;
 }
 
 .bg-requerimento {
-  background-color: #B1EAA3;
+  background-color: #b1eaa3;
 }
 
 .bg-neutro {
@@ -409,7 +406,7 @@
 .carousel-indicators,
 .carousel-control-next,
 .carousel-control-prev /*, .carousel-indicators */ {
-    filter: invert(100%);
+  filter: invert(100%);
 }
 
 ngb-carousel {
@@ -419,7 +416,7 @@ ngb-carousel {
 }
 
 .carousel-inner {
-  order: 2
+  order: 2;
 }
 
 .carousel-indicators {
@@ -428,4 +425,4 @@ ngb-carousel {
   order: 3;
 }
 
-/* Crousel Tweets FIM */ 
+/* Crousel Tweets FIM */
