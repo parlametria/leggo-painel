@@ -14,6 +14,7 @@ import { ListaAutoresComponent } from './lista-autores/lista-autores.component';
 import { ListaRelatoresComponent } from './lista-relatores/lista-relatores.component';
 import { ProgressoComponent } from './progresso/progresso.component';
 import { AtuacaoParlamentarComponent } from './atuacao-parlamentar/atuacao-parlamentar.component';
+import { EventoTramitacaoComponent } from './evento-tramitacao/evento-tramitacao.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { AtuacaoParlamentarComponent } from './atuacao-parlamentar/atuacao-parla
     TemperaturaPressaoComponent,
     VisTemperaturaPressaoComponent,
     ProgressoComponent,
-    AtuacaoParlamentarComponent
+    AtuacaoParlamentarComponent,
+    EventoTramitacaoComponent
   ],
   imports: [
     CommonModule,

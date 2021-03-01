@@ -1,4 +1,6 @@
 .vis {
   margin: auto;
-  max-width: 800px;
+  @media (max-width: 991.98px) {
+    width: 800px;
+  }
 }
