@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, forkJoin, Subject } from 'rxjs';
+import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 
 import { TwitterService } from 'src/app/shared/services/twitter.service';
@@ -36,7 +37,14 @@ export class RedesSociaisComponent implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private twitterService: TwitterService,
-  ) { }
+    config: NgbCarouselConfig
+  ) {
+    config.interval = 6000;
+    config.keyboard = true;
+    config.wrap = true;
+    config.pauseOnHover = true;
+    config.showNavigationArrows = true;
+  }
 
   ngOnInit(): void {
     this.activatedRoute.parent.paramMap
