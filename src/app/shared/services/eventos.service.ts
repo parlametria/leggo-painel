@@ -13,7 +13,7 @@ import { Evento } from '../models/evento.model';
 })
 export class EventosService {
 
-  private eventosUrl = `${environment.baseUrl}/eventos_tramitacao`;
+  private eventosUrl = `${environment.baseUrl}/acoes_legislativas`;
   private eventos = new BehaviorSubject<Array<Evento>>([]);
   private eventosFiltered = new BehaviorSubject<Array<Evento>>([]);
   private filtro = new BehaviorSubject<any>({});
@@ -49,10 +49,6 @@ export class EventosService {
       const dataComparativaInicial = filtro.data.clone();
       const dataComparativaFinal = dataComparativaInicial.clone();
       dataComparativaFinal.add(7, 'days');
-      // console.log('Inicial: ');
-      // console.log(dataComparativaInicial.toString());
-      // console.log('Final: ');
-      // console.log(dataComparativaFinal.toString());
 
       const filtrados = eventos.filter(evento => {
         return (moment(evento.data).isSameOrAfter(dataComparativaInicial) && moment(evento.data).isBefore(dataComparativaFinal));
