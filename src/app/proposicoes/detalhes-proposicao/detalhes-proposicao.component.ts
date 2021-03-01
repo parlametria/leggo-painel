@@ -18,6 +18,7 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy  {
   private unsubscribe = new Subject();
 
   public proposicao: Proposicao;
+  public eventosAgrupados: any;
   public idProposicao: string;
   public interesse: string;
   public isLoading = new BehaviorSubject<boolean>(true);

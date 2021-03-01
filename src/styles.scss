@@ -125,14 +125,14 @@
   width: 35px;
   height: 35px;
   text-align: center;
-  font-size: .9rem;
+  font-size: 0.9rem;
 }
 .page-link {
   position: relative;
   display: block;
-  padding: .55rem .45rem;
+  padding: 0.55rem 0.45rem;
   margin-left: -2px;
-  line-height: .9;
+  line-height: 0.9;
   color: #20201e;
   background-color: #fff;
   border: 2px solid #fff;
@@ -146,12 +146,10 @@
 /* Paginação FIM */
 
 .nav-link {
-
   > [class^="icon-"],
   > [class*=" icon-"] {
     font-size: 1.8rem;
   }
-
 }
 
 .view-subnav {
@@ -258,7 +256,6 @@
       left: 9px;
       top: -1px;
     }
-
   }
 }
 
@@ -285,7 +282,7 @@
   font-size: 0.9rem;
   background-color: $white;
   border: solid 2px $black;
-  padding: 0.5rem;
+  padding: 0.25rem 0.5rem;
 
   > p {
     margin: 0;
@@ -293,8 +290,18 @@
   }
 }
 
+.vis-tooltip-lg {
+  padding: 1rem 1rem;
+}
+
 .vis-tooltip-titulo {
   font-size: 1rem;
+}
+
+.vis-tooltip-titulo-lg {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
 }
 
 .vis-tooltip-table {
@@ -320,11 +327,11 @@
 
 /* Backgrounds */
 .bg-temperatura {
-  background-color: #CF7CC9 !important;
+  background-color: #cf7cc9 !important;
 }
 
 .bg-pressao {
-  background-color: #FFaB0F !important;
+  background-color: #ffab0f !important;
 }
 /* Backgrounds FIM */
 
@@ -355,8 +362,8 @@
 }
 
 .fase-comissao-mista {
-  background-color: #037A76;
-  border-color: #037A76;
+  background-color: #037a76;
+  border-color: #037a76;
 }
 
 .fase-nao-realizada {
@@ -379,15 +386,15 @@
 /* Backgrounds */
 
 .bg-proposicao {
-  background-color: #32626F;
+  background-color: #32626f;
 }
 
 .bg-emenda {
-  background-color: #57B494;
+  background-color: #57b494;
 }
 
 .bg-requerimento {
-  background-color: #B1EAA3;
+  background-color: #b1eaa3;
 }
 
 .bg-neutro {
@@ -402,4 +409,48 @@
   background-color: #cfe1f2;
 }
 
+.color-temperatura {
+  color: #3f007d;
+}
+
+.color-pressao {
+  color: #7f2704;
+}
 /* Backgrounds FIM */
+
+/* Crousel Tweets */
+.carousel-indicators,
+.carousel-control-next,
+.carousel-control-prev /*, .carousel-indicators */ {
+  filter: invert(100%);
+}
+
+ngb-carousel {
+  display: flex !important;
+  flex-direction: column;
+  align-content: space-between;
+  justify-content: center;
+  outline: none;
+}
+
+.carousel-inner {
+  order: 2;
+  min-height: 360px;
+  outline: none;
+}
+
+.carousel-item {
+  outline: none;
+}
+
+.carousel-indicators {
+  position: relative;
+  bottom: 100%;
+  order: 3;
+}
+/* Crousel Tweets FIM */
+
+.vis-wrapper {
+  overflow-x: auto;
+}
+

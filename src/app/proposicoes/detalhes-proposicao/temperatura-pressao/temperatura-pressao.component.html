@@ -1,2 +1,37 @@
 <h3 class="titulo-sessao">Temperatura e Pressão</h3>
-<app-vis-temperatura-pressao></app-vis-temperatura-pressao>
+<div class="row no-gutters">
+  <div class="col-md-8 vis-wrapper">
+    <app-vis-temperatura-pressao (dataOnChange)="dataOnChange($event)"></app-vis-temperatura-pressao>
+  </div>
+  <div class="col-md-4">
+    <div
+      class="vis-tooltip vis-tooltip-lg"
+      *ngIf="filtro?.data">
+      <div class="vis-tooltip-titulo-lg">
+        Semana de {{ getSemanaString(filtro?.data) }}
+      </div>
+      <div class="mb-3">
+        <p>
+          <strong class="color-temperatura">{{ filtro?.valorTemperatura }}</strong>
+          de temperatura
+        </p>
+      </div>
+      <p>
+        <strong class="color-pressao">{{ filtro?.valorPressao }}</strong>
+        de pressão
+      </p>
+    </div>
+  </div>
+</div>
+<div
+  *ngIf="filtro?.data">
+  <h3 class="titulo-sessao">
+    Ações legislativas de {{ getSemanaString(filtro?.data) }}
+  </h3>
+  <div *ngIf="!eventos.length">Nenhuma ação legislativa nesta semana.</div>
+  <ul>
+    <app-evento-tramitacao
+      [evento]="evento"
+      *ngFor="let evento of eventos"></app-evento-tramitacao>
+  </ul>
+</div>
