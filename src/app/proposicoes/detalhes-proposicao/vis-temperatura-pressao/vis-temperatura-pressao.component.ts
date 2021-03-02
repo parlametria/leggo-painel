@@ -193,10 +193,10 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     this.x.domain(d3.extent(dados, (d: any) => d.data));
     this.yTemperatura.domain([0, temperaturaMax]);
     const maxPressao = +d3.max(dados, (d: any) => d.valorPressao);
-    if (maxPressao > 0) {
+    if (maxPressao > 100) {
       this.yPressao.domain([0, maxPressao]);
     } else {
-      this.yPressao.domain([0, 1]);
+      this.yPressao.domain([0, 100]);
     }
 
     const lineTemperatura = d3.line()
