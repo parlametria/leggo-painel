@@ -23,15 +23,22 @@
     </div>
   </div>
 </div>
-<div
-  *ngIf="filtro?.data">
+<div *ngIf="filtro?.data">
   <h3 class="titulo-sessao">
     Ações legislativas de {{ getSemanaString(filtro?.data) }}
   </h3>
-  <div *ngIf="!eventos.length">Nenhuma ação legislativa nesta semana.</div>
-  <ul>
+  <div *ngIf="!eventosPrincipais.length || !eventosSecundarios.length">Nenhuma ação legislativa nesta semana.</div>
+  <ul *ngIf="eventosPrincipais.length">
     <app-evento-tramitacao
       [evento]="evento"
-      *ngFor="let evento of eventos"></app-evento-tramitacao>
+      *ngFor="let evento of eventosPrincipais"></app-evento-tramitacao>
   </ul>
+  <div *ngIf="eventosSecundarios.length">
+    <p><button class="btn btn-light" (click)="toggleShowMais()">Ver mais ações nesta semana</button></p>
+    <ul *ngIf="showMais">
+      <app-evento-tramitacao
+        [evento]="evento"
+        *ngFor="let evento of eventosSecundarios"></app-evento-tramitacao>
+    </ul>
+  </div>
 </div>
