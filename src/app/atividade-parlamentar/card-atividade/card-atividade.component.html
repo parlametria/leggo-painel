@@ -135,8 +135,11 @@
   </div>
   <div class="card-side-list ml-1 mt-2">
     <app-progress
-      [label]="Governismo"
-      [barraClasse]="'bg-twitter'"
+      class="side-list-item"
+      [label]="'Governismo'"
+      [barraClasse]="'bg-gray'"
       [valor]="parlamentar.governismo"
-    ></app-progress>  </div>
+      [exibirLabel]="true"
+    ></app-progress>
+  </div>
 </div>

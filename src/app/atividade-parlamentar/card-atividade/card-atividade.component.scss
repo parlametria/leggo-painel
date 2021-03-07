@@ -12,7 +12,12 @@ $base-padding: 0.5rem;
 }
 
 .card-side-list {
-  
+  display: flex;
+  flex-direction: column;
+}
+
+.card-side-list side-list-item {
+  border: solid 1px !important;
 }
 
 .card-atividade-id {
