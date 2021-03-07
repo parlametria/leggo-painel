@@ -1,6 +1,20 @@
 $base-color: #20201e;
 $base-padding: 0.5rem;
 
+.card-container {
+  display: flex;
+  flex-direction: row;
+  align-content: stretch;
+}
+
+.card {
+  flex-grow: 100;
+}
+
+.card-side-list {
+  
+}
+
 .card-atividade-id {
   width: 52px;
   min-width: 42px;
