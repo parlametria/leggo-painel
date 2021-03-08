@@ -126,6 +126,13 @@ export class ParlamentaresService {
           return 0;
         });
 
+        const valoresGovernismo = parlamentares.map(p => {
+          if (p.governismo) {
+            return +p.governismo;
+          }
+          return 0;
+        });
+
         parlamentares.forEach(p => {
           p.nome_processado = p.nome_autor.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
           p.atividade_parlamentar = this.normalizarAtividade(p.quantidade_autorias, p.min_quantidade_autorias, p.max_quantidade_autorias);
@@ -143,6 +150,7 @@ export class ParlamentaresService {
           } else {
             p.peso_autorias_projetos = 0;
           }
+          p.governismo = this.normalizarAtividade(p.governismo, Math.min(...valoresGovernismo), Math.max(...valoresGovernismo));
         });
 
         this.parlamentares.next(parlamentares);
