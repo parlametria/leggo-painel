@@ -35,8 +35,9 @@ export class FiltroComponent implements OnInit, AfterContentInit, OnDestroy {
     { casa: 'Senadores', casa_slug: 'senado' }];
   orderBy: any[] = [
     { order: 'mais atuantes', order_by: 'atuacao-parlamentar' },
+    { order: 'mais ativos no twitter', order_by: 'atuacao-twitter' },
     { order: 'com maior peso político', order_by: 'peso-politico' },
-    { order: 'mais ativos no twitter', order_by: 'atuacao-twitter' }];
+    { order: 'com maior governismo', order_by: 'governismo' }];
 
   nomePesquisado = '';
   filtro: any;
@@ -123,7 +124,7 @@ export class FiltroComponent implements OnInit, AfterContentInit, OnDestroy {
   }
 
   desabilitaSelecaoTemas() {
-    return this.orderBySelecionado === 'peso-politico';
+    return (this.orderBySelecionado === 'peso-politico' || this.orderBySelecionado === 'governismo');
   }
 
   getContagemProposicoes(interesse: string, tema: string) {

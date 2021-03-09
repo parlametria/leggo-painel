@@ -64,6 +64,10 @@ export class ParlamentaresService {
             parlamentares.sort((a, b) => {
               return this.orderByDesc(a.atividade_twitter, b.atividade_twitter);
             });
+          } else if (this.orderBy.value === 'governismo') {
+            parlamentares.sort((a, b) => {
+              return this.orderByDesc(a.governismo, b.governismo);
+            });
           }
           if (this.filtro.value.nome === '') { // evita que índice mude pela busca por nome
             parlamentares.map((p, index) => {
