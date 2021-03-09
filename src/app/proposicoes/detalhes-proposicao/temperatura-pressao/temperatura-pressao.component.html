@@ -28,17 +28,45 @@
     Ações legislativas de {{ getSemanaString(filtro?.data) }}
   </h3>
   <div *ngIf="!eventosPrincipais.length || !eventosSecundarios.length">Nenhuma ação legislativa nesta semana.</div>
-  <ul *ngIf="eventosPrincipais.length">
-    <app-evento-tramitacao
-      [evento]="evento"
-      *ngFor="let evento of eventosPrincipais"></app-evento-tramitacao>
-  </ul>
+  <table class="eventos-tram">
+    <div *ngFor="let evento of eventosPrincipais">
+      <td class="date-field">
+        <div>{{ evento?.data | date:'dd/MM/yyyy' }}</div>
+        <tbody>
+          <tr class="text-muted">{{ evento?.sigla_local }}</tr>
+        </tbody>
+      </td>
+      <td>
+        <tbody>
+          <app-evento-tramitacao [evento]="evento"></app-evento-tramitacao>
+        </tbody>
+      </td>
+    </div>
+  </table>
   <div *ngIf="eventosSecundarios.length">
-    <p><button class="btn btn-light" (click)="toggleShowMais()">Ver mais ações nesta semana</button></p>
-    <ul *ngIf="showMais">
-      <app-evento-tramitacao
-        [evento]="evento"
-        *ngFor="let evento of eventosSecundarios"></app-evento-tramitacao>
-    </ul>
+    <p>
+      <button
+        class="btn btn-light"
+        (click)="toggleShowMais()">
+        Ver mais ações nesta semana
+      </button>
+    </p>
+    <table
+      *ngIf="showMais"
+      class="eventos-tram">
+      <div *ngFor="let evento of eventosSecundarios">
+        <td class="date-field">
+          <div>{{ evento?.data | date:'dd/MM/yyyy' }}</div>
+          <tbody>
+            <tr class="text-muted">{{ evento?.sigla_local }}</tr>
+          </tbody>
+        </td>
+        <td>
+          <tbody>
+            <app-evento-tramitacao [evento]="evento"></app-evento-tramitacao>
+          </tbody>
+        </td>
+      </div>
+    </table>
   </div>
 </div>

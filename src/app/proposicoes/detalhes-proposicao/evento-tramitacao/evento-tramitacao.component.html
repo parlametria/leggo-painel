@@ -1,12 +1,22 @@
-<li>
-  <span [hidden]="showMais">{{ getResumo() }}</span>
-  <span [hidden]="!showMais">{{ getTexto() }}</span>
-  &nbsp;
-  <button
-    [hidden]="!temMaisTexto()"
-    class="btn btn-light btn-xs"
-    (click)="toogleShowMais()">
-    <span [hidden]="showMais">...</span>
-    <span [hidden]="!showMais">ver menos</span>
-  </button>
-</li>
+<span
+  *ngIf="isEvento()"
+  class="evento-title">
+  {{ evento?.titulo_evento | titlecase }}&nbsp;
+</span>
+<span
+  class="text-muted cursor"
+  [ngbPopover]="popTemperatura"
+  [autoClose]="'outside'">
+  +{{ (evento?.temperatura_evento + evento?.temperatura_local) | number : '1.2-2'}} na temperatura
+</span>
+<ng-template #popTemperatura>
+  <span>
+    <strong>Temperatura da ação:</strong>
+    {{ evento?.temperatura_evento }}
+  </span>
+  <span *ngIf="evento?.temperatura_local > 0">
+    <strong>Temperatura da local:</strong>
+    {{ evento?.temperatura_local }}
+  </span>
+</ng-template>
+<div>{{ evento?.texto_tramitacao }}</div>
