@@ -127,20 +127,36 @@
       </div>
     </div>
   </div>
-  <div class="col-sm-2">
+  <div class="card-side col-sm-2">
     <div class="mb-2">
-      <app-progress
-        [label]="'Governismo'"
-        [barraClasse]="'bg-info'"
-        [valor]="parlamentar.governismo"
-        [exibirLabel]="true"></app-progress>
+      <span
+        [ngbPopover]="popGovernismo"
+        [autoClose]="'outside'">
+        <app-progress
+          [label]="'Governismo'"
+          [barraClasse]="'bg-info'"
+          [valor]="parlamentar.governismo"
+          [exibirLabel]="true"></app-progress>
+      </span>
+      <ng-template #popGovernismo>
+        <strong>Governismo</strong>
+        {{ parlamentar.governismo | number : '1.2-2' }}
+      </ng-template>
     </div>
     <div class="mb-2">
-      <app-progress
-        [label]="'Peso'"
-        [barraClasse]="'bg-info'"
-        [valor]="parlamentar.peso_politico"
-        [exibirLabel]="true"></app-progress>
+      <span
+        [ngbPopover]="popPeso"
+        [autoClose]="'outside'">
+        <app-progress
+          [label]="'Peso'"
+          [barraClasse]="'bg-gray'"
+          [valor]="parlamentar.peso_politico"
+          [exibirLabel]="true"></app-progress>
+      </span>
+      <ng-template #popPeso>
+        <strong>Peso político</strong>
+        {{ parlamentar.peso_politico | number : '1.2-2' }}
+      </ng-template>
     </div>
   </div>
 </div>
