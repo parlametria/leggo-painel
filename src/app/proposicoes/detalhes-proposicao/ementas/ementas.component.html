@@ -1,0 +1,45 @@
+<div class="mt-4 mb-2">
+  <div *ngIf="proposicao?.etapas[0]?.ementa">
+    <strong>
+      <span *ngIf="proposicao?.etapas[0]?.casa === 'camara'">Câmara:</span>
+      <span *ngIf="proposicao?.etapas[0]?.casa === 'senado'">Senado:</span>
+    </strong>
+    <span>
+      <span [hidden]="showMais">
+        &nbsp;{{ getResumo(proposicao?.etapas[0]?.ementa) }}
+      </span>
+      <span [hidden]="!showMais">
+        &nbsp;{{ proposicao?.etapas[0]?.ementa }}
+      </span>
+      <button
+        [hidden]="!getTemEmendaResumida(proposicao?.etapas[0]?.ementa)"
+        class="btn btn-light btn-xs ml-2"
+        (click)="toogleShowMais()">
+        <span [hidden]="showMais">ver mais</span>
+        <span [hidden]="!showMais">ver menos</span>
+      </button>
+    </span>
+  </div>
+  <div *ngIf="proposicao?.etapas[0]?.ementa !== proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa">
+    <strong>
+      <span *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.casa === 'camara'">Câmara:</span>
+      <span *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.casa === 'senado'">Senado:</span>
+    </strong>
+    <span>
+      <span [hidden]="showMais">
+        &nbsp;{{ getResumo(proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa) }}
+      </span>
+      <span [hidden]="!showMais">
+        &nbsp;{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa }}
+      </span>
+      <button
+        [hidden]="!getTemEmendaResumida(proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa)"
+        class="btn btn-light btn-xs ml-2"
+        (click)="toogleShowMais()">
+        <span [hidden]="showMais">ver mais</span>
+        <span [hidden]="!showMais">ver menos</span>
+      </button>
+    </span>
+  </div>
+  <div class="text-muted">{{ getTitulo() }}</div>
+</div>
