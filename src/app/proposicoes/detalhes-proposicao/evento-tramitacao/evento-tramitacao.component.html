@@ -7,16 +7,14 @@
   class="text-muted cursor"
   [ngbPopover]="popTemperatura"
   [autoClose]="'outside'">
-  +{{ (evento?.temperatura_evento + evento?.temperatura_local) | number : '1.2-2'}} na temperatura
+  +{{ (evento?.temperatura_evento + evento?.temperatura_local) | number : '1.0-1'}} na temperatura
 </span>
 <ng-template #popTemperatura>
   <span>
-    <strong>Temperatura da ação:</strong>
-    {{ evento?.temperatura_evento }}
+    <strong>{{ evento?.temperatura_evento | number : '1.0-1' }}°C</strong> devido ao tipo de ação
   </span>
   <span *ngIf="evento?.temperatura_local > 0">
-    <strong>Temperatura da local:</strong>
-    {{ evento?.temperatura_local }}
+    e <strong>{{ evento?.temperatura_local | number : '1.0-1' }}°C</strong> devido ao local da ação
   </span>
 </ng-template>
 <div>{{ evento?.texto_tramitacao }}</div>
