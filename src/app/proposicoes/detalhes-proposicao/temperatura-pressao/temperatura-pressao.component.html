@@ -12,7 +12,9 @@
       </div>
       <div class="mb-3">
         <p>
-          <strong class="color-temperatura">{{ filtro?.valorTemperatura }}</strong>
+          <strong class="color-temperatura">
+            {{ filtro?.valorTemperatura | number : '1.0-1' }}
+          </strong>
           de temperatura
         </p>
       </div>
@@ -46,9 +48,16 @@
   <div *ngIf="eventosSecundarios.length">
     <p>
       <button
+        *ngIf="!showMais"
         class="btn btn-light"
         (click)="toggleShowMais()">
         Ver mais ações nesta semana
+      </button>
+      <button
+        *ngIf="showMais"
+        class="btn btn-light"
+        (click)="toggleShowMais()">
+        Ver menos ações nesta semana
       </button>
     </p>
     <table
