@@ -27,7 +27,7 @@ export class EmentasComponent implements OnInit {
     if (this.proposicao && this.proposicao.etapas.length > 0) {
       const primeiraEtapa = this.proposicao.etapas[0].ementa;
       const ultimaEtapa = this.proposicao.etapas[this.proposicao.etapas.length - 1].ementa;
-      if (primeiraEtapa !== ultimaEtapa) {
+      if (primeiraEtapa.trim() !== ultimaEtapa.trim()) {
         return 'Ementas';
       }
     }
@@ -43,10 +43,19 @@ export class EmentasComponent implements OnInit {
     return texto;
   }
 
-  getTemEmendaResumida(texto: string): boolean {
+  getTemEmentaResumida(texto: string): boolean {
     if (texto !== undefined) {
       return texto.length > this.LIMITE_RESUMO;
     }
+  }
+
+  getTemEmentasIguais(): boolean {
+    if (this.proposicao && this.proposicao.etapas.length > 1) {
+      const primeiraEtapa = this.proposicao.etapas[0].ementa;
+      const ultimaEtapa = this.proposicao.etapas[this.proposicao.etapas.length - 1].ementa;
+      return primeiraEtapa.trim() === ultimaEtapa.trim();
+    }
+    return false;
   }
 
 }
