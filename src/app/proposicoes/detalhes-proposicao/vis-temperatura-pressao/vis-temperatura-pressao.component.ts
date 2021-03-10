@@ -189,7 +189,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
 
   private atualizarVis(g, dados, temperaturaMax) {
     this.x.domain(d3.extent(dados, (d: any) => d.data));
-    this.yTemperatura.domain([0, 100]);
+    this.yTemperatura.domain([0, temperaturaMax]);
     const fatorConversaoTemperaturaParaCelsius = 100 / temperaturaMax;
     const maxPressao = +d3.max(dados, (d: any) => d.valorPressao);
     if (maxPressao > 0) {
