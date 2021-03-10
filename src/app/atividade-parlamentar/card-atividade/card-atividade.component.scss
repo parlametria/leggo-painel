@@ -23,3 +23,9 @@ $base-padding: 0.5rem;
   align-items: center;
   margin-top: $base-padding;
 }
+
+.card-side {
+  @media (min-width: 576px) {
+    margin-top: 1rem;
+  }
+}

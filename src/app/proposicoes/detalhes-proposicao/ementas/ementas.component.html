@@ -1,0 +1,22 @@
+<div class="mt-4 mb-2">
+  <strong>{{ getTitulo() }}</strong>
+  <div *ngFor="let etapa of proposicao?.etapas; index as i">
+    <div [hidden]="getTemEmentasIguais() && i === 1">
+      <strong>
+        <span *ngIf="etapa?.casa === 'camara'">Câmara:</span>
+        <span *ngIf="etapa?.casa === 'senado'">Senado:</span>
+      </strong>
+      <span>
+        <span [hidden]="showMais">&nbsp;{{ getResumo(etapa?.ementa) }}</span>
+        <span [hidden]="!showMais">&nbsp;{{ etapa?.ementa }}</span>
+        <button
+          [hidden]="!getTemEmentaResumida(etapa?.ementa)"
+          class="btn btn-light btn-xs ml-2"
+          (click)="toogleShowMais()">
+          <span [hidden]="showMais">ver mais</span>
+          <span [hidden]="!showMais">ver menos</span>
+        </button>
+      </span>
+    </div>
+  </div>
+</div>

@@ -17,4 +17,5 @@ export interface AtorAgregado {
   indice: number;
   casa_autor: string;
   quantidade_tweets: number;
+  governismo: number;
 }

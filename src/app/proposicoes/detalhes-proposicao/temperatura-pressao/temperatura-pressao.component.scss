@@ -1,0 +1,16 @@
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  padding: 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.date-field {
+  width: 130px;
+  white-space: nowrap;
+}

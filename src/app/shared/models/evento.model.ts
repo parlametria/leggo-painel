@@ -7,4 +7,6 @@ export interface Evento {
     status: string;
     proposicao_id: string;
     nivel: number;
+    temperatura_evento: number;
+    temperatura_local: number;
 }

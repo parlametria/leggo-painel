@@ -51,7 +51,7 @@ export class EventoTramitacaoComponent {
   }
 
   isEvento() {
-    return (typeof this.evento.evento !== 'undefined' && this.evento.evento !== 'nan');
+    return (typeof this.evento.titulo_evento !== 'undefined' && this.evento.titulo_evento !== 'nan');
   }
 
 }

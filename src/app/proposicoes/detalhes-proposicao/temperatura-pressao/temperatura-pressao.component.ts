@@ -18,8 +18,10 @@ export class TemperaturaPressaoComponent implements OnInit {
   public idLeggo: string;
   public isLoading = new BehaviorSubject<boolean>(true);
 
-  public eventos;
+  public eventosPrincipais;
+  public eventosSecundarios;
   public filtro;
+  public showMais = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -41,11 +43,13 @@ export class TemperaturaPressaoComponent implements OnInit {
     this.eventosService.getEventosTramitacao(idLeggo, 'reforma-tributaria')
       .pipe(indicate(this.isLoading))
       .subscribe(eventos => {
-        this.eventos = eventos;
+        this.eventosPrincipais = eventos.filter(e => (typeof e.titulo_evento !== 'undefined' && e.titulo_evento !== 'nan'));
+        this.eventosSecundarios = eventos.filter(e => (typeof e.titulo_evento === 'undefined' || e.titulo_evento === 'nan'));
       });
   }
 
   dataOnChange(event) {
+    this.showMais = false;
     this.filtro = event;
     this.eventosService.pesquisar(event);
   }
@@ -64,6 +68,10 @@ export class TemperaturaPressaoComponent implements OnInit {
       return evento.texto_tramitacao.split('.')[0] + '...';
     }
     return '';
+  }
+
+  toggleShowMais() {
+    this.showMais = !this.showMais;
   }
 
 }
