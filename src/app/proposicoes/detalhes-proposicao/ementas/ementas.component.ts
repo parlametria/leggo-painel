@@ -11,7 +11,7 @@ export class EmentasComponent implements OnInit {
 
   @Input() proposicao: Proposicao;
 
-  readonly LIMITE_RESUMO = 280;
+  readonly LIMITE_RESUMO = 220;
   showMais = false;
 
   constructor() { }

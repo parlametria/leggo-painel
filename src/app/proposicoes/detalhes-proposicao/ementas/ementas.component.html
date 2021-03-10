@@ -1,4 +1,5 @@
 <div class="mt-4 mb-2">
+  <strong>{{ getTitulo() }}</strong>
   <div *ngFor="let etapa of proposicao?.etapas; index as i">
     <div [hidden]="getTemEmentasIguais() && i === 1">
       <strong>
@@ -18,5 +19,4 @@
       </span>
     </div>
   </div>
-  <div class="text-muted">{{ getTitulo() }}</div>
 </div>
