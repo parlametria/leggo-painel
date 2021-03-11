@@ -15,7 +15,7 @@ export class ProposicoesListaService {
 
   private proposicoes = new BehaviorSubject<Array<ProposicaoLista>>([]);
   private proposicoesFiltered = new BehaviorSubject<Array<ProposicaoLista>>([]);
-  private proposicoesDestaque = new BehaviorSubject<Array<ProposicaoLista>>([]);
+  private interesse: string;
 
   private orderBy = new BehaviorSubject<string>('');
   readonly ORDER_BY_PADRAO = 'maior-temperatura';
@@ -69,12 +69,16 @@ export class ProposicoesListaService {
         }))
       .subscribe(res => {
         if (this.proposicoes.value.length !== 0) {
-          this.proposicoesFiltered.next(res);
+          if (this.interesse === this.proposicoes.value[0].interesse[0].interesse) {
+            this.proposicoesFiltered.next(res);
+          }
         }
       });
   }
 
   getProposicoes(interesse: string): Observable<ProposicaoLista[]> {
+    this.interesse = interesse;
+
     forkJoin(
       [
         this.proposicoesService.getProposicoes(interesse),
@@ -131,10 +135,6 @@ export class ProposicoesListaService {
     } else {
       return objeto[property];
     }
-  }
-
-  private isDestaque(prop: any) {
-    return (typeof prop.destaques !== 'undefined' && prop.destaques.length !== 0);
   }
 
   search(filtro: any) {
