@@ -7,6 +7,7 @@ import { ProposicoesComponent } from '../proposicoes/proposicoes.component';
 import { SobreComponent } from './sobre/sobre.component';
 import { SelecaoPainelComponent } from './selecao-painel/selecao-painel.component';
 import { PageNotFoundComponent } from '../shared/components/page-not-found/page-not-found.component';
+import { InsightsComponent } from '../insights/insights.component';
 
 const routes: Routes = [
   {
@@ -33,6 +34,10 @@ const routes: Routes = [
       {
         path: 'parlamentares',
         component: AtividadeParlamentarComponent
+      },
+      {
+        path: 'insights',
+        component: InsightsComponent
       },
       {
         path: 'proposicoes',
