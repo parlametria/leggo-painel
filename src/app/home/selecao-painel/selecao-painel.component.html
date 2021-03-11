@@ -3,7 +3,7 @@
     <p>
       Nos painéis, utilizamos o aprendizado de máquina e a ciência de dados para coletar informações da Câmara dos Deputados e do Senado Federal. Com isso, identificamos a ação legislativa das proposições, para aferir a temperatura, o modo como o conteúdo é alterado e os atores nesse processo.
 
-      Hoje, possuímos <strong>{{ interesses.length }} painéis ativos</strong>.
+      Hoje, possuímos <strong>{{ interesses?.length }} painéis ativos</strong>.
     </p>
     <h2 class="text-center my-4">Selecione o painel desejado</h2>
     <div class="d-flex justify-content-center">
@@ -12,9 +12,9 @@
           *ngFor="let interesse of interesses"
           class="col-sm-6 col-md-3">
           <a
-            [routerLink]="'/' + interesse.interesse"
+            [routerLink]="'/' + interesse?.interesse"
             class="btn btn-outline-dark btn-block paineis-selecao">
-            {{ interesse.nome_interesse }}
+            {{ interesse?.nome_interesse }}
           </a>
         </div>
       </div>
