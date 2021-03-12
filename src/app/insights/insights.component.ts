@@ -37,11 +37,12 @@ export class InsightsComponent implements OnInit {
   getInsights(interesse: string) {
     this.insightsService.getInsights(interesse)
       .pipe(
-        skip(1),
         indicate(this.isLoading),
         takeUntil(this.unsubscribe)
       ).subscribe(insights => {
         this.insights = insights;
+        console.log(this.insights);
+
         this.isLoading.next(false);
       });
   }

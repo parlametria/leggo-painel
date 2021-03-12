@@ -16,6 +16,7 @@ import { FiltroProposicoesComponent } from '../proposicoes/filtro-proposicoes/fi
 import { SobreComponent } from './sobre/sobre.component';
 import { SelecaoPainelComponent } from './selecao-painel/selecao-painel.component';
 import { InsightsComponent } from '../insights/insights.component';
+import { CardInsightComponent } from '../insights/card-insight/card-insight.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { InsightsComponent } from '../insights/insights.component';
     FiltroProposicoesComponent,
     SobreComponent,
     SelecaoPainelComponent,
-    InsightsComponent
+    InsightsComponent,
+    CardInsightComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +38,7 @@ import { InsightsComponent } from '../insights/insights.component';
     SharedComponentsModule,
     NgbModule,
     NgxPaginationModule,
-    FormsModule,
+    FormsModule
   ]
 })
 export class HomeModule { }
