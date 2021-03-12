@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subject, forkJoin, BehaviorSubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -31,7 +31,7 @@ export class AtuacaoParlamentarComponent implements OnInit, OnDestroy {
   idLeggo: string;
   interesse: string;
   maximoDocumentos: number;
-  numeroParlamentares = this.NUMERO_PARLAMENTARES;
+  p = 1;
 
   atuacao: any[];
 
@@ -102,14 +102,6 @@ export class AtuacaoParlamentarComponent implements OnInit, OnDestroy {
       });
   }
 
-  toogleShowParlamentares() {
-    if (this.numeroParlamentares < this.atuacao.length) {
-      this.numeroParlamentares = this.atuacao.length;
-    } else {
-      this.numeroParlamentares = this.NUMERO_PARLAMENTARES;
-    }
-  }
-
   private getClasseTipoDocumento(tipoDocumento: string) {
     let classe = '';
     switch (tipoDocumento) {
@@ -142,6 +134,10 @@ export class AtuacaoParlamentarComponent implements OnInit, OnDestroy {
     } else {
       return objeto[property];
     }
+  }
+
+  pageChange(p: number) {
+    this.p = p;
   }
 
   ngOnDestroy(): void {
