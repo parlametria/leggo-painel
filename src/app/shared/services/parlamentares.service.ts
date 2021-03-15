@@ -10,7 +10,6 @@ import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.servi
 import { RelatoriaService } from 'src/app/shared/services/relatoria.service';
 import { EntidadeService } from 'src/app/shared/services/entidade.service';
 import { TwitterService } from 'src/app/shared/services/twitter.service';
-import { GovernismoService } from './governismo.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,8 +30,7 @@ export class ParlamentaresService {
     private pesoService: PesoPoliticoService,
     private relatoriaService: RelatoriaService,
     private entidadeService: EntidadeService,
-    private twitterService: TwitterService,
-    private governismoService: GovernismoService
+    private twitterService: TwitterService
   ) {
 
     this.parlamentares
@@ -96,8 +94,7 @@ export class ParlamentaresService {
         this.relatoriaService.getAtoresRelatores(interesse, tema, destaque),
         this.pesoService.getPesoPolitico(),
         this.twitterService.getAtividadeTwitter(interesse, tema, dataInicial, dataFinal, destaque),
-        this.autoriaService.getAutoriasAgregadasProjetos(interesse, tema, destaque),
-        this.governismoService.getGovernismo()
+        this.autoriaService.getAutoriasAgregadasProjetos(interesse, tema, destaque)
       ]
     )
       .subscribe(data => {
@@ -117,7 +114,6 @@ export class ParlamentaresService {
           ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...twitter.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
           ...autoriasProjetos.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
-          ...governismo.find(p => a.id_autor_parlametria === p.id_parlamentar_parlametria),
           ...a
         }));
 
