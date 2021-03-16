@@ -11,7 +11,7 @@ import { Insight } from 'src/app/shared/models/insight.model';
 })
 export class InsightsService {
 
-  private insightsUrl = `${environment.baseUrl}/anotacoes`;
+  private insightsUrl = `${environment.baseUrl}/anotacoes-gerais`;
 
   constructor(private http: HttpClient) { }
 
