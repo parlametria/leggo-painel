@@ -1,7 +1,7 @@
 <div class="container app-container">
   <div class="app-content">
     <app-loading *ngIf="isLoading | async"></app-loading>
-    <p *ngIf="!insights?.length">Nenhum insight para este painel</p>
+    <p *ngIf="!insights?.length && !isLoading.getValue()">Nenhum insight cadastrado neste painel</p>
     <app-card-insight
       *ngFor="let insight of insights"
       [insight]="insight"></app-card-insight>
