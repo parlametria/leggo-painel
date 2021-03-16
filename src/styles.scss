@@ -48,6 +48,11 @@
   margin-top: 4rem;
 }
 
+a.link-texto:link,
+a.link-texto:visited {
+  font-weight: 700;
+}
+
 .app-badge {
   margin-left: -10px;
   border: solid 2px;
