@@ -16,7 +16,7 @@
 @import "assets/styles/icons";
 
 .app-container {
-  margin-top: 2rem;
+  margin-top: 4rem;
   margin-bottom: 2rem;
 }
 
@@ -46,6 +46,11 @@
 
 .sessao {
   margin-top: 4rem;
+}
+
+a.link-texto:link,
+a.link-texto:visited {
+  font-weight: 700;
 }
 
 .app-badge {
