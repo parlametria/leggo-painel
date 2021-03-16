@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { BehaviorSubject, Subject } from 'rxjs';
-import { skip, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
 import { Insight } from '../shared/models/insight.model';
 import { InsightsService } from '../shared/services/insights.service';
@@ -13,7 +13,7 @@ import { indicate } from '../shared/functions/indicate.function';
   templateUrl: './insights.component.html',
   styleUrls: ['./insights.component.scss']
 })
-export class InsightsComponent implements OnInit {
+export class InsightsComponent implements OnInit, OnDestroy {
 
   private unsubscribe = new Subject();
   public isLoading = new BehaviorSubject<boolean>(true);
@@ -41,10 +41,13 @@ export class InsightsComponent implements OnInit {
         takeUntil(this.unsubscribe)
       ).subscribe(insights => {
         this.insights = insights;
-        console.log(this.insights);
-
         this.isLoading.next(false);
       });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
 }
