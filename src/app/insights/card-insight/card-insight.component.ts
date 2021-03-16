@@ -25,7 +25,7 @@ export class CardInsightComponent implements OnInit {
     const urlMatchs = str.match(urlRegex);
     if (urlMatchs !== null) {
       urlMatchs.forEach(match => {
-        str = str.replace(match, `<a href="${match}" target="_blank">${match}</a>`);
+        str = str.replace(match, `<a href="${match}" class="link-texto" target="_blank">${match} <span class="icon-external-link"></span></a>`);
       });
     }
 
