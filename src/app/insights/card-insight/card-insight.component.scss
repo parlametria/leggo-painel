@@ -13,3 +13,10 @@
   margin-bottom: 3rem;
   border-top: solid 2px #adb5bd;
 }
+
+.insight-corpo {
+  > a:link {
+    text-decoration: underline;
+  }
+
+}
