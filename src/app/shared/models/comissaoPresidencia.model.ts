@@ -7,3 +7,9 @@ export interface ComissaoPresidencia {
   quantidade_comissao_presidente: number;
   tramitou_agenda: boolean;
 }
+
+export interface ComissoesCargo {
+  id_parlamentar_voz: string;
+  casa: string;
+  parlamentarComissoes: any[];
+}

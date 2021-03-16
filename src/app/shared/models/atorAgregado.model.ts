@@ -19,4 +19,5 @@ export interface AtorAgregado {
   quantidade_tweets: number;
   governismo: number;
   interesse: string;
+  parlamentarComissoes: any[];
 }
