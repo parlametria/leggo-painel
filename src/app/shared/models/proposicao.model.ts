@@ -69,6 +69,7 @@ export interface ProposicaoLista {
   anotacao_data_ultima_modificacao: Date;
   resumo_progresso: ProgressoProposicao[];
   destaques: any;
+  max_temperatura_interesse: number;
 }
 
 export interface TramitacaoProposicao {

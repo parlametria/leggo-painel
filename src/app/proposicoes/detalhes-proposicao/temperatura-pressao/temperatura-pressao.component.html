@@ -13,7 +13,7 @@
       <div class="mb-3">
         <p>
           <strong class="color-temperatura">
-            {{ filtro?.valorTemperatura | number : '1.0-1' }}
+            {{ filtro?.valorTemperatura | number : '1.0-1' }}°C
           </strong>
           de temperatura
         </p>
@@ -29,7 +29,7 @@
   <h3 class="titulo-sessao">
     Ações legislativas de {{ getSemanaString(filtro?.data) }}
   </h3>
-  <div *ngIf="!eventosPrincipais.length || !eventosSecundarios.length">Nenhuma ação legislativa nesta semana.</div>
+  <div *ngIf="!eventosPrincipais.length && !eventosSecundarios.length">Nenhuma ação legislativa nesta semana.</div>
   <table class="eventos-tram">
     <div *ngFor="let evento of eventosPrincipais">
       <td class="date-field">
