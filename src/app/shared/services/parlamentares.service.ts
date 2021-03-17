@@ -55,7 +55,7 @@ export class ParlamentaresService {
             });
           } else if (this.orderBy.value === 'peso-politico') {
             parlamentares.sort((a, b) => {
-              return this.orderByDesc(a.peso_politico, b.peso_politico);
+              return this.orderByDesc(a.pesoPolitico, b.pesoPolitico);
             });
           } else if (this.orderBy.value === 'atuacao-twitter') {
             parlamentares.sort((a, b) => {
@@ -105,23 +105,17 @@ export class ParlamentaresService {
         const pesoPolitico: any = data[4];
         const twitter: any = data[5];
         const autoriasProjetos: any = data[6];
+        console.log(pesoPolitico);
 
         const parlamentares = parlamentaresExercicio.map(a => ({
           ...autoriasAgregadas.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...comissaoPresidencia.find(p => a.id_autor_parlametria === Number(p.id_parlamentar_voz)),
           ...atoresRelatores.find(p => a.id_autor_parlametria === p.autor_id_parlametria),
-          ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
+          ...pesoPolitico.find(p => a.id_autor_parlametria === Number(p.idParlamentarVoz)),
           ...twitter.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
           ...autoriasProjetos.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...a
         }));
-
-        const pesosPoliticos = parlamentares.map(p => {
-          if (p.peso_politico) {
-            return +p.peso_politico;
-          }
-          return 0;
-        });
 
         const tweets = parlamentares.map(p => {
           if (p.atividade_twitter) {
@@ -147,7 +141,6 @@ export class ParlamentaresService {
             p.quantidade_tweets = p.atividade_twitter;
           }
           p.atividade_twitter = this.normalizarAtividade(p.atividade_twitter, Math.min(...tweets), Math.max(...tweets));
-          p.peso_politico = this.pesoService.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
           p.governismo = this.normalizarAtividade(p.governismo, Math.min(...valoresGovernismo), Math.max(...valoresGovernismo));
         });
 

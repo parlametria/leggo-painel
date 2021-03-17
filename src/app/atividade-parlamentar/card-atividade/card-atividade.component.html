@@ -150,12 +150,12 @@
         <app-progress
           [label]="'Peso'"
           [barraClasse]="'bg-gray'"
-          [valor]="parlamentar.peso_politico"
+          [valor]="parlamentar.pesoPolitico"
           [exibirLabel]="true"></app-progress>
       </span>
       <ng-template #popPeso>
         <strong>Peso político</strong>
-        {{ parlamentar.peso_politico | number : '1.0-1' }}
+        {{ parlamentar.pesoPolitico | number : '1.0-1' }}
       </ng-template>
     </div>
   </div>

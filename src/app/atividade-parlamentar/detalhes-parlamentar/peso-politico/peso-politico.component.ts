@@ -42,7 +42,7 @@ export class PesoPoliticoComponent implements OnInit {
         indicate(this.isLoading),
         takeUntil(this.unsubscribe))
       .subscribe(parlamentar => {
-        this.peso = +parlamentar[0].peso_politico;
+        this.peso = +parlamentar[0].pesoPolitico;
 
         this.isLoading.next(false);
       });
