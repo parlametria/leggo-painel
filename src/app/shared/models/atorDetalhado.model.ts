@@ -8,7 +8,7 @@ export interface AtorDetalhado {
     uf: string;
     casa_autor: string;
     bancada: string;
-    pesoPolitico: number;
+    peso_politico: number;
     urlFoto: string;
     relatorias: Array<any>;
     comissoes: any[];

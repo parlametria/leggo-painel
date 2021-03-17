@@ -55,7 +55,7 @@ export class ParlamentaresService {
             });
           } else if (this.orderBy.value === 'peso-politico') {
             parlamentares.sort((a, b) => {
-              return this.orderByDesc(a.pesoPolitico, b.pesoPolitico);
+              return this.orderByDesc(a.peso_politico, b.peso_politico);
             });
           } else if (this.orderBy.value === 'atuacao-twitter') {
             parlamentares.sort((a, b) => {
@@ -105,7 +105,6 @@ export class ParlamentaresService {
         const pesoPolitico: any = data[4];
         const twitter: any = data[5];
         const autoriasProjetos: any = data[6];
-        console.log(pesoPolitico);
 
         const parlamentares = parlamentaresExercicio.map(a => ({
           ...autoriasAgregadas.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
@@ -140,6 +139,7 @@ export class ParlamentaresService {
           } else {
             p.quantidade_tweets = p.atividade_twitter;
           }
+          p.peso_politico = p.pesoPolitico;
           p.atividade_twitter = this.normalizarAtividade(p.atividade_twitter, Math.min(...tweets), Math.max(...tweets));
           p.governismo = this.normalizarAtividade(p.governismo, Math.min(...valoresGovernismo), Math.max(...valoresGovernismo));
         });
