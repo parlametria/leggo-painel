@@ -213,10 +213,10 @@ export class ProposicoesListaService {
 
   matchTema(p: ProposicaoLista, tema: string) {
     const temasSlugProposicao = p.interesse[0].slug_temas;
-    if ( tema === "todos") {
+    if ( tema === 'todos') {
       return true;
     }
-    if (tema === "destaque") {
+    if (tema === 'destaque') {
       return this.isDestaque(p);
     }
     return ((temasSlugProposicao).indexOf(tema)) !== -1;

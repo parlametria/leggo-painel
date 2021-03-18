@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, AfterContentInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Params, Router, ActivatedRoute } from '@angular/router';
 
 import { Subject } from 'rxjs';
@@ -12,7 +12,7 @@ import { TemasService } from '../../shared/services/temas.service';
   styleUrls: ['./filtro-proposicoes.component.scss']
 })
 
-export class FiltroProposicoesComponent implements OnInit {
+export class FiltroProposicoesComponent implements OnInit, AfterContentInit {
 
   @Input() interesse: string;
   @Input() numeroProposicoes: number;
