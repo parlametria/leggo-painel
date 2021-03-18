@@ -134,7 +134,7 @@
         [autoClose]="'outside'">
         <app-progress
           [label]="'Governismo'"
-          [barraClasse]="'bg-info'"
+          [barraClasse]="'bg-gray'"
           [valor]="parlamentar.governismo"
           [exibirLabel]="true"></app-progress>
       </span>
@@ -149,7 +149,7 @@
         [autoClose]="'outside'">
         <app-progress
           [label]="'Disciplina'"
-          [barraClasse]="'bg-gray'"
+          [barraClasse]="'bg-info'"
           [valor]="parlamentar.disciplina"
           [exibirLabel]="true"></app-progress>
       </span>
@@ -164,7 +164,7 @@
         [autoClose]="'outside'">
         <app-progress
           [label]="'Peso'"
-          [barraClasse]="'bg-info'"
+          [barraClasse]="'bg-mediumgray'"
           [valor]="parlamentar.peso_politico"
           [exibirLabel]="true"></app-progress>
       </span>
@@ -173,4 +173,5 @@
         {{ parlamentar.peso_politico | number : '1.0-1' }}
       </ng-template>
     </div>
+  </div>
 </div>
