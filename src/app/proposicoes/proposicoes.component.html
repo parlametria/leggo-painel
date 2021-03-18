@@ -1,5 +1,6 @@
 <div class="app-container">
   <app-filtro-proposicoes
+    [interesse]="interesse"
     (filterChange)="search($event)"
     [numeroProposicoes]="proposicoesDestaque?.length + proposicoes?.length"></app-filtro-proposicoes>
   <div class="app-content pb-4 mb-4">
