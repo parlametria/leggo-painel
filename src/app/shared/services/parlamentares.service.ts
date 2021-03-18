@@ -73,7 +73,7 @@ export class ParlamentaresService {
             parlamentares.sort((a, b) => {
               return this.orderByDesc(a.disciplina, b.disciplina);
             });
-          }  
+          }
           if (this.filtro.value.nome === '') { // evita que índice mude pela busca por nome
             parlamentares.map((p, index) => {
               p.indice = index;
