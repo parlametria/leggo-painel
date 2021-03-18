@@ -15,6 +15,8 @@ import { CardProposicaoComponent } from '../proposicoes/card-proposicao/card-pro
 import { FiltroProposicoesComponent } from '../proposicoes/filtro-proposicoes/filtro-proposicoes.component';
 import { SobreComponent } from './sobre/sobre.component';
 import { SelecaoPainelComponent } from './selecao-painel/selecao-painel.component';
+import { InsightsComponent } from '../insights/insights.component';
+import { CardInsightComponent } from '../insights/card-insight/card-insight.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { SelecaoPainelComponent } from './selecao-painel/selecao-painel.componen
     CardProposicaoComponent,
     FiltroProposicoesComponent,
     SobreComponent,
-    SelecaoPainelComponent
+    SelecaoPainelComponent,
+    InsightsComponent,
+    CardInsightComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +38,7 @@ import { SelecaoPainelComponent } from './selecao-painel/selecao-painel.componen
     SharedComponentsModule,
     NgbModule,
     NgxPaginationModule,
-    FormsModule,
+    FormsModule
   ]
 })
 export class HomeModule { }

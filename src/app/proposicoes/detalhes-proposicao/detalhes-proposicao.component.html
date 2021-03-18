@@ -76,9 +76,11 @@
         </div>
       </ng-template>
     </div>
-    <app-lista-autores [autores]="proposicao?.autoresProposicao"></app-lista-autores>
-    <app-lista-relatores [etapas]="proposicao?.etapas"></app-lista-relatores>
-    <app-ementas [proposicao]="proposicao"></app-ementas>
+    <div class="pb-4 mb-4">
+      <app-lista-autores [autores]="proposicao?.autoresProposicao"></app-lista-autores>
+      <app-lista-relatores [etapas]="proposicao?.etapas"></app-lista-relatores>
+      <app-ementas [proposicao]="proposicao"></app-ementas>
+    </div>
 
     <!-- <div *ngIf="proposicao?.etapas?.slice(-1)[0]?.resumo_tramitacao?.slice(-1)[0]?.evento as tramitacao">
       <div

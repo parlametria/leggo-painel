@@ -87,7 +87,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     // const largura = (window.innerWidth > 800) ? 800 : window.innerWidth;
     this.r = 7;
     this.margin = {
-      left: 35,
+      left: 55,
       right: 60,
       top: 35,
       bottom: 35
@@ -274,7 +274,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .call((d: any) => d.select('.domain').remove());
     this.gTemperatura.append('g')
       .attr('transform', `translate(-10, 0)`)
-      .call(d3.axisLeft(this.yTemperatura).ticks(3));
+      .call(d3.axisLeft(this.yTemperatura).ticks(3).tickFormat(t => `${t}°C`));
     this.gPressao.append('g')
       .attr('transform', `translate(0, ${this.heightGrafico + 5})`)
       .call(d3.axisBottom(this.x).ticks(d3.timeMonday).tickFormat(this.localizacao.format('%d %b')))

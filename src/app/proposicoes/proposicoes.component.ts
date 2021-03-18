@@ -1,11 +1,10 @@
 import { AfterContentInit, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { BehaviorSubject, forkJoin, Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { skip, takeUntil } from 'rxjs/operators';
 
 import { ProposicoesListaService } from '../shared/services/proposicoes-lista.service';
-import { ProposicoesService } from '../shared/services/proposicoes.service';
 import { ProposicaoLista } from '../shared/models/proposicao.model';
 import { MaximaTemperaturaProposicao } from '../shared/models/proposicoes/maximaTemperaturaProposicao.model';
 import { indicate } from '../shared/functions/indicate.function';
@@ -24,13 +23,11 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   proposicoes: ProposicaoLista[];
   tema: string;
   proposicoesDestaque: ProposicaoLista[];
-  maxTemperatura: MaximaTemperaturaProposicao;
   orderByProp: string;
   p = 1;
 
   constructor(
     private proposicoesListaService: ProposicoesListaService,
-    private proposicoesService: ProposicoesService,
     private activatedRoute: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
     private router: Router
@@ -41,7 +38,6 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.interesse = params.get('interesse');
-        this.getMaxTemperatura(this.interesse);
         this.getProposicoes(this.interesse);
       });
     this.activatedRoute.queryParams
@@ -76,15 +72,6 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
         this.proposicoes = proposicoes.filter(p => (typeof p.destaques !== 'undefined' && p.destaques.length === 0));
         this.proposicoesDestaque = proposicoes.filter(p => (typeof p.destaques !== 'undefined' && p.destaques.length !== 0));
         this.isLoading.next(false);
-      });
-  }
-
-  getMaxTemperatura(interesse: string) {
-    this.proposicoesService.getMaximaTemperaturaProposicoes(interesse)
-      .pipe(
-        takeUntil(this.unsubscribe)
-      ).subscribe(maxTemperatura => {
-        this.maxTemperatura = maxTemperatura;
       });
   }
 

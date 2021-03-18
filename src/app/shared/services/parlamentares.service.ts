@@ -4,14 +4,12 @@ import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 
 import { AtorAgregado } from '../models/atorAgregado.model';
-import { AtorService } from 'src/app/shared/services/ator.service';
 import { AutoriasService } from 'src/app/shared/services/autorias.service';
 import { ComissaoService } from 'src/app/shared/services/comissao.service';
 import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.service';
 import { RelatoriaService } from 'src/app/shared/services/relatoria.service';
 import { EntidadeService } from 'src/app/shared/services/entidade.service';
 import { TwitterService } from 'src/app/shared/services/twitter.service';
-import { GovernismoService } from './governismo.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,18 +20,17 @@ export class ParlamentaresService {
   private parlamentaresFiltered = new BehaviorSubject<Array<AtorAgregado>>([]);
   private orderBy = new BehaviorSubject<string>('');
   readonly ORDER_BY_PADRAO = 'atuacao-parlamentar';
+  private interesse: string;
 
   private filtro = new BehaviorSubject<any>({});
 
   constructor(
-    private atorService: AtorService,
     private autoriaService: AutoriasService,
     private comissaoService: ComissaoService,
     private pesoService: PesoPoliticoService,
     private relatoriaService: RelatoriaService,
     private entidadeService: EntidadeService,
-    private twitterService: TwitterService,
-    private governismoService: GovernismoService
+    private twitterService: TwitterService
   ) {
 
     this.parlamentares
@@ -76,13 +73,19 @@ export class ParlamentaresService {
           }
         }))
       .subscribe(res => {
-        this.parlamentaresFiltered.next(res);
+        if (this.parlamentares.value.length !== 0) {
+          if (this.interesse === this.parlamentares.value[0].interesse) {
+            this.parlamentaresFiltered.next(res);
+          }
+        }
       });
   }
 
   getParlamentares(
     interesse: string, tema: string, casa: string, dataInicial: string, dataFinal: string, destaque: boolean
   ): Observable<any> {
+    this.interesse = interesse;
+
     forkJoin(
       [
         this.entidadeService.getParlamentaresExercicio(casa),
@@ -91,8 +94,7 @@ export class ParlamentaresService {
         this.relatoriaService.getAtoresRelatores(interesse, tema, destaque),
         this.pesoService.getPesoPolitico(),
         this.twitterService.getAtividadeTwitter(interesse, tema, dataInicial, dataFinal, destaque),
-        this.autoriaService.getAutoriasAgregadasProjetos(interesse, tema, destaque),
-        this.governismoService.getGovernismo()
+        this.autoriaService.getAutoriasAgregadasProjetos(interesse, tema, destaque)
       ]
     )
       .subscribe(data => {
@@ -112,7 +114,6 @@ export class ParlamentaresService {
           ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...twitter.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
           ...autoriasProjetos.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
-          ...governismo.find(p => a.id_autor_parlametria === p.id_parlamentar_parlametria),
           ...a
         }));
 
@@ -138,6 +139,7 @@ export class ParlamentaresService {
         });
 
         parlamentares.forEach(p => {
+          p.interesse = interesse;
           p.nome_processado = p.nome_autor.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
           p.atividade_parlamentar = this.normalizarAtividade(p.quantidade_autorias, p.min_quantidade_autorias, p.max_quantidade_autorias);
           if (typeof p.atividade_twitter === 'undefined') {
@@ -147,13 +149,6 @@ export class ParlamentaresService {
           }
           p.atividade_twitter = this.normalizarAtividade(p.atividade_twitter, Math.min(...tweets), Math.max(...tweets));
           p.peso_politico = this.pesoService.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
-          if (p.peso_autorias_projetos) {
-            if (p.peso_autorias_projetos % 1 !== 0) {
-              p.peso_autorias_projetos = +p.peso_autorias_projetos.toFixed(2);
-            }
-          } else {
-            p.peso_autorias_projetos = 0;
-          }
           p.governismo = this.normalizarAtividade(p.governismo, Math.min(...valoresGovernismo), Math.max(...valoresGovernismo));
         });
 

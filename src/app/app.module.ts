@@ -16,6 +16,7 @@ import { ParlamentaresService } from './shared/services/parlamentares.service';
 import { ParlamentarDetalhadoService } from './shared/services/parlamentar-detalhado.service';
 import { EntidadeService } from './shared/services/entidade.service';
 import { ProposicoesListaService } from './shared/services/proposicoes-lista.service';
+import { InsightsService } from './shared/services/insights.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ProposicoesListaService } from './shared/services/proposicoes-lista.ser
     ParlamentaresService,
     ParlamentarDetalhadoService,
     EntidadeService,
-    ProposicoesListaService
+    ProposicoesListaService,
+    InsightsService
   ],
   bootstrap: [AppComponent]
 })

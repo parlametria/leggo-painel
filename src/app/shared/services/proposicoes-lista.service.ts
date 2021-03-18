@@ -15,7 +15,7 @@ export class ProposicoesListaService {
 
   private proposicoes = new BehaviorSubject<Array<ProposicaoLista>>([]);
   private proposicoesFiltered = new BehaviorSubject<Array<ProposicaoLista>>([]);
-  private proposicoesDestaque = new BehaviorSubject<Array<ProposicaoLista>>([]);
+  private interesse: string;
 
   private orderBy = new BehaviorSubject<string>('');
   readonly ORDER_BY_PADRAO = 'maior-temperatura';
@@ -73,27 +73,33 @@ export class ProposicoesListaService {
       )
       .subscribe(res => {
         if (this.proposicoes.value.length !== 0) {
-          this.proposicoesFiltered.next(res);
+          if (this.interesse === this.proposicoes.value[0].interesse[0].interesse) {
+            this.proposicoesFiltered.next(res);
+          }
         }
       });
   }
 
   getProposicoes(interesse: string): Observable<ProposicaoLista[]> {
+    this.interesse = interesse;
+
     forkJoin(
       [
         this.proposicoesService.getProposicoes(interesse),
         this.proposicoesService.getUltimaTemperaturaProposicoes(interesse),
+        this.proposicoesService.getMaximaTemperaturaProposicoes(interesse),
         this.pressaoService.getUltimaPressaoProposicoes(interesse),
         this.proposicoesService.getDataUltimoInsightProposicoes(interesse),
-        this.progressoService.getProgressoProposicoes(interesse)
+        this.progressoService.getProgressoProposicoes(interesse),
       ]
     )
       .subscribe(data => {
         const proposicoes: any = data[0];
         const ultimaTemperatura: any = data[1];
-        const ultimaPressao: any = data[2];
-        const dataUltimoInsight: any = data[3];
-        const progresso: any = data[4];
+        const maxTemperaturaInteresse: any = data[2];
+        const ultimaPressao: any = data[3];
+        const dataUltimoInsight: any = data[4];
+        const progresso: any = data[5];
 
         const progressos = this.processaProgresso(progresso);
 
@@ -105,6 +111,7 @@ export class ProposicoesListaService {
           anotacao_data_ultima_modificacao: this.getProperty(dataUltimoInsight.find(p => a.id_leggo === p.id_leggo),
             'anotacao_data_ultima_modificacao'),
           resumo_progresso: progressos[a.id_leggo],
+          max_temperatura_interesse: maxTemperaturaInteresse.max_temperatura_periodo,
           ...a
         }));
 
