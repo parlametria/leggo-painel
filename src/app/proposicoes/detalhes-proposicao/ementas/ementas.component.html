@@ -1,20 +1,18 @@
 <div class="mt-4 mb-2">
   <strong>Ementa</strong>
   <div>
-    <span>
-      <span [hidden]="showMais">
-        {{ getResumo(proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa) }}
-      </span>
-      <span [hidden]="!showMais">
-        {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa }}
-      </span>
-      <button
-        [hidden]="!getTemEmentaResumida(proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa)"
-        class="btn btn-light btn-xs ml-2"
-        (click)="toogleShowMais()">
-        <span [hidden]="showMais">ver mais</span>
-        <span [hidden]="!showMais">ver menos</span>
-      </button>
+    <span [hidden]="showMais">
+      {{ getResumo(proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa) }}
     </span>
+    <span [hidden]="!showMais">
+      {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa }}
+    </span>
+    <button
+      [hidden]="!getTemEmentaResumida(proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa)"
+      class="btn btn-light btn-xs ml-2"
+      (click)="toogleShowMais()">
+      <span [hidden]="showMais">ver mais</span>
+      <span [hidden]="!showMais">ver menos</span>
+    </button>
   </div>
 </div>
