@@ -61,7 +61,7 @@ export class VisGovernismoComponent implements OnInit {
     const largura = (window.innerWidth > 1000) ? 1000 : window.innerWidth;
     this.margin = {
       left: 70,
-      right: 200,
+      right: 70,
       top: 25,
       bottom: 60
     };
@@ -139,11 +139,17 @@ export class VisGovernismoComponent implements OnInit {
       .attr('stroke-dasharray', '10,2');
     eixoX.select('.domain').remove();
     this.g.append('text')
-      .attr('x', this.width)
+      .attr('x', this.width + 8)
       .attr('y', this.height + (this.margin.bottom * 0.75))
       .attr('text-anchor', 'end')
       .attr('font-size', '0.8rem')
-      .text('governismo');
+      .text('Mais governista');
+    this.g.append('text')
+      .attr('x', -8)
+      .attr('y', this.height + (this.margin.bottom * 0.75))
+      .attr('text-anchor', 'start')
+      .attr('font-size', '0.8rem')
+      .text('Menos governista');
 
     // tooltip
     const tooltip = d3.select('body')
