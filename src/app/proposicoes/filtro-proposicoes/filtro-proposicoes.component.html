@@ -1,35 +1,48 @@
 <div class="pb-4 my-4">
+  <div class="filtro-wrapper mb-4">
+    <span *ngIf="numeroProposicoes !== 0">{{ numeroProposicoes }}&nbsp;</span>
+    <span>Proposições &nbsp;</span>
+    <select
+      class="app-seletor"
+      #selectorStatus
+      (change)="onChangeStatus($event.target.value)"
+      [(ngModel)]="statusSelecionado">
+      <option
+        *ngFor="let s of status"
+        [value]="s.statusValue"
+        [selected]="s.statusValue === statusSelecionado">
+        {{ s.statusName }}
+      </option>
+    </select>
+    <span>ordenadas por &nbsp;</span>
+    <select
+      class="app-seletor"
+      #mySelector
+      (change)="onChangeOrderBy($event.target.value)"
+      [(ngModel)]="orderBySelecionado">
+      <option
+        *ngFor="let o of orderBy"
+        [value]="o.order_by"
+        [selected]="o.order_by === orderBySelecionado">
+        {{ o.order }}
+      </option>
+    </select>
+    <span>em &nbsp;</span>
+    <select
+      class="app-seletor"
+      #mySelector
+      (change)="onChangeTema($event.target.value)"
+      [(ngModel)]="temaSelecionado">
+      <option
+        *ngFor="let t of temasBusca"
+        [value]="t.tema_slug"
+        [selected]="t.tema_slug === temaSelecionado">
+      {{ t.tema.toLowerCase() }}
+    </option>
+    </select>
+  </div>
   <div class="app-content">
-    <div class="filtro-wrapper mb-4">
-      <span *ngIf="numeroProposicoes !== 0">{{ numeroProposicoes }}&nbsp;</span>
-      <span>Proposições &nbsp;</span>
-      <select
-        class="app-seletor"
-        #selectorStatus
-        (change)="onChangeStatus($event.target.value)"
-        [(ngModel)]="statusSelecionado">
-        <option
-          *ngFor="let s of status"
-          [value]="s.statusValue"
-          [selected]="s.statusValue === statusSelecionado">
-          {{ s.statusName }}
-        </option>
-      </select>
-      <span>ordenadas por &nbsp;</span>
-      <select
-        class="app-seletor"
-        #mySelector
-        (change)="onChangeOrderBy($event.target.value)"
-        [(ngModel)]="orderBySelecionado">
-        <option
-          *ngFor="let o of orderBy"
-          [value]="o.order_by"
-          [selected]="o.order_by === orderBySelecionado">
-          {{ o.order }}
-        </option>
-      </select>
-    </div>
-    <div class="form-group">
+    <div class="form-group mb-4">
       <input
         type="text"
         class="form-control"
