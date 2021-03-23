@@ -21,6 +21,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
 
   interesse: string;
   proposicoes: ProposicaoLista[];
+  tema: string;
   proposicoesDestaque: ProposicaoLista[];
   orderByProp: string;
   p = 1;

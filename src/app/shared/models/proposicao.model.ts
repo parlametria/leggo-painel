@@ -3,6 +3,7 @@ import { ProgressoProposicao } from './proposicoes/progressoProposicao.model';
 interface InteresseProposicao {
   interesse: string;
   temas: string[];
+  slug_temas: string[];
   apelido: string;
   advocacy_link: string;
   tipo_agenda: string;

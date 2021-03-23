@@ -134,13 +134,28 @@
         [autoClose]="'outside'">
         <app-progress
           [label]="'Governismo'"
-          [barraClasse]="'bg-info'"
+          [barraClasse]="'bg-gray'"
           [valor]="parlamentar.governismo"
           [exibirLabel]="true"></app-progress>
       </span>
       <ng-template #popGovernismo>
         <strong>Governismo</strong>
-        {{ parlamentar.governismo | number : '1.0-1' }}
+        {{ parlamentar.governismo | number : '1.0-2' }}
+      </ng-template>
+    </div>
+    <div class="mb-2">
+      <span
+        [ngbPopover]="popDisciplina"
+        [autoClose]="'outside'">
+        <app-progress
+          [label]="'Disciplina'"
+          [barraClasse]="'bg-info'"
+          [valor]="parlamentar.disciplina"
+          [exibirLabel]="true"></app-progress>
+      </span>
+      <ng-template #popDisciplina>
+        <strong>Disciplina</strong>
+        {{ parlamentar.disciplina | number : '1.0-2' }}
       </ng-template>
     </div>
     <div class="mb-2">
@@ -149,13 +164,13 @@
         [autoClose]="'outside'">
         <app-progress
           [label]="'Peso'"
-          [barraClasse]="'bg-gray'"
+          [barraClasse]="'bg-mediumgray'"
           [valor]="parlamentar?.peso_politico"
           [exibirLabel]="true"></app-progress>
       </span>
       <ng-template #popPeso>
         <strong>Peso político</strong>
-        {{ parlamentar?.peso_politico | number : '1.0-1' }}
+        {{ parlamentar?.peso_politico | number : '1.0-2' }}
       </ng-template>
     </div>
   </div>
