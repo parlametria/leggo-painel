@@ -20,6 +20,9 @@ export class ProposicoesListaService {
   private orderBy = new BehaviorSubject<string>('');
   readonly ORDER_BY_PADRAO = 'maior-temperatura';
 
+  private tema = new BehaviorSubject<string>('');
+  readonly TEMA_PADRAO = 'todos';
+
   readonly STATUS_PADRAO = 'tramitando';
 
   private filtro = new BehaviorSubject<any>({});
@@ -66,7 +69,8 @@ export class ProposicoesListaService {
               return this.orderByDesc(a.ultima_pressao, b.ultima_pressao);
             });
           }
-        }))
+        })
+      )
       .subscribe(res => {
         if (this.proposicoes.value.length !== 0) {
           if (this.interesse === this.proposicoes.value[0].interesse[0].interesse) {
@@ -140,6 +144,10 @@ export class ProposicoesListaService {
     }
   }
 
+  private isDestaque(prop: ProposicaoLista) {
+    return (typeof prop.destaques !== 'undefined' && prop.destaques.length !== 0);
+  }
+
   search(filtro: any) {
     if (filtro.status === undefined || filtro.status === '') {
       filtro.status = this.STATUS_PADRAO;
@@ -149,12 +157,14 @@ export class ProposicoesListaService {
 
   private compareFilter(p: any, q: any) {
     return p.nome === q.nome &&
-      p.status === q.status;
+      p.status === q.status &&
+      p.tema === q.tema;
   }
 
   private filter(proposicoes: ProposicaoLista[], filtro: any) {
     const nome = filtro.nome;
     const status = filtro.status;
+    const tema = filtro.tema;
 
     return proposicoes.filter(p => {
       let filtered = true;
@@ -171,6 +181,11 @@ export class ProposicoesListaService {
       filtered =
         status && filtered
           ? this.checkProposicaoAtiva(p.etapas[p?.etapas.length - 1].status, status)
+          : filtered;
+
+      filtered =
+        tema && filtered
+          ? this.matchTema(p, tema)
           : filtered;
 
       return filtered;
@@ -193,6 +208,25 @@ export class ProposicoesListaService {
     } else {
       this.orderBy.next(orderBy);
     }
+  }
+
+  setTema(tema: string) {
+    if (tema === undefined || tema === '') {
+      this.tema.next(this.TEMA_PADRAO);
+    } else {
+      this.tema.next(tema);
+    }
+  }
+
+  matchTema(p: ProposicaoLista, tema: string) {
+    const temasSlugProposicao = p.interesse[0].slug_temas;
+    if ( tema === 'todos') {
+      return true;
+    }
+    if (tema === 'destaque') {
+      return this.isDestaque(p);
+    }
+    return ((temasSlugProposicao).indexOf(tema)) !== -1;
   }
 
   private checkProposicaoAtiva(statusProposicao: string, statusFiltro: string) {
