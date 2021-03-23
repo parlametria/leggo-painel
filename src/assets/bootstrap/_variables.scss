@@ -76,6 +76,8 @@ $light:         $gray-100 !default;
 $dark:          $gray-800 !default;
 $twitter:       #70C3FF !default;
 $gray:          $gray-400 !default;
+$mediumgray:    $gray-600 !default;
+
 
 $theme-colors: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
@@ -90,7 +92,8 @@ $theme-colors: map-merge(
     "light":      $light,
     "dark":       $dark,
     "twitter":    $twitter,
-    "gray":       $gray
+    "gray":       $gray,
+    "mediumgray": $mediumgray
   ),
   $theme-colors
 );
