@@ -37,7 +37,8 @@ export class FiltroComponent implements OnInit, AfterContentInit, OnDestroy {
     { order: 'mais atuantes', order_by: 'atuacao-parlamentar' },
     { order: 'mais ativos no twitter', order_by: 'atuacao-twitter' },
     { order: 'com maior peso político', order_by: 'peso-politico' },
-    { order: 'com maior governismo', order_by: 'governismo' }];
+    { order: 'com maior governismo', order_by: 'governismo' },
+    { order: 'com maior disciplina', order_by: 'disciplina' }];
 
   nomePesquisado = '';
   filtro: any;
@@ -124,7 +125,7 @@ export class FiltroComponent implements OnInit, AfterContentInit, OnDestroy {
   }
 
   desabilitaSelecaoTemas() {
-    return (this.orderBySelecionado === 'peso-politico' || this.orderBySelecionado === 'governismo');
+    return (this.orderBySelecionado === 'peso-politico' || this.orderBySelecionado === 'governismo' || this.orderBySelecionado === 'disciplina');
   }
 
   getContagemProposicoes(interesse: string, tema: string) {

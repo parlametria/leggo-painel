@@ -1,0 +1,18 @@
+<section class="insight">
+  <div class="mb-4">
+    <span class="text-muted">
+      {{ insight?.data_ultima_modificacao | date:'dd/MM/yyyy' }}
+    </span>
+    <h1 class="insight-titutlo">{{ insight?.titulo }}</h1>
+    <h2
+      class="insight-subtitulo"
+      *ngIf="insight?.autor">
+      <span class="text-muted">Publicado por</span>
+      {{ insight?.autor }}
+    </h2>
+  </div>
+  <div>
+    <p class="insight-corpo" [innerHtml]="printInsight(insight?.anotacao)"></p>
+  </div>
+</section>
+<hr class="insight-hr">

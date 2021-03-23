@@ -15,10 +15,13 @@ export class ProposicoesListaService {
 
   private proposicoes = new BehaviorSubject<Array<ProposicaoLista>>([]);
   private proposicoesFiltered = new BehaviorSubject<Array<ProposicaoLista>>([]);
-  private proposicoesDestaque = new BehaviorSubject<Array<ProposicaoLista>>([]);
+  private interesse: string;
 
   private orderBy = new BehaviorSubject<string>('');
   readonly ORDER_BY_PADRAO = 'maior-temperatura';
+
+  private tema = new BehaviorSubject<string>('');
+  readonly TEMA_PADRAO = 'todos';
 
   readonly STATUS_PADRAO = 'tramitando';
 
@@ -66,30 +69,37 @@ export class ProposicoesListaService {
               return this.orderByDesc(a.ultima_pressao, b.ultima_pressao);
             });
           }
-        }))
+        })
+      )
       .subscribe(res => {
         if (this.proposicoes.value.length !== 0) {
-          this.proposicoesFiltered.next(res);
+          if (this.interesse === this.proposicoes.value[0].interesse[0].interesse) {
+            this.proposicoesFiltered.next(res);
+          }
         }
       });
   }
 
   getProposicoes(interesse: string): Observable<ProposicaoLista[]> {
+    this.interesse = interesse;
+
     forkJoin(
       [
         this.proposicoesService.getProposicoes(interesse),
         this.proposicoesService.getUltimaTemperaturaProposicoes(interesse),
+        this.proposicoesService.getMaximaTemperaturaProposicoes(interesse),
         this.pressaoService.getUltimaPressaoProposicoes(interesse),
         this.proposicoesService.getDataUltimoInsightProposicoes(interesse),
-        this.progressoService.getProgressoProposicoes(interesse)
+        this.progressoService.getProgressoProposicoes(interesse),
       ]
     )
       .subscribe(data => {
         const proposicoes: any = data[0];
         const ultimaTemperatura: any = data[1];
-        const ultimaPressao: any = data[2];
-        const dataUltimoInsight: any = data[3];
-        const progresso: any = data[4];
+        const maxTemperaturaInteresse: any = data[2];
+        const ultimaPressao: any = data[3];
+        const dataUltimoInsight: any = data[4];
+        const progresso: any = data[5];
 
         const progressos = this.processaProgresso(progresso);
 
@@ -101,6 +111,7 @@ export class ProposicoesListaService {
           anotacao_data_ultima_modificacao: this.getProperty(dataUltimoInsight.find(p => a.id_leggo === p.id_leggo),
             'anotacao_data_ultima_modificacao'),
           resumo_progresso: progressos[a.id_leggo],
+          max_temperatura_interesse: maxTemperaturaInteresse.max_temperatura_periodo,
           ...a
         }));
 
@@ -133,7 +144,7 @@ export class ProposicoesListaService {
     }
   }
 
-  private isDestaque(prop: any) {
+  private isDestaque(prop: ProposicaoLista) {
     return (typeof prop.destaques !== 'undefined' && prop.destaques.length !== 0);
   }
 
@@ -146,12 +157,14 @@ export class ProposicoesListaService {
 
   private compareFilter(p: any, q: any) {
     return p.nome === q.nome &&
-      p.status === q.status;
+      p.status === q.status &&
+      p.tema === q.tema;
   }
 
   private filter(proposicoes: ProposicaoLista[], filtro: any) {
     const nome = filtro.nome;
     const status = filtro.status;
+    const tema = filtro.tema;
 
     return proposicoes.filter(p => {
       let filtered = true;
@@ -168,6 +181,11 @@ export class ProposicoesListaService {
       filtered =
         status && filtered
           ? this.checkProposicaoAtiva(p.etapas[p?.etapas.length - 1].status, status)
+          : filtered;
+
+      filtered =
+        tema && filtered
+          ? this.matchTema(p, tema)
           : filtered;
 
       return filtered;
@@ -190,6 +208,25 @@ export class ProposicoesListaService {
     } else {
       this.orderBy.next(orderBy);
     }
+  }
+
+  setTema(tema: string) {
+    if (tema === undefined || tema === '') {
+      this.tema.next(this.TEMA_PADRAO);
+    } else {
+      this.tema.next(tema);
+    }
+  }
+
+  matchTema(p: ProposicaoLista, tema: string) {
+    const temasSlugProposicao = p.interesse[0].slug_temas;
+    if ( tema === 'todos') {
+      return true;
+    }
+    if (tema === 'destaque') {
+      return this.isDestaque(p);
+    }
+    return ((temasSlugProposicao).indexOf(tema)) !== -1;
   }
 
   private checkProposicaoAtiva(statusProposicao: string, statusFiltro: string) {

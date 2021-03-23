@@ -5,4 +5,5 @@ export interface Entidade {
   nome_autor: string;
   partido: string;
   uf: string;
+  governismo: number;
 }
