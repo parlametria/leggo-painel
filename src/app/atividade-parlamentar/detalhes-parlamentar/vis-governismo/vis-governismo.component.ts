@@ -10,6 +10,7 @@ import { axisLeft, axisBottom } from 'd3-axis';
 import { hsl } from 'd3-color';
 import { path } from 'd3-path';
 import { forceSimulation, forceX, forceY, forceCollide } from 'd3-force';
+import { format } from 'd3-format';
 
 import { Entidade } from 'src/app/shared/models/entidade.model';
 import { EntidadeService } from 'src/app/shared/services/entidade.service';
@@ -30,7 +31,8 @@ const d3 = Object.assign({}, {
   forceSimulation,
   forceX,
   forceY,
-  forceCollide
+  forceCollide,
+  format
 });
 
 @Component({
@@ -201,7 +203,7 @@ export class VisGovernismoComponent implements OnInit {
 
   private tooltipText(d): any {
     return `<p class="vis-tooltip-titulo"><strong>${d.nome_autor}</strong> ${d.partido}/${d.uf}</p>
-    <p>Governismo: <strong>${d.governismo}</strong></p>`;
+    <p>Governismo: <strong>${format('.2f')(d.governismo)}</strong></p>`;
   }
 
   private normalizarGovernismo(valor: number, minimo: number, maximo: number): number {
