@@ -10,8 +10,6 @@ import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.servi
 import { RelatoriaService } from 'src/app/shared/services/relatoria.service';
 import { EntidadeService } from 'src/app/shared/services/entidade.service';
 import { TwitterService } from 'src/app/shared/services/twitter.service';
-import { GovernismoService } from './governismo.service';
-import { DisciplinaService } from './disciplina.service';
 
 @Injectable({
   providedIn: 'root'
@@ -32,9 +30,7 @@ export class ParlamentaresService {
     private pesoService: PesoPoliticoService,
     private relatoriaService: RelatoriaService,
     private entidadeService: EntidadeService,
-    private twitterService: TwitterService,
-    private governismoService: GovernismoService,
-    private disciplinaService: DisciplinaService
+    private twitterService: TwitterService
   ) {
 
     this.parlamentares
@@ -102,9 +98,6 @@ export class ParlamentaresService {
         this.relatoriaService.getAtoresRelatores(interesse, tema, destaque),
         this.pesoService.getPesoPolitico(),
         this.twitterService.getAtividadeTwitter(interesse, tema, dataInicial, dataFinal, destaque),
-        this.autoriaService.getAutoriasAgregadasProjetos(interesse, tema, destaque),
-        this.governismoService.getGovernismo(),
-        this.disciplinaService.getDisciplina(),
         this.autoriaService.getAutoriasAgregadasProjetos(interesse, tema, destaque)
       ]
     )
@@ -116,8 +109,6 @@ export class ParlamentaresService {
         const pesoPolitico: any = data[4];
         const twitter: any = data[5];
         const autoriasProjetos: any = data[6];
-        const governismo: any = data[7];
-        const disciplina: any = data[8];
 
         const parlamentares = parlamentaresExercicio.map(a => ({
           ...autoriasAgregadas.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
@@ -126,8 +117,6 @@ export class ParlamentaresService {
           ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...twitter.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
           ...autoriasProjetos.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
-          ...governismo.find(p => a.id_autor_parlametria === p.id_parlamentar_parlametria),
-          ...disciplina.find(p => a.id_autor_parlametria === p.id_parlamentar_parlametria),
           ...a
         }));
 
@@ -152,13 +141,6 @@ export class ParlamentaresService {
           return 0;
         });
 
-        const valoresDisciplina = parlamentares.map(p => {
-          if (p.disciplina) {
-            return +p.disciplina;
-          }
-          return 0;
-        });
-
         parlamentares.forEach(p => {
           p.interesse = interesse;
           p.nome_processado = p.nome_autor.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -171,7 +153,6 @@ export class ParlamentaresService {
           p.atividade_twitter = this.normalizarAtividade(p.atividade_twitter, Math.min(...tweets), Math.max(...tweets));
           p.peso_politico = this.pesoService.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
           p.governismo = this.normalizarAtividade(p.governismo, Math.min(...valoresGovernismo), Math.max(...valoresGovernismo));
-          p.disciplina = this.normalizarAtividade(p.disciplina, Math.min(...valoresDisciplina), Math.max(...valoresDisciplina));
         });
 
         this.parlamentares.next(parlamentares);
