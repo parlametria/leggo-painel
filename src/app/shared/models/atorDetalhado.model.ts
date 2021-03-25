@@ -1,4 +1,3 @@
-import { ComissaoPresidencia } from './comissaoPresidencia.model';
 import { Autoria } from './autoria.model';
 
 export interface AtorDetalhado {
@@ -9,10 +8,10 @@ export interface AtorDetalhado {
     uf: string;
     casa_autor: string;
     bancada: string;
-    pesoPolitico: number;
+    peso_politico: number;
     urlFoto: string;
     relatorias: Array<any>;
-    comissoes: ComissaoPresidencia;
+    comissoes: any[];
     autorias: Autoria[];
     atividadeParlamentar: any;
     atividadeTwitter: any;

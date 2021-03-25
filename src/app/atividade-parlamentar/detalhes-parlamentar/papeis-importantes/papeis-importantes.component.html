@@ -13,9 +13,9 @@
       *ngIf="comissoes?.length"
       class="arvore warning">
       <li
-        *ngFor="let comissao of comissoes; let i = index"
+        *ngFor="let comissao of comissoes[0]?.parlamentarComissoes; let i = index"
         class="warning">
-        {{ comissao?.info_comissao }}
+        {{ comissao?.infoComissao?.sigla }}
       </li>
     </ul>
   </div>

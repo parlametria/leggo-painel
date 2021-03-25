@@ -33,7 +33,7 @@ export class ParlamentarDetalhadoService {
     forkJoin(
       [
         this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar, tema, destaque),
-        this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar, tema, destaque),
+        this.comissaoService.getComissaoDetalhadaById(idParlamentar),
         this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse, tema, destaque),
         this.autoriasService.getAutoriasAgregadasById(interesse, Number(idParlamentar), tema, destaque),
         this.twitterService.getAtividadeDetalhadaTwitter(idParlamentar, interesse, tema, dataInicial, dataFinal, destaque)
@@ -87,14 +87,10 @@ export class ParlamentarDetalhadoService {
   }
 
   private getComissoesProcessadas(comissao) {
-    let infoComissao = {};
+    let infoComissao = [];
 
     if (comissao.length !== 0) {
-      infoComissao = {
-        idComissao: comissao[0].id_comissao,
-        info_comissao: comissao[0].info_comissao,
-        quantidade_comissao_presidente: comissao[0].quantidade_comissao_presidente
-      };
+      infoComissao = comissao[0].parlamentarComissoes;
     }
 
     return infoComissao;

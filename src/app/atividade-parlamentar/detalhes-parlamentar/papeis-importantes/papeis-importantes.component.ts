@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subject, BehaviorSubject, forkJoin } from 'rxjs';
 import { takeUntil, skip } from 'rxjs/operators';
 
-import { ComissaoPresidencia } from 'src/app/shared/models/comissaoPresidencia.model';
+import { ComissoesCargo } from 'src/app/shared/models/comissaoPresidencia.model';
 import { Relatorias } from 'src/app/shared/models/atorRelator.model';
 import { Autoria } from 'src/app/shared/models/autoria.model';
 import { ComissaoService } from 'src/app/shared/services/comissao.service';
@@ -20,7 +20,7 @@ export class PapeisImportantesComponent implements OnInit {
 
   private unsubscribe = new Subject();
 
-  public comissoes: ComissaoPresidencia[];
+  public comissoes: ComissoesCargo[];
   public relatorias: Relatorias[];
   public autorias: Autoria[];
   public idAtor: string;
@@ -55,7 +55,7 @@ export class PapeisImportantesComponent implements OnInit {
   getParlamentarDetalhado(idParlamentar, interesse, tema, destaque) {
     forkJoin(
       [
-        this.comissaoService.getComissaoDetalhadaById(interesse, idParlamentar, tema, destaque),
+        this.comissaoService.getComissaoDetalhadaById(idParlamentar),
         this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar, tema, destaque),
         this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse, tema, destaque)
       ]

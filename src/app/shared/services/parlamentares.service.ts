@@ -94,7 +94,7 @@ export class ParlamentaresService {
       [
         this.entidadeService.getParlamentaresExercicio(casa),
         this.autoriaService.getAutoriasAgregadas(interesse, tema, destaque),
-        this.comissaoService.getComissaoPresidencia(interesse, tema, destaque),
+        this.comissaoService.getComissaoPresidencia(),
         this.relatoriaService.getAtoresRelatores(interesse, tema, destaque),
         this.pesoService.getPesoPolitico(),
         this.twitterService.getAtividadeTwitter(interesse, tema, dataInicial, dataFinal, destaque),
@@ -112,20 +112,13 @@ export class ParlamentaresService {
 
         const parlamentares = parlamentaresExercicio.map(a => ({
           ...autoriasAgregadas.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
-          ...comissaoPresidencia.find(p => a.id_autor_parlametria === p.id_autor_voz),
+          ...comissaoPresidencia.find(p => a.id_autor_parlametria === Number(p.id_parlamentar_voz)),
           ...atoresRelatores.find(p => a.id_autor_parlametria === p.autor_id_parlametria),
-          ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
+          ...pesoPolitico.find(p => a.id_autor_parlametria === Number(p.idParlamentarVoz)),
           ...twitter.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
           ...autoriasProjetos.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
           ...a
         }));
-
-        const pesosPoliticos = parlamentares.map(p => {
-          if (p.peso_politico) {
-            return +p.peso_politico;
-          }
-          return 0;
-        });
 
         const tweets = parlamentares.map(p => {
           if (p.atividade_twitter) {
@@ -150,8 +143,8 @@ export class ParlamentaresService {
           } else {
             p.quantidade_tweets = p.atividade_twitter;
           }
+          p.peso_politico = p.pesoPolitico;
           p.atividade_twitter = this.normalizarAtividade(p.atividade_twitter, Math.min(...tweets), Math.max(...tweets));
-          p.peso_politico = this.pesoService.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
           p.governismo = this.normalizarAtividade(p.governismo, Math.min(...valoresGovernismo), Math.max(...valoresGovernismo));
         });
 

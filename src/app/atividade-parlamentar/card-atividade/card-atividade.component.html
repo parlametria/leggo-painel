@@ -99,18 +99,18 @@
 
             <span
               class="cracha"
-              *ngIf="parlamentar.quantidade_comissao_presidente"
+              *ngIf="parlamentar?.parlamentarComissoes?.length"
               [ngbPopover]="popPresidencia"
               [autoClose]="'outside'">
               <span class="icon-presidente app-icon text-warning"></span>
               <span class="badge badge-warning app-badge badge-color-white">
-                {{ parlamentar.quantidade_comissao_presidente }}
+                {{ parlamentar?.parlamentarComissoes?.length }}
               </span>
               <ng-template #popPresidencia>
                 <strong>Presidente</strong>
-                &nbsp;de {{ parlamentar.quantidade_comissao_presidente }}
-                <span *ngIf="parlamentar.quantidade_comissao_presidente === 1">&nbsp;comissão</span>
-                <span *ngIf="parlamentar.quantidade_comissao_presidente !== 1">&nbsp;comissões</span>
+                &nbsp;de {{ parlamentar?.parlamentarComissoes?.length }}
+                <span *ngIf="parlamentar?.parlamentarComissoes?.length === 1">&nbsp;comissão</span>
+                <span *ngIf="parlamentar?.parlamentarComissoes?.length !== 1">&nbsp;comissões</span>
                 <div class="text-right">
                   <a
                     [routerLink]="[parlamentar.id_autor_parlametria + '/papeis']"
@@ -165,12 +165,12 @@
         <app-progress
           [label]="'Peso'"
           [barraClasse]="'bg-mediumgray'"
-          [valor]="parlamentar.peso_politico"
+          [valor]="parlamentar?.peso_politico"
           [exibirLabel]="true"></app-progress>
       </span>
       <ng-template #popPeso>
         <strong>Peso político</strong>
-        {{ parlamentar.peso_politico | number : '1.0-2' }}
+        {{ parlamentar?.peso_politico | number : '1.0-2' }}
       </ng-template>
     </div>
   </div>
