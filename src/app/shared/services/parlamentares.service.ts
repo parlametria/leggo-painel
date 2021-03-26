@@ -134,10 +134,20 @@ export class ParlamentaresService {
           return 0;
         });
 
+        const valoresAtividadeParlamentar = parlamentares.map(p => {
+          if (p.quantidade_autorias) {
+            return +p.quantidade_autorias;
+          }
+          return 0;
+        });
+
         parlamentares.forEach(p => {
           p.interesse = interesse;
           p.nome_processado = p.nome_autor.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-          p.atividade_parlamentar = this.normalizarAtividade(p.quantidade_autorias, p.min_quantidade_autorias, p.max_quantidade_autorias);
+          p.atividade_parlamentar = this.normalizarAtividade(
+            p.quantidade_autorias, Math.min(...valoresAtividadeParlamentar),
+            Math.max(...valoresAtividadeParlamentar)
+          );
           if (typeof p.atividade_twitter === 'undefined') {
             p.quantidade_tweets = 0;
           } else {
