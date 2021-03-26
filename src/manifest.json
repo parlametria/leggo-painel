@@ -1,7 +1,7 @@
 {
-  "name": "Leg.go",
-  "short_name": "Leg.go",
-  "description": "Leg.go é uma plataforma de inteligência para o acompanhamento das atividades no Congresso Nacional",
+  "name": "Parlametria",
+  "short_name": "Parlametria",
+  "description": "Parlametria é uma plataforma de inteligência para o acompanhamento das atividades no Congresso Nacional",
   "lang": "pt-BR",
   "start_url": "index.html",
   "display": "standalone",
