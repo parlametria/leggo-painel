@@ -84,7 +84,7 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
 
         ator.url_foto = this.getUrlFoto(ator);
         if (pesoPolitico.length) {
-          ator.peso_politico = pesoPolitico[0].peso_politico;
+          ator.peso_politico = pesoPolitico[0].pesoPolitico;
         }
 
         this.parlamentarInfo = ator;

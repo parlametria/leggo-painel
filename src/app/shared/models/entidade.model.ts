@@ -6,4 +6,5 @@ export interface Entidade {
   partido: string;
   uf: string;
   governismo: number;
+  disciplina: number;
 }

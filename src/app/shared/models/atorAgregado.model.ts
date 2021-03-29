@@ -20,4 +20,5 @@ export interface AtorAgregado {
   governismo: number;
   disciplina: number;
   interesse: string;
+  parlamentarComissoes: any[];
 }
