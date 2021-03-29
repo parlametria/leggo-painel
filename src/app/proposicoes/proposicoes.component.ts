@@ -69,8 +69,8 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
         indicate(this.isLoading),
         takeUntil(this.unsubscribe)
       ).subscribe(proposicoes => {
-        this.proposicoes = proposicoes.filter(p => (typeof p.destaques !== 'undefined' && p.destaques.length === 0));
-        this.proposicoesDestaque = proposicoes.filter(p => (typeof p.destaques !== 'undefined' && p.destaques.length !== 0));
+        this.proposicoes = proposicoes.filter(p => !p.isDestaque);
+        this.proposicoesDestaque = proposicoes.filter(p => p.isDestaque);
         this.isLoading.next(false);
       });
   }
