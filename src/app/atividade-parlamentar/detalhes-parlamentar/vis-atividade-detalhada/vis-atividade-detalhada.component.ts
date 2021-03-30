@@ -126,7 +126,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
       .subscribe(autorias => {
         const autoriasApresentadas = [];
         autorias.forEach(dado => {
-          if (dado.tipo_acao === 'Proposição') {
+          if (dado.tipo_acao === 'Proposição' && dado.tipo_documento !== 'Requerimento') {
             autoriasApresentadas.push(dado);
           }
         });
