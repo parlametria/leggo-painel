@@ -10,7 +10,7 @@ Recomendamos que você instale o [docker](https://docs.docker.com/install/linux/
 
 ### Como configurar todo o ambiente de desenvolvimento da aplicação?
 
-Este repositório é responsável apenas pelo código do frontend do Leg.go. Recomendamos que caso você esteja interessado em configurar o ambiente de desenvolvimento por completo, acesse nosso [orquestrador de repositórios](https://github.com/parlametria/leggo-geral/tree/master/compose): o leggo-geral. Lá você irá encontrar instruções para configurar todo o ambiente incluindo: **banco de dados, backend e frontend**.
+Este repositório é responsável apenas pelo código do frontend do Parlametria. Recomendamos que caso você esteja interessado em configurar o ambiente de desenvolvimento por completo, acesse nosso [orquestrador de repositórios](https://github.com/parlametria/leggo-geral/tree/master/compose): o leggo-geral. Lá você irá encontrar instruções para configurar todo o ambiente incluindo: **banco de dados, backend e frontend**.
 
 ### Já configurei o ambiente de desenvolvimento usando o leggo-geral, o que mais preciso saber?
 
