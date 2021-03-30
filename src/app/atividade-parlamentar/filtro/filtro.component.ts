@@ -37,8 +37,10 @@ export class FiltroComponent implements OnInit, AfterContentInit, OnDestroy {
     { order: 'mais atuantes', order_by: 'atuacao-parlamentar' },
     { order: 'mais ativos no twitter', order_by: 'atuacao-twitter' },
     { order: 'com maior peso político', order_by: 'peso-politico' },
-    { order: 'com maior governismo', order_by: 'governismo' },
-    { order: 'com maior disciplina', order_by: 'disciplina' }];
+    { order: 'com maior governismo', order_by: 'maior-governismo' },
+    { order: 'com menor governismo', order_by: 'menor-governismo' },
+    { order: 'com maior disciplina', order_by: 'maior-disciplina' },
+    { order: 'com menor disciplina', order_by: 'menor-disciplina' }];
 
   nomePesquisado = '';
   filtro: any;
@@ -125,7 +127,8 @@ export class FiltroComponent implements OnInit, AfterContentInit, OnDestroy {
   }
 
   desabilitaSelecaoTemas() {
-    return (this.orderBySelecionado === 'peso-politico' || this.orderBySelecionado === 'governismo' || this.orderBySelecionado === 'disciplina');
+    const ordenacaoGeral = ['peso-politico', 'maior-governismo', 'menor-governismo', 'maior-disciplina', 'menor-disciplina'];
+    return ordenacaoGeral.includes(this.orderBySelecionado);
   }
 
   getContagemProposicoes(interesse: string, tema: string) {
