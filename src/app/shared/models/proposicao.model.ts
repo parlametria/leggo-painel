@@ -61,6 +61,7 @@ export interface ProposicaoLista {
   resumo_progresso: ProgressoProposicao[];
   destaques: any;
   max_temperatura_interesse: number;
+  isDestaque: boolean;
 }
 
 export interface TramitacaoProposicao {
