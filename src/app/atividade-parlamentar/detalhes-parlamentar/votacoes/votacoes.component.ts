@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, forkJoin } from 'rxjs';
+import * as moment from 'moment';
 
 import { VotacoesSumarizadasService } from 'src/app/shared/services/votacoes-sumarizadas.service';
 
@@ -48,10 +49,20 @@ export class VotacoesComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
         const ator = data[0][0];
-        const votacoes = data[1];
-        this.votacoesSumarizadas = votacoes;
+        const votacoes = data[1][0];
+        this.formataData(votacoes);
         this.parlamentarInfo = ator;
       });
+  }
+
+  private formataData(data) {
+    moment.updateLocale('pt', {
+      months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio',
+      'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+    });
+
+    data.ultima_data_votacao = moment(data.ultima_data_votacao).format('LL');
+    this.votacoesSumarizadas = data;
   }
 
 }

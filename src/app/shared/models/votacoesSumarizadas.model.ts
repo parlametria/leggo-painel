@@ -2,6 +2,7 @@ export interface VotacoesSumarizadas {
     id_parlamentar: number;
     id_parlamentar_parlametria: number;
     casa: string;
+    ultima_data_votacao: string;
     num_votacoes_parlamentar_disciplina: number;
     num_votacoes_parlamentar_governismo: number;
     num_votacoes_totais_disciplina: number;
