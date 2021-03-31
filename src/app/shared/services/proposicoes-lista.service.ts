@@ -112,6 +112,7 @@ export class ProposicoesListaService {
             'anotacao_data_ultima_modificacao'),
           resumo_progresso: progressos[a.id_leggo],
           max_temperatura_interesse: maxTemperaturaInteresse.max_temperatura_periodo,
+          isDestaque: this.isDestaque(a),
           ...a
         }));
 
@@ -145,7 +146,12 @@ export class ProposicoesListaService {
   }
 
   private isDestaque(prop: ProposicaoLista) {
-    return (typeof prop.destaques !== 'undefined' && prop.destaques.length !== 0);
+    if (typeof prop.destaques !== 'undefined' && prop.destaques.length !== 0) {
+      const destaques = prop.destaques[0];
+      return (destaques.criterio_aprovada_em_uma_casa ||
+        destaques.criterio_req_urgencia_apresentado || destaques.criterio_req_urgencia_aprovado);
+    }
+    return false;
   }
 
   search(filtro: any) {
@@ -220,11 +226,11 @@ export class ProposicoesListaService {
 
   matchTema(p: ProposicaoLista, tema: string) {
     const temasSlugProposicao = p.interesse[0].slug_temas;
-    if ( tema === 'todos') {
+    if (tema === 'todos') {
       return true;
     }
     if (tema === 'destaque') {
-      return this.isDestaque(p);
+      return p.isDestaque;
     }
     return ((temasSlugProposicao).indexOf(tema)) !== -1;
   }
