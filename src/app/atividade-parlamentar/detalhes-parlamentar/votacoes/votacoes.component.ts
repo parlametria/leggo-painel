@@ -1,11 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Entidade } from 'src/app/shared/models/entidade.model';
-import { EntidadeService } from 'src/app/shared/services/entidade.service';
 import { takeUntil } from 'rxjs/operators';
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject, BehaviorSubject, forkJoin } from 'rxjs';
 import { indicate } from 'src/app/shared/functions/indicate.function';
+import * as moment from 'moment';
+
+import { EntidadeService } from 'src/app/shared/services/entidade.service';
+import { VotacoesSumarizadasService } from 'src/app/shared/services/votacoes-sumarizadas.service';
+import { AtorService } from 'src/app/shared/services/ator.service';
+
+import { Entidade } from 'src/app/shared/models/entidade.model';
+import { Ator } from 'src/app/shared/models/ator.model';
+import { VotacoesSumarizadas } from 'src/app/shared/models/votacoesSumarizadas.model';
 
 @Component({
   selector: 'app-votacoes',
@@ -22,31 +29,68 @@ export class VotacoesComponent implements OnInit, OnDestroy {
   parlamentaresDisciplina: Entidade[];
   casaAutor: string;
 
-  public isLoading = new BehaviorSubject<boolean>(true);
+  idAtor: string;
+  interesse: string;
+  parlamentarInfo: Ator;
+  votacoesSumarizadas: VotacoesSumarizadas;
+
+  isLoading = new BehaviorSubject<boolean>(true);
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private entidadeService: EntidadeService) { }
+    private entidadeService: EntidadeService,
+    private atorService: AtorService,
+    private votacoesSumarizadasService: VotacoesSumarizadasService) { }
 
   ngOnInit(): void {
     this.activatedRoute.parent.paramMap
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(params => {
+        this.idParlamentarDestaque = +params.get('id');
+        this.interesse = params.get('interesse');
+
+        if (this.idParlamentarDestaque !== undefined) {
+
+          this.resgataVotacoesById(this.idParlamentarDestaque, this.interesse);
+        }
+    });
+  }
+
+  private resgataVotacoesById(idAtor, interesse) {
+    forkJoin(
+      [
+        this.atorService.getAtor(interesse, idAtor),
+        this.votacoesSumarizadasService.getVotacoesSumarizadasByID(idAtor),
+        this.entidadeService.getParlamentaresExercicio('')
+      ]
+    )
       .pipe(
         indicate(this.isLoading),
         takeUntil(this.unsubscribe))
-      .subscribe(params => {
-        this.idParlamentarDestaque = +params.get('id');
+      .subscribe(data => {
+        const ator = data[0][0];
+        const votacoes = data[1][0];
+        const parlamentares = data[2];
 
-        if (this.idParlamentarDestaque !== undefined) {
-          this.casaAutor = String(this.idParlamentarDestaque).startsWith('1') ? 'camara' : 'senado';
-          this.entidadeService.getParlamentaresExercicio('').subscribe(parlamentares => {
-            this.parlamentares = parlamentares.filter(p => p.casa_autor === this.casaAutor);
-            this.parlamentaresDisciplina = [...this.parlamentares];
-            this.parlamentaresGovernismo = [...this.parlamentares];
 
-            this.isLoading.next(false);
-          });
-        }
+        this.formataData(votacoes);
+        this.parlamentarInfo = ator;
+        this.parlamentares = parlamentares.filter(p => p.casa_autor === this.parlamentarInfo.casa_autor);
+        this.parlamentaresDisciplina = [...this.parlamentares];
+        this.parlamentaresGovernismo = [...this.parlamentares];
+        this.isLoading.next(false);
+
+      });
+  }
+
+  private formataData(data) {
+    moment.updateLocale('pt', {
+      months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio',
+      'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
     });
+
+    data.ultima_data_votacao = moment(data.ultima_data_votacao).format('LL');
+    this.votacoesSumarizadas = data;
   }
 
   ngOnDestroy(): void {
