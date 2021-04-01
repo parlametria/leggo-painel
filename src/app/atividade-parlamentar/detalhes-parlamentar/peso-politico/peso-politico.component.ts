@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Subject, BehaviorSubject } from 'rxjs';
-import { takeUntil, skip } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import { ParlamentarPesoPolitico } from 'src/app/shared/models/parlamentarPesoPolitico.model';
 import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.service';
 import { indicate } from 'src/app/shared/functions/indicate.function';
 
@@ -13,7 +12,7 @@ import { indicate } from 'src/app/shared/functions/indicate.function';
   templateUrl: './peso-politico.component.html',
   styleUrls: ['./peso-politico.component.scss']
 })
-export class PesoPoliticoComponent implements OnInit {
+export class PesoPoliticoComponent implements OnInit, OnDestroy {
 
   private unsubscribe = new Subject();
 
@@ -47,5 +46,11 @@ export class PesoPoliticoComponent implements OnInit {
         this.isLoading.next(false);
       });
   }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
+
 
 }

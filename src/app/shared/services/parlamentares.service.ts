@@ -61,12 +61,20 @@ export class ParlamentaresService {
             parlamentares.sort((a, b) => {
               return this.orderByDesc(a.atividade_twitter, b.atividade_twitter);
             });
-          } else if (this.orderBy.value === 'governismo') {
+          } else if (this.orderBy.value === 'maior-governismo') {
             parlamentares.sort((a, b) => {
               return this.orderByDesc(a.governismo, b.governismo);
             });
-          } else if (this.orderBy.value === 'disciplina') {
+          } else if (this.orderBy.value === 'menor-governismo') {
+            parlamentares.sort((b, a) => {
+              return this.orderByDesc(a.governismo, b.governismo);
+            });
+          } else if (this.orderBy.value === 'maior-disciplina') {
             parlamentares.sort((a, b) => {
+              return this.orderByDesc(a.disciplina, b.disciplina);
+            });
+          } else if (this.orderBy.value === 'menor-disciplina') {
+            parlamentares.sort((b, a) => {
               return this.orderByDesc(a.disciplina, b.disciplina);
             });
           }
@@ -134,10 +142,20 @@ export class ParlamentaresService {
           return 0;
         });
 
+        const valoresAtividadeParlamentar = parlamentares.map(p => {
+          if (p.quantidade_autorias) {
+            return +p.quantidade_autorias;
+          }
+          return 0;
+        });
+
         parlamentares.forEach(p => {
           p.interesse = interesse;
           p.nome_processado = p.nome_autor.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-          p.atividade_parlamentar = this.normalizarAtividade(p.quantidade_autorias, p.min_quantidade_autorias, p.max_quantidade_autorias);
+          p.atividade_parlamentar = this.normalizarAtividade(
+            p.quantidade_autorias, Math.min(...valoresAtividadeParlamentar),
+            Math.max(...valoresAtividadeParlamentar)
+          );
           if (typeof p.atividade_twitter === 'undefined') {
             p.quantidade_tweets = 0;
           } else {

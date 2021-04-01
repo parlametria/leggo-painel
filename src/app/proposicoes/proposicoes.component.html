@@ -3,7 +3,9 @@
     [interesse]="interesse"
     (filterChange)="search($event)"
     [numeroProposicoes]="proposicoesDestaque?.length + proposicoes?.length"></app-filtro-proposicoes>
-  <div class="app-content pb-4 mb-4">
+  <div
+    *ngIf="p === 1"
+    class="app-content pb-4 mb-4">
     <app-loading *ngIf="isLoading | async"></app-loading>
     <div [hidden]="isLoading | async">
       <h3 class="titulo-sessao">Proposições em destaque</h3>
@@ -80,11 +82,11 @@
         </nav>
       </pagination-template>
       <div
-        *ngFor="let proposicao of proposicoes | paginate: { itemsPerPage: 20, currentPage: p }; index as i"
+        *ngFor="let proposicao of proposicoes | paginate: { itemsPerPage: PROPOSICOES_POR_PAGINA, currentPage: p }; index as i"
         class="mt-3">
         <app-card-proposicao
           [proposicao]="proposicao"
-          [id]="getProposicaoPosition(i, 20, p)"></app-card-proposicao>
+          [id]="getProposicaoPosition(i, PROPOSICOES_POR_PAGINA, p)"></app-card-proposicao>
       </div>
       <pagination-template
         #pag="paginationApi"

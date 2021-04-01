@@ -1,0 +1,11 @@
+.vis {
+  max-width: 400px;
+
+  @media (max-width: 992px) {
+    width: 100%;
+  }
+}
+
+.peso-explicacao {
+  font-size: 0.8rem;
+}

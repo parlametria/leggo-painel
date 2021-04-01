@@ -45,7 +45,7 @@
       </a>
     </div>
     <div class="tags mt-3">
-      <div *ngIf="proposicao?.destaques.length">
+      <div *ngIf="proposicao?.destaques.length || proposicao?.interesse[0]?.advocacy_link !== 'nan'">
         <app-destaques-proposicao
           [destaques]="destaques"
           *ngFor="let destaques of proposicao?.destaques"></app-destaques-proposicao>
@@ -77,13 +77,6 @@
           [autoClose]="'outside'">
           {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao }}
         </span>
-        <!-- <span
-          *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.forma_apreciacao === 'Plenário'"
-          class="tag badge badge-gray"
-          ngbPopover="Forma de apreciação"
-          [autoClose]="'outside'">
-            {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.forma_apreciacao }}
-        </span> -->
         <span
           *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.status !== 'Ativa'"
           class="tag badge badge-gray"
@@ -91,20 +84,6 @@
           [autoClose]="'outside'">
           {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.status }}
         </span>
-        <span
-          *ngIf="proposicao?.interesse[0]?.tipo_agenda && proposicao?.interesse[0]?.tipo_agenda !== 'nan'"
-          class="tag badge badge-gray"
-          ngbPopover="Tipo da Agenda"
-          [autoClose]="'outside'">
-          {{ proposicao?.interesse[0]?.tipo_agenda }}
-        </span>
-        <!-- <span
-          *ngIf="proposicao?.anotacao_data_ultima_modificacao"
-          class="tag badge badge-gray"
-          ngbPopover="Data do último insight"
-          [autoClose]="'outside'">
-            Insight em {{ proposicao?.anotacao_data_ultima_modificacao | date:'dd/MM/yyyy' }}
-        </span> -->
       </div>
       <div class="d-flex">
         <div

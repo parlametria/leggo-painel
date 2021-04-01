@@ -96,7 +96,7 @@ export class AtuacaoParlamentarComponent implements OnInit, OnDestroy {
         });
         this.atuacao.sort((a, b) => b.soma_documentos - a.soma_documentos);
 
-        this.maximoDocumentos = d3.max(this.atuacao, d => +d.soma_documentos );
+        this.maximoDocumentos = d3.max(this.atuacao, d => +d.soma_documentos);
 
         this.isLoading.next(false);
       });
@@ -122,10 +122,19 @@ export class AtuacaoParlamentarComponent implements OnInit, OnDestroy {
   }
 
   private getTooltip(atuacao) {
-    const tipo = atuacao.tipo_documento === 'Prop. Original / Apensada' ? 'Proposição' : atuacao.tipo_documento;
-    const acoes = atuacao.total_documentos === 1 ? ' ação' : ' ações';
+    const tipo: string = atuacao.tipo_documento.toLowerCase();
 
-    return tipo + ': ' + atuacao.total_documentos + acoes;
+    let acoes = atuacao.total_documentos === 1 ? tipo : tipo + 's';
+
+    if (atuacao.tipo_documento === 'Prop. Original / Apensada') {
+      if (atuacao.total_documentos === 1) {
+        acoes = 'proposição (esta ou apensada)';
+      } else {
+        acoes = 'proposições (esta ou apensada)';
+      }
+    }
+
+    return atuacao.total_documentos + ' ' + acoes;
   }
 
   private getProperty(objeto: any, property: string) {
