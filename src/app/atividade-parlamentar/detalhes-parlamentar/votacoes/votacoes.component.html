@@ -1,18 +1,23 @@
-<h3 class="titulo-sessao">Governismo</h3>
-{{ "Parlamentar" }} é o ponto em destaque abaixo. O governismo dos parlamentares
-foi calculado baseado em
-<strong>992</strong>
-votações nominais no período de
-<strong>01 de fevereiro de 2019</strong> até hoje.
+<div>
+  <h3 class="titulo-sessao">Governismo</h3>
+  {{ "Parlamentar" }} é o ponto em destaque abaixo. O governismo dos parlamentares
+  foi calculado baseado em
+  <strong>992</strong>
+  votações nominais no período de
+  <strong>01 de fevereiro de 2019</strong> até hoje.
 
-<app-vis-governismo></app-vis-governismo>
+  <app-vis-governismo
+    [idParlamentarDestaque]="idParlamentarDestaque"
+    [parlamentares]="parlamentaresGovernismo"
+  ></app-vis-governismo>
 
-<br>
-<h3 class="titulo-sessao">Disciplina partidária</h3>
-A disciplina partidária é calculada com base na frequência com que os
-parlamentares votam de acordo com a orientação de seus respectivos partidos.
+  <br>
+  <h3 class="titulo-sessao">Disciplina partidária</h3>
+  A disciplina partidária é calculada com base na frequência com que os
+  parlamentares votam de acordo com a orientação de seus respectivos partidos.
 
-<app-vis-disciplina
-  [idParlamentar]="idParlamentarDestaque"
-  [parlamentares]="parlamentares"
-></app-vis-disciplina>
+  <app-vis-disciplina
+    [idParlamentarDestaque]="idParlamentarDestaque"
+    [parlamentares]="parlamentaresDisciplina"
+  ></app-vis-disciplina>
+</div>

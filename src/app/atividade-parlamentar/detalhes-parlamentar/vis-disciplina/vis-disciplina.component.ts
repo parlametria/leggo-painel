@@ -37,8 +37,7 @@ const d3 = Object.assign({}, {
 })
 export class VisDisciplinaComponent implements OnInit, OnChanges {
   @Input() parlamentares: Entidade[];
-  @Input() idParlamentar: number;
-  private casaAutor: string;
+  @Input() idParlamentarDestaque: number;
 
   private width;
   private height;
@@ -110,7 +109,7 @@ export class VisDisciplinaComponent implements OnInit, OnChanges {
       simulation.tick();
     }
 
-    const parlamentarDestaque = parlamentares.filter(p => p.id_autor_parlametria === this.idParlamentar)[0];
+    const parlamentarDestaque = parlamentares.filter(p => p.id_autor_parlametria === this.idParlamentarDestaque)[0];
     const indexDestaque = parlamentares.indexOf(parlamentarDestaque);
     if (indexDestaque > -1) {
       parlamentares.splice(parlamentares.indexOf(parlamentarDestaque), 1);
@@ -207,9 +206,7 @@ export class VisDisciplinaComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    if (this.parlamentares && this.idParlamentar) {
-      this.casaAutor = String(this.idParlamentar).startsWith('1') ? 'camara' : 'senado';
-      this.parlamentares = this.parlamentares.filter(p => p.casa_autor === this.casaAutor);
+    if (this.parlamentares && this.idParlamentarDestaque) {
       this.carregarVis();
     }
   }

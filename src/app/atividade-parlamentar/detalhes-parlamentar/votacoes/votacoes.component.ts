@@ -16,7 +16,8 @@ export class VotacoesComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject();
 
   idParlamentarDestaque: number;
-  parlamentares: Entidade[];
+  parlamentaresGovernismo: Entidade[];
+  parlamentaresDisciplina: Entidade[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -30,7 +31,8 @@ export class VotacoesComponent implements OnInit, OnDestroy {
 
         if (this.idParlamentarDestaque !== undefined) {
           this.entidadeService.getParlamentaresExercicio('').subscribe(parlamentares => {
-            this.parlamentares = parlamentares;
+            this.parlamentaresDisciplina = [...parlamentares];
+            this.parlamentaresGovernismo = [...parlamentares];
           });
         }
     });

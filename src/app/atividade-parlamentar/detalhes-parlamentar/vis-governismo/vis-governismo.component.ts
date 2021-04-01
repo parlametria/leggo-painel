@@ -1,8 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 
-import { Subject, BehaviorSubject } from 'rxjs';
-import { takeUntil, skip } from 'rxjs/operators';
 import { select, selectAll, mouse, event } from 'd3-selection';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 import { group, max, min } from 'd3-array';
@@ -13,7 +10,6 @@ import { forceSimulation, forceX, forceY, forceCollide } from 'd3-force';
 import { format } from 'd3-format';
 
 import { Entidade } from 'src/app/shared/models/entidade.model';
-import { EntidadeService } from 'src/app/shared/services/entidade.service';
 
 const d3 = Object.assign({}, {
   select,
@@ -40,11 +36,11 @@ const d3 = Object.assign({}, {
   template: '<div id="vis-atividade-twitter" class="vis"></div>',
   styleUrls: ['./vis-governismo.component.scss']
 })
-export class VisGovernismoComponent implements OnInit {
+export class VisGovernismoComponent implements OnInit, OnChanges {
 
-  private unsubscribe = new Subject();
+  @Input() parlamentares: Entidade[];
+  @Input() idParlamentarDestaque: number;
 
-  private idParlamentarDestaque: number;
   private width;
   private height;
   private margin;
@@ -55,9 +51,7 @@ export class VisGovernismoComponent implements OnInit {
   private svg: any;
   private g: any;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private entidadeService: EntidadeService) { }
+  constructor() { }
 
   ngOnInit(): void {
     const largura = (window.innerWidth > 1000) ? 1000 : window.innerWidth;
@@ -89,24 +83,15 @@ export class VisGovernismoComponent implements OnInit {
         'transform',
         'translate(' + this.margin.left + ',' + this.margin.top + ')'
       );
-
-    this.activatedRoute.parent.paramMap
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(params => {
-        this.idParlamentarDestaque = +params.get('id');
-
-        this.carregarVis();
-      });
   }
 
   private carregarVis() {
-    this.entidadeService.getParlamentaresExercicio('').subscribe(parlamentares => {
-      if (this.g) {
+    if (this.g) {
         this.g.selectAll('*').remove();
       }
-      this.g.call(g => this.atualizarVis(g, parlamentares));
-    });
-  }
+    this.g.call(g => this.atualizarVis(g, this.parlamentares));
+
+}
 
   private atualizarVis(g, parlamentares) {
     const minGovernismo = d3.min(parlamentares, (d: any) => +d.governismo);
@@ -219,6 +204,12 @@ export class VisGovernismoComponent implements OnInit {
       return '0';
     }
     return '1';
+  }
+
+  ngOnChanges() {
+    if (this.parlamentares && this.idParlamentarDestaque) {
+      this.carregarVis();
+    }
   }
 
 }
