@@ -35,7 +35,7 @@ export class EmentasComponent implements OnInit {
   }
 
   getResumo(texto: string) {
-    if (texto !== undefined) {
+    if (texto !== undefined && texto !== null) {
       if (texto.length > this.LIMITE_RESUMO) {
         return texto.substring(0, this.LIMITE_RESUMO) + '...';
       }
@@ -44,7 +44,7 @@ export class EmentasComponent implements OnInit {
   }
 
   getTemEmentaResumida(texto: string): boolean {
-    if (texto !== undefined) {
+    if (texto !== undefined && texto !== null) {
       return texto.length > this.LIMITE_RESUMO;
     }
   }

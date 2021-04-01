@@ -24,6 +24,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   tema: string;
   proposicoesDestaque: ProposicaoLista[];
   orderByProp: string;
+  public readonly PROPOSICOES_POR_PAGINA = 20;
   p = 1;
 
   constructor(
@@ -69,8 +70,13 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
         indicate(this.isLoading),
         takeUntil(this.unsubscribe)
       ).subscribe(proposicoes => {
-        this.proposicoes = proposicoes.filter(p => (typeof p.destaques !== 'undefined' && p.destaques.length === 0));
-        this.proposicoesDestaque = proposicoes.filter(p => (typeof p.destaques !== 'undefined' && p.destaques.length !== 0));
+        this.proposicoes = proposicoes.filter(p => !p.isDestaque);
+        this.proposicoesDestaque = proposicoes.filter(p => p.isDestaque);
+
+        if (proposicoes.length <= (this.PROPOSICOES_POR_PAGINA * (this.p - 1))) {
+          this.pageChange(1); // volta para a primeira página com o novo resultado do filtro
+        }
+
         this.isLoading.next(false);
       });
   }

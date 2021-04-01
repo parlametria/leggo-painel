@@ -10,8 +10,6 @@ import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.servi
 import { RelatoriaService } from 'src/app/shared/services/relatoria.service';
 import { EntidadeService } from 'src/app/shared/services/entidade.service';
 import { TwitterService } from 'src/app/shared/services/twitter.service';
-import { GovernismoService } from './governismo.service';
-import { DisciplinaService } from './disciplina.service';
 
 @Injectable({
   providedIn: 'root'
@@ -32,9 +30,7 @@ export class ParlamentaresService {
     private pesoService: PesoPoliticoService,
     private relatoriaService: RelatoriaService,
     private entidadeService: EntidadeService,
-    private twitterService: TwitterService,
-    private governismoService: GovernismoService,
-    private disciplinaService: DisciplinaService
+    private twitterService: TwitterService
   ) {
 
     this.parlamentares
@@ -65,12 +61,20 @@ export class ParlamentaresService {
             parlamentares.sort((a, b) => {
               return this.orderByDesc(a.atividade_twitter, b.atividade_twitter);
             });
-          } else if (this.orderBy.value === 'governismo') {
+          } else if (this.orderBy.value === 'maior-governismo') {
             parlamentares.sort((a, b) => {
               return this.orderByDesc(a.governismo, b.governismo);
             });
-          } else if (this.orderBy.value === 'disciplina') {
+          } else if (this.orderBy.value === 'menor-governismo') {
+            parlamentares.sort((b, a) => {
+              return this.orderByDesc(a.governismo, b.governismo);
+            });
+          } else if (this.orderBy.value === 'maior-disciplina') {
             parlamentares.sort((a, b) => {
+              return this.orderByDesc(a.disciplina, b.disciplina);
+            });
+          } else if (this.orderBy.value === 'menor-disciplina') {
+            parlamentares.sort((b, a) => {
               return this.orderByDesc(a.disciplina, b.disciplina);
             });
           }
@@ -98,13 +102,10 @@ export class ParlamentaresService {
       [
         this.entidadeService.getParlamentaresExercicio(casa),
         this.autoriaService.getAutoriasAgregadas(interesse, tema, destaque),
-        this.comissaoService.getComissaoPresidencia(interesse, tema, destaque),
+        this.comissaoService.getComissaoPresidencia(),
         this.relatoriaService.getAtoresRelatores(interesse, tema, destaque),
         this.pesoService.getPesoPolitico(),
         this.twitterService.getAtividadeTwitter(interesse, tema, dataInicial, dataFinal, destaque),
-        this.autoriaService.getAutoriasAgregadasProjetos(interesse, tema, destaque),
-        this.governismoService.getGovernismo(),
-        this.disciplinaService.getDisciplina(),
         this.autoriaService.getAutoriasAgregadasProjetos(interesse, tema, destaque)
       ]
     )
@@ -116,27 +117,16 @@ export class ParlamentaresService {
         const pesoPolitico: any = data[4];
         const twitter: any = data[5];
         const autoriasProjetos: any = data[6];
-        const governismo: any = data[7];
-        const disciplina: any = data[8];
 
         const parlamentares = parlamentaresExercicio.map(a => ({
           ...autoriasAgregadas.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
-          ...comissaoPresidencia.find(p => a.id_autor_parlametria === p.id_autor_voz),
+          ...comissaoPresidencia.find(p => a.id_autor_parlametria === Number(p.id_parlamentar_voz)),
           ...atoresRelatores.find(p => a.id_autor_parlametria === p.autor_id_parlametria),
-          ...pesoPolitico.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
+          ...pesoPolitico.find(p => a.id_autor_parlametria === Number(p.idParlamentarVoz)),
           ...twitter.find(p => a.id_autor_parlametria === +p.id_parlamentar_parlametria),
           ...autoriasProjetos.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
-          ...governismo.find(p => a.id_autor_parlametria === p.id_parlamentar_parlametria),
-          ...disciplina.find(p => a.id_autor_parlametria === p.id_parlamentar_parlametria),
           ...a
         }));
-
-        const pesosPoliticos = parlamentares.map(p => {
-          if (p.peso_politico) {
-            return +p.peso_politico;
-          }
-          return 0;
-        });
 
         const tweets = parlamentares.map(p => {
           if (p.atividade_twitter) {
@@ -152,9 +142,9 @@ export class ParlamentaresService {
           return 0;
         });
 
-        const valoresDisciplina = parlamentares.map(p => {
-          if (p.disciplina) {
-            return +p.disciplina;
+        const valoresAtividadeParlamentar = parlamentares.map(p => {
+          if (p.quantidade_autorias) {
+            return +p.quantidade_autorias;
           }
           return 0;
         });
@@ -162,16 +152,18 @@ export class ParlamentaresService {
         parlamentares.forEach(p => {
           p.interesse = interesse;
           p.nome_processado = p.nome_autor.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-          p.atividade_parlamentar = this.normalizarAtividade(p.quantidade_autorias, p.min_quantidade_autorias, p.max_quantidade_autorias);
+          p.atividade_parlamentar = this.normalizarAtividade(
+            p.quantidade_autorias, Math.min(...valoresAtividadeParlamentar),
+            Math.max(...valoresAtividadeParlamentar)
+          );
           if (typeof p.atividade_twitter === 'undefined') {
             p.quantidade_tweets = 0;
           } else {
             p.quantidade_tweets = p.atividade_twitter;
           }
+          p.peso_politico = p.pesoPolitico;
           p.atividade_twitter = this.normalizarAtividade(p.atividade_twitter, Math.min(...tweets), Math.max(...tweets));
-          p.peso_politico = this.pesoService.normalizarPesoPolitico(p.peso_politico, Math.max(...pesosPoliticos));
           p.governismo = this.normalizarAtividade(p.governismo, Math.min(...valoresGovernismo), Math.max(...valoresGovernismo));
-          p.disciplina = this.normalizarAtividade(p.disciplina, Math.min(...valoresDisciplina), Math.max(...valoresDisciplina));
         });
 
         this.parlamentares.next(parlamentares);

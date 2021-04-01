@@ -90,18 +90,18 @@
 
             <span
               class="cracha"
-              *ngIf="parlamentar?.comissoes?.quantidade_comissao_presidente"
+              *ngIf="parlamentar?.comissoes?.length"
               [ngbPopover]="popPresidencia"
               [autoClose]="'outside'">
               <span class="icon-presidente app-icon text-warning"></span>
               <span class="badge badge-warning app-badge badge-color-white">
-                {{ parlamentar?.comissoes?.quantidade_comissao_presidente }}
+                {{ parlamentar?.comissoes?.length }}
               </span>
               <ng-template #popPresidencia>
                 <strong>Presidente</strong>
-                &nbsp;de {{ parlamentar?.comissoes?.quantidade_comissao_presidente }}
-                <span *ngIf="parlamentar?.comissoes?.quantidade_comissao_presidente === 1">&nbsp;comissão</span>
-                <span *ngIf="parlamentar?.comissoes?.quantidade_comissao_presidente !== 1">&nbsp;comissões</span>
+                &nbsp;de {{ parlamentar?.comissoes?.length }}
+                <span *ngIf="parlamentar?.comissoes?.length === 1">&nbsp;comissão</span>
+                <span *ngIf="parlamentar?.comissoes?.length !== 1">&nbsp;comissões</span>
                 <div class="text-right">
                   <a [routerLink]="['./papeis']" class="btn btn-link btn-sm">+ Detalhes</a>
                 </div>
