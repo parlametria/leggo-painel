@@ -145,6 +145,7 @@
     </div>
     <div class="mb-2">
       <span
+        *ngIf="parlamentar?.bancada_suficiente"
         [ngbPopover]="popDisciplina"
         [autoClose]="'outside'">
         <app-progress
@@ -157,6 +158,19 @@
         <strong>Disciplina</strong>
         {{ parlamentar.disciplina | number : '1.0-2' }}
       </ng-template>
+      <div
+        *ngIf="!parlamentar?.bancada_suficiente">
+        <span
+          [ngbPopover]="popSemDisciplina"
+          [autoClose]="'outside'">
+          <app-progress
+            [label]="'--'"
+            [barraClasse]="'bg-info'"
+            [valor]="0"
+            [exibirLabel]="true"></app-progress>
+        </span>
+        <ng-template #popSemDisciplina>Partido sem membros suficientes</ng-template>
+      </div>
     </div>
     <div class="mb-2">
       <span
