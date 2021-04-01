@@ -1,9 +1,34 @@
-<h3 class="titulo-sessao">Governismo</h3>
-{{ parlamentarInfo?.nome_autor }} é o ponto em destaque abaixo. 
-O governismo dos parlamentares foi calculado baseado em
-<strong>{{ votacoesSumarizadas?.num_votacoes_parlamentar_governismo }}</strong>
-votações nominais no período de
-<strong>01 de fevereiro de 2019</strong> até 
-<strong>{{ votacoesSumarizadas?.ultima_data_votacao }}</strong>.
+<app-loading *ngIf="isLoading | async"></app-loading>
+<div
+  [hidden]="isLoading | async">
+  <h3 class="titulo-sessao">Governismo</h3>
+  {{ parlamentarInfo?.nome_autor }} é o ponto em destaque abaixo.
+  O governismo dos parlamentares foi calculado baseado em
+  <strong>{{ votacoesSumarizadas?.num_votacoes_parlamentar_governismo }}</strong>
+  votações nominais no período de
+  <strong>01 de fevereiro de 2019</strong> até
+  <strong>{{ votacoesSumarizadas?.ultima_data_votacao }}</strong>.
+  <app-vis-governismo
+    [idParlamentarDestaque]="idParlamentarDestaque"
+    [parlamentares]="parlamentaresGovernismo"
+  ></app-vis-governismo>
 
-<app-vis-governismo></app-vis-governismo>
+  <br>
+  <h3 class="titulo-sessao">Disciplina partidária</h3>
+  {{ parlamentarInfo?.nome_autor }} é o ponto em destaque abaixo e participou de
+  <strong>{{ votacoesSumarizadas?.num_votacoes_parlamentar_disciplina }}</strong>
+  dentre as <strong>{{ votacoesSumarizadas?.num_votacoes_totais_disciplina }}</strong>
+  votações consideradas.
+
+  <app-vis-disciplina
+    [idParlamentarDestaque]="idParlamentarDestaque"
+    [parlamentares]="parlamentaresDisciplina"
+  ></app-vis-disciplina>
+
+  <p class="rodape-disciplina">A disciplina partidária é calculada com base na frequência em que os parlamentares
+  seguem a orientação de seus respectivos partidos, considerando apenas
+  votações nominais no período de
+  <strong>01 de fevereiro de 2019</strong> até
+  <strong>{{ votacoesSumarizadas?.ultima_data_votacao }} </strong>
+  que tiveram <strong>discordância mínima de 10%</strong> entre os votantes.</p>
+</div>

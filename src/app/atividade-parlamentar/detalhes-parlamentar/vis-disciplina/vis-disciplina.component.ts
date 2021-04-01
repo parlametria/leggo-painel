@@ -1,5 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
-
+import { Component, OnInit, OnChanges, Input } from '@angular/core';
 import { select, selectAll, mouse, event } from 'd3-selection';
 import { scaleLinear, scaleOrdinal } from 'd3-scale';
 import { group, max, min } from 'd3-array';
@@ -32,12 +31,11 @@ const d3 = Object.assign({}, {
 });
 
 @Component({
-  selector: 'app-vis-governismo',
-  template: '<div id="vis-atividade-twitter" class="vis"></div>',
-  styleUrls: ['./vis-governismo.component.scss']
+  selector: 'app-vis-disciplina',
+  template: '<div id="vis-disciplina"></div>',
+  styleUrls: ['./vis-disciplina.component.scss']
 })
-export class VisGovernismoComponent implements OnInit, OnChanges {
-
+export class VisDisciplinaComponent implements OnInit, OnChanges {
   @Input() parlamentares: Entidade[];
   @Input() idParlamentarDestaque: number;
 
@@ -69,7 +67,7 @@ export class VisGovernismoComponent implements OnInit, OnChanges {
     this.r = 6;
 
     this.svg = d3
-      .select('#vis-atividade-twitter')
+      .select('#vis-disciplina')
       .append('svg')
       .attr('version', '1.1')
       .attr('xmlns:svg', 'http://www.w3.org/2000/svg')
@@ -88,20 +86,21 @@ export class VisGovernismoComponent implements OnInit, OnChanges {
   private carregarVis() {
     if (this.g) {
         this.g.selectAll('*').remove();
-      }
+    }
+
     this.g.call(g => this.atualizarVis(g, this.parlamentares));
 
-}
+  }
 
   private atualizarVis(g, parlamentares) {
-    const minGovernismo = d3.min(parlamentares, (d: any) => +d.governismo);
-    const maxGovernismo = d3.max(parlamentares, (d: any) => +d.governismo);
+    const minDisciplina = d3.min(parlamentares, (d: any) => +d.disciplina);
+    const maxDisciplina = d3.max(parlamentares, (d: any) => +d.disciplina);
     parlamentares.map(p => {
-      p.governismo = this.normalizarGovernismo(p.governismo, minGovernismo, maxGovernismo);
+      p.disciplina = this.normalizarDisciplina(p.disciplina, minDisciplina, maxDisciplina);
     });
     const simulation = d3
       .forceSimulation(parlamentares)
-      .force('x', d3.forceX((d: any) => this.x(d.governismo)).strength(1))
+      .force('x', d3.forceX((d: any) => this.x(d.disciplina)).strength(1))
       .force('y', d3.forceY(this.height * 0.5))
       .force('collide', d3.forceCollide(this.r))
       .stop();
@@ -130,13 +129,13 @@ export class VisGovernismoComponent implements OnInit, OnChanges {
       .attr('y', this.height + (this.margin.bottom * 0.75))
       .attr('text-anchor', 'end')
       .attr('font-size', '0.8rem')
-      .text('Mais governista');
+      .text('Mais disciplinado');
     this.g.append('text')
       .attr('x', -8)
       .attr('y', this.height + (this.margin.bottom * 0.75))
       .attr('text-anchor', 'start')
       .attr('font-size', '0.8rem')
-      .text('Menos governista');
+      .text('Menos disciplinado');
 
     // tooltip
     const tooltip = d3.select('body')
@@ -188,10 +187,10 @@ export class VisGovernismoComponent implements OnInit, OnChanges {
 
   private tooltipText(d): any {
     return `<p class="vis-tooltip-titulo"><strong>${d.nome_autor}</strong> ${d.partido}/${d.uf}</p>
-    <p>Governismo: <strong>${format('.2f')(d.governismo)}</strong></p>`;
+    <p>Disciplina partidária: <strong>${format('.2f')(d.disciplina)}</strong></p>`;
   }
 
-  private normalizarGovernismo(valor: number, minimo: number, maximo: number): number {
+  private normalizarDisciplina(valor: number, minimo: number, maximo: number): number {
     return (valor - minimo) / (maximo - minimo);
   }
 
