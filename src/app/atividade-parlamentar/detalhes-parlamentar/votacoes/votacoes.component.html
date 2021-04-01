@@ -1,4 +1,6 @@
-<div>
+<app-loading *ngIf="isLoading | async"></app-loading>
+<div
+  [hidden]="isLoading | async">
   <h3 class="titulo-sessao">Governismo</h3>
   {{ "Parlamentar" }} é o ponto em destaque abaixo. O governismo dos parlamentares
   foi calculado baseado em
