@@ -7,4 +7,5 @@ export interface Entidade {
   uf: string;
   governismo: number;
   disciplina: number;
+  bancada_suficiente: boolean;
 }
