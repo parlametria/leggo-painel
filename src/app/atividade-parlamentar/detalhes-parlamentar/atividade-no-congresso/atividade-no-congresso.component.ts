@@ -26,6 +26,7 @@ export class AtividadeNoCongressoComponent implements OnInit {
   public autoriasPorTipo: any;
   public isLoading = new BehaviorSubject<boolean>(true);
   public destaque: boolean;
+  public temDadosPorProposicao = false;
 
   readonly ORDER_TIPOS_PROPOSICAO = [
     'Prop. Original / Apensada',
