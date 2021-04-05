@@ -72,14 +72,12 @@ export class VotacoesComponent implements OnInit, OnDestroy {
         const votacoes = data[1][0];
         const parlamentares = data[2];
 
-
         this.formataData(votacoes);
         this.parlamentarInfo = ator;
         this.parlamentares = parlamentares.filter(p => p.casa_autor === this.parlamentarInfo.casa_autor);
         this.parlamentaresDisciplina = [...this.parlamentares];
         this.parlamentaresGovernismo = [...this.parlamentares];
         this.isLoading.next(false);
-
       });
   }
 

@@ -63,7 +63,7 @@ export class VisDisciplinaComponent implements OnInit, OnChanges {
     this.height = 400 - this.margin.top - this.margin.bottom;
 
     this.x = d3.scaleLinear().range([0, this.width]);
-    this.cores = d3.scaleOrdinal().range(['#6f42c1', '#91DABF']).domain(['0', '1']);
+    this.cores = d3.scaleOrdinal().range(['#6f42c1', '#91DABF', '#fd7e14']).domain(['0', '1', '2']);
     this.r = 6;
 
     this.svg = d3
@@ -85,11 +85,10 @@ export class VisDisciplinaComponent implements OnInit, OnChanges {
 
   private carregarVis() {
     if (this.g) {
-        this.g.selectAll('*').remove();
+      this.g.selectAll('*').remove();
     }
 
     this.g.call(g => this.atualizarVis(g, this.parlamentares));
-
   }
 
   private atualizarVis(g, parlamentares) {
@@ -176,7 +175,7 @@ export class VisDisciplinaComponent implements OnInit, OnChanges {
       .attr('r', this.r)
       .attr('cx', parlamentarDestaque.x)
       .attr('cy', parlamentarDestaque.y)
-      .attr('fill', this.cores('0'))
+      .attr('fill', this.cores('2'))
       .attr('stroke', 'black')
       .attr('stroke-width', 2)
       .attr('opacity', 1)
