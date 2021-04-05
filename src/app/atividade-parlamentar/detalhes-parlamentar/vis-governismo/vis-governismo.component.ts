@@ -94,6 +94,14 @@ export class VisGovernismoComponent implements OnInit, OnChanges {
 }
 
   private atualizarVis(g, parlamentares) {
+    // ajusta altura do grafico
+    let height = this.height;
+    if (parlamentares.length < 100) {
+      height = 200 - this.margin.top - this.margin.bottom;
+      this.svg.attr('viewBox', '0 0 ' +
+        (this.width + this.margin.left + this.margin.right) + ' ' + (height + this.margin.top + this.margin.bottom));
+    }
+
     const minGovernismo = d3.min(parlamentares, (d: any) => +d.governismo);
     const maxGovernismo = d3.max(parlamentares, (d: any) => +d.governismo);
     parlamentares.map(p => {
@@ -102,7 +110,7 @@ export class VisGovernismoComponent implements OnInit, OnChanges {
     const simulation = d3
       .forceSimulation(parlamentares)
       .force('x', d3.forceX((d: any) => this.x(d.governismo)).strength(1))
-      .force('y', d3.forceY(this.height * 0.5))
+      .force('y', d3.forceY(height * 0.5))
       .force('collide', d3.forceCollide(this.r))
       .stop();
 
@@ -120,20 +128,20 @@ export class VisGovernismoComponent implements OnInit, OnChanges {
     const eixoX = this.g.append('g');
     eixoX.call(d3.axisBottom(this.x)
       .ticks(3)
-      .tickSize(this.height + (this.margin.top * 0.5)))
+      .tickSize(height + (this.margin.top * 0.5)))
       .selectAll('.tick line')
       .attr('stroke', '#777')
       .attr('stroke-dasharray', '10,2');
     eixoX.select('.domain').remove();
     this.g.append('text')
       .attr('x', this.width + 8)
-      .attr('y', this.height + (this.margin.bottom * 0.75))
+      .attr('y', height + (this.margin.bottom * 0.75))
       .attr('text-anchor', 'end')
       .attr('font-size', '0.8rem')
       .text('Mais governista');
     this.g.append('text')
       .attr('x', -8)
-      .attr('y', this.height + (this.margin.bottom * 0.75))
+      .attr('y', height + (this.margin.bottom * 0.75))
       .attr('text-anchor', 'start')
       .attr('font-size', '0.8rem')
       .text('Menos governista');
