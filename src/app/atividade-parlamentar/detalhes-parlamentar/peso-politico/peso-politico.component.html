@@ -1,11 +1,38 @@
 <h3 class="titulo-sessao">Peso Político</h3>
 <app-loading *ngIf="isLoading | async"></app-loading>
-<div *ngIf="peso">
-  <app-avaliacao
-    [label]="'Peso'"
-    [valor]="peso * 5">
-  </app-avaliacao>
-  <p class="mt-4">
-    Mais informações sobre o peso político em breve.
+<div class="vis">
+  <div
+    *ngIf="peso"
+    class="row gutters-sm">
+    <div class="col">
+      <app-progress
+        [label]="'Peso'"
+        [barraClasse]="'bg-mediumgray'"
+        [valor]="peso"
+        [exibirLabel]="false"></app-progress>
+    </div>
+    <div class="col-1">{{ peso | number : '1.0-2' }}</div>
+  </div>
+</div>
+
+<div class="peso-explicacao mt-4">
+  <p>
+    O
+    <strong>peso político</strong>
+    é calculado considerando quatro características do/a parlamentar:
   </p>
+  <ol class="pl-4">
+    <li>
+      Cargos na mesa e cargos de participação em comissões da Câmara/Senado.
+    </li>
+    <li>
+      Lideranças desempenhadas no partido ou em blocos partidários.
+    </li>
+    <li>
+      O quanto o partido do/a parlamentar o priorizou no financiamento da campanha eleitoral.
+    </li>
+    <li>
+      Número de mandatos anteriores em qualquer cargo eletivo.
+    </li>
+  </ol>
 </div>

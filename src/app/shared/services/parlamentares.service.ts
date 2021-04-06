@@ -61,12 +61,20 @@ export class ParlamentaresService {
             parlamentares.sort((a, b) => {
               return this.orderByDesc(a.atividade_twitter, b.atividade_twitter);
             });
-          } else if (this.orderBy.value === 'governismo') {
+          } else if (this.orderBy.value === 'maior-governismo') {
             parlamentares.sort((a, b) => {
               return this.orderByDesc(a.governismo, b.governismo);
             });
-          } else if (this.orderBy.value === 'disciplina') {
+          } else if (this.orderBy.value === 'menor-governismo') {
+            parlamentares.sort((b, a) => {
+              return this.orderByDesc(a.governismo, b.governismo);
+            });
+          } else if (this.orderBy.value === 'maior-disciplina') {
             parlamentares.sort((a, b) => {
+              return this.orderByDesc(a.disciplina, b.disciplina);
+            });
+          } else if (this.orderBy.value === 'menor-disciplina') {
+            parlamentares.sort((b, a) => {
               return this.orderByDesc(a.disciplina, b.disciplina);
             });
           }
