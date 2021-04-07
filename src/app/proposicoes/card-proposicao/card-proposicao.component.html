@@ -23,26 +23,39 @@
         </span>
       </span>
     </a>
-    <div>
-      <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
-        <app-progress
-          class="pointer"
-          [label]="'Temperatura da semana: ' + proposicao?.ultima_temperatura"
-          [barraClasse]="'bg-temperatura'"
-          [valor]="proposicao?.ultima_temperatura"
-          [exibirLabel]="true"
-          [max]="proposicao?.max_temperatura_interesse"></app-progress>
-      </a>
+    <div class="row">
+      <div class="col barra-em-alta">
+        <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
+          <app-progress
+            class="pointer"
+            [label]="'Temperatura da semana: ' + proposicao?.ultima_temperatura"
+            [barraClasse]="'bg-temperatura'"
+            [valor]="proposicao?.ultima_temperatura"
+            [exibirLabel]="true"
+            [max]="proposicao?.max_temperatura_interesse"></app-progress>
+        </a>
+      </div>
+      <div class="col-1 barra-em-alta">
+        <div 
+          class="badge badge-color-white bg-temperatura badge-em-alta"
+          [ngbPopover]="popEmAlta"
+          [autoClose]="'outside'">
+          <span class="icon-em-alta"></span>
+      </div>
+      </div>
     </div>
-    <div class="space-between-bars">
-      <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
-        <app-progress
-          class="pointer"
-          [label]="'Pressão da semana: ' + (!proposicao?.ultima_pressao ? '0' : (proposicao?.ultima_pressao * 100))"
-          [barraClasse]="'bg-pressao'"
-          [valor]="proposicao?.ultima_pressao"
-          [exibirLabel]="true"></app-progress>
-      </a>
+    <div class="row">
+      <div class="space-between-bars col barra-em-alta">
+        <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
+          <app-progress
+            class="pointer"
+            [label]="'Pressão da semana: ' + (!proposicao?.ultima_pressao ? '0' : (proposicao?.ultima_pressao * 100))"
+            [barraClasse]="'bg-pressao'"
+            [valor]="proposicao?.ultima_pressao"
+            [exibirLabel]="true"></app-progress>
+        </a>
+      </div>
+      <div class="col-1"></div>
     </div>
     <div class="tags mt-3">
       <div *ngIf="proposicao?.destaques.length || proposicao?.interesse[0]?.advocacy_link !== 'nan'">
