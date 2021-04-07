@@ -118,7 +118,8 @@ export class VisDisciplinaComponent implements OnInit, OnChanges {
     const eixoX = this.g.append('g');
     eixoX.call(d3.axisBottom(this.x)
       .ticks(3)
-      .tickSize(this.height + (this.margin.top * 0.5)))
+      .tickSize(this.height + (this.margin.top * 0.5))
+      .tickFormat(format('.0%')))
       .selectAll('.tick line')
       .attr('stroke', '#777')
       .attr('stroke-dasharray', '10,2');
@@ -186,7 +187,7 @@ export class VisDisciplinaComponent implements OnInit, OnChanges {
 
   private tooltipText(d): any {
     return `<p class="vis-tooltip-titulo"><strong>${d.nome_autor}</strong> ${d.partido}/${d.uf}</p>
-    <p>Disciplina partidária: <strong>${format('.2f')(d.disciplina)}</strong></p>`;
+    <p>Disciplina partidária: <strong>${format('.2%')(d.disciplina)}</strong></p>`;
   }
 
   private normalizarDisciplina(valor: number, minimo: number, maximo: number): number {

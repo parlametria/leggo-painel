@@ -64,7 +64,7 @@ export class VisGovernismoComponent implements OnInit, OnChanges {
     this.width = largura - this.margin.right - this.margin.left;
     this.height = 400 - this.margin.top - this.margin.bottom;
 
-    this.x = d3.scaleLinear().range([0, this.width]);
+    this.x = d3.scaleLinear().range([0, this.width]).domain([0, 10]);
     this.cores = d3.scaleOrdinal().range(['#6f42c1', '#91DABF', '#fd7e14']).domain(['0', '1', '2']);
     this.r = 6;
 
@@ -191,7 +191,7 @@ export class VisGovernismoComponent implements OnInit, OnChanges {
   }
 
   private normalizarGovernismo(valor: number, minimo: number, maximo: number): number {
-    return (valor - minimo) / (maximo - minimo);
+    return (valor - minimo) / (maximo - minimo) * 10;
   }
 
   /* Verifica a categoria do parlamentar para a escala de cores
