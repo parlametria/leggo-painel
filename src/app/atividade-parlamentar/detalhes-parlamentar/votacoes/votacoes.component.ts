@@ -91,6 +91,11 @@ export class VotacoesComponent implements OnInit, OnDestroy {
     this.votacoesSumarizadas = data;
   }
 
+  getCasa(casa) {
+    const textoCasa = (casa === 'camara') ? 'da Câmara' : 'do Senado';
+    return textoCasa;
+  }
+
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
