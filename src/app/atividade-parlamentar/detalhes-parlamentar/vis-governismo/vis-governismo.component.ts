@@ -64,8 +64,8 @@ export class VisGovernismoComponent implements OnInit, OnChanges {
     this.width = largura - this.margin.right - this.margin.left;
     this.height = 400 - this.margin.top - this.margin.bottom;
 
-    this.x = d3.scaleLinear().range([0, this.width]);
-    this.cores = d3.scaleOrdinal().range(['#6f42c1', '#91DABF']).domain(['0', '1']);
+    this.x = d3.scaleLinear().range([0, this.width]).domain([0, 10]);
+    this.cores = d3.scaleOrdinal().range(['#6f42c1', '#91DABF', '#fd7e14']).domain(['0', '1', '2']);
     this.r = 6;
 
     this.svg = d3
@@ -87,11 +87,10 @@ export class VisGovernismoComponent implements OnInit, OnChanges {
 
   private carregarVis() {
     if (this.g) {
-        this.g.selectAll('*').remove();
-      }
+      this.g.selectAll('*').remove();
+    }
     this.g.call(g => this.atualizarVis(g, this.parlamentares));
-
-}
+  }
 
   private atualizarVis(g, parlamentares) {
     const minGovernismo = d3.min(parlamentares, (d: any) => +d.governismo);
@@ -177,7 +176,7 @@ export class VisGovernismoComponent implements OnInit, OnChanges {
       .attr('r', this.r)
       .attr('cx', parlamentarDestaque.x)
       .attr('cy', parlamentarDestaque.y)
-      .attr('fill', this.cores('0'))
+      .attr('fill', this.cores('2'))
       .attr('stroke', 'black')
       .attr('stroke-width', 2)
       .attr('opacity', 1)
@@ -192,7 +191,7 @@ export class VisGovernismoComponent implements OnInit, OnChanges {
   }
 
   private normalizarGovernismo(valor: number, minimo: number, maximo: number): number {
-    return (valor - minimo) / (maximo - minimo);
+    return (valor - minimo) / (maximo - minimo) * 10;
   }
 
   /* Verifica a categoria do parlamentar para a escala de cores

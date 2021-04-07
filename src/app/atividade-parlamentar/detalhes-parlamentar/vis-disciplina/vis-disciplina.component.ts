@@ -63,7 +63,7 @@ export class VisDisciplinaComponent implements OnInit, OnChanges {
     this.height = 400 - this.margin.top - this.margin.bottom;
 
     this.x = d3.scaleLinear().range([0, this.width]);
-    this.cores = d3.scaleOrdinal().range(['#6f42c1', '#91DABF']).domain(['0', '1']);
+    this.cores = d3.scaleOrdinal().range(['#6f42c1', '#91DABF', '#fd7e14']).domain(['0', '1', '2']);
     this.r = 6;
 
     this.svg = d3
@@ -85,11 +85,10 @@ export class VisDisciplinaComponent implements OnInit, OnChanges {
 
   private carregarVis() {
     if (this.g) {
-        this.g.selectAll('*').remove();
+      this.g.selectAll('*').remove();
     }
 
     this.g.call(g => this.atualizarVis(g, this.parlamentares));
-
   }
 
   private atualizarVis(g, parlamentares) {
@@ -119,7 +118,8 @@ export class VisDisciplinaComponent implements OnInit, OnChanges {
     const eixoX = this.g.append('g');
     eixoX.call(d3.axisBottom(this.x)
       .ticks(3)
-      .tickSize(this.height + (this.margin.top * 0.5)))
+      .tickSize(this.height + (this.margin.top * 0.5))
+      .tickFormat(format('.0%')))
       .selectAll('.tick line')
       .attr('stroke', '#777')
       .attr('stroke-dasharray', '10,2');
@@ -176,7 +176,7 @@ export class VisDisciplinaComponent implements OnInit, OnChanges {
       .attr('r', this.r)
       .attr('cx', parlamentarDestaque.x)
       .attr('cy', parlamentarDestaque.y)
-      .attr('fill', this.cores('0'))
+      .attr('fill', this.cores('2'))
       .attr('stroke', 'black')
       .attr('stroke-width', 2)
       .attr('opacity', 1)
@@ -187,7 +187,7 @@ export class VisDisciplinaComponent implements OnInit, OnChanges {
 
   private tooltipText(d): any {
     return `<p class="vis-tooltip-titulo"><strong>${d.nome_autor}</strong> ${d.partido}/${d.uf}</p>
-    <p>Disciplina partidária: <strong>${format('.2f')(d.disciplina)}</strong></p>`;
+    <p>Disciplina partidária: <strong>${format('.2%')(d.disciplina)}</strong></p>`;
   }
 
   private normalizarDisciplina(valor: number, minimo: number, maximo: number): number {
