@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
@@ -43,6 +43,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   @Input() larguraJanela: number;
   @Input() idAtor: number;
   @Input() interesse: string;
+  @Output() temDados = new EventEmitter();
 
   private unsubscribe = new Subject();
 
@@ -126,10 +127,15 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
       .subscribe(autorias => {
         const autoriasApresentadas = [];
         autorias.forEach(dado => {
-          if (dado.tipo_acao === 'Proposição') {
+          if (dado.tipo_acao === 'Proposição' && dado.tipo_documento !== 'Requerimento') {
             autoriasApresentadas.push(dado);
           }
         });
+        if (autoriasApresentadas.length > 0) {
+          this.temDados.emit(true);
+        } else {
+          this.temDados.emit(false);
+        }
         // Transforma dados tabulares em árvore
         const arvoreAutorias = this.getArvoreAutorias(autoriasApresentadas);
         // Inicializa visualização

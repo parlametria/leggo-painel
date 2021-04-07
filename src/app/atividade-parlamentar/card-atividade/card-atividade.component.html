@@ -140,7 +140,7 @@
       </span>
       <ng-template #popGovernismo>
         <strong>Governismo</strong>
-        {{ parlamentar.governismo | number : '1.0-2' }}
+        {{ parlamentar.governismo * 10 | number : '1.0-2' }}
       </ng-template>
     </div>
     <div class="mb-2">
@@ -155,7 +155,7 @@
       </span>
       <ng-template #popDisciplina>
         <strong>Disciplina</strong>
-        {{ parlamentar.disciplina | number : '1.0-2' }}
+        {{ parlamentar.disciplina * 100 | number : '1.0-2' }}%
       </ng-template>
     </div>
     <div class="mb-2">

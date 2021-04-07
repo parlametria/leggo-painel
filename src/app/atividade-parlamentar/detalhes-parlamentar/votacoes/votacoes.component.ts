@@ -72,14 +72,12 @@ export class VotacoesComponent implements OnInit, OnDestroy {
         const votacoes = data[1][0];
         const parlamentares = data[2];
 
-
         this.formataData(votacoes);
         this.parlamentarInfo = ator;
         this.parlamentares = parlamentares.filter(p => p.casa_autor === this.parlamentarInfo.casa_autor);
         this.parlamentaresDisciplina = [...this.parlamentares];
         this.parlamentaresGovernismo = [...this.parlamentares];
         this.isLoading.next(false);
-
       });
   }
 
@@ -91,6 +89,11 @@ export class VotacoesComponent implements OnInit, OnDestroy {
 
     data.ultima_data_votacao = moment(data.ultima_data_votacao).format('LL');
     this.votacoesSumarizadas = data;
+  }
+
+  getCasa(casa) {
+    const textoCasa = (casa === 'camara') ? 'da Câmara' : 'do Senado';
+    return textoCasa;
   }
 
   ngOnDestroy(): void {
