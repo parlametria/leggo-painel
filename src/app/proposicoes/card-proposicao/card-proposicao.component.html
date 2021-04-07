@@ -23,8 +23,8 @@
         </span>
       </span>
     </a>
-    <div class="row">
-      <div class="col barra-em-alta">
+    <div class="row no-gutters align-items-center mb-1">
+      <div class="col">
         <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
           <app-progress
             class="pointer"
@@ -35,17 +35,17 @@
             [max]="proposicao?.max_temperatura_interesse"></app-progress>
         </a>
       </div>
-      <div class="col-1 barra-em-alta">
-        <div 
+      <div class="col-2 col-sm-1 text-center">
+        <div
           class="badge badge-color-white bg-temperatura badge-em-alta"
           [ngbPopover]="popEmAlta"
           [autoClose]="'outside'">
           <span class="icon-em-alta"></span>
-      </div>
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="space-between-bars col barra-em-alta">
+    <div class="row no-gutters align-items-center">
+      <div class="space-between-bars col">
         <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
           <app-progress
             class="pointer"
@@ -55,7 +55,14 @@
             [exibirLabel]="true"></app-progress>
         </a>
       </div>
-      <div class="col-1"></div>
+      <div class="col-2 col-sm-1 text-center">
+        <!-- <div
+          class="badge badge-color-white bg-temperatura badge-em-alta"
+          [ngbPopover]="popEmAlta"
+          [autoClose]="'outside'">
+          <span class="icon-em-alta"></span>
+        </div> -->
+      </div>
     </div>
     <div class="tags mt-3">
       <div *ngIf="proposicao?.destaques.length || proposicao?.interesse[0]?.advocacy_link !== 'nan'">
