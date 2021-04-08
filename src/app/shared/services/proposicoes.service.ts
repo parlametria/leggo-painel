@@ -8,9 +8,8 @@ import { environment } from '../../../environments/environment';
 import { ProposicaoContagem } from '../models/proposicaoContagem.model';
 import { MaximaTemperaturaProposicao } from '../models/proposicoes/maximaTemperaturaProposicao.model';
 import { UltimaTemperaturaProposicao } from '../models/proposicoes/ultimaTemperaturaProposicao.model';
-import { UltimaPressaoProposicao } from '../models/proposicoes/ultimaPressaoProposicao.model';
 import { DataUltimoInsightProposicao } from '../models/proposicoes/dataUltimoInsightProposicao.model';
-import { Proposicao } from '../models/proposicao.model';
+import { Proposicao, LocalProposicao } from '../models/proposicao.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +18,8 @@ export class ProposicoesService {
 
   private proposicoesUrl = `${environment.baseUrl}/proposicoes`;
   private temperaturaUrl = `${environment.baseUrl}/temperatura`;
-  private pressaoUrl = `${environment.baseUrl}/pressao`;
   private insightUrl = `${environment.baseUrl}/anotacoes`;
+  private locaisUrl = `${environment.baseUrl}/locais`;
 
   constructor(private http: HttpClient) { }
 
@@ -44,6 +43,10 @@ export class ProposicoesService {
 
   getDataUltimoInsightProposicoes(interesse: string): Observable<DataUltimoInsightProposicao[]> {
     return this.http.get<DataUltimoInsightProposicao[]>(`${this.insightUrl}/ultima?interesse=${interesse}`);
+  }
+
+  getListaLocaisProposicoes(interesse: string): Observable<LocalProposicao[]> {
+    return this.http.get<LocalProposicao[]>(`${this.locaisUrl}?interesse=${interesse}`);
   }
 
 }

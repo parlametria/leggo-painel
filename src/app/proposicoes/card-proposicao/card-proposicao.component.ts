@@ -5,7 +5,7 @@ import {
   resumirFasesProgresso,
 } from '../../shared/functions/process_progresso.function';
 
-import { ProposicaoLista } from 'src/app/shared/models/proposicao.model';
+import { ProposicaoLista, LocalProposicao } from 'src/app/shared/models/proposicao.model';
 
 @Component({
   selector: 'app-card-proposicao',
@@ -73,6 +73,32 @@ export class CardProposicaoComponent implements OnInit {
       }
     }
     return classe;
+  }
+
+  getArtigoSiglaLocal(local: LocalProposicao) {
+    if (local.tipo_local === 'plenario') {
+        return 'no';
+    } else {
+      return 'na ';
+    }
+  }
+
+  getSiglaLocal(local: LocalProposicao) {
+    if (local.tipo_local === 'plenario') {
+        return 'Plenário';
+    } else {
+      return local.sigla_ultimo_local;
+    }
+  }
+
+  getNomeLocal(local: LocalProposicao) {
+    if (local.tipo_local === 'comissao_permanente' || local.tipo_local === 'comissao_especial') {
+      return local.nome_ultimo_local.replace(/Comissão (De|Do)/g, '');
+    } else if (local.tipo_local === 'plenario') {
+      return 'Plenário';
+    } else {
+      return local.nome_ultimo_local;
+    }
   }
 
   private ordenaProgresso(resumoProgresso) {
