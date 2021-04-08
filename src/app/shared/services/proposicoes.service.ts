@@ -9,7 +9,7 @@ import { ProposicaoContagem } from '../models/proposicaoContagem.model';
 import { MaximaTemperaturaProposicao } from '../models/proposicoes/maximaTemperaturaProposicao.model';
 import { UltimaTemperaturaProposicao } from '../models/proposicoes/ultimaTemperaturaProposicao.model';
 import { DataUltimoInsightProposicao } from '../models/proposicoes/dataUltimoInsightProposicao.model';
-import { LocaisProposicao, Proposicao } from '../models/proposicao.model';
+import { LocalProposicao, Proposicao } from '../models/proposicao.model';
 
 @Injectable({
   providedIn: 'root'
@@ -45,8 +45,8 @@ export class ProposicoesService {
     return this.http.get<DataUltimoInsightProposicao[]>(`${this.insightUrl}/ultima?interesse=${interesse}`);
   }
 
-  getListaLocaisProposicoes(interesse: string): Observable<LocaisProposicao[]> {
-    return this.http.get<LocaisProposicao[]>(`${this.locaisUrl}?interesse=${interesse}`);
+  getListaLocaisProposicoes(interesse: string): Observable<LocalProposicao[]> {
+    return this.http.get<LocalProposicao[]>(`${this.locaisUrl}?interesse=${interesse}`);
   }
 
 }

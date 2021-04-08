@@ -4,7 +4,7 @@ import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 
 import { ProposicoesService } from './proposicoes.service';
-import { ProposicaoLista } from '../models/proposicao.model';
+import { LocalProposicao, ProposicaoLista } from '../models/proposicao.model';
 import { PressaoService } from './pressao.service';
 import { ProgressoService } from './progresso.service';
 
@@ -24,6 +24,7 @@ export class ProposicoesListaService {
   readonly TEMA_PADRAO = 'todos';
 
   readonly STATUS_PADRAO = 'tramitando';
+  readonly TIPO_LOCAL_PADRAO = 'geral';
 
   private filtro = new BehaviorSubject<any>({});
 
@@ -164,13 +165,15 @@ export class ProposicoesListaService {
   private compareFilter(p: any, q: any) {
     return p.nome === q.nome &&
       p.status === q.status &&
-      p.tema === q.tema;
+      p.tema === q.tema &&
+      p.local === q.local;
   }
 
   private filter(proposicoes: ProposicaoLista[], filtro: any) {
     const nome = filtro.nome;
     const status = filtro.status;
     const tema = filtro.tema;
+    const local = filtro.local;
 
     return proposicoes.filter(p => {
       let filtered = true;
@@ -192,6 +195,11 @@ export class ProposicoesListaService {
       filtered =
         tema && filtered
           ? this.matchTema(p, tema)
+          : filtered;
+
+      filtered =
+        local && filtered
+          ? this.matchLocal(p.locaisProposicao, local)
           : filtered;
 
       return filtered;
@@ -245,6 +253,18 @@ export class ProposicoesListaService {
     }
 
     return check;
+  }
+
+  private matchLocal(localProp: LocalProposicao[], localFiltro: LocalProposicao) {
+    if (localFiltro.tipo_local === this.TIPO_LOCAL_PADRAO) {
+      return true;
+    }
+    if (localProp !== undefined && localFiltro !== undefined) {
+      const locaisFiltrados = localProp.filter(l => (l.sigla_ultimo_local === localFiltro.sigla_ultimo_local) &&
+      l.casa_ultimo_local === localFiltro.casa_ultimo_local);
+      return locaisFiltrados.length > 0;
+    }
+    return false;
   }
 
 }
