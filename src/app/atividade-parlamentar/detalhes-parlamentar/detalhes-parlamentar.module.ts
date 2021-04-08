@@ -14,6 +14,9 @@ import { RedesSociaisComponent } from './redes-sociais/redes-sociais.component';
 import { VisAtividadeTwitterComponent } from './vis-atividade-twitter/vis-atividade-twitter.component';
 import { DetalhesParlamentarRoutingModule } from './detalhes-parlamentar-routing.module';
 import { VisProposicoesComMaisTweetsComponent } from './vis-proposicoes-com-mais-tweets/vis-proposicoes-com-mais-tweets.component';
+import { VotacoesComponent } from './votacoes/votacoes.component';
+import { VisGovernismoComponent } from './vis-governismo/vis-governismo.component';
+import { VisDisciplinaComponent } from './vis-disciplina/vis-disciplina.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,10 @@ import { VisProposicoesComMaisTweetsComponent } from './vis-proposicoes-com-mais
     VisAtividadeParlamentarComponent,
     RedesSociaisComponent,
     VisAtividadeTwitterComponent,
-    VisProposicoesComMaisTweetsComponent
+    VisProposicoesComMaisTweetsComponent,
+    VotacoesComponent,
+    VisGovernismoComponent,
+    VisDisciplinaComponent
   ],
   imports: [
     CommonModule,
