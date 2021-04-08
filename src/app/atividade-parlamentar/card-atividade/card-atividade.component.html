@@ -128,50 +128,82 @@
     </div>
   </div>
   <div class="card-side col-sm-2">
-    <div class="mb-2">
-      <span
-        [ngbPopover]="popGovernismo"
-        [autoClose]="'outside'">
-        <app-progress
-          [label]="'Governismo'"
-          [barraClasse]="'bg-gray'"
-          [valor]="parlamentar.governismo"
-          [exibirLabel]="true"></app-progress>
-      </span>
-      <ng-template #popGovernismo>
-        <strong>Governismo</strong>
-        {{ parlamentar.governismo | number : '1.0-2' }}
-      </ng-template>
-    </div>
-    <div class="mb-2">
-      <span
-        [ngbPopover]="popDisciplina"
-        [autoClose]="'outside'">
-        <app-progress
-          [label]="'Disciplina'"
-          [barraClasse]="'bg-info'"
-          [valor]="parlamentar.disciplina"
-          [exibirLabel]="true"></app-progress>
-      </span>
-      <ng-template #popDisciplina>
-        <strong>Disciplina</strong>
-        {{ parlamentar.disciplina | number : '1.0-2' }}
-      </ng-template>
-    </div>
-    <div class="mb-2">
-      <span
-        [ngbPopover]="popPeso"
-        [autoClose]="'outside'">
-        <app-progress
-          [label]="'Peso'"
-          [barraClasse]="'bg-mediumgray'"
-          [valor]="parlamentar?.peso_politico"
-          [exibirLabel]="true"></app-progress>
-      </span>
-      <ng-template #popPeso>
-        <strong>Peso político</strong>
-        {{ parlamentar?.peso_politico | number : '1.0-2' }}
-      </ng-template>
+    <div class="row no-gutters">
+      <div class="col-11">
+        <div class="mb-2">
+          <span
+            [ngbPopover]="popGovernismo"
+            [autoClose]="'outside'">
+            <app-progress
+              [label]="'Governismo'"
+              [barraClasse]="'bg-gray'"
+              [valor]="parlamentar.governismo"
+              [exibirLabel]="true"></app-progress>
+          </span>
+          <ng-template #popGovernismo>
+            <strong>Governismo</strong>
+            {{ parlamentar.governismo | number : '1.0-2' }}
+          </ng-template>
+        </div>
+        <div class="mb-2">
+          <span
+            *ngIf="parlamentar?.bancada_suficiente"
+            [ngbPopover]="popDisciplina"
+            [autoClose]="'outside'">
+            <app-progress
+              [label]="'Disciplina'"
+              [barraClasse]="'bg-info'"
+              [valor]="parlamentar.disciplina"
+              [exibirLabel]="true"></app-progress>
+          </span>
+          <ng-template #popDisciplina>
+            <strong>Disciplina</strong>
+            {{ parlamentar.disciplina | number : '1.0-2' }}
+          </ng-template>
+          <div *ngIf="!parlamentar?.bancada_suficiente">
+            <app-progress
+              [label]="'--'"
+              [barraClasse]="'bg-info'"
+              [valor]="0"
+              [exibirLabel]="true"></app-progress>
+          </div>
+        </div>
+        <div class="mb-2">
+          <span
+            [ngbPopover]="popPeso"
+            [autoClose]="'outside'">
+            <app-progress
+              [label]="'Peso'"
+              [barraClasse]="'bg-mediumgray'"
+              [valor]="parlamentar?.peso_politico"
+              [exibirLabel]="true"></app-progress>
+          </span>
+          <ng-template #popPeso>
+            <strong>Peso político</strong>
+            {{ parlamentar?.peso_politico | number : '1.0-2' }}
+          </ng-template>
+        </div>
+      </div>
+      <div class="col-1 pl-1">
+        <div class="card-side-icons">
+          <!-- <span class="icon-ajuda"></span> -->
+          &nbsp;
+        </div>
+        <div class="card-side-icons">
+          <span
+            *ngIf="!parlamentar?.bancada_suficiente"
+            [ngbPopover]="popSemDisciplina"
+            [autoClose]="'outside'">
+            <span class="icon-ajuda"></span>
+            <ng-template #popSemDisciplina>Partido sem membros suficientes</ng-template>
+          </span>
+          &nbsp;
+        </div>
+        <div>
+          <!-- <span class="icon-ajuda"></span> -->
+          &nbsp;
+        </div>
+      </div>
     </div>
   </div>
 </div>
