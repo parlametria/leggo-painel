@@ -147,6 +147,16 @@
     <li class="nav-item">
       <a
         class="nav-link"
+        [routerLink]="['./votacoes']"
+        [routerLinkActive]="'active'"
+        queryParamsHandling="merge">
+        <span class="icon-grafo"></span>
+        Votações
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
         [routerLink]="['./peso']"
         [routerLinkActive]="'active'"
         queryParamsHandling="merge">

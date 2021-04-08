@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DetalhesParlamentarComponent } from './detalhes-parlamentar.component';
 import { PesoPoliticoComponent, PapeisImportantesComponent, AtividadeNoCongressoComponent } from './';
 import { RedesSociaisComponent } from './redes-sociais/redes-sociais.component';
+import { VotacoesComponent } from './votacoes/votacoes.component';
 
 const routes: Routes = [
   {
@@ -16,16 +17,20 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
-        path: 'peso',
-        component: PesoPoliticoComponent,
+        path: 'atividades',
+        component: AtividadeNoCongressoComponent,
       },
       {
         path: 'papeis',
         component: PapeisImportantesComponent,
       },
       {
-        path: 'atividades',
-        component: AtividadeNoCongressoComponent,
+        path: 'votacoes',
+        component: VotacoesComponent,
+      },
+      {
+        path: 'peso',
+        component: PesoPoliticoComponent,
       },
       {
         path: 'redes-sociais',
