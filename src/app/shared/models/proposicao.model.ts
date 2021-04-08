@@ -38,7 +38,7 @@ interface EtapasProposicao {
   status: string;
 }
 
-export interface LocaisProposicao {
+export interface LocalProposicao {
   casa_ultimo_local: string;
   data_ultima_situacao: Date;
   nome_ultimo_local: string;
@@ -70,7 +70,7 @@ export interface ProposicaoLista {
   destaques: any;
   max_temperatura_interesse: number;
   isDestaque: boolean;
-  locaisProposicao: LocaisProposicao[];
+  locaisProposicao: LocalProposicao[];
 }
 
 export interface TramitacaoProposicao {
