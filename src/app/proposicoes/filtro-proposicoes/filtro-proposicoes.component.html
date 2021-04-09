@@ -17,7 +17,8 @@
     <span>em &nbsp;</span>
     <select
       class="app-seletor"
-      #mySelector
+      [style.width]="'200px'"
+      #selectorLocal
       (change)="aplicarFiltro()"
       [(ngModel)]="localSelecionado">
       <option
@@ -40,7 +41,7 @@
     <span>ordenadas por &nbsp;</span>
     <select
       class="app-seletor"
-      #mySelector
+      #selectorOrderBy
       (change)="onChangeOrderBy($event.target.value)"
       [(ngModel)]="orderBySelecionado">
       <option
@@ -53,7 +54,8 @@
     <span>em &nbsp;</span>
     <select
       class="app-seletor"
-      #mySelector
+      [style.width]="'300px'"
+      #selectorTema
       (change)="onChangeTema($event.target.value)"
       [(ngModel)]="temaSelecionado">
       <option
