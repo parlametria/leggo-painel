@@ -14,6 +14,29 @@
         {{ s.statusName }}
       </option>
     </select>
+    <span>em &nbsp;</span>
+    <select
+      class="app-seletor"
+      #mySelector
+      (change)="aplicarFiltro()"
+      [(ngModel)]="localSelecionado">
+      <option
+        *ngFor="let l of locaisBusca"
+        [ngValue]="l">
+        <span *ngIf="l.tipo_local === 'comissao_permanente'">
+          {{ l.sigla_ultimo_local }} - {{ l.nome_ultimo_local }}
+        </span>
+        <span *ngIf="l.tipo_local === 'comissao_especial'">
+          {{ l.sigla_ultimo_local }} - Comissão Especial
+        </span>
+        <span *ngIf="l.tipo_local === 'geral'">{{ l.sigla_ultimo_local }}</span>
+        <span *ngIf="!['comissao_permanente', 'comissao_especial', 'geral'].includes(l.tipo_local)">
+          {{ l.sigla_ultimo_local }} -
+          <span *ngIf="l.casa_ultimo_local === 'camara'">Câmara</span>
+          <span *ngIf="l.casa_ultimo_local === 'senado'">Senado</span>
+        </span>
+      </option>
+    </select>
     <span>ordenadas por &nbsp;</span>
     <select
       class="app-seletor"
@@ -37,8 +60,8 @@
         *ngFor="let t of temasBusca"
         [value]="t.tema_slug"
         [selected]="t.tema_slug === temaSelecionado">
-      {{ t.tema.toLowerCase() }}
-    </option>
+        {{ t.tema.toLowerCase() }}
+      </option>
     </select>
   </div>
   <div class="app-content">
