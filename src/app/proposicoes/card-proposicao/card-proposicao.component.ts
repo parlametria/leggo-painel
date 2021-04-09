@@ -92,12 +92,15 @@ export class CardProposicaoComponent implements OnInit {
   }
 
   getNomeLocal(local: LocalProposicao) {
-    if (local.tipo_local === 'comissao_permanente' || local.tipo_local === 'comissao_especial') {
+    if (local.tipo_local === 'comissao_permanente') {
       return local.nome_ultimo_local.replace(/Comissão (De|Do)/g, '');
+    } else if (local.tipo_local === 'comissao_especial') {
+      return 'Comissão especial';
     } else if (local.tipo_local === 'plenario') {
       return 'Plenário';
     } else {
-      return local.nome_ultimo_local;
+      const casa = (local.casa_ultimo_local === 'camara') ? 'Câmara' : 'Senado';
+      return local.sigla_ultimo_local + ' - ' + casa;
     }
   }
 
