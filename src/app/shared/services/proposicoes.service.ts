@@ -9,7 +9,7 @@ import { ProposicaoContagem } from '../models/proposicaoContagem.model';
 import { MaximaTemperaturaProposicao } from '../models/proposicoes/maximaTemperaturaProposicao.model';
 import { UltimaTemperaturaProposicao } from '../models/proposicoes/ultimaTemperaturaProposicao.model';
 import { DataUltimoInsightProposicao } from '../models/proposicoes/dataUltimoInsightProposicao.model';
-import { LocalProposicao, Proposicao } from '../models/proposicao.model';
+import { Proposicao, LocalProposicao } from '../models/proposicao.model';
 
 @Injectable({
   providedIn: 'root'
