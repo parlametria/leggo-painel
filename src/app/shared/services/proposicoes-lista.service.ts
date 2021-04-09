@@ -106,8 +106,12 @@ export class ProposicoesListaService {
         const proposicoesLista = proposicoes.map(a => ({
           ultima_temperatura: this.getProperty(ultimaTemperatura.find(p => a.id_leggo === p.id_leggo),
             'ultima_temperatura'),
+          temperatura_quinze_dias: this.getProperty(ultimaTemperatura.find(p => a.id_leggo === p.id_leggo),
+            'temperatura_quinze_dias'),
           ultima_pressao: this.getProperty(ultimaPressao.find(p => a.id_leggo === p.id_leggo),
             'ultima_pressao'),
+          pressao_quinze_dias: this.getProperty(ultimaPressao.find(p => a.id_leggo === p.id_leggo),
+            'pressao_quinze_dias'),
           anotacao_data_ultima_modificacao: this.getProperty(dataUltimoInsight.find(p => a.id_leggo === p.id_leggo),
             'anotacao_data_ultima_modificacao'),
           resumo_progresso: progressos[a.id_leggo],
