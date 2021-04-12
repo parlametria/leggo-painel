@@ -92,6 +92,9 @@ export class VisDisciplinaComponent implements OnInit, OnChanges {
   }
 
   private atualizarVis(g, parlamentares) {
+    // remove parlamentares sem bancada suficiente
+    parlamentares = parlamentares.filter(p => p.bancada_suficiente);
+
     // ajusta altura do grafico
     let height = this.height;
     if (parlamentares.length < 100) {
