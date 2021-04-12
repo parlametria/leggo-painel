@@ -1,10 +1,12 @@
-import { ChangeDetectorRef, AfterContentInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, AfterContentInit, Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { Params, Router, ActivatedRoute } from '@angular/router';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { TemasService } from '../../shared/services/temas.service';
+import { ProposicoesService } from 'src/app/shared/services/proposicoes.service';
+import { LocalProposicao } from 'src/app/shared/models/proposicao.model';
 
 @Component({
   selector: 'app-filtro-proposicoes',
@@ -12,7 +14,7 @@ import { TemasService } from '../../shared/services/temas.service';
   styleUrls: ['./filtro-proposicoes.component.scss']
 })
 
-export class FiltroProposicoesComponent implements OnInit, AfterContentInit {
+export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnDestroy {
 
   @Input() interesse: string;
   @Input() numeroProposicoes: number;
@@ -24,8 +26,16 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit {
   readonly ORDER_BY_PADRAO = 'maior-temperatura';
   readonly STATUS_PADRAO = 'tramitando';
   public temaSelecionado: string;
+  public localSelecionado: LocalProposicao;
 
   temasBusca: any[] = [{ tema: 'todos os temas', tema_slug: 'todos' }, { tema: 'destaque', tema_slug: 'destaque' }];
+
+  locaisBusca: any[] = [{
+    casa_ultimo_local: 'geral',
+    nome_ultimo_local: 'geral',
+    sigla_ultimo_local: 'qualquer local',
+    tipo_local: 'geral'
+  }];
 
   public orderBySelecionado: string;
   orderBy: any[] = [
@@ -47,17 +57,19 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit {
 
   constructor(
     private temasService: TemasService,
+    private proposicoesService: ProposicoesService,
     private activatedRoute: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
-    private router: Router) {}
+    private router: Router) { }
 
   ngOnInit(): void {
     this.getTemas();
+    this.getLocais();
     this.activatedRoute.queryParams
       .subscribe(params => {
         this.orderBySelecionado = params.orderByProp;
         this.orderBySelecionado === undefined ?
-        this.orderBySelecionado = this.ORDER_BY_PADRAO : this.orderBySelecionado = this.orderBySelecionado;
+          this.orderBySelecionado = this.ORDER_BY_PADRAO : this.orderBySelecionado = this.orderBySelecionado;
         this.temaSelecionado = params.tema;
         this.temaSelecionado === undefined ?
           this.temaSelecionado = this.FILTRO_PADRAO : this.temaSelecionado = this.temaSelecionado;
@@ -65,11 +77,30 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit {
         this.statusSelecionado === undefined ?
           this.statusSelecionado = this.STATUS_PADRAO : this.statusSelecionado = this.statusSelecionado;
       });
+    this.localSelecionado = this.locaisBusca[0];
     this.aplicarFiltro();
   }
 
   ngAfterContentInit() {
     this.cdRef.detectChanges();
+  }
+
+  getLocais() {
+    this.proposicoesService.getListaLocaisProposicoes(this.interesse)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(locais => {
+        locais.map(l => {
+          if (l.nome_ultimo_local !== null) {
+            l.nome_ultimo_local = l.nome_ultimo_local.replace(/Comissão (De|Do)/g, '');
+          }
+        });
+
+        locais.sort((a, b) => {
+          return ('' + a.sigla_ultimo_local).localeCompare(b.sigla_ultimo_local);
+        });
+
+        locais.forEach(item => this.locaisBusca.push(item));
+      });
   }
 
   getTemas() {
@@ -84,7 +115,8 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit {
     this.filtro = {
       nome: this.proposicaoPesquisada,
       status: this.statusSelecionado,
-      tema: this.temaSelecionado
+      tema: this.temaSelecionado,
+      local: this.localSelecionado
     };
     this.filterChange.emit(this.filtro);
   }
@@ -124,6 +156,11 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit {
     this.router.navigate([], { queryParams });
 
     this.aplicarFiltro();
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
 }
