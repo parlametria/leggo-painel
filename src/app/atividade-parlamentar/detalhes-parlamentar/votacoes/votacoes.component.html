@@ -33,15 +33,24 @@
 
   <h3 class="titulo-sessao">Disciplina partidária</h3>
 
-  <p>
+  <p *ngIf="bancadaSuficiente">
     O quanto <strong>{{ parlamentarInfo?.nome_autor }}</strong> seguiu as orientações do
     <strong>{{ parlamentarInfo?.partido }}</strong> em votações nominais.
   </p>
+
+  <p *ngIf="!bancadaSuficiente">
+    Não foi possível calcular o quanto <strong>{{ parlamentarInfo?.nome_autor }}</strong> seguiu as orientações do
+    <strong>{{ parlamentarInfo?.partido }}</strong> pois a bancada de seu partido é insuficiente.
+  </p>
+
   <app-vis-disciplina
+    [hidden]="!bancadaSuficiente"
     [idParlamentarDestaque]="idParlamentarDestaque"
     [parlamentares]="parlamentaresDisciplina"></app-vis-disciplina>
 
-  <p class="vis-rodape">
+  <p
+    *ngIf="bancadaSuficiente"
+    class="vis-rodape">
     Esse/a parlamentar participou de <strong>{{ votacoesSumarizadas?.num_votacoes_parlamentar_disciplina }}</strong>
     das <strong>{{ votacoesSumarizadas?.num_votacoes_totais_disciplina }}</strong> votações consideradas.
     A disciplina partidária é a frequência com que os parlamentares seguem a orientação de seus partidos em votações nominais.
