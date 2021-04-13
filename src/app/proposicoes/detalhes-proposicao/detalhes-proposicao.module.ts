@@ -16,6 +16,7 @@ import { ProgressoComponent } from './progresso/progresso.component';
 import { AtuacaoParlamentarComponent } from './atuacao-parlamentar/atuacao-parlamentar.component';
 import { EventoTramitacaoComponent } from './evento-tramitacao/evento-tramitacao.component';
 import { EmentasComponent } from './ementas/ementas.component';
+import { ListaLocaisAtuaisComponent } from './lista-locais-atuais/lista-locais-atuais.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { EmentasComponent } from './ementas/ementas.component';
     ProgressoComponent,
     AtuacaoParlamentarComponent,
     EventoTramitacaoComponent,
-    EmentasComponent
+    EmentasComponent,
+    ListaLocaisAtuaisComponent
   ],
   imports: [
     CommonModule,
