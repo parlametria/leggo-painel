@@ -28,6 +28,7 @@ export class VotacoesComponent implements OnInit, OnDestroy {
   parlamentaresGovernismo: Entidade[];
   parlamentaresDisciplina: Entidade[];
   casaAutor: string;
+  bancadaSuficiente = false;
 
   idAtor: string;
   interesse: string;
@@ -75,6 +76,8 @@ export class VotacoesComponent implements OnInit, OnDestroy {
         this.formataData(votacoes);
         this.parlamentarInfo = ator;
         this.parlamentares = parlamentares.filter(p => p.casa_autor === this.parlamentarInfo.casa_autor);
+        const parlamentarDestaque = this.parlamentares.filter(p => +p.id_autor_parlametria === this.idParlamentarDestaque)[0];
+        this.bancadaSuficiente = parlamentarDestaque.bancada_suficiente;
         this.parlamentaresDisciplina = [...this.parlamentares];
         this.parlamentaresGovernismo = [...this.parlamentares];
         this.isLoading.next(false);
