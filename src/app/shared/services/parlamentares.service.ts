@@ -63,11 +63,18 @@ export class ParlamentaresService {
             });
           } else if (this.orderBy.value === 'maior-governismo') {
             parlamentares.sort((a, b) => {
-              return this.orderByDesc(a.governismo, b.governismo, a, b);
+              // parlamentares sem governismo calculado devem ficar no final da lista
+              const aGovernismo = a.governismo === null ? -1 : a.governismo;
+              const bGovernismo = b.governismo === null ? -1 : b.governismo;
+
+              return this.orderByDesc(aGovernismo, bGovernismo, a, b);
             });
           } else if (this.orderBy.value === 'menor-governismo') {
             parlamentares.sort((b, a) => {
-              return this.orderByDesc(a.governismo, b.governismo, a, b);
+              // parlamentares sem governismo calculado devem ficar no final da lista
+              const aGovernismo = a.governismo === null ? 2 : a.governismo;
+              const bGovernismo = b.governismo === null ? 2 : b.governismo;
+              return this.orderByDesc(aGovernismo, bGovernismo, a, b);
             });
           } else if (this.orderBy.value === 'maior-disciplina') {
             parlamentares.sort((a, b) => {
@@ -185,7 +192,6 @@ export class ParlamentaresService {
           p.atividade_twitter = this.normalizarAtividade(p.atividade_twitter, Math.min(...tweets), Math.max(...tweets));
           p.governismo = this.normalizarAtividade(p.governismo, Math.min(...valoresGovernismo), Math.max(...valoresGovernismo));
         });
-
         this.parlamentares.next(parlamentares);
       },
         error => console.log(error)
@@ -195,6 +201,9 @@ export class ParlamentaresService {
   }
 
   private normalizarAtividade(metrica: number, min: number, max: number): number {
+    if (metrica === null) {
+      return metrica;
+    }
     return (metrica - min) / (max - min);
   }
 

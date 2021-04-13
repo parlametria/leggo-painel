@@ -132,6 +132,7 @@
       <div class="col-11">
         <div class="mb-2">
           <span
+            *ngIf="parlamentar?.governismo !== null"
             [ngbPopover]="popGovernismo"
             [autoClose]="'outside'">
             <app-progress
@@ -144,6 +145,13 @@
             <strong>Governismo</strong>
             {{ parlamentar.governismo * 10 | number : '1.0-2' }}
           </ng-template>
+          <div *ngIf="parlamentar?.governismo === null">
+            <app-progress
+              [label]="'--'"
+              [barraClasse]="'bg-info'"
+              [valor]="0"
+              [exibirLabel]="true"></app-progress>
+          </div>
         </div>
         <div class="mb-2">
           <span
@@ -186,8 +194,16 @@
       </div>
       <div class="col-1 pl-1">
         <div class="card-side-icons">
-          <!-- <span class="icon-ajuda"></span> -->
-          &nbsp;
+          <span
+            *ngIf="parlamentar?.governismo === null"
+            [ngbPopover]="popSemGovernismo"
+            [autoClose]="'outside'">
+            <span class="icon-ajuda"></span>
+            <ng-template #popSemGovernismo>
+              <span *ngIf="parlamentar?.disciplina === null">Sem votos suficientes</span>
+            </ng-template>
+          </span>
+          <span *ngIf="!parlamentar?.bancada_suficiente || parlamentar?.disciplina === null">&nbsp;</span>
         </div>
         <div class="card-side-icons">
           <span
