@@ -147,7 +147,7 @@
         </div>
         <div class="mb-2">
           <span
-            *ngIf="parlamentar?.bancada_suficiente"
+            *ngIf="parlamentar?.bancada_suficiente && parlamentar?.disciplina !== null"
             [ngbPopover]="popDisciplina"
             [autoClose]="'outside'">
             <app-progress
@@ -160,7 +160,7 @@
             <strong>Disciplina</strong>
             {{ parlamentar.disciplina * 100 | number : '1.0-2' }}%
           </ng-template>
-          <div *ngIf="!parlamentar?.bancada_suficiente">
+          <div *ngIf="!parlamentar?.bancada_suficiente || parlamentar?.disciplina === null">
             <app-progress
               [label]="'--'"
               [barraClasse]="'bg-info'"
@@ -191,11 +191,14 @@
         </div>
         <div class="card-side-icons">
           <span
-            *ngIf="!parlamentar?.bancada_suficiente"
+            *ngIf="!parlamentar?.bancada_suficiente || parlamentar?.disciplina === null"
             [ngbPopover]="popSemDisciplina"
             [autoClose]="'outside'">
             <span class="icon-ajuda"></span>
-            <ng-template #popSemDisciplina>Partido sem membros suficientes</ng-template>
+            <ng-template #popSemDisciplina>
+              <span *ngIf="!parlamentar?.bancada_suficiente && parlamentar?.disciplina !== null">Partido sem membros suficientes</span>
+              <span *ngIf="parlamentar?.disciplina === null">Sem votos suficientes</span>
+            </ng-template>
           </span>
           &nbsp;
         </div>

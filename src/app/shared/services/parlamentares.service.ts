@@ -71,17 +71,29 @@ export class ParlamentaresService {
             });
           } else if (this.orderBy.value === 'maior-disciplina') {
             parlamentares.sort((a, b) => {
-              // parlamentares sem disciplina calculada deve ficar no final da lista
-              const aDisciplina = !a.bancada_suficiente || a.bancada_suficiente === null ? -1 : a.disciplina;
-              const bDisciplina = !b.bancada_suficiente || b.bancada_suficiente === null ? -1 : b.disciplina;
+              // parlamentares sem disciplina calculada devem ficar no final da lista
+              const aDisciplina = (
+                !a.bancada_suficiente ||
+                a.bancada_suficiente === null ||
+                a.disciplina === null) ? -1 : a.disciplina;
+              const bDisciplina = (
+                !b.bancada_suficiente ||
+                b.bancada_suficiente === null ||
+                b.disciplina === null) ? -1 : b.disciplina;
 
               return this.orderByDesc(aDisciplina, bDisciplina, a, b);
             });
           } else if (this.orderBy.value === 'menor-disciplina') {
             parlamentares.sort((b, a) => {
-              // parlamentares sem disciplina calculada deve ficar no final da lista
-              const aDisciplina = !a.bancada_suficiente || a.bancada_suficiente === null ? 2 : a.disciplina;
-              const bDisciplina = !b.bancada_suficiente || b.bancada_suficiente === null ? 2 : b.disciplina;
+              // parlamentares sem disciplina calculada devem ficar no final da lista
+              const aDisciplina = (
+                !a.bancada_suficiente ||
+                a.bancada_suficiente === null ||
+                a.disciplina === null) ? 2 : a.disciplina;
+              const bDisciplina = (
+                !b.bancada_suficiente ||
+                b.bancada_suficiente === null ||
+                b.disciplina === null) ? 2 : b.disciplina;
 
               return this.orderByDesc(aDisciplina, bDisciplina, a, b);
             });
