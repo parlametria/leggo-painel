@@ -200,7 +200,7 @@
             [autoClose]="'outside'">
             <span class="icon-ajuda"></span>
             <ng-template #popSemGovernismo>
-              <span *ngIf="parlamentar?.disciplina === null">Sem votos suficientes</span>
+              <span *ngIf="parlamentar?.governismo === null">Sem votos suficientes</span>
             </ng-template>
           </span>
           <span *ngIf="!parlamentar?.bancada_suficiente || parlamentar?.disciplina === null">&nbsp;</span>
