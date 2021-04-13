@@ -55,6 +55,7 @@ export interface Proposicao {
   sigla_camara: string;
   sigla_senado: string;
   destaques: any;
+  locaisProposicao: LocalProposicao[];
 }
 
 export interface ProposicaoLista {
