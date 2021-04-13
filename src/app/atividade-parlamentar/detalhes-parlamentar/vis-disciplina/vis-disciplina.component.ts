@@ -103,11 +103,6 @@ export class VisDisciplinaComponent implements OnInit, OnChanges {
         (this.width + this.margin.left + this.margin.right) + ' ' + (height + this.margin.top + this.margin.bottom));
     }
 
-    const minDisciplina = d3.min(parlamentares, (d: any) => +d.disciplina);
-    const maxDisciplina = d3.max(parlamentares, (d: any) => +d.disciplina);
-    parlamentares.map(p => {
-      p.disciplina = this.normalizarDisciplina(p.disciplina, minDisciplina, maxDisciplina);
-    });
     const simulation = d3
       .forceSimulation(parlamentares)
       .force('x', d3.forceX((d: any) => this.x(d.disciplina)).strength(1))
@@ -199,10 +194,6 @@ export class VisDisciplinaComponent implements OnInit, OnChanges {
   private tooltipText(d): any {
     return `<p class="vis-tooltip-titulo"><strong>${d.nome_autor}</strong> ${d.partido}/${d.uf}</p>
     <p>Disciplina partidária: <strong>${format('.2%')(d.disciplina)}</strong></p>`;
-  }
-
-  private normalizarDisciplina(valor: number, minimo: number, maximo: number): number {
-    return (valor - minimo) / (maximo - minimo);
   }
 
   /* Verifica a categoria do parlamentar para a escala de cores
