@@ -93,6 +93,10 @@ export class VisGovernismoComponent implements OnInit, OnChanges {
   }
 
   private atualizarVis(g, parlamentares) {
+
+    // remove parlamentares sem governismo calculado
+    parlamentares = parlamentares.filter(p => p.governismo !== null);
+
     // ajusta altura do grafico
     let height = this.height;
     if (parlamentares.length < 100) {
@@ -199,6 +203,9 @@ export class VisGovernismoComponent implements OnInit, OnChanges {
   }
 
   private normalizarGovernismo(valor: number, minimo: number, maximo: number): number {
+    if (valor === null) {
+      return valor;
+    }
     return (valor - minimo) / (maximo - minimo) * 10;
   }
 
