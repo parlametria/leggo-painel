@@ -176,7 +176,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
             'date') ?? a.periodo),
           valorTemperatura: a.temperatura_recente,
           valorPressao: this.getProperty(pressao.find(p => a.periodo === p.date),
-            'trends_max_pressao_principal') ?? 0
+            'trends_max_pressao_principal') ?? null
         }));
       }
       temperaturaPressao.sort((a, b) => {
@@ -239,6 +239,9 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .text(`Maior temperatura`);
 
     const colorPressao = d3.scaleSequential(d3.interpolateOranges);
+    // Remove último elemento da série de pressão
+    const dadosPressao = [...dados];
+    dadosPressao.pop();
     this.gPressao.append('linearGradient')
       .attr('id', 'gradient-pressao')
       .attr('gradientUnits', 'userSpaceOnUse')
@@ -252,7 +255,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('offset', d => d)
       .attr('stop-color', colorPressao.interpolator());
     this.gPressao.append('path')
-      .datum(dados)
+      .datum(dadosPressao)
       .attr('fill', 'none')
       .attr('stroke', 'url(\'#gradient-pressao\'')
       .attr('stroke-width', 3)
@@ -267,6 +270,19 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('transform', 'translate(0, -10)')
       .attr('font-size', '0.8rem')
       .text(`Maior pressão`);
+
+    // Linha tracejada pra semana faltante de pressão
+    const dadosFaltando = [];
+    dadosFaltando.push(dados[dados.length - 2]);
+    dadosFaltando.push(dados[dados.length - 1]);
+    this.gPressao.append('line')
+      .attr('x1', this.x(dadosFaltando[0].data))
+      .attr('y1', this.yPressao(dadosFaltando[0].valorPressao))
+      .attr('x2', this.x(dadosFaltando[1].data))
+      .attr('y2', this.yPressao(dadosFaltando[0].valorPressao))
+      .style('stroke', '#cccccc')
+      .style('stroke-width', 3)
+      .style('stroke-dasharray', 4);
 
     this.gTemperatura.append('g')
       .attr('transform', `translate(0, ${this.heightGrafico + 5})`)
@@ -341,7 +357,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     markerPressao
       .style('display', null)
       .attr('cx', this.x(dados[dados.length - 1].data))
-      .attr('cy', this.yPressao(dados[dados.length - 1].valorPressao));
+      .attr('cy', this.yPressao(dados[dados.length - 2].valorPressao));
     bar
       .style('display', null)
       .attr('transform', `translate(${this.x(dados[dados.length - 1].data)}, 0)`);
@@ -355,10 +371,17 @@ export class VisTemperaturaPressaoComponent implements OnInit {
         .style('display', null)
         .attr('cx', this.x(dados[i - 1].data))
         .attr('cy', this.yTemperatura(dados[i - 1].valorTemperatura));
-      markerPressao
-        .style('display', null)
-        .attr('cx', this.x(dados[i - 1].data))
-        .attr('cy', this.yPressao(dados[i - 1].valorPressao));
+      if (dados[i - 1].valorPressao !== null) {
+        markerPressao
+          .style('display', null)
+          .attr('cx', this.x(dados[i - 1].data))
+          .attr('cy', this.yPressao(dados[i - 1].valorPressao));
+      } else {
+        markerPressao
+          .style('display', null)
+          .attr('cx', this.x(dados[i - 1].data))
+          .attr('cy', this.yPressao(dados[i - 2].valorPressao));
+      }
       bar
         .style('display', null)
         .attr('transform', `translate(${this.x(dados[i - 1].data)}, 0)`);
