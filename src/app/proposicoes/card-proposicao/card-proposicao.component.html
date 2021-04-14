@@ -40,7 +40,7 @@
           class="badge badge-color-white bg-temperatura badge-em-alta">
           <span 
             class="icon-em-alta"
-            *ngIf="proposicao?.ultima_temperatura > proposicao?.temperatura_quinze_dias"></span>
+            *ngIf="proposicao?.temperatura_quinze_dias < proposicao?.ultima_temperatura"></span>
         </div>
       </div>
     </div>
@@ -60,7 +60,7 @@
           class="badge badge-color-white bg-pressao badge-em-alta">
           <span 
             class="icon-em-alta"
-            *ngIf="proposicao?.ultima_pressao > proposicao?.pressao_quinze_dias"></span>
+            *ngIf="proposicao?.pressao_quinze_dias < proposicao?.ultima_pressao"></span>
         </div>
       </div>
     </div>
