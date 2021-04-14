@@ -1,0 +1,11 @@
+<ol class="proposicao-locais"
+  *ngIf="locais">
+  <li
+    class="text-muted"
+    *ngFor="let local of locais">
+      Encontra-se {{ getArtigoSiglaLocal(local) }}
+      <strong>{{ getNomeLocal(local) }}</strong>
+      desde
+      {{ local.data_ultima_situacao | date:'dd/MM/yyyy' }}
+  </li>
+</ol>

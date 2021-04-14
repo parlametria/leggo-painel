@@ -92,6 +92,9 @@ export class VisDisciplinaComponent implements OnInit, OnChanges {
   }
 
   private atualizarVis(g, parlamentares) {
+    // remove parlamentares sem bancada suficiente e sem disciplina calculada
+    parlamentares = parlamentares.filter(p => p.bancada_suficiente && p.disciplina !== null);
+
     // ajusta altura do grafico
     let height = this.height;
     if (parlamentares.length < 100) {
@@ -100,11 +103,6 @@ export class VisDisciplinaComponent implements OnInit, OnChanges {
         (this.width + this.margin.left + this.margin.right) + ' ' + (height + this.margin.top + this.margin.bottom));
     }
 
-    const minDisciplina = d3.min(parlamentares, (d: any) => +d.disciplina);
-    const maxDisciplina = d3.max(parlamentares, (d: any) => +d.disciplina);
-    parlamentares.map(p => {
-      p.disciplina = this.normalizarDisciplina(p.disciplina, minDisciplina, maxDisciplina);
-    });
     const simulation = d3
       .forceSimulation(parlamentares)
       .force('x', d3.forceX((d: any) => this.x(d.disciplina)).strength(1))
@@ -178,19 +176,21 @@ export class VisDisciplinaComponent implements OnInit, OnChanges {
       })
       .on('mouseout', () => tooltip.style('visibility', 'hidden'));
 
-    nodes.append('circle')
-      .attr('class', 'circle')
-      .attr('tittle', parlamentarDestaque.id_autor_parlametria)
-      .attr('r', this.r)
-      .attr('cx', parlamentarDestaque.x)
-      .attr('cy', parlamentarDestaque.y)
-      .attr('fill', this.cores('2'))
-      .attr('stroke', 'black')
-      .attr('stroke-width', 2)
-      .attr('opacity', 1)
-      .on('mouseover', () => tooltip.style('visibility', 'visible').html(this.tooltipText(parlamentarDestaque)))
-      .on('mousemove', () => tooltip.style('top', (event.pageY - 10) + 'px').style('left', (event.pageX + 10) + 'px'))
-      .on('mouseout', () => tooltip.style('visibility', 'hidden'));
+    if (parlamentarDestaque) {
+      nodes.append('circle')
+        .attr('class', 'circle')
+        .attr('tittle', parlamentarDestaque.id_autor_parlametria)
+        .attr('r', this.r)
+        .attr('cx', parlamentarDestaque.x)
+        .attr('cy', parlamentarDestaque.y)
+        .attr('fill', this.cores('2'))
+        .attr('stroke', 'black')
+        .attr('stroke-width', 2)
+        .attr('opacity', 1)
+        .on('mouseover', () => tooltip.style('visibility', 'visible').html(this.tooltipText(parlamentarDestaque)))
+        .on('mousemove', () => tooltip.style('top', (event.pageY - 10) + 'px').style('left', (event.pageX + 10) + 'px'))
+        .on('mouseout', () => tooltip.style('visibility', 'hidden'));
+    }
   }
 
   private tooltipText(d): any {
@@ -198,16 +198,12 @@ export class VisDisciplinaComponent implements OnInit, OnChanges {
     <p>Disciplina partidária: <strong>${format('.2%')(d.disciplina)}</strong></p>`;
   }
 
-  private normalizarDisciplina(valor: number, minimo: number, maximo: number): number {
-    return (valor - minimo) / (maximo - minimo);
-  }
-
   /* Verifica a categoria do parlamentar para a escala de cores
    * 0: do mesmo partido
    * 1: todo o resto
    */
   private categorizador(parlamentar: Entidade, destaque: Entidade): string {
-    if (parlamentar.partido === destaque.partido) {
+    if (destaque && parlamentar.partido === destaque.partido) {
       return '0';
     }
     return '1';

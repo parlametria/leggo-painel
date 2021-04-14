@@ -63,25 +63,44 @@ export class ParlamentaresService {
             });
           } else if (this.orderBy.value === 'maior-governismo') {
             parlamentares.sort((a, b) => {
-              return this.orderByDesc(a.governismo, b.governismo, a, b);
+              // parlamentares sem governismo calculado devem ficar no final da lista
+              const aGovernismo = a.governismo === null ? -1 : a.governismo;
+              const bGovernismo = b.governismo === null ? -1 : b.governismo;
+
+              return this.orderByDesc(aGovernismo, bGovernismo, a, b);
             });
           } else if (this.orderBy.value === 'menor-governismo') {
             parlamentares.sort((b, a) => {
-              return this.orderByDesc(a.governismo, b.governismo, a, b);
+              // parlamentares sem governismo calculado devem ficar no final da lista
+              const aGovernismo = a.governismo === null ? 2 : a.governismo;
+              const bGovernismo = b.governismo === null ? 2 : b.governismo;
+              return this.orderByDesc(aGovernismo, bGovernismo, a, b);
             });
           } else if (this.orderBy.value === 'maior-disciplina') {
             parlamentares.sort((a, b) => {
-              // parlamentares sem disciplina calculada deve ficar no final da lista
-              const aDisciplina = !a.bancada_suficiente || a.bancada_suficiente === null ? -1 : a.disciplina;
-              const bDisciplina = !b.bancada_suficiente || b.bancada_suficiente === null ? -1 : b.disciplina;
+              // parlamentares sem disciplina calculada devem ficar no final da lista
+              const aDisciplina = (
+                !a.bancada_suficiente ||
+                a.bancada_suficiente === null ||
+                a.disciplina === null) ? -1 : a.disciplina;
+              const bDisciplina = (
+                !b.bancada_suficiente ||
+                b.bancada_suficiente === null ||
+                b.disciplina === null) ? -1 : b.disciplina;
 
               return this.orderByDesc(aDisciplina, bDisciplina, a, b);
             });
           } else if (this.orderBy.value === 'menor-disciplina') {
             parlamentares.sort((b, a) => {
-              // parlamentares sem disciplina calculada deve ficar no final da lista
-              const aDisciplina = !a.bancada_suficiente || a.bancada_suficiente === null ? 2 : a.disciplina;
-              const bDisciplina = !b.bancada_suficiente || b.bancada_suficiente === null ? 2 : b.disciplina;
+              // parlamentares sem disciplina calculada devem ficar no final da lista
+              const aDisciplina = (
+                !a.bancada_suficiente ||
+                a.bancada_suficiente === null ||
+                a.disciplina === null) ? 2 : a.disciplina;
+              const bDisciplina = (
+                !b.bancada_suficiente ||
+                b.bancada_suficiente === null ||
+                b.disciplina === null) ? 2 : b.disciplina;
 
               return this.orderByDesc(aDisciplina, bDisciplina, a, b);
             });
@@ -173,7 +192,6 @@ export class ParlamentaresService {
           p.atividade_twitter = this.normalizarAtividade(p.atividade_twitter, Math.min(...tweets), Math.max(...tweets));
           p.governismo = this.normalizarAtividade(p.governismo, Math.min(...valoresGovernismo), Math.max(...valoresGovernismo));
         });
-
         this.parlamentares.next(parlamentares);
       },
         error => console.log(error)
@@ -183,6 +201,9 @@ export class ParlamentaresService {
   }
 
   private normalizarAtividade(metrica: number, min: number, max: number): number {
+    if (metrica === null) {
+      return metrica;
+    }
     return (metrica - min) / (max - min);
   }
 

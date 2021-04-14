@@ -38,6 +38,14 @@ interface EtapasProposicao {
   status: string;
 }
 
+export interface LocalProposicao {
+  casa_ultimo_local: string;
+  data_ultima_situacao: Date;
+  nome_ultimo_local: string;
+  sigla_ultimo_local: string;
+  tipo_local: string;
+}
+
 export interface Proposicao {
   id: number;
   interesse: InteresseProposicao[];
@@ -47,6 +55,7 @@ export interface Proposicao {
   sigla_camara: string;
   sigla_senado: string;
   destaques: any;
+  locaisProposicao: LocalProposicao[];
 }
 
 export interface ProposicaoLista {
@@ -62,6 +71,7 @@ export interface ProposicaoLista {
   destaques: any;
   max_temperatura_interesse: number;
   isDestaque: boolean;
+  locaisProposicao: LocalProposicao[];
 }
 
 export interface TramitacaoProposicao {
