@@ -322,25 +322,6 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('stroke', '#7f2704')
       .attr('stroke-width', 3);
 
-    // const tooltipTemperatura = this.svg.append('foreignObject')
-    //   .attr('x', 15)
-    //   .attr('y', 40)
-    //   .attr('width', 200)
-    //   .attr('height', 100)
-    //   .style('display', 'none');
-    // const tooltipTemperaturaContent = tooltipTemperatura.append('xhtml:div')
-    //   .attr('class', 'vis-tooltip');
-    // const tooltipTemperaturaBody = tooltipTemperaturaContent.append('p');
-    // const tooltipPressao = this.svg.append('foreignObject')
-    //   .attr('x', 15)
-    //   .attr('y', 40)
-    //   .attr('width', 200)
-    //   .attr('height', 100)
-    //   .style('display', 'none');
-    // const tooltipPressaoContent = tooltipPressao.append('xhtml:div')
-    //   .attr('class', 'vis-tooltip');
-    // const tooltipPressaoBody = tooltipPressaoContent.append('p');
-
     const mouseArea = this.svg.append('g')
       .append('rect')
       .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
@@ -385,31 +366,9 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       bar
         .style('display', null)
         .attr('transform', `translate(${this.x(dados[i - 1].data)}, 0)`);
-      // tooltipTemperaturaBody.html(`<strong class="color-temperatura">${dados[i - 1].valorTemperatura}</strong> de temperatura`);
-      // tooltipPressaoBody.html(`<strong class="color-pressao">${dados[i - 1].valorPressao}</strong> de pressão`);
-      // let xTooltip = this.x(dados[i - 1].data);
-      // if (xTooltip > 500) {
-      //   xTooltip = xTooltip - 230;
-      // }
-      // tooltipTemperatura
-      //   .style('display', null)
-      //   .attr('transform', `translate(${xTooltip + this.margin.left}, ${this.yTemperatura(dados[i - 1].valorTemperatura) - 22})`);
-      // tooltipPressao
-      //   .style('display', null)
-      //   .attr('transform',
-      //    `translate(${xTooltip + this.margin.left},
-      //    ${this.heightGrafico + (this.margin.top * 2) + this.yPressao(dados[i - 1].valorPressao) - 8})`);
 
       return null;
     });
-      // .on('mouseleave', () => {
-      //   bar.style('display', 'none');
-      //   markerPressao.style('display', 'none');
-      //   markerTemperatura.style('display', 'none');
-      //   // tooltipTemperatura.style('display', 'none');
-      //   // tooltipPressao.style('display', 'none');
-      //   this.dataOnChange.emit({});
-      // });
   }
 
   private getProperty(objeto: any, property: string) {
