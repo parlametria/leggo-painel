@@ -17,6 +17,8 @@ import { ParlamentarDetalhadoService } from './shared/services/parlamentar-detal
 import { EntidadeService } from './shared/services/entidade.service';
 import { ProposicoesListaService } from './shared/services/proposicoes-lista.service';
 import { InsightsService } from './shared/services/insights.service';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { InsightsService } from './shared/services/insights.service';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    SharedComponentsModule
+    SharedComponentsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     AtorService,
