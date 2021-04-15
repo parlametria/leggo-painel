@@ -33,8 +33,11 @@
       "name": "api",
       "urls": [
         "https://api.leggo.org.br/*",
+        "https://dev.api.leggo.org.br/*",
         "https://leggo-twitter.herokuapp.com/*",
-        "https://perfil.parlametria.org.br/api/*"
+        "https://leggo-twitter-validacao.herokuapp.com/*",
+        "https://perfil.parlametria.org.br/api/*",
+        "https://perfil-parlamentar-validacao.herokuapp.com/api/*"
       ],
       "cacheConfig": {
         "maxSize": 10,
