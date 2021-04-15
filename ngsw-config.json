@@ -27,5 +27,20 @@
         ]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "api",
+      "urls": [
+        "https://api.leggo.org.br/*",
+        "https://leggo-twitter.herokuapp.com/*",
+        "https://perfil.parlametria.org.br/api/*"
+      ],
+      "cacheConfig": {
+        "maxSize": 10,
+        "maxAge": "20m",
+        "strategy": "performance"
+      }
+    }
   ]
 }
