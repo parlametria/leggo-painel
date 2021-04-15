@@ -23,7 +23,7 @@
           "/assets/**",
           "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)",
           "/assets/imgs/**",
-          "/assets/fonts/**"
+          "/*.(eot|ttf|woff|woff2)?*"
         ]
       }
     }
