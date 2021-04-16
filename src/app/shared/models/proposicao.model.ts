@@ -65,7 +65,9 @@ export interface ProposicaoLista {
   sigla_camara: string;
   sigla_senado: string;
   ultima_temperatura: number;
+  temp_quinze_dias: number;
   ultima_pressao: number;
+  pressao_oito_dias: number;
   anotacao_data_ultima_modificacao: Date;
   resumo_progresso: ProgressoProposicao[];
   destaques: any;
