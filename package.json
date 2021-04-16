@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "start-dev": "ng serve --host 0.0.0.0",
-    "heroku-postbuild": "npm install && ng build --configuration=${NODE_ENV}"
+    "heroku-postbuild": "npm install && ng build --configuration=${ANGULAR_ENV}"
   },
   "engines": {
     "node": "12.17.0",
