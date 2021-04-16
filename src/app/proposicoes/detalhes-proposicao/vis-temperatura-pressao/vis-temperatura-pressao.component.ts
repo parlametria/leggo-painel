@@ -173,7 +173,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       } else {
         temperaturaPressao = temperatura.map(a => ({
           data: moment(this.getProperty(pressao.find(p => a.periodo === p.date),
-            'date') ?? a.periodo),
+            'date') ?? a.periodo).add(7, 'days'),
           valorTemperatura: a.temperatura_recente,
           valorPressao: this.getProperty(pressao.find(p => a.periodo === p.date),
             'trends_max_pressao_principal') ?? null
