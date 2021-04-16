@@ -52,12 +52,12 @@
         </a>
       </div>
       <div class="col-2 col-sm-1 text-center">
-        <div 
+        <span
           class="badge badge-color-white bg-temperatura badge-em-alta">
           <span
             class="icon-em-alta"
             *ngIf="proposicao?.ultima_temperatura > proposicao?.temp_quinze_dias"></span>
-        </div>
+        </span>
       </div>
     </div>
     <div class="row no-gutters align-items-center mb-1">
@@ -72,12 +72,12 @@
         </a>
       </div>
       <div class="col-2 col-sm-1 text-center">
-        <div 
+        <span
           class="badge badge-color-white bg-pressao badge-em-alta">
           <span
             class="icon-em-alta"
             *ngIf="proposicao?.ultima_pressao > proposicao?.pressao_oito_dias"></span>
-        </div>
+        </span>
       </div>
     </div>
     <div class="tags mt-3">
