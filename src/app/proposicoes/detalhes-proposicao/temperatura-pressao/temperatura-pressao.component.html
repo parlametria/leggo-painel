@@ -18,9 +18,12 @@
           de temperatura
         </p>
       </div>
-      <p>
+      <p *ngIf="filtro?.valorPressao !== null">
         <strong class="color-pressao">{{ filtro?.valorPressao }}</strong>
         de pressão
+      </p>
+      <p *ngIf="filtro?.valorPressao === null">
+        Dados de <strong class="color-pressao">pressão</strong> só estão disponíveis no final da semana
       </p>
     </div>
   </div>
