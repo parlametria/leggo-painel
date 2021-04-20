@@ -77,9 +77,9 @@ export class CardProposicaoComponent implements OnInit {
 
   getArtigoSiglaLocal(local: LocalProposicao) {
     if (local.tipo_local === 'plenario') {
-        return 'no';
+        return 'No';
     } else {
-      return 'na ';
+      return 'Na ';
     }
   }
 
