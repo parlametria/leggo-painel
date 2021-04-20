@@ -1,0 +1,49 @@
+{
+  "$schema": "./node_modules/@angular/service-worker/config/schema.json",
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "resources": {
+        "files": [
+          "/favicon.ico",
+          "/index.html",
+          "/manifest.webmanifest",
+          "/*.css",
+          "/*.js"
+        ]
+      }
+    }, {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/**",
+          "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)",
+          "/assets/imgs/**",
+          "/*.(eot|ttf|woff|woff2)?*"
+        ]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "api",
+      "urls": [
+        "https://api.leggo.org.br/*",
+        "https://dev.api.leggo.org.br/*",
+        "https://leggo-twitter.herokuapp.com/*",
+        "https://leggo-twitter-validacao.herokuapp.com/*",
+        "https://perfil.parlametria.org.br/api/*",
+        "https://perfil-parlamentar-validacao.herokuapp.com/api/*"
+      ],
+      "cacheConfig": {
+        "maxSize": 10,
+        "maxAge": "20m",
+        "strategy": "performance"
+      }
+    }
+  ]
+}

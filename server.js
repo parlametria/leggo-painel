@@ -1,10 +1,12 @@
 const express = require("express");
 const path = require("path");
-const forceSsl = require("force-ssl-heroku")
+const forceSsl = require("force-ssl-heroku");
+const compression = require('compression');
 
 const app = express();
 
 app.use(forceSsl);
+app.use(compression());
 
 app.use(express.static("dist/leggo-painel"));
 
