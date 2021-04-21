@@ -1,8 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { InteresseService } from '../shared/services/interesse.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+
 import { takeUntil } from 'rxjs/operators';
 import { Subject, BehaviorSubject } from 'rxjs';
+
+import { InteresseService } from '../shared/services/interesse.service';
 import { Interesse } from '../shared/models/interesse.model';
 import { indicate } from '../shared/functions/indicate.function';
 
@@ -22,7 +25,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private interesseService: InteresseService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private titleService: Title
  ) { }
 
   ngOnInit(): void {
@@ -45,6 +49,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         this.interesse = data[0];
         this.isLoading.next(false);
+        this.titleService.setTitle(this.interesse.nome_interesse + ' - Parlametria');
 
         if (this.interesse === undefined) {
           this.router.navigate(['notFound'], { skipLocationChange: true });
