@@ -5,7 +5,7 @@
   "lang": "pt-BR",
   "theme_color": "#20201e",
   "background_color": "#ffffff",
-  "display": "standalone",
+  "display": "minimal-ui",
   "scope": "./",
   "start_url": "./",
   "icons": [
