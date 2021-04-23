@@ -22,8 +22,6 @@ export class CardProposicaoComponent implements OnInit {
     this.proposicao.resumo_progresso = this.resumirFases(
       this.ordenaProgresso(this.proposicao.resumo_progresso)
     );
-    this.proposicao.ultima_pressao = parseFloat(this.proposicao.ultima_pressao.toFixed(1));
-    this.proposicao.ultima_temperatura = parseFloat(this.proposicao.ultima_temperatura.toFixed(1));
   }
 
   temasResumido(temas) {

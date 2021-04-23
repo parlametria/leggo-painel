@@ -44,7 +44,7 @@
         <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
           <app-progress
             class="pointer"
-            [label]="'Temperatura da semana: ' + proposicao?.ultima_temperatura"
+            [label]="'Temperatura da semana: ' + (proposicao?.ultima_temperatura | number : '1.0-1')"
             [barraClasse]="'bg-temperatura'"
             [valor]="proposicao?.ultima_temperatura"
             [exibirLabel]="true"
