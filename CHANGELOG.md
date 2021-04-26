@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.2.5 (2021-04-26)
+- [x] Adiciona tooltip para ícones de subida de temperatura e de pressão
+- [x] Corrige link para detalhes da proposição
+- [x] Corrige exibição das proposições na aba de ações do parlamentar
+- [x] Modifica display e texto nas configurações da PWA
+- [x] Adiciona divisão por casa na seleção do local atual
+- [x] Adicionar título para a página de acordo com o painel
+- [x] Visualizações para Governismo e Disciplina partidária do Parlamentar
+- [x] Transformação do site para uma PWA
+
 ## 1.2.4 (2021-01-04)
 - [x] Exibe proposições mais comentadas no twitter por um parlamentar
 - [x] Visualização da temperatura e pressão de uma proposição
