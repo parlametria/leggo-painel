@@ -35,7 +35,7 @@
       <li
         *ngFor="let item of relatorias; let i = index"
         class="success">
-        <a [href]="'https://leggo.parlametria.org/#/proposicao/' + item.id_leggo + '/' + interesse">{{ item.sigla }}</a>
+        <a [href]="'https://painel.parlametria.org.br/' + interesse + '/proposicoes/' + item.id_leggo + '/'">{{ item.sigla }}</a>
       </li>
     </ul>
   </div>

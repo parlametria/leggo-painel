@@ -3,10 +3,13 @@ import { Params, Router, ActivatedRoute } from '@angular/router';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { nest } from 'd3-collection';
 
 import { TemasService } from '../../shared/services/temas.service';
 import { ProposicoesService } from 'src/app/shared/services/proposicoes.service';
 import { LocalProposicao } from 'src/app/shared/models/proposicao.model';
+
+const d3 = Object.assign({}, { nest });
 
 @Component({
   selector: 'app-filtro-proposicoes',
@@ -100,7 +103,20 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
         });
 
         locais.forEach(item => this.locaisBusca.push(item));
+        this.locaisBusca = d3.nest()
+          .key((d: any) => d.casa_ultimo_local)
+          .entries(this.locaisBusca);
       });
+  }
+
+  getCasaLocal(casa: string) {
+    if (casa === 'camara') {
+      return 'Câmara';
+    } else if (casa === 'senado') {
+      return 'Senado';
+    } else {
+      return 'Outros';
+    }
   }
 
   getTemas() {

@@ -92,7 +92,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     const autoriasPorId = d3.group(autorias, d => d.id_leggo);
     autoriasPorId.forEach((autoria, idLeggo) => {
       const tipos = [];
-      const documentosPorTipo = d3.group(autoria, d => d.tipo_acao);
+      const documentosPorTipo = d3.group(autoria, d => d.tipo_documento);
       documentosPorTipo.forEach((documento, tipo) => {
         tipos.push({
           titulo: tipo,
@@ -127,7 +127,11 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
       .subscribe(autorias => {
         const autoriasApresentadas = [];
         autorias.forEach(dado => {
-          if (dado.tipo_acao === 'Proposição' && dado.tipo_documento !== 'Requerimento') {
+          if (dado.tipo_documento === 'Prop. Original / Apensada') {
+            dado.tipo_documento = dado.tipo_acao;
+          }
+
+          if (dado.tipo_acao === 'Proposição') {
             autoriasApresentadas.push(dado);
           }
         });
@@ -151,7 +155,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     const root = this.treemap(data);
 
     const myColor = d3.scaleOrdinal().domain(['Total', 'Proposta'])
-      .range(['white', '#86BFB4', '#86BFB4']);
+      .range(['white', '#86BFB4', '#86BFB4', '#86BFB4', '#86BFB4']);
 
     const node = g.selectAll('g')
       .data(d3.nest().key((d: any) => d.data.titulo).entries(root.descendants()))
@@ -257,7 +261,8 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         if (prop.data.value <= 1) {
           texto += '<br>' + `${this.formataNumeroAcoes(prop.data.value)} ` + `${prop.data.categoria}`;
         } else {
-          texto += '<br>' + `${this.formataNumeroAcoes(prop.data.value)} ` + `Proposições`;
+          texto += '<br>' + `${this.formataNumeroAcoes(prop.data.value)} ` +
+           `${this.formataCategoriaAcoes(prop.data.categoria)}`;
         }
       }
     });
@@ -267,5 +272,14 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
 
   private formataNumeroAcoes(numero) {
     return numero.toFixed(2).replace('.', ',').replace(/[.,]00$/, '');
+  }
+
+  private formataCategoriaAcoes(categoria) {
+    let plural = categoria + 's';
+
+    if (categoria === 'Proposição') {
+      plural = 'Proposições';
+    }
+    return plural;
   }
 }

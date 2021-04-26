@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -42,7 +42,8 @@ import { environment } from '../environments/environment';
     ParlamentarDetalhadoService,
     EntidadeService,
     ProposicoesListaService,
-    InsightsService
+    InsightsService,
+    Title
   ],
   bootstrap: [AppComponent]
 })

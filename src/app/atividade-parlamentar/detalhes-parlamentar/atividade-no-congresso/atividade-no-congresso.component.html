@@ -33,13 +33,13 @@
       </span>
     </p>
   </div>
-  <h3
-    *ngIf="parlamentar && temDadosPorProposicao"
+  <div *ngIf="parlamentar && autoriasPorTipo?.length > 0">
+    <h3
     class="titulo-sessao mt-4">
     Por Proposição
-  </h3>
-  <app-vis-atividade-detalhada
-    [idAtor]="idAtor"
-    [interesse]="interesse"
-    (temDados)="temDadosPorProposicao"></app-vis-atividade-detalhada>
+    </h3>
+    <app-vis-atividade-detalhada
+      [idAtor]="idAtor"
+      [interesse]="interesse"></app-vis-atividade-detalhada>
+  </div>
 </div>
