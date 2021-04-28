@@ -38,6 +38,14 @@ interface EtapasProposicao {
   status: string;
 }
 
+interface Apensada {
+  id_leggo_principal: string;
+  interesse_principal: string;
+  id_ext_principal: number;
+  casa_principal: string;
+  proposicao_principal: any;
+}
+
 export interface LocalProposicao {
   casa_ultimo_local: string;
   data_ultima_situacao: Date;
@@ -74,6 +82,7 @@ export interface ProposicaoLista {
   max_temperatura_interesse: number;
   isDestaque: boolean;
   locaisProposicao: LocalProposicao[];
+  apensadas: Apensada[];
 }
 
 export interface TramitacaoProposicao {

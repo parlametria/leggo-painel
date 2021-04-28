@@ -104,6 +104,10 @@ export class CardProposicaoComponent implements OnInit {
     }
   }
 
+  getEhApensada() {
+    return this.proposicao.apensadas.length;
+  }
+
   private ordenaProgresso(resumoProgresso) {
     return ordenaProgressoProposicao(resumoProgresso);
   }
