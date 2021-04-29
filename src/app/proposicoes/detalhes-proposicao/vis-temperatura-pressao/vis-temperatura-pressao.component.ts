@@ -357,11 +357,16 @@ export class VisTemperaturaPressaoComponent implements OnInit {
           .style('display', null)
           .attr('cx', this.x(dados[i - 1].data))
           .attr('cy', this.yPressao(dados[i - 1].valorPressao));
-      } else {
+      } else if (typeof dados[i - 2] !== 'undefined') {
         markerPressao
           .style('display', null)
           .attr('cx', this.x(dados[i - 1].data))
           .attr('cy', this.yPressao(dados[i - 2].valorPressao));
+      } else  {
+        markerPressao
+          .style('display', null)
+          .attr('cx', this.x(dados[i - 1].data))
+          .attr('cy', this.yPressao(0));
       }
       bar
         .style('display', null)
