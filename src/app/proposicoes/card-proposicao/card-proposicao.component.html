@@ -33,8 +33,11 @@
       <span class="proposicao-title text-muted">
         {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
       </span>
-      <p>
-        <span class="text-muted">Apensada à proposição principal</span>&nbsp;<a href="#">PL 2949/2020</a>
+      <p *ngIf="!getEhApensadaExterna()">
+        <span class="text-muted">Apensada à proposição principal</span>&nbsp;<a [routerLink]="[getLinkInterno()]">{{ getNomeApensada() }}</a>
+      </p>
+      <p *ngIf="getEhApensadaExterna()">
+        <span class="text-muted">Apensada à <a [href]="getLinkExterno()" target="_blank">proposição principal <span class="icon-external-link"></span></a></span>
       </p>
     </div>
     <div [hidden]="getEhApensada()">
