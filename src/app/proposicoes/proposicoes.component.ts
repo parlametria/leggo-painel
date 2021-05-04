@@ -70,8 +70,8 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
         indicate(this.isLoading),
         takeUntil(this.unsubscribe)
       ).subscribe(proposicoes => {
-        this.proposicoes = proposicoes.filter(p => !p.isDestaque);
-        this.proposicoesDestaque = proposicoes.filter(p => p.isDestaque);
+        this.proposicoes = proposicoes.filter(p => (!p.isDestaque && p.apensadas.length > 0));
+        this.proposicoesDestaque = proposicoes.filter(p => (p.isDestaque && p.apensadas.length < 1));
 
         if (proposicoes.length <= (this.PROPOSICOES_POR_PAGINA * (this.p - 1))) {
           this.pageChange(1); // volta para a primeira página com o novo resultado do filtro
