@@ -1,5 +1,9 @@
-<div class="card mb-2">
-  <div class="card-header d-flex mx-1">
+<div
+  class="card mb-2"
+  [class.card-muted]="getEhApensada()">
+  <div
+    class="card-header d-flex mx-1"
+    [class.card-header-muted]="getEhApensada()">
     <span
       class="cracha text-muted temas"
       [ngbPopover]="popTemas"
@@ -14,128 +18,141 @@
     </span>
   </div>
   <div class="card-body">
-    <a [routerLink]="[proposicao.id_leggo]">
-      <span class="proposicao-title">
-        {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
-        <span *ngIf="proposicao?.interesse[0]?.apelido && proposicao?.interesse[0]?.apelido !== 'nan'">
-          -
+    <div [hidden]="getEhApensada()">
+      <a [routerLink]="[proposicao.id_leggo]">
+        <span class="proposicao-title">
+          {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
+          <span *ngIf="proposicao?.interesse[0]?.apelido && proposicao?.interesse[0]?.apelido !== 'nan'">
+            -
           {{ proposicao?.interesse[0]?.apelido }}
+          </span>
         </span>
+      </a>
+    </div>
+    <div [hidden]="!getEhApensada()">
+      <span class="proposicao-title text-muted">
+        {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
       </span>
-    </a>
-    <p
-      *ngIf="proposicao?.locaisProposicao[0]"
-      class="proposicao-info text-muted">
-      {{ getArtigoSiglaLocal(proposicao?.locaisProposicao[0]) }}
-      <button
-        class="btn btn-in-text btn-link"
-        [ngbPopover]="popLocalProposicao"
-        [autoClose]="'outside'">
-        {{ getSiglaLocal(proposicao?.locaisProposicao[0]) }}
-      </button>
-      <ng-template #popLocalProposicao>
-        {{ getNomeLocal(proposicao?.locaisProposicao[0]) }}
-      </ng-template>
-      desde
-      {{ proposicao?.locaisProposicao[0].data_ultima_situacao | date:'dd/MM/yyyy' }}
-    </p>
-    <div class="row no-gutters align-items-center mb-1">
-      <div class="col">
-        <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
-          <app-progress
-            class="pointer"
-            [label]="'Temperatura da semana: ' + (proposicao?.ultima_temperatura | number : '1.0-1')"
-            [barraClasse]="'bg-temperatura'"
-            [valor]="proposicao?.ultima_temperatura"
-            [exibirLabel]="true"
-            [max]="proposicao?.max_temperatura_interesse"></app-progress>
-        </a>
-      </div>
-      <div class="col-2 col-sm-1 text-center">
-        <span
-          class="badge badge-color-white bg-temperatura badge-em-alta">
-          <span
-            class="icon-em-alta"
-            ngbPopover="Temperatura em alta"
-            [autoClose]="'outside'"
-            *ngIf="proposicao?.ultima_temperatura > proposicao?.temp_quinze_dias"></span>
-        </span>
-      </div>
+      <p *ngIf="!getEhApensadaExterna()">
+        <span class="text-muted">Apensada à proposição principal</span>&nbsp;<a [routerLink]="[getLinkInterno()]">{{ getNomeApensada() }}</a>
+      </p>
+      <p *ngIf="getEhApensadaExterna()">
+        <span class="text-muted">Apensada à <a [href]="getLinkExterno()" target="_blank">proposição principal <span class="icon-external-link"></span></a></span>
+      </p>
     </div>
-    <div class="row no-gutters align-items-center mb-1">
-      <div class="space-between-bars col">
-        <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
-          <app-progress
-            class="pointer"
-            [label]="'Pressão da semana: ' + (!proposicao?.ultima_pressao ? '0' : (proposicao?.ultima_pressao * 100))"
-            [barraClasse]="'bg-pressao'"
-            [valor]="proposicao?.ultima_pressao"
-            [exibirLabel]="true"></app-progress>
-        </a>
-      </div>
-      <div class="col-2 col-sm-1 text-center">
-        <span
-          class="badge badge-color-white bg-pressao badge-em-alta">
-          <span
-            class="icon-em-alta"
-            ngbPopover="Pressão em alta"
-            [autoClose]="'outside'"
-            *ngIf="proposicao?.ultima_pressao > proposicao?.pressao_oito_dias"></span>
-        </span>
-      </div>
-    </div>
-    <div class="tags mt-3">
-      <div *ngIf="proposicao?.destaques.length || proposicao?.interesse[0]?.advocacy_link !== 'nan'">
-        <app-destaques-proposicao
-          [destaques]="destaques"
-          *ngFor="let destaques of proposicao?.destaques"></app-destaques-proposicao>
-        <span
-          class="tag badge badge-gray"
-          *ngIf="proposicao?.interesse[0]?.advocacy_link && proposicao?.interesse[0]?.advocacy_link !== 'nan'"
-          [ngbPopover]="popAdvocacy"
+    <div [hidden]="getEhApensada()">
+      <p
+        *ngIf="proposicao?.locaisProposicao[0]"
+        class="proposicao-info text-muted">
+        {{ getArtigoSiglaLocal(proposicao?.locaisProposicao[0]) }}
+        <button
+          class="btn btn-in-text btn-link"
+          [ngbPopover]="popLocalProposicao"
           [autoClose]="'outside'">
-          advocacy box
-        </span>
-        <ng-template #popAdvocacy>
-          Existem notas técnicas de OSCs disponíveis para esta proposição.
-          <div class="text-right">
-            <a
-              href="{{proposicao?.interesse[0]?.advocacy_link}}"
-              target="_blank"
-              class="btn btn-link btn-sm">
-              Ver notas
-            </a>
-          </div>
+          {{ getSiglaLocal(proposicao?.locaisProposicao[0]) }}
+        </button>
+        <ng-template #popLocalProposicao>
+          {{ getNomeLocal(proposicao?.locaisProposicao[0]) }}
         </ng-template>
+        desde
+      {{ proposicao?.locaisProposicao[0].data_ultima_situacao | date:'dd/MM/yyyy' }}
+      </p>
+      <div class="row no-gutters align-items-center mb-1">
+        <div class="col">
+          <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
+            <app-progress
+              class="pointer"
+              [label]="'Temperatura da semana: ' + proposicao?.ultima_temperatura"
+              [barraClasse]="'bg-temperatura'"
+              [valor]="proposicao?.ultima_temperatura"
+              [exibirLabel]="true"
+              [max]="proposicao?.max_temperatura_interesse"></app-progress>
+          </a>
+        </div>
+        <div class="col-2 col-sm-1 text-center">
+          <span class="badge badge-color-white bg-temperatura badge-em-alta">
+            <span
+              class="icon-em-alta"
+              ngbPopover="Temperatura em alta"
+              [autoClose]="'outside'"
+              *ngIf="proposicao?.ultima_temperatura > proposicao?.temp_quinze_dias"></span>
+          </span>
+        </div>
       </div>
-      <div *ngIf="!proposicao?.destaques.length">
-        <span
-          *ngIf="!['Ordinária', 'Indefinido'].includes(proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao)"
-          class="tag"
-          [ngClass]="getClassRegimeTramitacao(proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao)"
-          ngbPopover="Regime de tramitação"
-          [autoClose]="'outside'">
-          {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao }}
-        </span>
-        <span
-          *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.status !== 'Ativa'"
-          class="tag badge badge-gray"
-          ngbPopover="A proposição foi finalizada"
-          [autoClose]="'outside'">
-          {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.status }}
-        </span>
+      <div class="row no-gutters align-items-center mb-1">
+        <div class="space-between-bars col">
+          <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
+            <app-progress
+              class="pointer"
+              [label]="'Pressão da semana: ' + (!proposicao?.ultima_pressao ? '0' : (proposicao?.ultima_pressao * 100))"
+              [barraClasse]="'bg-pressao'"
+              [valor]="proposicao?.ultima_pressao"
+              [exibirLabel]="true"></app-progress>
+          </a>
+        </div>
+        <div class="col-2 col-sm-1 text-center">
+          <span class="badge badge-color-white bg-pressao badge-em-alta">
+            <span
+              class="icon-em-alta"
+              ngbPopover="Pressão em alta"
+              [autoClose]="'outside'"
+              *ngIf="proposicao?.ultima_pressao > proposicao?.pressao_oito_dias"></span>
+          </span>
+        </div>
       </div>
-      <div class="d-flex">
-        <div
-          *ngFor="let f of proposicao?.resumo_progresso"
-          class="fase pointer"
-          [ngClass]="getClassFaseProgresso(f)"
-          [ngbPopover]="popProgresso"
-          [autoClose]="'outside'">
-          <ng-template #popProgresso>
-            <span *ngIf="f?.fase_global_local">{{ f?.fase_global_local }}</span>
-            <span *ngIf="!f?.fase_global_local">{{ f?.fase_global }}</span>
+      <div class="tags mt-3">
+        <div *ngIf="proposicao?.destaques.length || proposicao?.interesse[0]?.advocacy_link !== 'nan'">
+          <app-destaques-proposicao
+            [destaques]="destaques"
+            *ngFor="let destaques of proposicao?.destaques"></app-destaques-proposicao>
+          <span
+            class="tag badge badge-gray"
+            *ngIf="proposicao?.interesse[0]?.advocacy_link && proposicao?.interesse[0]?.advocacy_link !== 'nan'"
+            [ngbPopover]="popAdvocacy"
+            [autoClose]="'outside'">
+            advocacy box
+          </span>
+          <ng-template #popAdvocacy>
+            Existem notas técnicas de OSCs disponíveis para esta proposição.
+            <div class="text-right">
+              <a
+                href="{{proposicao?.interesse[0]?.advocacy_link}}"
+                target="_blank"
+                class="btn btn-link btn-sm">
+                Ver notas
+              </a>
+            </div>
           </ng-template>
+        </div>
+        <div *ngIf="!proposicao?.destaques.length">
+          <span
+            *ngIf="!['Ordinária', 'Indefinido'].includes(proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao)"
+            class="tag"
+            [ngClass]="getClassRegimeTramitacao(proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao)"
+            ngbPopover="Regime de tramitação"
+            [autoClose]="'outside'">
+            {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao }}
+          </span>
+          <span
+            *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.status !== 'Ativa'"
+            class="tag badge badge-gray"
+            ngbPopover="A proposição foi finalizada"
+            [autoClose]="'outside'">
+            {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.status }}
+          </span>
+        </div>
+        <div class="d-flex">
+          <div
+            *ngFor="let f of proposicao?.resumo_progresso"
+            class="fase pointer"
+            [ngClass]="getClassFaseProgresso(f)"
+            [ngbPopover]="popProgresso"
+            [autoClose]="'outside'">
+            <ng-template #popProgresso>
+              <span *ngIf="f?.fase_global_local">{{ f?.fase_global_local }}</span>
+              <span *ngIf="!f?.fase_global_local">{{ f?.fase_global }}</span>
+            </ng-template>
+          </div>
         </div>
       </div>
     </div>
