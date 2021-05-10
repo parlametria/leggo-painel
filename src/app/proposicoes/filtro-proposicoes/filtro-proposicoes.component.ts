@@ -132,7 +132,8 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
       nome: this.proposicaoPesquisada,
       status: this.statusSelecionado,
       tema: this.temaSelecionado,
-      local: this.localSelecionado
+      local: this.localSelecionado,
+      semApensada: true
     };
     this.filterChange.emit(this.filtro);
   }

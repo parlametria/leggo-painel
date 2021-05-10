@@ -104,6 +104,43 @@ export class CardProposicaoComponent implements OnInit {
     }
   }
 
+  getEhApensada() {
+    return this.proposicao.apensadas.length > 0;
+  }
+
+  getEhApensadaExterna() {
+    return (typeof this.proposicao.apensadas[0] !== 'undefined' && this.proposicao.apensadas[0].id_leggo_principal === null);
+  }
+
+  getLinkExterno() {
+    if (typeof this.proposicao.apensadas[0] !== 'undefined' && this.proposicao.apensadas[0].id_leggo_principal === null) {
+      if (this.proposicao.apensadas[0].casa_principal === 'camara') {
+        return 'http://www.camara.gov.br/proposicoesWeb/fichadetramitacao?idProposicao=' + this.proposicao.apensadas[0].id_ext_principal;
+      } else {
+        return 'https://www25.senado.leg.br/web/atividade/materias/-/materia/' + this.proposicao.apensadas[0].id_ext_principal;
+      }
+    }
+    return '#';
+  }
+
+  getLinkInterno() {
+    if (typeof this.proposicao.apensadas[0] !== 'undefined' && this.proposicao.apensadas[0].id_leggo_principal !== null) {
+      return this.proposicao.apensadas[0].id_leggo_principal;
+    }
+    return './';
+  }
+
+  getNomeApensada() {
+    if (typeof this.proposicao.apensadas[0] !== 'undefined' && this.proposicao.apensadas[0].proposicao_principal !== null) {
+      if (this.proposicao.apensadas[0].casa_principal === 'camara') {
+        return this.proposicao.apensadas[0].proposicao_principal.sigla_camara;
+      } else {
+        return this.proposicao.apensadas[0].proposicao_principal.sigla_senado;
+      }
+    }
+    return './';
+  }
+
   private ordenaProgresso(resumoProgresso) {
     return ordenaProgressoProposicao(resumoProgresso);
   }

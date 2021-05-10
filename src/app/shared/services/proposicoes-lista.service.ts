@@ -25,6 +25,7 @@ export class ProposicoesListaService {
 
   readonly STATUS_PADRAO = 'tramitando';
   readonly TIPO_LOCAL_PADRAO = 'geral';
+  readonly APENSADAS_PADRAO = true;
 
   private filtro = new BehaviorSubject<any>({});
 
@@ -162,6 +163,7 @@ export class ProposicoesListaService {
   search(filtro: any) {
     if (filtro.status === undefined || filtro.status === '') {
       filtro.status = this.STATUS_PADRAO;
+      filtro.semApensada = this.APENSADAS_PADRAO;
     }
     this.filtro.next(filtro);
   }
@@ -178,6 +180,11 @@ export class ProposicoesListaService {
     const status = filtro.status;
     const tema = filtro.tema;
     const local = filtro.local;
+    let semApensada = filtro.semApensada;
+    // Condição fixa para exibir apensadas no resultado:
+    if (nome) {
+      semApensada = false;
+    }
 
     return proposicoes.filter(p => {
       let filtered = true;
@@ -204,6 +211,11 @@ export class ProposicoesListaService {
       filtered =
         local && filtered
           ? this.matchLocal(p.locaisProposicao, local)
+          : filtered;
+
+      filtered =
+        semApensada && filtered
+          ? p.apensadas.length < 1
           : filtered;
 
       return filtered;
