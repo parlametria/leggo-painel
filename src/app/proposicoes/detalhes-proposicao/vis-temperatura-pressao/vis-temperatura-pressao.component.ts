@@ -20,6 +20,8 @@ import { timeMonday } from 'd3-time';
 import { PressaoService } from 'src/app/shared/services/pressao.service';
 import { TemperaturaService } from 'src/app/shared/services/temperatura.service';
 
+import { Pressao } from 'src/app/shared/models/pressao.model';
+
 const d3 = Object.assign({}, {
   select,
   selectAll,
@@ -158,8 +160,8 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       this.temperaturaService.getMaximaTemperatura(this.interesse)
 
     ]).subscribe(data => {
-      const pressao: any = data[0].map(a => {
-        a.popularity = parseFloat(a.popularity).toFixed(1);
+      const pressao: Pressao[] = data[0].map(a => {
+        a.popularity = parseFloat(a.popularity.toFixed(1));
         return a;
       });
       const temperatura: any = data[1];
