@@ -246,7 +246,6 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     const colorPressao = d3.scaleSequential(d3.interpolateOranges);
     // Remove último elemento da série de pressão
     const dadosPressao = [...dados];
-    dadosPressao.pop();
     this.gPressao.append('linearGradient')
       .attr('id', 'gradient-pressao')
       .attr('gradientUnits', 'userSpaceOnUse')
@@ -276,18 +275,6 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('font-size', '0.8rem')
       .text(`Maior pressão`);
 
-    // Linha tracejada pra semana faltante de pressão
-    const dadosFaltando = [];
-    dadosFaltando.push(dados[dados.length - 2]);
-    dadosFaltando.push(dados[dados.length - 1]);
-    this.gPressao.append('line')
-      .attr('x1', this.x(dadosFaltando[0].data))
-      .attr('y1', this.yPressao(dadosFaltando[0].valorPressao))
-      .attr('x2', this.x(dadosFaltando[1].data))
-      .attr('y2', this.yPressao(dadosFaltando[0].valorPressao))
-      .style('stroke', '#cccccc')
-      .style('stroke-width', 3)
-      .style('stroke-dasharray', 4);
 
     this.gTemperatura.append('g')
       .attr('transform', `translate(0, ${this.heightGrafico + 5})`)
@@ -343,7 +330,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     markerPressao
       .style('display', null)
       .attr('cx', this.x(dados[dados.length - 1].data))
-      .attr('cy', this.yPressao(dados[dados.length - 2].valorPressao));
+      .attr('cy', this.yPressao(dados[dados.length - 1].valorPressao));
     bar
       .style('display', null)
       .attr('transform', `translate(${this.x(dados[dados.length - 1].data)}, 0)`);
@@ -366,7 +353,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
         markerPressao
           .style('display', null)
           .attr('cx', this.x(dados[i - 1].data))
-          .attr('cy', this.yPressao(dados[i - 2].valorPressao));
+          .attr('cy', this.yPressao(dados[i - 1].valorPressao));
       }
       bar
         .style('display', null)
