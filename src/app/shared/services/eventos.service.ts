@@ -47,8 +47,7 @@ export class EventosService {
   filtrar(eventos, filtro) {
     if (typeof filtro !== 'undefined' && filtro.data) {
       const dataComparativaInicial = filtro.data.clone();
-      dataComparativaInicial.subtract(7, 'days');
-      const dataComparativaFinal = filtro.data.clone();
+      const dataComparativaFinal = filtro.data.clone().add(7, 'days');
 
       const filtrados = eventos.filter(evento => {
         return (moment(evento.data).isSameOrAfter(dataComparativaInicial) && moment(evento.data).isBefore(dataComparativaFinal));
