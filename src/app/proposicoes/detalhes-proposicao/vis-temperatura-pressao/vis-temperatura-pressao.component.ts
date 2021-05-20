@@ -172,7 +172,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
           data: moment(this.getProperty(temperatura.find(p => a.date === p.periodo),
             'periodo') ?? a.date),
           valorTemperatura: this.getProperty(temperatura.find(p => a.date === p.periodo),
-            'temperatura_recente') ?? 0,
+            'temperatura_recente') ?? null,
           valorPressao: a.popularity
         }));
       } else {
