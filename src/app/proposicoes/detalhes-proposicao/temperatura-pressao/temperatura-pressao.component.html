@@ -11,11 +11,14 @@
         Semana de {{ getSemanaString(filtro?.data) }}
       </div>
       <div class="mb-3">
-        <p>
+        <p *ngIf="filtro?.valorTemperatura !== null">
           <strong class="color-temperatura">
             {{ filtro?.valorTemperatura | number : '1.0-1' }}°C
           </strong>
           de temperatura
+        </p>
+        <p *ngIf="filtro?.valorTemperatura === null">
+          Dados de <strong class="color-temperatura">temperatura</strong> não disponíveis
         </p>
       </div>
       <p *ngIf="filtro?.valorPressao !== null">
