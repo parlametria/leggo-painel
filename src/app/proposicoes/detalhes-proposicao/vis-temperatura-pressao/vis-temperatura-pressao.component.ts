@@ -177,7 +177,9 @@ export class VisTemperaturaPressaoComponent implements OnInit {
             'periodo') ?? a.date),
           valorTemperatura: this.getProperty(temperatura.find(p => a.date === p.periodo),
             'temperatura_recente') ?? 0,
-          valorPressao: a.popularity
+          valorPressao: a.popularity,
+          user_count: a.user_count,
+          sum_interactions: a.sum_interactions
         }));
       } else {
         temperaturaPressao = temperatura.map(a => ({
@@ -185,7 +187,9 @@ export class VisTemperaturaPressaoComponent implements OnInit {
             'date') ?? a.periodo).add(7, 'days'),
           valorTemperatura: a.temperatura_recente,
           valorPressao: this.getProperty(pressao.find(p => a.periodo === p.date),
-            'popularity') ?? null
+            'popularity') ?? null,
+          user_count: a.user_count,
+          sum_interactions: a.sum_interactions
         }));
       }
       temperaturaPressao.sort((a, b) => {
