@@ -20,6 +20,10 @@ import { timeMonday } from 'd3-time';
 import { PressaoService } from 'src/app/shared/services/pressao.service';
 import { TemperaturaService } from 'src/app/shared/services/temperatura.service';
 
+import { Pressao } from 'src/app/shared/models/pressao.model';
+
+import { setUpperBound } from 'src/app/shared/functions/utils';
+
 const d3 = Object.assign({}, {
   select,
   selectAll,
@@ -155,28 +159,28 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     forkJoin([
       this.pressaoService.getPressaoList(this.interesse, this.idProposicaoDestaque, dataInicio, dataFim),
       this.temperaturaService.getTemperaturasById(this.interesse, this.idProposicaoDestaque, dataInicio, dataFim),
-      this.temperaturaService.getMaximaTemperatura(this.interesse)
-
     ]).subscribe(data => {
-      const pressao: any = data[0];
+      const pressao: Pressao[] = data[0].map(a => {
+        a.popularity = parseFloat(a.popularity.toFixed(1));
+        return a;
+      });
       const temperatura: any = data[1];
-      const temperaturaMax: any = data[2];
       let temperaturaPressao;
       if (pressao.length > temperatura.length) {
         temperaturaPressao = pressao.map(a => ({
           data: moment(this.getProperty(temperatura.find(p => a.date === p.periodo),
             'periodo') ?? a.date),
-          valorTemperatura: this.getProperty(temperatura.find(p => a.date === p.periodo),
-            'temperatura_recente') ?? 0,
-          valorPressao: a.trends_max_pressao_principal
+          valorTemperatura: setUpperBound(this.getProperty(temperatura.find(p => a.date === p.periodo),
+            'temperatura_recente')) ?? null,
+          valorPressao: setUpperBound(a.popularity)
         }));
       } else {
         temperaturaPressao = temperatura.map(a => ({
           data: moment(this.getProperty(pressao.find(p => a.periodo === p.date),
-            'date') ?? a.periodo).add(7, 'days'),
-          valorTemperatura: a.temperatura_recente,
-          valorPressao: this.getProperty(pressao.find(p => a.periodo === p.date),
-            'trends_max_pressao_principal') ?? null
+            'date') ?? a.periodo),
+          valorTemperatura: setUpperBound(a.temperatura_recente),
+          valorPressao: setUpperBound(this.getProperty(pressao.find(p => a.periodo === p.date),
+            'popularity')) ?? null
         }));
       }
       temperaturaPressao.sort((a, b) => {
@@ -185,19 +189,14 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       if (this.gTemperatura) {
         this.gTemperatura.selectAll('*').remove();
       }
-      this.gTemperatura.call(g => this.atualizarVis(g, temperaturaPressao, temperaturaMax.max_temperatura_periodo));
+      this.gTemperatura.call(g => this.atualizarVis(g, temperaturaPressao));
     });
   }
 
-  private atualizarVis(g, dados, temperaturaMax) {
+  private atualizarVis(g, dados) {
     this.x.domain(d3.extent(dados, (d: any) => d.data));
-    this.yTemperatura.domain([0, temperaturaMax]);
-    const maxPressao = +d3.max(dados, (d: any) => d.valorPressao);
-    if (maxPressao > 100) {
-      this.yPressao.domain([0, maxPressao]);
-    } else {
-      this.yPressao.domain([0, 100]);
-    }
+    this.yTemperatura.domain([0, 100]);
+    this.yPressao.domain([0, 100]);
 
     const lineTemperatura = d3.line()
       .curve(d3.curveMonotoneX)
@@ -241,7 +240,6 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     const colorPressao = d3.scaleSequential(d3.interpolateOranges);
     // Remove último elemento da série de pressão
     const dadosPressao = [...dados];
-    dadosPressao.pop();
     this.gPressao.append('linearGradient')
       .attr('id', 'gradient-pressao')
       .attr('gradientUnits', 'userSpaceOnUse')
@@ -271,18 +269,6 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('font-size', '0.8rem')
       .text(`Maior pressão`);
 
-    // Linha tracejada pra semana faltante de pressão
-    const dadosFaltando = [];
-    dadosFaltando.push(dados[dados.length - 2]);
-    dadosFaltando.push(dados[dados.length - 1]);
-    this.gPressao.append('line')
-      .attr('x1', this.x(dadosFaltando[0].data))
-      .attr('y1', this.yPressao(dadosFaltando[0].valorPressao))
-      .attr('x2', this.x(dadosFaltando[1].data))
-      .attr('y2', this.yPressao(dadosFaltando[0].valorPressao))
-      .style('stroke', '#cccccc')
-      .style('stroke-width', 3)
-      .style('stroke-dasharray', 4);
 
     this.gTemperatura.append('g')
       .attr('transform', `translate(0, ${this.heightGrafico + 5})`)
@@ -338,7 +324,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     markerPressao
       .style('display', null)
       .attr('cx', this.x(dados[dados.length - 1].data))
-      .attr('cy', this.yPressao(dados[dados.length - 2].valorPressao));
+      .attr('cy', this.yPressao(dados[dados.length - 1].valorPressao));
     bar
       .style('display', null)
       .attr('transform', `translate(${this.x(dados[dados.length - 1].data)}, 0)`);
@@ -361,7 +347,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
         markerPressao
           .style('display', null)
           .attr('cx', this.x(dados[i - 1].data))
-          .attr('cy', this.yPressao(dados[i - 2].valorPressao));
+          .attr('cy', this.yPressao(dados[i - 1].valorPressao));
       } else  {
         markerPressao
           .style('display', null)
