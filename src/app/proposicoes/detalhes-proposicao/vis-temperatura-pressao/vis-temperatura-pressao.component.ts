@@ -164,14 +164,10 @@ export class VisTemperaturaPressaoComponent implements OnInit {
         a.popularity = parseFloat(a.popularity.toFixed(1));
         return a;
       });
-      let temperatura: any = data[1];
+      const temperatura: any = data[1];
       const temperaturaMax: any = data[2];
       let temperaturaPressao;
       if (pressao.length > temperatura.length) {
-        temperatura = data[1].map(a => {
-          a.periodo = moment(a.periodo).add(7, 'days').format('YYYY-MM-DD');
-          return a;
-        });
         temperaturaPressao = pressao.map(a => ({
           data: moment(this.getProperty(temperatura.find(p => a.date === p.periodo),
             'periodo') ?? a.date),
@@ -182,7 +178,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       } else {
         temperaturaPressao = temperatura.map(a => ({
           data: moment(this.getProperty(pressao.find(p => a.periodo === p.date),
-            'date') ?? a.periodo).add(7, 'days'),
+            'date') ?? a.periodo),
           valorTemperatura: a.temperatura_recente,
           valorPressao: this.getProperty(pressao.find(p => a.periodo === p.date),
             'popularity') ?? null
