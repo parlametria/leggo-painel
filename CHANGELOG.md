@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.6 (2021-05-20)
+- [x] Pressão baseada no Twitter
+- [x] Define limite superior da temperatura
+
 ## 1.2.5 (2021-04-26)
 - [x] Adiciona tooltip para ícones de subida de temperatura e de pressão
 - [x] Corrige link para detalhes da proposição
