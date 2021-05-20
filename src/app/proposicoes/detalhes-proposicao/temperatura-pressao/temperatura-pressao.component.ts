@@ -55,8 +55,8 @@ export class TemperaturaPressaoComponent implements OnInit {
   }
 
   getSemanaString(data) {
-    const dataInicial = data.clone().subtract(7, 'days');
-    const dataFinal = data.clone();
+    const dataInicial = data.clone();
+    const dataFinal = data.clone().add(7, 'days');
     return `${dataInicial.format('D')} de ${dataInicial.format('MMM')} a
       ${dataFinal.format('D')} de ${dataFinal.format('MMM')}`;
   }

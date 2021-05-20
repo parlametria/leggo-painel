@@ -8,6 +8,8 @@ import { LocalProposicao, ProposicaoLista } from '../models/proposicao.model';
 import { PressaoService } from './pressao.service';
 import { ProgressoService } from './progresso.service';
 
+import { setUpperBound } from '../functions/utils';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -106,18 +108,18 @@ export class ProposicoesListaService {
         const progressos = this.processaProgresso(progresso);
 
         const proposicoesLista = proposicoes.map(a => ({
-          ultima_temperatura: this.getProperty(ultimaTemperatura.find(p => a.id_leggo === p.id_leggo),
-            'ultima_temperatura'),
-          temp_quinze_dias: this.getProperty(ultimaTemperatura.find(p => a.id_leggo === p.id_leggo),
-            'temp_quinze_dias'),
-          ultima_pressao: this.getProperty(ultimaPressao.find(p => a.id_leggo === p.id_leggo),
-            'ultima_pressao'),
-          pressao_oito_dias: this.getProperty(ultimaPressao.find(p => a.id_leggo === p.id_leggo),
-            'pressao_oito_dias'),
+          ultima_temperatura: setUpperBound(this.getProperty(ultimaTemperatura.find(p => a.id_leggo === p.id_leggo),
+            'ultima_temperatura')),
+          temp_quinze_dias: setUpperBound(this.getProperty(ultimaTemperatura.find(p => a.id_leggo === p.id_leggo),
+            'temp_quinze_dias')),
+          ultima_pressao: setUpperBound(this.getProperty(ultimaPressao.find(p => a.id_leggo === p.id_leggo),
+            'ultima_pressao')),
+          pressao_oito_dias: setUpperBound(this.getProperty(ultimaPressao.find(p => a.id_leggo === p.id_leggo),
+            'pressao_oito_dias')),
           anotacao_data_ultima_modificacao: this.getProperty(dataUltimoInsight.find(p => a.id_leggo === p.id_leggo),
             'anotacao_data_ultima_modificacao'),
           resumo_progresso: progressos[a.id_leggo],
-          max_temperatura_interesse: maxTemperaturaInteresse.max_temperatura_periodo,
+          max_temperatura_interesse: setUpperBound(maxTemperaturaInteresse.max_temperatura_periodo),
           isDestaque: this.isDestaque(a),
           ...a
         }));
