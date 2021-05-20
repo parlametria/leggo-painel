@@ -22,6 +22,8 @@ import { TemperaturaService } from 'src/app/shared/services/temperatura.service'
 
 import { Pressao } from 'src/app/shared/models/pressao.model';
 
+import { setUpperBound } from 'src/app/shared/functions/utils';
+
 const d3 = Object.assign({}, {
   select,
   selectAll,
@@ -157,31 +159,28 @@ export class VisTemperaturaPressaoComponent implements OnInit {
     forkJoin([
       this.pressaoService.getPressaoList(this.interesse, this.idProposicaoDestaque, dataInicio, dataFim),
       this.temperaturaService.getTemperaturasById(this.interesse, this.idProposicaoDestaque, dataInicio, dataFim),
-      this.temperaturaService.getMaximaTemperatura(this.interesse)
-
     ]).subscribe(data => {
       const pressao: Pressao[] = data[0].map(a => {
         a.popularity = parseFloat(a.popularity.toFixed(1));
         return a;
       });
       const temperatura: any = data[1];
-      const temperaturaMax: any = data[2];
       let temperaturaPressao;
       if (pressao.length > temperatura.length) {
         temperaturaPressao = pressao.map(a => ({
           data: moment(this.getProperty(temperatura.find(p => a.date === p.periodo),
             'periodo') ?? a.date),
-          valorTemperatura: this.getProperty(temperatura.find(p => a.date === p.periodo),
-            'temperatura_recente') ?? null,
-          valorPressao: a.popularity
+          valorTemperatura: setUpperBound(this.getProperty(temperatura.find(p => a.date === p.periodo),
+            'temperatura_recente')) ?? null,
+          valorPressao: setUpperBound(a.popularity)
         }));
       } else {
         temperaturaPressao = temperatura.map(a => ({
           data: moment(this.getProperty(pressao.find(p => a.periodo === p.date),
             'date') ?? a.periodo),
-          valorTemperatura: a.temperatura_recente,
-          valorPressao: this.getProperty(pressao.find(p => a.periodo === p.date),
-            'popularity') ?? null
+          valorTemperatura: setUpperBound(a.temperatura_recente),
+          valorPressao: setUpperBound(this.getProperty(pressao.find(p => a.periodo === p.date),
+            'popularity')) ?? null
         }));
       }
       temperaturaPressao.sort((a, b) => {
@@ -190,19 +189,14 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       if (this.gTemperatura) {
         this.gTemperatura.selectAll('*').remove();
       }
-      this.gTemperatura.call(g => this.atualizarVis(g, temperaturaPressao, temperaturaMax.max_temperatura_periodo));
+      this.gTemperatura.call(g => this.atualizarVis(g, temperaturaPressao));
     });
   }
 
-  private atualizarVis(g, dados, temperaturaMax) {
+  private atualizarVis(g, dados) {
     this.x.domain(d3.extent(dados, (d: any) => d.data));
-    this.yTemperatura.domain([0, temperaturaMax]);
-    const maxPressao = +d3.max(dados, (d: any) => d.valorPressao);
-    if (maxPressao > 100) {
-      this.yPressao.domain([0, maxPressao]);
-    } else {
-      this.yPressao.domain([0, 100]);
-    }
+    this.yTemperatura.domain([0, 100]);
+    this.yPressao.domain([0, 100]);
 
     const lineTemperatura = d3.line()
       .curve(d3.curveMonotoneX)
