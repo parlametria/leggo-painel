@@ -183,10 +183,10 @@ export class VisTemperaturaPressaoComponent implements OnInit {
           valorTemperatura: setUpperBound(a.temperatura_recente),
           valorPressao: setUpperBound(this.getProperty(pressao.find(p => a.periodo === p.date),
             'popularity')) ?? null,
-          user_count: setUpperBound(this.getProperty(pressao.find(p => a.periodo === p.date),
-          'user_count')) ?? null,
-          sum_interactions: setUpperBound(this.getProperty(pressao.find(p => a.periodo === p.date),
-          'sum_interactions')) ?? null,
+          user_count: this.getProperty(pressao.find(p => a.periodo === p.date),
+          'user_count') ?? null,
+          sum_interactions: this.getProperty(pressao.find(p => a.periodo === p.date),
+          'sum_interactions') ?? null,
         }));
       }
       temperaturaPressao.sort((a, b) => {
