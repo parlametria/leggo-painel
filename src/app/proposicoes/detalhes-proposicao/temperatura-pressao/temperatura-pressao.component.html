@@ -28,8 +28,8 @@
     </div>
   </div>
 </div>
-<p class="vis-rodape"> 
-  Atualmente monitoramos {{ infoTwitter?.total_parlamentares }} parlamentares e processamos {{ infoTwitter?.total_tweets / 1000000 }} milhões de tweets.
+<p class="vis-rodape" *ngIf="infoTwitter">
+  Foram processados <strong>{{ infoTwitter?.total_tweets / 1000000 }}</strong> milhões de tweets de <strong>{{ infoTwitter?.total_parlamentares + infoTwitter?.total_influenciadores }}</strong> perfis de parlamentares e influenciadores.
 </p>
 <div *ngIf="filtro?.data">
   <h3 class="titulo-sessao">
