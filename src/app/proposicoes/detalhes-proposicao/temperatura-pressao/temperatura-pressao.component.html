@@ -22,8 +22,12 @@
         </p>
       </div>
       <p *ngIf="filtro?.valorPressao !== null">
-        <strong class="color-pressao">{{ filtro?.valorPressao }}</strong>
-        de pressão
+        <strong class="color-pressao">{{ filtro?.valorPressao}}</strong>
+        de pressão feita por
+        <strong class="color-pressao">{{ filtro?.user_count}}</strong>
+        usuários distintos com
+        <strong class="color-pressao">{{ filtro?.sum_interactions}}</strong>
+        de engajamento
       </p>
       <p *ngIf="filtro?.valorPressao === null">
         Dados de <strong class="color-pressao">pressão</strong> só estão disponíveis no final da semana
@@ -31,6 +35,9 @@
     </div>
   </div>
 </div>
+<p class="vis-rodape" *ngIf="infoTwitter">
+  Foram processados <strong>{{ infoTwitter?.total_tweets / 1000000 }}</strong> milhões de tweets de <strong>{{ infoTwitter?.total_parlamentares + infoTwitter?.total_influenciadores }}</strong> perfis de parlamentares e influenciadores.
+</p>
 <div *ngIf="filtro?.data">
   <h3 class="titulo-sessao">
     Ações legislativas de {{ getSemanaString(filtro?.data) }}
