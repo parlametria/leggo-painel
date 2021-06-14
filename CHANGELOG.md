@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.2.6 (2021-06-14)
+## 1.2.7 (2021-06-14)
 - [x] Novo tooltip para pressão baseada no Twitter
 
 ## 1.2.6 (2021-05-20)
