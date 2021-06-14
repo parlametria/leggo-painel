@@ -103,4 +103,8 @@ export class TwitterService {
   getInfoTwitter(): Observable<InfoTwitter> {
     return this.http.get<InfoTwitter>(`${this.twitterUrl}/tweets/info`);
   }
+
+  getTweetRawInfo(): Observable<InfoTwitter> {
+    return this.http.get<InfoTwitter>(`${this.twitterUrl}/tweets/info/raw`);
+  }
 }
