@@ -5,6 +5,7 @@ import { Subject, BehaviorSubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { EventosService } from 'src/app/shared/services/eventos.service';
+import { TwitterService } from 'src/app/shared/services/twitter.service';
 import { indicate } from 'src/app/shared/functions/indicate.function';
 
 @Component({
@@ -22,10 +23,12 @@ export class TemperaturaPressaoComponent implements OnInit {
   public eventosSecundarios;
   public filtro;
   public showMais = false;
+  public infoTwitter;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private eventosService: EventosService
+    private eventosService: EventosService,
+    private twitterService: TwitterService
   ) { }
 
   ngOnInit(): void {
@@ -35,6 +38,7 @@ export class TemperaturaPressaoComponent implements OnInit {
         this.idLeggo = params.get('id_leggo');
         if (this.idLeggo !== undefined) {
           this.getEventos(this.idLeggo);
+          this.getTweetRawInfo();
         }
       });
   }
@@ -72,6 +76,14 @@ export class TemperaturaPressaoComponent implements OnInit {
 
   toggleShowMais() {
     this.showMais = !this.showMais;
+  }
+
+  getTweetRawInfo() {
+    this.twitterService.getTweetRawInfo()
+    .pipe(indicate(this.isLoading))
+    .subscribe(data => {
+      this.infoTwitter = data;
+    });
   }
 
 }
