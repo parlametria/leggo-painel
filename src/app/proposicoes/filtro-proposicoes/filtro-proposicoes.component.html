@@ -19,7 +19,7 @@
       class="app-seletor"
       [style.width]="'200px'"
       #selectorLocal
-      (change)="aplicarFiltro()"
+      (change)="onChangeLocal()"
       [(ngModel)]="localSelecionado">
       <optgroup
         *ngFor="let grp of locaisBusca"
