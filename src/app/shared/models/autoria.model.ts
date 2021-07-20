@@ -23,3 +23,20 @@ export interface ArvoreAutorias {
   categoria?: string;
   sigla?: string;
 }
+
+export interface Coautoria {
+  id_autor: number;
+  nome: string;
+  partido: string;
+  uf: string;
+  bancada: string;
+  nome_eleitoral: string;
+  node_size: number;
+}
+
+export interface CoautoriaLigacao {
+  source: number;
+  target: number;
+  value: number;
+}
+
