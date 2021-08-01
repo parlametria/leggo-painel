@@ -18,6 +18,7 @@ import { EventoTramitacaoComponent } from './evento-tramitacao/evento-tramitacao
 import { EmentasComponent } from './ementas/ementas.component';
 import { ListaLocaisAtuaisComponent } from './lista-locais-atuais/lista-locais-atuais.component';
 import { RedeInfluenciaComponent } from './rede-influencia/rede-influencia.component';
+import { VisRedeInfluenciaComponent } from './vis-rede-influencia/vis-rede-influencia.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { RedeInfluenciaComponent } from './rede-influencia/rede-influencia.compo
     EventoTramitacaoComponent,
     EmentasComponent,
     ListaLocaisAtuaisComponent,
-    RedeInfluenciaComponent
+    RedeInfluenciaComponent,
+    VisRedeInfluenciaComponent
   ],
   imports: [
     CommonModule,
