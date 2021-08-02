@@ -46,12 +46,12 @@ export class AutoriasService {
     return this.http.get<AutoriaProposicao[]>(`${this.autoriaUrl}/${idLeggo}/parlamentares`);
   }
 
-  getCoautorias(idLeggo: string): Observable<Coautoria[]> {
-    return this.http.get<Coautoria[]>(`${environment.baseUrl}/coautorias_node/${idLeggo}`);
+  getCoautorias(idLeggo: string): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.baseUrl}/coautorias_node/${idLeggo}`);
   }
 
-  getCoautoriasLigacoes(idLeggo: string): Observable<CoautoriaLigacao[]> {
-    return this.http.get<CoautoriaLigacao[]>(`${environment.baseUrl}/coautorias_edge/${idLeggo}`);
+  getCoautoriasLigacoes(idLeggo: string): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.baseUrl}/coautorias_edge/${idLeggo}`);
   }
 
 }
