@@ -7,7 +7,7 @@ import { select, selectAll } from 'd3-selection';
 import { scaleLinear } from 'd3-scale';
 import { interpolatePurples, interpolateGreens } from 'd3-scale-chromatic';
 import { max, min } from 'd3-array';
-import { forceSimulation, forceLink, forceManyBody, forceCollide, forceX, forceCenter } from 'd3-force';
+import { forceSimulation, forceLink, forceManyBody, forceCollide, forceX, forceY, forceCenter } from 'd3-force';
 import { drag } from 'd3-drag';
 
 import { AutoriasService } from 'src/app/shared/services/autorias.service';
@@ -17,7 +17,7 @@ const d3 = Object.assign({}, {
   scaleLinear,
   interpolatePurples, interpolateGreens,
   max, min,
-  forceSimulation, forceLink, forceManyBody, forceCollide, forceX, forceCenter,
+  forceSimulation, forceLink, forceManyBody, forceCollide, forceX, forceY, forceCenter,
   drag
 });
 
@@ -53,7 +53,7 @@ export class VisRedeInfluenciaComponent implements OnInit {
       bottom: 60
     };
     this.width = largura - this.margin.right - this.margin.left;
-    this.height = 400 - this.margin.top - this.margin.bottom;
+    this.height = 600 - this.margin.top - this.margin.bottom;
     this.r = 8;
 
     this.svg = d3
@@ -82,43 +82,11 @@ export class VisRedeInfluenciaComponent implements OnInit {
 
   private carregarVis() {
 
-    function arrastar(simulation) {
-      function dragstarted(event) {
-        console.log('a');
-
-        if (!event.active) {
-          simulation.alphaTarget(0.3).restart();
-        }
-        event.subject.fx = event.subject.x;
-        event.subject.fy = event.subject.y;
-      }
-
-      function dragged(event) {
-        event.subject.fx = event.x;
-        event.subject.fy = event.y;
-      }
-
-      function dragended(event) {
-        if (!event.active) {
-          simulation.alphaTarget(0);
-        }
-        event.subject.fx = null;
-        event.subject.fy = null;
-      }
-
-      return d3.drag()
-        .on('start', dragstarted)
-        .on('drag', dragged)
-        .on('end', dragended);
-    }
-
     forkJoin([
       this.autoriasService.getCoautorias(this.idLeggo),
       this.autoriasService.getCoautoriasLigacoes(this.idLeggo)
     ]).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
-        // const nodes = data[0];
-        // const links = data[1];
         const nodes = data[0].map((n: any) => ({
           ...n,
           node_size: parseInt(n.node_size, 10),
@@ -131,13 +99,16 @@ export class VisRedeInfluenciaComponent implements OnInit {
           source: parseInt(edge.source, 10),
           target: parseInt(edge.target, 10)
         }));
+        const connectedNodes = nodes.filter(n => {
+          return (links.filter(l => l.source.id === n.id || l.target === n.id).length > 0);
+        }).map(n => n.id);
 
         const scaleAux = d3.scaleLinear()
           .domain([
             d3.min(nodes, d => d.node_size),
             d3.max(nodes, d => d.node_size)
           ])
-          .range([0.25, 1]);
+          .range([0.2, 1]);
         this.color = (n: any) => {
           if (n.bancada === 'governo') {
             return d3.interpolatePurples(scaleAux(n.node_size));
@@ -145,23 +116,35 @@ export class VisRedeInfluenciaComponent implements OnInit {
           return d3.interpolateGreens(scaleAux(n.node_size));
         };
 
+        const scaleLinkSize = d3.scaleLinear()
+          .domain([
+            d3.min(links, (d: any) => +d.value),
+            d3.max(links, (d: any) => +d.value)
+          ])
+          .range([0.5, 5]);
+
         const simulation = d3.forceSimulation(nodes)
           .force('link', d3.forceLink()
             .id((d: any) => d.id)
             .links(links)
-            .distance(d => this.r))
-          .force('charge', d3.forceManyBody())
-          .force('collision', d3.forceCollide(this.r + 10))
-          .force('x', d3.forceX((d: any) => (d.bancada === 'governo' ? this.width * 0.25 : this.width * 0.75))
-            .strength(0.9));
+            .distance(this.r))
+          .force('charge', d3.forceManyBody().strength(-25))
+          .force('collision', d3
+            .forceCollide((d: any) => connectedNodes.includes(d.id) ? this.r + 20 : this.r + 2))
+          .force('x', d3
+            .forceX((d: any) => (d.bancada === 'governo' ? this.width * 0.25 : this.width * 0.75))
+            .strength(0.9))
+          .force('y', d3
+            .forceY((d: any) => connectedNodes.includes(d.id) ? this.height * 0.25 : this.height * 0.9)
+            .strength((d: any) => connectedNodes.includes(d.id) ? 0.2 : 1.5));
 
         const link = this.g.append('g')
-          .attr('stroke', '#999')
-          .attr('stroke-opacity', 0.6)
+          .attr('stroke', '#ccc')
+          .attr('stroke-opacity', 1)
           .selectAll('line')
           .data(links)
           .join('line')
-          .attr('stroke-width', d => Math.sqrt(d.value));
+          .attr('stroke-width', (d: any) => scaleLinkSize(+d.value));
 
         const node = this.g.append('g')
           .attr('stroke', '#fff')
@@ -170,8 +153,8 @@ export class VisRedeInfluenciaComponent implements OnInit {
           .data(nodes)
           .join('circle')
           .attr('r', this.r)
-          .attr('fill', d => this.color(d))
-          .call(arrastar(simulation));
+          .attr('fill', (d: any) => this.color(d))
+          .attr('title', (d: any) => d.id);
 
         simulation.on('tick', () => {
           link
