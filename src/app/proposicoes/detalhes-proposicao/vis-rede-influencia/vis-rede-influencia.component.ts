@@ -84,8 +84,6 @@ export class VisRedeInfluenciaComponent implements OnInit {
 
     function arrastar(simulation) {
       function dragstarted(event) {
-        console.log('a');
-
         if (!event.active) {
           simulation.alphaTarget(0.3).restart();
         }
