@@ -81,7 +81,6 @@ export class VisRedeInfluenciaComponent implements OnInit {
   }
 
   private carregarVis() {
-
     forkJoin([
       this.autoriasService.getCoautorias(this.idLeggo),
       this.autoriasService.getCoautoriasLigacoes(this.idLeggo)
