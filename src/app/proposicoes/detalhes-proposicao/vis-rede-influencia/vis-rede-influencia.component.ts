@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Subject, forkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { select, selectAll } from 'd3-selection';
+import { select, selectAll, mouse, event } from 'd3-selection';
 import { scaleLinear } from 'd3-scale';
 import { interpolatePurples, interpolateGreens } from 'd3-scale-chromatic';
 import { max, min } from 'd3-array';
@@ -14,7 +14,7 @@ import { AutoriasService } from 'src/app/shared/services/autorias.service';
 import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.service';
 
 const d3 = Object.assign({}, {
-  select, selectAll,
+  select, selectAll, mouse, event,
   scaleLinear,
   interpolatePurples, interpolateGreens,
   max, min,
@@ -148,6 +148,13 @@ export class VisRedeInfluenciaComponent implements OnInit {
             .forceY((d: any) => connectedNodes.includes(d.id) ? this.height * 0.25 : this.height * 0.9)
             .strength((d: any) => connectedNodes.includes(d.id) ? 0.2 : 1.5));
 
+        const tooltip = d3.select('body')
+          .append('div')
+          .attr('class', 'vis-tooltip')
+          .style('position', 'absolute')
+          .attr('data-html', 'true')
+          .style('visibility', 'hidden');
+
         const link = this.g.append('g')
           .attr('stroke', '#ccc')
           .attr('stroke-opacity', 1)
@@ -163,10 +170,19 @@ export class VisRedeInfluenciaComponent implements OnInit {
           .data(nodes)
           .join('circle')
           .attr('r', (d: any) => scaleNodeSize(d.pesoPolitico))
-          .attr('fill', (d: any) => this.color(d));
+          .attr('fill', (d: any) => this.color(d))
+          .on('mouseover', d => {
+            tooltip.style('visibility', 'visible')
+              .html(this.tooltipText(d));
+          })
+          .on('mousemove', d => {
+            tooltip.style('top', (event.pageY - 20) + 'px')
+              .style('left', (event.pageX + 20) + 'px');
+          })
+          .on('mouseout', () => tooltip.style('visibility', 'hidden'));
 
-        node.append('title')
-          .text((d: any) => d.nome_eleitoral);
+        // node.append('title')
+        //   .text((d: any) => d.nome_eleitoral);
 
         simulation.on('tick', () => {
           link
@@ -180,6 +196,10 @@ export class VisRedeInfluenciaComponent implements OnInit {
         });
 
       });
+  }
+
+  private tooltipText(d): any {
+    return `<p class="vis-tooltip-titulo"><strong>${d.nome}</strong> ${d.partido}/${d.uf}</p>`;
   }
 
 }
