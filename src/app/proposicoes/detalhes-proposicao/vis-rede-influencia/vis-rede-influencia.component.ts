@@ -11,6 +11,7 @@ import { forceSimulation, forceLink, forceManyBody, forceCollide, forceX, forceY
 import { drag } from 'd3-drag';
 
 import { AutoriasService } from 'src/app/shared/services/autorias.service';
+import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.service';
 
 const d3 = Object.assign({}, {
   select, selectAll,
@@ -42,7 +43,8 @@ export class VisRedeInfluenciaComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private autoriasService: AutoriasService) { }
+    private autoriasService: AutoriasService,
+    private pesoPoliticoService: PesoPoliticoService) { }
 
   ngOnInit(): void {
     const largura = (window.innerWidth > 1000) ? 1000 : window.innerWidth;
@@ -83,16 +85,22 @@ export class VisRedeInfluenciaComponent implements OnInit {
   private carregarVis() {
     forkJoin([
       this.autoriasService.getCoautorias(this.idLeggo),
-      this.autoriasService.getCoautoriasLigacoes(this.idLeggo)
+      this.autoriasService.getCoautoriasLigacoes(this.idLeggo),
+      this.pesoPoliticoService.getPesoPolitico()
     ]).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
-        const nodes = data[0].map((n: any) => ({
-          ...n,
-          node_size: parseInt(n.node_size, 10),
-          x: 0,
-          y: 0,
-          id: parseInt(n.id_autor, 10)
-        }));
+        const pesoPolitico = data[2];
+        const nodes = data[0].map((n: any) => {
+          const peso = pesoPolitico.find(p => parseInt(p.idParlamentarVoz, 10) === parseInt(n.id_autor_parlametria, 10));
+          return {
+            ...n,
+            node_size: parseInt(n.node_size, 10),
+            x: 0,
+            y: 0,
+            id: parseInt(n.id_autor, 10),
+            pesoPolitico: (typeof peso === 'undefined' ? 0 : peso.pesoPolitico)
+          };
+        });
         const links = data[1].map(edge => ({
           ...edge,
           source: parseInt(edge.source, 10),
@@ -104,15 +112,15 @@ export class VisRedeInfluenciaComponent implements OnInit {
 
         const scaleAux = d3.scaleLinear()
           .domain([
-            d3.min(nodes, d => d.node_size),
-            d3.max(nodes, d => d.node_size)
+            d3.min(nodes, d => d.pesoPolitico),
+            d3.max(nodes, d => d.pesoPolitico)
           ])
-          .range([0.2, 1]);
+          .range([0.25, 0.75]);
         this.color = (n: any) => {
           if (n.bancada === 'governo') {
-            return d3.interpolatePurples(scaleAux(n.node_size));
+            return d3.interpolatePurples(scaleAux(n.pesoPolitico));
           }
-          return d3.interpolateGreens(scaleAux(n.node_size));
+          return d3.interpolateGreens(scaleAux(n.pesoPolitico));
         };
 
         const scaleLinkSize = d3.scaleLinear()
@@ -121,13 +129,16 @@ export class VisRedeInfluenciaComponent implements OnInit {
             d3.max(links, (d: any) => +d.value)
           ])
           .range([0.5, 5]);
+        const scaleNodeSize = d3.scaleLinear()
+          .domain([0, 1])
+          .range([5, 15]);
 
         const simulation = d3.forceSimulation(nodes)
           .force('link', d3.forceLink()
             .id((d: any) => d.id)
             .links(links)
             .distance(this.r))
-          .force('charge', d3.forceManyBody().strength(-25))
+          // .force('charge', d3.forceManyBody().strength(-25))
           .force('collision', d3
             .forceCollide((d: any) => connectedNodes.includes(d.id) ? this.r + 20 : this.r + 2))
           .force('x', d3
@@ -147,13 +158,15 @@ export class VisRedeInfluenciaComponent implements OnInit {
 
         const node = this.g.append('g')
           .attr('stroke', '#fff')
-          .attr('stroke-width', 1.5)
+          .attr('stroke-width', 1)
           .selectAll('circle')
           .data(nodes)
           .join('circle')
-          .attr('r', this.r)
-          .attr('fill', (d: any) => this.color(d))
-          .attr('title', (d: any) => d.id);
+          .attr('r', (d: any) => scaleNodeSize(d.pesoPolitico))
+          .attr('fill', (d: any) => this.color(d));
+
+        node.append('title')
+          .text((d: any) => d.nome_eleitoral);
 
         simulation.on('tick', () => {
           link
@@ -161,7 +174,6 @@ export class VisRedeInfluenciaComponent implements OnInit {
             .attr('y1', d => d.source.y)
             .attr('x2', d => d.target.x)
             .attr('y2', d => d.target.y);
-
           node
             .attr('cx', d => d.x)
             .attr('cy', d => d.y);
