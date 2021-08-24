@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subject, forkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -32,6 +32,7 @@ export class VisRedeInfluenciaComponent implements OnInit {
   private unsubscribe = new Subject();
 
   private idLeggo;
+  private interesse;
 
   private width;
   private height;
@@ -42,6 +43,7 @@ export class VisRedeInfluenciaComponent implements OnInit {
   private g: any;
 
   constructor(
+    private router: Router,
     private activatedRoute: ActivatedRoute,
     private autoriasService: AutoriasService,
     private pesoPoliticoService: PesoPoliticoService) { }
@@ -78,6 +80,7 @@ export class VisRedeInfluenciaComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.idLeggo = params.get('id_leggo');
+        this.interesse = params.get('interesse');
         this.carregarVis();
       });
   }
@@ -142,11 +145,11 @@ export class VisRedeInfluenciaComponent implements OnInit {
           .force('collision', d3
             .forceCollide((d: any) => connectedNodes.includes(d.id) ? this.r + 20 : this.r + 2))
           .force('x', d3
-            .forceX((d: any) => (d.bancada === 'governo' ? this.width * 0.25 : this.width * 0.75))
+            .forceX((d: any) => (d.bancada === 'governo' ? this.width * 0.75 : this.width * 0.25))
             .strength(0.9))
           .force('y', d3
             .forceY((d: any) => connectedNodes.includes(d.id) ? this.height * 0.25 : this.height * 0.9)
-            .strength((d: any) => connectedNodes.includes(d.id) ? 0.2 : 1.5));
+            .strength((d: any) => connectedNodes.includes(d.id) ? 2 : 1));
 
         const tooltip = d3.select('body')
           .append('div')
@@ -171,18 +174,38 @@ export class VisRedeInfluenciaComponent implements OnInit {
           .join('circle')
           .attr('r', (d: any) => scaleNodeSize(d.pesoPolitico))
           .attr('fill', (d: any) => this.color(d))
-          .on('mouseover', d => {
+          .style('cursor', 'pointer')
+          .style('pointer-events', 'all')
+          .on('mouseover', (d: any) => {
             tooltip.style('visibility', 'visible')
               .html(this.tooltipText(d));
           })
-          .on('mousemove', d => {
+          .on('mousemove', (d: any) => {
             tooltip.style('top', (event.pageY - 20) + 'px')
               .style('left', (event.pageX + 20) + 'px');
           })
-          .on('mouseout', () => tooltip.style('visibility', 'hidden'));
+          .on('mouseout', () => tooltip.style('visibility', 'hidden'))
+          .on('click', (d: any) => {
+            tooltip.style('visibility', 'hidden');
+            this.router.navigate([this.interesse, 'parlamentares', d.id_autor_parlametria]);
+          });
 
         // node.append('title')
         //   .text((d: any) => d.nome_eleitoral);
+
+        this.g.append('text')
+          .attr('x', this.width * 0.25)
+          .attr('y', this.height)
+          .attr('text-anchor', 'middle')
+          .attr('fill', '#aaa')
+          .text('Centro/Governo');
+
+        this.g.append('text')
+          .attr('x', this.width * 0.75)
+          .attr('y', this.height)
+          .attr('text-anchor', 'middle')
+          .attr('fill', '#aaa')
+          .text('Oposição');
 
         simulation.on('tick', () => {
           link
