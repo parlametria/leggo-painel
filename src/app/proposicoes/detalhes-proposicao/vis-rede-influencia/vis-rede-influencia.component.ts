@@ -9,6 +9,7 @@ import { interpolatePurples, interpolateGreens } from 'd3-scale-chromatic';
 import { max, min } from 'd3-array';
 import { forceSimulation, forceLink, forceManyBody, forceCollide, forceX, forceY, forceCenter } from 'd3-force';
 import { drag } from 'd3-drag';
+import { format } from 'd3-format';
 
 import { AutoriasService } from 'src/app/shared/services/autorias.service';
 import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.service';
@@ -19,7 +20,8 @@ const d3 = Object.assign({}, {
   interpolatePurples, interpolateGreens,
   max, min,
   forceSimulation, forceLink, forceManyBody, forceCollide, forceX, forceY, forceCenter,
-  drag
+  drag,
+  format
 });
 
 @Component({
@@ -57,7 +59,7 @@ export class VisRedeInfluenciaComponent implements OnInit {
       bottom: 60
     };
     this.width = largura - this.margin.right - this.margin.left;
-    this.height = 600 - this.margin.top - this.margin.bottom;
+    this.height = 400 - this.margin.top - this.margin.bottom;
     this.r = 8;
 
     this.svg = d3
@@ -110,7 +112,7 @@ export class VisRedeInfluenciaComponent implements OnInit {
           target: parseInt(edge.target, 10)
         }));
         const connectedNodes = nodes.filter(n => {
-          return (links.filter(l => l.source.id === n.id || l.target === n.id).length > 0);
+          return (links.filter(l => l.source === n.id || l.target === n.id).length > 0);
         }).map(n => n.id);
 
         const scaleAux = d3.scaleLinear()
@@ -148,7 +150,7 @@ export class VisRedeInfluenciaComponent implements OnInit {
             .forceX((d: any) => (d.bancada === 'governo' ? this.width * 0.75 : this.width * 0.25))
             .strength(0.9))
           .force('y', d3
-            .forceY((d: any) => connectedNodes.includes(d.id) ? this.height * 0.25 : this.height * 0.9)
+            .forceY((d: any) => connectedNodes.includes(d.id) ? this.height * 0.25 : this.height * 0.75)
             .strength((d: any) => connectedNodes.includes(d.id) ? 2 : 1));
 
         const tooltip = d3.select('body')
@@ -222,7 +224,8 @@ export class VisRedeInfluenciaComponent implements OnInit {
   }
 
   private tooltipText(d): any {
-    return `<p class="vis-tooltip-titulo"><strong>${d.nome}</strong> ${d.partido}/${d.uf}</p>`;
+    return `<p class="vis-tooltip-titulo"><strong>${d.nome}</strong> ${d.partido}/${d.uf}</p>
+      <p>Peso político: <strong>${format('.2f')(d.pesoPolitico)}</strong></p>`;
   }
 
 }
