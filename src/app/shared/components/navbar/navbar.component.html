@@ -12,25 +12,20 @@
             height="22">
         </a>
       </div>
-      <div class="text-center" *ngIf="interesse?.interesse">
-        <a
-          [routerLink]="interesse?.interesse"
-          class="navbar-brand">
-          <span class="d-none d-md-inline-block">&bull;</span>
-          Painel
-          <span class="nome-painel">{{ interesse?.nome_interesse }}</span>
-        </a>
-      </div>
     </div>
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a
-          [routerLink]="'/sobre'"
-          class="navbar-link-icon">
-          <span class="icon-sobre app-icon"></span>
-          <span class="sr-only">Sobre</span>
-        </a>
-      </li>
-    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <select
+        id="paineis"
+        name="paineis"
+        class="form-control"
+        (change)="onNavigate($event.target.value)">
+        <option
+          *ngFor="let i of interesses"
+          [value]="i.interesse"
+          [selected]="i.interesse === interesse?.interesse">
+          {{ i?.nome_interesse }}
+        </option>
+      </select>
+    </form>
   </div>
 </nav>

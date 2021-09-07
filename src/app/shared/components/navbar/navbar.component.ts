@@ -16,6 +16,7 @@ export class NavbarComponent implements OnInit {
   private unsubscribe = new Subject();
 
   public interesse: Interesse;
+  public interesses: Interesse[];
 
   public interesseParam: string;
 
@@ -25,6 +26,7 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getInteresses();
     this.router.events
     .pipe(takeUntil(this.unsubscribe))
     .subscribe((event) => {
@@ -44,5 +46,17 @@ export class NavbarComponent implements OnInit {
       .subscribe((data) => {
         this.interesse = data[0];
       });
+  }
+
+  getInteresses() {
+    this.interesseService
+      .getInteresses()
+      .subscribe((data) => {
+        this.interesses = data.filter((i) => i.interesse !== 'leggo');
+      });
+  }
+
+  onNavigate(painel: any) {
+    this.router.navigate([painel]);
   }
 }
