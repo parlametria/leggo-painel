@@ -1,27 +1,27 @@
-.paineis {
-  display: flex;
-  align-items: center;
-  @media (min-width: 768px) {
-    height: 60vh;
-  }
+.card {
+  border-color: #582F7F59;
 }
 
-.paineis-selecao {
+.card-inner {
   padding: 1rem;
-  margin-bottom: 1rem;
+}
+
+.card-calltoaction {
+  height: 150px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position-x: center;
+}
 
-  @media (min-width: 576px) {
-    height: 100px;
-  }
+.card-calltoaction-h,
+.card-calltoaction-link:link,
+.card-calltoaction-link:visited {
+  color: #ffffff;
+}
 
-  @media (min-width: 992px) {
-    padding: 3rem;
-  }
-
-  @media (min-width: 1200px) {
-    padding: 3.6rem;
-  }
+.card-calltoaction-link:active,
+.card-calltoaction-link:hover {
+  text-decoration: none;
 }
