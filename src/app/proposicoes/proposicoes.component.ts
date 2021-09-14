@@ -5,8 +5,9 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { skip, takeUntil } from 'rxjs/operators';
 
 import { ProposicoesListaService } from '../shared/services/proposicoes-lista.service';
+import { InteresseService } from '../shared/services/interesse.service';
 import { ProposicaoLista } from '../shared/models/proposicao.model';
-import { MaximaTemperaturaProposicao } from '../shared/models/proposicoes/maximaTemperaturaProposicao.model';
+import { Interesse } from '../shared/models/interesse.model';
 import { indicate } from '../shared/functions/indicate.function';
 
 @Component({
@@ -19,7 +20,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   private unsubscribe = new Subject();
   public isLoading = new BehaviorSubject<boolean>(true);
 
-  interesse: string;
+  interesse: Interesse;
   proposicoes: ProposicaoLista[];
   tema: string;
   proposicoesDestaque: ProposicaoLista[];
@@ -29,6 +30,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
 
   constructor(
     private proposicoesListaService: ProposicoesListaService,
+    private interesseService: InteresseService,
     private activatedRoute: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
     private router: Router
@@ -38,8 +40,9 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
     this.activatedRoute.parent.paramMap
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
-        this.interesse = params.get('interesse');
-        this.getProposicoes(this.interesse);
+        const interesse = params.get('interesse');
+        this.getProposicoes(interesse);
+        this.getInteresse(interesse);
       });
     this.activatedRoute.queryParams
       .subscribe(params => {
@@ -63,6 +66,18 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
     this.cdRef.detectChanges();
   }
 
+  getInteresse(interesseArg: string) {
+    this.interesseService
+      .getInteresse(interesseArg)
+      .pipe(
+        indicate(this.isLoading),
+        takeUntil(this.unsubscribe))
+      .subscribe((data) => {
+        this.interesse = data[0];
+        this.isLoading.next(false);
+      });
+  }
+
   getProposicoes(interesse: string) {
     this.proposicoesListaService.getProposicoes(interesse)
       .pipe(
@@ -70,8 +85,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
         indicate(this.isLoading),
         takeUntil(this.unsubscribe)
       ).subscribe(proposicoes => {
-        this.proposicoes = proposicoes.filter(p => (!p.isDestaque || p.apensadas.length > 0));
-        this.proposicoesDestaque = proposicoes.filter(p => (p.isDestaque && p.apensadas.length < 1));
+        this.proposicoes = proposicoes;
 
         if (proposicoes.length <= (this.PROPOSICOES_POR_PAGINA * (this.p - 1))) {
           this.pageChange(1); // volta para a primeira página com o novo resultado do filtro

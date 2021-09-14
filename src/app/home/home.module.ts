@@ -13,6 +13,7 @@ import { FiltroComponent } from '../atividade-parlamentar/filtro/filtro.componen
 import { ProposicoesComponent } from '../proposicoes/proposicoes.component';
 import { CardProposicaoComponent } from '../proposicoes/card-proposicao/card-proposicao.component';
 import { FiltroProposicoesComponent } from '../proposicoes/filtro-proposicoes/filtro-proposicoes.component';
+import { FiltroTextoProposicoesComponent } from '../proposicoes/filtro-texto-proposicoes/filtro-texto-proposicoes.component';
 import { SobreComponent } from './sobre/sobre.component';
 import { SelecaoPainelComponent } from './selecao-painel/selecao-painel.component';
 import { InsightsComponent } from '../insights/insights.component';
@@ -27,6 +28,7 @@ import { CardInsightComponent } from '../insights/card-insight/card-insight.comp
     ProposicoesComponent,
     CardProposicaoComponent,
     FiltroProposicoesComponent,
+    FiltroTextoProposicoesComponent,
     SobreComponent,
     SelecaoPainelComponent,
     InsightsComponent,
