@@ -49,10 +49,13 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
   ];
 
   public statusSelecionado: string;
+  public tramitandoSelecionado: boolean;
+  public finalizadaSelecionado: boolean;
   status = [
     { statusName: 'tramitando', statusValue: 'tramitando' },
     { statusName: 'finalizadas', statusValue: 'finalizada' },
-    { statusName: 'tramitando ou finalizadas', statusValue: 'todas' }
+    { statusName: 'tramitando ou finalizadas', statusValue: 'todas' },
+    { statusName: 'nenhuma', statusValue: 'nenhuma' }
   ];
 
   proposicaoPesquisada = '';
@@ -68,6 +71,36 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
   ngOnInit(): void {
     this.getTemas();
     this.getLocais();
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        this.orderBySelecionado = params.orderByProp;
+        this.orderBySelecionado === undefined ?
+          this.orderBySelecionado = this.ORDER_BY_PADRAO : this.orderBySelecionado = this.orderBySelecionado;
+        this.temaSelecionado = params.tema;
+        this.temaSelecionado === undefined ?
+          this.temaSelecionado = this.FILTRO_PADRAO : this.temaSelecionado = this.temaSelecionado;
+        this.statusSelecionado = params.statusProp;
+        if (this.statusSelecionado === undefined) {
+          this.statusSelecionado = this.STATUS_PADRAO;
+          this.tramitandoSelecionado = true;
+          this.finalizadaSelecionado = false;
+        }  else {
+          if (this.statusSelecionado === 'todas') {
+            this.tramitandoSelecionado = true;
+            this.finalizadaSelecionado = true;
+          } else {
+            if (this.statusSelecionado === 'tramitando') {
+              this.tramitandoSelecionado = true;
+              this.finalizadaSelecionado = false;
+            }
+            if (this.statusSelecionado === 'finalizada') {
+              this.tramitandoSelecionado = false;
+              this.finalizadaSelecionado = true;
+            }
+          }
+        }
+      });
+    this.localSelecionado = this.locaisBusca[0];
     this.aplicarFiltro();
   }
 
@@ -141,11 +174,23 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
     this.router.navigate([], { queryParams });
   }
 
-  onChangeStatus(status: string) {
+  onChangeStatus() {
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    if (!this.tramitandoSelecionado && !this.finalizadaSelecionado) {
+      this.statusSelecionado = 'nenhuma';
+    } else if (this.tramitandoSelecionado && this.finalizadaSelecionado) {
+      this.statusSelecionado = 'todas';
+    } else {
+      if (this.tramitandoSelecionado) {
+        this.statusSelecionado = 'tramitando';
+      }
+      if (this.finalizadaSelecionado) {
+        this.statusSelecionado = 'finalizada';
+      }
+    }
 
-    if (status !== this.STATUS_PADRAO) {
-      queryParams.statusProp = status;
+    if (this.statusSelecionado !== this.STATUS_PADRAO) {
+      queryParams.statusProp = this.statusSelecionado;
     } else {
       delete queryParams.statusProp;
     }
@@ -167,47 +212,16 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
     this.aplicarFiltro();
   }
 
-  onChangeLocal() {
-    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-
-    if (this.localSelecionado.tipo_local !== 'geral') {
-      const localURI = this.localSelecionado.sigla_ultimo_local;
-      queryParams.local = localURI;
-    } else {
-      delete queryParams.local;
-    }
-    this.router.navigate([], { queryParams });
-
-    this.aplicarFiltro();
+  setOrdenacao(orderBy: string) {
+    this.orderBySelecionado = orderBy;
+    this.onChangeOrderBy(this.orderBySelecionado);
   }
 
-  updateFilterFromURL() {
-    this.activatedRoute.queryParams
-      .subscribe(params => {
-        this.orderBySelecionado = params.orderByProp;
-        this.orderBySelecionado === undefined ?
-          this.orderBySelecionado = this.ORDER_BY_PADRAO : this.orderBySelecionado = this.orderBySelecionado;
-
-        this.temaSelecionado = params.tema;
-        this.temaSelecionado === undefined ?
-          this.temaSelecionado = this.FILTRO_PADRAO : this.temaSelecionado = this.temaSelecionado;
-
-        this.statusSelecionado = params.statusProp;
-        this.statusSelecionado === undefined ?
-          this.statusSelecionado = this.STATUS_PADRAO : this.statusSelecionado = this.statusSelecionado;
-
-        const localURL = params.local;
-
-        if (localURL === undefined && this.localSelecionado === undefined) {
-          this.localSelecionado = this.locaisBusca[0];
-        } else if (localURL !== undefined) {
-          if (this.localSelecionado === undefined) {
-            const localSelecionado = this.locaisBusca.find(l =>
-              localURL.sigla_ultimo_local === l.sigla_ultimo_local);
-            this.localSelecionado = localSelecionado;
-          }
-        }
-      });
+  getClasseBotaoOrdenacao(orderBy: string) {
+    if (orderBy === this.orderBySelecionado) {
+      return 'btn btn-dark w-100';
+    }
+    return 'btn btn-outline-dark w-100';
   }
 
   ngOnDestroy(): void {
