@@ -1,12 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 /**
  * Importação de fontes padrão
- * Montserrat: 500 Textos em geral
- * Montserrat: 700 Textos fortes (negrito)
- * Roboto: Textos monoespaçados e números de tabelas
  */
-@import url("https://fonts.googleapis.com/css?family=Montserrat:500,700");
-@import url("https://fonts.googleapis.com/css?family=Roboto");
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&display=swap');
 
 // Importação e customização do Bootstrap
 @import "./node_modules/bootstrap/scss/functions";
