@@ -1,4 +1,3 @@
-$base-color: #20201e;
 $base-padding: 0.5rem;
 
 .back-btn {
@@ -39,7 +38,6 @@ $base-padding: 0.5rem;
 
 .foto-parlamentar > img {
   width: 100%;
-  border: solid 2px $base-color;
 }
 
 .info-parent {
@@ -75,7 +73,6 @@ $base-padding: 0.5rem;
 
 .parlamentar-partido {
   font-size: 20px;
-  color: grey;
 }
 
 .insignias {
@@ -85,7 +82,6 @@ $base-padding: 0.5rem;
 }
 
 .card-detalhes {
-  border: solid 1.5px $base-color;
   margin-bottom: 0.5rem;
   padding: 0.5rem;
 }

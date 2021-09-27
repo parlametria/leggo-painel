@@ -1,5 +1,3 @@
-$base-color: #20201e;
-
 .avaliacao {
   margin-top: 5px;
 }
@@ -9,7 +7,6 @@ $base-color: #20201e;
 }
 
 .avaliacao-bloco {
-  border: solid 1px $base-color;
   display: inline-block;
   width: 14px;
   height: 14px;
@@ -17,7 +14,6 @@ $base-color: #20201e;
 }
 
 .bloco-grande {
-  border: solid 2px $base-color;
   width: 30px;
   height: 30px;
   margin-right: 5px;
@@ -25,10 +21,6 @@ $base-color: #20201e;
 
 .ultimo {
   margin-right: 0;
-}
-
-.checked {
-  background-color: $base-color;
 }
 
 .avaliacao-nivel {
