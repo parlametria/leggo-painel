@@ -171,7 +171,7 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
 
     if (this.localSelecionado.tipo_local !== 'geral') {
-      const localURI = encodeURIComponent(JSON.stringify(this.localSelecionado));
+      const localURI = this.localSelecionado.sigla_ultimo_local;
       queryParams.local = localURI;
     } else {
       delete queryParams.local;
@@ -201,12 +201,9 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
         if (localURL === undefined && this.localSelecionado === undefined) {
           this.localSelecionado = this.locaisBusca[0];
         } else if (localURL !== undefined) {
-          const localParsed = JSON.parse(decodeURIComponent(localURL));
           if (this.localSelecionado === undefined) {
             const localSelecionado = this.locaisBusca.find(l =>
-              localParsed.sigla_ultimo_local === l.sigla_ultimo_local &&
-              localParsed.casa_ultimo_local === l.casa_ultimo_local &&
-              localParsed.tipo_local === l.tipo_local);
+              localURL.sigla_ultimo_local === l.sigla_ultimo_local);
             this.localSelecionado = localSelecionado;
           }
         }
