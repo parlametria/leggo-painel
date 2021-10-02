@@ -5,6 +5,7 @@ import { DetalhesProposicaoComponent } from './detalhes-proposicao.component';
 import { ProgressoComponent } from './progresso/progresso.component';
 import { TemperaturaPressaoComponent } from './temperatura-pressao/temperatura-pressao.component';
 import { AtuacaoParlamentarComponent } from './atuacao-parlamentar/atuacao-parlamentar.component';
+import { RedeInfluenciaComponent } from './rede-influencia/rede-influencia.component';
 
 const appRoutes: Routes = [
   {
@@ -27,6 +28,10 @@ const appRoutes: Routes = [
       {
         path: 'atuacao',
         component: AtuacaoParlamentarComponent
+      },
+      {
+        path: 'rede-de-influencia',
+        component: RedeInfluenciaComponent
       },
     ]
   }
