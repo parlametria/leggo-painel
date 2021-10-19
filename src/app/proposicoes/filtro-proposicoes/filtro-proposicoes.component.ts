@@ -134,6 +134,35 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
       });
   }
 
+  updateFilterFromURL() {
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        this.orderBySelecionado = params.orderByProp;
+        this.orderBySelecionado === undefined ?
+          this.orderBySelecionado = this.ORDER_BY_PADRAO : this.orderBySelecionado = this.orderBySelecionado;
+
+        this.temaSelecionado = params.tema;
+        this.temaSelecionado === undefined ?
+          this.temaSelecionado = this.FILTRO_PADRAO : this.temaSelecionado = this.temaSelecionado;
+
+        this.statusSelecionado = params.statusProp;
+        this.statusSelecionado === undefined ?
+          this.statusSelecionado = this.STATUS_PADRAO : this.statusSelecionado = this.statusSelecionado;
+
+        const localURL = params.local;
+
+        if (localURL === undefined && this.localSelecionado === undefined) {
+          this.localSelecionado = this.locaisBusca[0];
+        } else if (localURL !== undefined) {
+          if (this.localSelecionado === undefined) {
+            const localSelecionado = this.locaisBusca.find(l =>
+              localURL.sigla_ultimo_local === l.sigla_ultimo_local);
+            this.localSelecionado = localSelecionado;
+          }
+        }
+      });
+  }
+
   getCasaLocal(casa: string) {
     if (casa === 'camara') {
       return 'Câmara';
