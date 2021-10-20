@@ -1,4 +1,5 @@
 $base-padding: 0.5rem;
+$size: 13px;
 
 .temas {
   padding-left: 0.75rem;
@@ -37,4 +38,22 @@ $base-padding: 0.5rem;
 
 .card-header-muted {
   background-color: #f8f9fa;
+}
+
+.house-symbol-camara,
+.house-symbol-senado {
+  width: $size * 2;
+  height: $size;
+}
+
+.house-symbol-camara {
+  border-bottom-left-radius: $size * 2;
+  border-bottom-right-radius: $size * 2;
+  background: #00B53C;
+}
+
+.house-symbol-senado {
+  border-top-left-radius: $size * 2;
+  border-top-right-radius: $size * 2;
+  background: #0a367c;
 }

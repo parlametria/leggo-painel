@@ -2,20 +2,14 @@
   class="card mb-2"
   [class.card-muted]="getEhApensada()">
   <div
-    class="card-header d-flex"
+    class="card-header d-flex flex-row"
     [class.card-header-muted]="getEhApensada()">
-    <span
-      class="cracha text-muted temas"
-      [ngbPopover]="popTemas"
-      [autoClose]="'outside'">
-      {{ this.temasResumido(proposicao?.interesse[0]?.temas) }}
-      <ng-template #popTemas>
-        <span *ngFor="let tema of proposicao?.interesse[0]?.temas">
-          {{tema}}
-          <br>
-        </span>
-      </ng-template>
-    </span>
+    <div class="house-name d-flex flex-column">
+      <div *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.casa === 'camara'; then camaraLabel else senadoLabel"></div>
+      <ng-template #camaraLabel>Câmara</ng-template>
+      <ng-template #senadoLabel>Senado</ng-template>
+      <div class="house-symbol-{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.casa }}"></div>
+    </div>
   </div>
   <div class="card-body">
     <div [hidden]="getEhApensada()">
