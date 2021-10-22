@@ -22,6 +22,7 @@ export class CardProposicaoComponent implements OnInit {
     this.proposicao.resumo_progresso = this.resumirFases(
       this.ordenaProgresso(this.proposicao.resumo_progresso)
     );
+    console.log(this.proposicao);
   }
 
   temasResumido(temas) {
@@ -77,9 +78,9 @@ export class CardProposicaoComponent implements OnInit {
 
   getArtigoSiglaLocal(local: LocalProposicao) {
     if (local.tipo_local === 'plenario') {
-        return 'No';
+      return 'Encontra-se no ';
     } else {
-      return 'Na ';
+      return 'Encontra-se na ';
     }
   }
 
