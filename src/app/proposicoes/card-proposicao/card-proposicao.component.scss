@@ -1,14 +1,34 @@
-$base-padding: 0.5rem;
+@import '../../shared/variables.scss';
+
+$base-padding: 1rem;
 $size: 13px;
+
+.card-header {
+  padding: $base-padding;
+  background-color: #ffffff;
+  border: 1px solid #EBEBEB;
+
+  .house-name {
+    font-size: 12px;
+    font-weight: bold;
+    color: inherit;
+    font-family: "Open Sans";
+  }
+}
+
+.header-title {
+  .proposicao-title {
+    font-size: 18px;
+    font-weight: medium;
+    font-family: "Roboto";
+    color: $text-basic-color;
+  }
+}
 
 .temas {
   padding-left: 0.75rem;
   padding-top: 0.5rem;
   font-size: 0.85rem;
-}
-
-.proposicao-title {
-  font-size: 1.5rem;
 }
 
 .proposicao-info {
@@ -40,6 +60,10 @@ $size: 13px;
   background-color: #f8f9fa;
 }
 
+.house-camara {
+  color: $camara-color;
+}
+
 .house-symbol-camara,
 .house-symbol-senado {
   width: $size * 2;
@@ -49,11 +73,11 @@ $size: 13px;
 .house-symbol-camara {
   border-bottom-left-radius: $size * 2;
   border-bottom-right-radius: $size * 2;
-  background: #00B53C;
+  background: $camara-color;
 }
 
 .house-symbol-senado {
   border-top-left-radius: $size * 2;
   border-top-right-radius: $size * 2;
-  background: #0a367c;
+  background: $senado-color;
 }

@@ -4,13 +4,17 @@
   <div
     class="card-header d-flex flex-row"
     [class.card-header-muted]="getEhApensada()">
-    <div class="house-name d-flex flex-column col-sm-2">
-      <div *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.casa === 'camara'; then camaraLabel else senadoLabel"></div>
-      <ng-template #camaraLabel>Câmara</ng-template>
-      <ng-template #senadoLabel>Senado</ng-template>
+    <div class="house-{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.casa }} d-flex flex-column align-items-center col-sm-1">
       <div class="house-symbol-{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.casa }}"></div>
+      <div *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.casa === 'camara'; then camaraLabel else senadoLabel"></div>
+      <ng-template #camaraLabel>
+        <span class="house-name">Câmara</span>
+      </ng-template>
+      <ng-template #senadoLabel>
+        <span class="house-name">Senado</span>
+      </ng-template>
     </div>
-    <div class="header-title col-sm-10">
+    <div class="header-title col-sm-11">
       <div [hidden]="getEhApensada()">
         <a [routerLink]="[proposicao.id_leggo]">
           <span class="proposicao-title">
