@@ -2,8 +2,8 @@
 /**
  * Importação de fontes padrão
  */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&display=swap");
 
 // Importação e customização do Bootstrap
 @import "./node_modules/bootstrap/scss/functions";
@@ -11,6 +11,34 @@
 @import "./node_modules/bootstrap/scss/bootstrap";
 @import "assets/bootstrap/overhide";
 @import "assets/styles/icons";
+
+
+@font-face {
+  font-family: "Poppins";
+  src: url("assets/fonts/Poppins-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("assets/fonts/Poppins-Bold.ttf") format("truetype");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("assets/fonts/Poppins-Medium.ttf") format("truetype");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("assets/fonts/Poppins-Italic.ttf") format("truetype");
+  font-style: italic;
+}
+
+body {
+  font-family: "Poppins";
+}
 
 .app-container {
   margin-bottom: 2rem;
@@ -331,33 +359,22 @@ a.link-texto:visited {
 
 /* Fases */
 .fase {
-  width: 14px;
-  height: 14px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  background-color: #723234;
-  margin-right: 3px;
-  border: 2px solid #dadada;
+  background-color: #ffffff;
+  border: 1px solid #575757;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.fase-camara {
-  background-color: #4eb65f;
-  border-color: #4eb65f;
-}
-
-.fase-senado {
-  background-color: #4e8cb6;
-  border-color: #4e8cb6;
-}
-
-.fase-sancao {
-  background-color: #b6af4e;
-  border-color: #b6af4e;
-}
-
+.fase-camara,
+.fase-senado,
+.fase-sancao,
 .fase-comissao-mista {
-  background-color: #037a76;
-  border-color: #037a76;
+  border: 3px solid #34174A;
 }
 
 .fase-nao-realizada {
@@ -366,8 +383,9 @@ a.link-texto:visited {
 
 .fase-pulou {
   background-color: #dadada;
-  border-color: #dadada;
+  border-color: #8b7b7b;
 }
+
 /* Fases FIM */
 
 /* Gráficos */
@@ -451,4 +469,12 @@ ngb-carousel {
 .btn-in-text {
   padding: 0;
   font-size: 1em;
+}
+
+.truncate-overflow {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

@@ -1,8 +1,11 @@
 .app-progress {
-  border-left: solid 1px;
-  border-right: solid 1px;
-  border-bottom: solid 1px;
+  border-left: solid 1px #707070;
+  border-right: solid 1px #707070;
+  border-bottom: solid 1px #707070;
   border-top: none;
+  background: transparent;
+  height: 20px;
+  border-radius: unset;
 }
 
 .app-progress-bar {

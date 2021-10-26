@@ -1,27 +1,82 @@
-@import '../../shared/variables.scss';
+@import "../../shared/variables.scss";
 
 $base-padding: 1rem;
 $size: 13px;
 
-.card-header {
-  padding: $base-padding;
-  background-color: #ffffff;
-  border: 1px solid #EBEBEB;
+.card {
+  .card-header {
+    padding: $base-padding;
+    background-color: #ffffff;
+    border: 1px solid #ebebeb;
 
-  .house-name {
-    font-size: 12px;
-    font-weight: bold;
-    color: inherit;
-    font-family: "Open Sans";
+    .house-name {
+      font-size: 12px;
+      font-weight: bold;
+      color: inherit;
+    }
   }
-}
 
-.header-title {
-  .proposicao-title {
-    font-size: 18px;
-    font-weight: medium;
-    font-family: "Roboto";
-    color: $text-basic-color;
+  .header-title {
+    .proposicao-title {
+      font-size: 22px;
+      font-weight: 500;
+      color: $text-label-color;
+    }
+  }
+
+  .card-body {
+    span {
+      display: block;
+    }
+    .ementa-block {
+      .ementa-label {
+        font-size: 18px;
+        font-weight: 500;
+        color: $text-label-color;
+      }
+      p {
+        color: $text-basic-color;
+        font-size: 14px;
+      }
+    }
+    .etapa-tramitacao-block {
+      p {
+        color: $text-basic-color;
+        font-size: 14px;
+      }
+      a {
+        cursor: pointer;
+      }
+    }
+    .etapas-steps {
+      display: flex;
+      align-items: center;
+      & > div {
+        &:not(:last-child) {
+          .line-between-divs {
+            border: 2px solid #575757;
+            width: 30px;
+          }
+        }
+      }
+    }
+    .card-label {
+      font-size: 16px;
+      color: $text-label-color;
+      text-transform: uppercase;
+    }
+    .temperatura-block {
+      margin-bottom: 1rem;
+      .card-label {
+        margin-bottom: 10px;
+      }
+    }
+    .pressao-block {
+      margin-bottom: 1rem;
+      .card-label {
+        margin-bottom: 10px;
+      }
+    }
   }
 }
 
