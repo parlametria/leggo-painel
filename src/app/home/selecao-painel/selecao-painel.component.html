@@ -2,7 +2,7 @@
   <div class="container app-container pt-4">
     <div class="row">
       <div
-        class="col-sm-6 col-md-4 mb-4"
+        class="col-sm-6 col-md-3 mb-4"
         *ngFor="let interesse of interesses">
 
         <div class="card">
@@ -14,7 +14,6 @@
                 class="card-calltoaction-link"
                 [routerLink]="'/' + interesse?.interesse">
                 {{ interesse?.nome_interesse }}
-                {{ interesse?.descricao_interesse}}
               </a>
             </h4>
           </div>

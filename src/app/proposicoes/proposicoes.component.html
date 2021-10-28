@@ -43,7 +43,7 @@
       <div *ngIf="proposicoes?.length === 0">Nenhuma proposição encontrada</div>
 
       <div class="row">
-        <div class="col-8">
+        <div class="col-9">
 
           <pagination-template
             #pag="paginationApi"
@@ -135,7 +135,7 @@
           </pagination-template>
 
         </div>
-        <div class="col-4">
+        <div class="col-3">
           <app-filtro-proposicoes
             [interesse]="interesse"
             (filterChange)="search($event)"

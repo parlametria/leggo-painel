@@ -37,7 +37,17 @@
 }
 
 body {
-  font-family: "Poppins";
+  font-family: "Poppins" !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 0;
+  color: #000000;
+  opacity: 0.8;
+}
+
+h5 {
+  font-size: 19px;
 }
 
 .app-container {

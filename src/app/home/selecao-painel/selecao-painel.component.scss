@@ -3,9 +3,9 @@
 }
 
 .card-calltoaction {
-  height: 150px;
+  height: 325px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   background-size: cover;
   background-position-x: center;
@@ -15,6 +15,11 @@
 .card-calltoaction-link:link,
 .card-calltoaction-link:visited {
   color: #ffffff;
+  text-align: center;
+  font-weight: 500;
+  font-size: 23px;
+  font-family: "Poppins";
+  margin-top: 60px;
 }
 
 .card-calltoaction-link:active,

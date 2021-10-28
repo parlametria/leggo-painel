@@ -2,30 +2,26 @@
   class="card mb-2"
   [class.card-muted]="getEhApensada()">
   <div
-    class="card-header d-flex flex-row"
+    class="card-header d-flex flex-row align-items-center"
     [class.card-header-muted]="getEhApensada()">
-    <div class="house-{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.casa }} d-flex flex-column align-items-center col-sm-1">
-      <div class="house-symbol-{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.casa }}"></div>
-      <div *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.casa === 'camara'; then camaraLabel else senadoLabel"></div>
-      <ng-template #camaraLabel>
-        <span class="house-name">Câmara</span>
-      </ng-template>
-      <ng-template #senadoLabel>
-        <span class="house-name">Senado</span>
-      </ng-template>
+    <div class="col-sm-1">
+      <img *ngIf="proposicao?.isDestaque" src="assets/imgs/card_header_destaque.png">
     </div>
-    <div class="header-title col-sm-11">
+    <div class="header-title col-sm-10">
       <div [hidden]="getEhApensada()">
         <a [routerLink]="[proposicao.id_leggo]">
-          <span class="proposicao-title">
+          <h5>
             {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
-            <span *ngIf="proposicao?.interesse[0]?.apelido && proposicao?.interesse[0]?.apelido !== 'nan'">
+            <h5 *ngIf="proposicao?.interesse[0]?.apelido && proposicao?.interesse[0]?.apelido !== 'nan'">
               -
             {{ proposicao?.interesse[0]?.apelido }}
-            </span>
-          </span>
+            </h5>
+          </h5>
         </a>
       </div>
+    </div>
+    <div class="house-{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.casa }} d-flex align-items-center col-sm-1">
+      <div class="house-symbol-{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.casa }}"></div>
     </div>
   </div>
   <div class="card-body row">

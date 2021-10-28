@@ -5,22 +5,21 @@ $size: 13px;
 
 .card {
   .card-header {
-    padding: $base-padding;
+    height: 48px;
+    padding: 0;
     background-color: #ffffff;
-    border: 1px solid #ebebeb;
+    border:1px solid #e7e7e7;
 
     .house-name {
       font-size: 12px;
       font-weight: bold;
       color: inherit;
     }
-  }
 
-  .header-title {
-    .proposicao-title {
-      font-size: 22px;
-      font-weight: 500;
-      color: $text-label-color;
+    img {
+      width: 70px;
+      height: 70px;
+      margin-left: -15px;
     }
   }
 
@@ -30,7 +29,7 @@ $size: 13px;
     }
     .ementa-block {
       .ementa-label {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 500;
         color: $text-label-color;
       }
@@ -115,8 +114,20 @@ $size: 13px;
   background-color: #f8f9fa;
 }
 
+.house-camara,
+.house-senado {
+  height: 49px;
+  border-right: 7px solid;
+  margin-left: 2px;
+  margin-bottom: 1px;
+}
+
 .house-camara {
   color: $camara-color;
+}
+
+.house-senado {
+  color: $senado-color;
 }
 
 .house-symbol-camara,
