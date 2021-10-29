@@ -24,6 +24,8 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   proposicoes: ProposicaoLista[];
   tema: string;
   proposicoesDestaque: ProposicaoLista[];
+  proposicoesSemDestaque: ProposicaoLista[];
+  proposicoesPainelDestaques: Object;
   orderByProp: string;
   public readonly PROPOSICOES_POR_PAGINA = 20;
   p = 1;
@@ -86,6 +88,8 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
         takeUntil(this.unsubscribe)
       ).subscribe(proposicoes => {
         this.proposicoes = proposicoes;
+        this.proposicoesDestaque = proposicoes.filter(p => (p.isDestaque && p.apensadas.length < 1));
+        this.proposicoesSemDestaque = proposicoes.filter(p => (!p.isDestaque || p.apensadas.length > 0));
 
         if (proposicoes.length <= (this.PROPOSICOES_POR_PAGINA * (this.p - 1))) {
           this.pageChange(1); // volta para a primeira página com o novo resultado do filtro
@@ -132,6 +136,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   private replaceUndefined(termo) {
     return termo === undefined ? '' : termo;
   }
+
 
   ngOnDestroy(): void {
     this.unsubscribe.next();

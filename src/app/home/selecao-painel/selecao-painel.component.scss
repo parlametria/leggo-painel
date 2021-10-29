@@ -4,6 +4,7 @@
 
 .card-calltoaction {
   height: 325px;
+  cursor: pointer;
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -11,9 +12,7 @@
   background-position-x: center;
 }
 
-.card-calltoaction-h,
-.card-calltoaction-link:link,
-.card-calltoaction-link:visited {
+.card-calltoaction-h {
   color: #ffffff;
   text-align: center;
   font-weight: 500;

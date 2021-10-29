@@ -5,16 +5,12 @@
         class="col-sm-6 col-md-3 mb-4"
         *ngFor="let interesse of interesses">
 
-        <div class="card">
+        <div class="card "[routerLink]="'/' + interesse?.interesse">
           <div
             class="card-calltoaction"
             style="background-image: url('https://via.placeholder.com/536x172');">
             <h4 class="card-calltoaction-h">
-              <a
-                class="card-calltoaction-link"
-                [routerLink]="'/' + interesse?.interesse">
-                {{ interesse?.nome_interesse }}
-              </a>
+              {{ interesse?.nome_interesse }}
             </h4>
           </div>
         </div>

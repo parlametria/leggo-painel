@@ -83,6 +83,7 @@ export interface ProposicaoLista {
   isDestaque: boolean;
   locaisProposicao: LocalProposicao[];
   apensadas: Apensada[];
+  fase: string;
 }
 
 export interface TramitacaoProposicao {

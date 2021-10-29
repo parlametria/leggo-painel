@@ -121,6 +121,7 @@ export class ProposicoesListaService {
           resumo_progresso: progressos[a.id_leggo],
           max_temperatura_interesse: setUpperBound(maxTemperaturaInteresse.max_temperatura_periodo),
           isDestaque: this.isDestaque(a),
+          fase: this.processaFase(progressos[a.id_leggo]),
           ...a
         }));
 
@@ -141,7 +142,6 @@ export class ProposicoesListaService {
       acc[k].push(curr);
       return acc;
     }, {});
-
     return progressoProcessado;
   }
 
@@ -283,6 +283,31 @@ export class ProposicoesListaService {
       return locaisFiltrados.length > 0;
     }
     return false;
+  }
+
+  private processaFase(progresso: Array<any>) {
+    let fase = 0;
+    const fase_tramitacao = ['Iniciadora', 'Revisora', 'Sanção/Veto'];
+    if (!progresso) return '';
+    progresso.forEach(fase => {
+      if (fase.data_inicio && fase.data_fim || fase.pulou === true) {
+        fase += 1;
+      }
+    });
+    switch (fase) {
+      case 0:
+      case 1:
+      case 2:
+        return fase_tramitacao[0];
+      case 3:
+      case 4:
+        return fase_tramitacao[1];
+      case 5:
+      case 6:
+        return fase_tramitacao[2]; 
+      default:
+        return 'Não tramitada';
+    }
   }
 
 }
