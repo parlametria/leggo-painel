@@ -31,16 +31,16 @@ $size: 13px;
       .ementa-label {
         font-size: 16px;
         font-weight: 500;
-        color: $text-label-color;
+        color: $text-color;
       }
       p {
-        color: $text-basic-color;
+        color: $text-color;
         font-size: 14px;
       }
     }
     .etapa-tramitacao-block {
       p {
-        color: $text-basic-color;
+        color: $text-color;
         font-size: 14px;
       }
       a {
@@ -61,7 +61,7 @@ $size: 13px;
     }
     .card-label {
       font-size: 16px;
-      color: $text-label-color;
+      color: $text-color;
       text-transform: uppercase;
     }
     .temperatura-block {
