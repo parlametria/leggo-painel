@@ -5,18 +5,24 @@
     class="card-header d-flex flex-row align-items-center"
     [class.card-header-muted]="getEhApensada()">
     <div class="col-sm-1">
-      <img *ngIf="proposicao?.isDestaque" src="assets/imgs/card_header_destaque.png">
+      <div *ngIf="proposicao?.isDestaque ; then showDestaqueBadge else showNoDestaqueBadge"></div>
+      <ng-template #showDestaqueBadge>
+        <img src="assets/imgs/card_header_destaque.png">
+      </ng-template>
+      <ng-template #showNoDestaqueBadge>
+        <img src="assets/imgs/card_header_no_destaque.png">
+      </ng-template>
     </div>
     <div class="header-title col-sm-10">
       <div [hidden]="getEhApensada()">
         <a [routerLink]="[proposicao.id_leggo]">
-          <h5>
+          <h4>
             {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
-            <h5 *ngIf="proposicao?.interesse[0]?.apelido && proposicao?.interesse[0]?.apelido !== 'nan'">
+            <h4 *ngIf="proposicao?.interesse[0]?.apelido && proposicao?.interesse[0]?.apelido !== 'nan'">
               -
             {{ proposicao?.interesse[0]?.apelido }}
-            </h5>
-          </h5>
+            </h4>
+          </h4>
         </a>
       </div>
     </div>
@@ -27,11 +33,11 @@
   <div class="card-body row">
     <div class="col-sm">
       <div class="ementa-block">
-        <span class="ementa-label">Ementa</span>
+        <h5>Ementa</h5>
         <p class="truncate-overflow">{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa }}</p>
       </div>
       <div class="etapa-tramitacao-block" *ngIf="proposicao?.locaisProposicao[0]">
-        <span class="card-label">Etapa de Tramitação</span>
+        <span>Etapa de Tramitação</span>
         <p class="proposicao-info">
         {{ getArtigoSiglaLocal(proposicao?.locaisProposicao[0]) }}
         <a
@@ -65,11 +71,11 @@
     </div>
     <div class="col-sm">
       <div class="temperatura-block">
-        <span class="card-label">Temperatura</span>
+        <h5>Temperatura</h5>
         <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
           <app-progress
             class="pointer"
-            [label]="'Temperatura da semana: ' + proposicao?.ultima_temperatura"
+            [label]="proposicao?.ultima_temperatura"
             [barraClasse]="'bg-temperatura'"
             [valor]="proposicao?.ultima_temperatura"
             [exibirLabel]="true"
@@ -78,11 +84,11 @@
         </a>
       </div>
       <div class="pressao-block">
-        <span class="card-label">Pressão</span>
+        <h5>Pressão</h5>
          <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
           <app-progress
             class="pointer"
-            [label]="'Pressão da semana: ' + (!proposicao?.ultima_pressao ? '0' : proposicao?.ultima_pressao | number : '1.0-2')"
+            [label]="(!proposicao?.ultima_pressao ? '0' : proposicao?.ultima_pressao | number : '1.0-2')"
             [barraClasse]="'bg-pressao'"
             [valor]="proposicao?.ultima_pressao"
             [max]="100"
@@ -91,18 +97,23 @@
         </a>
       </div>
       <div class="ultimas-atualizacoes-block">
-        <span>Últimas atualizações</span>
-        <div *ngIf="proposicao?.destaques.length || proposicao?.interesse[0]?.advocacy_link !== 'nan'">
+        <h5>Últimas atualizações</h5>
+        <div class *ngIf="proposicao?.destaques.length || proposicao?.interesse[0]?.advocacy_link !== 'nan'">
           <app-destaques-proposicao
             [destaques]="destaques"
             *ngFor="let destaques of proposicao?.destaques"></app-destaques-proposicao>
-          <span
-            class="tag badge badge-gray"
+          <div
+            class="chip"
             *ngIf="proposicao?.interesse[0]?.advocacy_link && proposicao?.interesse[0]?.advocacy_link !== 'nan'"
             [ngbPopover]="popAdvocacy"
             [autoClose]="'outside'">
-            advocacy box
-          </span>
+            <div class="chip-icon">
+              <span class="material-icons">label_important</span>
+            </div>
+            <div class="chip-text">
+              <span>advocacy box</span>
+            </div>
+          </div>
           <ng-template #popAdvocacy>
             Existem notas técnicas de OSCs disponíveis para esta proposição.
             <div class="text-right">
@@ -116,24 +127,34 @@
           </ng-template>
         </div>
         <div *ngIf="!proposicao?.destaques.length">
-          <span
+          <div
             *ngIf="!['Ordinária', 'Indefinido'].includes(proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao)"
-            class="tag"
-            [ngClass]="getClassRegimeTramitacao(proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao)"
+            class="chip"
             ngbPopover="Regime de tramitação"
             [autoClose]="'outside'">
-            {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao }}
-          </span>
-          <span
+            <div class="chip-icon">
+              <span class="material-icons">label_important</span>
+            </div>
+            <div class="chip-text">
+              <span>{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao }}</span>
+            </div>
+          </div>
+          <div
             *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.status !== 'Ativa'"
-            class="tag badge badge-gray"
+            class="chip"
             ngbPopover="A proposição foi finalizada"
             [autoClose]="'outside'">
-            {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.status }}
-          </span>
+            <div class="chip-icon">
+              <span class="material-icons">label_important</span>
+            </div>
+            <div class="chip-text">
+              <span>{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.status }}</span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="temas-block">
+        <h5>Assuntos Relacionados</h5>
         <span
           class="cracha text-muted temas"
           [ngbPopover]="popTemas"

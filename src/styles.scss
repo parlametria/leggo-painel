@@ -13,7 +13,6 @@
 @import "assets/styles/icons";
 @import "./app/shared/variables.scss";
 
-
 @font-face {
   font-family: "Poppins";
   src: url("assets/fonts/Poppins-Regular.ttf") format("truetype");
@@ -47,9 +46,15 @@ body {
   font-family: "Poppins" !important;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-bottom: 10px;
   color: $text-color;
+  font-family: "Poppins";
 }
 
 h1 {
@@ -58,7 +63,7 @@ h1 {
 }
 
 h2 {
-  font-size: 42px;
+  font-size: 34px;
   font-weight: 500;
 }
 
@@ -411,7 +416,7 @@ a.link-texto:visited {
 .fase-senado,
 .fase-sancao,
 .fase-comissao-mista {
-  border: 3px solid #34174A;
+  border: 3px solid #34174a;
 }
 
 .fase-nao-realizada {
@@ -514,4 +519,34 @@ ngb-carousel {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+//CHIPS STYLE
+
+.chip {
+  display: flex;
+  border: 1px solid;
+  border-radius: 4px;
+  align-items: center;
+  width: fit-content;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+
+  .chip-icon {
+    padding: 3px;
+    background-color: $primary-variant-color;
+    color: white;
+
+    span {
+      display: block;
+      font-size: 18px;
+    }
+  }
+
+  .chip-text {
+    font-size: 13px;
+    padding: 0 5px;
+    color: $text-color-2;
+  }
 }
