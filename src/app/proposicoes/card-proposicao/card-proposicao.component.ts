@@ -22,7 +22,6 @@ export class CardProposicaoComponent implements OnInit {
     this.proposicao.resumo_progresso = this.resumirFases(
       this.ordenaProgresso(this.proposicao.resumo_progresso)
     );
-    console.log(this.proposicao);
   }
 
   temasResumido(temas) {

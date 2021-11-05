@@ -25,7 +25,9 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   tema: string;
   proposicoesDestaque: ProposicaoLista[];
   proposicoesSemDestaque: ProposicaoLista[];
-  proposicoesPainelDestaques: Object;
+  proposicoesIniciadora: ProposicaoLista[];
+  proposicoesRevisora: ProposicaoLista[];
+  proposicoesSancao: ProposicaoLista[];
   orderByProp: string;
   public readonly PROPOSICOES_POR_PAGINA = 20;
   p = 1;
@@ -90,6 +92,10 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
         this.proposicoes = proposicoes;
         this.proposicoesDestaque = proposicoes.filter(p => (p.isDestaque && p.apensadas.length < 1));
         this.proposicoesSemDestaque = proposicoes.filter(p => (!p.isDestaque || p.apensadas.length > 0));
+        this.proposicoesIniciadora = proposicoes.filter(p => (p.fase === 'Iniciadora' && p.isDestaque));
+        this.proposicoesRevisora = proposicoes.filter(p => (p.fase === 'Revisora' && p.isDestaque));
+        this.proposicoesSancao = proposicoes.filter(p => (p.fase === 'Sanção/Veto' && p.isDestaque));
+        console.log(this.proposicoesIniciadora);
 
         if (proposicoes.length <= (this.PROPOSICOES_POR_PAGINA * (this.p - 1))) {
           this.pageChange(1); // volta para a primeira página com o novo resultado do filtro
