@@ -92,9 +92,9 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
         this.proposicoes = proposicoes;
         this.proposicoesDestaque = proposicoes.filter(p => (p.isDestaque && p.apensadas.length < 1));
         this.proposicoesSemDestaque = proposicoes.filter(p => (!p.isDestaque || p.apensadas.length > 0));
-        this.proposicoesIniciadora = proposicoes.filter(p => (p.fase === 'Iniciadora' && p.isDestaque));
-        this.proposicoesRevisora = proposicoes.filter(p => (p.fase === 'Revisora' && p.isDestaque));
-        this.proposicoesSancao = proposicoes.filter(p => (p.fase === 'Sanção/Veto' && p.isDestaque));
+        this.proposicoesIniciadora = proposicoes.filter(p => (p.fase === 'Iniciadora' && p.isDestaque)).slice(0, 25);
+        this.proposicoesRevisora = proposicoes.filter(p => (p.fase === 'Revisora' && p.isDestaque)).slice(0, 25);
+        this.proposicoesSancao = proposicoes.filter(p => (p.fase === 'Sanção/Veto' && p.isDestaque)).slice(0, 25);
         console.log(this.proposicoesIniciadora);
 
         if (proposicoes.length <= (this.PROPOSICOES_POR_PAGINA * (this.p - 1))) {

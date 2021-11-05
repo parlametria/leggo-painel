@@ -49,7 +49,7 @@
                   [routerLink]="[proposicao.id_leggo]"
                   [ngbPopover]="destaqueInfo"
                   triggers="mouseenter:mouseleave"
-                  *ngFor="let proposicao of proposicoesIniciadora | slice: 0:25"
+                  *ngFor="let proposicao of proposicoesIniciadora"
                   class="proposicao-ball {{
                     proposicao?.etapas[proposicao?.etapas.length - 1]?.casa
                   }}"
@@ -69,7 +69,7 @@
                 [routerLink]="[proposicao.id_leggo]"
                 [ngbPopover]="destaqueInfo"
                 triggers="mouseenter:mouseleave"
-                *ngFor="let proposicao of proposicoesRevisora | slice: 0:25"
+                *ngFor="let proposicao of proposicoesRevisora"
                 class="proposicao-ball {{
                   proposicao?.etapas[proposicao?.etapas.length - 1]?.casa
                 }}"
@@ -86,7 +86,7 @@
                 [routerLink]="[proposicao.id_leggo]"
                 [ngbPopover]="destaqueInfo"
                 triggers="mouseenter:mouseleave"
-                *ngFor="let proposicao of proposicoesSancao | slice: 0:25"
+                *ngFor="let proposicao of proposicoesSancao"
                 class="proposicao-ball {{
                   proposicao?.etapas[proposicao?.etapas.length - 1]?.casa
                 }}"
@@ -100,25 +100,35 @@
         </div>
         <div class="destaques-arrows">
           <div class="first-arrow">
-            <span class="arrow-symbol">&#8674;</span>
+            <img src="assets/imgs/seta_tramitacao_destaques.svg" alt="">
             <span>Estágio de tramitação</span>
           </div>
           <div class="second-arrow">
-            <span class="arrow-symbol">&#8674;</span>
+            <img src="assets/imgs/seta_tramitacao_destaques.svg" alt="">
             <span>Estágio de tramitação</span>
           </div>
         </div>
-        <div class="destaques-titles container">
+        <div class="destaques-count container">
           <div class="row">
             <div class="col-4">
-              <h5 class="iniciadora-title">Iniciadora</h5>
+              <h5 class="iniciadora-count">{{ proposicoesIniciadora.length + ' proposições nesta etapa' }}</h5>
             </div>
             <div class="col-4">
-              <h5 class="revisora-title">Revisora</h5>
+              <h5 class="revisora-count">{{ proposicoesRevisora.length + ' proposições nesta etapa' }}</h5>
             </div>
             <div class="col-4">
-              <h5 class="sancao-title">Sanção/Veto</h5>
+              <h5 class="sancao-count">{{ proposicoesSancao.length + ' proposições nesta etapa' }}</h5>
             </div>
+          </div>
+        </div>
+        <div class="subtitles-block container">
+          <div class="subtitle">
+            <div class="proposicao-ball senado"></div>
+            <span>Senado</span>
+          </div>
+          <div class="subtitle">
+            <div class="proposicao-ball camara"></div>
+            <span>Câmara</span>
           </div>
         </div>
       </div>
