@@ -31,22 +31,6 @@ export class CardProposicaoComponent implements OnInit {
     return temas;
   }
 
-  getClassRegimeTramitacao(regime: string) {
-    const classes = ['badge'];
-    switch (regime) {
-      case 'Urgência':
-        classes.push('badge-danger');
-        break;
-      case 'Prioridade':
-        classes.push('badge-warning');
-        break;
-      default:
-        classes.push('badge-gray');
-        break;
-    }
-    return classes;
-  }
-
   getClassFaseProgresso(fase) {
     let classe = '';
     if (fase.pulou) {
