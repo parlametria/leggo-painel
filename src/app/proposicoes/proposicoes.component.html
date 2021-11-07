@@ -49,15 +49,20 @@
                   [routerLink]="[proposicao.id_leggo]"
                   [ngbPopover]="destaqueInfo"
                   triggers="mouseenter:mouseleave"
+                  [autoClose]="false"
                   *ngFor="let proposicao of proposicoesIniciadora"
                   class="proposicao-ball {{
                     proposicao?.etapas[proposicao?.etapas.length - 1]?.casa
                   }}"
                 >
                   <ng-template #destaqueInfo>
-                    {{
-                      proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla
-                    }}
+                    <div class="popover-title">
+                      {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
+                    </div>
+                    <label>Por quê estou aqui?</label>
+                    <div class="popover-text">
+                      {{ getProposicaoCriteriosDestaque(proposicao.destaques[0]) }}
+                    </div>
                   </ng-template>
                 </a>
               </div>
@@ -75,9 +80,15 @@
                 }}"
               >
                 <ng-template #destaqueInfo>
-                  {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
-                </ng-template></a
-              >
+                  <div class="popover-title">
+                    {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
+                  </div>
+                  <label>Por quê estou aqui?</label>
+                  <div class="popover-text">
+                    {{ getProposicaoCriteriosDestaque(proposicao.destaques[0]) }}
+                  </div>
+                </ng-template>
+              </a>
             </div>
           </div>
           <div class="sancao col-4">
@@ -92,32 +103,44 @@
                 }}"
               >
                 <ng-template #destaqueInfo>
-                  {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
-                </ng-template></a
-              >
+                  <div class="popover-title">
+                    {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
+                  </div>
+                  <label>Por quê estou aqui?</label>
+                  <div class="popover-text">
+                    {{ getProposicaoCriteriosDestaque(proposicao.destaques[0]) }}
+                  </div>
+                </ng-template>
+              </a>
             </div>
           </div>
         </div>
         <div class="destaques-arrows">
           <div class="first-arrow">
-            <img src="assets/imgs/seta_tramitacao_destaques.svg" alt="">
+            <img src="assets/imgs/seta_tramitacao_destaques.svg" alt="" />
             <span>Estágio de tramitação</span>
           </div>
           <div class="second-arrow">
-            <img src="assets/imgs/seta_tramitacao_destaques.svg" alt="">
+            <img src="assets/imgs/seta_tramitacao_destaques.svg" alt="" />
             <span>Estágio de tramitação</span>
           </div>
         </div>
         <div class="destaques-count container">
           <div class="row">
             <div class="col-4">
-              <h5 class="iniciadora-count">{{ proposicoesIniciadora?.length + ' proposições nesta etapa' }}</h5>
+              <h5 class="iniciadora-count">
+                {{ proposicoesIniciadora?.length + " proposições nesta etapa" }}
+              </h5>
             </div>
             <div class="col-4">
-              <h5 class="revisora-count">{{ proposicoesRevisora?.length + ' proposições nesta etapa' }}</h5>
+              <h5 class="revisora-count">
+                {{ proposicoesRevisora?.length + " proposições nesta etapa" }}
+              </h5>
             </div>
             <div class="col-4">
-              <h5 class="sancao-count">{{ proposicoesSancao?.length + ' proposições nesta etapa' }}</h5>
+              <h5 class="sancao-count">
+                {{ proposicoesSancao?.length + " proposições nesta etapa" }}
+              </h5>
             </div>
           </div>
         </div>
