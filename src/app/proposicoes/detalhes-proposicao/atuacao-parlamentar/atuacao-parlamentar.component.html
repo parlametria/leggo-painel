@@ -1,40 +1,56 @@
-<h3 class="titulo-sessao">Atuação parlamentar</h3>
+<h3 class="titulo-sessao mb-2">Atuação parlamentar</h3>
 <app-loading *ngIf="isLoading | async"></app-loading>
 <div [hidden]="isLoading | async">
-  <div class="my-4">
+  <div class="mt-2">
+    <span> Dados de atuação parlamentar a partir de 2019. </span>
+  </div>
+  <div class="my-2">
     <div class="legend">
       <app-legend
         [title]="'Proposição'"
-        [classe]="'bg-proposicao'"></app-legend>
+        [classe]="'bg-proposicao'"
+      ></app-legend>
 
-      <app-legend
-        [title]="'Emenda'"
-        [classe]="'bg-emenda'"></app-legend>
+      <app-legend [title]="'Emenda'" [classe]="'bg-emenda'"></app-legend>
 
       <app-legend
         [title]="'Requerimento'"
-        [classe]="'bg-requerimento'"></app-legend>
+        [classe]="'bg-requerimento'"
+      ></app-legend>
       <span class="bg-oposicao legend-title">Oposição</span>
       <span class="bg-centro-governo legend-title">Centro/Governo</span>
-
     </div>
   </div>
   <div
     class="mb-2 atuacao-body"
-    *ngFor="let parlamentar of atuacao | paginate: { itemsPerPage: 15, currentPage: p }; index as i">
+    *ngFor="
+      let parlamentar of atuacao
+        | paginate: { itemsPerPage: 15, currentPage: p };
+      index as i
+    "
+  >
     <div class="autor">
-      <a [routerLink]="['/', interesse, 'parlamentares', parlamentar?.values[0].id_autor_parlametria]">
+      <a
+        [routerLink]="[
+          '/',
+          interesse,
+          'parlamentares',
+          parlamentar?.values[0].id_autor_parlametria
+        ]"
+      >
         <span *ngIf="parlamentar?.values[0].casa_autor === 'camara'">Dep.</span>
         <span *ngIf="parlamentar?.values[0].casa_autor === 'senado'">Sen.</span>
         {{ parlamentar?.values[0].nome_autor }}
         <span
           *ngIf="parlamentar?.values[0].bancada === 'oposição'"
-          class="bg-oposicao">
+          class="bg-oposicao"
+        >
           {{ parlamentar?.values[0].partido }}
         </span>
         <span
           *ngIf="parlamentar?.values[0].bancada === 'governo'"
-          class="bg-centro-governo">
+          class="bg-centro-governo"
+        >
           {{ parlamentar?.values[0].partido }}
         </span>
         /{{ parlamentar?.values[0].uf }}
@@ -43,38 +59,41 @@
     <div class="barra">
       <div class="barra-progresso">
         <app-progress-stacked
-          [categorias]=parlamentar?.values
-          [min]=0
-          [max]=maximoDocumentos
-          [score]=parlamentar?.soma_documentos></app-progress-stacked>
+          [categorias]="parlamentar?.values"
+          [min]="0"
+          [max]="maximoDocumentos"
+          [score]="parlamentar?.soma_documentos"
+        ></app-progress-stacked>
       </div>
     </div>
   </div>
   <pagination-template
     #pag="paginationApi"
     maxSize="5"
-    (pageChange)="pageChange($event)">
-    <nav
-      aria-label="Paginação"
-      class="pb-1">
+    (pageChange)="pageChange($event)"
+  >
+    <nav aria-label="Paginação" class="pb-1">
       <ul class="pagination justify-content-center">
         <li class="page-item">
           <button
             type="button"
             class="page-link"
             [disabled]="pag.isFirstPage()"
-            (click)="pag.previous()">
+            (click)="pag.previous()"
+          >
             &lt;
           </button>
         </li>
         <li
           class="page-item"
           *ngFor="let page of pag.pages"
-          [class.active]="pag.getCurrent() === page.value">
+          [class.active]="pag.getCurrent() === page.value"
+        >
           <button
             type="button"
             class="page-link"
-            (click)="pag.setCurrent(page.value)">
+            (click)="pag.setCurrent(page.value)"
+          >
             {{ page.label }}
           </button>
         </li>
@@ -83,16 +102,12 @@
             type="button"
             class="page-link"
             [disabled]="pag.isLastPage()"
-            (click)="pag.next()">
+            (click)="pag.next()"
+          >
             &gt;
           </button>
         </li>
       </ul>
     </nav>
   </pagination-template>
-  <div class="mt-4">
-    <span>
-      Dados de atuação parlamentar a partir de 2019.
-    </span>
-  </div>
 </div>

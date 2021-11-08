@@ -11,14 +11,14 @@
           </li>
         </ol>
       </nav>
-      <div [hidden]="isLoading | async" class="mt-4 text-style-proposicoes row">
+      <div [hidden]="isLoading | async" class="mt-4 row">
         <div class="col">
-          <h2>
+          <h5>
             {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
-          </h2>
+          </h5>
 
           <div>
-            <h3
+            <h6
               *ngIf="
                 proposicao?.interesse[0]?.apelido &&
                 proposicao?.interesse[0]?.apelido !== 'nan'
@@ -26,7 +26,7 @@
               class="text-muted mb-4"
             >
               <strong>{{ proposicao?.interesse[0]?.apelido }}</strong>
-            </h3>
+            </h6>
             <app-situacao-proposicao
               [proposicao]="proposicao"
             ></app-situacao-proposicao>
