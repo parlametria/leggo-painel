@@ -1,11 +1,14 @@
-<ol class="proposicao-locais"
-  *ngIf="locais">
-  <li
-    class="text-muted"
-    *ngFor="let local of locais">
-      Encontra-se {{ getArtigoSiglaLocal(local) }}
-      <strong>{{ getNomeLocal(local) }}</strong>
-      desde
-      {{ local.data_ultima_situacao | date:'dd/MM/yyyy' }}
-  </li>
-</ol>
+<div class="mt-4 mb-3 text-style-proposicoes">
+  <h3><strong>Últimas atualizações</strong></h3>
+  <div>
+    <ol class="proposicao-locais" *ngIf="locais">
+      <li class="text-muted" *ngFor="let local of locais">
+        <p>
+          Encontra-se {{ getArtigoSiglaLocal(local) }}
+          {{ getNomeLocal(local) }} desde
+          {{ local.data_ultima_situacao | date: "dd/MM/yyyy" }}
+        </p>
+      </li>
+    </ol>
+  </div>
+</div>

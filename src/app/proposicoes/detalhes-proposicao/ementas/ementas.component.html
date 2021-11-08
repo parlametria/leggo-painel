@@ -1,18 +1,27 @@
-<div class="mt-4 mb-2">
-  <strong>Ementa</strong>
+<div class="mt-4 mb-4 text-style-proposicoes">
+  <h3><strong>Ementa</strong></h3>
   <div>
-    <span [hidden]="showMais">
-      {{ getResumo(proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa) }}
+    <!-- <span [hidden]="showMais">
+      <p>
+        {{
+          getResumo(proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa)
+        }}
+      </p>
+    </span> -->
+    <span>
+      <p>{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa }}</p>
     </span>
-    <span [hidden]="!showMais">
-      {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa }}
-    </span>
-    <button
-      [hidden]="!getTemEmentaResumida(proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa)"
-      class="btn btn-light btn-xs ml-2"
-      (click)="toogleShowMais()">
-      <span [hidden]="showMais">ver mais</span>
-      <span [hidden]="!showMais">ver menos</span>
-    </button>
+    <!-- <button
+      [hidden]="
+        !getTemEmentaResumida(
+          proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa
+        )
+      "
+      class="btn btn-light btn-xs ml-2 btn-border text-muted"
+      (click)="toogleShowMais()"
+    >
+      <span [hidden]="showMais"><p>VER MAIS</p></span>
+      <span [hidden]="!showMais"><p>VER MENOS</p></span>
+    </button> -->
   </div>
 </div>

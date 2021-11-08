@@ -19,6 +19,8 @@ import { EmentasComponent } from './ementas/ementas.component';
 import { ListaLocaisAtuaisComponent } from './lista-locais-atuais/lista-locais-atuais.component';
 import { RedeInfluenciaComponent } from './rede-influencia/rede-influencia.component';
 import { VisRedeInfluenciaComponent } from './vis-rede-influencia/vis-rede-influencia.component';
+import { SituacaoProposicaoComponent } from './situacao-proposicao/situacao-proposicao.component';
+import { AssuntosRelacionadosComponent } from './assuntos-relacionados/assuntos-relacionados.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { VisRedeInfluenciaComponent } from './vis-rede-influencia/vis-rede-influ
     EmentasComponent,
     ListaLocaisAtuaisComponent,
     RedeInfluenciaComponent,
-    VisRedeInfluenciaComponent
+    VisRedeInfluenciaComponent,
+    SituacaoProposicaoComponent,
+    AssuntosRelacionadosComponent,
   ],
   imports: [
     CommonModule,
@@ -41,7 +45,7 @@ import { VisRedeInfluenciaComponent } from './vis-rede-influencia/vis-rede-influ
     SharedComponentsModule,
     NgbModule,
     NgxPaginationModule,
-    FormsModule
-  ]
+    FormsModule,
+  ],
 })
-export class DetalhesProposicaoModule { }
+export class DetalhesProposicaoModule {}

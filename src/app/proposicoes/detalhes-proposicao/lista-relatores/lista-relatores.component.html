@@ -1,6 +1,25 @@
-<div class="mb-2">
-  <strong>Relator(a)</strong>
-  <div>
-    <span>{{ getRelator() }}</span>
+<div class="mb-2 text-style-proposicoes">
+  <h3><strong>Relator(a)</strong></h3>
+  <div *ngIf="etapas && etapas.length > 0; else semRelator">
+    <span
+      *ngIf="
+        etapas[etapas.length - 1] && etapas[etapas.length - 1].relatoria;
+        else semRelator
+      "
+      ><p>
+        <a
+          href="https://painel.parlametria.org.br/{{
+            interesse
+          }}/parlamentares/{{
+            etapas[etapas.length - 1].relatoria.id_relator_parlametria
+          }}"
+          class="app-link"
+        >
+          {{ getRelatorFormatado(etapas[etapas.length - 1].relatoria) }}
+        </a>
+        {{ getPartidoUf(etapas[etapas.length - 1].relatoria) }}
+      </p></span
+    >
   </div>
+  <ng-template #semRelator>Relator(a) não encontrado</ng-template>
 </div>

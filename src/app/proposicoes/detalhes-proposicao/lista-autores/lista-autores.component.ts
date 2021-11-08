@@ -3,15 +3,14 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'app-lista-autores',
   templateUrl: './lista-autores.component.html',
-  styleUrls: ['./lista-autores.component.scss']
+  styleUrls: ['./lista-autores.component.scss'],
 })
 export class ListaAutoresComponent {
-
   @Input() autores = Array;
 
   showMais = false;
 
-  constructor() { }
+  constructor() {}
 
   toogleShowMais() {
     this.showMais = !this.showMais;
@@ -19,11 +18,15 @@ export class ListaAutoresComponent {
 
   getAutorFormatado(autor): string {
     if (autor.is_parlamentar === 1) {
-      const titulo = (autor.casa === 'camara') ? 'Dep.' : 'Sen.';
-      return titulo + ' ' + autor.nome + ' (' + autor.partido + '/' + autor.uf + ')';
+      const titulo = autor.casa === 'camara' ? 'Dep.' : 'Sen.';
+      return titulo + ' ' + autor.nome;
     } else {
       return autor.nome;
     }
+  }
+
+  getPartidoUf(autor): string {
+    return ' ' + autor.partido + '/' + autor.uf;
   }
 
   getPrimeiroAtor(): string {
@@ -64,7 +67,6 @@ export class ListaAutoresComponent {
   }
 
   getTemMaisAutores(): boolean {
-    return (this.autores && this.autores.length > 1);
+    return this.autores && this.autores.length > 1;
   }
-
 }

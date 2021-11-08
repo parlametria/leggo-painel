@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Subject, BehaviorSubject, forkJoin } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { Proposicao } from 'src/app/shared/models/proposicao.model';
@@ -11,10 +11,9 @@ import { indicate } from 'src/app/shared/functions/indicate.function';
 @Component({
   selector: 'app-detalhes-proposicao',
   templateUrl: './detalhes-proposicao.component.html',
-  styleUrls: ['./detalhes-proposicao.component.scss']
+  styleUrls: ['./detalhes-proposicao.component.scss'],
 })
-export class DetalhesProposicaoComponent implements OnInit, OnDestroy  {
-
+export class DetalhesProposicaoComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject();
 
   public proposicao: Proposicao;
@@ -27,20 +26,19 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy  {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private proposicaoDetalhadaService: ProposicaoDetalhadaService,
-  ) { }
+    private proposicaoDetalhadaService: ProposicaoDetalhadaService
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe(params => {
+      .subscribe((params) => {
         this.interesse = params.get('interesse');
         this.idProposicao = params.get('id_leggo');
       });
-    this.activatedRoute.queryParams
-    .subscribe(params => {
+    this.activatedRoute.queryParams.subscribe((params) => {
       this.tema = params.tema;
-      this.tema === undefined ? this.tema = '' : this.tema = this.tema;
+      this.tema === undefined ? (this.tema = '') : (this.tema = this.tema);
       this.getProposicaodetalhada(this.idProposicao, this.interesse);
     });
   }
@@ -48,10 +46,9 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy  {
   getProposicaodetalhada(idProposicao, interesse) {
     this.proposicaoDetalhadaService
       .getProposicaoDetalhada(idProposicao, interesse)
-      .pipe(
-        indicate(this.isLoading),
-        takeUntil(this.unsubscribe))
-      .subscribe(proposicao => {
+      .pipe(indicate(this.isLoading), takeUntil(this.unsubscribe))
+      .subscribe((proposicao) => {
+        console.log(proposicao[0]);
         this.proposicao = proposicao[0];
         this.isLoading.next(false);
 

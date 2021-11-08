@@ -3,106 +3,172 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a
-          [routerLink]="['../']"
-          class="btn btn-sm btn-light">
+        <a [routerLink]="['../']" class="btn btn-sm btn-light">
           &lt; Proposicões
         </a>
       </li>
     </ol>
   </nav>
-  <div class="my-4 text-center">
+  <!-- <div class="my-4 text-center">
     <a
-      href="https://leggo.parlametria.org/#/proposicao/{{proposicao?.id_leggo}}/{{proposicao?.interesse[0]?.interesse}}"
+      href="https://leggo.parlametria.org/#/proposicao/{{
+        proposicao?.id_leggo
+      }}/{{ proposicao?.interesse[0]?.interesse }}"
       class="btn btn-light"
-      target="_blank">
+      target="_blank"
+    >
       Versão anterior da página de Proposição
       <span class="icon-external-link"></span>
     </a>
-  </div>
-  <div [hidden]="isLoading | async">
-    <ol class="breadcrumb proposicao-temas">
-      <li
-        class="breadcrumb-item text-muted"
-        *ngFor="let tema of proposicao?.interesse[0]?.temas">
-        <span *ngIf="tema !== 'nan'">{{ tema }}</span>
-      </li>
-    </ol>
-    <h2>
-      {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
-    </h2>
+  </div> -->
+  <div [hidden]="isLoading | async" class="mt-4 text-style-proposicoes row">
+    <div class="col">
+      <h2>
+        {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
+      </h2>
 
-    <div class="mb-4">
-      <ol class="breadcrumb proposicao-temas">
-        <li
-          *ngFor="let etapa of proposicao?.etapas"
-          class="breadcrumb-item text-muted">
-          <a
-            [href]="etapa.url"
-            class="app-link"
-            target="_blank">
-            {{ etapa.sigla }}
-          </a>
-          &nbsp;
-          <span class="text-muted">{{ getCasaFormatada(etapa.casa) }}</span>
-        </li>
-      </ol>
-      <app-lista-locais-atuais
-        *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.status === 'Ativa'"
-        [locais]="proposicao?.locaisProposicao">
-      </app-lista-locais-atuais>
-      <span
-        *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.status !== 'Ativa'"
-        class="tag badge badge-gray"
-        ngbPopover="A proposição foi finalizada"
-        [autoClose]="'outside'">
-        {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.status }}
-      </span>
-      <app-destaques-proposicao
-        [destaques]="destaques"
-        *ngFor="let destaques of proposicao?.destaques"></app-destaques-proposicao>
-      <span
-        class="tag badge badge-gray"
-        *ngIf="proposicao?.interesse[0]?.advocacy_link && proposicao?.interesse[0]?.advocacy_link !== 'nan'"
-        [ngbPopover]="popAdvocacy"
-        [autoClose]="'outside'">
-        advocacy box
-      </span>
-      <ng-template #popAdvocacy>
-        Existem notas técnicas de OSCs disponíveis para esta proposição.
-        <div class="text-right">
-          <a
-            href="{{proposicao?.interesse[0]?.advocacy_link}}"
-            target="_blank"
-            class="btn btn-link btn-sm">
-            Ver notas
-          </a>
-        </div>
-      </ng-template>
-    </div>
-    <div class="pb-4 mb-4">
-      <app-lista-autores [autores]="proposicao?.autoresProposicao"></app-lista-autores>
-      <app-lista-relatores [etapas]="proposicao?.etapas"></app-lista-relatores>
-      <app-ementas [proposicao]="proposicao"></app-ementas>
-    </div>
-
-    <!-- <div *ngIf="proposicao?.etapas?.slice(-1)[0]?.resumo_tramitacao?.slice(-1)[0]?.evento as tramitacao">
-      <div
-        *ngIf="tramitacao != 'nan'"
-        class="proposicao-tramitacao">
-        {{ tramitacao.replace('_',' em ') }}
+      <div>
+        <h3
+          *ngIf="
+            proposicao?.interesse[0]?.apelido &&
+            proposicao?.interesse[0]?.apelido !== 'nan'
+          "
+          class="text-muted mb-4"
+        >
+          <strong>{{ proposicao?.interesse[0]?.apelido }}</strong>
+        </h3>
+        <app-situacao-proposicao
+          [proposicao]="proposicao"
+        ></app-situacao-proposicao>
+        <!-- <ol class="breadcrumb proposicao-temas">
+          <li
+            *ngFor="let etapa of proposicao?.etapas"
+            class="breadcrumb-item text-muted"
+          >
+            <a [href]="etapa.url" class="app-link" target="_blank">
+              {{ etapa.sigla }}
+            </a>
+            &nbsp;
+            <span class="text-muted">{{ getCasaFormatada(etapa.casa) }}</span>
+          </li>
+        </ol> -->
+        <!-- <app-lista-locais-atuais
+          *ngIf="
+            proposicao?.etapas[proposicao?.etapas.length - 1]?.status === 'Ativa'
+          "
+          [locais]="proposicao?.locaisProposicao"
+        >
+        </app-lista-locais-atuais>
+        <span
+          *ngIf="
+            proposicao?.etapas[proposicao?.etapas.length - 1]?.status !== 'Ativa'
+          "
+          class="tag badge badge-gray"
+          ngbPopover="A proposição foi finalizada"
+          [autoClose]="'outside'"
+        >
+          {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.status }}
+        </span> -->
+        <!-- <app-destaques-proposicao
+          [destaques]="destaques"
+          *ngFor="let destaques of proposicao?.destaques"
+        ></app-destaques-proposicao> -->
+        <span
+          class="tag badge badge-gray"
+          *ngIf="
+            proposicao?.interesse[0]?.advocacy_link &&
+            proposicao?.interesse[0]?.advocacy_link !== 'nan'
+          "
+          [ngbPopover]="popAdvocacy"
+          [autoClose]="'outside'"
+        >
+          advocacy box
+        </span>
+        <ng-template #popAdvocacy>
+          Existem notas técnicas de OSCs disponíveis para esta proposição.
+          <div class="text-right">
+            <a
+              href="{{ proposicao?.interesse[0]?.advocacy_link }}"
+              target="_blank"
+              class="btn btn-link btn-sm"
+            >
+              Ver notas
+            </a>
+          </div>
+        </ng-template>
       </div>
-    </div> -->
+    </div>
+    <div class="col-5"></div>
   </div>
-</div>
-<div class="view-subnav">
+  <div [hidden]="isLoading | async" class="row">
+    <div class="col">
+      <app-ementas [proposicao]="proposicao"></app-ementas>
+      <!-- <app-lista-autores
+          [autores]="proposicao?.autoresProposicao"
+        ></app-lista-autores>
+        <app-lista-relatores [etapas]="proposicao?.etapas"></app-lista-relatores> -->
+
+      <!-- <div *ngIf="proposicao?.etapas?.slice(-1)[0]?.resumo_tramitacao?.slice(-1)[0]?.evento as tramitacao">
+        <div
+          *ngIf="tramitacao != 'nan'"
+          class="proposicao-tramitacao">
+          {{ tramitacao.replace('_',' em ') }}
+        </div>
+      </div> -->
+    </div>
+    <div class="col-5">
+      <app-lista-locais-atuais
+        *ngIf="
+          proposicao?.etapas[proposicao?.etapas.length - 1]?.status === 'Ativa'
+        "
+        [locais]="proposicao?.locaisProposicao"
+      >
+      </app-lista-locais-atuais>
+    </div>
+  </div>
+  <div [hidden]="isLoading | async" class="row">
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <app-lista-autores
+            [autores]="proposicao?.autoresProposicao"
+          ></app-lista-autores>
+        </div>
+        <div class="col-5">
+          <app-lista-relatores
+            [etapas]="proposicao?.etapas"
+            [interesse]="proposicao?.interesse[0]?.interesse"
+          ></app-lista-relatores>
+        </div>
+      </div>
+
+      <!-- <div
+        *ngIf="
+          proposicao?.etapas?.slice(-1)[0]?.resumo_tramitacao?.slice(-1)[0]
+            ?.evento as tramitacao
+        "
+      >
+        <div *ngIf="tramitacao != 'nan'" class="proposicao-tramitacao">
+          {{ tramitacao.replace("_", " em ") }}
+        </div>
+      </div> -->
+    </div>
+    <div class="col-5">
+      <app-assuntos-relacionados
+        [proposicao]="proposicao"
+      ></app-assuntos-relacionados>
+    </div>
+  </div>
+
+  <!-- <div class="view-subnav">
   <ul class="nav nav-tabs justify-content-center">
     <li class="nav-item">
       <a
         class="nav-link"
         [routerLink]="['./temperatura-pressao']"
         [routerLinkActive]="'active'"
-        queryParamsHandling="merge">
+        queryParamsHandling="merge"
+      >
         <span class="icon-temperatura"></span>
         Temperatura e pressão
       </a>
@@ -112,7 +178,8 @@
         class="nav-link"
         [routerLink]="['./progresso']"
         [routerLinkActive]="'active'"
-        queryParamsHandling="merge">
+        queryParamsHandling="merge"
+      >
         <span class="icon-progresso"></span>
         Progresso
       </a>
@@ -122,7 +189,8 @@
         class="nav-link"
         [routerLink]="['./atuacao']"
         [routerLinkActive]="'active'"
-        queryParamsHandling="merge">
+        queryParamsHandling="merge"
+      >
         <span class="icon-atividade"></span>
         Atuação parlamentar
       </a>
@@ -132,7 +200,8 @@
         class="nav-link"
         [routerLink]="['./rede-de-influencia']"
         [routerLinkActive]="'active'"
-        queryParamsHandling="merge">
+        queryParamsHandling="merge"
+      >
         <span class="icon-grafo"></span>
         Rede de influência
       </a>
@@ -143,4 +212,5 @@
   <div class="py-4">
     <router-outlet></router-outlet>
   </div>
+</div> -->
 </div>

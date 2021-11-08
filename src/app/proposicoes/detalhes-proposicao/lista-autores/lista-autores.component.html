@@ -1,15 +1,28 @@
-<div class="mb-2">
-  <strong>{{ getTitulo() }}</strong>
-  <div>
-    <span>{{ getPrimeiroAtor() }}</span>
-    <span [hidden]="!showMais">{{ getMaisAtores() }}</span>
-    &nbsp;
+<div class="mb-2 text-style-proposicoes">
+  <h3>
+    <strong>{{ getTitulo() }}</strong>
+  </h3>
+  <div *ngIf="autores && autores.length > 0; else semAutores">
+    <span>
+      <p class="m-0">
+        {{ getAutorFormatado(autores[0].autor) }}
+        {{ getPartidoUf(autores[0].autor) }}
+      </p>
+    </span>
+    <span [hidden]="!showMais" *ngFor="let index of autores">
+      <p class="m-0">
+        {{ getAutorFormatado(index.autor) }}
+        {{ getPartidoUf(index.autor) }}
+      </p>
+    </span>
     <button
       [hidden]="!getTemMaisAutores()"
-      class="btn btn-light btn-xs"
-      (click)="toogleShowMais()">
-      <span [hidden]="showMais">e {{ getQtdMaisAtores() }} outros...</span>
-      <span [hidden]="!showMais">ver menos</span>
+      class="btn btn-light btn-xs text-muted btn-border mt-2"
+      (click)="toogleShowMais()"
+    >
+      <span [hidden]="showMais"><p class="m-0">VER +</p></span>
+      <span [hidden]="!showMais"><p class="m-0">VER -</p></span>
     </button>
   </div>
+  <ng-template #semAutores>Autores não encontrados</ng-template>
 </div>
