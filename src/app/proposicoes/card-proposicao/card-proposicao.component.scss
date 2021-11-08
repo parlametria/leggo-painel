@@ -47,6 +47,7 @@ $size: 13px;
     .etapas-steps {
       align-items: center;
       padding: 0 15px;
+      margin-bottom: 20px;
       & > div {
         &:not(:last-child) {
           .line-between-divs {
@@ -58,12 +59,20 @@ $size: 13px;
     }
     .temperatura-block {
       margin-bottom: 1rem;
+      img {
+        margin-top: -13px;
+        cursor: pointer;
+        margin-left: 2px;
+      }
       .card-label {
         margin-bottom: 10px;
       }
     }
     .pressao-block {
       margin-bottom: 1rem;
+      .d-flex {
+        padding-right: 10%;
+      }
       .card-label {
         margin-bottom: 10px;
       }

@@ -1,5 +1,5 @@
 <div
-  class="card mb-2"
+  class="card mb-5"
   [class.card-muted]="getEhApensada()">
   <div
     class="card-header d-flex flex-row align-items-center"
@@ -66,31 +66,46 @@
       </div>
     </div>
     <div class="col-sm">
-      <div class="temperatura-block">
-        <h5>Temperatura</h5>
-        <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
-          <app-progress
-            class="pointer"
-            [label]="'Temperatura da semana: ' + proposicao?.ultima_temperatura"
-            [barraClasse]="'bg-temperatura'"
-            [valor]="proposicao?.ultima_temperatura"
-            [exibirLabel]="true"
-            [max]="proposicao?.max_temperatura_interesse">
-          </app-progress>
-        </a>
-      </div>
       <div class="pressao-block">
         <h5>Pressão</h5>
-         <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
-          <app-progress
-            class="pointer"
-            [label]="'Pressão da semana: ' + (!proposicao?.ultima_pressao ? '0' : proposicao?.ultima_pressao | number : '1.0-2')"
-            [barraClasse]="'bg-pressao'"
-            [valor]="proposicao?.ultima_pressao"
-            [max]="100"
-            [exibirLabel]="true">
-          </app-progress>
-        </a>
+        <div class="d-flex flex-row">
+          <div class="flex-grow-1">
+            <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
+              <app-progress
+                class="pointer"
+                [label]="'Pressão da semana: ' + (!proposicao?.ultima_pressao ? '0' : proposicao?.ultima_pressao | number : '1.0-2')"
+                [barraClasse]="'bg-pressao'"
+                [valor]="proposicao?.ultima_pressao"
+                [max]="100"
+                [exibirLabel]="true">
+              </app-progress>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="temperatura-block">
+        <h5>Temperatura</h5>
+        <div class="d-flex flex-row">
+          <div class="flex flex-grow-1">
+            <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
+              <app-progress
+                class="pointer"
+                [label]="'Temperatura da semana: ' + proposicao?.ultima_temperatura"
+                [barraClasse]="'bg-temperatura'"
+                [valor]="proposicao?.ultima_temperatura"
+                [exibirLabel]="true"
+                [max]="proposicao?.max_temperatura_interesse">
+              </app-progress>
+            </a>
+          </div>
+          <img *ngIf="proposicao?.ultima_temperatura > proposicao?.temp_quinze_dias"
+            [ngbPopover]="temperaturaInfo"
+            triggers="mouseenter:mouseleave" src="assets/icons/aumento_temperatura.svg">
+            <ng-template #temperaturaInfo>
+              Aumento de temperatura nesta semana
+            </ng-template>
+          <img *ngIf="proposicao?.ultima_temperatura < proposicao?.temp_quinze_dias" src="assets/icons/temperatura_normal.svg">
+        </div>
       </div>
       <div class="temas-block">
         <h5>Assuntos Relacionados</h5>

@@ -1,0 +1,17 @@
+<svg id="Aumento-de-temperatura" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+  <g id="icon-aumento-temperatura" transform="translate(-807 -468)">
+    <rect id="Retângulo_1018" data-name="Retângulo 1018" width="36" height="36" transform="translate(807 468)" fill="rgba(255,255,255,0)"/>
+    <g id="icone-aumento_de_temperatura-filled" data-name="icone-aumento de temperatura-filled" transform="translate(1 0.958)">
+      <rect id="Retângulo_1018-2" data-name="Retângulo 1018" width="32" height="32" transform="translate(808 468.894)" fill="rgba(255,255,255,0)"/>
+      <g id="Grupo_4150" data-name="Grupo 4150" transform="translate(809.333 470.377)">
+        <path id="Polígono_56" data-name="Polígono 56" d="M13.211,3.578a2,2,0,0,1,3.578,0L28.553,27.106A2,2,0,0,1,26.764,30H3.236a2,2,0,0,1-1.789-2.894Z" transform="translate(-0.333 -0.335)" fill="#e65e5e"/>
+        <g id="Grupo_3911" data-name="Grupo 3911" transform="translate(11.867 10.829)">
+          <g id="Grupo_471" data-name="Grupo 471" transform="translate(0 0)">
+            <path id="Caminho_640" data-name="Caminho 640" d="M1080.713,310.911V303.07a1.546,1.546,0,0,0-3.091,0v7.841a2.67,2.67,0,1,0,3.091,0Z" transform="translate(-1076.498 -301.544)" fill="#fff"/>
+            <path id="Caminho_641" data-name="Caminho 641" d="M1076.5,313.254a2.566,2.566,0,0,1,1.157-2.137v-7.9a1.526,1.526,0,0,1,3.051,0v7.925a2.565,2.565,0,0,1,1.125,2.113,2.667,2.667,0,0,1-5.332,0Z" transform="translate(-1076.501 -301.63)" fill="#fff"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
