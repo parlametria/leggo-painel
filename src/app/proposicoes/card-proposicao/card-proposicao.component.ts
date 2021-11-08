@@ -49,8 +49,10 @@ export class CardProposicaoComponent implements OnInit {
           } else {
             classe = 'fase-sancao';
           }
-        } else {
+        } else if (fase.fase_global === 'Sanção/Veto') {
           classe = 'fase-sancao';
+        } else {
+          classe = 'fase-vetos'
         }
       } else {
         classe = 'fase-nao-realizada';
@@ -123,6 +125,18 @@ export class CardProposicaoComponent implements OnInit {
       }
     }
     return './';
+  }
+
+  getProposicaoTitle(proposicao) {
+    if (!proposicao) {
+      return '';
+    }
+    const title = proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla;
+    if (proposicao?.interesse[0]?.apelido && proposicao?.interesse[0]?.apelido !== 'nan') {
+      return title + ' - ' + proposicao?.interesse[0]?.apelido;
+    } else {
+      return title;
+    }
   }
 
   private ordenaProgresso(resumoProgresso) {

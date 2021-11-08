@@ -9,6 +9,7 @@ $size: 13px;
     padding: 0;
     background-color: #ffffff;
     margin-bottom: 5px;
+    border-bottom: 1px solid $util-light-grey-color;
 
     .house-name {
       font-size: 12px;
@@ -27,6 +28,9 @@ $size: 13px;
   }
 
   .card-body {
+    h5 {
+      color: $text-color-2;
+    }
     span {
       display: block;
     }
@@ -35,13 +39,14 @@ $size: 13px;
       color: $text-color-3;
     }
     .etapa-tramitacao-block {
+      margin-bottom: 20px;
       a {
         cursor: pointer;
       }
     }
     .etapas-steps {
-      display: flex;
       align-items: center;
+      padding: 0 15px;
       & > div {
         &:not(:last-child) {
           .line-between-divs {
@@ -63,11 +68,14 @@ $size: 13px;
         margin-bottom: 10px;
       }
     }
-  }
-}
 
-.temas {
-  font-size: 0.85rem;
+    .temas-block {
+      margin-bottom: 1rem;
+      .temas {
+        font-size: 0.85rem;
+      }
+    }
+  }
 }
 
 .proposicao-info {

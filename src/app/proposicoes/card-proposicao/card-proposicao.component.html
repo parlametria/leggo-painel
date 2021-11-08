@@ -16,12 +16,8 @@
     <div class="header-title col-sm-10">
       <div [hidden]="getEhApensada()">
         <a [routerLink]="[proposicao.id_leggo]">
-          <h4>
-            {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
-            <h4 *ngIf="proposicao?.interesse[0]?.apelido && proposicao?.interesse[0]?.apelido !== 'nan'">
-              -
-            {{ proposicao?.interesse[0]?.apelido }}
-            </h4>
+          <h4 class="truncate-overflow-1">
+            {{ getProposicaoTitle(proposicao) }}
           </h4>
         </a>
       </div>
@@ -34,10 +30,10 @@
     <div class="col-sm">
       <div class="ementa-block">
         <h5>Ementa</h5>
-        <p class="truncate-overflow">{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa }}</p>
+        <p class="truncate-overflow-3">{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa }}</p>
       </div>
       <div class="etapa-tramitacao-block" *ngIf="proposicao?.locaisProposicao[0]">
-        <span>Etapa de Tramitação</span>
+        <h5>Etapa de Tramitação</h5>
         <p class="proposicao-info">
         {{ getArtigoSiglaLocal(proposicao?.locaisProposicao[0]) }}
         <a
@@ -54,7 +50,7 @@
       </div>
       <div class="d-flex etapas-steps">
         <div class="d-flex align-items-center" *ngFor="let f of proposicao?.resumo_progresso; let i = index" >
-          <div 
+          <div
             class="fase pointer"
             [ngClass]="getClassFaseProgresso(f)"
             [ngbPopover]="popProgresso"
@@ -75,7 +71,7 @@
         <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
           <app-progress
             class="pointer"
-            [label]="proposicao?.ultima_temperatura"
+            [label]="'Temperatura da semana: ' + proposicao?.ultima_temperatura"
             [barraClasse]="'bg-temperatura'"
             [valor]="proposicao?.ultima_temperatura"
             [exibirLabel]="true"
@@ -88,7 +84,7 @@
          <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
           <app-progress
             class="pointer"
-            [label]="(!proposicao?.ultima_pressao ? '0' : proposicao?.ultima_pressao | number : '1.0-2')"
+            [label]="'Pressão da semana: ' + (!proposicao?.ultima_pressao ? '0' : proposicao?.ultima_pressao | number : '1.0-2')"
             [barraClasse]="'bg-pressao'"
             [valor]="proposicao?.ultima_pressao"
             [max]="100"
@@ -96,8 +92,22 @@
           </app-progress>
         </a>
       </div>
+      <div class="temas-block">
+        <h5>Assuntos Relacionados</h5>
+        <span
+          class="cracha text-muted temas truncate-overflow-1"
+          [ngbPopover]="popTemas"
+          [autoClose]="'outside'">
+          {{ this.temasResumido(proposicao?.interesse[0]?.temas) }}
+          <ng-template #popTemas>
+            <span *ngFor="let tema of proposicao?.interesse[0]?.temas">
+              {{ tema }}
+              <br>
+            </span>
+          </ng-template>
+        </span>
+      </div>
       <div class="ultimas-atualizacoes-block">
-        <h5>Últimas atualizações</h5>
         <div class *ngIf="proposicao?.destaques.length || proposicao?.interesse[0]?.advocacy_link !== 'nan'">
           <app-destaques-proposicao
             [destaques]="destaques"
@@ -152,21 +162,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="temas-block">
-        <h5>Assuntos Relacionados</h5>
-        <span
-          class="cracha text-muted temas"
-          [ngbPopover]="popTemas"
-          [autoClose]="'outside'">
-          {{ this.temasResumido(proposicao?.interesse[0]?.temas) }}
-          <ng-template #popTemas>
-            <span *ngFor="let tema of proposicao?.interesse[0]?.temas">
-              {{tema}}
-              <br>
-            </span>
-          </ng-template>
-        </span>
       </div>
     </div>
 

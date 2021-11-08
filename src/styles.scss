@@ -79,7 +79,7 @@ h4 {
 }
 
 h5 {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
 }
 
@@ -392,36 +392,54 @@ a.link-texto:visited {
 
 /* Backgrounds */
 .bg-temperatura {
-  background-color: #cf7cc9 !important;
+  background-color: $util-purple-color !important;
 }
 
 .bg-pressao {
-  background-color: #ffab0f !important;
+  background-color: $util-light-pink-color !important;
 }
 /* Backgrounds FIM */
 
 /* Fases */
 .fase {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background-color: #ffffff;
-  border: 1px solid #575757;
+  background-color: $util-grey-color;
+  color: $text-color;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.fase-camara,
-.fase-senado,
-.fase-sancao,
+.fase-camara {
+  background-color: $camara-color;
+  color: #ffffff;
+}
+
+.fase-senado {
+  background-color: $senado-color;
+  color: #ffffff;
+}
+
+.fase-sancao {
+  background-color: $util-blue-color;
+  color: #ffffff;
+}
+
+.fase-vetos {
+  background-color: $util-orange-color;
+  color: #ffffff;
+}
+
 .fase-comissao-mista {
-  border: 3px solid #34174a;
+  background-color: $util-yellow-color;
+  color: #ffffff;
 }
 
 .fase-nao-realizada {
-  background-color: transparent;
+  background-color: $util-grey-color;
 }
 
 .fase-pulou {
@@ -514,9 +532,17 @@ ngb-carousel {
   font-size: 1em;
 }
 
-.truncate-overflow {
-  display: -webkit-box;
+.truncate-overflow-3 {
+  display: -webkit-box !important;
   -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.truncate-overflow-1 {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;

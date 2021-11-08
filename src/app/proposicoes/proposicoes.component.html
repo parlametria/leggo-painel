@@ -157,25 +157,10 @@
       </div>
     </section>
   </div>
-  <!-- <div class="container">
-    <div class="my-4">
-      <img
-        src="https://via.placeholder.com/1640x550?text=destaques"
-        width="100%">
-    </div>
-  </div> -->
   <div class="container pt-4">
     <div [hidden]="isLoading | async">
-      <!-- <div *ngIf="proposicoes?.length > 1">
-        <strong>{{ proposicoes?.length }}</strong>
-        proposições
-      </div>
-      <div *ngIf="proposicoes?.length === 1">
-        <strong>{{ proposicoes?.length }}</strong>
-        proposição
-      </div> -->
       <div *ngIf="proposicoes?.length === 0">Nenhuma proposição encontrada</div>
-
+      <h3 *ngIf="proposicoes?.length > 0">Todas as proposições neste painel</h3>
       <div class="row">
         <div class="col-9">
           <pagination-template
