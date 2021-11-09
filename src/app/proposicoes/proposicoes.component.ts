@@ -20,7 +20,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   private unsubscribe = new Subject();
   public isLoading = new BehaviorSubject<boolean>(true);
 
-  interesse: Interesse;
+  interesse: string;
   proposicoes: ProposicaoLista[];
   tema: string;
   proposicoesDestaque: ProposicaoLista[];
@@ -44,9 +44,8 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
     this.activatedRoute.parent.paramMap
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
-        const interesse = params.get('interesse');
-        this.getProposicoes(interesse);
-        this.getInteresse(interesse);
+        this.interesse = params.get('interesse');
+        this.getProposicoes(this.interesse);
       });
     this.activatedRoute.queryParams
       .subscribe(params => {

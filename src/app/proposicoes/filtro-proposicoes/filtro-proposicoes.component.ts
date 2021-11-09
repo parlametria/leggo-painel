@@ -69,7 +69,8 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
     private router: Router) { }
 
   ngOnInit(): void {
-
+    this.getTemas();
+    this.getLocais();
     this.activatedRoute.queryParams
       .subscribe(params => {
         this.orderBySelecionado = params.orderByProp;
@@ -103,18 +104,12 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
     this.aplicarFiltro();
   }
 
-  ngOnChanges() {
-    this.getTemas();
-    this.getLocais();
-  }
-
   ngAfterContentInit() {
     this.cdRef.detectChanges();
   }
 
   getLocais() {
-    if (!this.interesse) return;
-    this.proposicoesService.getListaLocaisProposicoes(this.interesse.interesse)
+    this.proposicoesService.getListaLocaisProposicoes(this.interesse)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(locais => {
         locais.map(l => {
