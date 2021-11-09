@@ -179,6 +179,21 @@
   }
 }
 
+.search-title {
+  margin-top: 25px;
+}
+
+.col-9 > pagination-template:first-child {
+  display: none;
+}
+
+.per-page-selector {
+  margin: 25px 0;
+  select {
+    width: fit-content;
+  }
+}
+
 .painel-info {
   background-color: #ffffff;
   padding: 60px 0 100px;

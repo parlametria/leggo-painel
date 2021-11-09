@@ -30,7 +30,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   proposicoesRevisora: ProposicaoLista[];
   proposicoesSancao: ProposicaoLista[];
   orderByProp: string;
-  public readonly PROPOSICOES_POR_PAGINA = 20;
+  public PROPOSICOES_POR_PAGINA = 10;
   p = 1;
 
   constructor(
@@ -156,6 +156,11 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
       }
     });
     return criterios.join(' - ');
+  }
+
+  onChangePerPage(value: string) {
+    this.PROPOSICOES_POR_PAGINA = Number(value);
+    this.pageChange(1);
   }
 
   private replaceUndefined(termo) {

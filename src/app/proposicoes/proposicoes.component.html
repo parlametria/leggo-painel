@@ -170,12 +170,24 @@
     </section>
     <div class="container pt-4">
       <div [hidden]="isLoading | async">
-        <div *ngIf="proposicoes?.length === 0">
+        <h3 *ngIf="proposicoes?.length === 0" class="search-title">
           Nenhuma proposição encontrada
-        </div>
-        <h3 *ngIf="proposicoes?.length > 0">
+        </h3>
+        <h3 *ngIf="proposicoes?.length > 0" class="search-title">
           Todas as proposições neste painel
         </h3>
+        <div class="per-page-selector">
+          <h5>Exibição por página</h5>
+          <select
+            name="per-page"
+            class="form-control"
+            (change)="onChangePerPage($event.target.value)"
+          >
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+          </select>
+        </div>
         <div class="row">
           <div class="col-9">
             <pagination-template
@@ -297,7 +309,11 @@
         <h3>Entenda como:</h3>
         <div class="row">
           <div class="col-6">
-            <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" [closeOthers]="true">
+            <ngb-accordion
+              #acc="ngbAccordion"
+              activeIds="ngb-panel-0"
+              [closeOthers]="true"
+            >
               <ngb-panel>
                 <ng-template ngbPanelTitle>
                   <span class="accordion-title"
