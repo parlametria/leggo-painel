@@ -582,3 +582,23 @@ ngb-carousel {
     color: $text-color-2;
   }
 }
+
+// ACCORDION
+.accordion {
+  > .card {
+    > .card-header {
+      background-color: #ffffff;
+      padding: 0.75rem 0;
+    }
+  }
+  .card-body {
+    margin-top: -10px;
+    font-size: 14px;
+    color: $text-color-3;
+  }
+
+  .btn:focus {
+    box-shadow: none;
+  }
+
+}

@@ -21,6 +21,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   public isLoading = new BehaviorSubject<boolean>(true);
 
   interesse: string;
+  interesseModel: Interesse;
   proposicoes: ProposicaoLista[];
   tema: string;
   proposicoesDestaque: ProposicaoLista[];
@@ -63,23 +64,24 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
         }
       });
     this.updatePageViaURL();
+    this.getInteresse(this.interesse);
   }
 
   ngAfterContentInit() {
     this.cdRef.detectChanges();
   }
 
-  // getInteresse(interesseArg: string) {
-  //   this.interesseService
-  //     .getInteresse(interesseArg)
-  //     .pipe(
-  //       indicate(this.isLoading),
-  //       takeUntil(this.unsubscribe))
-  //     .subscribe((data) => {
-  //       this.interesse = data[0];
-  //       this.isLoading.next(false);
-  //     });
-  // }
+  getInteresse(interesseArg: string) {
+    this.interesseService
+      .getInteresse(interesseArg)
+      .pipe(
+        indicate(this.isLoading),
+        takeUntil(this.unsubscribe))
+      .subscribe((data) => {
+        this.interesseModel = data[0];
+        this.isLoading.next(false);
+      });
+  }
 
   getProposicoes(interesse: string) {
     this.proposicoesListaService.getProposicoes(interesse)
