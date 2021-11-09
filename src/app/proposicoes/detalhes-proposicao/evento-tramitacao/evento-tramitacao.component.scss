@@ -1,7 +1,14 @@
+@import "../../../../app/shared/variables.scss";
+
 .evento-title {
-  font-weight: bold;
+  max-width: 75%;
 }
 
-.cursor {
+.cursor.tag-temperatura {
   cursor: pointer;
+  color: $util-pink-color;
+  font-size: 14px;
+  position: absolute;
+  right: 20px;
+  top: 8px;
 }

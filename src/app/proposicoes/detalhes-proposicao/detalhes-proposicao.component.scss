@@ -2,6 +2,10 @@ $base-color: #20201e;
 
 .detalhes-proposicoes-conteiner {
   background-color: #F8F6Fb;
+
+  .ultimas-atualizacoes-block {
+    margin: -10px 0 30px;
+  }
 }
 
 .breadcrumb-proposicao {
@@ -47,8 +51,10 @@ $base-color: #20201e;
 
 .modal-content {
   background-color: white;
-  padding: 0px 15px;
+  padding: 20px 15px;
   border: none;
   box-shadow: 0px 2px 5px #34174A1A;
   border-radius: 2px;
 }
+
+

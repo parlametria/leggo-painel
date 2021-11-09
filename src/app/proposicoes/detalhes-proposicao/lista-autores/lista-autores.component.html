@@ -17,11 +17,11 @@
     </span>
     <button
       [hidden]="!getTemMaisAutores()"
-      class="btn btn-light btn-xs text-muted btn-border mt-2"
+      class="btn btn-light btn-xs btn-border mt-2"
       (click)="toogleShowMais()"
     >
-      <span [hidden]="showMais"><p class="m-0">VER +</p></span>
-      <span [hidden]="!showMais"><p class="m-0">VER -</p></span>
+      <span [hidden]="showMais">VER +</span>
+      <span [hidden]="!showMais">VER -</span>
     </button>
   </div>
   <ng-template #semAutores>Autores não encontrados</ng-template>

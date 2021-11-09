@@ -1,22 +1,24 @@
-<h3 class="titulo-sessao">Temperatura e Pressão</h3>
+<h3>Temperatura e Pressão</h3>
 <div class="row no-gutters">
-  <div class="col-md-8 vis-wrapper">
+  <div class="col-md-7 vis-wrapper">
     <app-vis-temperatura-pressao (dataOnChange)="dataOnChange($event)"></app-vis-temperatura-pressao>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-5">
     <div
       class="vis-tooltip vis-tooltip-lg"
       *ngIf="filtro?.data">
-      <div class="vis-tooltip-titulo-lg">
-        Semana de {{ getSemanaString(filtro?.data) }}
-      </div>
+      <h4 class="vis-tooltip-titulo-lg">
+        Resultado: {{ getSemanaString(filtro?.data) }}
+      </h4>
       <div class="mb-3">
+        <h5>Temperatura no período:</h5>
         <p *ngIf="filtro?.valorTemperatura !== null">
           <strong class="color-temperatura">
             {{ filtro?.valorTemperatura | number : '1.0-1' }}°C
           </strong>
           de temperatura
         </p>
+        <h5>Pressão no período:</h5>
         <p *ngIf="filtro?.valorTemperatura === null">
           Dados de <strong class="color-temperatura">temperatura</strong> não disponíveis
         </p>
@@ -32,63 +34,60 @@
       <p *ngIf="filtro?.valorPressao === null">
         Dados de <strong class="color-pressao">pressão</strong> só estão disponíveis no final da semana
       </p>
+      <hr>
+      <p class="vis-rodape" *ngIf="infoTwitter">
+        Foram processados <strong>{{ infoTwitter?.total_tweets / 1000000 }}</strong> milhões de tweets de <strong>{{ infoTwitter?.total_parlamentares + infoTwitter?.total_influenciadores }}</strong> perfis de parlamentares e influenciadores.
+      </p>
+
+      <h5>
+        Ações legislativas no período
+      </h5>
+      <p *ngIf="!eventosPrincipais.length && !eventosSecundarios.length">Nenhuma ação legislativa nesta semana.</p>
+      <p *ngIf="eventosPrincipais.length || eventosSecundarios.length">
+        Ações legislativas de {{ getSemanaString(filtro?.data) }}
+      </p>
+			<p *ngIf="eventosPrincipais.length || eventosSecundarios.length" class="text-right">
+				<button class="btn btn-xs btn-outline-primary" (click)="open(legacoes)">Ver tudo</button>
+			</p>
+
+			<!-- modal -->
+      <ng-template #legacoes let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">
+        		Ações legislativas de {{ getSemanaString(filtro?.data) }}
+					</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="eventos-tram">
+            <div *ngFor="let evento of eventosPrincipais">
+              <td class="date-field">
+                <div>{{ evento?.data | date:'dd/MM/yyyy' }}</div>
+                <tbody>
+                  <tr class="">{{ evento?.sigla_local }}</tr>
+                </tbody>
+              </td>
+              <td>
+                <app-evento-tramitacao [evento]="evento"></app-evento-tramitacao>
+              </td>
+            </div>
+            <div *ngFor="let evento of eventosSecundarios">
+              <td class="date-field">
+                <div>{{ evento?.data | date:'dd/MM/yyyy' }}</div>
+                <tbody>
+                  <tr class="">{{ evento?.sigla_local }}</tr>
+                </tbody>
+              </td>
+              <td>
+                <app-evento-tramitacao [evento]="evento"></app-evento-tramitacao>
+              </td>
+            </div>
+          </table>
+        </div>
+      </ng-template>
+
     </div>
-  </div>
-</div>
-<p class="vis-rodape" *ngIf="infoTwitter">
-  Foram processados <strong>{{ infoTwitter?.total_tweets / 1000000 }}</strong> milhões de tweets de <strong>{{ infoTwitter?.total_parlamentares + infoTwitter?.total_influenciadores }}</strong> perfis de parlamentares e influenciadores.
-</p>
-<div *ngIf="filtro?.data">
-  <h3 class="titulo-sessao">
-    Ações legislativas de {{ getSemanaString(filtro?.data) }}
-  </h3>
-  <div *ngIf="!eventosPrincipais.length && !eventosSecundarios.length">Nenhuma ação legislativa nesta semana.</div>
-  <table class="eventos-tram">
-    <div *ngFor="let evento of eventosPrincipais">
-      <td class="date-field">
-        <div>{{ evento?.data | date:'dd/MM/yyyy' }}</div>
-        <tbody>
-          <tr class="text-muted">{{ evento?.sigla_local }}</tr>
-        </tbody>
-      </td>
-      <td>
-        <tbody>
-          <app-evento-tramitacao [evento]="evento"></app-evento-tramitacao>
-        </tbody>
-      </td>
-    </div>
-  </table>
-  <div *ngIf="eventosSecundarios.length">
-    <p>
-      <button
-        *ngIf="!showMais"
-        class="btn btn-light"
-        (click)="toggleShowMais()">
-        Ver mais ações nesta semana
-      </button>
-      <button
-        *ngIf="showMais"
-        class="btn btn-light"
-        (click)="toggleShowMais()">
-        Ver menos ações nesta semana
-      </button>
-    </p>
-    <table
-      *ngIf="showMais"
-      class="eventos-tram">
-      <div *ngFor="let evento of eventosSecundarios">
-        <td class="date-field">
-          <div>{{ evento?.data | date:'dd/MM/yyyy' }}</div>
-          <tbody>
-            <tr class="text-muted">{{ evento?.sigla_local }}</tr>
-          </tbody>
-        </td>
-        <td>
-          <tbody>
-            <app-evento-tramitacao [evento]="evento"></app-evento-tramitacao>
-          </tbody>
-        </td>
-      </div>
-    </table>
   </div>
 </div>

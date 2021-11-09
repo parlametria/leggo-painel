@@ -1,10 +1,13 @@
-<span
-  *ngIf="isEvento()"
-  class="evento-title">
+<h5 class="evento-title"
+  *ngIf="isEvento()">
   {{ evento?.titulo_evento | titlecase }}&nbsp;
-</span>
+</h5>
+<h5 class="evento-title"
+  *ngIf="!isEvento()">
+  &nbsp;
+</h5>
 <span
-  class="text-muted cursor"
+  class="tag-temperatura cursor"
   [ngbPopover]="popTemperatura"
   [autoClose]="'outside'">
   +{{ (evento?.temperatura_evento + evento?.temperatura_local) | number : '1.0-1'}} na temperatura
@@ -17,4 +20,4 @@
     e <strong>{{ evento?.temperatura_local | number : '1.0-1' }}°C</strong> devido ao local da ação
   </span>
 </ng-template>
-<div>{{ evento?.texto_tramitacao }}</div>
+<p>{{ evento?.texto_tramitacao }}</p>

@@ -179,7 +179,7 @@ a.link-texto:visited {
 .app-link:active,
 .app-link:hover,
 .app-link:visited {
-  color: $secondary;
+  color: $primary-color;
 }
 
 /* Paginação */
@@ -346,17 +346,34 @@ a.link-texto:visited {
   z-index: 1001;
   font-size: 0.9rem;
   background-color: $white;
-  border: solid 2px $black;
   padding: 0.25rem 0.5rem;
 
   > p {
     margin: 0;
     padding: 0;
   }
+
+  hr {
+    margin: .2rem 0;
+    border-top: 1px solid #ddd;
+  }
+}
+
+.text-color-2 {
+  color: $text-color-2;
+}
+
+p {
+  font-size: 14px;
+  color: $text-color-3;
+}
+
+.text-color-3 {
+  color: $text-color-3;
 }
 
 .vis-tooltip-lg {
-  padding: 1rem 1rem;
+  padding: 1rem 3rem 1rem 1rem;
 }
 
 .vis-tooltip-titulo {
@@ -364,9 +381,7 @@ a.link-texto:visited {
 }
 
 .vis-tooltip-titulo-lg {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .vis-tooltip-table {
@@ -487,7 +502,7 @@ a.link-texto:visited {
 }
 
 .color-pressao {
-  color: #7f2704;
+  color: $util-light-pink-color;
 }
 /* Backgrounds FIM */
 
@@ -575,5 +590,11 @@ ngb-carousel {
     font-size: 13px;
     padding: 0 5px;
     color: $text-color-2;
+  }
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 720px;
   }
 }

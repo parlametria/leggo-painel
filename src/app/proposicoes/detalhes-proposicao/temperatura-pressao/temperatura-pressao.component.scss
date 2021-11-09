@@ -8,6 +8,8 @@ td {
   padding: 0.5rem;
   text-align: left;
   vertical-align: top;
+  width: 82%;
+  position: relative;
 }
 
 .date-field {
@@ -15,8 +17,22 @@ td {
   white-space: nowrap;
 }
 
+.vis-wrapper {
+  --nr: 10;
+  --nc: 16;
+  --b: 1px;
+  --g: transparent calc(100% - var(--b)),#f5f3fa 0;
+  background: linear-gradient(to right, var(--g)), linear-gradient(to bottom,var(--g)), #ffffff;
+  background-size: calc((100% - var(--b)*(var(--nc) - 1))/var(--nc) + var(--b)) 100%, 100% calc((100% - var(--b)*(var(--nr) - 1))/var(--nr) + var(--b));
+}
+
 .vis-rodape {
-  margin-top: 1rem;
   margin-bottom: 2rem;
   font-size: .8rem;
+}
+
+.vis-tooltip .btn-xs {
+  padding: 9px;
+  font-size: 12px;
+  border-radius: 2px;
 }

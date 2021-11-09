@@ -70,6 +70,64 @@
             [locais]="proposicao?.locaisProposicao"
           >
           </app-lista-locais-atuais>
+
+          <div class="ultimas-atualizacoes-block">
+            <div class *ngIf="proposicao?.destaques.length || proposicao?.interesse[0]?.advocacy_link !== 'nan'">
+              <app-destaques-proposicao
+                [destaques]="destaques"
+                *ngFor="let destaques of proposicao?.destaques"></app-destaques-proposicao>
+              <div
+                class="chip"
+                *ngIf="proposicao?.interesse[0]?.advocacy_link && proposicao?.interesse[0]?.advocacy_link !== 'nan'"
+                [ngbPopover]="popAdvocacy"
+                [autoClose]="'outside'">
+                <div class="chip-icon">
+                  <span class="material-icons">label_important</span>
+                </div>
+                <div class="chip-text">
+                  <span>advocacy box</span>
+                </div>
+              </div>
+              <ng-template #popAdvocacy>
+                Existem notas técnicas de OSCs disponíveis para esta proposição.
+                <div class="text-right">
+                  <a
+                    href="{{proposicao?.interesse[0]?.advocacy_link}}"
+                    target="_blank"
+                    class="btn btn-link btn-sm">
+                    Ver notas
+                  </a>
+                </div>
+              </ng-template>
+            </div>
+            <div *ngIf="!proposicao?.destaques.length">
+              <div
+                *ngIf="!['Ordinária', 'Indefinido'].includes(proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao)"
+                class="chip"
+                ngbPopover="Regime de tramitação"
+                [autoClose]="'outside'">
+                <div class="chip-icon">
+                  <span class="material-icons">label_important</span>
+                </div>
+                <div class="chip-text">
+                  <span>{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao }}</span>
+                </div>
+              </div>
+              <div
+                *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.status !== 'Ativa'"
+                class="chip"
+                ngbPopover="A proposição foi finalizada"
+                [autoClose]="'outside'">
+                <div class="chip-icon">
+                  <span class="material-icons">label_important</span>
+                </div>
+                <div class="chip-text">
+                  <span>{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.status }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
       <div [hidden]="!showDetails" class="row">
@@ -128,13 +186,13 @@
         <app-temperatura-pressao></app-temperatura-pressao>
       </div>
       <div class="modal-content mt-5 mb-5">
-        <app-progresso></app-progresso>
-      </div>
-      <div class="modal-content mt-5 mb-5">
         <app-atuacao-parlamentar></app-atuacao-parlamentar>
       </div>
       <div class="modal-content mt-5 mb-5">
         <app-rede-influencia></app-rede-influencia>
+      </div>
+      <div class="modal-content mt-5 mb-5">
+        <app-progresso></app-progresso>
       </div>
     </div>
   </div>

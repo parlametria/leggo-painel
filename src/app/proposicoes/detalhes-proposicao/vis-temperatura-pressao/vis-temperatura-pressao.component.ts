@@ -10,7 +10,7 @@ import { group, max, min, extent, bisect } from 'd3-array';
 import { axisLeft, axisBottom } from 'd3-axis';
 import { hsl } from 'd3-color';
 import { path } from 'd3-path';
-import { interpolatePurples, interpolateOranges } from 'd3-scale-chromatic';
+import { interpolatePurples, interpolatePiYG } from 'd3-scale-chromatic';
 import { timeParse } from 'd3-time-format';
 import { line, curveMonotoneX } from 'd3-shape';
 import { nest } from 'd3-collection';
@@ -42,7 +42,7 @@ const d3 = Object.assign({}, {
   path,
   scaleSequential,
   interpolatePurples,
-  interpolateOranges,
+  interpolatePiYG,
   line,
   curveMonotoneX,
   timeParse,
@@ -243,7 +243,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('font-size', '0.8rem')
       .text(`Maior temperatura`);
 
-    const colorPressao = d3.scaleSequential(d3.interpolateOranges);
+    const colorPressao = d3.scaleSequential(d3.interpolatePiYG);
     // Remove último elemento da série de pressão
     const dadosPressao = [...dados];
     this.gPressao.append('linearGradient')
@@ -254,7 +254,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('x2', 0)
       .attr('y2', this.margin.top)
       .selectAll('stop')
-      .data([0.35, 1])
+      .data([0.2, 0.4])
       .enter().append('stop')
       .attr('offset', d => d)
       .attr('stop-color', colorPressao.interpolator());
@@ -311,7 +311,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('r', this.r)
       .attr('cx', -100)
       .attr('fill', '#fff')
-      .attr('stroke', '#7f2704')
+      .attr('stroke', '#FF7285')
       .attr('stroke-width', 3);
 
     const mouseArea = this.svg.append('g')

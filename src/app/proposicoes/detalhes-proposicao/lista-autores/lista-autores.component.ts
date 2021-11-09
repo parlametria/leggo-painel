@@ -26,6 +26,7 @@ export class ListaAutoresComponent {
   }
 
   getPartidoUf(autor): string {
+    if (autor.partido === 'nan') return '';
     return ' ' + autor.partido + '/' + autor.uf;
   }
 
