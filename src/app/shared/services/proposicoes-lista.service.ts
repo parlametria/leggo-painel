@@ -174,7 +174,8 @@ export class ProposicoesListaService {
     return p.nome === q.nome &&
       p.status === q.status &&
       p.tema === q.tema &&
-      p.local === q.local;
+      p.local === q.local &&
+      p.fase === q.fase;
   }
 
   private filter(proposicoes: ProposicaoLista[], filtro: any) {
@@ -182,15 +183,14 @@ export class ProposicoesListaService {
     const status = filtro.status;
     const tema = filtro.tema;
     const local = filtro.local;
+    const fase = filtro.fase;
     let semApensada = filtro.semApensada;
     // Condição fixa para exibir apensadas no resultado:
     if (nome) {
       semApensada = false;
     }
-
     return proposicoes.filter(p => {
       let filtered = true;
-
       const termos = (p.sigla_camara + p.sigla_senado + p.interesse[0].apelido)
         .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
         .toLowerCase();
@@ -219,6 +219,8 @@ export class ProposicoesListaService {
         semApensada && filtered
           ? p.apensadas.length < 1
           : filtered;
+
+      filtered = fase && filtered ? this.checkFase(p.fase, fase) : filtered;
 
       return filtered;
     });
@@ -279,7 +281,7 @@ export class ProposicoesListaService {
     }
     if (localProp !== undefined && localFiltro !== undefined) {
       const locaisFiltrados = localProp.filter(l => (l.sigla_ultimo_local === localFiltro.sigla_ultimo_local) &&
-      l.casa_ultimo_local === localFiltro.casa_ultimo_local);
+        l.casa_ultimo_local === localFiltro.casa_ultimo_local);
       return locaisFiltrados.length > 0;
     }
     return false;
@@ -304,10 +306,22 @@ export class ProposicoesListaService {
         return fase_tramitacao[1];
       case 5:
       case 6:
-        return fase_tramitacao[2]; 
+        return fase_tramitacao[2];
       default:
         return 'Não tramitada';
     }
+  }
+
+  private checkFase(faseProposicao: string, fase: Array<string>) {
+    const fases = {
+      'iniciadora': 'Iniciadora',
+      'revisora': 'Revisora',
+      'sancao': 'Sanção/Veto'
+    }
+    if (fase.map(f => fases[f]).includes(faseProposicao) || fase[0] === 'todas' || (faseProposicao === '' && fase[0] === 'nenhuma')) {
+      return true;
+    }
+    return false;
   }
 
 }

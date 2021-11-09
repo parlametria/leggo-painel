@@ -143,17 +143,19 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
             }
           }
         }
-        this.faseSelecionada = params.faseProp;
-        if (this.faseSelecionada === undefined) {
+        if (params.faseProp) {
+          this.faseSelecionada = params.faseProp.split(',');
+        }
+        if (this.faseSelecionada === undefined || this.faseSelecionada.length === 0) {
           this.iniciadoraSelecionado = true;
           this.revisoraSelecionado = true;
           this.sancaoSelecionado = true;
-        } else if (this.faseSelecionada === 'nenhuma') {
+        } else if (this.faseSelecionada[0] === 'nenhuma') {
           this.iniciadoraSelecionado = false;
           this.revisoraSelecionado = false;
           this.sancaoSelecionado = false;
         } else {
-          this.faseSelecionada.split(',').forEach(element => {
+          this.faseSelecionada.forEach(element => {
             if (element === 'iniciadora') {
               this.iniciadoraSelecionado = true;
             }
@@ -183,9 +185,8 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
         this.statusSelecionado === undefined ?
           this.statusSelecionado = this.STATUS_PADRAO : this.statusSelecionado = this.statusSelecionado;
 
-        this.faseSelecionada = params.faseProp;
-        this.faseSelecionada === undefined ?
-          this.faseSelecionada = this.FASE_PADRAO : this.faseSelecionada = this.faseSelecionada;
+        params.faseProp === undefined ?
+          this.faseSelecionada = this.FASE_PADRAO : this.faseSelecionada = params.faseProp.split(',');
 
         const localURL = params.local;
 
@@ -310,15 +311,15 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
         this.faseSelecionada.push('sancao');
       }
     }
+    this.aplicarFiltro();
 
-    if (this.faseSelecionada[0] !== this.FASE_PADRAO) {
+    if (!this.faseSelecionada.includes(this.FASE_PADRAO[0])) {
       queryParams.faseProp = this.faseSelecionada.join(',');
     } else {
       delete queryParams.faseProp;
     }
     this.router.navigate([], { queryParams });
 
-    this.aplicarFiltro();
   }
 
   ngOnDestroy(): void {
