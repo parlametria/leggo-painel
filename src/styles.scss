@@ -193,7 +193,7 @@ a.link-texto:visited {
   cursor: pointer;
 }
 .page-link {
-  border-radius: 50%;
+  border-radius: 5px;
   width: 35px;
   height: 35px;
   text-align: center;
@@ -203,11 +203,11 @@ a.link-texto:visited {
   position: relative;
   display: block;
   padding: 0.55rem 0.45rem;
-  margin-left: -2px;
+  margin-left: 1px;
   line-height: 0.9;
-  color: #20201e;
+  color: $util-grey-color;
   background-color: #fff;
-  border: 2px solid #fff;
+  border: 1px solid $util-light-grey-color;
 }
 .pagination {
   display: flex;

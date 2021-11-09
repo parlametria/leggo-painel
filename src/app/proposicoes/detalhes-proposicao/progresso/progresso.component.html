@@ -7,14 +7,25 @@
   <div class="progresso-wrapper">
     <ul class="progressbar">
       <div
-        [ngbPopover]="popProgresso"
-        [autoClose]="'outside'"
-        *ngFor="let fase of fasesResumidas"
+        class="progress-item"
+        *ngFor="let fase of fasesResumidas; index as i"
       >
-        <ng-template #popProgresso>
+        <li [ngClass]="styleFase(fase)">{{i+1}}</li>
+        <div class="text-center mt-n2">
+            <p *ngIf="exibeCasa(fase)">
+              <small>
+                {{ fase.local_casa == 'camara' ? 'Câmara' : 'Senado' }}
+              </small>
+            </p>
+            <p *ngIf="!exibeCasa(fase)">
+              <small>
+                {{ fase.local }}
+              </small>
+            </p>
+        </div>
+        <div class="detail">
           <div class="mb-2">
             <p><strong>{{ formataFase(fase) }}</strong></p>
-            <p *ngIf="exibeCasa(fase)">{{ fase.local_casa == 'camara' ? 'Câmara' : 'Senado' }}</p>
           </div>
           <p *ngIf="exibeData(fase?.data_inicio)"><strong>Início:</strong>  {{ formatDate(fase.data_inicio) }}</p>
           <p *ngIf="exibeData(fase?.data_fim)"><strong>Fim:</strong> {{ formatDate(fase.data_fim) }}</p>
@@ -22,8 +33,7 @@
           <p *ngIf="fase.pulou">Esta proposição não precisou passar por esta fase.</p>
           <p *ngIf="isInProgress(fase)">Fase atual desta proposição.</p>
           <p *ngIf="isFuture(fase)">Esta proposição ainda não chegou nesta fase.</p>
-        </ng-template>
-        <li [ngClass]="styleFase(fase)"></li>
+        </div>
       </div>
       <hr class="linha" />
     </ul>
