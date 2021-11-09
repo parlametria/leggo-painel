@@ -94,6 +94,7 @@ export class VisRedeInfluenciaComponent implements OnInit {
       this.pesoPoliticoService.getPesoPolitico()
     ]).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
+        console.log(data);
         const pesoPolitico = data[2];
         const nodes = data[0].map((n: any) => {
           const peso = pesoPolitico.find(p => parseInt(p.idParlamentarVoz, 10) === parseInt(n.id_autor_parlametria, 10));
@@ -123,9 +124,9 @@ export class VisRedeInfluenciaComponent implements OnInit {
           .range([0.25, 0.75]);
         this.color = (n: any) => {
           if (n.bancada === 'governo') {
-            return d3.interpolatePurples(scaleAux(n.pesoPolitico));
+            return '/assets/icons/influencia-gov.svg';
           }
-          return d3.interpolateGreens(scaleAux(n.pesoPolitico));
+          return '/assets/icons/influencia-op.svg';
         };
 
         const scaleLinkSize = d3.scaleLinear()
@@ -173,11 +174,13 @@ export class VisRedeInfluenciaComponent implements OnInit {
           .attr('stroke-width', 1)
           .selectAll('circle')
           .data(nodes)
-          .join('circle')
-          .attr('r', (d: any) => scaleNodeSize(d.pesoPolitico))
-          .attr('fill', (d: any) => this.color(d))
+          .enter().append('image')
+          .attr('xlink:href', (d: any) => this.color(d))
+          .attr('width', '20px')
+          .attr('height', '20px')
           .style('cursor', 'pointer')
           .style('pointer-events', 'all')
+          .style('transform', 'translate(-10px, -15px)')
           .on('mouseover', (d: any) => {
             tooltip.style('visibility', 'visible')
               .html(this.tooltipText(d));
@@ -197,17 +200,17 @@ export class VisRedeInfluenciaComponent implements OnInit {
 
         this.g.append('text')
           .attr('x', this.width * 0.25)
-          .attr('y', this.height)
-          .attr('text-anchor', 'middle')
-          .attr('fill', '#aaa')
-          .text('Centro/Governo');
-
-        this.g.append('text')
-          .attr('x', this.width * 0.75)
-          .attr('y', this.height)
+          .attr('y', this.height * 1.15)
           .attr('text-anchor', 'middle')
           .attr('fill', '#aaa')
           .text('Oposição');
+
+        this.g.append('text')
+          .attr('x', this.width * 0.75)
+          .attr('y', this.height * 1.15)
+          .attr('text-anchor', 'middle')
+          .attr('fill', '#aaa')
+          .text('Centro/Governo');
 
         simulation.on('tick', () => {
           link
@@ -216,8 +219,8 @@ export class VisRedeInfluenciaComponent implements OnInit {
             .attr('x2', d => d.target.x)
             .attr('y2', d => d.target.y);
           node
-            .attr('cx', d => d.x)
-            .attr('cy', d => d.y);
+            .attr('x', d => d.x)
+            .attr('y', d => d.y);
         });
 
       });

@@ -50,7 +50,6 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy {
       .getProposicaoDetalhada(idProposicao, interesse)
       .pipe(indicate(this.isLoading), takeUntil(this.unsubscribe))
       .subscribe((proposicao) => {
-        console.log(proposicao[0]);
         this.proposicao = proposicao[0];
         this.isLoading.next(false);
 

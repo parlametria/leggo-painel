@@ -147,6 +147,9 @@ export class ProgressoComponent implements OnInit, OnDestroy {
   }
 
   formataFase(fase) {
+    if (['Comissões', 'Plenário'].includes(fase.local)) {
+      return fase.fase_global + ' - ' + fase.local;
+    }
     return fase.fase_global;
   }
 
