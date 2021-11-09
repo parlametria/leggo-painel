@@ -83,6 +83,11 @@ h5 {
   font-weight: 500;
 }
 
+h6 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
 .app-container {
   margin-bottom: 2rem;
 }
@@ -392,11 +397,11 @@ a.link-texto:visited {
 
 /* Backgrounds */
 .bg-temperatura {
-  background-color: $util-purple-color !important;
+  background-color: $util-light-pink-color !important;
 }
 
 .bg-pressao {
-  background-color: $util-light-pink-color !important;
+  background-color: $util-purple-color!important;
 }
 /* Backgrounds FIM */
 

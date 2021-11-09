@@ -288,9 +288,9 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
 
   getClasseBotaoOrdenacao(orderBy: string) {
     if (orderBy === this.orderBySelecionado) {
-      return 'btn btn-dark w-100';
+      return 'btn btn-selected';
     }
-    return 'btn btn-outline-dark w-100';
+    return 'btn';
   }
 
   onChangeFase() {
