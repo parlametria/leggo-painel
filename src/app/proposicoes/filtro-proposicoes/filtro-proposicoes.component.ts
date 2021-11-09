@@ -322,6 +322,10 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
 
   }
 
+  reloadPage() {
+    window.location.replace(location.protocol + '//' + location.host + location.pathname);
+  }
+
   ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();

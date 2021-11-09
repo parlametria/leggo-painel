@@ -1,12 +1,59 @@
-<div class="card">
-  <div class="card-header bg-dark">
-    <h5 class="text-white">Filtros</h5>
-  </div>
+<div class="card mt-3">
   <div class="card-body">
-    <h5>Proposições</h5>
-    <h5>
+    <h5>Total Tramitando</h5>
+    <span>neste painel</span>
+    <div class="numero-proposicoes">
+      <img src="assets/icons/numero_proposicoes.svg" alt="" />
       <span *ngIf="numeroProposicoes !== 0">{{ numeroProposicoes }}&nbsp;</span>
-    </h5>
+    </div>
+    <h5>Ordenadas por</h5>
+    <div class="temp-and-press-filters">
+      <div class="filter-label">
+        <img src="assets/icons/temp_icon.svg" alt="" />
+        <h6>Temperatura</h6>
+      </div>
+      <div class="btn-group d-flex mb-2" role="group" aria-label="temperatura">
+        <button
+          type="button"
+          [class]="getClasseBotaoOrdenacao('maior-temperatura')"
+          (click)="setOrdenacao('maior-temperatura')"
+        >
+          <span class="icon-temperatura"></span>
+          maior
+        </button>
+        <button
+          type="button"
+          [class]="getClasseBotaoOrdenacao('menor-temperatura')"
+          (click)="setOrdenacao('menor-temperatura')"
+        >
+          <span class="icon-temperatura"></span>
+          menor
+        </button>
+      </div>
+      <div class="filter-label">
+        <img src="assets/icons/pressao_icon.svg" alt="" />
+        <h6>Pressão</h6>
+      </div>
+      <div class="btn-group d-flex mb-2" role="group" aria-label="pressao">
+        <button
+          type="button"
+          [class]="getClasseBotaoOrdenacao('maior-pressao')"
+          (click)="setOrdenacao('maior-pressao')"
+        >
+          <span class="icon-temperatura"></span>
+          maior
+        </button>
+        <button
+          type="button"
+          [class]="getClasseBotaoOrdenacao('menor-pressao')"
+          (click)="setOrdenacao('menor-pressao')"
+        >
+          <span class="icon-temperatura"></span>
+          menor
+        </button>
+      </div>
+    </div>
+
     <div class="form-group">
       <label for="local">Local</label>
       <select
@@ -48,51 +95,11 @@
       </select>
     </div>
 
-    <h5>Ordenado por</h5>
-    <h6>Temperatura</h6>
-    <div class="btn-group d-flex mb-2" role="group" aria-label="temperatura">
-      <button
-        type="button"
-        [class]="getClasseBotaoOrdenacao('maior-temperatura')"
-        (click)="setOrdenacao('maior-temperatura')"
-      >
-        <span class="icon-temperatura"></span>
-        maior
-      </button>
-      <button
-        type="button"
-        [class]="getClasseBotaoOrdenacao('menor-temperatura')"
-        (click)="setOrdenacao('menor-temperatura')"
-      >
-        <span class="icon-temperatura"></span>
-        menor
-      </button>
-    </div>
-    <h6>Pressão</h6>
-    <div class="btn-group d-flex mb-2" role="group" aria-label="pressao">
-      <button
-        type="button"
-        [class]="getClasseBotaoOrdenacao('maior-pressao')"
-        (click)="setOrdenacao('maior-pressao')"
-      >
-        <span class="icon-temperatura"></span>
-        maior
-      </button>
-      <button
-        type="button"
-        [class]="getClasseBotaoOrdenacao('menor-pressao')"
-        (click)="setOrdenacao('menor-pressao')"
-      >
-        <span class="icon-temperatura"></span>
-        menor
-      </button>
-    </div>
-
     <div class="form-group">
       <label>Por assunto</label>
       <select
-        class="app-seletor"
-        [style.width]="'300px'"
+        class="form-control"
+        [style.width]="'200px'"
         #selectorTema
         (change)="onChangeTema($event.target.value)"
         [(ngModel)]="temaSelecionado"
@@ -129,7 +136,9 @@
           (change)="onChangeStatus()"
           [ngModelOptions]="{ standalone: true }"
         />
-        <label class="form-check-label" for="finalizadaCheck">Finalizadas</label>
+        <label class="form-check-label" for="finalizadaCheck"
+          >Finalizadas</label
+        >
       </div>
     </div>
 
@@ -167,6 +176,36 @@
           [ngModelOptions]="{ standalone: true }"
         />
         <label class="form-check-label" for="sancaoCheck">Sanção/Veto</label>
+      </div>
+    </div>
+    <div class="clear-filter">
+      <button (click)=" reloadPage()">Limpar filtros</button>
+    </div>
+    <div class="legendas-block">
+      <h5>Legendas</h5>
+      <div class="legenda">
+        <img src="/assets/icons/legenda_alerta.svg" alt="">
+        <span>Em alerta</span>
+      </div>
+      <div class="legenda">
+        <img src="/assets/icons/aumento_temperatura.svg" alt="">
+        <span>Aumento de temperatura</span>
+      </div>
+      <div class="legenda">
+        <img src="/assets/icons/legenda_camara.svg" alt="">
+        <span>Iniciada na Câmara</span>
+      </div>
+      <div class="legenda">
+        <img src="/assets/icons/legenda_senado.svg" alt="">
+        <span>Iniciada no Senado</span>
+      </div>
+      <div class="legenda">
+        <img src="/assets/icons/legenda_atualizacoes.svg" alt="">
+        <span>Ultimas atualizações</span>
+      </div>
+      <div class="legenda">
+        <img src="/assets/icons/legenda_apensada.svg" alt="">
+        <span>Proposição apensada</span>
       </div>
     </div>
   </div>
