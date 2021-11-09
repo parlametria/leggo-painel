@@ -1,9 +1,9 @@
 <app-loading *ngIf="isLoading | async"></app-loading>
 <div class="detalhes-proposicoes-conteiner">
-  <div class="top-info-container pb-5">
+  <div class="top-info-container">
     <div class="container">
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
+        <ol class="breadcrumb breadcrumb-proposicao">
           <li class="breadcrumb-item">
             <a [routerLink]="['../']" class="btn btn-sm btn-light">
               &lt; Proposicões
@@ -13,12 +13,12 @@
       </nav>
       <div [hidden]="isLoading | async" class="mt-4 row">
         <div class="col">
-          <h5>
+          <h4>
             {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
-          </h5>
+          </h4>
 
           <div>
-            <h6
+            <h5
               *ngIf="
                 proposicao?.interesse[0]?.apelido &&
                 proposicao?.interesse[0]?.apelido !== 'nan'
@@ -26,7 +26,7 @@
               class="text-muted mb-4"
             >
               <strong>{{ proposicao?.interesse[0]?.apelido }}</strong>
-            </h6>
+            </h5>
             <app-situacao-proposicao
               [proposicao]="proposicao"
             ></app-situacao-proposicao>
@@ -72,7 +72,7 @@
           </app-lista-locais-atuais>
         </div>
       </div>
-      <div [hidden]="isLoading | async" class="row">
+      <div [hidden]="!showDetails" class="row">
         <div class="col">
           <div class="row">
             <div class="col">
@@ -94,60 +94,32 @@
           ></app-assuntos-relacionados>
         </div>
       </div>
-
-      <!-- <div class="view-subnav">
-      <ul class="nav nav-tabs justify-content-center">
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            [routerLink]="['./temperatura-pressao']"
-            [routerLinkActive]="'active'"
-            queryParamsHandling="merge"
-          >
-            <span class="icon-temperatura"></span>
-            Temperatura e pressão
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            [routerLink]="['./progresso']"
-            [routerLinkActive]="'active'"
-            queryParamsHandling="merge"
-          >
-            <span class="icon-progresso"></span>
-            Progresso
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            [routerLink]="['./atuacao']"
-            [routerLinkActive]="'active'"
-            queryParamsHandling="merge"
-          >
-            <span class="icon-atividade"></span>
-            Atuação parlamentar
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            [routerLink]="['./rede-de-influencia']"
-            [routerLinkActive]="'active'"
-            queryParamsHandling="merge"
-          >
-            <span class="icon-grafo"></span>
-            Rede de influência
-          </a>
-        </li>
-      </ul>
     </div>
     <div class="container">
-      <div class="py-4">
-        <router-outlet></router-outlet>
+      <div class="row justify-content-md-center mt-3">
+        <button
+          (click)="toogleShowDetails()"
+          [hidden]="!showDetails"
+          class="button-show button-show-less"
+        >
+          <span
+            ><img src="../../../assets/imgs/chevron-solid.svg" alt="chevron"
+          /></span>
+        </button>
       </div>
-    </div> -->
+    </div>
+  </div>
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <button
+        (click)="toogleShowDetails()"
+        [hidden]="showDetails"
+        class="button-show button-show-more"
+      >
+        <span
+          ><img src="../../../assets/imgs/chevron-solid.svg" alt="chevron"
+        /></span>
+      </button>
     </div>
   </div>
   <div class="modals-container">

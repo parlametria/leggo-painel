@@ -23,6 +23,8 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy {
   public isLoading = new BehaviorSubject<boolean>(true);
   public tema: string;
 
+  showDetails = false;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -70,5 +72,9 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
+  }
+
+  toogleShowDetails() {
+    this.showDetails = !this.showDetails;
   }
 }
