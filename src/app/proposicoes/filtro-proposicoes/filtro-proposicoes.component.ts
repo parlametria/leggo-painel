@@ -19,7 +19,7 @@ const d3 = Object.assign({}, { nest });
 
 export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnDestroy {
 
-  @Input() interesse: string;
+  @Input() interesse: any;
   @Input() numeroProposicoes: number;
   @Output() filterChange = new EventEmitter<any>();
 
@@ -69,8 +69,7 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
     private router: Router) { }
 
   ngOnInit(): void {
-    this.getTemas();
-    this.getLocais();
+
     this.activatedRoute.queryParams
       .subscribe(params => {
         this.orderBySelecionado = params.orderByProp;
@@ -104,12 +103,18 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
     this.aplicarFiltro();
   }
 
+  ngOnChanges() {
+    this.getTemas();
+    this.getLocais();
+  }
+
   ngAfterContentInit() {
     this.cdRef.detectChanges();
   }
 
   getLocais() {
-    this.proposicoesService.getListaLocaisProposicoes(this.interesse)
+    if (!this.interesse) return;
+    this.proposicoesService.getListaLocaisProposicoes(this.interesse.interesse)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(locais => {
         locais.map(l => {
