@@ -34,6 +34,8 @@ export class AtuacaoParlamentarComponent implements OnInit, OnDestroy {
   p = 1;
 
   atuacao: any[];
+  atuacaoGov: any[];
+  atuacaoOp: any[];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -94,6 +96,10 @@ export class AtuacaoParlamentarComponent implements OnInit, OnDestroy {
           parlamentar.soma_documentos = parlamentar.values.reduce((accum, item) => accum + item.total_documentos, 0);
           return parlamentar;
         });
+
+        this.atuacaoGov = this.atuacao.filter(a => a.values[0].bancada === 'governo');
+        this.atuacaoOp = this.atuacao.filter(a => a.values[0].bancada === 'oposição');
+
         this.atuacao.sort((a, b) => b.soma_documentos - a.soma_documentos);
 
         this.maximoDocumentos = d3.max(this.atuacao, d => +d.soma_documentos);

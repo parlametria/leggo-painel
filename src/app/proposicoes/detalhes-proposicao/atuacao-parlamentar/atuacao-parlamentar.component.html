@@ -1,8 +1,8 @@
-<h3 class="titulo-sessao mb-2">Atuação parlamentar</h3>
+<h3>Atuação parlamentar</h3>
 <app-loading *ngIf="isLoading | async"></app-loading>
 <div [hidden]="isLoading | async">
   <div class="mt-2">
-    <span> Dados de atuação parlamentar a partir de 2019. </span>
+    <p> Dados de atuação parlamentar a partir de 2019. </p>
   </div>
   <div class="my-2">
     <div class="legend">
@@ -11,59 +11,110 @@
         [classe]="'bg-proposicao'"
       ></app-legend>
 
-      <app-legend [title]="'Emenda'" [classe]="'bg-emenda'"></app-legend>
+      <app-legend
+        [title]="'Emenda'"
+        [classe]="'bg-emenda'"
+      ></app-legend>
 
       <app-legend
         [title]="'Requerimento'"
         [classe]="'bg-requerimento'"
       ></app-legend>
-      <span class="bg-oposicao legend-title">Oposição</span>
-      <span class="bg-centro-governo legend-title">Centro/Governo</span>
     </div>
   </div>
-  <div
-    class="mb-2 atuacao-body"
-    *ngFor="
-      let parlamentar of atuacao
-        | paginate: { itemsPerPage: 15, currentPage: p };
-      index as i
-    "
-  >
-    <div class="autor">
-      <a
-        [routerLink]="[
-          '/',
-          interesse,
-          'parlamentares',
-          parlamentar?.values[0].id_autor_parlametria
-        ]"
+  <div class="row">
+    <div class="col-5 offset-1">
+      <h4 class="">Oposição</h4>
+      <div
+        class="mb-2 atuacao-body"
+        *ngFor="
+          let parlamentar of atuacaoOp
+            | paginate: { itemsPerPage: 5, currentPage: p };
+          index as i
+        "
       >
-        <span *ngIf="parlamentar?.values[0].casa_autor === 'camara'">Dep.</span>
-        <span *ngIf="parlamentar?.values[0].casa_autor === 'senado'">Sen.</span>
-        {{ parlamentar?.values[0].nome_autor }}
-        <span
-          *ngIf="parlamentar?.values[0].bancada === 'oposição'"
-          class="bg-oposicao"
-        >
-          {{ parlamentar?.values[0].partido }}
-        </span>
-        <span
-          *ngIf="parlamentar?.values[0].bancada === 'governo'"
-          class="bg-centro-governo"
-        >
-          {{ parlamentar?.values[0].partido }}
-        </span>
-        /{{ parlamentar?.values[0].uf }}
-      </a>
+        <div class="autor">
+          <a
+            [routerLink]="[
+              '/',
+              interesse,
+              'parlamentares',
+              parlamentar?.values[0].id_autor_parlametria
+            ]"
+          >
+            <span *ngIf="parlamentar?.values[0].casa_autor === 'camara'">Dep.</span>
+            <span *ngIf="parlamentar?.values[0].casa_autor === 'senado'">Sen.</span>
+            {{ parlamentar?.values[0].nome_autor }}
+            <span
+              *ngIf="parlamentar?.values[0].bancada === 'oposição'"
+            >
+              {{ parlamentar?.values[0].partido }}
+            </span>
+            <span
+              *ngIf="parlamentar?.values[0].bancada === 'governo'"
+            >
+              {{ parlamentar?.values[0].partido }}
+            </span>
+            /{{ parlamentar?.values[0].uf }}
+          </a>
+        </div>
+        <div class="barra">
+          <div class="barra-progresso">
+            <app-progress-stacked
+              [categorias]="parlamentar?.values"
+              [min]="0"
+              [max]="maximoDocumentos"
+              [score]="parlamentar?.soma_documentos"
+            ></app-progress-stacked>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="barra">
-      <div class="barra-progresso">
-        <app-progress-stacked
-          [categorias]="parlamentar?.values"
-          [min]="0"
-          [max]="maximoDocumentos"
-          [score]="parlamentar?.soma_documentos"
-        ></app-progress-stacked>
+    <div class="col-5">
+      <h4>Centro/Governo</h4>
+      <div
+        class="mb-2 atuacao-body"
+        *ngFor="
+          let parlamentar of atuacaoGov
+            | paginate: { itemsPerPage: 5, currentPage: p };
+          index as i
+        "
+      >
+        <div class="autor">
+          <a
+            [routerLink]="[
+              '/',
+              interesse,
+              'parlamentares',
+              parlamentar?.values[0].id_autor_parlametria
+            ]"
+          >
+            <span *ngIf="parlamentar?.values[0].casa_autor === 'camara'">Dep.</span>
+            <span *ngIf="parlamentar?.values[0].casa_autor === 'senado'">Sen.</span>
+            {{ parlamentar?.values[0].nome_autor }}
+            <span
+              *ngIf="parlamentar?.values[0].bancada === 'oposição'"
+            >
+              {{ parlamentar?.values[0].partido }}
+            </span>
+            <span
+              *ngIf="parlamentar?.values[0].bancada === 'governo'"
+            >
+              {{ parlamentar?.values[0].partido }}
+            </span>
+            /{{ parlamentar?.values[0].uf }}
+          </a>
+        </div>
+        <div class="barra">
+          <div class="barra-progresso">
+            <app-progress-stacked
+              [categorias]="parlamentar?.values"
+              [min]="0"
+              [max]="maximoDocumentos"
+              [score]="parlamentar?.soma_documentos"
+            ></app-progress-stacked>
+          </div>
+        </div>
       </div>
     </div>
   </div>
