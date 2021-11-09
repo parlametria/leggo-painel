@@ -118,7 +118,7 @@
           (change)="onChangeStatus()"
           [ngModelOptions]="{ standalone: true }"
         />
-        <label class="form-check-label" for="tramitandoCheck">tramitando</label>
+        <label class="form-check-label" for="tramitandoCheck">Tramitando</label>
       </div>
       <div class="form-group form-check">
         <input
@@ -129,9 +129,44 @@
           (change)="onChangeStatus()"
           [ngModelOptions]="{ standalone: true }"
         />
-        <label class="form-check-label" for="finalizadaCheck"
-          >finalizadas</label
-        >
+        <label class="form-check-label" for="finalizadaCheck">Finalizadas</label>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Fase</label>
+      <div class="form-group form-check">
+        <input
+          id="iniciadoraCheck"
+          type="checkbox"
+          class="form-check-input"
+          [(ngModel)]="iniciadoraSelecionado"
+          (change)="onChangeFase()"
+          [ngModelOptions]="{ standalone: true }"
+        />
+        <label class="form-check-label" for="iniciadoraCheck">Iniciadora</label>
+      </div>
+      <div class="form-group form-check">
+        <input
+          id="revisoraCheck"
+          type="checkbox"
+          class="form-check-input"
+          [(ngModel)]="revisoraSelecionado"
+          (change)="onChangeFase()"
+          [ngModelOptions]="{ standalone: true }"
+        />
+        <label class="form-check-label" for="revisoraCheck">Revisora</label>
+      </div>
+      <div class="form-group form-check">
+        <input
+          id="sancaoCheck"
+          type="checkbox"
+          class="form-check-input"
+          [(ngModel)]="sancaoSelecionado"
+          (change)="onChangeFase()"
+          [ngModelOptions]="{ standalone: true }"
+        />
+        <label class="form-check-label" for="sancaoCheck">Sanção/Veto</label>
       </div>
     </div>
   </div>
