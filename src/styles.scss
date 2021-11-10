@@ -192,8 +192,9 @@ a.link-texto:visited {
 .page-item.active .page-link {
   z-index: 1;
   color: #fff;
-  background-color: #343a40;
-  border-color: #343a40;
+  background-color: $primary-variant-color;
+  border-color: $primary-variant-color;
+  margin: 0 3px;
 }
 .page-link:not(:disabled):not(.disabled) {
   cursor: pointer;
