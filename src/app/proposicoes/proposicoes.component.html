@@ -309,9 +309,7 @@
             <app-filtro-proposicoes
               [interesse]="interesse"
               (filterChange)="search($event)"
-              [numeroProposicoes]="
-                proposicoesDestaque?.length + proposicoes?.length
-              "
+              [numeroProposicoes]="proposicoes?.length"
             ></app-filtro-proposicoes>
           </div>
         </div>

@@ -39,12 +39,23 @@ $base-color: #20201e;
 }
 
 .button-show-more {
+  span {
+    img {
+      transform: rotate(180deg);
+    }
+  }
 }
 
 .button-show-less {
   transform: rotate(180deg);
   -webkit-filter: drop-shadow( 0px 11px 15px #34174A3A);
   filter: drop-shadow( 0px 11px 15px #34174A3A);
+
+  span {
+    img {
+      transform: rotate(180deg);
+    }
+  }
 }
 
 .modal-content {
