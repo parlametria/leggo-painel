@@ -47,6 +47,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
       .subscribe(params => {
         this.interesse = params.get('interesse');
         this.getProposicoes(this.interesse);
+        this.getInteresse(this.interesse);
       });
     this.activatedRoute.queryParams
       .subscribe(params => {
@@ -64,7 +65,6 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
         }
       });
     this.updatePageViaURL();
-    this.getInteresse(this.interesse);
   }
 
   ngAfterContentInit() {

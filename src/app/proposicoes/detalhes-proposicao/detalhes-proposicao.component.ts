@@ -6,6 +6,8 @@ import { takeUntil } from 'rxjs/operators';
 
 import { Proposicao } from 'src/app/shared/models/proposicao.model';
 import { ProposicaoDetalhadaService } from 'src/app/shared/services/proposicao-detalhada.service';
+import { InteresseService } from 'src/app/shared/services/interesse.service';
+import { Interesse } from 'src/app/shared/models/interesse.model';
 import { indicate } from 'src/app/shared/functions/indicate.function';
 
 @Component({
@@ -20,6 +22,7 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy {
   public eventosAgrupados: any;
   public idProposicao: string;
   public interesse: string;
+  interesseModel: Interesse;
   public isLoading = new BehaviorSubject<boolean>(true);
   public tema: string;
 
@@ -27,6 +30,7 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private interesseService: InteresseService,
     private router: Router,
     private proposicaoDetalhadaService: ProposicaoDetalhadaService
   ) {}
@@ -37,12 +41,25 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy {
       .subscribe((params) => {
         this.interesse = params.get('interesse');
         this.idProposicao = params.get('id_leggo');
+        this.getInteresse(this.interesse);
       });
     this.activatedRoute.queryParams.subscribe((params) => {
       this.tema = params.tema;
       this.tema === undefined ? (this.tema = '') : (this.tema = this.tema);
       this.getProposicaodetalhada(this.idProposicao, this.interesse);
     });
+  }
+
+  getInteresse(interesseArg: string) {
+    this.interesseService
+      .getInteresse(interesseArg)
+      .pipe(
+        indicate(this.isLoading),
+        takeUntil(this.unsubscribe))
+      .subscribe((data) => {
+        this.interesseModel = data[0];
+        this.isLoading.next(false);
+      });
   }
 
   getProposicaodetalhada(idProposicao, interesse) {
@@ -58,6 +75,7 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy {
         }
       });
   }
+
 
   getCasaFormatada(casa): string {
     if (casa === 'camara') {

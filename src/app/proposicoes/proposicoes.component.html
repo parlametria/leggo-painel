@@ -170,13 +170,10 @@
     </section>
     <div class="container pt-4">
       <div [hidden]="isLoading | async">
-        <h3 *ngIf="proposicoes?.length === 0" class="search-title">
-          Nenhuma proposição encontrada
-        </h3>
-        <h3 *ngIf="proposicoes?.length > 0" class="search-title">
+        <h3 class="search-title">
           Todas as proposições neste painel
         </h3>
-        <div class="per-page-selector">
+        <div *ngIf="proposicoes?.length > 0" class="per-page-selector">
           <h5>Exibição por página</h5>
           <select
             name="per-page"
@@ -189,7 +186,10 @@
           </select>
         </div>
         <div class="row">
-          <div class="col-9">
+          <h5 class="no-results col-9" *ngIf="proposicoes?.length === 0" >
+            Nenhuma proposição encontrada
+          </h5>
+          <div class="col-9" *ngIf="proposicoes?.length > 0">
             <pagination-template
               #pag="paginationApi"
               maxSize="5"
@@ -304,77 +304,6 @@
         </div>
       </div>
     </div>
-    <section class="painel-info">
-      <div class="container">
-        <h3>Entenda como:</h3>
-        <div class="row">
-          <div class="col-6">
-            <ngb-accordion
-              #acc="ngbAccordion"
-              activeIds="ngb-panel-0"
-              [closeOthers]="true"
-            >
-              <ngb-panel>
-                <ng-template ngbPanelTitle>
-                  <span class="accordion-title"
-                    >Calculamos as proposições que merecem a sua atenção</span
-                  >
-                </ng-template>
-                <ng-template ngbPanelContent>
-                  <p>
-                    Os algoritmos do Parlametria são capazes de filtrar o fluxo
-                    de tramitação no Legislativo Federal, de modo a destacar as
-                    proposições que estão em estágio mais avançado de trâmite e
-                    que merecem, portanto, total atenção da RAC.
-                  </p>
-                </ng-template>
-              </ngb-panel>
-              <ngb-panel>
-                <ng-template ngbPanelTitle>
-                  <span>Calculamos os dados de temperatura</span>
-                </ng-template>
-                <ng-template ngbPanelContent>
-                  <p>
-                    Indicador de viés interna corporis, o valor de temperatura
-                    leva em conta apenas as ações legislativas que compõem o
-                    processo de tramitação no Congresso Nacional. É calculado
-                    por algoritmo que faz ponderação quantitativa
-                    (contabilização das ações incidentes sobre uma proposição
-                    legislativa) e qualitativa (importância de cada ação no rito
-                    legislativo).
-                  </p>
-                </ng-template>
-              </ngb-panel>
-              <ngb-panel>
-                <ng-template ngbPanelTitle>
-                  <span>Tratamos os dados da pressão</span>
-                </ng-template>
-                <ng-template ngbPanelContent>
-                  <p>
-                    Indicador baseado em dados externos ao rito de tramitação no
-                    Congresso Nacional, refletindo como os variados grupos de
-                    interesse atuam para influenciar o processo legislativo. A
-                    métrica é operada por algoritmo que captura interações na
-                    rede social Twitter, especificamente aquelas em que há
-                    referência à proposição em questão.
-                  </p>
-                </ng-template>
-              </ngb-panel>
-            </ngb-accordion>
-          </div>
-          <div class="col-6 painel-description">
-            <h5>{{ "Painel de " + interesseModel?.nome_interesse }}</h5>
-            <p>{{ interesseModel?.descricao_interesse }}</p>
-            <h6>Painéis de acompanhamento</h6>
-            <p>
-              A plataforma coleta e analisa dados do Congresso Nacional, para
-              apresentar uma visão geral e agregada das proposições mais
-              relevantes sobre o tema, permitindo o acompanhamento, de forma
-              gráfica, nos variados estágios de tramitação.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
   </div>
 </div>
+<app-footer [interesseModel]="interesseModel"></app-footer>
