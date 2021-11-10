@@ -23,9 +23,9 @@
                 proposicao?.interesse[0]?.apelido &&
                 proposicao?.interesse[0]?.apelido !== 'nan'
               "
-              class="text-muted mb-4"
+              class="mb-4"
             >
-              <strong>{{ proposicao?.interesse[0]?.apelido }}</strong>
+              {{ proposicao?.interesse[0]?.apelido }}
             </h5>
             <app-situacao-proposicao
               [proposicao]="proposicao"

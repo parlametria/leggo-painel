@@ -1,6 +1,6 @@
 <div class="mb-2">
   <h5>
-    <strong>{{ getTitulo() }}</strong>
+    {{ getTitulo() }}
   </h5>
   <div *ngIf="autores && autores.length > 0; else semAutores">
     <span>

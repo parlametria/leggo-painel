@@ -1,9 +1,9 @@
-<h3 class="titulo-sessao">Progresso da Tramitação</h3>
+<h3>Progresso da Tramitação</h3>
 <app-loading *ngIf="isLoading | async"></app-loading>
 <div [hidden]="isLoading | async">
-  <div *ngIf="exibeData(ultimaTramitacao?.data)" class="mb-4">
+  <p *ngIf="exibeData(ultimaTramitacao?.data)" class="mb-4">
     Esta proposição está desde <strong>{{ formatDate(ultimaTramitacao?.data) }}</strong> na <strong>{{ ultimaTramitacao?.local }}</strong>.
-  </div>
+  </p>
   <div class="progresso-wrapper">
     <ul class="progressbar">
       <div
