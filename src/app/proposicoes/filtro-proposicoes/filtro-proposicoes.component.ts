@@ -117,6 +117,7 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
   firstUpdateOnfilter() {
     this.activatedRoute.queryParams
       .subscribe(params => {
+        this.proposicaoPesquisada = params.text || '';
         this.orderBySelecionado = params.orderByProp;
         this.orderBySelecionado === undefined ?
           this.orderBySelecionado = this.ORDER_BY_PADRAO : this.orderBySelecionado = this.orderBySelecionado;
@@ -173,6 +174,7 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
   updateFilterFromURL() {
     this.activatedRoute.queryParams
       .subscribe(params => {
+        this.proposicaoPesquisada = params.text || '';
         this.orderBySelecionado = params.orderByProp;
         this.orderBySelecionado === undefined ?
           this.orderBySelecionado = this.ORDER_BY_PADRAO : this.orderBySelecionado = this.orderBySelecionado;

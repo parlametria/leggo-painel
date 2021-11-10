@@ -23,21 +23,24 @@
       </div>
     </div>
   </div> -->
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item">
-        <a [routerLink]="['/']" class="">
-          Interesses
-        </a>
-      </li>
-      <li class="breadcrumb-item"> <span> {{ interesseModel.nome_interesse }} </span> </li>
-    </ol>
-  </nav>
   <div [hidden]="isLoading | async">
-    <div class="breadcrumbs"></div>
+    <div class="bg-white">
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a [routerLink]="['/']" class="">
+                Interesses
+              </a>
+            </li>
+            <li class="breadcrumb-item"> <span> {{ interesseModel?.nome_interesse }} </span> </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
     <section class="proposicoes-em-destaque">
-      <h2>Proposições em Alerta</h2>
       <div class="destaques-titles container">
+        <h2>Proposições em Alerta</h2>
         <div class="row">
           <div class="col-4">
             <h5 class="iniciadora-title">Iniciadora</h5>

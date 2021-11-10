@@ -89,6 +89,7 @@ h6 {
 }
 
 .app-container {
+  margin-top: 100px;
   min-height: 100vh;
 }
 
@@ -607,6 +608,7 @@ ngb-carousel {
 .breadcrumb {
   background-color: white;
   margin: 0;
+  padding: 0.75rem 0;
 
   .breadcrumb-item {
   }

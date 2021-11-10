@@ -1,6 +1,6 @@
-<nav class="navbar">
+<nav class="navbar fixed-top">
   <div class="container navbar-container">
-    <div class="navbar-logo-wrapper">
+    <div class="navbar-logo-wrapper align-items-center">
       <div class="text-center pr-2">
         <a
           [routerLink]="''"
@@ -12,20 +12,21 @@
             height="22">
         </a>
       </div>
+      <h4 class="mb-0">
+        {{ interesse?.nome_interesse }}
+      </h4>
     </div>
-    <form class="form-inline my-2 my-lg-0">
-      <select
-        id="paineis"
-        name="paineis"
-        class="form-control"
-        (change)="onNavigate($event.target.value)">
-        <option
-          *ngFor="let i of interesses"
-          [value]="i.interesse"
-          [selected]="i.interesse === interesse?.interesse">
-          {{ i?.nome_interesse }}
-        </option>
-      </select>
-    </form>
+    <div class="form-inline">
+      <div class="input-group">
+        <input type="text" class="form-control"
+          placeholder="Buscar proposições"
+          aria-label="Proposições"
+          aria-describedby="basic-addon1"
+          [(ngModel)]="searchText">
+        <div class="input-group-append">
+          <button class="btn btn-primary my-2 my-sm-0" (click)="navSearch(searchText, interesse)">Buscar</button>
+        </div>
+      </div>
+    </div>
   </div>
 </nav>
