@@ -19,7 +19,7 @@ const d3 = Object.assign({}, { nest });
 
 export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnDestroy {
 
-  @Input() interesse: string;
+  @Input() interesse: any;
   @Input() numeroProposicoes: number;
   @Output() filterChange = new EventEmitter<any>();
 
@@ -28,8 +28,10 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
   readonly FILTRO_PADRAO = 'todos';
   readonly ORDER_BY_PADRAO = 'maior-temperatura';
   readonly STATUS_PADRAO = 'tramitando';
+  readonly FASE_PADRAO = ['todas'];
   public temaSelecionado: string;
   public localSelecionado: LocalProposicao;
+  public faseSelecionada: Array<string>;
 
   temasBusca: any[] = [{ tema: 'todos os temas', tema_slug: 'todos' }, { tema: 'destaque', tema_slug: 'destaque' }];
 
@@ -58,6 +60,10 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
     { statusName: 'nenhuma', statusValue: 'nenhuma' }
   ];
 
+  public iniciadoraSelecionado: boolean;
+  public revisoraSelecionado: boolean;
+  public sancaoSelecionado: boolean;
+
   proposicaoPesquisada = '';
   filtro: any;
 
@@ -66,40 +72,14 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
     private proposicoesService: ProposicoesService,
     private activatedRoute: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
-    private router: Router) { }
+    private router: Router) {
+    this.faseSelecionada = [];
+  }
 
   ngOnInit(): void {
     this.getTemas();
     this.getLocais();
-    this.activatedRoute.queryParams
-      .subscribe(params => {
-        this.orderBySelecionado = params.orderByProp;
-        this.orderBySelecionado === undefined ?
-          this.orderBySelecionado = this.ORDER_BY_PADRAO : this.orderBySelecionado = this.orderBySelecionado;
-        this.temaSelecionado = params.tema;
-        this.temaSelecionado === undefined ?
-          this.temaSelecionado = this.FILTRO_PADRAO : this.temaSelecionado = this.temaSelecionado;
-        this.statusSelecionado = params.statusProp;
-        if (this.statusSelecionado === undefined) {
-          this.statusSelecionado = this.STATUS_PADRAO;
-          this.tramitandoSelecionado = true;
-          this.finalizadaSelecionado = false;
-        }  else {
-          if (this.statusSelecionado === 'todas') {
-            this.tramitandoSelecionado = true;
-            this.finalizadaSelecionado = true;
-          } else {
-            if (this.statusSelecionado === 'tramitando') {
-              this.tramitandoSelecionado = true;
-              this.finalizadaSelecionado = false;
-            }
-            if (this.statusSelecionado === 'finalizada') {
-              this.tramitandoSelecionado = false;
-              this.finalizadaSelecionado = true;
-            }
-          }
-        }
-      });
+    this.firstUpdateOnfilter();
     this.localSelecionado = this.locaisBusca[0];
     this.aplicarFiltro();
   }
@@ -134,6 +114,62 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
       });
   }
 
+  firstUpdateOnfilter() {
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        this.orderBySelecionado = params.orderByProp;
+        this.orderBySelecionado === undefined ?
+          this.orderBySelecionado = this.ORDER_BY_PADRAO : this.orderBySelecionado = this.orderBySelecionado;
+        this.temaSelecionado = params.tema;
+        this.temaSelecionado === undefined ?
+          this.temaSelecionado = this.FILTRO_PADRAO : this.temaSelecionado = this.temaSelecionado;
+        this.statusSelecionado = params.statusProp;
+        if (this.statusSelecionado === undefined) {
+          this.statusSelecionado = this.STATUS_PADRAO;
+          this.tramitandoSelecionado = true;
+          this.finalizadaSelecionado = false;
+        } else {
+          if (this.statusSelecionado === 'todas') {
+            this.tramitandoSelecionado = true;
+            this.finalizadaSelecionado = true;
+          } else {
+            if (this.statusSelecionado === 'tramitando') {
+              this.tramitandoSelecionado = true;
+              this.finalizadaSelecionado = false;
+            }
+            if (this.statusSelecionado === 'finalizada') {
+              this.tramitandoSelecionado = false;
+              this.finalizadaSelecionado = true;
+            }
+          }
+        }
+        if (params.faseProp) {
+          this.faseSelecionada = params.faseProp.split(',');
+        }
+        if (this.faseSelecionada === undefined || this.faseSelecionada.length === 0) {
+          this.iniciadoraSelecionado = true;
+          this.revisoraSelecionado = true;
+          this.sancaoSelecionado = true;
+        } else if (this.faseSelecionada[0] === 'nenhuma') {
+          this.iniciadoraSelecionado = false;
+          this.revisoraSelecionado = false;
+          this.sancaoSelecionado = false;
+        } else {
+          this.faseSelecionada.forEach(element => {
+            if (element === 'iniciadora') {
+              this.iniciadoraSelecionado = true;
+            }
+            if (element === 'revisora') {
+              this.revisoraSelecionado = true;
+            }
+            if (element === 'sancao') {
+              this.sancaoSelecionado = true;
+            }
+          });
+        }
+      });
+  }
+
   updateFilterFromURL() {
     this.activatedRoute.queryParams
       .subscribe(params => {
@@ -148,6 +184,9 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
         this.statusSelecionado = params.statusProp;
         this.statusSelecionado === undefined ?
           this.statusSelecionado = this.STATUS_PADRAO : this.statusSelecionado = this.statusSelecionado;
+
+        params.faseProp === undefined ?
+          this.faseSelecionada = this.FASE_PADRAO : this.faseSelecionada = params.faseProp.split(',');
 
         const localURL = params.local;
 
@@ -187,6 +226,7 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
       status: this.statusSelecionado,
       tema: this.temaSelecionado,
       local: this.localSelecionado,
+      fase: this.faseSelecionada,
       semApensada: true
     };
     this.filterChange.emit(this.filtro);
@@ -248,9 +288,42 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
 
   getClasseBotaoOrdenacao(orderBy: string) {
     if (orderBy === this.orderBySelecionado) {
-      return 'btn btn-dark w-100';
+      return 'btn btn-selected';
     }
-    return 'btn btn-outline-dark w-100';
+    return 'btn';
+  }
+
+  onChangeFase() {
+    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    this.faseSelecionada = [];
+    if (!this.iniciadoraSelecionado && !this.revisoraSelecionado && !this.sancaoSelecionado) {
+      this.faseSelecionada = ['nenhuma'];
+    } else if (this.iniciadoraSelecionado && this.revisoraSelecionado && this.sancaoSelecionado) {
+      this.faseSelecionada = ['todas'];
+    } else {
+      if (this.iniciadoraSelecionado) {
+        this.faseSelecionada.push('iniciadora');
+      }
+      if (this.revisoraSelecionado) {
+        this.faseSelecionada.push('revisora');
+      }
+      if (this.sancaoSelecionado) {
+        this.faseSelecionada.push('sancao');
+      }
+    }
+    this.aplicarFiltro();
+
+    if (!this.faseSelecionada.includes(this.FASE_PADRAO[0])) {
+      queryParams.faseProp = this.faseSelecionada.join(',');
+    } else {
+      delete queryParams.faseProp;
+    }
+    this.router.navigate([], { queryParams });
+
+  }
+
+  reloadPage() {
+    window.location.replace(location.protocol + '//' + location.host + location.pathname);
   }
 
   ngOnDestroy(): void {

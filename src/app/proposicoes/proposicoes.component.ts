@@ -20,7 +20,8 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   private unsubscribe = new Subject();
   public isLoading = new BehaviorSubject<boolean>(true);
 
-  interesse: Interesse;
+  interesse: string;
+  interesseModel: Interesse;
   proposicoes: ProposicaoLista[];
   tema: string;
   proposicoesDestaque: ProposicaoLista[];
@@ -29,7 +30,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   proposicoesRevisora: ProposicaoLista[];
   proposicoesSancao: ProposicaoLista[];
   orderByProp: string;
-  public readonly PROPOSICOES_POR_PAGINA = 20;
+  public PROPOSICOES_POR_PAGINA = 10;
   p = 1;
 
   constructor(
@@ -44,9 +45,8 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
     this.activatedRoute.parent.paramMap
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
-        const interesse = params.get('interesse');
-        this.getProposicoes(interesse);
-        this.getInteresse(interesse);
+        this.interesse = params.get('interesse');
+        this.getProposicoes(this.interesse);
       });
     this.activatedRoute.queryParams
       .subscribe(params => {
@@ -64,6 +64,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
         }
       });
     this.updatePageViaURL();
+    this.getInteresse(this.interesse);
   }
 
   ngAfterContentInit() {
@@ -77,7 +78,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
         indicate(this.isLoading),
         takeUntil(this.unsubscribe))
       .subscribe((data) => {
-        this.interesse = data[0];
+        this.interesseModel = data[0];
         this.isLoading.next(false);
       });
   }
@@ -95,7 +96,6 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
         this.proposicoesIniciadora = proposicoes.filter(p => (p.fase === 'Iniciadora' && p.isDestaque)).slice(0, 25);
         this.proposicoesRevisora = proposicoes.filter(p => (p.fase === 'Revisora' && p.isDestaque)).slice(0, 25);
         this.proposicoesSancao = proposicoes.filter(p => (p.fase === 'Sanção/Veto' && p.isDestaque)).slice(0, 25);
-        console.log(this.proposicoesIniciadora);
 
         if (proposicoes.length <= (this.PROPOSICOES_POR_PAGINA * (this.p - 1))) {
           this.pageChange(1); // volta para a primeira página com o novo resultado do filtro
@@ -156,6 +156,11 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
       }
     });
     return criterios.join(' - ');
+  }
+
+  onChangePerPage(value: string) {
+    this.PROPOSICOES_POR_PAGINA = Number(value);
+    this.pageChange(1);
   }
 
   private replaceUndefined(termo) {

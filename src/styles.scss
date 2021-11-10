@@ -83,6 +83,11 @@ h5 {
   font-weight: 500;
 }
 
+h6 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
 .app-container {
   margin-bottom: 2rem;
 }
@@ -407,11 +412,11 @@ p {
 
 /* Backgrounds */
 .bg-temperatura {
-  background-color: $util-purple-color !important;
+  background-color: $util-light-pink-color !important;
 }
 
 .bg-pressao {
-  background-color: $util-light-pink-color !important;
+  background-color: $util-purple-color!important;
 }
 /* Backgrounds FIM */
 
@@ -596,5 +601,24 @@ ngb-carousel {
 @media (min-width: 576px) {
   .modal-dialog {
     max-width: 720px;
+  }
+}
+
+// ACCORDION
+.accordion {
+  > .card {
+    > .card-header {
+      background-color: #ffffff;
+      padding: 0.75rem 0;
+    }
+  }
+  .card-body {
+    margin-top: -10px;
+    font-size: 14px;
+    color: $text-color-3;
+  }
+
+  .btn:focus {
+    box-shadow: none;
   }
 }

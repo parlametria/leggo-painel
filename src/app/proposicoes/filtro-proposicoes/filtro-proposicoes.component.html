@@ -1,115 +1,272 @@
-<div class="card">
-  <div class="card-header bg-dark">
-    <h5 class="text-white">Filtros</h5>
-  </div>
+<div class="card mt-3">
   <div class="card-body">
-    <form action="#">
-      <h5>Proposições</h5>
-      <h5>
-        <span *ngIf="numeroProposicoes !== 0">{{ numeroProposicoes }}&nbsp;</span>
-      </h5>
-      <div class="form-group">
-        <label for="local">Local</label>
-        <select
-          id="local"
-          class="form-control"
-          [style.width]="'200px'"
-          #selectorLocal
-          (change)="aplicarFiltro()"
-          [(ngModel)]="localSelecionado"
-          [ngModelOptions]="{ standalone: true }">
-          <optgroup
-            *ngFor="let grp of locaisBusca"
-            label="{{ getCasaLocal(grp.key) }}">
-            <option
-              *ngFor="let l of grp.values"
-              [ngValue]="l">
-              <span *ngIf="l.tipo_local === 'comissao_permanente'">
-                {{ l.sigla_ultimo_local }} - {{ l.nome_ultimo_local }}
-              </span>
-              <span *ngIf="l.tipo_local === 'comissao_especial'">
-                {{ l.sigla_ultimo_local }} - Comissão Especial
-              </span>
-              <span *ngIf="l.tipo_local === 'geral'">{{ l.sigla_ultimo_local }}</span>
-              <span *ngIf="!['comissao_permanente', 'comissao_especial', 'geral'].includes(l.tipo_local)">
-                {{ l.sigla_ultimo_local }} -
-                <span *ngIf="l.casa_ultimo_local === 'camara'">Câmara</span>
-                <span *ngIf="l.casa_ultimo_local === 'senado'">Senado</span>
-              </span>
-            </option>
-          </optgroup>
-        </select>
+    <h5>Total Tramitando</h5>
+    <span class="total-subtitle">neste painel</span>
+    <div class="numero-proposicoes">
+      <img src="assets/icons/numero_proposicoes.svg" alt="" />
+      <span *ngIf="numeroProposicoes !== 0">{{ numeroProposicoes }}&nbsp;</span>
+    </div>
+    <h5 class="order">Ordenadas por</h5>
+    <div class="temp-and-press-filters">
+      <div class="filter-label">
+        <img src="assets/icons/temp_icon.svg" alt="" />
+        <h6>Temperatura</h6>
       </div>
-
-      <h5>Ordenado por</h5>
-      <h6>Temperatura</h6>
-      <div
-        class="btn-group d-flex mb-2"
-        role="group"
-        aria-label="temperatura">
+      <div class="btn-group d-flex mb-2" role="group" aria-label="temperatura">
         <button
           type="button"
           [class]="getClasseBotaoOrdenacao('maior-temperatura')"
-          (click)="setOrdenacao('maior-temperatura')">
-          <span class="icon-temperatura"></span>
+          (click)="setOrdenacao('maior-temperatura')"
+        >
+          <svg
+            id="arrow_upward_black_24dp"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path
+              id="Caminho_3244"
+              data-name="Caminho 3244"
+              d="M0,0H24V24H0Z"
+              fill="none"
+            />
+            <path
+              id="Caminho_3245"
+              data-name="Caminho 3245"
+              d="M4,12l1.41,1.41L11,7.83V20h2V7.83l5.58,5.59L20,12,12,4Z"
+            />
+          </svg>
+
           maior
         </button>
         <button
           type="button"
           [class]="getClasseBotaoOrdenacao('menor-temperatura')"
-          (click)="setOrdenacao('menor-temperatura')">
-          <span class="icon-temperatura"></span>
+          (click)="setOrdenacao('menor-temperatura')"
+        >
+          <svg
+            id="arrow_downward_black_24dp"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path
+              id="Caminho_3242"
+              data-name="Caminho 3242"
+              d="M0,0H24V24H0Z"
+              fill="none"
+            />
+            <path
+              id="Caminho_3243"
+              data-name="Caminho 3243"
+              d="M20,12l-1.41-1.41L13,16.17V4H11V16.17L5.42,10.58,4,12l8,8Z"
+            />
+          </svg>
+
           menor
         </button>
       </div>
-      <h6>Pressão</h6>
-      <div
-        class="btn-group d-flex mb-2"
-        role="group"
-        aria-label="pressao">
+      <div class="filter-label">
+        <img src="assets/icons/pressao_icon.svg" alt="" />
+        <h6>Pressão</h6>
+      </div>
+      <div class="btn-group d-flex mb-2" role="group" aria-label="pressao">
         <button
           type="button"
           [class]="getClasseBotaoOrdenacao('maior-pressao')"
-          (click)="setOrdenacao('maior-pressao')">
-          <span class="icon-temperatura"></span>
+          (click)="setOrdenacao('maior-pressao')"
+        >
+          <svg
+            id="arrow_upward_black_24dp"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path
+              id="Caminho_3244"
+              data-name="Caminho 3244"
+              d="M0,0H24V24H0Z"
+              fill="none"
+            />
+            <path
+              id="Caminho_3245"
+              data-name="Caminho 3245"
+              d="M4,12l1.41,1.41L11,7.83V20h2V7.83l5.58,5.59L20,12,12,4Z"
+            />
+          </svg>
+
           maior
         </button>
         <button
           type="button"
           [class]="getClasseBotaoOrdenacao('menor-pressao')"
-          (click)="setOrdenacao('menor-pressao')">
-          <span class="icon-temperatura"></span>
+          (click)="setOrdenacao('menor-pressao')"
+        >
+          <svg
+            id="arrow_downward_black_24dp"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path
+              id="Caminho_3242"
+              data-name="Caminho 3242"
+              d="M0,0H24V24H0Z"
+              fill="none"
+            />
+            <path
+              id="Caminho_3243"
+              data-name="Caminho 3243"
+              d="M20,12l-1.41-1.41L13,16.17V4H11V16.17L5.42,10.58,4,12l8,8Z"
+            />
+          </svg>
           menor
         </button>
       </div>
+    </div>
 
-      <div class="form-group">
-        <label>Tramitação</label>
-        <div class="form-group form-check">
-          <input
-            id="tramitandoCheck"
-            type="checkbox"
-            class="form-check-input"
-            [(ngModel)]="tramitandoSelecionado"
-            (change)="onChangeStatus()"
-            [ngModelOptions]="{ standalone: true }">
-          <label
-            class="form-check-label"
-            for="tramitandoCheck">tramitando</label>
-        </div>
-        <div class="form-group form-check">
-          <input
-            id="finalizadaCheck"
-            type="checkbox"
-            class="form-check-input"
-            [(ngModel)]="finalizadaSelecionado"
-            (change)="onChangeStatus()"
-            [ngModelOptions]="{ standalone: true }">
-          <label
-            class="form-check-label"
-            for="finalizadaCheck">finalizadas</label>
-        </div>
+    <div class="form-group local-filter">
+      <h6>Local de tramitação</h6>
+      <select
+        id="local"
+        class="form-control"
+        #selectorLocal
+        (change)="aplicarFiltro()"
+        [(ngModel)]="localSelecionado"
+        [ngModelOptions]="{ standalone: true }"
+      >
+        <optgroup
+          *ngFor="let grp of locaisBusca"
+          label="{{ getCasaLocal(grp.key) }}"
+        >
+          <option *ngFor="let l of grp.values" [ngValue]="l">
+            <span *ngIf="l.tipo_local === 'comissao_permanente'">
+              {{ l.sigla_ultimo_local }} - {{ l.nome_ultimo_local }}
+            </span>
+            <span *ngIf="l.tipo_local === 'comissao_especial'">
+              {{ l.sigla_ultimo_local }} - Comissão Especial
+            </span>
+            <span *ngIf="l.tipo_local === 'geral'">{{
+              l.sigla_ultimo_local
+            }}</span>
+            <span
+              *ngIf="
+                !['comissao_permanente', 'comissao_especial', 'geral'].includes(
+                  l.tipo_local
+                )
+              "
+            >
+              {{ l.sigla_ultimo_local }} -
+              <span *ngIf="l.casa_ultimo_local === 'camara'">Câmara</span>
+              <span *ngIf="l.casa_ultimo_local === 'senado'">Senado</span>
+            </span>
+          </option>
+        </optgroup>
+      </select>
+    </div>
+
+    <div class="form-group assunto-filter">
+      <h6>Por assunto</h6>
+      <select
+        class="form-control"
+        #selectorTema
+        (change)="onChangeTema($event.target.value)"
+        [(ngModel)]="temaSelecionado"
+      >
+        <option
+          *ngFor="let t of temasBusca"
+          [value]="t.tema_slug"
+          [selected]="t.tema_slug === temaSelecionado"
+        >
+          {{ t.tema.toLowerCase() }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group tramitacao-filter">
+      <h6>Tramitação</h6>
+      <label class="checkbox-control">
+        <input
+          type="checkbox"
+          [(ngModel)]="tramitandoSelecionado"
+          (change)="onChangeStatus()"
+          [ngModelOptions]="{ standalone: true }"
+        />
+        Tramitando
+      </label>
+      <label class="checkbox-control">
+        <input
+          type="checkbox"
+          [(ngModel)]="finalizadaSelecionado"
+          (change)="onChangeStatus()"
+          [ngModelOptions]="{ standalone: true }"
+        />
+        Finalizadas
+      </label>
+    </div>
+    <div class="form-group fase-filter">
+      <h6>Fase</h6>
+      <label class="checkbox-control">
+        <input
+          type="checkbox"
+          [(ngModel)]="iniciadoraSelecionado"
+          (change)="onChangeFase()"
+          [ngModelOptions]="{ standalone: true }"
+        />
+        Iniciadora
+      </label>
+      <label class="checkbox-control">
+        <input
+          type="checkbox"
+          [(ngModel)]="revisoraSelecionado"
+          (change)="onChangeFase()"
+          [ngModelOptions]="{ standalone: true }"
+        />
+        Revisora
+      </label>
+      <label class="checkbox-control">
+        <input
+          type="checkbox"
+          [(ngModel)]="sancaoSelecionado"
+          (change)="onChangeFase()"
+          [ngModelOptions]="{ standalone: true }"
+        />
+        Sanção/Veto
+      </label>
+    </div>
+    <div class="clear-filter">
+      <a (click)="reloadPage()">Limpar filtros</a>
+    </div>
+    <div class="legendas-block">
+      <h5>Legendas</h5>
+      <div class="legenda">
+        <img src="/assets/icons/legenda_alerta.svg" alt="" />
+        <span>Em alerta</span>
       </div>
-    </form>
+      <div class="legenda">
+        <img src="/assets/icons/aumento_temperatura.svg" alt="" />
+        <span>Aumento de temperatura</span>
+      </div>
+      <div class="legenda">
+        <img src="/assets/icons/legenda_camara.svg" alt="" />
+        <span>Iniciada na Câmara</span>
+      </div>
+      <div class="legenda">
+        <img src="/assets/icons/legenda_senado.svg" alt="" />
+        <span>Iniciada no Senado</span>
+      </div>
+      <div class="legenda">
+        <img src="/assets/icons/legenda_atualizacoes.svg" alt="" />
+        <span>Ultimas atualizações</span>
+      </div>
+      <div class="legenda">
+        <img src="/assets/icons/legenda_apensada.svg" alt="" />
+        <span>Proposição apensada</span>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,0 +1,15 @@
+<svg id="icone-camara-card-lista" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <rect id="Retângulo_997" data-name="Retângulo 997" width="48" height="48" fill="rgba(255,255,255,0)"/>
+  <g id="Grupo_4200" data-name="Grupo 4200" transform="translate(7)">
+    <rect id="Retângulo_996" data-name="Retângulo 996" width="10" height="48" transform="translate(31)" fill="#00b53c"/>
+    <g id="Grupo_4199" data-name="Grupo 4199" transform="translate(1 14)">
+      <g id="Retângulo_962" data-name="Retângulo 962" transform="translate(0 0)" fill="#fff" stroke="#707070" stroke-width="1" opacity="0">
+        <rect width="23" height="23" stroke="none"/>
+        <rect x="0.5" y="0.5" width="22" height="22" fill="none"/>
+      </g>
+      <g id="Grupo_3875" data-name="Grupo 3875" transform="translate(1.687 5.006)">
+        <path id="Subtração_17" data-name="Subtração 17" d="M18.812,0H0A9.417,9.417,0,0,0,9.407,9.406,9.417,9.417,0,0,0,18.812,0Z" fill="#00b53c"/>
+      </g>
+    </g>
+  </g>
+</svg>
