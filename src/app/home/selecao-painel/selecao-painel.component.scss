@@ -10,6 +10,8 @@
   justify-content: center;
   background-size: cover;
   background-position-x: center;
+  filter: blur(2px) brightness(0.7);
+  transition: filter ease .35s;
 }
 
 .card-calltoaction-h {
@@ -18,7 +20,14 @@
   font-weight: 500;
   font-size: 23px;
   font-family: "Poppins";
-  margin-top: 60px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+}
+
+.card-calltoaction:hover {
+  filter: blur(0) brightness(1);
 }
 
 .card-calltoaction-link:active,
