@@ -9,7 +9,7 @@
 <span
   class="tag-temperatura cursor"
   [ngbPopover]="popTemperatura"
-  [autoClose]="'outside'">
+  triggers="mouseenter:mouseleave">
   +{{ (evento?.temperatura_evento + evento?.temperatura_local) | number : '1.0-1'}} na temperatura
 </span>
 <ng-template #popTemperatura>

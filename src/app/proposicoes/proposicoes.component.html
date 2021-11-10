@@ -62,7 +62,6 @@
                   [routerLink]="[proposicao.id_leggo]"
                   [ngbPopover]="destaqueInfo"
                   triggers="mouseenter:mouseleave"
-                  [autoClose]="false"
                   *ngFor="let proposicao of proposicoesIniciadora"
                   class="proposicao-ball {{
                     proposicao?.etapas[proposicao?.etapas.length - 1]?.casa

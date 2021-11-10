@@ -1,3 +1,5 @@
+@import '../../variables.scss';
+
 .navbar {
   background: white;
   height: 100px;
@@ -29,4 +31,9 @@
 .navbar-link-icon:active,
 .navbar-link-icon:hover {
   text-decoration: none;
+}
+
+.btn-primary {
+  background-color: $primary-variant-color;
+  border-color: $primary-variant-color;
 }

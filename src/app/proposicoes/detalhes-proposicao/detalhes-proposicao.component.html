@@ -43,7 +43,7 @@
                 proposicao?.interesse[0]?.advocacy_link !== 'nan'
               "
               [ngbPopover]="popAdvocacy"
-              [autoClose]="'outside'"
+              triggers="mouseenter:mouseleave"
             >
               advocacy box
             </span>
@@ -86,7 +86,7 @@
                 class="chip"
                 *ngIf="proposicao?.interesse[0]?.advocacy_link && proposicao?.interesse[0]?.advocacy_link !== 'nan'"
                 [ngbPopover]="popAdvocacy"
-                [autoClose]="'outside'">
+                triggers="mouseenter:mouseleave">
                 <div class="chip-icon">
                   <span class="material-icons">label_important</span>
                 </div>
@@ -111,7 +111,7 @@
                 *ngIf="!['Ordinária', 'Indefinido'].includes(proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao)"
                 class="chip"
                 ngbPopover="Regime de tramitação"
-                [autoClose]="'outside'">
+                triggers="mouseenter:mouseleave">
                 <div class="chip-icon">
                   <span class="material-icons">label_important</span>
                 </div>
@@ -123,7 +123,7 @@
                 *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.status !== 'Ativa'"
                 class="chip"
                 ngbPopover="A proposição foi finalizada"
-                [autoClose]="'outside'">
+                triggers="mouseenter:mouseleave">
                 <div class="chip-icon">
                   <span class="material-icons">label_important</span>
                 </div>

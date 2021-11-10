@@ -12,11 +12,11 @@
             height="22">
         </a>
       </div>
-      <h4 class="mb-0">
+      <h4 *ngIf="router.url !== '/paineis'" class="mb-0">
         {{ interesse?.nome_interesse }}
       </h4>
     </div>
-    <div class="form-inline">
+    <div *ngIf="router.url !== '/paineis'" class="form-inline">
       <div class="input-group">
         <input type="text" class="form-control"
           placeholder="Buscar proposições"
