@@ -23,6 +23,16 @@
       </div>
     </div>
   </div> -->
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a [routerLink]="['/']" class="">
+          Interesses
+        </a>
+      </li>
+      <li class="breadcrumb-item"> <span> {{ interesseModel.nome_interesse }} </span> </li>
+    </ol>
+  </nav>
   <div [hidden]="isLoading | async">
     <div class="breadcrumbs"></div>
     <section class="proposicoes-em-destaque">

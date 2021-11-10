@@ -3,12 +3,18 @@
   <div class="top-info-container">
     <div class="container">
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb breadcrumb-proposicao">
+        <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a [routerLink]="['../']" class="btn btn-sm btn-light">
-              &lt; Proposicões
+            <a [routerLink]="['/']">
+              Interesses
             </a>
           </li>
+          <li class="breadcrumb-item">
+            <a [routerLink]="['../']">
+              {{ interesseModel.nome_interesse }}
+            </a>
+          </li>
+          <li class="breadcrumb-item"> <span> {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }} </span> </li>
         </ol>
       </nav>
       <div [hidden]="isLoading | async" class="mt-4 row">
