@@ -5,9 +5,14 @@
     class="card-header d-flex flex-row align-items-center"
     [class.card-header-muted]="getEhApensada()">
     <div class="col-sm-1">
-      <div *ngIf="proposicao?.isDestaque ; then showDestaqueBadge else showNoDestaqueBadge"></div>
+      <div *ngIf="proposicao?.isDestaque ; then showDestaqueBadge else showNoDestaqueBadge" ></div>
       <ng-template #showDestaqueBadge>
-        <img src="assets/imgs/card_header_destaque.png">
+        <div [ngbPopover]="popDestaque" triggers="mouseenter:mouseleave">
+          <img src="assets/imgs/card_header_destaque.png">
+        </div>
+        <ng-template #popDestaque>
+          Proposição em alerta
+        </ng-template>
       </ng-template>
       <ng-template #showNoDestaqueBadge>
         <img src="assets/imgs/card_header_no_destaque.png">
