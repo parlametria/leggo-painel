@@ -85,7 +85,7 @@ export class NavbarComponent implements OnInit {
     if (position > 100) {
       navbar.style.top = '0';
     } else {
-      navbar.style.top = '-100px';
+      navbar.style.top = '-90px';
     }
   }
 }

@@ -1,19 +1,34 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
 .navbar {
   background: white;
-  height: 100px;
+  height: 90px;
   border: none;
-  box-shadow: 0px 11px 15px #34174A1A;
+  box-shadow: 0px 11px 15px #34174a1a;
 
   &.fixed-top {
-    top: -100px;
+    top: -90px;
     transition: top 0.3s;
   }
 }
 
 .navbar-container {
   flex-direction: column;
+
+  .navbar-change-subject {
+    padding-left: 10px;
+    border-left: 1px solid $util-light-grey-color;
+
+    select {
+      border: none;
+      color: $primary-color;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+
 
   @media (min-width: 768px) {
     flex-direction: row;
