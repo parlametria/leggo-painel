@@ -51,10 +51,13 @@
     </div>
     <div *ngIf="router.url !== '/paineis'" class="form-inline">
       <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="material-icons">search</span>
+        </div>
         <input
           type="text"
           class="form-control"
-          placeholder="Buscar proposições"
+          placeholder="Pesquise por proposição"
           aria-label="Proposições"
           aria-describedby="basic-addon1"
           [(ngModel)]="searchText"
