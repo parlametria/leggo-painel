@@ -5,6 +5,11 @@
   height: 100px;
   border: none;
   box-shadow: 0px 11px 15px #34174A1A;
+
+  &.fixed-top {
+    top: -100px;
+    transition: top 0.3s;
+  }
 }
 
 .navbar-container {

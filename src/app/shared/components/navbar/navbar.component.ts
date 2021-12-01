@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Params, ActivatedRoute, Router, ChildActivationStart, ActivationStart } from '@angular/router';
 
 import { Subject } from 'rxjs';
@@ -26,6 +26,10 @@ export class NavbarComponent implements OnInit {
     private interesseService: InteresseService,
     public router: Router,
   ) {}
+
+  @HostListener('window:scroll', ['$event']) onScrollEvent($event) {
+    this.changeNavbar(window.scrollY);
+  }
 
   ngOnInit(): void {
     this.getInteresses();
@@ -74,5 +78,14 @@ export class NavbarComponent implements OnInit {
 
   onNavigate(painel: any) {
     this.router.navigate([painel]);
+  }
+
+  changeNavbar(position: number) {
+    const navbar = document.getElementById('fixed-navbar');
+    if (position > 100) {
+      navbar.style.top = '0';
+    } else {
+      navbar.style.top = '-100px';
+    }
   }
 }

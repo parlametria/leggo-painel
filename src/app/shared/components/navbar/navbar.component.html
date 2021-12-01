@@ -1,4 +1,24 @@
-<nav class="navbar fixed-top">
+<nav class="navbar">
+  <div class="container navbar-container">
+    <div class="navbar-logo-wrapper align-items-center">
+      <div class="text-center pr-2">
+        <a
+          [routerLink]="''"
+          class="navbar-brand">
+          <img
+            src="assets/imgs/logotipo-parlametria.png"
+            alt="Parlametria"
+            width="200"
+            height="22">
+        </a>
+      </div>
+      <h4 *ngIf="router.url !== '/paineis'" class="mb-0">
+        {{ interesse?.nome_interesse }}
+      </h4>
+    </div>
+  </div>
+</nav>
+<nav class="navbar fixed-top" id="fixed-navbar">
   <div class="container navbar-container">
     <div class="navbar-logo-wrapper align-items-center">
       <div class="text-center pr-2">
