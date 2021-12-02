@@ -200,10 +200,44 @@ h5.no-results {
   display: none;
 }
 
+.viewmode-selector {
+  margin: 25px 25px 25px 0;
+  .btn {
+    margin-right: 10px;
+    background: white;
+    height: 40px;
+    width: 40px;
+    padding: 3px;
+    .icon {
+      display: inline-block;
+      mask-position: center;
+      background-color: grey;
+      height: 30px;
+      width: 30px;
+    }
+    &.btn-grid .icon {
+      mask-image: url("../../assets/icons/view-grid-icon.svg");
+    }
+    &.btn-list .icon {
+      mask-image: url("../../assets/icons/view-list-icon.svg");
+    }
+    &.btn-selected {
+      background: $primary-variant-color;
+      color: white;
+      .icon {
+        background: white;
+      }
+    }
+  }
+}
 .per-page-selector {
   margin: 25px 0;
   select {
     width: fit-content;
+    &:disabled {
+      background: white;
+      opacity: .5;
+    }
   }
 }
 
