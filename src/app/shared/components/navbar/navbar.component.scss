@@ -1,14 +1,56 @@
-@import '../../variables.scss';
+@import "../../variables.scss";
 
 .navbar {
   background: white;
-  height: 100px;
+  height: 90px;
   border: none;
-  box-shadow: 0px 11px 15px #34174A1A;
+  box-shadow: 0px 11px 15px #34174a1a;
+
+  &.fixed-top {
+    top: -90px;
+    transition: top 0.3s;
+  }
 }
 
 .navbar-container {
   flex-direction: column;
+
+  .navbar-change-subject {
+    padding-left: 10px;
+    border-left: 1px solid $util-light-grey-color;
+
+    select {
+      border: none;
+      color: $primary-color;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+
+  .form-inline {
+    .input-group {
+      .input-group-prepend {
+        align-items: center;
+        background-color: #FAFCFC;
+        padding-left: 12px;
+        color: $util-grey-color;
+      }
+      input {
+        height: 42px;
+        border: none;
+        background-color: #FAFCFC;
+        color: $util-grey-color;
+      }
+      button {
+        height: 42px;
+        border: 1px solid $primary-variant-color;
+        color: $primary-variant-color;
+        background-color: #ffffff;
+      }
+    }
+  }
 
   @media (min-width: 768px) {
     flex-direction: row;
@@ -25,6 +67,9 @@
 
 .navbar-logo-wrapper {
   order: 1;
+  h4 {
+    color: $text-color-3;
+  }
   @media (min-width: 768px) {
     display: flex;
     order: 0;
@@ -36,7 +81,3 @@
   text-decoration: none;
 }
 
-.btn-primary {
-  background-color: $primary-variant-color;
-  border-color: $primary-variant-color;
-}

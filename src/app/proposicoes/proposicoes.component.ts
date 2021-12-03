@@ -31,7 +31,9 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   proposicoesSancao: ProposicaoLista[];
   orderByProp: string;
   public PROPOSICOES_POR_PAGINA = 10;
+  public PROPOSICOES_POR_PAGINA_GRID = 12;
   p = 1;
+  viewmode = 'list';
 
   constructor(
     private proposicoesListaService: ProposicoesListaService,
@@ -63,8 +65,8 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
         if (mudouOrdenacao) {
           this.proposicoesListaService.setOrderBy(this.orderByProp);
         }
+        this.updatePageViaURL();
       });
-    this.updatePageViaURL();
   }
 
   ngAfterContentInit() {
@@ -117,17 +119,22 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
     this.router.navigate([], { queryParams });
   }
 
+  viewmodeChange(viewmode: string) {
+    this.viewmode = viewmode;
+
+    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    queryParams.viewmode = viewmode;
+    this.router.navigate([], { queryParams });
+  }
+
   updatePageViaURL() {
     this.activatedRoute.queryParams
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         const page = params.page;
-
-        if (page !== undefined && page !== null) {
-          this.p = Number(page);
-        } else {
-          this.p = 1;
-        }
+        const viewmode = params.viewmode;
+        this.viewmode = viewmode || 'list';
+        this.p = Number(page) || 1;
       });
   }
 
@@ -161,6 +168,10 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   onChangePerPage(value: string) {
     this.PROPOSICOES_POR_PAGINA = Number(value);
     this.pageChange(1);
+  }
+
+  onChangeViewmode(value: string) {
+    this.viewmodeChange(value);
   }
 
   private replaceUndefined(termo) {

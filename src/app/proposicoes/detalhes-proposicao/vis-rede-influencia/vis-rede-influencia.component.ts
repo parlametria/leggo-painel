@@ -227,8 +227,7 @@ export class VisRedeInfluenciaComponent implements OnInit {
   }
 
   private tooltipText(d): any {
-    return `<p class="vis-tooltip-titulo"><strong>${d.nome}</strong> ${d.partido}/${d.uf}</p>
-      <p>Peso político: <strong>${format('.2f')(d.pesoPolitico)}</strong></p>`;
+    return `<p class="vis-tooltip-titulo"><strong>${d.nome}</strong> ${d.partido}/${d.uf}</p>`;
   }
 
 }

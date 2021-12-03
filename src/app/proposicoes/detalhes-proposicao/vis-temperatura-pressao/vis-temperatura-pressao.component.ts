@@ -213,7 +213,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .x((d: any) => this.x(d.data))
       .y((d: any) => this.yPressao(d.valorPressao));
 
-    const colorTemperatura = d3.scaleSequential(d3.interpolatePurples);
+    const colorTemperatura = d3.scaleSequential(d3.interpolatePiYG);
     this.gTemperatura.append('linearGradient')
       .attr('id', 'gradient-temperatura')
       .attr('gradientUnits', 'userSpaceOnUse')
@@ -222,7 +222,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('x2', 0)
       .attr('y2', this.margin.top)
       .selectAll('stop')
-      .data([0.7, 0.8])
+      .data([0.22, 0.23])
       .enter().append('stop')
       .attr('offset', d => d)
       .attr('stop-color', colorTemperatura.interpolator());
@@ -243,7 +243,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('font-size', '0.8rem')
       .text(`Maior temperatura`);
 
-    const colorPressao = d3.scaleSequential(d3.interpolatePiYG);
+    const colorPressao = d3.scaleSequential(d3.interpolatePurples);
     // Remove último elemento da série de pressão
     const dadosPressao = [...dados];
     this.gPressao.append('linearGradient')
@@ -254,7 +254,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('x2', 0)
       .attr('y2', this.margin.top)
       .selectAll('stop')
-      .data([0.22, 0.23])
+      .data([0.7, 0.8])
       .enter().append('stop')
       .attr('offset', d => d)
       .attr('stop-color', colorPressao.interpolator());
@@ -303,15 +303,15 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('r', this.r)
       .attr('cx', -100)
       .attr('fill', '#fff')
-      .attr('stroke', '#3f007d')
+      .attr('stroke', '#FF7285')
       .attr('stroke-width', 3)
       .style('cursor', 'pointer');
-    const markerPressao = this.gPressao
+      const markerPressao = this.gPressao
       .append('circle')
       .attr('r', this.r)
       .attr('cx', -100)
       .attr('fill', '#fff')
-      .attr('stroke', '#FF7285')
+      .attr('stroke', '#3f007d')
       .attr('stroke-width', 3);
 
     const mouseArea = this.svg.append('g')

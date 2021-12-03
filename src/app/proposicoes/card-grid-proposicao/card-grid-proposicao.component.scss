@@ -17,10 +17,14 @@ $size: 13px;
       color: inherit;
     }
 
+    .img-wrapper {
+       margin-top: -20px;
+    }
+
     img {
-      width: 70px;
-      height: 70px;
-      margin-left: -15px;
+      width: 45px;
+      height: 45px;
+      margin: 0 0 0 -15px;
       cursor: pointer;
     }
     h4 {
@@ -47,13 +51,18 @@ $size: 13px;
     }
     .etapas-steps {
       align-items: center;
-      padding: 0 15px;
+      padding: 0;
       margin-bottom: 20px;
+      /*transform: scale(.8) translateX(-40px);*/
+      .fase {
+        width: 24px;
+        height: 24px;
+      }
       & > div {
         &:not(:last-child) {
           .line-between-divs {
             border: 1px solid #B0B6BA;
-            width: 30px;
+            width: 14px;
           }
         }
       }
@@ -121,7 +130,7 @@ $size: 13px;
 .house-senado {
   height: 49px;
   border-right: 7px solid;
-  margin-left: 2px;
+  margin-left: 5px;
   margin-bottom: 1px;
 }
 

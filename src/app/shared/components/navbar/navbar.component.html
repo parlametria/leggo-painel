@@ -1,15 +1,46 @@
-<nav class="navbar fixed-top">
+<nav class="navbar">
   <div class="container navbar-container">
     <div class="navbar-logo-wrapper align-items-center">
       <div class="text-center pr-2">
-        <a
-          [routerLink]="''"
-          class="navbar-brand">
+        <a [routerLink]="''" class="navbar-brand">
           <img
             src="assets/imgs/logotipo-parlametria.png"
             alt="Parlametria"
             width="200"
-            height="22">
+            height="22"
+          />
+        </a>
+      </div>
+    </div>
+    <div class="navbar-change-subject">
+      <form class="form-inline my-2 my-lg-0">
+        <select
+          id="paineis"
+          name="paineis"
+          class="form-control"
+          (change)="onNavigate($event.target.value)"
+        >
+          <option
+            *ngFor="let i of interesses"
+            [value]="i.interesse"
+            [selected]="i.interesse === interesse?.interesse"
+          >
+            {{ i?.nome_interesse }}
+          </option>
+        </select>
+      </form>
+    </div>
+  </div>
+</nav>
+<nav class="navbar fixed-top" id="fixed-navbar">
+  <div class="container navbar-container">
+    <div class="navbar-logo-wrapper align-items-center">
+      <div class="text-center pr-2">
+        <a [routerLink]="''" class="navbar-brand">
+          <img
+            src="assets/imgs/logotipo-parlametria-reduzido.svg"
+            alt="Parlametria"
+          />
         </a>
       </div>
       <h4 *ngIf="router.url !== '/paineis'" class="mb-0">
@@ -18,13 +49,24 @@
     </div>
     <div *ngIf="router.url !== '/paineis'" class="form-inline">
       <div class="input-group">
-        <input type="text" class="form-control"
-          placeholder="Buscar proposições"
+        <div class="input-group-prepend">
+          <span class="material-icons">search</span>
+        </div>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Pesquise por proposição"
           aria-label="Proposições"
           aria-describedby="basic-addon1"
-          [(ngModel)]="searchText">
+          [(ngModel)]="searchText"
+        />
         <div class="input-group-append">
-          <button class="btn btn-primary my-2 my-sm-0" (click)="navSearch(searchText, interesse)">Buscar</button>
+          <button
+            class="btn btn-primary my-2 my-sm-0"
+            (click)="navSearch(searchText, interesse)"
+          >
+            Buscar
+          </button>
         </div>
       </div>
     </div>

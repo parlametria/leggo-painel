@@ -89,7 +89,6 @@ h6 {
 }
 
 .app-container {
-  margin-top: 100px;
   min-height: 100vh;
 }
 
@@ -414,11 +413,11 @@ p {
 
 /* Backgrounds */
 .bg-temperatura {
-  background-color: $util-purple-color!important;
+  background-color: $util-light-pink-color !important;
 }
 
 .bg-pressao {
-  background-color: $util-light-pink-color !important;
+  background-color: $util-purple-color !important;
 }
 /* Backgrounds FIM */
 
@@ -505,11 +504,11 @@ p {
 }
 
 .color-temperatura {
-  color: #3f007d;
+  color: $util-light-pink-color;
 }
 
 .color-pressao {
-  color: $util-light-pink-color;
+  color: $util-purple-color;
 }
 /* Backgrounds FIM */
 
