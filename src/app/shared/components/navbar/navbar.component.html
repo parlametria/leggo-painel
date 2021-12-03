@@ -12,7 +12,7 @@
         </a>
       </div>
     </div>
-    <div class="navbar-change-subject">
+    <div class="navbar-change-subject" *ngIf="router.url !== '/paineis'">
       <form class="form-inline my-2 my-lg-0">
         <select
           id="paineis"
@@ -32,7 +32,7 @@
     </div>
   </div>
 </nav>
-<nav class="navbar fixed-top" id="fixed-navbar">
+<nav class="navbar fixed-top" id="fixed-navbar" *ngIf="router.url !== '/paineis'">
   <div class="container navbar-container">
     <div class="navbar-logo-wrapper align-items-center">
       <div class="text-center pr-2">
