@@ -1,21 +1,24 @@
-<div
-  class="card mb-5"
-  [class.card-muted]="getEhApensada()">
+<div class="card mb-5" [class.card-muted]="getEhApensada()">
   <div
     class="card-header d-flex flex-row align-items-center"
-    [class.card-header-muted]="getEhApensada()">
+    [class.card-header-muted]="getEhApensada()"
+  >
     <div class="col-sm-1">
-      <div *ngIf="proposicao?.isDestaque ; then showDestaqueBadge else showNoDestaqueBadge" ></div>
+      <div
+        *ngIf="
+          proposicao?.isDestaque;
+          then showDestaqueBadge;
+          else showNoDestaqueBadge
+        "
+      ></div>
       <ng-template #showDestaqueBadge>
         <div [ngbPopover]="popDestaque" triggers="mouseenter:mouseleave">
-          <img src="assets/imgs/card_header_destaque.png">
+          <img src="assets/imgs/card_header_destaque.png" />
         </div>
-        <ng-template #popDestaque>
-          Proposição em alerta
-        </ng-template>
+        <ng-template #popDestaque> Proposição em alerta </ng-template>
       </ng-template>
       <ng-template #showNoDestaqueBadge>
-        <img src="assets/imgs/card_header_no_destaque.png">
+        <img src="assets/imgs/card_header_no_destaque.png" />
       </ng-template>
     </div>
     <div class="header-title col-sm-10">
@@ -27,39 +30,57 @@
         </a>
       </div>
     </div>
-    <div class="house-{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.casa }} d-flex align-items-center col-sm-1">
-      <div class="house-symbol-{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.casa }}"></div>
+    <div
+      class="house-{{
+        proposicao?.etapas[proposicao?.etapas.length - 1]?.casa
+      }} d-flex align-items-center col-sm-1"
+    >
+      <div
+        class="house-symbol-{{
+          proposicao?.etapas[proposicao?.etapas.length - 1]?.casa
+        }}"
+      ></div>
     </div>
   </div>
   <div class="card-body row">
     <div class="col-sm">
       <div class="ementa-block">
         <h5>Ementa</h5>
-        <p class="truncate-overflow-3">{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa }}</p>
+        <p class="truncate-overflow-3">
+          {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa }}
+        </p>
       </div>
-      <div class="etapa-tramitacao-block" *ngIf="proposicao?.locaisProposicao[0]">
+      <div
+        class="etapa-tramitacao-block"
+        *ngIf="proposicao?.locaisProposicao[0]"
+      >
         <h5>Etapa de Tramitação</h5>
         <p class="proposicao-info">
-        {{ getArtigoSiglaLocal(proposicao?.locaisProposicao[0]) }}
-        <a
-          [ngbPopover]="popLocalProposicao"
-          triggers="mouseenter:mouseleave">
-          {{ getSiglaLocal(proposicao?.locaisProposicao[0]) }}
-        </a>
-        <ng-template #popLocalProposicao>
-          {{ getNomeLocal(proposicao?.locaisProposicao[0]) }}
-        </ng-template>
-        desde
-      {{ proposicao?.locaisProposicao[0].data_ultima_situacao | date:'dd/MM/yyyy' }}
-      </p>
+          {{ getArtigoSiglaLocal(proposicao?.locaisProposicao[0]) }}
+          <a [ngbPopover]="popLocalProposicao" triggers="mouseenter:mouseleave">
+            {{ getSiglaLocal(proposicao?.locaisProposicao[0]) }}
+          </a>
+          <ng-template #popLocalProposicao>
+            {{ getNomeLocal(proposicao?.locaisProposicao[0]) }}
+          </ng-template>
+          desde
+          {{
+            proposicao?.locaisProposicao[0].data_ultima_situacao
+              | date: "dd/MM/yyyy"
+          }}
+        </p>
       </div>
-      <div class="d-flex etapas-steps">
-        <div class="d-flex align-items-center" *ngFor="let f of proposicao?.resumo_progresso; let i = index" >
+      <div class="d-flex etapas-steps" *ngIf="proposicao?.locaisProposicao[0]">
+        <div
+          class="d-flex align-items-center"
+          *ngFor="let f of proposicao?.resumo_progresso; let i = index"
+        >
           <div
             class="fase pointer"
             [ngClass]="getClassFaseProgresso(f)"
             [ngbPopover]="popProgresso"
-            triggers="mouseenter:mouseleave">
+            triggers="mouseenter:mouseleave"
+          >
             <span>{{ i + 1 }}</span>
           </div>
           <div class="line-between-divs"></div>
@@ -78,11 +99,17 @@
             <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
               <app-progress
                 class="pointer"
-                [label]="'Pressão da semana: ' + (!proposicao?.ultima_pressao ? '0' : proposicao?.ultima_pressao | number : '1.0-2')"
+                [label]="
+                  'Pressão da semana: ' +
+                  (!proposicao?.ultima_pressao
+                    ? '0'
+                    : (proposicao?.ultima_pressao | number: '1.0-2'))
+                "
                 [barraClasse]="'bg-pressao'"
                 [valor]="proposicao?.ultima_pressao"
                 [max]="100"
-                [exibirLabel]="true">
+                [exibirLabel]="true"
+              >
               </app-progress>
             </a>
           </div>
@@ -95,21 +122,34 @@
             <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
               <app-progress
                 class="pointer"
-                [label]="'Temperatura da semana: ' + proposicao?.ultima_temperatura"
+                [label]="
+                  'Temperatura da semana: ' + proposicao?.ultima_temperatura
+                "
                 [barraClasse]="'bg-temperatura'"
                 [valor]="proposicao?.ultima_temperatura"
                 [exibirLabel]="true"
-                [max]="proposicao?.max_temperatura_interesse">
+                [max]="proposicao?.max_temperatura_interesse"
+              >
               </app-progress>
             </a>
           </div>
-          <img *ngIf="proposicao?.ultima_temperatura > proposicao?.temp_quinze_dias"
+          <img
+            *ngIf="
+              proposicao?.ultima_temperatura > proposicao?.temp_quinze_dias
+            "
             [ngbPopover]="temperaturaInfo"
-            triggers="mouseenter:mouseleave" src="assets/icons/aumento_temperatura.svg">
-            <ng-template #temperaturaInfo>
-              Aumento de temperatura nesta semana
-            </ng-template>
-          <img *ngIf="proposicao?.ultima_temperatura < proposicao?.temp_quinze_dias" src="assets/icons/temperatura_normal.svg">
+            triggers="mouseenter:mouseleave"
+            src="assets/icons/aumento_temperatura.svg"
+          />
+          <ng-template #temperaturaInfo>
+            Aumento de temperatura nesta semana
+          </ng-template>
+          <img
+            *ngIf="
+              proposicao?.ultima_temperatura < proposicao?.temp_quinze_dias
+            "
+            src="assets/icons/temperatura_normal.svg"
+          />
         </div>
       </div>
       <div class="temas-block">
@@ -117,26 +157,38 @@
         <span
           class="cracha text-muted temas truncate-overflow-1"
           [ngbPopover]="popTemas"
-          triggers="mouseenter:mouseleave">
+          triggers="mouseenter:mouseleave"
+        >
           {{ this.temasResumido(proposicao?.interesse[0]?.temas) }}
           <ng-template #popTemas>
             <span *ngFor="let tema of proposicao?.interesse[0]?.temas">
               {{ tema }}
-              <br>
+              <br />
             </span>
           </ng-template>
         </span>
       </div>
       <div class="ultimas-atualizacoes-block">
-        <div class *ngIf="proposicao?.destaques.length || proposicao?.interesse[0]?.advocacy_link !== 'nan'">
+        <div
+          class
+          *ngIf="
+            proposicao?.destaques.length ||
+            proposicao?.interesse[0]?.advocacy_link !== 'nan'
+          "
+        >
           <app-destaques-proposicao
             [destaques]="destaques"
-            *ngFor="let destaques of proposicao?.destaques"></app-destaques-proposicao>
+            *ngFor="let destaques of proposicao?.destaques"
+          ></app-destaques-proposicao>
           <div
             class="chip"
-            *ngIf="proposicao?.interesse[0]?.advocacy_link && proposicao?.interesse[0]?.advocacy_link !== 'nan'"
+            *ngIf="
+              proposicao?.interesse[0]?.advocacy_link &&
+              proposicao?.interesse[0]?.advocacy_link !== 'nan'
+            "
             [ngbPopover]="popAdvocacy"
-            triggers="mouseenter:mouseleave">
+            triggers="mouseenter:mouseleave"
+          >
             <div class="chip-icon">
               <span class="material-icons">label_important</span>
             </div>
@@ -148,9 +200,10 @@
             Existem notas técnicas de OSCs disponíveis para esta proposição.
             <div class="text-right">
               <a
-                href="{{proposicao?.interesse[0]?.advocacy_link}}"
+                href="{{ proposicao?.interesse[0]?.advocacy_link }}"
                 target="_blank"
-                class="btn btn-link btn-sm">
+                class="btn btn-link btn-sm"
+              >
                 Ver notas
               </a>
             </div>
@@ -158,34 +211,47 @@
         </div>
         <div *ngIf="!proposicao?.destaques.length">
           <div
-            *ngIf="!['Ordinária', 'Indefinido'].includes(proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao)"
+            *ngIf="
+              !['Ordinária', 'Indefinido'].includes(
+                proposicao?.etapas[proposicao?.etapas.length - 1]
+                  ?.regime_tramitacao
+              )
+            "
             class="chip"
             ngbPopover="Regime de tramitação"
-            triggers="mouseenter:mouseleave">
+            triggers="mouseenter:mouseleave"
+          >
             <div class="chip-icon">
               <span class="material-icons">label_important</span>
             </div>
             <div class="chip-text">
-              <span>{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao }}</span>
+              <span>{{
+                proposicao?.etapas[proposicao?.etapas.length - 1]
+                  ?.regime_tramitacao
+              }}</span>
             </div>
           </div>
           <div
-            *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.status !== 'Ativa'"
+            *ngIf="
+              proposicao?.etapas[proposicao?.etapas.length - 1]?.status !==
+              'Ativa'
+            "
             class="chip"
             ngbPopover="A proposição foi finalizada"
-            triggers="mouseenter:mouseleave">
+            triggers="mouseenter:mouseleave"
+          >
             <div class="chip-icon">
               <span class="material-icons">label_important</span>
             </div>
             <div class="chip-text">
-              <span>{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.status }}</span>
+              <span>{{
+                proposicao?.etapas[proposicao?.etapas.length - 1]?.status
+              }}</span>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-
 
     <!-- TODO: IMPROVE APENSADA LAYOUT -->
     <!-- <div [hidden]="!getEhApensada()">
