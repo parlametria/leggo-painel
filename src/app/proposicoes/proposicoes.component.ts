@@ -21,6 +21,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   public isLoading = new BehaviorSubject<boolean>(true);
 
   interesse: string;
+  totalProposicoes: number;
   interesseModel: Interesse;
   proposicoes: ProposicaoLista[];
   tema: string;
@@ -86,6 +87,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   }
 
   getProposicoes(interesse: string) {
+    this.proposicoesListaService.getTotalProposicoes(interesse).subscribe(total => { this.totalProposicoes = total; });
     this.proposicoesListaService.getProposicoes(interesse)
       .pipe(
         skip(1),
@@ -105,6 +107,12 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
 
         this.isLoading.next(false);
       });
+  }
+
+  pluralise(total) {
+    if (!total || total > 1)
+      return 's';
+    return '';
   }
 
   search(filtro) {
