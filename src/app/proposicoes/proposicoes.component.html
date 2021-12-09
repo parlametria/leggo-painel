@@ -347,7 +347,7 @@
             <app-filtro-proposicoes
               [interesse]="interesse"
               (filterChange)="search($event)"
-              [numeroProposicoes]="totalProposicoes"
+              [numeroProposicoes]="proposicoes?.length | number: '2.0'"
             ></app-filtro-proposicoes>
           </div>
         </div>
