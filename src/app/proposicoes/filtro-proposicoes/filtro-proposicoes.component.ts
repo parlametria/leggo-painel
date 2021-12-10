@@ -81,7 +81,6 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
     this.getLocais();
     this.firstUpdateOnfilter();
     this.localSelecionado = this.locaisBusca[0];
-    this.aplicarFiltro();
   }
 
   ngAfterContentInit() {
