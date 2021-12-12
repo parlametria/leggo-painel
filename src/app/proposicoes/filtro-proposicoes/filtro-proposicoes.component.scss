@@ -20,51 +20,73 @@
       display: flex;
       font-size: 18px;
       padding-left: 10px;
-      margin: 10px 0 2rem;
+      margin: 10px 0 30px;
 
       img {
         margin-right: 10px;
       }
     }
     .order {
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
     }
     .temp-and-press-filters {
       margin-bottom: 1rem;
+      border-bottom: 1px solid $util-light-grey-color;
+      padding: 10px 0;
       .filter-label {
         display: flex;
         align-items: center;
-        margin-bottom: 10px;
+        margin-bottom: 1rem;
         h6 {
+          color: $text-color-3;
           margin: 0;
         }
       }
-      button {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        padding: 13px 7px;
-        border: 1px solid $util-light-grey-color;
-        flex: 1;
+      .btn-group {
+        grid-gap: 5px;
+        margin-bottom: 10px;
+        button {
+          display: flex;
+          justify-content: space-evenly;
+          align-items: center;
+          padding: 13px 7px;
+          border: 1px solid $util-light-grey-color;
+          flex: 1;
+          border-radius: 4px;
 
-        &.btn-selected {
-          background-color: $primary-variant-color;
-          color: #ffffff;
+          &.btn-selected {
+            background-color: $primary-variant-color;
+            color: #ffffff;
 
-          svg {
-            fill: white;
+            svg {
+              fill: white;
+            }
           }
         }
       }
     }
     .assunto-filter,
     .local-filter {
+      margin-bottom: 1rem;
+      border-bottom: 1px solid $util-light-grey-color;
+      padding-bottom: 1rem;
+      h6 {
+        color: $text-color-3;
+      }
       select {
         height: 46px;
       }
     }
     .tramitacao-filter,
     .fase-filter {
+      color: $text-color-3;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid $util-light-grey-color;
+      padding-bottom: 10px;
+      h6 {
+        color: $text-color-3;
+        margin-bottom: 1rem;
+      }
       .checkbox-control {
         font-family: system-ui, sans-serif;
         font-size: 16px;
@@ -114,6 +136,7 @@
 
       input[type="checkbox"]:checked {
         background-color: $primary-variant-color;
+        color: $primary-variant-color;
       }
     }
 
@@ -128,7 +151,7 @@
       .legenda {
         display: flex;
         justify-content: start;
-        margin: 20px 0;
+        margin: 2rem 0;
         align-items: center;
 
         img {

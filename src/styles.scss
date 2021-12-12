@@ -609,10 +609,6 @@ ngb-carousel {
   background-color: white;
   margin: 0;
   padding: 0.75rem 0;
-
-  .breadcrumb-item {
-  }
-
 }
 
 
@@ -632,5 +628,19 @@ ngb-carousel {
 
   .btn:focus {
     box-shadow: none;
+  }
+}
+
+// CARD GENERIC STYLE
+
+.card {
+  border-width: 1px;
+}
+
+// SELECT GENERIC STYLE
+
+select {
+  &.form-control {
+    border-width: 1px;
   }
 }
