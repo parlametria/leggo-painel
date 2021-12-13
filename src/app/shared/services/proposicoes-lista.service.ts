@@ -17,6 +17,7 @@ export class ProposicoesListaService {
 
   private proposicoes = new BehaviorSubject<Array<ProposicaoLista>>([]);
   private proposicoesFiltered = new BehaviorSubject<Array<ProposicaoLista>>([]);
+  private totalProposicoes = new BehaviorSubject<number>(0);
   private interesse: string;
 
   private orderBy = new BehaviorSubject<string>('');
@@ -131,6 +132,14 @@ export class ProposicoesListaService {
       );
 
     return this.proposicoesFiltered.asObservable();
+  }
+
+  getTotalProposicoes(interesse: string): Observable<number> {
+    this.interesse = interesse;
+    this.proposicoesService.getProposicoes(interesse).subscribe(proposicoes => {
+      this.totalProposicoes.next(proposicoes.length);
+    });
+    return this.totalProposicoes.asObservable();
   }
 
   private processaProgresso(progresso: any) {

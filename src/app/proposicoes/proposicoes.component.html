@@ -183,7 +183,7 @@
     <div class="container pt-4">
       <div [hidden]="isLoading | async">
         <h3 class="search-title">
-          Todas as proposições neste painel
+                Encontramos {{ proposicoes?.length | number: '2.0' }} resultado{{ pluralise(proposicoes?.length) }} para a sua busca
         </h3>
         <div class="d-flex" *ngIf="proposicoes?.length > 0">
           <div class="viewmode-selector">
@@ -347,7 +347,7 @@
             <app-filtro-proposicoes
               [interesse]="interesse"
               (filterChange)="search($event)"
-              [numeroProposicoes]="proposicoes?.length"
+              [numeroProposicoes]="proposicoes?.length | number: '2.0'"
             ></app-filtro-proposicoes>
           </div>
         </div>

@@ -12,7 +12,7 @@
         <img src="assets/icons/temp_icon.svg" alt="" />
         <h6>Temperatura</h6>
       </div>
-      <div class="btn-group d-flex mb-2" role="group" aria-label="temperatura">
+      <div class="btn-group d-flex mb-3" role="group" aria-label="temperatura">
         <button
           type="button"
           [class]="getClasseBotaoOrdenacao('maior-temperatura')"
@@ -129,6 +129,28 @@
       </div>
     </div>
 
+    <div class="form-group tramitacao-filter">
+      <h6>Tramitação</h6>
+      <label class="checkbox-control">
+        <input
+          type="checkbox"
+          [(ngModel)]="tramitandoSelecionado"
+          (change)="onChangeStatus()"
+          [ngModelOptions]="{ standalone: true }"
+        />
+        Tramitando
+      </label>
+      <label class="checkbox-control">
+        <input
+          type="checkbox"
+          [(ngModel)]="finalizadaSelecionado"
+          (change)="onChangeStatus()"
+          [ngModelOptions]="{ standalone: true }"
+        />
+        Finalizadas
+      </label>
+    </div>
+
     <div class="form-group local-filter">
       <h6>Local de tramitação</h6>
       <select
@@ -187,27 +209,6 @@
       </select>
     </div>
 
-    <div class="form-group tramitacao-filter">
-      <h6>Tramitação</h6>
-      <label class="checkbox-control">
-        <input
-          type="checkbox"
-          [(ngModel)]="tramitandoSelecionado"
-          (change)="onChangeStatus()"
-          [ngModelOptions]="{ standalone: true }"
-        />
-        Tramitando
-      </label>
-      <label class="checkbox-control">
-        <input
-          type="checkbox"
-          [(ngModel)]="finalizadaSelecionado"
-          (change)="onChangeStatus()"
-          [ngModelOptions]="{ standalone: true }"
-        />
-        Finalizadas
-      </label>
-    </div>
     <div class="form-group fase-filter">
       <h6>Fase</h6>
       <label class="checkbox-control">
