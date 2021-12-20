@@ -29,29 +29,6 @@
     }
   }
 
-  .form-inline {
-    .input-group {
-      .input-group-prepend {
-        align-items: center;
-        background-color: #FAFCFC;
-        padding-left: 12px;
-        color: $util-grey-color;
-      }
-      input {
-        height: 42px;
-        border: none;
-        background-color: #FAFCFC;
-        color: $util-grey-color;
-      }
-      button {
-        height: 42px;
-        border: 1px solid $primary-variant-color;
-        color: $primary-variant-color;
-        background-color: #ffffff;
-      }
-    }
-  }
-
   @media (min-width: 768px) {
     flex-direction: row;
   }
@@ -80,4 +57,3 @@
 .navbar-link-icon:hover {
   text-decoration: none;
 }
-

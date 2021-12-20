@@ -186,6 +186,18 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
     window.scrollTo({ top: 700, behavior: 'smooth' });
   }
 
+  navSearch(searchText: string, interesse: string) {
+    console.log(interesse);
+    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    queryParams.text = searchText;
+    this.router.navigate([`/${interesse}/proposicoes`], { queryParams });
+    if (this.router.url.includes(`/${interesse}/proposicoes`)) {
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+    }
+  }
+
   private replaceUndefined(termo) {
     return termo === undefined ? '' : termo;
   }

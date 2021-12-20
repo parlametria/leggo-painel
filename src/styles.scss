@@ -360,7 +360,7 @@ a.link-texto:visited {
   }
 
   hr {
-    margin: .2rem 0;
+    margin: 0.2rem 0;
     border-top: 1px solid #ddd;
   }
 }
@@ -480,15 +480,15 @@ p {
 /* Backgrounds */
 
 .bg-proposicao {
-  background-color: #FAA557;
+  background-color: #faa557;
 }
 
 .bg-emenda {
-  background-color: #85CDE8;
+  background-color: #85cde8;
 }
 
 .bg-requerimento {
-  background-color: #F0E578;
+  background-color: #f0e578;
 }
 
 .bg-neutro {
@@ -611,7 +611,6 @@ ngb-carousel {
   padding: 0.75rem 0;
 }
 
-
 // ACCORDION
 .accordion {
   > .card {
@@ -642,5 +641,41 @@ ngb-carousel {
 select {
   &.form-control {
     border-width: 1px;
+  }
+}
+
+//SEARCH BAR STYLES
+
+.search-bar {
+  .input-group {
+    background-color: #fafcfc;
+    padding: 5px 5px 5px 0;
+    .input-group-prepend {
+      align-items: center;
+      background-color: #fafcfc;
+      padding-left: 5px;
+      color: $util-grey-color;
+    }
+    input {
+      height: 35px;
+      border: none;
+      background-color: #fafcfc;
+      color: $util-grey-color;
+      &:focus {
+        box-shadow: none;
+      }
+    }
+    button {
+      height: 35px;
+      border: 1px solid $primary-variant-color;
+      color: $primary-variant-color;
+      background-color: #fafcfc;
+      border-radius: 5px !important;
+      margin-left: 2px;
+      &:hover {
+        color: #fafcfc;
+        background-color: $primary-variant-color;
+      }
+    }
   }
 }

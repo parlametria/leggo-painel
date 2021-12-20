@@ -14,6 +14,16 @@ h5.no-results {
   text-align: center;
 }
 
+h5.caption {
+  font-weight: normal;
+  font-size: 14px;
+  color: $text-color-3;
+}
+
+.search-bar {
+  padding: 30px 0 0 30px;
+}
+
 .proposicao-relator {
   font-size: 20px;
 }

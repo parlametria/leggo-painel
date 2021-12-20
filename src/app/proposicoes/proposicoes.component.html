@@ -48,9 +48,7 @@
             src="/assets/icons/popover_icon.svg"
             alt=""
           />
-          <ng-template #alertaTip>
-            Lorem
-          </ng-template>
+          <ng-template #alertaTip> Lorem </ng-template>
         </h2>
         <h5 class="subtitle">
           Destacamos
@@ -215,7 +213,7 @@
         </h3>
         <div class="d-flex" *ngIf="proposicoes?.length > 0">
           <div class="viewmode-selector">
-            <h5>Visualização</h5>
+            <h5 class="caption">Visualização</h5>
             <button
               [class.btn-selected]="viewmode === 'list'"
               class="btn rounded-0 btn-list"
@@ -232,7 +230,7 @@
             </button>
           </div>
           <div class="per-page-selector">
-            <h5>Exibição por página</h5>
+            <h5 class="caption">Exibição por página</h5>
             <select
               *ngIf="viewmode === 'list'"
               name="per-page"
@@ -246,6 +244,29 @@
             <select *ngIf="viewmode === 'grid'" class="form-control" disabled>
               <option value="15">--</option>
             </select>
+          </div>
+          <div class="form-inline search-bar">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="material-icons">search</span>
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Pesquise por proposição"
+                aria-label="Proposições"
+                aria-describedby="basic-addon1"
+                [(ngModel)]="searchText"
+              />
+              <div class="input-group-append">
+                <button
+                  class="btn btn-primary my-2 my-sm-0"
+                  (click)="navSearch(searchText, interesse)"
+                >
+                  Buscar
+                </button>
+              </div>
+            </div>
           </div>
         </div>
         <div class="row">
