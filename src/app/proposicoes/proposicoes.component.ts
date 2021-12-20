@@ -182,6 +182,10 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
     this.viewmodeChange(value);
   }
 
+  scrollToList() {
+    window.scrollTo({ top: 660, behavior: 'smooth' });
+  }
+
   private replaceUndefined(termo) {
     return termo === undefined ? '' : termo;
   }
