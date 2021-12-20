@@ -183,7 +183,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   }
 
   scrollToList() {
-    window.scrollTo({ top: 660, behavior: 'smooth' });
+    window.scrollTo({ top: 700, behavior: 'smooth' });
   }
 
   private replaceUndefined(termo) {
