@@ -187,7 +187,6 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   }
 
   navSearch(searchText: string, interesse: string) {
-    console.log(interesse);
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     queryParams.text = searchText;
     this.router.navigate([`/${interesse}/proposicoes`], { queryParams });

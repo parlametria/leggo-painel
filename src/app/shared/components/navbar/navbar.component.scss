@@ -15,18 +15,38 @@
 .navbar-container {
   flex-direction: column;
 
-  .navbar-change-subject {
+  .navbar-links {
     padding-left: 10px;
-    border-left: 1px solid $util-light-grey-color;
-
-    select {
-      border: none;
-      color: $primary-color;
-
-      &:focus {
-        box-shadow: none;
+    ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      li.nav-item {
+        display: flex;
+        font-size: 14px;
+        text-transform: uppercase;
+        justify-content: center;
+        align-items: center;
+        padding-left: 10px;
+        &:first-of-type {
+          border-right: 1px solid $util-grey-color;
+        }
+        img {
+          width: 20px;
+          height: 20px;
+        }
+        a {
+          color: $text-color-3;
+          padding-left: 3px;
+          &:hover {
+            color: $primary-color;
+          }
+        }
       }
     }
+
   }
 
   @media (min-width: 768px) {
