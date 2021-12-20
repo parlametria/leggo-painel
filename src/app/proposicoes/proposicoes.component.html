@@ -29,19 +29,38 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a [routerLink]="['/']" class="">
-                Interesses
-              </a>
+              <a [routerLink]="['/']" class=""> Interesses </a>
             </li>
-            <li class="breadcrumb-item"> <span> {{ interesseModel?.nome_interesse }} </span> </li>
+            <li class="breadcrumb-item">
+              <span> {{ interesseModel?.nome_interesse }} </span>
+            </li>
           </ol>
         </nav>
       </div>
     </div>
     <section class="proposicoes-em-destaque">
       <div class="destaques-titles container">
-        <h2>Proposições em Alerta</h2>
-        <h5 class="subtitle">Destacamos {{ proposicoesIniciadora?.length + proposicoesRevisora?.length + proposicoesSancao?.length}} proposições em estado de alerta</h5>
+        <h2>
+          Proposições em Alerta
+          <img
+            [ngbPopover]="alertaTip"
+            triggers="mouseenter:mouseleave"
+            src="/assets/icons/popover_icon.svg"
+            alt=""
+          />
+          <ng-template #alertaTip>
+            Lorem
+          </ng-template>
+        </h2>
+        <h5 class="subtitle">
+          Destacamos
+          {{
+            proposicoesIniciadora?.length +
+              proposicoesRevisora?.length +
+              proposicoesSancao?.length
+          }}
+          proposições em estado de alerta
+        </h5>
         <div class="row">
           <div class="col-4">
             <h5 class="iniciadora-title">Iniciadora</h5>
@@ -181,7 +200,7 @@
             </div>
           </div>
           <div class="scroll-arrow" (click)="scrollToList()">
-            <img src="/assets/icons/destaques_scroll_icon.svg" alt="">
+            <img src="/assets/icons/destaques_scroll_icon.svg" alt="" />
           </div>
         </div>
       </div>
@@ -189,7 +208,10 @@
     <div class="container pt-4">
       <div [hidden]="isLoading | async">
         <h3 class="search-title">
-          Encontramos {{ proposicoes?.length | number: '2.0' }} resultado{{ pluralise(proposicoes?.length) }} para a sua busca
+          Encontramos {{ proposicoes?.length | number: "2.0" }} resultado{{
+            pluralise(proposicoes?.length)
+          }}
+          para a sua busca
         </h3>
         <div class="d-flex" *ngIf="proposicoes?.length > 0">
           <div class="viewmode-selector">
@@ -198,13 +220,15 @@
               [class.btn-selected]="viewmode === 'list'"
               class="btn rounded-0 btn-list"
               (click)="onChangeViewmode('list')"
-              ><span class="icon"></span>
+            >
+              <span class="icon"></span>
             </button>
             <button
               [class.btn-selected]="viewmode === 'grid'"
               class="btn rounded-0 btn-grid"
               (click)="onChangeViewmode('grid')"
-              ><span class="icon"></span>
+            >
+              <span class="icon"></span>
             </button>
           </div>
           <div class="per-page-selector">
@@ -219,18 +243,14 @@
               <option value="20">20</option>
               <option value="30">30</option>
             </select>
-            <select
-              *ngIf="viewmode === 'grid'"
-              class="form-control"
-              disabled
-            >
+            <select *ngIf="viewmode === 'grid'" class="form-control" disabled>
               <option value="15">--</option>
             </select>
           </div>
         </div>
         <div class="row">
           <div class="col-9">
-            <h5 class="no-results" *ngIf="proposicoes?.length === 0" >
+            <h5 class="no-results" *ngIf="proposicoes?.length === 0">
               Nenhuma proposição encontrada
             </h5>
             <div *ngIf="proposicoes?.length > 0">
@@ -283,12 +303,17 @@
                   *ngFor="
                     let proposicao of proposicoes
                       | paginate
-                      : { itemsPerPage: PROPOSICOES_POR_PAGINA_GRID, currentPage: p };
+                        : {
+                            itemsPerPage: PROPOSICOES_POR_PAGINA_GRID,
+                            currentPage: p
+                          };
                     index as i
                   "
                   class="d-inline-flex mt-3 col-lg-4 col-sm-6"
                   [proposicao]="proposicao"
-                  [id]="getProposicaoPosition(i, PROPOSICOES_POR_PAGINA_GRID, p)"
+                  [id]="
+                    getProposicaoPosition(i, PROPOSICOES_POR_PAGINA_GRID, p)
+                  "
                 ></app-card-grid-proposicao>
               </div>
               <div *ngIf="viewmode === 'list'">
@@ -296,7 +321,10 @@
                   *ngFor="
                     let proposicao of proposicoes
                       | paginate
-                      : { itemsPerPage: PROPOSICOES_POR_PAGINA, currentPage: p };
+                        : {
+                            itemsPerPage: PROPOSICOES_POR_PAGINA,
+                            currentPage: p
+                          };
                     index as i
                   "
                   class="d-flex mt-3"

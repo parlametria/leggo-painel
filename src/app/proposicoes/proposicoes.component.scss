@@ -29,6 +29,11 @@ h5.no-results {
   h2 {
     margin-bottom: 1rem;
     color: $primary-variant-color-1;
+
+    img {
+      position: absolute;
+      cursor: pointer;
+    }
   }
 
   .destaques-titles {
