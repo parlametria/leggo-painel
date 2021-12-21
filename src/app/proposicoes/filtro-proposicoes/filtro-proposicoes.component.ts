@@ -338,7 +338,7 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
   }
 
   showListReturn(show: boolean) {
-    const link = document.body.querySelector('#list-button');
+    const link = (<HTMLElement>document.body.querySelector('#list-button'));
     if (show) {
       return link.style.display = 'inline';
     } else {
