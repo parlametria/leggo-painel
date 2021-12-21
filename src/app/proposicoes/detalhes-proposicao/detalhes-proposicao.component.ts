@@ -26,7 +26,7 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy {
   public isLoading = new BehaviorSubject<boolean>(true);
   public tema: string;
 
-  showDetails = false;
+  showDetails = true;
 
   constructor(
     private activatedRoute: ActivatedRoute,
