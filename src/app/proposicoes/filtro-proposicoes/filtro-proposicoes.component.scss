@@ -9,6 +9,14 @@
 
 .card {
   .card-body {
+    .total-count {
+      margin-bottom: 40px;
+      text-align: center;
+      margin-top: 10px;
+      h2 {
+        color: $primary-color;
+      }
+    }
     .total-subtitle {
       display: block;
       font-size: 12px;
@@ -27,11 +35,15 @@
       }
     }
     .order {
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
+      padding: 15px;
+      background-color: #efefef;
+      text-align: center;
+      margin-left: -12px;
+      margin-right: -12px;
     }
     .temp-and-press-filters {
       margin-bottom: 1rem;
-      border-bottom: 1px solid $util-light-grey-color;
       padding: 10px 0;
       .filter-label {
         display: flex;
@@ -75,6 +87,7 @@
       }
       select {
         height: 46px;
+        color: $primary-variant-color;
       }
     }
     .tramitacao-filter,
@@ -142,9 +155,15 @@
 
     .clear-filter {
       cursor: pointer;
-      text-align: right;
-      margin: 15px 0;
+      margin: 2rem 0;
       color: $text-color-3;
+      text-align: center;
+
+      a {
+        padding: 10px;
+        border: 1px solid $text-color-3;
+        font-size: 12px;
+      }
     }
 
     .legendas-block {
