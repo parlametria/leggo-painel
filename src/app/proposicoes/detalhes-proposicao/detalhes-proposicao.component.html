@@ -1,6 +1,6 @@
 <app-loading *ngIf="isLoading | async"></app-loading>
 <div class="detalhes-proposicoes-conteiner app-container">
-  <div class="top-info-container">
+  <div class="top-info-container"[hidden]="isLoading | async">
     <div class="container">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -19,7 +19,7 @@
           </li>
         </ol>
       </nav>
-      <div [hidden]="isLoading | async" class="mt-4 row">
+      <div  class="mt-4 row">
         <div class="col">
           <h4>
             {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}

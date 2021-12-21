@@ -35,6 +35,8 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   public PROPOSICOES_POR_PAGINA_GRID = 12;
   p = 1;
   viewmode = 'list';
+  public searchText: string;
+
 
   constructor(
     private proposicoesListaService: ProposicoesListaService,

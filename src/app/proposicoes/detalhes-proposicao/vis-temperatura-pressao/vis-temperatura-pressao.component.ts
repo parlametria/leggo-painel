@@ -200,6 +200,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
   }
 
   private atualizarVis(g, dados) {
+    console.log(dados);
     this.x.domain(d3.extent(dados, (d: any) => d.data));
     this.yTemperatura.domain([0, 100]);
     this.yPressao.domain([0, 100]);
