@@ -105,7 +105,11 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
 
         this.updateFilterFromURL();
         this.aplicarFiltro();
-        this.showListReturn(false);
+        if (this.proposicaoPesquisada) {
+          this.showListReturn(true);
+        } else {
+          this.showListReturn(false);
+        }
 
         this.locaisBusca = d3.nest()
           .key((d: any) => d.casa_ultimo_local)
@@ -169,7 +173,11 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
           });
         }
       });
-      this.showListReturn(false);
+      if (this.proposicaoPesquisada) {
+        this.showListReturn(true);
+      } else {
+        this.showListReturn(false);
+      }
   }
 
   updateFilterFromURL() {
