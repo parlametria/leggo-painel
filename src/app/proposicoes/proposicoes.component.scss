@@ -14,6 +14,16 @@ h5.no-results {
   text-align: center;
 }
 
+h5.caption {
+  font-weight: normal;
+  font-size: 14px;
+  color: $text-color-3;
+}
+
+.search-bar {
+  padding: 30px 0 0 30px;
+}
+
 .proposicao-relator {
   font-size: 20px;
 }
@@ -24,15 +34,28 @@ h5.no-results {
   padding: 60px 0 85px;
   text-align: center;
   border-radius: 0 0 40px 40px;
-  box-shadow: 0px 11px 15px #34174A1A;
+  box-shadow: 0px 11px 15px #34174a1a;
 
   h2 {
-    margin-bottom: 30px;
+    margin-bottom: 1rem;
+    color: $primary-variant-color-1;
+
+    img {
+      position: absolute;
+      cursor: pointer;
+    }
   }
 
   .destaques-titles {
+    .subtitle {
+      font-size: 14px;
+      color: $primary-variant-color-2;
+      margin-bottom: 2rem;
+      font-weight: 500;
+    }
     h5 {
       margin-bottom: 15px;
+      font-size: 18px;
 
       &.iniciadora-title {
         padding-right: 100px;
@@ -92,26 +115,35 @@ h5.no-results {
     }
 
     .subtitles-block {
-      display: flex;
-      justify-content: center;
       margin-top: 60px;
+      position: relative;
 
-      .subtitle {
+      .subtitles {
         display: flex;
-        align-items: center;
-        margin-right: 20px;
+        .subtitle {
+          display: flex;
+          align-items: center;
+          margin-right: 20px;
 
-        .proposicao-ball {
-          &:hover {
-            transform: none;
-            cursor: unset;
+          .proposicao-ball {
+            &:hover {
+              transform: none;
+              cursor: unset;
+            }
+          }
+
+          span {
+            font-size: 12px;
+            color: $text-color-2;
           }
         }
-
-        span {
-          font-size: 12px;
-          color: $text-color-2;
-        }
+      }
+      .scroll-arrow {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
       }
     }
 
@@ -193,7 +225,14 @@ h5.no-results {
 }
 
 .search-title {
-  margin-top: 25px;
+  margin-top: 50px;
+  a {
+    font-size: 14px;
+    margin-left: 20px;
+    text-decoration: underline;
+    color: $text-color-3;
+    display: none;
+  }
 }
 
 .col-9 > pagination-template:first-child {
@@ -236,8 +275,7 @@ h5.no-results {
     width: fit-content;
     &:disabled {
       background: white;
-      opacity: .5;
+      opacity: 0.5;
     }
   }
 }
-

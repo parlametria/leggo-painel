@@ -12,27 +12,25 @@
         </a>
       </div>
     </div>
-    <div class="navbar-change-subject" *ngIf="router.url !== '/paineis'">
-      <form class="form-inline my-2 my-lg-0">
-        <select
-          id="paineis"
-          name="paineis"
-          class="form-control"
-          (change)="onNavigate($event.target.value)"
-        >
-          <option
-            *ngFor="let i of interesses"
-            [value]="i.interesse"
-            [selected]="i.interesse === interesse?.interesse"
-          >
-            {{ i?.nome_interesse }}
-          </option>
-        </select>
-      </form>
+    <div class="navbar-links" *ngIf="router.url !== '/paineis'">
+      <ul>
+        <li class="nav-item active">
+          <img src="/assets/icons/proposicoes_icon.svg" alt="">
+          <a class="nav-link" href="{{ interesse?.interesse }}/proposicoes">Proposições</a>
+        </li>
+        <li class="nav-item">
+          <img src="/assets/icons/parlamentares_icon.svg" alt="">
+          <a class="nav-link" href="{{ interesse?.interesse }}/parlamentares">Parlamentares</a>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>
-<nav class="navbar fixed-top" id="fixed-navbar" *ngIf="router.url !== '/paineis'">
+<nav
+  class="navbar fixed-top"
+  id="fixed-navbar"
+  *ngIf="router.url !== '/paineis'"
+>
   <div class="container navbar-container">
     <div class="navbar-logo-wrapper align-items-center">
       <div class="text-center pr-2">
@@ -47,7 +45,7 @@
         {{ interesse?.nome_interesse }}
       </h4>
     </div>
-    <div *ngIf="router.url !== '/paineis'" class="form-inline">
+    <div *ngIf="router.url !== '/paineis'" class="form-inline search-bar">
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="material-icons">search</span>

@@ -1,62 +1,224 @@
 <h3>Temperatura e Pressão</h3>
 <div class="row no-gutters">
   <div class="col-md-7 vis-wrapper">
-    <app-vis-temperatura-pressao (dataOnChange)="dataOnChange($event)"></app-vis-temperatura-pressao>
+    <app-vis-temperatura-pressao
+      (dataOnChange)="dataOnChange($event)"
+    ></app-vis-temperatura-pressao>
   </div>
   <div class="col-md-5">
-    <div
-      class="vis-tooltip vis-tooltip-lg"
-      *ngIf="filtro?.data">
-      <h4 class="vis-tooltip-titulo-lg">
-        Resultado: {{ getSemanaString(filtro?.data) }}
-      </h4>
-      <div class="mb-3">
-        <h5>Temperatura no período:</h5>
+    <div class="vis-tooltip vis-tooltip-lg" *ngIf="filtro?.data">
+      <div class="vis-tooltip-titulo-lg">
+        <span>Período selecionado:</span>
+        <div class="date-with-icon">
+          <svg
+            id="calendar_today_black_24dp"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path
+              id="Caminho_3290"
+              data-name="Caminho 3290"
+              d="M0,0H24V24H0Z"
+              fill="none"
+            />
+            <path
+              id="Caminho_3291"
+              data-name="Caminho 3291"
+              d="M18.2,2.909h-.9V1H15.5V2.909h-9V1H4.7V2.909H3.8A1.862,1.862,0,0,0,2,4.818V20.091A1.862,1.862,0,0,0,3.8,22H18.2A1.862,1.862,0,0,0,20,20.091V4.818A1.862,1.862,0,0,0,18.2,2.909Zm0,17.182H3.8V9.591H18.2Zm0-12.409H3.8V4.818H18.2Z"
+              transform="translate(1 0.5)"
+            />
+          </svg>
+          <span>{{ getSemanaString(filtro?.data) }}</span>
+        </div>
+        <span class="subtitle"
+          >As informações correspondem ao período selecionado</span
+        >
+      </div>
+      <div class="mb-3 temp-and-press-infos">
+        <h5>
+          <svg
+            id="Grupo_4835"
+            data-name="Grupo 4835"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+          >
+            <rect
+              id="Retângulo_1023"
+              data-name="Retângulo 1023"
+              width="16"
+              height="16"
+              fill="rgba(255,255,255,0)"
+            />
+            <g id="icone-pressão" transform="translate(2 1.333)">
+              <g
+                id="Grupo_478"
+                data-name="Grupo 478"
+                transform="translate(0 0)"
+              >
+                <path
+                  id="Subtração_1"
+                  data-name="Subtração 1"
+                  d="M4.13,8.313A4.157,4.157,0,1,1,8.252,4l-2.761.3a1.6,1.6,0,0,0,.021-.256A1.515,1.515,0,1,0,4,5.586a1.511,1.511,0,0,0,.221-.016V8.309H4.179Z"
+                  transform="translate(1.482 1.602)"
+                  fill="#ff7285"
+                  stroke="rgba(0,0,0,0)"
+                  stroke-width="1"
+                />
+                <g id="Grupo_477" data-name="Grupo 477">
+                  <g id="Grupo_476" data-name="Grupo 476">
+                    <path
+                      id="Caminho_646"
+                      data-name="Caminho 646"
+                      d="M1201.686,338.1a5.807,5.807,0,1,1,5.7-5.807A5.76,5.76,0,0,1,1201.686,338.1Zm0-11.052a5.246,5.246,0,1,0,5.147,5.245A5.2,5.2,0,0,0,1201.686,327.044Z"
+                      transform="translate(-1195.987 -326.483)"
+                      fill="#ff7285"
+                    />
+                  </g>
+                </g>
+                <rect
+                  id="Retângulo_235"
+                  data-name="Retângulo 235"
+                  width="2.512"
+                  height="2.308"
+                  transform="translate(4.426 11.077)"
+                  fill="#ff7285"
+                />
+              </g>
+            </g>
+          </svg>
+          Temperatura no período selecionado:
+          <img
+            [ngbPopover]="tempTip"
+            triggers="mouseenter:mouseleave"
+            src="/assets/icons/popover_icon.svg"
+            alt=""
+          />
+          <ng-template #tempTip>
+            Leva em conta as ações legislativas do rito de tramitação no
+            Congresso. Pondera o número de ações incidentes sobre um PL e a
+            relevância dessas ações
+          </ng-template>
+        </h5>
         <p *ngIf="filtro?.valorTemperatura !== null">
           <strong class="color-temperatura">
-            {{ filtro?.valorTemperatura | number : '1.0-1' }}°C
+            {{ filtro?.valorTemperatura | number: "1.0-1" }}°C
           </strong>
           de temperatura
         </p>
-        <h5>Pressão no período:</h5>
+        <h5>Ações legislativas no período</h5>
+        <p *ngIf="!eventosPrincipais.length && !eventosSecundarios.length">
+          <button
+            class="btn btn-xs btn-primary"
+            (click)="open(legacoes)"
+            disabled
+          >
+            Lista das ações no período selecionado
+          </button>
+        </p>
+        <p *ngIf="eventosPrincipais.length || eventosSecundarios.length">
+          <button class="btn btn-xs btn-primary" (click)="open(legacoes)">
+            Lista das ações no período selecionado
+          </button>
+        </p>
+        <h5>
+          <svg
+            id="Grupo_4845"
+            data-name="Grupo 4845"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+          >
+            <rect
+              id="Retângulo_1022"
+              data-name="Retângulo 1022"
+              width="16"
+              height="16"
+              fill="rgba(255,255,255,0)"
+            />
+            <g id="icone-temperatura" transform="translate(5.351 1.338)">
+              <g
+                id="Grupo_471"
+                data-name="Grupo 471"
+                transform="translate(0 0)"
+              >
+                <path
+                  id="Caminho_640"
+                  data-name="Caminho 640"
+                  d="M1080.465,310.36v-7.379a1.455,1.455,0,0,0-2.909,0v7.379a2.513,2.513,0,1,0,2.909,0Z"
+                  transform="translate(-1076.498 -301.544)"
+                  fill="#a3a0fb"
+                />
+                <path
+                  id="Caminho_641"
+                  data-name="Caminho 641"
+                  d="M1076.505,312.575a2.416,2.416,0,0,1,1.088-2.011v-7.437a1.436,1.436,0,0,1,2.872,0v7.458a2.414,2.414,0,0,1,1.058,1.989,2.51,2.51,0,0,1-5.018,0Z"
+                  transform="translate(-1076.502 -301.634)"
+                  fill="#a3a0fb"
+                />
+              </g>
+            </g>
+          </svg>
+          Pressão no período selecionado:
+          <img
+            [ngbPopover]="pressTip"
+            triggers="mouseenter:mouseleave"
+            src="/assets/icons/popover_icon.svg"
+            alt=""
+          />
+          <ng-template #pressTip>
+            Baseada em dados externos ao rito de tramitação no Congresso. É
+            calculada por algoritmo que captura interações dos parlamentares no
+            Twitter.
+          </ng-template>
+        </h5>
         <p *ngIf="filtro?.valorTemperatura === null">
-          Dados de <strong class="color-temperatura">temperatura</strong> não disponíveis
+          Dados de <strong class="color-temperatura">temperatura</strong> não
+          disponíveis
         </p>
       </div>
       <p *ngIf="filtro?.valorPressao !== null">
-        <strong class="color-pressao">{{ filtro?.valorPressao}}</strong>
+        <strong class="color-pressao">{{ filtro?.valorPressao }}</strong>
         de pressão feita por
-        <strong class="color-pressao">{{ filtro?.user_count}}</strong>
+        <strong class="color-pressao">{{ filtro?.user_count }}</strong>
         usuários distintos com
-        <strong class="color-pressao">{{ filtro?.sum_interactions}}</strong>
+        <strong class="color-pressao">{{ filtro?.sum_interactions }}</strong>
         de engajamento
       </p>
       <p *ngIf="filtro?.valorPressao === null">
-        Dados de <strong class="color-pressao">pressão</strong> só estão disponíveis no final da semana
+        Dados de <strong class="color-pressao">pressão</strong> só estão
+        disponíveis no final da semana
       </p>
-      <hr>
+      <hr />
       <p class="vis-rodape" *ngIf="infoTwitter">
-        Foram processados <strong>{{ infoTwitter?.total_tweets / 1000000 }}</strong> milhões de tweets de <strong>{{ infoTwitter?.total_parlamentares + infoTwitter?.total_influenciadores }}</strong> perfis de parlamentares e influenciadores.
+        Foram processados
+        <strong>{{ infoTwitter?.total_tweets / 1000000 }}</strong> milhões de
+        tweets de
+        <strong>{{
+          infoTwitter?.total_parlamentares + infoTwitter?.total_influenciadores
+        }}</strong>
+        perfis de parlamentares e influenciadores.
       </p>
 
-      <h5>
-        Ações legislativas no período
-      </h5>
-      <p *ngIf="!eventosPrincipais.length && !eventosSecundarios.length">Nenhuma ação legislativa nesta semana.</p>
-      <p *ngIf="eventosPrincipais.length || eventosSecundarios.length">
-        Ações legislativas de {{ getSemanaString(filtro?.data) }}
-      </p>
-			<p *ngIf="eventosPrincipais.length || eventosSecundarios.length" class="text-right">
-				<button class="btn btn-xs btn-outline-primary" (click)="open(legacoes)">Ver tudo</button>
-			</p>
-
-			<!-- modal -->
+      <!-- modal -->
       <ng-template #legacoes let-modal>
         <div class="modal-header">
-          <h4 class="modal-title" id="modal-basic-title">
-        		Ações legislativas de {{ getSemanaString(filtro?.data) }}
-					</h4>
-          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <div>
+            <span>Ações legislativas no período de:</span>
+            <h4 class="modal-title" id="modal-basic-title">
+              {{ getSemanaString(filtro?.data) }}
+            </h4>
+          </div>
+          <button
+            type="button"
+            class="close"
+            aria-label="Close"
+            (click)="modal.dismiss('Cross click')"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
@@ -64,30 +226,41 @@
           <table class="eventos-tram">
             <div *ngFor="let evento of eventosPrincipais">
               <td class="date-field">
-                <div>{{ evento?.data | date:'dd/MM/yyyy' }}</div>
+                <div>{{ evento?.data | date: "dd/MM/yyyy" }}</div>
                 <tbody>
-                  <tr class="">{{ evento?.sigla_local }}</tr>
+                  <tr class="">
+                    {{
+                      evento?.sigla_local
+                    }}
+                  </tr>
                 </tbody>
               </td>
               <td>
-                <app-evento-tramitacao [evento]="evento"></app-evento-tramitacao>
+                <app-evento-tramitacao
+                  [evento]="evento"
+                ></app-evento-tramitacao>
               </td>
             </div>
             <div *ngFor="let evento of eventosSecundarios">
               <td class="date-field">
-                <div>{{ evento?.data | date:'dd/MM/yyyy' }}</div>
+                <div>{{ evento?.data | date: "dd/MM/yyyy" }}</div>
                 <tbody>
-                  <tr class="">{{ evento?.sigla_local }}</tr>
+                  <tr class="">
+                    {{
+                      evento?.sigla_local
+                    }}
+                  </tr>
                 </tbody>
               </td>
               <td>
-                <app-evento-tramitacao [evento]="evento"></app-evento-tramitacao>
+                <app-evento-tramitacao
+                  [evento]="evento"
+                ></app-evento-tramitacao>
               </td>
             </div>
           </table>
         </div>
       </ng-template>
-
     </div>
   </div>
 </div>

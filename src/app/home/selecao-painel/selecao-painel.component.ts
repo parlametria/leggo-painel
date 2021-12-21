@@ -28,7 +28,6 @@ export class SelecaoPainelComponent implements OnInit {
       .getInteresses()
       .subscribe((data) => {
         this.interesses = data.filter((i) => i.interesse !== 'leggo');
-        console.log(this.interesses);
       });
   }
 

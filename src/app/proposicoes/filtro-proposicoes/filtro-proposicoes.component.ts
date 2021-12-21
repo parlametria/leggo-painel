@@ -105,6 +105,7 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
 
         this.updateFilterFromURL();
         this.aplicarFiltro();
+        this.showListReturn(false);
 
         this.locaisBusca = d3.nest()
           .key((d: any) => d.casa_ultimo_local)
@@ -168,6 +169,7 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
           });
         }
       });
+      this.showListReturn(false);
   }
 
   updateFilterFromURL() {
@@ -231,6 +233,7 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
       semApensada: true
     };
     this.filterChange.emit(this.filtro);
+    this.showListReturn(true);
   }
 
   onChangeOrderBy(item: string) {
@@ -265,7 +268,6 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
       delete queryParams.statusProp;
     }
     this.router.navigate([], { queryParams });
-
     this.aplicarFiltro();
   }
 
@@ -325,6 +327,15 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
 
   reloadPage() {
     window.location.replace(location.protocol + '//' + location.host + location.pathname);
+  }
+
+  showListReturn(show: boolean) {
+    const link = document.body.querySelector('#list-button');
+    if (show) {
+      return link.style.display = 'inline';
+    } else {
+      return link.style.display = 'none';
+    }
   }
 
   ngOnDestroy(): void {

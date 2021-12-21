@@ -1,8 +1,20 @@
-<h3>Atuação parlamentar</h3>
+<h3>
+  Atuação parlamentar
+  <img
+    [ngbPopover]="alertaTip"
+    triggers="mouseenter:mouseleave"
+    src="/assets/icons/popover_icon.svg"
+    alt=""
+  />
+  <ng-template #alertaTip>
+    Evidencia aderência à oposição ou ao Centro/Governo, a partir das atividades
+    do parlamentar - proposições e intervenções no processo legislativo.
+  </ng-template>
+</h3>
 <app-loading *ngIf="isLoading | async"></app-loading>
 <div [hidden]="isLoading | async">
   <div class="mt-2">
-    <p> Dados de atuação parlamentar a partir de 2019. </p>
+    <p>Dados de atuação parlamentar a partir de 2019.</p>
   </div>
   <div class="my-2">
     <div class="legend">
@@ -11,10 +23,7 @@
         [classe]="'bg-proposicao'"
       ></app-legend>
 
-      <app-legend
-        [title]="'Emenda'"
-        [classe]="'bg-emenda'"
-      ></app-legend>
+      <app-legend [title]="'Emenda'" [classe]="'bg-emenda'"></app-legend>
 
       <app-legend
         [title]="'Requerimento'"
@@ -42,17 +51,17 @@
               parlamentar?.values[0].id_autor_parlametria
             ]"
           >
-            <span *ngIf="parlamentar?.values[0].casa_autor === 'camara'">Dep.</span>
-            <span *ngIf="parlamentar?.values[0].casa_autor === 'senado'">Sen.</span>
-            {{ parlamentar?.values[0].nome_autor }}
-            <span
-              *ngIf="parlamentar?.values[0].bancada === 'oposição'"
+            <span *ngIf="parlamentar?.values[0].casa_autor === 'camara'"
+              >Dep.</span
             >
+            <span *ngIf="parlamentar?.values[0].casa_autor === 'senado'"
+              >Sen.</span
+            >
+            {{ parlamentar?.values[0].nome_autor }}
+            <span *ngIf="parlamentar?.values[0].bancada === 'oposição'">
               {{ parlamentar?.values[0].partido }}
             </span>
-            <span
-              *ngIf="parlamentar?.values[0].bancada === 'governo'"
-            >
+            <span *ngIf="parlamentar?.values[0].bancada === 'governo'">
               {{ parlamentar?.values[0].partido }}
             </span>
             /{{ parlamentar?.values[0].uf }}
@@ -89,17 +98,17 @@
               parlamentar?.values[0].id_autor_parlametria
             ]"
           >
-            <span *ngIf="parlamentar?.values[0].casa_autor === 'camara'">Dep.</span>
-            <span *ngIf="parlamentar?.values[0].casa_autor === 'senado'">Sen.</span>
-            {{ parlamentar?.values[0].nome_autor }}
-            <span
-              *ngIf="parlamentar?.values[0].bancada === 'oposição'"
+            <span *ngIf="parlamentar?.values[0].casa_autor === 'camara'"
+              >Dep.</span
             >
+            <span *ngIf="parlamentar?.values[0].casa_autor === 'senado'"
+              >Sen.</span
+            >
+            {{ parlamentar?.values[0].nome_autor }}
+            <span *ngIf="parlamentar?.values[0].bancada === 'oposição'">
               {{ parlamentar?.values[0].partido }}
             </span>
-            <span
-              *ngIf="parlamentar?.values[0].bancada === 'governo'"
-            >
+            <span *ngIf="parlamentar?.values[0].bancada === 'governo'">
               {{ parlamentar?.values[0].partido }}
             </span>
             /{{ parlamentar?.values[0].uf }}

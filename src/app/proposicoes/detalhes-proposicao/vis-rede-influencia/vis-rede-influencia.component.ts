@@ -94,7 +94,6 @@ export class VisRedeInfluenciaComponent implements OnInit {
       this.pesoPoliticoService.getPesoPolitico()
     ]).pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
-        console.log(data);
         const pesoPolitico = data[2];
         const nodes = data[0].map((n: any) => {
           const peso = pesoPolitico.find(p => parseInt(p.idParlamentarVoz, 10) === parseInt(n.id_autor_parlametria, 10));

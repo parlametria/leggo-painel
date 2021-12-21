@@ -1,5 +1,13 @@
 @import "../../../shared/variables.scss";
 
+h3 {
+  img {
+    position: absolute;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+}
+
 .progresso-wrapper {
   max-width: 920px;
   margin-left: auto;

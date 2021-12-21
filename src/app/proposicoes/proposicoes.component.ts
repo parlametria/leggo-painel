@@ -35,6 +35,8 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   public PROPOSICOES_POR_PAGINA_GRID = 12;
   p = 1;
   viewmode = 'list';
+  public searchText: string;
+
 
   constructor(
     private proposicoesListaService: ProposicoesListaService,
@@ -180,6 +182,21 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
 
   onChangeViewmode(value: string) {
     this.viewmodeChange(value);
+  }
+
+  scrollToList() {
+    window.scrollTo({ top: 700, behavior: 'smooth' });
+  }
+
+  navSearch(searchText: string, interesse: string) {
+    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    queryParams.text = searchText;
+    this.router.navigate([`/${interesse}/proposicoes`], { queryParams });
+    if (this.router.url.includes(`/${interesse}/proposicoes`)) {
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+    }
   }
 
   private replaceUndefined(termo) {

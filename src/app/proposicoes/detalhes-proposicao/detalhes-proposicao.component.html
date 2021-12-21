@@ -1,23 +1,25 @@
 <app-loading *ngIf="isLoading | async"></app-loading>
 <div class="detalhes-proposicoes-conteiner app-container">
-  <div class="top-info-container">
+  <div class="top-info-container"[hidden]="isLoading | async">
     <div class="container">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a [routerLink]="['/']">
-              Interesses
-            </a>
+            <a [routerLink]="['/']"> Interesses </a>
           </li>
           <li class="breadcrumb-item">
             <a [routerLink]="['../']">
               {{ interesseModel?.nome_interesse }}
             </a>
           </li>
-          <li class="breadcrumb-item"> <span> {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }} </span> </li>
+          <li class="breadcrumb-item">
+            <span>
+              {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
+            </span>
+          </li>
         </ol>
       </nav>
-      <div [hidden]="isLoading | async" class="mt-4 row">
+      <div  class="mt-4 row">
         <div class="col">
           <h4>
             {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
@@ -63,11 +65,23 @@
         </div>
         <div class="col-5"></div>
       </div>
-      <div [hidden]="isLoading | async" class="row">
-        <div class="col">
-          <app-ementas [proposicao]="proposicao"></app-ementas>
+      <div [hidden]="!showDetails" class="row align-items-center">
+        <div class="col-8">
+          <div class="row">
+            <div class="col-6">
+              <app-lista-autores
+                [autores]="proposicao?.autoresProposicao"
+              ></app-lista-autores>
+            </div>
+            <div class="col-6">
+              <app-lista-relatores
+                [etapas]="proposicao?.etapas"
+                [interesse]="proposicao?.interesse[0]?.interesse"
+              ></app-lista-relatores>
+            </div>
+          </div>
         </div>
-        <div class="col-5">
+        <div class="col-4">
           <app-lista-locais-atuais
             *ngIf="
               proposicao?.etapas[proposicao?.etapas.length - 1]?.status ===
@@ -78,15 +92,26 @@
           </app-lista-locais-atuais>
 
           <div class="ultimas-atualizacoes-block">
-            <div class *ngIf="proposicao?.destaques.length || proposicao?.interesse[0]?.advocacy_link !== 'nan'">
+            <div
+              class
+              *ngIf="
+                proposicao?.destaques.length ||
+                proposicao?.interesse[0]?.advocacy_link !== 'nan'
+              "
+            >
               <app-destaques-proposicao
                 [destaques]="destaques"
-                *ngFor="let destaques of proposicao?.destaques"></app-destaques-proposicao>
+                *ngFor="let destaques of proposicao?.destaques"
+              ></app-destaques-proposicao>
               <div
                 class="chip"
-                *ngIf="proposicao?.interesse[0]?.advocacy_link && proposicao?.interesse[0]?.advocacy_link !== 'nan'"
+                *ngIf="
+                  proposicao?.interesse[0]?.advocacy_link &&
+                  proposicao?.interesse[0]?.advocacy_link !== 'nan'
+                "
                 [ngbPopover]="popAdvocacy"
-                triggers="mouseenter:mouseleave">
+                triggers="mouseenter:mouseleave"
+              >
                 <div class="chip-icon">
                   <span class="material-icons">label_important</span>
                 </div>
@@ -98,9 +123,10 @@
                 Existem notas técnicas de OSCs disponíveis para esta proposição.
                 <div class="text-right">
                   <a
-                    href="{{proposicao?.interesse[0]?.advocacy_link}}"
+                    href="{{ proposicao?.interesse[0]?.advocacy_link }}"
                     target="_blank"
-                    class="btn btn-link btn-sm">
+                    class="btn btn-link btn-sm"
+                  >
                     Ver notas
                   </a>
                 </div>
@@ -108,51 +134,55 @@
             </div>
             <div *ngIf="!proposicao?.destaques.length">
               <div
-                *ngIf="!['Ordinária', 'Indefinido'].includes(proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao)"
+                *ngIf="
+                  !['Ordinária', 'Indefinido'].includes(
+                    proposicao?.etapas[proposicao?.etapas.length - 1]
+                      ?.regime_tramitacao
+                  )
+                "
                 class="chip"
                 ngbPopover="Regime de tramitação"
-                triggers="mouseenter:mouseleave">
+                triggers="mouseenter:mouseleave"
+              >
                 <div class="chip-icon">
                   <span class="material-icons">label_important</span>
                 </div>
                 <div class="chip-text">
-                  <span>{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.regime_tramitacao }}</span>
+                  <span>{{
+                    proposicao?.etapas[proposicao?.etapas.length - 1]
+                      ?.regime_tramitacao
+                  }}</span>
                 </div>
               </div>
               <div
-                *ngIf="proposicao?.etapas[proposicao?.etapas.length - 1]?.status !== 'Ativa'"
+                *ngIf="
+                  proposicao?.etapas[proposicao?.etapas.length - 1]?.status !==
+                  'Ativa'
+                "
                 class="chip"
                 ngbPopover="A proposição foi finalizada"
-                triggers="mouseenter:mouseleave">
+                triggers="mouseenter:mouseleave"
+              >
                 <div class="chip-icon">
                   <span class="material-icons">label_important</span>
                 </div>
                 <div class="chip-text">
-                  <span>{{ proposicao?.etapas[proposicao?.etapas.length - 1]?.status }}</span>
+                  <span>{{
+                    proposicao?.etapas[proposicao?.etapas.length - 1]?.status
+                  }}</span>
                 </div>
               </div>
             </div>
           </div>
-
         </div>
       </div>
       <div [hidden]="!showDetails" class="row">
-        <div class="col">
-          <div class="row">
-            <div class="col">
-              <app-lista-autores
-                [autores]="proposicao?.autoresProposicao"
-              ></app-lista-autores>
-            </div>
-            <div class="col-5">
-              <app-lista-relatores
-                [etapas]="proposicao?.etapas"
-                [interesse]="proposicao?.interesse[0]?.interesse"
-              ></app-lista-relatores>
-            </div>
-          </div>
+        <div class="col-12">
+          <app-ementas [proposicao]="proposicao"></app-ementas>
         </div>
-        <div class="col-5">
+      </div>
+      <div [hidden]="!showDetails" class="row">
+        <div class="col-12">
           <app-assuntos-relacionados
             [proposicao]="proposicao"
           ></app-assuntos-relacionados>
