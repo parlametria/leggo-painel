@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   baseUrl: 'http://localhost:8000',
-  twitterAPIUrl: 'http://localhost:5001',
+  twitterAPIUrl: 'https://twitter-api.parlametria.org.br',
   perfilUrl: 'https://perfil.parlametria.org.br/api'
 };
 

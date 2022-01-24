@@ -1,228 +1,68 @@
-<div class="row no-gutters mb-3">
-  <div class="col-sm-10">
-    <div class="card">
-      <div class="card-header d-flex">
-        <div class="card-atividade-id">{{ parlamentar?.indice + 1 }}</div>
-        <div class="card-atividade-titulo">
-          <span
-            *ngIf="parlamentar?.casa_autor == 'camara'"
-            class="text-muted">
-            Dep.
-          </span>
-          <span
-            *ngIf="parlamentar?.casa_autor == 'senado'"
-            class="text-muted">
-            Sen.
-          </span>
-          <a
-            [routerLink]="[parlamentar.id_autor_parlametria]"
-            queryParamsHandling="merge">
-            {{ parlamentar.nome_autor }}
-          </a>
-          <span class="text-muted">
-            {{ parlamentar.partido }}/{{ parlamentar.uf }}
-          </span>
-        </div>
+<div class="card">
+  <div class="card-image">
+    <img 
+      *ngIf="parlamentar?.casa_autor == 'camara'"
+      src="https://www.camara.leg.br/internet/deputado/bandep/{{parlamentar?.idParlamentarVoz | slice:1 }}.jpg">
+    <img 
+      *ngIf="parlamentar?.casa_autor == 'senado'"
+      src="https://www.senado.leg.br/senadores/img/fotos-oficiais/senador{{parlamentar?.idParlamentarVoz | slice:1 }}.jpg">
+  </div>
+  <div class="card-header d-flex">
+    <div class="card-atividade-titulo">
+      <div class="card-name">
+        <span
+          *ngIf="parlamentar?.casa_autor == 'camara'"
+          class="text-muted">
+          Dep.
+        </span>
+        <span
+          *ngIf="parlamentar?.casa_autor == 'senado'"
+          class="text-muted">
+          Sen.
+        </span>
+        <a
+          [routerLink]="[parlamentar.id_autor_parlametria]"
+          queryParamsHandling="merge">
+          {{ parlamentar.nome_autor }}
+        </a>
       </div>
-      <div class="card-body">
-        <div>
-          <a
-            [routerLink]="[parlamentar.id_autor_parlametria + '/atividades']"
-            queryParamsHandling="merge">
-            <app-progress
-              [label]="(parlamentar.quantidade_autorias ? parlamentar.quantidade_autorias : 0) + ' ações na agenda'"
-              [barraClasse]="'bg-primary'"
-              [valor]="parlamentar.atividade_parlamentar"
-              [exibirLabel]="true"></app-progress>
-          </a>
-        </div>
-        <div class="space-between-bars">
-          <a
-            [routerLink]="[parlamentar.id_autor_parlametria + '/redes-sociais']"
-            queryParamsHandling="merge">
-            <app-progress
-              [label]="parlamentar.quantidade_tweets + ' tweets relacionados'"
-              [barraClasse]="'bg-twitter'"
-              [valor]="parlamentar.atividade_twitter"
-              [exibirLabel]="true"></app-progress>
-          </a>
-        </div>
-        <div class="insignias">
-          <div>
-            <span
-              class="cracha"
-              *ngIf="parlamentar.quant_autorias_projetos"
-              [ngbPopover]="popAutorias"
-              [autoClose]="'outside'">
-              <span class="icon-autor app-icon text-danger"></span>
-              <span class="badge badge-danger app-badge badge-color-white">
-                {{ parlamentar.quant_autorias_projetos }}
-              </span>
-              <ng-template #popAutorias>
-                <strong>Autor</strong>
-                &nbsp;de {{ parlamentar.quant_autorias_projetos }}
-                <span *ngIf="parlamentar.quant_autorias_projetos === 1">&nbsp;proposição</span>
-                <span *ngIf="parlamentar.quant_autorias_projetos !== 1">&nbsp;proposições</span>
-                <div class="text-right">
-                  <a
-                    [routerLink]="[parlamentar.id_autor_parlametria + '/papeis']"
-                    queryParamsHandling="merge"
-                    class="btn btn-link btn-sm">
-                    + Detalhes
-                  </a>
-                </div>
-              </ng-template>
-            </span>
-
-            <span
-              class="cracha"
-              *ngIf="parlamentar.quantidade_relatorias"
-              [ngbPopover]="popRelatorias"
-              [autoClose]="'outside'">
-              <span class="icon-relator app-icon text-success"></span>
-              <span class="badge badge-success app-badge badge-color-white">{{ parlamentar.quantidade_relatorias }}</span>
-              <ng-template #popRelatorias>
-                <strong>Relator</strong>
-                &nbsp;de {{ parlamentar.quantidade_relatorias }}
-                <span *ngIf="parlamentar.quantidade_relatorias === 1">&nbsp;proposição</span>
-                <span *ngIf="parlamentar.quantidade_relatorias !== 1">&nbsp;proposições</span>
-                <div class="text-right">
-                  <a
-                    [routerLink]="[parlamentar.id_autor_parlametria + '/papeis']"
-                    queryParamsHandling="merge"
-                    class="btn btn-link btn-sm">
-                    + Detalhes
-                  </a>
-                </div>
-              </ng-template>
-            </span>
-
-            <span
-              class="cracha"
-              *ngIf="parlamentar?.parlamentarComissoes?.length"
-              [ngbPopover]="popPresidencia"
-              [autoClose]="'outside'">
-              <span class="icon-presidente app-icon text-warning"></span>
-              <span class="badge badge-warning app-badge badge-color-white">
-                {{ parlamentar?.parlamentarComissoes?.length }}
-              </span>
-              <ng-template #popPresidencia>
-                <strong>Presidente</strong>
-                &nbsp;de {{ parlamentar?.parlamentarComissoes?.length }}
-                <span *ngIf="parlamentar?.parlamentarComissoes?.length === 1">&nbsp;comissão</span>
-                <span *ngIf="parlamentar?.parlamentarComissoes?.length !== 1">&nbsp;comissões</span>
-                <div class="text-right">
-                  <a
-                    [routerLink]="[parlamentar.id_autor_parlametria + '/papeis']"
-                    queryParamsHandling="merge"
-                    class="btn btn-link btn-sm">
-                    + Detalhes
-                  </a>
-                </div>
-              </ng-template>
-            </span>
-          </div>
-        </div>
-        <!-- <a [routerLink]="[parlamentar.id_autor_parlametria]" class="stretched-link" queryParamsHandling="merge"></a> -->
+      <div class="text-muted card-partido">
+        {{ parlamentar.partido }}/{{ parlamentar.uf }}
       </div>
     </div>
   </div>
-  <div class="card-side col-sm-2">
-    <div class="row no-gutters">
-      <div class="col-11">
-        <div class="mb-2">
-          <span
-            *ngIf="parlamentar?.governismo !== null"
-            [ngbPopover]="popGovernismo"
-            [autoClose]="'outside'">
-            <app-progress
-              [label]="'Governismo'"
-              [barraClasse]="'bg-gray'"
-              [valor]="parlamentar.governismo"
-              [exibirLabel]="true"></app-progress>
-          </span>
-          <ng-template #popGovernismo>
-            <strong>Governismo</strong>
-            {{ parlamentar.governismo * 10 | number : '1.0-2' }}
-          </ng-template>
-          <div *ngIf="parlamentar?.governismo === null">
-            <app-progress
-              [label]="'--'"
-              [barraClasse]="'bg-info'"
-              [valor]="0"
-              [exibirLabel]="true"></app-progress>
-          </div>
-        </div>
-        <div class="mb-2">
-          <span
-            *ngIf="parlamentar?.bancada_suficiente && parlamentar?.disciplina !== null"
-            [ngbPopover]="popDisciplina"
-            [autoClose]="'outside'">
-            <app-progress
-              [label]="'Disciplina'"
-              [barraClasse]="'bg-info'"
-              [valor]="parlamentar.disciplina"
-              [exibirLabel]="true"></app-progress>
-          </span>
-          <ng-template #popDisciplina>
-            <strong>Disciplina</strong>
-            {{ parlamentar.disciplina * 100 | number : '1.0-2' }}%
-          </ng-template>
-          <div *ngIf="!parlamentar?.bancada_suficiente || parlamentar?.disciplina === null">
-            <app-progress
-              [label]="'--'"
-              [barraClasse]="'bg-info'"
-              [valor]="0"
-              [exibirLabel]="true"></app-progress>
-          </div>
-        </div>
-        <div class="mb-2">
-          <span
-            [ngbPopover]="popPeso"
-            [autoClose]="'outside'">
-            <app-progress
-              [label]="'Peso'"
-              [barraClasse]="'bg-mediumgray'"
-              [valor]="parlamentar?.peso_politico"
-              [exibirLabel]="true"></app-progress>
-          </span>
-          <ng-template #popPeso>
-            <strong>Peso político</strong>
-            {{ parlamentar?.peso_politico | number : '1.0-2' }}
-          </ng-template>
-        </div>
-      </div>
-      <div class="col-1 pl-1">
-        <div class="card-side-icons">
-          <span
-            *ngIf="parlamentar?.governismo === null"
-            [ngbPopover]="popSemGovernismo"
-            [autoClose]="'outside'">
-            <span class="icon-ajuda"></span>
-            <ng-template #popSemGovernismo>
-              <span *ngIf="parlamentar?.governismo === null">Sem votos suficientes</span>
-            </ng-template>
-          </span>
-          <span *ngIf="!parlamentar?.bancada_suficiente || parlamentar?.disciplina === null">&nbsp;</span>
-        </div>
-        <div class="card-side-icons">
-          <span
-            *ngIf="!parlamentar?.bancada_suficiente || parlamentar?.disciplina === null"
-            [ngbPopover]="popSemDisciplina"
-            [autoClose]="'outside'">
-            <span class="icon-ajuda"></span>
-            <ng-template #popSemDisciplina>
-              <span *ngIf="!parlamentar?.bancada_suficiente && parlamentar?.disciplina !== null">Partido sem membros suficientes</span>
-              <span *ngIf="parlamentar?.disciplina === null">Sem votos suficientes</span>
-            </ng-template>
-          </span>
-          &nbsp;
-        </div>
-        <div>
-          <!-- <span class="icon-ajuda"></span> -->
-          &nbsp;
-        </div>
-      </div>
+  <hr>
+  <div class="card-body">
+    <div>
+      <h5>Governismo</h5>
+      <span class="card-progress">
+        <app-progress
+          [label]=""
+          [barraClasse]="'bg-governismo'"
+          [valor]="parlamentar?.governismo || 0"
+          [exibirLabel]="true"></app-progress>
+        <span>{{parlamentar?.governismo || 0 | number : '1.0-0'}}%</span>
+      </span>
     </div>
+    <div class="space-between-bars">
+      <h5>Disciplina</h5>
+      <span class="card-progress" *ngIf="parlamentar?.bancada_suficiente">
+        <app-progress
+          [label]="''"
+          [barraClasse]="'bg-disciplina'"
+          [valor]="parlamentar?.disciplina || 0"
+          [exibirLabel]="true"></app-progress>
+        <span>{{parlamentar?.disciplina || 0 | number : '1.0-0'}}%</span>
+      </span>
+      <span class="card-progress" *ngIf="!parlamentar?.bancada_suficiente">
+        <app-progress
+          [label]="'Bancada insuficiente'"
+          [barraClasse]="'bg-disciplina'"
+          [valor]="0"
+          [exibirLabel]="true"></app-progress>
+        <span> -- </span>
+      </span>
+    </div>
+    <!-- <a [routerLink]="[parlamentar.id_autor_parlametria]" class="stretched-link" queryParamsHandling="merge"></a> -->
   </div>
 </div>

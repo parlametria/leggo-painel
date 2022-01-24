@@ -49,15 +49,16 @@
           </ul>
         </nav>
       </pagination-template>
-      <div *ngFor="
-        let parlamentar of parlamentares
+      <div class="row">
+        <div class="col-md-4 mb-5"
+          *ngFor="let parlamentar of parlamentares
           | paginate: { itemsPerPage: PARLAMENTARES_POR_PAGINA, currentPage: p };
-        index as i
-      ">
-        <app-card-atividade
-          [parlamentar]="parlamentar"
-          [id]="getParlamentarPosition(i, PARLAMENTARES_POR_PAGINA, p)">
-        </app-card-atividade>
+          index as i">
+          <app-card-atividade 
+            [parlamentar]="parlamentar"
+            [id]="getParlamentarPosition(i, PARLAMENTARES_POR_PAGINA, p)">
+          </app-card-atividade>
+        </div>
       </div>
       <pagination-template
         #pag="paginationApi"

@@ -13,9 +13,17 @@
   padding-left: 0.25rem;
 }
 
-.progress-bar span {
-  position: absolute;
-  display: inline-block;
-  color: #20201e;
-  text-align: right;
+.progress-bar {
+  span {
+    position: absolute;
+    display: inline-block;
+    color: #20201e;
+    text-align: right;
+  }
+  &.bg-governismo {
+    background-color: #50669A !important;
+  }
+  &.bg-disciplina {
+    background-color: #85CDE8 !important;
+  }
 }
