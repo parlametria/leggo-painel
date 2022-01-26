@@ -161,10 +161,12 @@ export class CongressoChartComponent implements AfterContentInit, OnChanges, OnD
       .attr('class', 'd3-tip')
       .attr('id', 'tooltip')
       .offset([-10, 0])
-      .html((d: Parlamentar) => {
-        return '<strong>' + this.titleCase(d.nomeEleitoral) + '</strong>' +
-          ' <span class="subtitle">' + d.parlamentarPartido.sigla + '/' + d.uf + '</span>' + '<br>' +
-          '<span>' + this.formatAlinhamento(this.getPath(d)) + '</span>';
+      .html((d: any) => {
+        const parlementar: Parlamentar = d.target.__data__ as Parlamentar;
+
+        return '<strong>' + this.titleCase(parlementar.nomeEleitoral) + '</strong>' +
+          ' <span class="subtitle">' + parlementar.parlamentarPartido.sigla + '/' + parlementar.uf + '</span>' + '<br>' +
+          '<span>' + this.formatAlinhamento(this.getPath(parlementar)) + '</span>';
       });
   }
 
@@ -312,14 +314,14 @@ export class CongressoChartComponent implements AfterContentInit, OnChanges, OnD
         .attr('opacity', 0)
         .on('mouseover.tip', this.tip.show)
         .on('mouseout.tip', this.tip.hide)
-        .on('mouseover.circle', (d, index, n) => {
-          this.highlightCircle(n[index]);
+        .on('mouseover.circle', (d: any, p: Parlamentar) => {
+          this.highlightCircle(d.target);
         })
-        .on('mouseout.circle', (d, index, n) => {
-          this.standardizeCircle(n[index]);
+        .on('mouseout.circle', (d, p: Parlamentar) => {
+          this.standardizeCircle(d.target);
         })
-        .on('click', d => {
-          this.router.navigate(['/parlamentar/' + d.idParlamentarVoz]);
+        .on('click', (d, p: Parlamentar) => {
+          this.router.navigate(['/parlamentar/' + p.idParlamentarVoz]);
         });
       }
     this.finishEvent.emit(true);
