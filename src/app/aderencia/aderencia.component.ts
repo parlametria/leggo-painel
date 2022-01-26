@@ -69,6 +69,13 @@ export class AderenciaComponent implements OnInit, OnDestroy {
     this.getAderencia();
   }
 
+  casaChanged(newCasa: string) {
+    this.casa = newCasa.toLocaleLowerCase();
+
+    this.casaService.set(this.casa);
+    this.getParlamentaresPorCasa();
+  }
+
   getParlamentares() {
     this.aderenciaService
       .getAderencia()

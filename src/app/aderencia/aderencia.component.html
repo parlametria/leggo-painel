@@ -3,43 +3,35 @@
   <div class="row aderencia">
     <div class="col-sm-3 aderencia-switchs-wrapper">
       <div class="row">
-        <div class="col-sm-12 switch-block switch-block-purple">
-          <div class="row">
-            <div class="col-sm-12 title">1 - Selecione o tipo de aderência</div>
-            <div class="col-sm-12 switch-actions">
-              <div class="switch-indicator">Governo</div>
-              <div class="slider">
-                <div class="slider-roller slider-roller-purple"></div>
-              </div>
-              <div class="switch-indicator inactive">Partido</div>
-            </div>
-          </div>
+        <div class="col-sm-12">
+          <app-aderencia-switch-block
+            [title]="'1 - Selecione o tipo de aderência'"
+            [textLeft]="'Governo'"
+            [textRight]="'Partido'"
+            [color]="'purple'"
+          ></app-aderencia-switch-block>
         </div>
 
-        <div class="col-sm-12 switch-block switch-block-blue">
-          <div class="row">
-            <div class="col-sm-12 title">2 - Selecione a casa</div>
-            <div class="col-sm-12 switch-actions">
-              <div class="switch-indicator">Senado</div>
-              <div class="slider">
-                <div class="slider-roller slider-roller-blue"></div>
-              </div>
-              <div class="switch-indicator inactive">Camara</div>
-            </div>
-          </div>
+        <div class="col-sm-12">
+          <app-aderencia-switch-block
+            [title]="'2 - Selecione a casa'"
+            [textLeft]="'Senado'"
+            [textRight]="'Camara'"
+            [color]="'blue'"
+            (selectedChangedEvent)="casaChanged($event)"
+          ></app-aderencia-switch-block>
         </div>
 
+        <div class="parlamentares">
+          <div class="total">
+            512 parlamentares
+          </div>
 
-          <div class="parlamentares">
-            <div class="total">
-              512 parlamentares
-            </div>
-
-            <div class="votacoes">
-              26 votações apuradas
-            </div>
+          <div class="votacoes">
+            26 votações apuradas
           </div>
         </div>
+      </div>
 
 
     </div>

@@ -1,0 +1,20 @@
+<div [ngClass]="['aderencia-switch-block', 'switch-block', 'switch-block-'+color]">
+  <div class="title">{{title}}</div>
+
+  <div class="switch-actions">
+    <div
+      [ngClass]="{'switch-indicator' : true, 'inactive': currentSelected === 'right'}"
+    >{{textLeft}}</div>
+
+    <div class="slider">
+      <div
+        [ngClass]="['slider-roller', currentSelected, 'slider-roller-'+color]"
+        (click)="toggleCurrentSelected()"
+      ></div>
+    </div>
+
+    <div
+      [ngClass]="{'switch-indicator' : true, 'inactive': currentSelected === 'left'}"
+    >{{textRight}}</div>
+  </div>
+</div>

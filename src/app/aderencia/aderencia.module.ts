@@ -6,11 +6,13 @@ import { FiltroModule } from './filtro/filtro.module';
 
 import { AderenciaComponent } from './aderencia.component';
 import { CongressoChartComponent } from './congresso-chart/congresso-chart.component';
+import { AderenciaSwitchBlockComponent } from './aderencia-switch-block/aderencia-switch-block.component';
 
 @NgModule({
   declarations: [
     AderenciaComponent,
     CongressoChartComponent,
+    AderenciaSwitchBlockComponent,
   ],
   imports: [
     CommonModule,

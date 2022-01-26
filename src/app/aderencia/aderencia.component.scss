@@ -25,71 +25,6 @@ $aderencia-blue: #0A367C;
   color: #81858D;
 }
 
-
-.switch-block-purple {
-  color: $aderencia-purple;
-}
-
-.switch-block-blue {
-  color: $aderencia-blue;
-}
-
-.switch-block {
-  margin: 1rem 0;
-
-  .title {
-    text-align: center;
-    font-size: 16px;
-    font-weight: 400;
-  }
-
-  .slider {
-    width: 82px;
-    height: 16px;
-    background: var(---e2e6ea) 0% 0% no-repeat padding-box;
-    background: #E2E6EA 0% 0% no-repeat padding-box;
-    box-shadow: inset 0px 3px 6px #34174A3B;
-    border-radius: 75px;
-    opacity: 1;
-  }
-
-  .switch-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-  }
-
-  .switch-indicator {
-    font-size: 14px;
-  }
-
-  .switch-indicator.inactive {
-    color: #81858D;
-  }
-
-  .slider-roller {
-    position: relative;
-    top: -4px;
-    left: 4px;
-    cursor: pointer;
-    width: 24px;
-    height: 24px;
-    background-color: #FFF;
-    border-radius: 50%;
-
-    &:hover {
-      opacity: 0.7;
-    }
-  }
-
-  .slider-roller-purple {
-    border: solid 6px $aderencia-purple;
-  }
-  .slider-roller-blue {
-    border: solid 6px $aderencia-blue;
-  }
-}
-
 .parlamentares {
   border-top: solid 1px #a0a5a9;
   margin-top: 2rem;
@@ -99,10 +34,6 @@ $aderencia-blue: #0A367C;
     color: #1D2029;
     font-weight: 400;
     font-size: 24px;
-  }
-
-  .votacoes {
-
   }
 }
 
