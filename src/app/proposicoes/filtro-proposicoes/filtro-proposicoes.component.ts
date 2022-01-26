@@ -173,11 +173,11 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
           });
         }
       });
-      if (this.proposicaoPesquisada) {
-        this.showListReturn(true);
-      } else {
-        this.showListReturn(false);
-      }
+    if (this.proposicaoPesquisada) {
+      this.showListReturn(true);
+    } else {
+      this.showListReturn(false);
+    }
   }
 
   updateFilterFromURL() {
@@ -338,7 +338,7 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
   }
 
   showListReturn(show: boolean) {
-    const link = (<HTMLElement>document.body.querySelector('#list-button'));
+    const link = (document.body.querySelector('#list-button') as HTMLElement);
     if (show) {
       return link.style.display = 'inline';
     } else {

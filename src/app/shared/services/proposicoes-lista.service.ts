@@ -298,10 +298,12 @@ export class ProposicoesListaService {
 
   private processaFase(progresso: Array<any>) {
     let fase = 0;
-    const fase_tramitacao = ['Iniciadora', 'Revisora', 'Sanção/Veto'];
-    if (!progresso) return '';
-    progresso.forEach(fase => {
-      if (fase.data_inicio && fase.data_fim || fase.pulou === true) {
+    const faseTramitacao = ['Iniciadora', 'Revisora', 'Sanção/Veto'];
+    if (!progresso) {
+      return '';
+    }
+    progresso.forEach(pfase => {
+      if (pfase.data_inicio && pfase.data_fim || pfase.pulou === true) {
         fase += 1;
       }
     });
@@ -309,13 +311,13 @@ export class ProposicoesListaService {
       case 0:
       case 1:
       case 2:
-        return fase_tramitacao[0];
+        return faseTramitacao[0];
       case 3:
       case 4:
-        return fase_tramitacao[1];
+        return faseTramitacao[1];
       case 5:
       case 6:
-        return fase_tramitacao[2];
+        return faseTramitacao[2];
       default:
         return 'Não tramitada';
     }
@@ -323,10 +325,10 @@ export class ProposicoesListaService {
 
   private checkFase(faseProposicao: string, fase: Array<string>) {
     const fases = {
-      'iniciadora': 'Iniciadora',
-      'revisora': 'Revisora',
-      'sancao': 'Sanção/Veto'
-    }
+      iniciadora: 'Iniciadora',
+      revisora: 'Revisora',
+      sancao: 'Sanção/Veto'
+    };
     if (fase.map(f => fases[f]).includes(faseProposicao) || fase[0] === 'todas' || (faseProposicao === '' && fase[0] === 'nenhuma')) {
       return true;
     }

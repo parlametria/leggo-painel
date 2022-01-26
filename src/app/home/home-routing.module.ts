@@ -8,8 +8,14 @@ import { SobreComponent } from './sobre/sobre.component';
 import { SelecaoPainelComponent } from './selecao-painel/selecao-painel.component';
 import { PageNotFoundComponent } from '../shared/components/page-not-found/page-not-found.component';
 import { InsightsComponent } from '../insights/insights.component';
+import { AderenciaComponent } from '../aderencia/aderencia.component';
+// import { AderenciaModule } from '../aderencia/aderencia.module';
 
 const routes: Routes = [
+  {
+    path: 'aderencia/:casa',
+    component: AderenciaComponent
+  },
   {
     path: 'paineis',
     component: SelecaoPainelComponent
