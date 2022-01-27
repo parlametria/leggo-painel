@@ -2,9 +2,15 @@
   <div class="title">{{title}}</div>
 
   <div class="switch-actions">
-    <div
-      [ngClass]="{'switch-indicator' : true, 'inactive': currentSelected === 'right'}"
-    >{{textLeft}}</div>
+    <div>
+      <img src="{{getImg('left')}}" />
+      <!--
+      <div
+        [ngClass]="{'switch-indicator' : true, 'inactive': currentSelected === 'right'}"
+      >{{textLeft}}</div>
+      -->
+    </div>
+
 
     <div class="slider">
       <div
@@ -13,8 +19,13 @@
       ></div>
     </div>
 
-    <div
-      [ngClass]="{'switch-indicator' : true, 'inactive': currentSelected === 'left'}"
-    >{{textRight}}</div>
+    <div>
+      <img src="{{getImg('right')}}" />
+      <!--
+      <div
+        [ngClass]="{'switch-indicator' : true, 'inactive': currentSelected === 'left'}"
+      >{{textRight}}</div>
+      -->
+    </div>
   </div>
 </div>

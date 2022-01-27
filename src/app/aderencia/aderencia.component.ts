@@ -31,12 +31,13 @@ export class AderenciaComponent implements OnInit, OnDestroy {
   parlamentaresCasa: ParlamentarAderencia[];
 
   filtro: any;
-  orientador: string;
-  casa: string;
+  orientador: 'Governo' | 'Partido';
+  casa: 'senado' | 'camara';
   view: any;
   orderBy: string;
   isLoading: boolean;
   countVotacoes: number;
+  tema: string;
 
   private unsubscribe = new Subject();
 
@@ -52,28 +53,42 @@ export class AderenciaComponent implements OnInit, OnDestroy {
     this.filtro = { tema: this.FILTRO_PADRAO_TEMA };
   }
 
+  get totalParlamentaresCasa() {
+    if (!this.parlamentaresCasa) {
+      return 0;
+    }
+
+    return this.parlamentaresCasa.length;
+  }
+
   ngOnInit() {
     this.isLoading = true;
     this.updateParamsViaUrl();
 
     this.orientador = 'Governo';
-    this.activatedRoute.paramMap
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(params => {
-        this.casaService.set(params.get('casa'));
-        this.casa = params.get('casa');
-        this.getParlamentaresPorCasa();
-        this.getCountVotacoes(params.get('tema'));
-      });
+    this.casa = 'senado';
+    this.tema = String(this.FILTRO_PADRAO_TEMA);
+
+    this.casaService.set(this.casa);
+    this.getParlamentaresPorCasa();
+    this.getCountVotacoes(this.tema);
     this.getParlamentares();
     this.getAderencia();
   }
 
   casaChanged(newCasa: string) {
-    this.casa = newCasa.toLocaleLowerCase();
+    this.casa = (newCasa.toLocaleLowerCase()) as 'senado' | 'camara';
 
     this.casaService.set(this.casa);
     this.getParlamentaresPorCasa();
+    this.getCountVotacoes(this.tema);
+  }
+
+  orientadorChanged(newOrientador: string) {
+    this.orientador = newOrientador as 'Governo' | 'Partido';
+    this.casaService.set(this.casa);
+    this.getParlamentaresPorCasa();
+    this.getCountVotacoes(this.tema);
   }
 
   getParlamentares() {

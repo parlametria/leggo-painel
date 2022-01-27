@@ -24,16 +24,18 @@ $aderencia-blue: #0A367C;
   .slider {
     width: 82px;
     height: 16px;
-    background: var(---e2e6ea) 0% 0% no-repeat padding-box;
     background: #E2E6EA 0% 0% no-repeat padding-box;
     box-shadow: inset 0px 3px 6px #34174A3B;
     border-radius: 75px;
     opacity: 1;
+    position: relative;
+    bottom: 8px;
   }
 
   .switch-actions {
     display: flex;
     justify-content: space-between;
+    align-items: end;
     margin-top: 10px;
   }
 
