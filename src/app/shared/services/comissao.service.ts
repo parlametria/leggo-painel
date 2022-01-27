@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
 import { ComissaoPresidencia, ComissoesCargo } from '../models/comissaoPresidencia.model';
+import { Comissao } from '../models/comissao.model';
+import { Lideranca } from '../models/lideranca.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -32,4 +34,15 @@ export class ComissaoService {
     return this.http.get<ComissoesCargo[]>(`${this.comissaoUrlPerfil}/presidentes/${idParlamentar}`);
   }
 
+  getComissoes(casa: string): Observable<Comissao[]> {
+    const params = new HttpParams()
+      .set('casa', casa);
+    return this.http.get<Comissao[]>(this.comissaoUrlPerfil, { params });
+  }
+
+  getCargos(casa: string): Observable<Lideranca[]> {
+    const params = new HttpParams()
+      .set('casa', casa);
+    return this.http.get<Lideranca[]>(this.comissaoUrlPerfil + '/cargos', { params });
+  }
 }

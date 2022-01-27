@@ -20,6 +20,8 @@ import { InsightsService } from './shared/services/insights.service';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
+import { AderenciaModule } from './aderencia/aderencia.module';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -29,6 +31,7 @@ import { environment } from '../environments/environment';
     HttpClientModule,
     AppRoutingModule,
     SharedComponentsModule,
+    AderenciaModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [

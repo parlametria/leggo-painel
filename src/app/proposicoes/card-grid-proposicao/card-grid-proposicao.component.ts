@@ -52,7 +52,7 @@ export class CardGridProposicaoComponent implements OnInit {
         } else if (fase.fase_global === 'Sanção/Veto') {
           classe = 'fase-sancao';
         } else {
-          classe = 'fase-vetos'
+          classe = 'fase-vetos';
         }
       } else {
         classe = 'fase-nao-realizada';

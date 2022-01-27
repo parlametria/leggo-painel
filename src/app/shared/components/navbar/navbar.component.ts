@@ -81,7 +81,7 @@ export class NavbarComponent implements OnInit {
   }
 
   changeNavbar(position: number) {
-    if(this.router.url === '/paineis') {
+    if (this.router.url === '/paineis') {
       return;
     }
     const navbar = document.getElementById('fixed-navbar');

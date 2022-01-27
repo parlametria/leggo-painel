@@ -307,7 +307,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('stroke', '#FF7285')
       .attr('stroke-width', 3)
       .style('cursor', 'pointer');
-      const markerPressao = this.gPressao
+    const markerPressao = this.gPressao
       .append('circle')
       .attr('r', this.r)
       .attr('cx', -100)

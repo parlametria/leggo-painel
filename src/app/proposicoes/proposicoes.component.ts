@@ -112,8 +112,9 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   }
 
   pluralise(total) {
-    if (!total || total > 1)
+    if (!total || total > 1) {
       return 's';
+    }
     return '';
   }
 
@@ -158,15 +159,15 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
 
   getProposicaoCriteriosDestaque(destaques: any) {
     const destaquesCriterios = {
-      'criterio_aprovada_em_uma_casa': 'Aprovada em uma Casa',
-      'criterio_avancou_comissoes': 'Avançou em comissões',
-      'criterio_req_urgencia_apresentado': 'Requerimento de Urgência Apresentado',
-      'criterio_req_urgencia_aprovado': 'Requerimento de Urgência Aprovado',
+      criterio_aprovada_em_uma_casa: 'Aprovada em uma Casa',
+      criterio_avancou_comissoes: 'Avançou em comissões',
+      criterio_req_urgencia_apresentado: 'Requerimento de Urgência Apresentado',
+      criterio_req_urgencia_aprovado: 'Requerimento de Urgência Aprovado',
     };
     if (!destaques) {
       return '';
     }
-    let criterios = [];
+    const criterios = [];
     Object.keys(destaquesCriterios).forEach((key) => {
       if (destaques[key]) {
         criterios.push(destaquesCriterios[key]);

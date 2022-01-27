@@ -1,0 +1,65 @@
+$aderencia-purple: #391774;
+$aderencia-blue: #0A367C;
+
+.aderencia {
+  background-color: #FFF;
+  padding-top: 5rem;
+  padding-left: 5rem;
+  padding-right: 5rem;
+  box-shadow: 0px 11px 15px #34174a1a;
+  border-bottom-right-radius: 25px;
+  border-bottom-left-radius: 25px;
+}
+
+.aderencia-switchs-wrapper {
+  border-right: #e5e6e7 1px solid;
+}
+
+.aderencia-graph-wrapper {
+  margin-left: 2rem;
+}
+
+.poppins-gray {
+  font-family: "Poppins";
+  font-size: 13px;
+  color: #81858D;
+}
+
+.parlamentares {
+  border-top: solid 1px #a0a5a9;
+  margin-top: 2rem;
+  padding-top: 1rem;
+
+  .total {
+    color: #1D2029;
+    font-weight: 400;
+    font-size: 24px;
+  }
+}
+
+.veja-mais {
+  display: flex;
+  justify-content: center;
+
+  img {
+    position: relative;
+    top: 12px;
+    cursor: pointer;
+  }
+}
+
+.tipo-aderencia {
+  display: flex;
+
+  span {
+    font-size: 28px;
+    font-weight: 500;
+    color: $aderencia-purple;
+  }
+
+  img {
+    cursor: pointer;
+    margin-left: 8px;
+    width: 16px;
+  }
+}
