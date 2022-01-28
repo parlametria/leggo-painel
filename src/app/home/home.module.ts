@@ -22,6 +22,7 @@ import { CardInsightComponent } from '../insights/card-insight/card-insight.comp
 
 import { AderenciaComponent } from '../atividade-parlamentar/aderencia/aderencia.component';
 import { CongressoChartComponent } from '../atividade-parlamentar/aderencia/congresso-chart/congresso-chart.component';
+import { CongressoChartLegendaComponent } from '../atividade-parlamentar/aderencia/congresso-chart-legenda/congresso-chart-legenda.component';
 import {
   AderenciaSwitchBlockComponent,
   CamaraIconBlockComponent,
@@ -48,6 +49,7 @@ import {
     AderenciaComponent,
     AderenciaSwitchBlockComponent,
     CongressoChartComponent,
+    CongressoChartLegendaComponent,
     GovernoIconBlockComponent,
     PartidoIconBlockComponent,
     SenadoIconBlockComponent,

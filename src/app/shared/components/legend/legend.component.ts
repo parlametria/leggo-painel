@@ -9,6 +9,7 @@ export class LegendComponent implements OnInit {
   @Input() title: string;
   @Input() classe: string;
   @Input() rounded: boolean;
+  @Input() striped: boolean;
 
   constructor() { }
 
