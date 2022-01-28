@@ -3,6 +3,10 @@ $aderencia-blue: #0A367C;
 
 .aderencia-component-wrapper {
   margin-bottom: 2rem;
+
+  &.graph-hidden {
+    margin-bottom: 4rem;
+  }
 }
 
 .aderencia-breadcrumb-wrapper {
@@ -45,6 +49,7 @@ $aderencia-blue: #0A367C;
 
 .aderencia-graph-wrapper {
   margin-left: 2rem;
+  flex: 1;
 }
 
 .poppins-gray {
@@ -74,6 +79,13 @@ $aderencia-blue: #0A367C;
     position: relative;
     top: 12px;
     cursor: pointer;
+  }
+
+  img.flipped {
+    position: relative;
+    transform: rotate(180deg);
+    z-index: 1234;
+    top: 69px;
   }
 }
 

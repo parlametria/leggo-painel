@@ -1,4 +1,6 @@
-<div class="aderencia-component-wrapper">
+<div
+  [ngClass]="{'aderencia-component-wrapper': true, 'graph-hidden': !displayGraph}"
+>
 
   <div class="aderencia">
     <nav class="aderencia-breadcrumb-wrapper" aria-label="breadcrumb">
@@ -89,7 +91,12 @@
 
 
     <div class="veja-mais">
-      <img (click)="toggleViewMore()" src="../../assets/imgs/veja_mais_arrow.svg" alt="veja mais arrow" />
+      <img
+        (click)="toggleViewMore()"
+        [ngClass]="{'flipped': displayGraph === false}"
+        src="../../assets/imgs/veja_mais_arrow.svg"
+        alt="veja mais arrow"
+      />
     </div>
   </div>
 </div>
