@@ -1,0 +1,18 @@
+<div class="camara-icon-block-wrapper">
+  <div [ngClass]="{'icon-bow': true, 'inactive': !active}">
+    <img *ngIf="active" src="/assets/imgs/aderencia/camara_bow.svg" />
+    <img *ngIf="!active" src="/assets/imgs/aderencia/camara_bow_inactive.svg" />
+  </div>
+
+  <div class="icon-bar">
+    <img *ngIf="active" src="/assets/imgs/aderencia/camara_bar.svg" />
+    <img *ngIf="!active" src="/assets/imgs/aderencia/camara_bar_inactive.svg" />
+  </div>
+
+  <div class="block-icon">
+    <img *ngIf="active" src="/assets/imgs/aderencia/camara.svg" />
+    <img *ngIf="!active" src="/assets/imgs/aderencia/camara_inactive.svg" />
+  </div>
+
+  <div [ngClass]="{'block-text': true, 'inactive': !active}">Câmara</div>
+</div>

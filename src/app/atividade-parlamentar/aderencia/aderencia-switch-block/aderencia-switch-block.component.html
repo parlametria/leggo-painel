@@ -2,15 +2,8 @@
   <div class="title">{{title}}</div>
 
   <div class="switch-actions">
-    <div>
-      <img src="{{getImg('left')}}" />
-      <!--
-      <div
-        [ngClass]="{'switch-indicator' : true, 'inactive': currentSelected === 'right'}"
-      >{{textLeft}}</div>
-      -->
-    </div>
-
+    <app-governo-icon-block *ngIf="iconType === 'orientacao'"  [active]="currentSelected === 'left'"></app-governo-icon-block>
+    <app-senado-icon-block *ngIf="iconType === 'casa'" [active]="currentSelected === 'left'"></app-senado-icon-block>
 
     <div class="slider">
       <div
@@ -19,13 +12,7 @@
       ></div>
     </div>
 
-    <div>
-      <img src="{{getImg('right')}}" />
-      <!--
-      <div
-        [ngClass]="{'switch-indicator' : true, 'inactive': currentSelected === 'left'}"
-      >{{textRight}}</div>
-      -->
-    </div>
+    <app-partido-icon-block *ngIf="iconType === 'orientacao'" [active]="currentSelected === 'right'"></app-partido-icon-block>
+    <app-camara-icon-block *ngIf="iconType === 'casa'" [active]="currentSelected === 'right'" class="camara-component"></app-camara-icon-block>
   </div>
 </div>

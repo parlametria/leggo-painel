@@ -16,6 +16,7 @@ export class AderenciaSwitchBlockComponent implements OnInit {
   @Input() imgRight: string;
   @Input() title: string;
   @Input() color: 'blue' | 'purple';
+  @Input() iconType: 'orientacao' | 'casa';
 
   @Output() selectedChangedEvent = new EventEmitter<string>();
 

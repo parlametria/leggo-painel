@@ -21,9 +21,14 @@ import { InsightsComponent } from '../insights/insights.component';
 import { CardInsightComponent } from '../insights/card-insight/card-insight.component';
 
 import { AderenciaComponent } from '../atividade-parlamentar/aderencia/aderencia.component';
-import { AderenciaSwitchBlockComponent } from '../atividade-parlamentar/aderencia/aderencia-switch-block/aderencia-switch-block.component';
 import { CongressoChartComponent } from '../atividade-parlamentar/aderencia/congresso-chart/congresso-chart.component';
-
+import {
+  AderenciaSwitchBlockComponent,
+  CamaraIconBlockComponent,
+  GovernoIconBlockComponent,
+  PartidoIconBlockComponent,
+  SenadoIconBlockComponent,
+} from '../atividade-parlamentar/aderencia/aderencia-switch-block/components';
 
 @NgModule({
   declarations: [
@@ -40,10 +45,13 @@ import { CongressoChartComponent } from '../atividade-parlamentar/aderencia/cong
     SelecaoPainelComponent,
     InsightsComponent,
     CardInsightComponent,
-
     AderenciaComponent,
     AderenciaSwitchBlockComponent,
     CongressoChartComponent,
+    GovernoIconBlockComponent,
+    PartidoIconBlockComponent,
+    SenadoIconBlockComponent,
+    CamaraIconBlockComponent,
   ],
   imports: [
     CommonModule,

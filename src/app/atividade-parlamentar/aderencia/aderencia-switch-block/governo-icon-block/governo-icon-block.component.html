@@ -1,0 +1,13 @@
+<div class="governo-icon-block-wrapper">
+  <div class="icon-bar">
+    <img *ngIf="active" src="/assets/imgs/aderencia/governo_bar.svg" />
+    <img *ngIf="!active" src="/assets/imgs/aderencia/governo_bar_inactive.svg" />
+  </div>
+
+  <div class="block-icon">
+    <img *ngIf="active" src="/assets/imgs/aderencia/governo.svg" />
+    <img *ngIf="!active" src="/assets/imgs/aderencia/governo_inactive.svg" />
+  </div>
+
+  <div [ngClass]="{'block-text': true, 'inactive': !active}">Governo</div>
+</div>

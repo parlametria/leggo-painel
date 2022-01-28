@@ -1,0 +1,29 @@
+.senado-icon-block-wrapper {
+  .icon-bow {
+    margin-bottom: 15px;
+
+    &.inactive {
+      margin-bottom: 30px;
+    }
+  }
+
+  .icon-bar {
+    position: absolute;
+    left: -5px;
+    bottom: 30px;
+  }
+
+  .block-icon {
+    display: flex;
+    justify-content: center;
+  }
+
+  .block-text {
+    border-bottom: solid 4px #0A367C;
+
+    &.inactive {
+      color: #81858D;
+      border-bottom: solid 4px #81858D;
+    }
+  }
+}
