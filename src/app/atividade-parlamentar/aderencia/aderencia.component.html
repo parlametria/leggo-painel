@@ -20,7 +20,11 @@
     <div class="switch-and-graph-wrapper">
       <div class="aderencia-switchs-wrapper">
         <div class="row">
-          <div class="col-sm-12">
+          <div class="col-sm-12" [hidden]="displayGraph">
+            <div class="switch-title-graph-hidden">1 - Selecione o tipo de aderência</div>
+          </div>
+
+          <div class="col-sm-12" [hidden]="!displayGraph">
             <app-aderencia-switch-block
               [title]="'1 - Selecione o tipo de aderência'"
               [textLeft]="'Governo'"
@@ -32,7 +36,7 @@
             ></app-aderencia-switch-block>
           </div>
 
-          <div class="col-sm-12">
+          <div class="col-sm-12" [hidden]="!displayGraph">
             <app-aderencia-switch-block
               [title]="'2 - Selecione a casa'"
               [textLeft]="'Senado'"
@@ -44,7 +48,7 @@
             ></app-aderencia-switch-block>
           </div>
 
-          <div class="parlamentares">
+          <div class="parlamentares" [hidden]="!displayGraph">
             <div class="total">
               {{totalParlamentaresCasa}} parlamentares
             </div>
@@ -67,7 +71,7 @@
             <span class="poppins-gray">Exibição</span>
           </div>
 
-          <div class="col-sm-12">
+          <div class="col-sm-12" [hidden]="!displayGraph">
             <app-congresso-chart
               [parlamentares]="parlamentares"
               [parlamentaresCompleto]="parlamentaresCasa"
@@ -85,7 +89,7 @@
 
 
     <div class="veja-mais">
-      <img src="../../assets/imgs/veja_mais_arrow.svg" alt="veja mais arrow" />
+      <img (click)="toggleViewMore()" src="../../assets/imgs/veja_mais_arrow.svg" alt="veja mais arrow" />
     </div>
   </div>
 </div>

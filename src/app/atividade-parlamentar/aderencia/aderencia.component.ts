@@ -38,6 +38,7 @@ export class AderenciaComponent implements OnInit, OnDestroy {
   isLoading: boolean;
   countVotacoes: number;
   tema: string;
+  displayGraph: boolean;
 
   private unsubscribe = new Subject();
 
@@ -63,6 +64,7 @@ export class AderenciaComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading = true;
+    this.displayGraph = true;
     this.updateParamsViaUrl();
 
     this.orientador = 'Governo';
@@ -89,6 +91,10 @@ export class AderenciaComponent implements OnInit, OnDestroy {
     this.casaService.set(this.casa);
     this.getParlamentaresPorCasa();
     this.getCountVotacoes(this.tema);
+  }
+
+  toggleViewMore() {
+    this.displayGraph = !this.displayGraph;
   }
 
   getParlamentares() {
