@@ -11,7 +11,7 @@ import { nest } from 'd3-collection';
 import d3Tip from 'd3-tip';
 import * as hn from 'hare-niemeyer';
 
-import { Parlamentar } from '../../shared/models/parlamentar.model';
+import { Parlamentar } from '../../../shared/models/parlamentar.model';
 
 
 @Component({

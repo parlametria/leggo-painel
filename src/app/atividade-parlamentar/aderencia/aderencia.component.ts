@@ -8,7 +8,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 import { AderenciaService } from 'src/app/shared/services/aderencia.service';
-import { ParlamentarAderencia } from '../shared/models/parlamentarAderencia.model';
+import { ParlamentarAderencia } from '../../shared/models/parlamentarAderencia.model';
 import { VotacaoService } from 'src/app/shared/services/votacao.service';
 import { CasaService } from 'src/app/shared/services/casa.service';
 

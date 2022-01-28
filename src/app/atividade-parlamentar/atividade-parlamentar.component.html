@@ -1,19 +1,5 @@
 <div class="container app-container">
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item">
-        <a
-          [routerLink]="['/']"
-          queryParamsHandling="merge"
-          class="">
-          Home
-        </a>
-      </li>
-      <li class="breadcrumb-item">
-        <span> Parlamentares </span>
-      </li>
-    </ol>
-  </nav>
+  <app-aderencia></app-aderencia>
 
   <div class="">
     <app-loading *ngIf="isLoading | async"></app-loading>
@@ -67,7 +53,7 @@
               *ngFor="let parlamentar of parlamentares
               | paginate: { itemsPerPage: PARLAMENTARES_POR_PAGINA, currentPage: p };
               index as i">
-              <app-card-atividade 
+              <app-card-atividade
                 [parlamentar]="parlamentar"
                 [id]="getParlamentarPosition(i, PARLAMENTARES_POR_PAGINA, p)">
               </app-card-atividade>

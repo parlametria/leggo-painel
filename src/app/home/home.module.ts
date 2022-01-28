@@ -20,6 +20,11 @@ import { SelecaoPainelComponent } from './selecao-painel/selecao-painel.componen
 import { InsightsComponent } from '../insights/insights.component';
 import { CardInsightComponent } from '../insights/card-insight/card-insight.component';
 
+import { AderenciaComponent } from '../atividade-parlamentar/aderencia/aderencia.component';
+import { AderenciaSwitchBlockComponent } from '../atividade-parlamentar/aderencia/aderencia-switch-block/aderencia-switch-block.component';
+import { CongressoChartComponent } from '../atividade-parlamentar/aderencia/congresso-chart/congresso-chart.component';
+
+
 @NgModule({
   declarations: [
     HomeComponent,
@@ -34,7 +39,11 @@ import { CardInsightComponent } from '../insights/card-insight/card-insight.comp
     SobreComponent,
     SelecaoPainelComponent,
     InsightsComponent,
-    CardInsightComponent
+    CardInsightComponent,
+
+    AderenciaComponent,
+    AderenciaSwitchBlockComponent,
+    CongressoChartComponent,
   ],
   imports: [
     CommonModule,

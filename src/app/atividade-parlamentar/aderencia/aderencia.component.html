@@ -1,6 +1,21 @@
-<div class="container app-container">
+<div class="aderencia-component-wrapper">
 
   <div class="aderencia">
+    <nav class="aderencia-breadcrumb-wrapper" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a
+            [routerLink]="['/']"
+            queryParamsHandling="merge"
+            class="">
+            Home
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <span> Parlamentares </span>
+        </li>
+      </ol>
+    </nav>
 
     <div class="switch-and-graph-wrapper">
       <div class="aderencia-switchs-wrapper">
@@ -9,9 +24,9 @@
             <app-aderencia-switch-block
               [title]="'1 - Selecione o tipo de aderência'"
               [textLeft]="'Governo'"
-              [imgLeft]="'../../assets/imgs/temp/governo'"
+              [imgLeft]="'/assets/imgs/temp/governo'"
               [textRight]="'Partido'"
-              [imgRight]="'../../assets/imgs/temp/partido'"
+              [imgRight]="'/assets/imgs/temp/partido'"
               [color]="'purple'"
               (selectedChangedEvent)="orientadorChanged($event)"
             ></app-aderencia-switch-block>
@@ -21,9 +36,9 @@
             <app-aderencia-switch-block
               [title]="'2 - Selecione a casa'"
               [textLeft]="'Senado'"
-              [imgLeft]="'../../assets/imgs/temp/senado'"
+              [imgLeft]="'/assets/imgs/temp/senado'"
               [textRight]="'Camara'"
-              [imgRight]="'../../assets/imgs/temp/camara'"
+              [imgRight]="'/assets/imgs/temp/camara'"
               [color]="'blue'"
               (selectedChangedEvent)="casaChanged($event)"
             ></app-aderencia-switch-block>
@@ -45,7 +60,7 @@
         <div class="row">
           <div class="col-sm-12 tipo-aderencia">
             <span>Governismo</span>
-            <img src="../../assets/imgs/lampada.svg" alt="lampada" />
+            <img src="/assets/imgs/lampada.svg" alt="lampada" />
           </div>
 
           <div class="col-sm-12">
