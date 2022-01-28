@@ -4,11 +4,20 @@
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
         <a
-          [routerLink]="['../']"
-          queryParamsHandling="merge"
-          class="btn btn-sm btn-light">
-          &lt; Parlamentares
+          [routerLink]="['/']"
+          class="">
+          Home
         </a>
+      </li>
+      <li class="breadcrumb-item">
+        <a
+          [routerLink]="['../']"
+          class="">
+          Parlamentares
+        </a>
+      </li>
+      <li class="breadcrumb-item">
+        <span> {{ parlamentarInfo?.nome_autor }} </span>
       </li>
     </ol>
   </nav>

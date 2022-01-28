@@ -41,7 +41,7 @@
           [barraClasse]="'bg-governismo'"
           [valor]="parlamentar?.governismo || 0"
           [exibirLabel]="true"></app-progress>
-        <span>{{parlamentar?.governismo || 0 | number : '1.0-0'}}%</span>
+        <span>{{parlamentar?.governismo * 100 || 0 | number : '1.0-0'}}%</span>
       </span>
     </div>
     <div class="space-between-bars">
@@ -52,7 +52,7 @@
           [barraClasse]="'bg-disciplina'"
           [valor]="parlamentar?.disciplina || 0"
           [exibirLabel]="true"></app-progress>
-        <span>{{parlamentar?.disciplina || 0 | number : '1.0-0'}}%</span>
+        <span>{{parlamentar?.disciplina * 100 || 0 | number : '1.0-0'}}%</span>
       </span>
       <span class="card-progress" *ngIf="!parlamentar?.bancada_suficiente">
         <app-progress
@@ -64,5 +64,16 @@
       </span>
     </div>
     <!-- <a [routerLink]="[parlamentar.id_autor_parlametria]" class="stretched-link" queryParamsHandling="merge"></a> -->
+  </div>
+  <hr>
+  <div class="card-body p-0">
+    <div class="m-0 p-1 text-center jumbotron">
+      <div class="display-4">0</div>
+      <h6>Painéis atuantes</h6>
+      <p>Em número de votações</p>
+    </div>
+    <div class="show">
+      <button class="btn btn-primary my-2 my-sm-0">Exibir detalhes</button>
+    </div>
   </div>
 </div>
