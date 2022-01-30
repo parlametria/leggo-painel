@@ -1,5 +1,5 @@
+<app-aderencia></app-aderencia>
 <div class="container app-container">
-  <app-aderencia></app-aderencia>
 
   <div class="">
     <app-loading *ngIf="isLoading | async"></app-loading>
@@ -47,7 +47,7 @@
         </nav>
       </pagination-template>
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-9">
           <div class="row">
             <div class="col-md-4 mb-5"
               *ngFor="let parlamentar of parlamentares
@@ -60,7 +60,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <app-filtro></app-filtro>
         </div>
       </div>

@@ -1,11 +1,27 @@
 .filtro-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
 }
 
 .seletor-ordenacao {
   margin-bottom: 0.5rem;
   padding: 0.4rem;
+}
+
+.filter-title {
+  padding: 12px;
+  background: #eee;
+  text-align: center;
+  color: #6947a3;
+
+  h5 {
+    color: #6947a3;
+    margin: 0;
+  }
+  img {
+    display: inline-block;
+    margin: -3px 5px 0 0;
+  }
+}
+.custom-radio {
+  padding: 8px 20px 8px 40px;
+  background: white;
 }

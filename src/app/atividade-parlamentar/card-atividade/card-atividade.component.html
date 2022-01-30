@@ -2,10 +2,10 @@
   <div class="card-image">
     <img 
       *ngIf="parlamentar?.casa_autor == 'camara'"
-      src="https://www.camara.leg.br/internet/deputado/bandep/{{parlamentar?.idParlamentarVoz | slice:1 }}.jpg">
+      src="https://www.camara.leg.br/internet/deputado/bandep/{{parlamentar?.id_autor_parlametria+'' | slice:1 }}.jpg">
     <img 
       *ngIf="parlamentar?.casa_autor == 'senado'"
-      src="https://www.senado.leg.br/senadores/img/fotos-oficiais/senador{{parlamentar?.idParlamentarVoz | slice:1 }}.jpg">
+      src="https://www.senado.leg.br/senadores/img/fotos-oficiais/senador{{parlamentar?.id_autor_parlametria+'' | slice:1 }}.jpg">
   </div>
   <div class="card-header d-flex">
     <div class="card-atividade-titulo">

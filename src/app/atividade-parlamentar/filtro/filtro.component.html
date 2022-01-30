@@ -1,5 +1,11 @@
 <div class="filtro-wrapper mb-4">
-  <select
+  <div class="filter-title">
+    <h5>
+      <img src="/assets/icons/order_icon.svg">
+      Ordenar por
+    </h5>
+  </div>
+  <!--<select
     class="app-seletor"
     #mySelector
     (change)="onChangeCasa($event.target.value)"
@@ -11,25 +17,29 @@
       {{ c.casa }}
     </option>
   </select>
-  <select
-  class="app-seletor"
-  #mySelector
-  (change)="onChangeOrderBy($event.target.value)"
-  [(ngModel)]="orderBySelecionado">
-  <option
-    *ngFor="let o of orderBy"
-    [value]="o.order_by"
-    [selected]="o.order_by === orderBySelecionado">
-    {{ o.order }}
-  </option>
-</select>
+  -->
+  <div
+    class="custom-control custom-radio form-check"
+    *ngFor="let o of orderBy">
+    <input type="radio"
+      (click)="onChangeOrderBy($event.target.id)"
+      [checked]="o.order_by === orderBySelecionado"
+      class="custom-control-input" [id]="o.order_by" name="orderRadios">
+    <label class="custom-control-label" [for]="o.order_by">{{ o.order }}</label>
+  </div>
+  <div class="filter-title">
+    <h5>
+      <img src="/assets/icons/filter_icon.svg">
+      Filtros de busca
+    </h5>
+  </div>
   <div *ngIf="numeroProposicoes > 1" class="mr-3">
     nas <span>{{ numeroProposicoes }}</span> proposições de
   </div>
   <div *ngIf="numeroProposicoes === 1" class="mr-3">
     na única proposição de
   </div>
-  <select
+  <!--<select
     class="app-seletor"
     #mySelector
     (change)="onChangeTema($event.target.value)"
@@ -42,7 +52,7 @@
       {{ t.tema.toLowerCase() }}
     </option>
   </select>
-  deste painel.
+  deste painel.-->
 </div>
 <div class="filtro-wrapper mb-4">
   <div class="col-lg-8">

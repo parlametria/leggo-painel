@@ -39,6 +39,7 @@ export class AderenciaComponent implements OnInit, OnDestroy {
   countVotacoes: number;
   tema: string;
   displayGraph: boolean;
+  graphTitle: 'Governismo' | 'Disciplina Partidária';
 
   private unsubscribe = new Subject();
 
@@ -68,6 +69,7 @@ export class AderenciaComponent implements OnInit, OnDestroy {
     this.updateParamsViaUrl();
 
     this.orientador = 'Governo';
+    this.graphTitle = 'Governismo';
     this.casa = 'senado';
     this.tema = String(this.FILTRO_PADRAO_TEMA);
 
@@ -88,6 +90,7 @@ export class AderenciaComponent implements OnInit, OnDestroy {
 
   orientadorChanged(newOrientador: string) {
     this.orientador = newOrientador as 'Governo' | 'Partido';
+    this.graphTitle = newOrientador === 'Governo'? 'Governismo' : 'Disciplina Partidária' ;
     this.casaService.set(this.casa);
     this.getParlamentaresPorCasa();
     this.getCountVotacoes(this.tema);

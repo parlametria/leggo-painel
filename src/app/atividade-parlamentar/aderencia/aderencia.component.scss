@@ -6,15 +6,19 @@ $aderencia-blue: #0A367C;
 
   &.graph-hidden {
     margin-bottom: 4rem;
-  }
-}
 
-.aderencia-breadcrumb-wrapper {
-  .breadcrumb {
-    position: relative;
-    background-color: transparent;
-    margin-left: 3.5rem;
-    margin-bottom: 1rem;
+    .aderencia-switchs-wrapper {
+      display: none;
+    }
+    .aderencia-graph-wrapper {
+      margin: 0;
+    }
+    .poppins-gray {
+      display: none;
+    }
+    .veja-mais {
+      margin-top: -60px;
+    }
   }
 }
 
@@ -74,6 +78,7 @@ $aderencia-blue: #0A367C;
 .veja-mais {
   display: flex;
   justify-content: center;
+  margin-top: -40px;
 
   img {
     position: relative;

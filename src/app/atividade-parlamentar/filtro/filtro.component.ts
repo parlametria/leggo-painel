@@ -108,12 +108,15 @@ export class FiltroComponent implements OnInit, AfterContentInit, OnDestroy {
   }
 
   onChangeOrderBy(item: string) {
+    console.log(item);
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
 
     if (item !== this.ORDER_BY_PADRAO) {
       queryParams.orderBy = item;
+      this.orderBySelecionado = item;
     } else {
       delete queryParams.orderBy;
+      this.orderBySelecionado = this.ORDER_BY_PADRAO;
     }
     this.router.navigate([], { queryParams });
   }
