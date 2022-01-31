@@ -70,6 +70,10 @@ export class AderenciaService {
       });
   }
 
+  setOrientador(newOrientador: string) {
+    this.orientador = newOrientador;
+  }
+
   getAderenciaById(id: string): Observable<Aderencia> {
     return this.http.get<Aderencia>(this.url + '/parlamentar/' + id);
   }

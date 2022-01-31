@@ -109,3 +109,38 @@ $aderencia-blue: #0A367C;
     width: 16px;
   }
 }
+
+
+.btn-light-icon {
+  color: #dee2e6;
+}
+
+.btn-light {
+  background-color: #fff;
+  border: none;
+  opacity: 0.3;
+}
+
+.btn-light-icon:not(:disabled):not(.disabled).active {
+  background-color: #fff;
+  border: none;
+  opacity: 1.0;
+}
+
+button.btn.btn-light.btn-light-icon.active:focus {
+  box-shadow: none;
+}
+
+span.icon-arc, span.icon-beeswarm {
+  display: block;
+  width: 25px;
+  height: 25px;
+}
+
+.icon-arc {
+  background-image: url('/assets/icons/icon-arc.svg');
+}
+
+.icon-beeswarm {
+  background-image: url('/assets/icons/icon-beeswarm.svg');
+}

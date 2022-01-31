@@ -33,7 +33,7 @@ export class AderenciaComponent implements OnInit, OnDestroy {
   filtro: any;
   orientador: 'Governo' | 'Partido';
   casa: 'senado' | 'camara';
-  view: any;
+  view: 'arc' | 'bee';
   orderBy: string;
   isLoading: boolean;
   countVotacoes: number;
@@ -52,7 +52,7 @@ export class AderenciaComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private modalService: NgbModal
   ) {
-    this.filtro = { tema: this.FILTRO_PADRAO_TEMA };
+    this.filtro = { tema: this.FILTRO_PADRAO_TEMA, orientador: 'Governo' };
   }
 
   get totalParlamentaresCasa() {
@@ -71,10 +71,18 @@ export class AderenciaComponent implements OnInit, OnDestroy {
     this.orientador = 'Governo';
     this.graphTitle = 'Governismo';
     this.casa = 'senado';
+    this.view = 'arc';
     this.tema = String(this.FILTRO_PADRAO_TEMA);
 
+    this.activatedRoute.paramMap
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(params => {
+        const view = params.get('view');
+        this.view = view === this.VIEW_ARC || view === this.VIEW_BEE ? view : this.VIEW_ARC;
+      });
+
     this.casaService.set(this.casa);
-    this.getParlamentaresPorCasa();
+    // this.getParlamentaresPorCasa();
     this.getCountVotacoes(this.tema);
     this.getParlamentares();
     this.getAderencia();
@@ -82,17 +90,21 @@ export class AderenciaComponent implements OnInit, OnDestroy {
 
   casaChanged(newCasa: string) {
     this.casa = (newCasa.toLocaleLowerCase()) as 'senado' | 'camara';
-
     this.casaService.set(this.casa);
     this.getParlamentaresPorCasa();
     this.getCountVotacoes(this.tema);
+    this.setView(this.view);
   }
 
   orientadorChanged(newOrientador: string) {
     this.orientador = newOrientador as 'Governo' | 'Partido';
-    this.graphTitle = newOrientador === 'Governo'? 'Governismo' : 'Disciplina Partidária' ;
+    this.graphTitle = newOrientador === 'Governo' ? 'Governismo' : 'Disciplina Partidária';
     this.casaService.set(this.casa);
-    this.getParlamentaresPorCasa();
+    this.aderenciaService.setOrientador(this.orientador);
+    this.filtro = {...this.filtro, orientador: this.orientador};
+
+    this.getParlamentares();
+    this.getAderencia();
     this.getCountVotacoes(this.tema);
   }
 
@@ -169,7 +181,7 @@ export class AderenciaComponent implements OnInit, OnDestroy {
   }
 
   setView(view: string) {
-    this.view = view;
+    this.view = view === this.VIEW_ARC || view === this.VIEW_BEE ? view : this.VIEW_ARC;
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     queryParams.view = view;
 

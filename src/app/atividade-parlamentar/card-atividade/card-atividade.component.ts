@@ -15,7 +15,6 @@ export class CardAtividadeComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.parlamentar);
   }
 
 }

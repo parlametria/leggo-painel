@@ -74,6 +74,18 @@
 
             <div class="col-sm-12">
               <span class="poppins-gray">Exibição</span>
+              <button
+                [ngClass]="{'btn btn-light btn-light-icon': true, 'active': view === VIEW_ARC}"
+                (click)="setView('arc')"
+              >
+                <span class="icon-arc"></span>
+              </button>
+              <button
+                [ngClass]="{'btn btn-light btn-light-icon': true, 'active': view === VIEW_BEE}"
+                (click)="setView('bee')"
+              >
+                <span class="icon-beeswarm"></span>
+              </button>
             </div>
 
             <div class="col-sm-12" [hidden]="!displayGraph">
