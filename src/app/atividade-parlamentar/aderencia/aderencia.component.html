@@ -72,7 +72,7 @@
               <img src="/assets/imgs/lampada.svg" alt="lampada" />
             </div>
 
-            <div class="col-sm-12">
+            <div class="col-sm-12" [hidden]="!displayGraph">
               <span class="poppins-gray">Exibição</span>
               <button
                 [ngClass]="{'btn btn-light btn-light-icon': true, 'active': view === VIEW_ARC}"
