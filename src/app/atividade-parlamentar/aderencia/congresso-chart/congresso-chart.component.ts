@@ -321,7 +321,7 @@ export class CongressoChartComponent implements AfterContentInit, OnChanges, OnD
           this.standardizeCircle(d.target);
         })
         .on('click', (d, p: Parlamentar) => {
-          this.router.navigate(['/parlamentar/' + p.idParlamentarVoz]);
+          this.router.navigate(['/parlamentares/' + p.idParlamentarVoz]);
         });
       }
     this.finishEvent.emit(true);

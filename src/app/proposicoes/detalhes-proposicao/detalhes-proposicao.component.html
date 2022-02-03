@@ -5,13 +5,15 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <a [routerLink]="['/']"> Interesses </a>
+            <a [routerLink]="['/']"> Painéis </a>
           </li>
+
           <li class="breadcrumb-item">
-            <a [routerLink]="['../']">
+            <a [routerLink]="'/proposicoes'" [queryParams]="{'interesse': interesseModel?.interesse}">
               {{ interesseModel?.nome_interesse }}
             </a>
           </li>
+
           <li class="breadcrumb-item">
             <span>
               {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
