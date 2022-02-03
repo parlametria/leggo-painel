@@ -47,7 +47,12 @@ export class ProgressoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((params) => {
         this.idLeggo = params.get('id_leggo');
-        this.interesse = params.get('interesse');
+      });
+
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        this.interesse = params.interesse;
+
         if (this.idLeggo !== undefined && this.interesse !== undefined) {
           this.getProgressoById(this.idLeggo, this.interesse);
         }

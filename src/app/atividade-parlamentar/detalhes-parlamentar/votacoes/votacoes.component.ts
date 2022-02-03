@@ -50,13 +50,16 @@ export class VotacoesComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.idParlamentarDestaque = +params.get('id');
-        this.interesse = params.get('interesse');
+      });
+
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        this.interesse = params.interesse;
 
         if (this.idParlamentarDestaque !== undefined) {
-
           this.resgataVotacoesById(this.idParlamentarDestaque, this.interesse);
         }
-    });
+      });
   }
 
   private resgataVotacoesById(idAtor, interesse) {

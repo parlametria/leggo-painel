@@ -95,10 +95,10 @@ export class VisAtividadeTwitterComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.idParlamentarDestaque = +params.get('id');
-        this.interesse = params.get('interesse');
 
         this.activatedRoute.queryParams
           .subscribe(query => {
+            this.interesse = query.get('interesse');
             this.tema = query.tema;
             this.destaque = this.tema === 'destaque';
             this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;

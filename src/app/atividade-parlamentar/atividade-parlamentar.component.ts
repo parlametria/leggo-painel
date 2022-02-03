@@ -35,13 +35,10 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
     private router: Router) { }
 
   ngOnInit(): void {
-    this.activatedRoute.parent.paramMap
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(params => {
-        this.interesse = params.get('interesse');
-      });
     this.activatedRoute.queryParams
       .subscribe(params => {
+        this.interesse = params.interesse;
+
         const pTema = this.replaceUndefined(params.tema);
         const pCasa = this.replaceUndefined(params.casa);
         const pOrderBy = this.replaceUndefined(params.orderBy);

@@ -26,10 +26,9 @@ export class InsightsComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.activatedRoute.parent.paramMap
-      .pipe(takeUntil(this.unsubscribe))
+    this.activatedRoute.queryParams
       .subscribe(params => {
-        this.interesse = params.get('interesse');
+        this.interesse = params.interesse;
         this.getInsights(this.interesse);
       });
   }

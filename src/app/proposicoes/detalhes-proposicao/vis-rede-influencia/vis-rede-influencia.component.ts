@@ -78,11 +78,15 @@ export class VisRedeInfluenciaComponent implements OnInit {
         'translate(' + this.margin.left + ',' + this.margin.top + ')'
       );
 
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        this.interesse = params.interesse;
+      });
+
     this.activatedRoute.parent.paramMap
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.idLeggo = params.get('id_leggo');
-        this.interesse = params.get('interesse');
         this.carregarVis();
       });
   }

@@ -47,15 +47,12 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.parent.paramMap
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(params => {
-        this.interesse = params.get('interesse');
-        this.getProposicoes(this.interesse);
-        this.getInteresse(this.interesse);
-      });
     this.activatedRoute.queryParams
       .subscribe(params => {
+        this.interesse = params.interesse;
+        this.getProposicoes(this.interesse);
+        this.getInteresse(this.interesse);
+
         const pOrderBy = this.replaceUndefined(params.orderByProp);
 
         let mudouOrdenacao = true;

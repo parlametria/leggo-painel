@@ -39,15 +39,17 @@ export class DetalhesProposicaoComponent implements OnInit, OnDestroy {
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((params) => {
-        this.interesse = params.get('interesse');
         this.idProposicao = params.get('id_leggo');
-        this.getInteresse(this.interesse);
       });
-    this.activatedRoute.queryParams.subscribe((params) => {
-      this.tema = params.tema;
-      this.tema === undefined ? (this.tema = '') : (this.tema = this.tema);
-      this.getProposicaodetalhada(this.idProposicao, this.interesse);
-    });
+
+    this.activatedRoute.queryParams
+      .subscribe((params) => {
+        this.interesse = params.interesse;
+        this.getInteresse(this.interesse);
+        this.tema = params.tema;
+        this.tema === undefined ? (this.tema = '') : (this.tema = this.tema);
+        this.getProposicaodetalhada(this.idProposicao, this.interesse);
+      });
   }
 
   getInteresse(interesseArg: string) {
