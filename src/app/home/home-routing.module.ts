@@ -24,47 +24,23 @@ const routes: Routes = [
     component: PageNotFoundComponent
   },
   {
-    path: 'parlamentares', // path without: :interesse
+    path: 'parlamentares',
     component: AtividadeParlamentarComponent
   },
   {
-    path: 'proposicoes', // path without: :interesse
+    path: 'proposicoes',
     component: ProposicoesComponent
   },
   {
     path: 'insights',
     component: InsightsComponent
   },
-  /*{
-    path: ':interesse',
-    component: HomeComponent,
-    children: [
-      {
-        path: '',
-        redirectTo: 'proposicoes',
-        pathMatch: 'full'
-      },
-      {
-        path: 'insights',
-        component: InsightsComponent
-      },
-      {
-        path: 'parlamentares',
-        component: AtividadeParlamentarComponent
-      },
-      {
-        path: 'proposicoes',
-        component: ProposicoesComponent
-      },
-    ],
-  },*/
   {
     path: '',
     redirectTo: 'paineis',
     pathMatch: 'full',
   },
   {
-    // path: ':interesse/parlamentares/:id',
     path: 'parlamentares/:id',
     loadChildren: () =>
       import(
@@ -72,7 +48,6 @@ const routes: Routes = [
       ).then((m) => m.DetalhesParlamentarModule),
   },
   {
-    // path: ':interesse/proposicoes/:id_leggo',
     path: 'proposicoes/:id_leggo',
     loadChildren: () =>
       import(
