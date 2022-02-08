@@ -96,56 +96,60 @@
           </div>
           <div class="revisora col-4">
             <div class="circle">
-              <a
-                [routerLink]="[proposicao.id_leggo]"
-                [ngbPopover]="destaqueInfo"
-                triggers="mouseenter:mouseleave"
-                *ngFor="let proposicao of proposicoesRevisora"
-                class="proposicao-ball {{
-                  proposicao?.etapas[proposicao?.etapas.length - 1]?.casa
-                }}"
-              >
-                <ng-template #destaqueInfo>
-                  <div class="popover-title">
-                    {{
-                      proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla
-                    }}
-                  </div>
-                  <label>Por quê estou aqui?</label>
-                  <div class="popover-text">
-                    {{
-                      getProposicaoCriteriosDestaque(proposicao.destaques[0])
-                    }}
-                  </div>
-                </ng-template>
-              </a>
+              <div class="circle-inner">
+                <a
+                  [routerLink]="[proposicao.id_leggo]"
+                  [ngbPopover]="destaqueInfo"
+                  triggers="mouseenter:mouseleave"
+                  *ngFor="let proposicao of proposicoesRevisora"
+                  class="proposicao-ball {{
+                    proposicao?.etapas[proposicao?.etapas.length - 1]?.casa
+                  }}"
+                >
+                  <ng-template #destaqueInfo>
+                    <div class="popover-title">
+                      {{
+                        proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla
+                      }}
+                    </div>
+                    <label>Por quê estou aqui?</label>
+                    <div class="popover-text">
+                      {{
+                        getProposicaoCriteriosDestaque(proposicao.destaques[0])
+                      }}
+                    </div>
+                  </ng-template>
+                </a>
+              </div>
             </div>
           </div>
           <div class="sancao col-4">
             <div class="circle">
-              <a
-                [routerLink]="[proposicao.id_leggo]"
-                [ngbPopover]="destaqueInfo"
-                triggers="mouseenter:mouseleave"
-                *ngFor="let proposicao of proposicoesSancao"
-                class="proposicao-ball {{
-                  proposicao?.etapas[proposicao?.etapas.length - 1]?.casa
-                }}"
-              >
-                <ng-template #destaqueInfo>
-                  <div class="popover-title">
-                    {{
-                      proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla
-                    }}
-                  </div>
-                  <label>Por quê estou aqui?</label>
-                  <div class="popover-text">
-                    {{
-                      getProposicaoCriteriosDestaque(proposicao.destaques[0])
-                    }}
-                  </div>
-                </ng-template>
-              </a>
+              <div class="circle-inner">
+                <a
+                  [routerLink]="[proposicao.id_leggo]"
+                  [ngbPopover]="destaqueInfo"
+                  triggers="mouseenter:mouseleave"
+                  *ngFor="let proposicao of proposicoesSancao"
+                  class="proposicao-ball {{
+                    proposicao?.etapas[proposicao?.etapas.length - 1]?.casa
+                  }}"
+                >
+                  <ng-template #destaqueInfo>
+                    <div class="popover-title">
+                      {{
+                        proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla
+                      }}
+                    </div>
+                    <label>Por quê estou aqui?</label>
+                    <div class="popover-text">
+                      {{
+                        getProposicaoCriteriosDestaque(proposicao.destaques[0])
+                      }}
+                    </div>
+                  </ng-template>
+                </a>
+              </div>
             </div>
           </div>
         </div>

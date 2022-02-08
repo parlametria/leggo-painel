@@ -1,5 +1,41 @@
 @import "../shared/variables.scss";
 
+@mixin on-circle($item-count, $circle-size, $item-size) {
+  position: relative;
+  width:  $circle-size;
+  height: $circle-size;
+  padding: 0;
+  border-radius: 50%; 
+  list-style: none;       
+  
+  > * {
+    display: block;
+    position: absolute;
+    top:  50%; 
+    left: 50%;
+    width:  $item-size;
+    height: $item-size;
+    margin: -($item-size / 2);
+  
+    $rot: 0;
+
+    @for $i from 1 through ($item-count - 5) {
+    	$angle: (360 / $item-count) * 3 + ($i - $item-count/2);
+      &:nth-of-type(#{$i}) {
+        transform: 
+          rotate($rot * 1deg) 
+          translate($circle-size / 2 - $i * 0.13*$item-size)
+          rotate($rot * -1deg);
+      }
+
+      $rot: $rot + $angle;
+    }
+    &:nth-of-type(#{$item-count}) {
+				
+  	}
+  }
+}
+
 .proposicoes-navbar {
   padding-top: 1.2rem;
   padding-bottom: 1rem;
@@ -96,6 +132,9 @@ h5.caption {
         color: $text-color-3;
       }
     }
+		.row .circle .circle-inner {
+			@include on-circle($item-count: 29, $circle-size: 200px, $item-size: 20px);
+		}
 
     .destaques-count {
       h5 {
@@ -163,7 +202,7 @@ h5.caption {
       height: 215px;
       border-radius: 50%;
       background-color: white;
-      padding: 33px 33px;
+      padding: 0;
 
       .circle-inner {
         display: flex;
@@ -177,12 +216,14 @@ h5.caption {
     height: 20px;
     border-radius: 50%;
     margin: 5px;
-
+    display: inline-block;
     cursor: pointer;
     transition: 0.3s;
 
     &:hover {
-      transform: scale(1.2, 1.2);
+      height: 24px !important;
+      width: 24px !important;
+      margin: -12px !important;
     }
 
     &:visited {
@@ -279,3 +320,4 @@ h5.caption {
     }
   }
 }
+
