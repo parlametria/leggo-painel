@@ -43,11 +43,15 @@ export class AtuacaoParlamentarComponent implements OnInit, OnDestroy {
     private atorService: AtorService) { }
 
   ngOnInit(): void {
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        this.interesse = params.interesse;
+      });
+
     this.activatedRoute.parent.paramMap
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((params) => {
         this.idLeggo = params.get('id_leggo');
-        this.interesse = params.get('interesse');
         if (this.idLeggo !== undefined) {
           this.getAtuacaoParlamentar(this.idLeggo);
         }

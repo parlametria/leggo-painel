@@ -65,11 +65,20 @@ export class NavbarComponent implements OnInit {
       });
   }
 
-  navSearch(searchText: string, interesse: Interesse) {
+  navSearch(searchText: string) {
+    let interesse = '';
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        interesse = params.interesse;
+      });
+
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     queryParams.text = searchText;
-    this.router.navigate([`/${interesse.interesse}/proposicoes`], { queryParams });
-    if (this.router.url.includes(`/${interesse.interesse}/proposicoes`)) {
+    queryParams.interesse = interesse;
+
+    this.router.navigate([`/proposicoes`], { queryParams });
+
+    if (this.router.url.includes(`/proposicoes?interesse=${interesse}`)) {
       setTimeout(() => {
         window.location.reload();
       }, 100);

@@ -12,11 +12,11 @@
         </a>
       </div>
     </div>
-    <div class="navbar-links" *ngIf="router.url !== '/paineis'">
+    <div class="navbar-links">
       <ul>
         <li class="nav-item active">
           <img src="/assets/icons/proposicoes_icon.svg" alt="">
-          <a class="nav-link" href="{{ interesse?.interesse }}/proposicoes">Proposições</a>
+          <a class="nav-link" href="/paineis">Painéis</a>
         </li>
         <li class="nav-item">
           <img src="/assets/icons/parlamentares_icon.svg" alt="">
@@ -26,6 +26,7 @@
     </div>
   </div>
 </nav>
+
 <nav
   class="navbar fixed-top"
   id="fixed-navbar"
@@ -61,7 +62,7 @@
         <div class="input-group-append">
           <button
             class="btn btn-primary my-2 my-sm-0"
-            (click)="navSearch(searchText, interesse)"
+            (click)="navSearch(searchText)"
           >
             Buscar
           </button>

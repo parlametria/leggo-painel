@@ -69,6 +69,7 @@
               <div class="circle-inner">
                 <a
                   [routerLink]="[proposicao.id_leggo]"
+                  [queryParams]="{'interesse': proposicao?.interesse[0]?.interesse}"
                   [ngbPopover]="destaqueInfo"
                   triggers="mouseenter:mouseleave"
                   *ngFor="let proposicao of proposicoesIniciadora"
@@ -201,7 +202,7 @@
             pluralise(proposicoes?.length)
           }}
           para a sua busca
-          <a href="{{ interesse }}/proposicoes" id="list-button">
+          <a href="/proposicoes?interesse={{ interesse }}" id="list-button">
             &#8592; Retornar para lista
           </a>
         </h3>

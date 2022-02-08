@@ -5,7 +5,7 @@
         class="col-sm-6 col-md-3 mb-4"
         *ngFor="let interesse of interesses">
 
-        <div class="card "[routerLink]="'/' + interesse?.interesse">
+        <div class="card "[routerLink]="'/proposicoes'" [queryParams]="{'interesse': interesse?.interesse}">
           <div
             class="card-calltoaction"
             style="background-image: url('/assets/imgs/capa-{{ interesse?.interesse}}.png');">

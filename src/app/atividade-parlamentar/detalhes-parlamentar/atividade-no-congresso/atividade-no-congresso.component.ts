@@ -44,10 +44,10 @@ export class AtividadeNoCongressoComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.idAtor = params.get('id');
-        this.interesse = params.get('interesse');
       });
     this.activatedRoute.queryParams
       .subscribe(params => {
+        this.interesse = params.interesse;
         this.tema = params.tema;
         this.destaque = this.tema === 'destaque';
         this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;

@@ -148,7 +148,11 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.idProposicaoDestaque = params.get('id_leggo');
-        this.interesse = params.get('interesse');
+      });
+
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        this.interesse = params.interesse;
         this.carregarVis();
       });
   }
@@ -200,7 +204,6 @@ export class VisTemperaturaPressaoComponent implements OnInit {
   }
 
   private atualizarVis(g, dados) {
-    console.log(dados);
     this.x.domain(d3.extent(dados, (d: any) => d.data));
     this.yTemperatura.domain([0, 100]);
     this.yPressao.domain([0, 100]);
@@ -323,18 +326,24 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('height', this.height)
       .style('cursor', 'pointer');
 
-    this.dataOnChange.emit(dados[dados.length - 1]);
-    markerTemperatura
-      .style('display', null)
-      .attr('cx', this.x(dados[dados.length - 1].data))
-      .attr('cy', this.yTemperatura(dados[dados.length - 1].valorTemperatura));
-    markerPressao
-      .style('display', null)
-      .attr('cx', this.x(dados[dados.length - 1].data))
-      .attr('cy', this.yPressao(dados[dados.length - 1].valorPressao));
-    bar
-      .style('display', null)
-      .attr('transform', `translate(${this.x(dados[dados.length - 1].data)}, 0)`);
+    const dadosLastItem = dados[dados.length - 1];
+
+    if (dadosLastItem !== undefined) {
+      this.dataOnChange.emit(dadosLastItem);
+      markerTemperatura
+        .style('display', null)
+        .attr('cx', this.x(dadosLastItem.data))
+        .attr('cy', this.yTemperatura(dadosLastItem.valorTemperatura));
+      markerPressao
+        .style('display', null)
+        .attr('cx', this.x(dadosLastItem.data))
+        .attr('cy', this.yPressao(dadosLastItem.valorPressao));
+      bar
+        .style('display', null)
+        .attr('transform', `translate(${this.x(dadosLastItem.data)}, 0)`);
+    } else {
+      console.log('atualizarVis: dadosLastItem is undefined');
+    }
 
     const datas = dados.map(d => d.data);
     mouseArea.on('click', () => {

@@ -30,14 +30,14 @@ export class HomeComponent implements OnInit, OnDestroy {
  ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap
-    .pipe(takeUntil(this.unsubscribe))
-    .subscribe(params => {
-      this.interesseArg = params.get('interesse');
-      if (this.interesseArg !== undefined) {
-        this.getInteresse(this.interesseArg);
-      }
-    });
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        this.interesseArg = params.interesse;
+
+        if (this.interesseArg !== undefined) {
+          this.getInteresse(this.interesseArg);
+        }
+      });
   }
 
   getInteresse(interesseArg: string) {

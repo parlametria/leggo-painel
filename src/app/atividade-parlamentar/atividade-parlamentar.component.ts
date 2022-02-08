@@ -35,13 +35,10 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
     private router: Router) { }
 
   ngOnInit(): void {
-    this.activatedRoute.parent.paramMap
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(params => {
-        this.interesse = params.get('interesse');
-      });
     this.activatedRoute.queryParams
       .subscribe(params => {
+        this.interesse = params.interesse;
+
         const pTema = this.replaceUndefined(params.tema);
         const pCasa = this.replaceUndefined(params.casa);
         const pOrderBy = this.replaceUndefined(params.orderBy);
@@ -89,8 +86,6 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
         takeUntil(this.unsubscribe))
       .subscribe(parlamentares => {
         this.parlamentares = parlamentares;
-
-        console.log(parlamentares);
 
         if (parlamentares.length <= (this.PARLAMENTARES_POR_PAGINA * (this.p - 1))) {
           this.pageChange(1); // volta para a primeira página com o novo resultado do filtro

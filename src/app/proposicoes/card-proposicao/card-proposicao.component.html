@@ -25,7 +25,7 @@
     </div>
     <div class="header-title col-sm-10">
       <div>
-        <a [routerLink]="[proposicao.id_leggo]">
+        <a [routerLink]="[proposicao.id_leggo]" [queryParams]="{'interesse': proposicao?.interesse[0]?.interesse}">
           <h4 class="truncate-overflow-1">
             {{ getProposicaoTitle(proposicao) }}
           </h4>
