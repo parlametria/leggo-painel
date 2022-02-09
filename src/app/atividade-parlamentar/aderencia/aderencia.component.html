@@ -49,6 +49,7 @@
                 [textRight]="'Camara'"
                 [imgRight]="'/assets/imgs/temp/camara'"
                 [color]="'blue'"
+                [currentSelected]="casa === 'senado' ? 'left' : 'right'"
                 (selectedChangedEvent)="casaChanged($event)"
               ></app-aderencia-switch-block>
             </div>

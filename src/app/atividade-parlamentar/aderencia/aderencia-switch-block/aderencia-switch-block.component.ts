@@ -17,13 +17,12 @@ export class AderenciaSwitchBlockComponent implements OnInit {
   @Input() title: string;
   @Input() color: 'blue' | 'purple';
   @Input() iconType: 'orientacao' | 'casa';
+  @Input() currentSelected: 'left' | 'right' = 'left';
 
   @Output() selectedChangedEvent = new EventEmitter<string>();
 
-  currentSelected: 'left' | 'right';
 
   ngOnInit(): void {
-    this.currentSelected = 'left';
   }
 
   toggleCurrentSelected() {

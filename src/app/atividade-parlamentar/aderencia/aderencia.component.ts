@@ -64,13 +64,22 @@ export class AderenciaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        if (params.casa === 'senado' || params.casa === 'camara') {
+          this.casa = params.casa;
+        } else {
+          this.casa = 'senado';
+        }
+      });
+
     this.isLoading = true;
     this.displayGraph = true;
     this.updateParamsViaUrl();
 
     this.orientador = 'Governo';
     this.graphTitle = 'Governismo';
-    this.casa = 'senado';
+
     this.view = 'arc';
     this.tema = String(this.FILTRO_PADRAO_TEMA);
 
@@ -90,10 +99,16 @@ export class AderenciaComponent implements OnInit, OnDestroy {
 
   casaChanged(newCasa: string) {
     this.casa = (newCasa.toLocaleLowerCase()) as 'senado' | 'camara';
-    this.casaService.set(this.casa);
-    this.getParlamentaresPorCasa();
-    this.getCountVotacoes(this.tema);
-    this.setView(this.view);
+
+    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    queryParams.casa = this.casa;
+    this.router.navigate([], { queryParams })
+      .then(() => {
+        this.casaService.set(this.casa);
+        this.getParlamentaresPorCasa();
+        this.getCountVotacoes(this.tema);
+        this.setView(this.view);
+      });
   }
 
   orientadorChanged(newOrientador: string) {

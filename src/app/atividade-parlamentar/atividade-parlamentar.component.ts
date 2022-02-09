@@ -21,7 +21,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
   public readonly PARLAMENTARES_POR_PAGINA = 21;
   public isLoading = new BehaviorSubject<boolean>(true);
 
-  parlamentares: AtorAgregado[];
+  parlamentares: AtorAgregado[] = [];
   interesse: string;
   tema: string;
   destaque: boolean;
@@ -40,7 +40,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
         this.interesse = params.interesse;
 
         const pTema = this.replaceUndefined(params.tema);
-        const pCasa = this.replaceUndefined(params.casa);
+        const pCasa = !!params.casa ? params.casa : 'senado';
         const pOrderBy = this.replaceUndefined(params.orderBy);
 
         let mudouConsulta = true;
