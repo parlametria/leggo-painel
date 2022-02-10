@@ -44,7 +44,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
     private activatedRoute: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.queryParams

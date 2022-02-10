@@ -83,9 +83,12 @@ hr {
     background: white;
     color: #6942A3;
     transition: all ease .35s;
+    .display-4 {
+      display: none;
+    }
     h6 {
       font-size: 14px;
-      margin-bottom: 4px;
+      margin: 10px 0 0;
     }
     p {
       font-size: 13px;

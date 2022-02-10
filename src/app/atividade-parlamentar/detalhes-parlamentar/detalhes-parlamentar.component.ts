@@ -5,10 +5,10 @@ import { Subject, BehaviorSubject, forkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import * as moment from 'moment';
 
-import { Ator } from 'src/app/shared/models/ator.model';
-import { ParlamentarDetalhadoService } from 'src/app/shared/services/parlamentar-detalhado.service';
 import { indicate } from 'src/app/shared/functions/indicate.function';
+import { Ator } from 'src/app/shared/models/ator.model';
 import { AtorDetalhado } from 'src/app/shared/models/atorDetalhado.model';
+import { ParlamentarDetalhadoService } from 'src/app/shared/services/parlamentar-detalhado.service';
 import { AtorService } from 'src/app/shared/services/ator.service';
 import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.service';
 

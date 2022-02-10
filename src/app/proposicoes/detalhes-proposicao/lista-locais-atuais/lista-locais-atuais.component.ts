@@ -9,38 +9,12 @@ import { LocalProposicao } from '../../../shared/models/proposicao.model';
 })
 export class ListaLocaisAtuaisComponent {
 
-  @Input() locais: any;
+  @Input() locais: LocalProposicao[] = [];
 
   constructor() { }
 
-  getArtigoSiglaLocal(local: LocalProposicao) {
-    if (local.tipo_local === 'plenario') {
-        return 'no';
-    } else {
-      return 'na ';
-    }
+  getUltimoLocal(locais: LocalProposicao[]) {
+      const local = locais[locais.length-1];
+      return local || false;
   }
-
-  getSiglaLocal(local: LocalProposicao) {
-    if (local.tipo_local === 'plenario') {
-        return 'Plenário';
-    } else {
-      return local.sigla_ultimo_local;
-    }
-  }
-
-  getNomeLocal(local: LocalProposicao) {
-    let l = local.sigla_ultimo_local;
-    if (local.tipo_local === 'comissao_permanente') {
-      l = local.sigla_ultimo_local;
-    } else if (local.tipo_local === 'comissao_especial') {
-      l = 'Comissão especial';
-    } else if (local.tipo_local === 'plenario') {
-      l = 'Plenário';
-    }
-    const casa = (local.casa_ultimo_local === 'camara') ? 'Câmara' : 'Senado';
-    const artigo = (local.casa_ultimo_local === 'camara') ? 'da' : 'do';
-    return l + ' ' + artigo + ' ' + casa;
-  }
-
 }

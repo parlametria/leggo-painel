@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { AtorAgregado } from 'src/app/shared/models/atorAgregado.model';
 
@@ -11,10 +11,14 @@ export class CardAtividadeComponent implements OnInit {
 
   @Input() id: number;
   @Input() parlamentar: AtorAgregado;
+  @Output() clickModal = new EventEmitter();
 
   constructor() { }
 
   ngOnInit(): void {
   }
-
+  
+  emitModal() {
+    this.clickModal.emit({ parlamentar: this.parlamentar });
+  }
 }

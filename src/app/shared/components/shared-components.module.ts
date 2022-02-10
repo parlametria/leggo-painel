@@ -17,6 +17,7 @@ import { ProgressStackedComponent } from './progress-stacked/progress-stacked.co
 import { LegendComponent } from './legend/legend.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FooterComponent } from './footer/footer.component';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { FooterComponent } from './footer/footer.component';
     ProgressStackedComponent,
     LegendComponent,
     PageNotFoundComponent,
-    FooterComponent
+    FooterComponent,
+    ModalComponent
   ],
   imports: [
     CommonModule,
@@ -50,7 +52,8 @@ import { FooterComponent } from './footer/footer.component';
     EmbedTweetComponent,
     ProgressStackedComponent,
     LegendComponent,
-    FooterComponent
+    FooterComponent,
+    ModalComponent
   ]
 })
 export class SharedComponentsModule { }

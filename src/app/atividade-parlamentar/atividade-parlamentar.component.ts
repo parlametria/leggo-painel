@@ -1,12 +1,15 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterContentInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 
 import { Subject, BehaviorSubject } from 'rxjs';
 import { takeUntil, skip } from 'rxjs/operators';
 import * as moment from 'moment';
 
+import { ModalComponent } from '../shared/components/modal/modal.component';
 import { AtorAgregado } from '../shared/models/atorAgregado.model';
 import { ParlamentaresService } from '../shared/services/parlamentares.service';
+import { InteresseService } from '../shared/services/interesse.service';
 import { indicate } from '../shared/functions/indicate.function';
 
 @Component({
@@ -21,7 +24,10 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
   public readonly PARLAMENTARES_POR_PAGINA = 21;
   public isLoading = new BehaviorSubject<boolean>(true);
 
+  closeResult: string;
+  modalOptions: NgbModalOptions;
   parlamentares: AtorAgregado[];
+  interesses: any;
   interesse: string;
   tema: string;
   destaque: boolean;
@@ -30,9 +36,16 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
 
   constructor(
     private parlamentaresService: ParlamentaresService,
+    private interesseService: InteresseService,
     private activatedRoute: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
-    private router: Router) { }
+    private modalService: NgbModal,
+    private router: Router) {
+    this.modalOptions = {
+      backdrop:'static',
+      backdropClass:'customBackdrop'
+    }
+  }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams
@@ -68,6 +81,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
         }
 
       });
+    this.interesseService.getInteresses().subscribe(interesses => { this.interesses = interesses; });
     this.updatePageViaURL();
   }
 
@@ -131,6 +145,11 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
 
   search(filtro: any) {
     this.parlamentaresService.search(filtro);
+  }
+
+  open(event) {
+    const modalRef = this.modalService.open(ModalComponent);
+    modalRef.componentInstance.carregaVisAtividade(event.parlamentar, this.interesses);
   }
 
   private replaceUndefined(termo) {

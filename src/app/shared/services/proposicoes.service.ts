@@ -29,7 +29,8 @@ export class ProposicoesService {
   }
 
   getContagemProposicoes(interesse: string, tema: string, destaque: boolean): Observable<ProposicaoContagem> {
-    return this.http.get<ProposicaoContagem>(`${this.proposicoesUrl}/contagem?interesse=${interesse}&tema=${tema}&destaque=${destaque}`);
+    const query = this.getQuery(interesse, tema, destaque);
+    return this.http.get<ProposicaoContagem>(`${this.proposicoesUrl}/contagem?${query}`);
   }
 
   getUltimaTemperaturaProposicoes(interesse: string): Observable<UltimaTemperaturaProposicao[]> {
@@ -47,6 +48,13 @@ export class ProposicoesService {
 
   getListaLocaisProposicoes(interesse: string): Observable<LocalProposicao[]> {
     return this.http.get<LocalProposicao[]>(`${this.locaisUrl}?interesse=${interesse}`);
+  }
+
+  private getQuery(interesse: string, tema: string, destaque: boolean) {
+    let query = interesse? `interesse=${interesse}&` : '';
+    query = tema? `${query}tema=${tema}&` : query;
+    query = destaque? `${query}destaque=${destaque}` : query;
+    return query;
   }
 
 }
