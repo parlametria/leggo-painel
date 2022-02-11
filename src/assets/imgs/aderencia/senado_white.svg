@@ -1,0 +1,9 @@
+<svg id="icone-senador-filled" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+  <rect id="_Color" data-name="↳ 🎨 Color" width="36" height="36" rx="1" transform="translate(0)" fill="rgba(235,238,247,0)"/>
+  <g id="Grupo_994" data-name="Grupo 994" transform="translate(0 5.764)">
+    <g id="Grupo_990" data-name="Grupo 990" transform="translate(0 13.218)">
+      <path id="Caminho_666" data-name="Caminho 666" d="M1648.835,546.054a6.322,6.322,0,0,1,6.321,6.323h-12.644A6.322,6.322,0,0,1,1648.835,546.054Z" transform="translate(-1642.512 -546.054)" fill="#fff"/>
+    </g>
+    <path id="Icon_ionic-md-person" data-name="Icon ionic-md-person" d="M14.27,14.27a4.885,4.885,0,1,1,4.885-4.885A4.9,4.9,0,0,1,14.27,14.27Zm0,2.443c3.236,0,9.77,1.649,9.77,4.885V24.04H4.5V21.6C4.5,18.362,11.034,16.713,14.27,16.713Z" transform="translate(11.331 -4.5)" fill="#fff"/>
+  </g>
+</svg>

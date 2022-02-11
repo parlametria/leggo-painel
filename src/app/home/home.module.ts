@@ -30,6 +30,7 @@ import {
   PartidoIconBlockComponent,
   SenadoIconBlockComponent,
 } from '../atividade-parlamentar/aderencia/aderencia-switch-block/components';
+import { FiltroBuscaModule } from '../atividade-parlamentar/filtro-busca/filtro-busca.module';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import {
     SharedComponentsModule,
     NgbModule,
     NgxPaginationModule,
-    FormsModule
+    FormsModule,
+    FiltroBuscaModule
   ]
 })
 export class HomeModule { }

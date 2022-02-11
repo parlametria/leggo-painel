@@ -1,0 +1,63 @@
+.seletor-casa-wrapper {
+  width: 280px;
+
+  .title {
+    font-size: 12px;
+    font-weight: 500;
+    color: #81858D;
+    margin-bottom: 5px;
+  }
+
+  .casa-selector {
+    display: flex;
+  }
+
+  .selector-item {
+    width: 125px;
+    padding: 5px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: solid 1px #ddd;
+    background-color: #fff;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0px 11px 15px #34174a1a;
+    }
+
+    img {
+      width: 36px;
+      height: 36px;
+      margin-right: 5px;
+    }
+  }
+
+  .selector-senado {
+    border-right: none;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+
+    &.selected-item {
+      background-color: #0a367c;
+      color: #fff;
+      cursor: default;
+
+      &:hover {
+        box-shadow: none;
+      }
+    }
+  }
+
+  .selector-camara {
+    border-left: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+
+    &.selected-item {
+      background-color: #00b53c;
+      color: #fff;
+      cursor: default;
+    }
+  }
+}
