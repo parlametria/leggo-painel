@@ -26,8 +26,8 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
 
   closeResult: string;
   modalOptions: NgbModalOptions;
-  parlamentares: AtorAgregado[];
   interesses: any;
+  parlamentares: AtorAgregado[] = [];
   interesse: string;
   tema: string;
   destaque: boolean;
@@ -53,7 +53,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
         this.interesse = params.interesse;
 
         const pTema = this.replaceUndefined(params.tema);
-        const pCasa = this.replaceUndefined(params.casa);
+        const pCasa = !!params.casa ? params.casa : 'senado';
         const pOrderBy = this.replaceUndefined(params.orderBy);
 
         let mudouConsulta = true;

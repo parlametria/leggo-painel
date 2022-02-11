@@ -1,0 +1,16 @@
+<div class="seletor-interesse-wrapper">
+  <div class="title">
+    <h5>Filtrar por painel de interesse</h5>
+  </div>
+
+  <div class="interest-list">
+    <div
+      *ngFor="let interesse of interesses"
+      [ngClass]="{'interest-item': true, 'interest-selected': isInterestSelected(interesse)}"
+    >
+      <span (click)="setSelectedInteresse(interesse)">
+        {{ interesse?.nome_interesse }}
+      </span>
+    </div>
+  </div>
+</div>
