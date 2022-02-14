@@ -41,7 +41,13 @@ export class SeletorCasaComponent implements OnInit {
       return; // casa already setted, nothing to do
     }
 
+    const { scrollX, scrollY } = window;
+
     queryParams.casa = casa;
-    this.router.navigate([], { queryParams });
+    this.router.navigate([], { queryParams })
+      .then(() => {
+        // workaround to prevent scrolling to top
+        window.scrollTo(scrollX, scrollY);
+      });
   }
 }

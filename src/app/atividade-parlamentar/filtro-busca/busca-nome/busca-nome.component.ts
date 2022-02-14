@@ -1,25 +1,37 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, Params, ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core';
 
-// import { Parlamentar } from '../../../shared/models/parlamentar.model';
-// import { ParlamentaresService } from '../../../shared/services/parlamentares.service';
+import { ParlamentaresService } from '../../../shared/services/parlamentares.service';
 
 @Component({
   selector: 'app-busca-nome',
   templateUrl: './busca-nome.component.html',
   styleUrls: ['./busca-nome.component.scss']
 })
-export class BuscaNomeComponent  {
+export class BuscaNomeComponent   {
   searchText: string;
 
   constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute
+    private parlamentaresService: ParlamentaresService
   ) {}
 
-  navSearch(searchText: string) {
-    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams.text = searchText;
-    this.router.navigate([`/parlamentares`], { queryParams });
+  nomeChanged(searchText: string) {
+    /*
+    this.filtro = {
+      nome: this.nomePesquisado,
+      estado: this.estadoSelecionado,
+      partido: this.partidoSelecionado,
+      comissao: this.comissaoSelecionada,
+      tema: this.temaSelecionado,
+      temaSlug: this.temaService.getTemaSlugById(this.temas, this.temaSelecionado),
+      orientador: undefined,
+      lideranca: this.liderancaSelecionada,
+      cargoComissao: this.cargoComissaoSelecionado,
+      casa: this.casaSelecionada,
+      default: this.isFiltroDefault()
+    };
+    */
+
+    const filtro = { nome: searchText };
+    this.parlamentaresService.search(filtro);
   }
 }

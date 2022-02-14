@@ -37,9 +37,15 @@ export class SeletorInteresseComponent implements OnInit {
       return; // interesse already setted, nothing to do
     }
 
+    const { scrollX, scrollY } = window;
+
     this.selectedInteresse = interesse;
     queryParams.interesse = interesse.interesse;
-    this.router.navigate([], { queryParams });
+    this.router.navigate(['/parlamentares'], { queryParams })
+      .then(() => {
+        // workaround to prevent scrolling to top
+        window.scrollTo(scrollX, scrollY);
+      });
   }
 
   isInterestSelected(interesse: Interesse) {

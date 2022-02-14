@@ -7,8 +7,9 @@
     <div
       *ngFor="let interesse of interesses"
       [ngClass]="{'interest-item': true, 'interest-selected': isInterestSelected(interesse)}"
+      (click)="setSelectedInteresse(interesse)"
     >
-      <span (click)="setSelectedInteresse(interesse)">
+      <span>
         {{ interesse?.nome_interesse }}
       </span>
     </div>
