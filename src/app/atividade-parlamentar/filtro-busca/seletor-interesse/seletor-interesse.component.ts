@@ -55,12 +55,14 @@ export class SeletorInteresseComponent implements OnInit {
   private checkSelectedInteresse() {
     this.activatedRoute.queryParams
       .subscribe(params => {
-        if (!!params.interesse) {
+        if (params.interesse !== undefined) {
           const found = this.interesses.find(interesse => interesse.interesse === params.interesse);
 
           if (found) {
             this.selectedInteresse = found;
           }
+        } else {
+          this.selectedInteresse = undefined;
         }
       });
   }

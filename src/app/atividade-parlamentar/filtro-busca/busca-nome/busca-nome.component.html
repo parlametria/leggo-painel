@@ -24,4 +24,17 @@
       </div>
     </div>
   </div>
+
+  <div
+    *ngIf="interesse !== undefined"
+    class="selected-interesse"
+  >
+    <span
+      class="x-button"
+      (click)="removeInteresse()"
+    >
+      x
+    </span>
+    <span class="interesse-text"> {{ interesse.nome_interesse }}</span>
+  </div>
 </div>
