@@ -1,10 +1,10 @@
-<div class="mb-2">
+<div class="mt-4 mb-3">
   <h5>
     {{ getTitulo() }}
   </h5>
   <div *ngIf="autores && autores.length > 0; else semAutores">
     <span>
-      <p class="m-0">
+      <p class="m-0"[hidden]="showMais" >
         {{ getAutorFormatado(autores[0].autor) }}
         {{ getPartidoUf(autores[0].autor) }}
       </p>

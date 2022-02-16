@@ -67,7 +67,7 @@
         </div>
         <div class="col-5"></div>
       </div>
-      <div [hidden]="!showDetails" class="row align-items-center">
+      <div [hidden]="!showDetails" class="row">
         <div class="col-8">
           <div class="row">
             <div class="col-6">
@@ -89,7 +89,7 @@
               proposicao?.etapas[proposicao?.etapas.length - 1]?.status ===
               'Ativa'
             "
-            [locais]="proposicao?.locaisProposicao"
+            [locais]="proposicao?.etapas[proposicao?.etapas.length - 1]?.resumo_tramitacao"
           >
           </app-lista-locais-atuais>
 

@@ -1,5 +1,7 @@
 <app-aderencia></app-aderencia>
+
 <div class="container app-container">
+  <app-filtro-busca></app-filtro-busca>
 
   <div class="">
     <app-loading *ngIf="isLoading | async"></app-loading>
@@ -55,13 +57,14 @@
               index as i">
               <app-card-atividade
                 [parlamentar]="parlamentar"
-                [id]="getParlamentarPosition(i, PARLAMENTARES_POR_PAGINA, p)">
+                [id]="getParlamentarPosition(i, PARLAMENTARES_POR_PAGINA, p)"
+                (clickModal)="open($event)">
               </app-card-atividade>
             </div>
           </div>
         </div>
         <div class="col-md-3">
-          <app-filtro></app-filtro>
+          <app-filtro [casa]="casa" [totalParlamentares]="parlamentares.length"></app-filtro>
         </div>
       </div>
       <pagination-template

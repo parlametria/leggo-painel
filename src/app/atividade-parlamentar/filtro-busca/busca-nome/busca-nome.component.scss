@@ -1,0 +1,23 @@
+.busca-nome-wrapper {
+  margin-top: 22px;
+  margin-left: 4rem;
+  width: 460px;
+
+  .search-wrapper {
+    border: solid 1px #ddd;
+    border-radius: 5px;
+
+    &:hover {
+      border: solid 1px #34174A;
+      box-shadow: 0px 11px 15px #34174a1a;
+
+      .material-icons {
+        color: #34174A;
+      }
+    }
+
+    input.form-control:focus {
+      color: #34174A;
+    }
+  }
+}

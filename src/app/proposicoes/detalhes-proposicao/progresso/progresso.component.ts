@@ -183,6 +183,7 @@ export class ProgressoComponent implements OnInit, OnDestroy {
   }
 
   showHistoricoComissoes(fase) {
+    console.log(this.ultimaTramitacao);
     return !(
       fase.is_mpv ||
       fase.local === 'Plenário' ||

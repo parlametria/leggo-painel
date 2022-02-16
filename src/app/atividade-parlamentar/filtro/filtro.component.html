@@ -1,4 +1,13 @@
 <div class="filtro-wrapper mb-4">
+  <div class="total-count">
+    <h2>{{ totalParlamentares }}</h2>
+
+    <span class="total-subtitle">
+      Total de parlamentares
+      {{ casa === 'senado' ? 'no Senado' : 'na Câmara' }}
+    </span>
+  </div>
+
   <div class="filter-title">
     <h5>
       <img src="/assets/icons/order_icon.svg">
@@ -18,6 +27,188 @@
     </option>
   </select>
   -->
+  <div class="custom-control filter-order-wrapper">
+    <div *ngFor="let ord of orderBy">
+      <div class="filter-label">
+        <h6>{{ ord.order }}</h6>
+      </div>
+
+      <div class="btn-group d-flex mb-3">
+        <button
+          [ngClass]="{'btn': true, 'btn-selected': true}"
+        >
+          <svg
+            id="arrow_upward_black_24dp"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path
+              id="Caminho_3244"
+              data-name="Caminho 3244"
+              d="M0,0H24V24H0Z"
+              fill="none"
+            />
+            <path
+              id="Caminho_3245"
+              data-name="Caminho 3245"
+              d="M4,12l1.41,1.41L11,7.83V20h2V7.83l5.58,5.59L20,12,12,4Z"
+            />
+          </svg>
+
+          maior
+        </button>
+
+        <button
+          [ngClass]="{'btn': true,'btn-selected': false}"
+        >
+          <svg
+            id="arrow_downward_black_24dp"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path
+              id="Caminho_3242"
+              data-name="Caminho 3242"
+              d="M0,0H24V24H0Z"
+              fill="none"
+            />
+            <path
+              id="Caminho_3243"
+              data-name="Caminho 3243"
+              d="M20,12l-1.41-1.41L13,16.17V4H11V16.17L5.42,10.58,4,12l8,8Z"
+            />
+          </svg>
+          menor
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="filter-title">
+    <h5>
+      <img src="/assets/icons/filter_icon.svg">
+      Filtros de busca
+    </h5>
+  </div>
+
+  <div class="custom-control search-filters-wrapper">
+    <div class="filter-label">
+      <h6>Partido político</h6>
+    </div>
+
+    <div class="form-group">
+      <select
+        id="local"
+        class="form-control"
+        #selectorLocal
+      >
+        <option *ngFor="let partido of partidos" value="{{partido}}">
+          {{partido}}
+        </option>
+      </select>
+    </div>
+
+    <div class="filter-label">
+      <h6>Estado</h6>
+    </div>
+
+    <div class="form-group">
+      <select
+        id="local"
+        class="form-control"
+        #selectorLocal
+      >
+        <option *ngFor="let estado of ['Todos']" value="{{estado}}">
+          {{estado}}
+        </option>
+      </select>
+    </div>
+
+    <div class="filter-label">
+      <h6>Comissões</h6>
+    </div>
+
+    <div class="form-group">
+      <select
+        id="local"
+        class="form-control"
+        #selectorLocal
+      >
+        <option *ngFor="let comissao of ['Nenhum selecionado']" value="{{comissao}}">
+          {{comissao}}
+        </option>
+      </select>
+    </div>
+
+    <div class="filter-label">
+      <h6>Cargo em comissões</h6>
+    </div>
+
+    <div class="form-group">
+      <select
+        id="local"
+        class="form-control"
+        #selectorLocal
+      >
+        <option *ngFor="let cargoEmComissao of ['Nenhum selecionado']" value="{{cargoEmComissao}}">
+          {{cargoEmComissao}}
+        </option>
+      </select>
+    </div>
+
+    <div class="filter-label">
+      <h6>Liderança Partidária</h6>
+    </div>
+
+    <div class="form-group party-leadership-wrapper">
+      <label class="checkbox-control">
+        <input
+          type="checkbox"
+        />
+        Representante
+      </label>
+
+      <label class="checkbox-control">
+        <input
+          type="checkbox"
+        />
+        Vice-líder
+      </label>
+
+      <label class="checkbox-control">
+        <input
+          type="checkbox"
+        />
+        Líder
+      </label>
+    </div>
+  </div>
+
+  <div class="clear-filter-wrapper">
+    <div class="clear-filter">
+      <a href="javascript: void(0);">Limpar filtros</a>
+    </div>
+  </div>
+
+  <div class="legend-wrapper">
+    <h5>Legenda</h5>
+
+    <div class="legenda">
+      <img src="/assets/imgs/aderencia/camara.svg" alt="camara img" />
+      <span>Deputado (a)</span>
+    </div>
+
+    <div class="legenda">
+      <img src="/assets/imgs/aderencia/senado.svg" alt="senado img" />
+      <span>Senador (a)</span>
+    </div>
+  </div>
+
+  <!--
   <div
     class="custom-control custom-radio form-check"
     *ngFor="let o of orderBy">
@@ -39,6 +230,7 @@
   <div *ngIf="numeroProposicoes === 1" class="mr-3">
     na única proposição de
   </div>
+  -->
   <!--<select
     class="app-seletor"
     #mySelector

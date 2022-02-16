@@ -16,6 +16,8 @@ import { ProposicoesService } from '../../shared/services/proposicoes.service';
 export class FiltroComponent implements OnInit, AfterContentInit, OnDestroy {
 
   @Input() interesse: string;
+  @Input() casa: string;
+  @Input() totalParlamentares: number;
   @Output() filterChange = new EventEmitter<any>();
 
   private unsubscribe = new Subject();
@@ -25,6 +27,8 @@ export class FiltroComponent implements OnInit, AfterContentInit, OnDestroy {
   public temaSelecionado: string;
   public casaSelecionada: string;
   public orderBySelecionado: string;
+  public currentOrder: {order_by: string, sort_order: 'maior'|'menor'} = {order_by: 'peso_politico', sort_order: 'maior'};
+  public partidos: any[] = ['Todos'];
 
   numeroProposicoes: number;
 
@@ -33,14 +37,20 @@ export class FiltroComponent implements OnInit, AfterContentInit, OnDestroy {
     { casa: 'Parlamentares', casa_slug: 'todos' },
     { casa: 'Deputados', casa_slug: 'camara' },
     { casa: 'Senadores', casa_slug: 'senado' }];
-  orderBy: any[] = [
+  /*orderBy: any[] = [
     { order: 'mais atuantes', order_by: 'atuacao-parlamentar' },
     { order: 'mais ativos no twitter', order_by: 'atuacao-twitter' },
     { order: 'com maior peso político', order_by: 'peso-politico' },
     { order: 'com maior governismo', order_by: 'maior-governismo' },
     { order: 'com menor governismo', order_by: 'menor-governismo' },
     { order: 'com maior disciplina', order_by: 'maior-disciplina' },
-    { order: 'com menor disciplina', order_by: 'menor-disciplina' }];
+    { order: 'com menor disciplina', order_by: 'menor-disciplina' }];*/
+  orderBy: {order: string, order_by: string}[] = [
+    { order: 'Peso político', order_by: 'peso_politico' },
+    { order: 'Governismo', order_by: 'governismo' },
+    { order: 'Disciplina Partidária', order_by: 'disciplina partidária' },
+    { order: 'Atividade no Twitter', order_by: 'atividade_no_twitter' },
+  ];
 
   nomePesquisado = '';
   filtro: any;

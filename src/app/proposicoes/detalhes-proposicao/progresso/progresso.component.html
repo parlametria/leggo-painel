@@ -14,10 +14,9 @@
 <app-loading *ngIf="isLoading | async"></app-loading>
 <div [hidden]="isLoading | async">
   <p *ngIf="exibeData(ultimaTramitacao?.data)" class="mb-4">
-    Esta proposição está desde
-    <strong>{{ formatDate(ultimaTramitacao?.data) }}</strong> na
-    <strong>{{ ultimaTramitacao?.local }}</strong
-    >.
+    Esta proposição está na
+    <strong>{{ ultimaTramitacao?.local }}</strong>. Última atualização em
+    <strong>{{ formatDate(ultimaTramitacao?.data) }}</strong>.
   </p>
   <div class="progresso-wrapper">
     <ul class="progressbar">
