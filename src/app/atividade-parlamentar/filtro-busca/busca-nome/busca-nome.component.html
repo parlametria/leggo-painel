@@ -17,11 +17,24 @@
       <div class="input-group-append">
         <button
           class="btn btn-primary my-2 my-sm-0"
-          (click)="navSearch(searchText)"
+          (click)="nomeChanged(searchText)"
         >
           Buscar
         </button>
       </div>
     </div>
+  </div>
+
+  <div
+    *ngIf="interesse !== undefined"
+    class="selected-interesse"
+  >
+    <span
+      class="x-button"
+      (click)="removeInteresse()"
+    >
+      x
+    </span>
+    <span class="interesse-text"> {{ interesse.nome_interesse }}</span>
   </div>
 </div>

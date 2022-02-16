@@ -64,15 +64,6 @@ export class AderenciaComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.activatedRoute.queryParams
-      .subscribe(params => {
-        if (params.casa === 'senado' || params.casa === 'camara') {
-          this.casa = params.casa;
-        } else {
-          this.casa = 'senado';
-        }
-      });
-
     this.isLoading = true;
     this.displayGraph = true;
     this.updateParamsViaUrl();
@@ -81,34 +72,38 @@ export class AderenciaComponent implements OnInit, OnDestroy {
     this.graphTitle = 'Governismo';
 
     this.view = 'arc';
+    this.casa = 'senado';
     this.tema = String(this.FILTRO_PADRAO_TEMA);
 
-    this.activatedRoute.paramMap
-      .pipe(takeUntil(this.unsubscribe))
+    this.activatedRoute.queryParams
       .subscribe(params => {
-        const view = params.get('view');
-        this.view = view === this.VIEW_ARC || view === this.VIEW_BEE ? view : this.VIEW_ARC;
+        // only update graph if casa has changed
+        if (this.casa !== params.casa && (params.casa === 'senado' || params.casa === 'camara')) {
+          this.casa = params.casa;
+          this.updateGraphData();
+        }
       });
 
-    this.casaService.set(this.casa);
-    // this.getParlamentaresPorCasa();
-    this.getCountVotacoes(this.tema);
     this.getParlamentares();
+    this.updateGraphData();
+  }
+
+  private updateGraphData() {
+    this.casaService.set(this.casa);
+    this.getParlamentaresPorCasa();
+    this.getCountVotacoes(this.tema);
     this.getAderencia();
   }
 
   casaChanged(newCasa: string) {
-    this.casa = (newCasa.toLocaleLowerCase()) as 'senado' | 'camara';
+    const asLowerCase = (newCasa.toLocaleLowerCase()) as 'senado' | 'camara';
 
-    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams.casa = this.casa;
-    this.router.navigate([], { queryParams })
-      .then(() => {
-        this.casaService.set(this.casa);
-        this.getParlamentaresPorCasa();
-        this.getCountVotacoes(this.tema);
-        this.setView(this.view);
-      });
+    if (this.casa !== asLowerCase) {
+      const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+      queryParams.casa = asLowerCase;
+
+      this.router.navigate([], { queryParams });
+    }
   }
 
   orientadorChanged(newOrientador: string) {
@@ -197,11 +192,6 @@ export class AderenciaComponent implements OnInit, OnDestroy {
 
   setView(view: string) {
     this.view = view === this.VIEW_ARC || view === this.VIEW_BEE ? view : this.VIEW_ARC;
-    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams.view = view;
-
-    this.router.navigate([], { relativeTo: this.activatedRoute, queryParams });
-
     this.cdr.detectChanges();
   }
 

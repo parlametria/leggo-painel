@@ -50,15 +50,22 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
   ngOnInit(): void {
     this.activatedRoute.queryParams
       .subscribe(params => {
-        this.interesse = params.interesse;
-
         const pTema = this.replaceUndefined(params.tema);
         const pCasa = !!params.casa ? params.casa : 'senado';
         const pOrderBy = this.replaceUndefined(params.orderBy);
+        const pInteresse = this.replaceUndefined(params.interesse);
 
         let mudouConsulta = true;
 
-        if (this.tema === pTema && this.casa === pCasa && !this.destaque && this.parlamentares) {
+        const checks = [
+          this.tema === pTema,
+          this.casa === pCasa,
+          this.interesse === pInteresse,
+          !this.destaque,
+          this.parlamentares.length > 0
+        ];
+
+        if (checks.every(v => v)) {
           mudouConsulta = false;
         }
 
@@ -71,6 +78,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
         this.destaque = pTema === 'destaque';
         this.casa = pCasa;
         this.orderBy = pOrderBy;
+        this.interesse = pInteresse;
 
         if (mudouConsulta) {
           this.getDadosAtividadeParlamentar();

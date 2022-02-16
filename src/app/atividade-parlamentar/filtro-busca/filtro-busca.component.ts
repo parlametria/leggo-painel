@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-filtro-busca',
@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./filtro-busca.component.scss']
 })
 export class FiltroBuscaComponent implements OnInit {
+  @Input() totalParlamentares: number;
 
   ngOnInit(): void {
   }
