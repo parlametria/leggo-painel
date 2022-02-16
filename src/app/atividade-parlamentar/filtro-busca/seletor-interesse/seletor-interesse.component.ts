@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, Params, ActivatedRoute } from '@angular/router';
 
 import { InteresseService } from 'src/app/shared/services/interesse.service';
@@ -10,6 +10,9 @@ import { Interesse } from 'src/app/shared/models/interesse.model';
   styleUrls: ['./seletor-interesse.component.scss']
 })
 export class SeletorInteresseComponent implements OnInit {
+  private readonly SCROLL_SPEED = 100;
+
+  @ViewChild('interestScrollList') scrollList: ElementRef<HTMLDivElement>;
 
   selectedInteresse: Interesse|undefined = undefined;
   interesses: Interesse[];
@@ -50,6 +53,24 @@ export class SeletorInteresseComponent implements OnInit {
 
   isInterestSelected(interesse: Interesse) {
     return !!this.selectedInteresse && this.selectedInteresse.interesse === interesse.interesse;
+  }
+
+  scrollTo(pos: 'left'|'right') {
+    const element = this.scrollList.nativeElement;
+    const MAX_SCROLL = (element as any).scrollLeftMax; // typescript does not like scrollLeftMax on HTMLDivElement
+    const NEXT_LEFT = pos === 'left'
+      ? element.scrollLeft - this.SCROLL_SPEED
+      : element.scrollLeft + this.SCROLL_SPEED;
+
+    const DIRECTION = pos === 'left'
+      ? Math.max(0, NEXT_LEFT)
+      : Math.min(NEXT_LEFT, MAX_SCROLL);
+
+    element.scrollTo({
+      top: 0,
+      left: DIRECTION,
+      behavior: 'smooth'
+    });
   }
 
   private checkSelectedInteresse() {
