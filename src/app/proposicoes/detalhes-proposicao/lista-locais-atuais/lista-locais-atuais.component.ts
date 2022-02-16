@@ -14,7 +14,7 @@ export class ListaLocaisAtuaisComponent {
   constructor() { }
 
   getUltimoLocal(locais: LocalProposicao[]) {
-      const local = locais[locais.length-1];
+      const local = locais[locais.length - 1];
       return local || false;
   }
 }

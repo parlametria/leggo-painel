@@ -16,7 +16,7 @@ import { indicate } from 'src/app/shared/functions/indicate.function';
 })
 export class ModalComponent implements OnInit {
 
-  @Input() parlamentar:Ator;
+  @Input() parlamentar: Ator;
 
   interessesAtivos: any;
   public isLoading = new BehaviorSubject<boolean>(true);
@@ -41,24 +41,24 @@ export class ModalComponent implements OnInit {
   private carregaVisAtividade(parlamentar, interesses: any[]) {
     this.parlamentar = parlamentar;
     const autoriaReqs = interesses.map((interesse) => {
-      return this.autoriasService.getAutorias(parlamentar.id_autor_parlametria, interesse.interesse, '', false)
+      return this.autoriasService.getAutorias(parlamentar.id_autor_parlametria, interesse.interesse, '', false);
     });
-    forkJoin(autoriaReqs) 
+    forkJoin(autoriaReqs)
       .pipe(
         indicate(this.isLoading),
         takeUntil(this.unsubscribe))
       .subscribe(responses => {
-        this.interessesAtivos = responses.map((autorias: any[], i:number) => {
-          return { interesse: interesses[i], acoes: autorias.map(a => a.id_leggo).filter((a, i, ids) => (ids.indexOf(a) === i)).length };
+        this.interessesAtivos = responses.map((autorias: any[], i: number) => {
+          return { interesse: interesses[i], acoes: autorias.map(a => a.id_leggo).filter((a, j, ids) => (ids.indexOf(a) === j)).length };
         }).filter(interesse => (interesse.acoes > 0));
         const totalReqs = this.interessesAtivos.map((ativo) => {
-          return this.proposicoesService.getContagemProposicoes(ativo.interesse.interesse, '', false)
+          return this.proposicoesService.getContagemProposicoes(ativo.interesse.interesse, '', false);
         });
         this.isLoading.next(false);
         forkJoin(totalReqs)
-        .subscribe(responses => {
+        .subscribe((totalResponses: any[]) => {
           this.interessesAtivos = this.interessesAtivos.map((ativo, i) => {
-            ativo.interesse.total = responses[i].numero_proposicoes;
+            ativo.interesse.total = totalResponses[i].numero_proposicoes;
             return ativo;
           });
         });

@@ -51,9 +51,9 @@ export class ProposicoesService {
   }
 
   private getQuery(interesse: string, tema: string, destaque: boolean) {
-    let query = interesse? `interesse=${interesse}&` : '';
-    query = tema? `${query}tema=${tema}&` : query;
-    query = destaque? `${query}destaque=${destaque}` : query;
+    let query = interesse ? `interesse=${interesse}&` : '';
+    query = tema ? `${query}tema=${tema}&` : query;
+    query = destaque ? `${query}destaque=${destaque}` : query;
     return query;
   }
 

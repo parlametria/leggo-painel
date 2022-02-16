@@ -15,9 +15,8 @@ export class CardAtividadeComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
-  
+  ngOnInit(): void { }
+
   emitModal() {
     this.clickModal.emit({ parlamentar: this.parlamentar });
   }

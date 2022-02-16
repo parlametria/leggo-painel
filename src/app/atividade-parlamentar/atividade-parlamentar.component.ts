@@ -42,9 +42,9 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
     private modalService: NgbModal,
     private router: Router) {
     this.modalOptions = {
-      backdrop:'static',
-      backdropClass:'customBackdrop'
-    }
+      backdrop: 'static',
+      backdropClass: 'customBackdrop'
+    };
   }
 
   ngOnInit(): void {
