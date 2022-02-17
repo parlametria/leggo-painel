@@ -7,14 +7,9 @@
         else semRelator
       "
       ><p>
-        <a
-          href="https://painel.parlametria.org.br/{{
-            interesse
-          }}/parlamentares/{{
-            etapas[etapas.length - 1].relatoria.id_relator_parlametria
-          }}"
-          class="app-link"
-        >
+        <a [routerLink]="['/parlamentares', etapas[etapas.length - 1].relatoria.id_relator_parlametria ]"
+           [queryParams]="{'interesse': interesse}"
+           class="app-link">
           {{ getRelatorFormatado(etapas[etapas.length - 1].relatoria) }}
         </a>
         {{ getPartidoUf(etapas[etapas.length - 1].relatoria) }}

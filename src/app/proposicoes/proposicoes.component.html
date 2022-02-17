@@ -99,6 +99,7 @@
               <div class="circle-inner">
                 <a
                   [routerLink]="[proposicao.id_leggo]"
+                  [queryParams]="{'interesse': proposicao?.interesse[0]?.interesse}"
                   [ngbPopover]="destaqueInfo"
                   triggers="mouseenter:mouseleave"
                   *ngFor="let proposicao of proposicoesRevisora"
@@ -128,6 +129,7 @@
               <div class="circle-inner">
                 <a
                   [routerLink]="[proposicao.id_leggo]"
+                  [queryParams]="{'interesse': proposicao?.interesse[0]?.interesse}"
                   [ngbPopover]="destaqueInfo"
                   triggers="mouseenter:mouseleave"
                   *ngFor="let proposicao of proposicoesSancao"

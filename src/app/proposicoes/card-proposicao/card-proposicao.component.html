@@ -98,7 +98,8 @@
         <h5>Pressão</h5>
         <div class="d-flex flex-row">
           <div class="flex-grow-1">
-            <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
+            <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']"
+               [queryParams]="{'interesse': proposicao?.interesse[0]?.interesse}">
               <app-progress
                 class="pointer"
                 [label]="
@@ -121,7 +122,8 @@
         <h5>Temperatura</h5>
         <div class="d-flex flex-row">
           <div class="flex flex-grow-1">
-            <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']">
+            <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']"
+               [queryParams]="{'interesse': proposicao?.interesse[0]?.interesse}">
               <app-progress
                 class="pointer"
                 [label]="

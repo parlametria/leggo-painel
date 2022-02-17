@@ -31,12 +31,12 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   proposicoesRevisora: ProposicaoLista[];
   proposicoesSancao: ProposicaoLista[];
   orderByProp: string;
-  public PROPOSICOES_POR_PAGINA = 10;
-  public PROPOSICOES_POR_PAGINA_GRID = 12;
   p = 1;
   viewmode = 'list';
   public searchText: string;
 
+  public PROPOSICOES_POR_PAGINA = 10;
+  public PROPOSICOES_POR_PAGINA_GRID = 12;
 
   constructor(
     private proposicoesListaService: ProposicoesListaService,
@@ -50,6 +50,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
     this.activatedRoute.queryParams
       .subscribe(params => {
         this.interesse = params.interesse;
+        this.searchText = params.text
         this.getProposicoes(this.interesse);
         this.getInteresse(this.interesse);
 
@@ -189,8 +190,8 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   navSearch(searchText: string, interesse: string) {
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     queryParams.text = searchText;
-    this.router.navigate([`/${interesse}/proposicoes`], { queryParams });
-    if (this.router.url.includes(`/${interesse}/proposicoes`)) {
+    this.router.navigate([`/proposicoes`], { queryParams });
+    if (this.router.url.includes(`/proposicoes`)) {
       setTimeout(() => {
         window.location.reload();
       }, 100);

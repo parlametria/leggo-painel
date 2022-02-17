@@ -195,7 +195,7 @@ export class VisRedeInfluenciaComponent implements OnInit {
           .on('mouseout', () => tooltip.style('visibility', 'hidden'))
           .on('click', (d: any) => {
             tooltip.style('visibility', 'hidden');
-            this.router.navigate([this.interesse, 'parlamentares', d.id_autor_parlametria]);
+            this.router.navigate(['parlamentares', `1${d.id_autor}`], { queryParams: { interesse: this.interesse } });
           });
 
         // node.append('title')
