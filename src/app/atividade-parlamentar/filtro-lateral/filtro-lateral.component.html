@@ -1,0 +1,112 @@
+<div class="filtro-wrapper mb-4">
+  <div class="total-count">
+    <h2>{{ totalParlamentares }}</h2>
+
+    <span class="total-subtitle">
+      Total de parlamentares
+      {{ casa === 'senado' ? 'no Senado' : 'na Câmara' }}
+    </span>
+  </div>
+
+  <div class="filter-title">
+    <h5>
+      <img src="/assets/icons/order_icon.svg">
+      Ordenar por
+    </h5>
+  </div>
+  <!--<select
+    class="app-seletor"
+    #mySelector
+    (change)="onChangeCasa($event.target.value)"
+    [(ngModel)]="casaSelecionada">
+    <option
+      *ngFor="let c of casaBusca"
+      [value]="c.casa_slug"
+      [selected]="c.casa_slug === casaSelecionada">
+      {{ c.casa }}
+    </option>
+  </select>
+  -->
+  <app-bloco-ordenacao [clearFilters]="clearFilters"></app-bloco-ordenacao>
+
+  <div class="filter-title">
+    <h5>
+      <img src="/assets/icons/filter_icon.svg">
+      Filtros de busca
+    </h5>
+  </div>
+
+  <app-bloco-busca></app-bloco-busca>
+
+  <div class="clear-filter-wrapper">
+    <div class="clear-filter">
+      <a href="javascript: void(0);" (click)="emitClearFilters()">Limpar filtros</a>
+    </div>
+  </div>
+
+  <div class="legend-wrapper">
+    <h5>Legenda</h5>
+
+    <div class="legenda">
+      <img src="/assets/imgs/aderencia/camara.svg" alt="camara img" />
+      <span>Deputado (a)</span>
+    </div>
+
+    <div class="legenda">
+      <img src="/assets/imgs/aderencia/senado.svg" alt="senado img" />
+      <span>Senador (a)</span>
+    </div>
+  </div>
+
+  <!--
+  <div
+    class="custom-control custom-radio form-check"
+    *ngFor="let o of orderBy">
+    <input type="radio"
+      (click)="onChangeOrderBy($event.target.id)"
+      [checked]="o.order_by === orderBySelecionado"
+      class="custom-control-input" [id]="o.order_by" name="orderRadios">
+    <label class="custom-control-label" [for]="o.order_by">{{ o.order }}</label>
+  </div>
+  <div class="filter-title">
+    <h5>
+      <img src="/assets/icons/filter_icon.svg">
+      Filtros de busca
+    </h5>
+  </div>
+  <div *ngIf="numeroProposicoes > 1" class="mr-3">
+    nas <span>{{ numeroProposicoes }}</span> proposições de
+  </div>
+  <div *ngIf="numeroProposicoes === 1" class="mr-3">
+    na única proposição de
+  </div>
+  -->
+  <!--<select
+    class="app-seletor"
+    #mySelector
+    (change)="onChangeTema($event.target.value)"
+    [(ngModel)]="temaSelecionado"
+    [disabled]="desabilitaSelecaoTemas()">
+    <option
+      *ngFor="let t of temasBusca"
+      [value]="t.tema_slug"
+      [selected]="t.tema_slug === temaSelecionado">
+      {{ t.tema.toLowerCase() }}
+    </option>
+  </select>
+  deste painel.-->
+</div>
+<div class="filtro-wrapper mb-4">
+  <div class="col-lg-8">
+    <div class="form-group">
+      <input
+        type="text"
+        class="form-control"
+        id="searchParlamentar"
+        [(ngModel)]="nomePesquisado"
+        (ngModelChange)="aplicarFiltro()"
+        placeholder="Buscar parlamentar..."
+      >
+    </div>
+  </div>
+</div>

@@ -9,16 +9,18 @@ import { TemasService } from '../../shared/services/temas.service';
 import { ProposicoesService } from '../../shared/services/proposicoes.service';
 
 @Component({
-  selector: 'app-filtro',
-  templateUrl: './filtro.component.html',
-  styleUrls: ['./filtro.component.scss']
+  selector: 'app-filtro-lateral',
+  templateUrl: './filtro-lateral.component.html',
+  styleUrls: ['./filtro-lateral.component.scss']
 })
-export class FiltroComponent implements OnInit, AfterContentInit, OnDestroy {
+export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestroy {
 
   @Input() interesse: string;
   @Input() casa: string;
   @Input() totalParlamentares: number;
   @Output() filterChange = new EventEmitter<any>();
+
+  clearFilters = new EventEmitter<boolean>();
 
   private unsubscribe = new Subject();
 
@@ -37,20 +39,6 @@ export class FiltroComponent implements OnInit, AfterContentInit, OnDestroy {
     { casa: 'Parlamentares', casa_slug: 'todos' },
     { casa: 'Deputados', casa_slug: 'camara' },
     { casa: 'Senadores', casa_slug: 'senado' }];
-  /*orderBy: any[] = [
-    { order: 'mais atuantes', order_by: 'atuacao-parlamentar' },
-    { order: 'mais ativos no twitter', order_by: 'atuacao-twitter' },
-    { order: 'com maior peso político', order_by: 'peso-politico' },
-    { order: 'com maior governismo', order_by: 'maior-governismo' },
-    { order: 'com menor governismo', order_by: 'menor-governismo' },
-    { order: 'com maior disciplina', order_by: 'maior-disciplina' },
-    { order: 'com menor disciplina', order_by: 'menor-disciplina' }];*/
-  orderBy: {order: string, order_by: string}[] = [
-    { order: 'Peso político', order_by: 'peso_politico' },
-    { order: 'Governismo', order_by: 'governismo' },
-    { order: 'Disciplina Partidária', order_by: 'disciplina partidária' },
-    { order: 'Atividade no Twitter', order_by: 'atividade_no_twitter' },
-  ];
 
   nomePesquisado = '';
   filtro: any;
@@ -161,4 +149,7 @@ export class FiltroComponent implements OnInit, AfterContentInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
+  emitClearFilters() {
+    this.clearFilters.emit(true);
+  }
 }

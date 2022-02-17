@@ -1,0 +1,92 @@
+<div class="custom-control search-filters-wrapper">
+  <div class="filter-label">
+    <h6>Partido político</h6>
+  </div>
+
+  <div class="form-group">
+    <select
+      id="local"
+      class="form-control"
+      #selectorLocal
+    >
+      <option *ngFor="let partido of partidos" value="{{partido}}">
+        {{partido}}
+      </option>
+    </select>
+  </div>
+
+  <div class="filter-label">
+    <h6>Estado</h6>
+  </div>
+
+  <div class="form-group">
+    <select
+      id="local"
+      class="form-control"
+      #selectorLocal
+    >
+      <option *ngFor="let estado of ['Todos']" value="{{estado}}">
+        {{estado}}
+      </option>
+    </select>
+  </div>
+
+  <div class="filter-label">
+    <h6>Comissões</h6>
+  </div>
+
+  <div class="form-group">
+    <select
+      id="local"
+      class="form-control"
+      #selectorLocal
+    >
+      <option *ngFor="let comissao of ['Nenhum selecionado']" value="{{comissao}}">
+        {{comissao}}
+      </option>
+    </select>
+  </div>
+
+  <div class="filter-label">
+    <h6>Cargo em comissões</h6>
+  </div>
+
+  <div class="form-group">
+    <select
+      id="local"
+      class="form-control"
+      #selectorLocal
+    >
+      <option *ngFor="let cargoEmComissao of ['Nenhum selecionado']" value="{{cargoEmComissao}}">
+        {{cargoEmComissao}}
+      </option>
+    </select>
+  </div>
+
+  <div class="filter-label">
+    <h6>Liderança Partidária</h6>
+  </div>
+
+  <div class="form-group party-leadership-wrapper">
+    <label class="checkbox-control">
+      <input
+        type="checkbox"
+      />
+      Representante
+    </label>
+
+    <label class="checkbox-control">
+      <input
+        type="checkbox"
+      />
+      Vice-líder
+    </label>
+
+    <label class="checkbox-control">
+      <input
+        type="checkbox"
+      />
+      Líder
+    </label>
+  </div>
+</div>
