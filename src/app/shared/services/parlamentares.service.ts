@@ -11,6 +11,8 @@ import { RelatoriaService } from 'src/app/shared/services/relatoria.service';
 import { EntidadeService } from 'src/app/shared/services/entidade.service';
 import { TwitterService } from 'src/app/shared/services/twitter.service';
 
+type OrderFunction = (a: number, b: number, aObj: AtorAgregado, bObj: AtorAgregado) => 1 | -1 | 0;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -19,6 +21,7 @@ export class ParlamentaresService {
   private parlamentares = new BehaviorSubject<Array<AtorAgregado>>([]);
   private parlamentaresFiltered = new BehaviorSubject<Array<AtorAgregado>>([]);
   private orderBy = new BehaviorSubject<string>('');
+  private orderType = new BehaviorSubject<'maior'|'menor'>('maior');
   readonly ORDER_BY_PADRAO = 'atuacao-parlamentar';
   private interesse: string;
 
@@ -46,65 +49,61 @@ export class ParlamentaresService {
             map(filters => this.filter(parlamentar, filters))
           )),
         switchMap(parlamentares => {
-          return this.orderBy.pipe(map(par => parlamentares));
+          return this.orderBy.pipe(map(_ => parlamentares));
+        }),
+        switchMap(parlamentares => {
+          return this.orderType.pipe(map(_ => parlamentares));
         }),
         tap(parlamentares => {
+          const orderFunction = this.getOrderFunction();
+
+          // parlamentares sem disciplina calculada devem ficar no final da lista
+          // maior -> -1; menor -> 2
+          const DEFAULT_WHEN_VALUE_IS_NULL = this.orderType.value === 'maior' ? -1 : 2;
+
+          /**
+           * atuacao-parlamentar
+           * peso-politico
+           * atuacao-twitter
+           * governismo
+           * disciplina-partidaria
+           */
           if (this.orderBy.value === 'atuacao-parlamentar') {
             parlamentares.sort((a, b) => {
-              return this.orderByDesc(a.atividade_parlamentar, b.atividade_parlamentar, a, b);
+              return orderFunction(a.atividade_parlamentar, b.atividade_parlamentar, a, b);
             });
           } else if (this.orderBy.value === 'peso-politico') {
             parlamentares.sort((a, b) => {
-              return this.orderByDesc(a.peso_politico, b.peso_politico, a, b);
+              return orderFunction(a.peso_politico, b.peso_politico, a, b);
             });
           } else if (this.orderBy.value === 'atuacao-twitter') {
             parlamentares.sort((a, b) => {
-              return this.orderByDesc(a.atividade_twitter, b.atividade_twitter, a, b);
+              return orderFunction(a.atividade_twitter, b.atividade_twitter, a, b);
             });
-          } else if (this.orderBy.value === 'maior-governismo') {
+          } else if (this.orderBy.value === 'governismo') {
             parlamentares.sort((a, b) => {
               // parlamentares sem governismo calculado devem ficar no final da lista
-              const aGovernismo = a.governismo === null ? -1 : a.governismo;
-              const bGovernismo = b.governismo === null ? -1 : b.governismo;
+              const aGovernismo = a.governismo === null ? DEFAULT_WHEN_VALUE_IS_NULL : a.governismo;
+              const bGovernismo = b.governismo === null ? DEFAULT_WHEN_VALUE_IS_NULL : b.governismo;
 
-              return this.orderByDesc(aGovernismo, bGovernismo, a, b);
+              return orderFunction(aGovernismo, bGovernismo, a, b);
             });
-          } else if (this.orderBy.value === 'menor-governismo') {
-            parlamentares.sort((b, a) => {
-              // parlamentares sem governismo calculado devem ficar no final da lista
-              const aGovernismo = a.governismo === null ? 2 : a.governismo;
-              const bGovernismo = b.governismo === null ? 2 : b.governismo;
-              return this.orderByDesc(aGovernismo, bGovernismo, a, b);
-            });
-          } else if (this.orderBy.value === 'maior-disciplina') {
+          } else if (this.orderBy.value === 'disciplina-partidaria') {
             parlamentares.sort((a, b) => {
               // parlamentares sem disciplina calculada devem ficar no final da lista
               const aDisciplina = (
                 !a.bancada_suficiente ||
                 a.bancada_suficiente === null ||
-                a.disciplina === null) ? -1 : a.disciplina;
+                a.disciplina === null) ? DEFAULT_WHEN_VALUE_IS_NULL : a.disciplina;
               const bDisciplina = (
                 !b.bancada_suficiente ||
                 b.bancada_suficiente === null ||
-                b.disciplina === null) ? -1 : b.disciplina;
+                b.disciplina === null) ? DEFAULT_WHEN_VALUE_IS_NULL : b.disciplina;
 
-              return this.orderByDesc(aDisciplina, bDisciplina, a, b);
-            });
-          } else if (this.orderBy.value === 'menor-disciplina') {
-            parlamentares.sort((b, a) => {
-              // parlamentares sem disciplina calculada devem ficar no final da lista
-              const aDisciplina = (
-                !a.bancada_suficiente ||
-                a.bancada_suficiente === null ||
-                a.disciplina === null) ? 2 : a.disciplina;
-              const bDisciplina = (
-                !b.bancada_suficiente ||
-                b.bancada_suficiente === null ||
-                b.disciplina === null) ? 2 : b.disciplina;
-
-              return this.orderByDesc(aDisciplina, bDisciplina, a, b);
+              return orderFunction(aDisciplina, bDisciplina, a, b);
             });
           }
+
           if (this.filtro.value.nome === '') { // evita que índice mude pela busca por nome
             parlamentares.map((p, index) => {
               p.indice = index;
@@ -253,12 +252,53 @@ export class ParlamentaresService {
     }
   }
 
+  private orderByAsc(a: number, b: number, aObj: AtorAgregado, bObj: AtorAgregado) {
+    if (isNaN(a)) {
+      return -1;
+    }
+
+    if (isNaN(b)) {
+      return 1;
+    }
+
+    if (a < b) {
+      return -1;
+    } else if (a > b) {
+      return 1;
+    } else {
+      if (aObj.nome_processado > bObj.nome_processado) {
+        return 1;
+      } else if (aObj.nome_processado > bObj.nome_processado) {
+        return -1;
+      }
+      return 0;
+    }
+  }
+
+  private getOrderFunction(): OrderFunction {
+    if (this.orderType.value === 'maior') {
+      return this.orderByDesc;
+    } else {
+      return this.orderByAsc;
+    }
+  }
+
   setOrderBy(orderBy: string) {
     if (orderBy === undefined || orderBy === '') {
       this.orderBy.next(this.ORDER_BY_PADRAO);
     } else {
       this.orderBy.next(orderBy);
     }
+  }
+
+  setOrderType(orderType: string) {
+    const accepted = ['maior', 'menor'];
+
+    if (accepted.includes(orderType) === false) {
+      orderType = 'maior';
+    }
+
+    this.orderType.next(orderType as ('maior'|'menor'));
   }
 
 }

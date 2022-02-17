@@ -5,7 +5,7 @@ type PossibleOrderings
   = 'peso-politico'
   | 'governismo'
   | 'disciplina-partidaria'
-  | 'atividade-no-twitter';
+  | 'atuacao-twitter';
 
 type OrderType =  'menor' | 'maior';
 
@@ -36,7 +36,7 @@ export class BlocoOrdenacaoComponent implements OnInit {
     { order: 'Peso político', order_by: 'peso-politico' },
     { order: 'Governismo', order_by: 'governismo' },
     { order: 'Disciplina Partidária', order_by: 'disciplina-partidaria' },
-    { order: 'Atividade no Twitter', order_by: 'atividade-no-twitter' },
+    { order: 'Atividade no Twitter', order_by: 'atuacao-twitter' },
   ];
 
   currentSelected?: SelectedOrder;
@@ -53,10 +53,21 @@ export class BlocoOrdenacaoComponent implements OnInit {
           this.resetCurrentSelected();
         }
       });
+
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        const { orderBy, orderType } = params;
+
+        if (orderBy !== undefined) {
+          this.currentSelected = { ordering: orderBy, orderType: orderType ?? 'maior' };
+        } else {
+          this.currentSelected = undefined;
+        }
+      });
   }
 
   private resetCurrentSelected() {
-    this.currentSelected = undefined;
+    // this.currentSelected = undefined;
 
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     queryParams.orderBy = undefined;

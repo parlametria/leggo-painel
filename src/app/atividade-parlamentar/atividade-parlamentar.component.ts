@@ -33,6 +33,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
   destaque: boolean;
   casa: string;
   orderBy: string;
+  orderType: string;
 
   constructor(
     private parlamentaresService: ParlamentaresService,
@@ -53,6 +54,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
         const pTema = this.replaceUndefined(params.tema);
         const pCasa = !!params.casa ? params.casa : 'senado';
         const pOrderBy = this.replaceUndefined(params.orderBy);
+        const pOrderType = this.replaceUndefined(params.orderType);
         const pInteresse = this.replaceUndefined(params.interesse);
 
         let mudouConsulta = true;
@@ -74,10 +76,16 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
           mudouOrdenacao = false;
         }
 
+        let mudouTipoOrdenacao = true;
+        if (this.orderType === pOrderType && this.parlamentares) {
+          mudouTipoOrdenacao = false;
+        }
+
         this.tema = pTema === 'destaque' ? '' : pTema;
         this.destaque = pTema === 'destaque';
         this.casa = pCasa;
         this.orderBy = pOrderBy;
+        this.orderType = pOrderType;
         this.interesse = pInteresse;
 
         if (mudouConsulta) {
@@ -88,6 +96,9 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
           this.parlamentaresService.setOrderBy(this.orderBy);
         }
 
+        if (mudouTipoOrdenacao) {
+          this.parlamentaresService.setOrderType(this.orderType);
+        }
       });
     this.interesseService.getInteresses().subscribe(interesses => { this.interesses = interesses; });
     this.updatePageViaURL();
