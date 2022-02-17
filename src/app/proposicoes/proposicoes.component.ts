@@ -50,7 +50,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
     this.activatedRoute.queryParams
       .subscribe(params => {
         this.interesse = params.interesse;
-        this.searchText = params.text
+        this.searchText = params.text;
         this.getProposicoes(this.interesse);
         this.getInteresse(this.interesse);
 
