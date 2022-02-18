@@ -11,17 +11,17 @@ type ApiPartido = {
   sigla: string,
   nome: string,
   uri: string
-}
+};
 
 type ApiLink = {
   rel: string,
   href: string,
-}
+};
 
 type ApiResponse = {
   dados: ApiPartido[],
   links: ApiLink[]
-}
+};
 
 import { Partido } from '../models/partido.model';
 
@@ -30,8 +30,8 @@ import { Partido } from '../models/partido.model';
 })
 export class PartidosService {
   private readonly baseUrl = 'https://dadosabertos.camara.leg.br/api/v2/partidos';
-  private readonly ordem = "ASC";
-  private readonly ordenarPor = "sigla"
+  private readonly ordem = 'ASC';
+  private readonly ordenarPor = 'sigla';
   private readonly itensPorPagina = 15;
 
   private partidos = new BehaviorSubject<Partido[]>([]);
@@ -39,7 +39,7 @@ export class PartidosService {
   constructor(private http: HttpClient) { }
 
   getPartidos(): Observable<Partido[]> {
-    if(this.partidos.value.length > 0) {
+    if (this.partidos.value.length > 0) {
       return this.partidos;
     }
 
@@ -53,8 +53,8 @@ export class PartidosService {
     const httpCalls = pages.map(page => this.http.get<ApiResponse>(page));
 
     const apiPartidos$ = forkJoin(httpCalls).pipe(map(results => {
-      const partidosArray:Partido[][] = results.map(result => {
-        if(result.dados.length === 0) {
+      const partidosArray: Partido[][] = results.map(result => {
+        if (result.dados.length === 0) {
           return [] as Partido[];
         }
 
@@ -62,7 +62,7 @@ export class PartidosService {
       });
 
       // transform Partido[][] into Partido[]
-      const partidos:Partido[] = partidosArray.reduce((acc, cur) => [...acc, ...cur], []);
+      const partidos: Partido[] = partidosArray.reduce((acc, cur) => [...acc, ...cur], []);
 
       this.partidos.next(partidos);
       return partidos;
@@ -71,7 +71,7 @@ export class PartidosService {
     return apiPartidos$;
   }
 
-  private getPageUrl(pagina:number=1) {
+  private getPageUrl(pagina: number = 1) {
     // https://dadosabertos.camara.leg.br/api/v2/partidos?ordem=ASC&ordenarPor=sigla&itens=15&pagina=3
     return `${this.baseUrl}?ordem=${this.ordem}&ordenarPor=${this.ordenarPor}&itens=${this.itensPorPagina}&pagina=${pagina}`;
   }

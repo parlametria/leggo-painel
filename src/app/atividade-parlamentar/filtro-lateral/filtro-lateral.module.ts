@@ -7,12 +7,15 @@ import { BlocoOrdenacaoComponent } from './bloco-ordenacao/bloco-ordenacao.compo
 import { BlocoBuscaComponent } from './bloco-busca/bloco-busca.component';
 import { FiltroLateralComponent } from './filtro-lateral.component';
 
+import { FiltroLateralService } from './filtro-lateral.service';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     RouterModule
   ],
+  providers: [ FiltroLateralService ],
   declarations: [
     BlocoOrdenacaoComponent,
     BlocoBuscaComponent,

@@ -7,6 +7,9 @@ import { takeUntil, take } from 'rxjs/operators';
 
 import { TemasService } from '../../shared/services/temas.service';
 import { ProposicoesService } from '../../shared/services/proposicoes.service';
+import { ParlamentaresService } from '../../shared/services/parlamentares.service';
+
+import { FiltroLateralService } from './filtro-lateral.service';
 
 @Component({
   selector: 'app-filtro-lateral',
@@ -20,8 +23,6 @@ export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestr
   @Input() totalParlamentares: number;
   @Output() filterChange = new EventEmitter<any>();
 
-  clearFilters = new EventEmitter<boolean>();
-
   private unsubscribe = new Subject();
 
   readonly FILTRO_PADRAO = 'todos';
@@ -29,8 +30,6 @@ export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestr
   public temaSelecionado: string;
   public casaSelecionada: string;
   public orderBySelecionado: string;
-  public currentOrder: {order_by: string, sort_order: 'maior'|'menor'} = {order_by: 'peso_politico', sort_order: 'maior'};
-  public partidos: any[] = ['Todos'];
 
   numeroProposicoes: number;
 
@@ -48,8 +47,10 @@ export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestr
     private proposicoesService: ProposicoesService,
     private activatedRoute: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
-    private router: Router) {
-
+    private router: Router,
+    private filtroLateralService: FiltroLateralService,
+    private parlamentaresService: ParlamentaresService,
+  ) {
     this.filtro = {
       nome: ''
     };
@@ -69,6 +70,29 @@ export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestr
         this.getContagemProposicoes(this.interesse, this.temaSelecionado);
       });
     this.aplicarFiltro();
+
+    this.filtroLateralService.selectedOrder
+      .subscribe(selectedOrder => {
+        if (selectedOrder === undefined) {
+          return;
+        }
+
+        const { orderBy, orderType } = this.parlamentaresService.getOrderValues();
+
+        if (selectedOrder.ordering !== orderBy) {
+          this.parlamentaresService.setOrderBy(selectedOrder.ordering);
+        }
+
+        if (selectedOrder.orderType !== orderType) {
+          this.parlamentaresService.setOrderType(selectedOrder.orderType);
+        }
+      });
+
+    this.filtroLateralService.selectedPartido
+      .subscribe(partido => {
+        console.log(partido);
+        this.parlamentaresService.setPartido(partido?.sigla);
+      });
   }
 
   ngAfterContentInit() {
@@ -149,7 +173,7 @@ export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestr
     this.unsubscribe.complete();
   }
 
-  emitClearFilters() {
-    this.clearFilters.emit(true);
+  resetFilters() {
+    this.filtroLateralService.resetValuesToDefault();
   }
 }

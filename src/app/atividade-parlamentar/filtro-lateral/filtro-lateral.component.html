@@ -27,7 +27,7 @@
     </option>
   </select>
   -->
-  <app-bloco-ordenacao [clearFilters]="clearFilters"></app-bloco-ordenacao>
+  <app-bloco-ordenacao></app-bloco-ordenacao>
 
   <div class="filter-title">
     <h5>
@@ -40,7 +40,7 @@
 
   <div class="clear-filter-wrapper">
     <div class="clear-filter">
-      <a href="javascript: void(0);" (click)="emitClearFilters()">Limpar filtros</a>
+      <a href="javascript: void(0);" (click)="resetFilters()">Limpar filtros</a>
     </div>
   </div>
 

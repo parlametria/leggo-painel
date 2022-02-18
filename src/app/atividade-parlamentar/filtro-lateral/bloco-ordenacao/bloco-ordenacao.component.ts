@@ -1,18 +1,12 @@
-import { Component, OnInit, Input, EventEmitter } from '@angular/core';
-import { Params, Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 
-type PossibleOrderings
-  = 'peso-politico'
-  | 'governismo'
-  | 'disciplina-partidaria'
-  | 'atuacao-twitter';
+import {
+  FiltroLateralService,
+  PossibleOrderings,
+  SelectedOrder,
+  OrderType
+} from '../filtro-lateral.service';
 
-type OrderType =  'menor' | 'maior';
-
-type SelectedOrder = {
-  ordering: PossibleOrderings,
-  orderType: OrderType
-};
 
 @Component({
   selector: 'app-bloco-ordenacao',
@@ -20,18 +14,6 @@ type SelectedOrder = {
   styleUrls: ['./bloco-ordenacao.component.scss']
 })
 export class BlocoOrdenacaoComponent implements OnInit {
-  @Input() clearFilters: EventEmitter<boolean>;
-
-  /*
-  orderBy: any[] = [
-    { order: 'mais atuantes', order_by: 'atuacao-parlamentar' },
-    { order: 'mais ativos no twitter', order_by: 'atuacao-twitter' },
-    { order: 'com maior peso político', order_by: 'peso-politico' },
-    { order: 'com maior governismo', order_by: 'maior-governismo' },
-    { order: 'com menor governismo', order_by: 'menor-governismo' },
-    { order: 'com maior disciplina', order_by: 'maior-disciplina' },
-    { order: 'com menor disciplina', order_by: 'menor-disciplina' }];
-  */
   orderBy: { order: string, order_by: PossibleOrderings }[] = [
     { order: 'Peso político', order_by: 'peso-politico' },
     { order: 'Governismo', order_by: 'governismo' },
@@ -42,56 +24,18 @@ export class BlocoOrdenacaoComponent implements OnInit {
   currentSelected?: SelectedOrder;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
+    private filtroLateralService: FiltroLateralService
   ) {}
 
   ngOnInit(): void {
-    this.clearFilters
-      .subscribe((clear: boolean) => {
-        if (clear === true) {
-          this.resetCurrentSelected();
-        }
-      });
-
-    this.activatedRoute.queryParams
-      .subscribe(params => {
-        const { orderBy, orderType } = params;
-
-        if (orderBy !== undefined) {
-          this.currentSelected = { ordering: orderBy, orderType: orderType ?? 'maior' };
-        } else {
-          this.currentSelected = undefined;
-        }
-      });
-  }
-
-  private resetCurrentSelected() {
-    // this.currentSelected = undefined;
-
-    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams.orderBy = undefined;
-    queryParams.orderType = undefined;
-
-    const { scrollX, scrollY } = window;
-    this.router.navigate([], { queryParams })
-      .then(() => {
-        window.scrollTo(scrollX, scrollY);
+    this.filtroLateralService.selectedOrder
+      .subscribe(selectedOrder => {
+        this.currentSelected = selectedOrder;
       });
   }
 
   setOrder(ordering: PossibleOrderings, orderType: OrderType) {
-    this.currentSelected = { ordering, orderType };
-
-    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams.orderBy = this.currentSelected.ordering;
-    queryParams.orderType = this.currentSelected.orderType;
-
-    const { scrollX, scrollY } = window;
-    this.router.navigate([], { queryParams })
-      .then(() => {
-        window.scrollTo(scrollX, scrollY);
-      });
+    this.filtroLateralService.selectedOrder.next({ ordering, orderType });
   }
 
   checkSelectedOrder(ordering: PossibleOrderings, orderType: OrderType) {

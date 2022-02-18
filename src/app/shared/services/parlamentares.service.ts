@@ -22,6 +22,7 @@ export class ParlamentaresService {
   private parlamentaresFiltered = new BehaviorSubject<Array<AtorAgregado>>([]);
   private orderBy = new BehaviorSubject<string>('');
   private orderType = new BehaviorSubject<'maior'|'menor'>('maior');
+  private partido = new BehaviorSubject<string>('');
   readonly ORDER_BY_PADRAO = 'atuacao-parlamentar';
   private interesse: string;
 
@@ -54,6 +55,16 @@ export class ParlamentaresService {
         switchMap(parlamentares => {
           return this.orderType.pipe(map(_ => parlamentares));
         }),
+        /*
+        map(parlamentares => {
+          if (this.filtroPartido.value !== '') {
+            const sigla = this.filtroPartido.value;
+            parlamentares = parlamentares.filter(p => p.partido === sigla);
+          }
+
+          return parlamentares;
+        }),
+        */
         tap(parlamentares => {
           const orderFunction = this.getOrderFunction();
 
@@ -301,4 +312,18 @@ export class ParlamentaresService {
     this.orderType.next(orderType as ('maior'|'menor'));
   }
 
+  getOrderValues() {
+    const orderBy = this.orderBy.value;
+    const orderType = this.orderType.value;
+
+    return { orderBy, orderType };
+  }
+
+  setPartido(sigla?: string) {
+    if (sigla === undefined) {
+      sigla = '';
+    }
+
+    this.partido.next(sigla);
+  }
 }

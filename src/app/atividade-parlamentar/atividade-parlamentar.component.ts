@@ -32,8 +32,6 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
   tema: string;
   destaque: boolean;
   casa: string;
-  orderBy: string;
-  orderType: string;
 
   constructor(
     private parlamentaresService: ParlamentaresService,
@@ -52,9 +50,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
     this.activatedRoute.queryParams
       .subscribe(params => {
         const pTema = this.replaceUndefined(params.tema);
-        const pCasa = !!params.casa ? params.casa : 'senado';
-        const pOrderBy = this.replaceUndefined(params.orderBy);
-        const pOrderType = this.replaceUndefined(params.orderType);
+        const pCasa = ['senado', 'camara'].includes(params.casa) ? params.casa : 'senado';
         const pInteresse = this.replaceUndefined(params.interesse);
 
         let mudouConsulta = true;
@@ -71,33 +67,13 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
           mudouConsulta = false;
         }
 
-        let mudouOrdenacao = true;
-        if (this.orderBy === pOrderBy && this.parlamentares) {
-          mudouOrdenacao = false;
-        }
-
-        let mudouTipoOrdenacao = true;
-        if (this.orderType === pOrderType && this.parlamentares) {
-          mudouTipoOrdenacao = false;
-        }
-
         this.tema = pTema === 'destaque' ? '' : pTema;
         this.destaque = pTema === 'destaque';
         this.casa = pCasa;
-        this.orderBy = pOrderBy;
-        this.orderType = pOrderType;
         this.interesse = pInteresse;
 
         if (mudouConsulta) {
           this.getDadosAtividadeParlamentar();
-        }
-
-        if (mudouOrdenacao) {
-          this.parlamentaresService.setOrderBy(this.orderBy);
-        }
-
-        if (mudouTipoOrdenacao) {
-          this.parlamentaresService.setOrderType(this.orderType);
         }
       });
     this.interesseService.getInteresses().subscribe(interesses => { this.interesses = interesses; });
@@ -111,7 +87,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
   getDadosAtividadeParlamentar() {
     const dataInicial = '2019-01-01';
     const dataFinal = moment().format('YYYY-MM-DD');
-    this.parlamentaresService.setOrderBy(this.orderBy);
+    // this.parlamentaresService.setOrderBy(this.orderBy);
     this.parlamentaresService.getParlamentares(this.interesse, this.tema, this.casa, dataInicial, dataFinal, this.destaque)
       .pipe(
         skip(1),

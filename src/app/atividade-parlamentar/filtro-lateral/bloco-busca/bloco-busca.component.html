@@ -7,10 +7,13 @@
     <select
       id="local"
       class="form-control"
-      #selectorLocal
+      (change)="onChanageCurrentPartido($event.target.value)"
     >
-      <option *ngFor="let partido of partidos" value="{{partido}}">
-        {{partido}}
+      <option
+        *ngFor="let partido of partidos" value="{{partido}}"
+        [value]="partido.idPartido"
+      >
+        {{partido.sigla}}
       </option>
     </select>
   </div>
@@ -23,7 +26,6 @@
     <select
       id="local"
       class="form-control"
-      #selectorLocal
     >
       <option *ngFor="let estado of ['Todos']" value="{{estado}}">
         {{estado}}
@@ -39,7 +41,6 @@
     <select
       id="local"
       class="form-control"
-      #selectorLocal
     >
       <option *ngFor="let comissao of ['Nenhum selecionado']" value="{{comissao}}">
         {{comissao}}
