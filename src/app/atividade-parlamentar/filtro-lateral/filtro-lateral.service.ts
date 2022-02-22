@@ -22,9 +22,11 @@ export type SelectedOrder = {
 export class FiltroLateralService {
   selectedOrder = new BehaviorSubject<SelectedOrder|undefined>(undefined);
   selectedPartido = new BehaviorSubject<Partido|undefined>(undefined);
+  selectedEstado = new BehaviorSubject<string|undefined>(undefined);
 
   resetValuesToDefault() {
     this.selectedOrder.next(undefined);
     this.selectedPartido.next(undefined);
+    this.selectedEstado.next(undefined);
   }
 }

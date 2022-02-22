@@ -6,6 +6,13 @@ import { FiltroLateralService } from '../filtro-lateral.service';
 
 const DEFAULT_PARTIDO: Partido = { idPartido: 0, sigla: 'Todos' };
 
+const ESTADOS = [
+  'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF',
+  'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA',
+  'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS',
+  'RO', 'RR', 'SC', 'SP', 'SE', 'TO'
+];
+
 @Component({
   selector: 'app-bloco-busca',
   templateUrl: './bloco-busca.component.html',
@@ -14,6 +21,8 @@ const DEFAULT_PARTIDO: Partido = { idPartido: 0, sigla: 'Todos' };
 export class BlocoBuscaComponent implements OnInit {
   currentPartido: Partido = DEFAULT_PARTIDO;
   partidos: Partido[] = [DEFAULT_PARTIDO];
+  currentEstado = 'Todos';
+  estados: string[] = ['Todos', ...ESTADOS];
 
   constructor(
     private partidosService: PartidosService,
@@ -30,6 +39,15 @@ export class BlocoBuscaComponent implements OnInit {
       .subscribe(partido => {
         this.currentPartido = partido;
       });
+
+    this.filtroLateralService.selectedEstado
+      .subscribe(estado => {
+        if (estado === undefined || estado === '') {
+          this.currentEstado = 'Todos';
+        } else {
+          this.currentEstado = estado;
+        }
+      });
   }
 
   onChanageCurrentPartido(idPartido: string) {
@@ -42,6 +60,14 @@ export class BlocoBuscaComponent implements OnInit {
 
     if (partido !== undefined) {
       this.filtroLateralService.selectedPartido.next(partido);
+    }
+  }
+
+  onChanageCurrentEstado(estado: string) {
+    if (estado === 'Todos') {
+      this.filtroLateralService.selectedEstado.next(undefined);
+    } else {
+      this.filtroLateralService.selectedEstado.next(estado);
     }
   }
 

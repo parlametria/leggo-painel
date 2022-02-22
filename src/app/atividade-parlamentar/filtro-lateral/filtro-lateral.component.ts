@@ -90,8 +90,12 @@ export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestr
 
     this.filtroLateralService.selectedPartido
       .subscribe(partido => {
-        console.log(partido);
         this.parlamentaresService.setPartido(partido?.sigla);
+      });
+
+    this.filtroLateralService.selectedEstado
+      .subscribe(estado => {
+        this.parlamentaresService.setEstado(estado);
       });
   }
 

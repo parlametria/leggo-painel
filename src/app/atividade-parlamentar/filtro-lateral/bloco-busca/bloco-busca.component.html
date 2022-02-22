@@ -26,8 +26,9 @@
     <select
       id="local"
       class="form-control"
+      (change)="onChanageCurrentEstado($event.target.value)"
     >
-      <option *ngFor="let estado of ['Todos']" value="{{estado}}">
+      <option *ngFor="let estado of estados" value="{{estado}}">
         {{estado}}
       </option>
     </select>

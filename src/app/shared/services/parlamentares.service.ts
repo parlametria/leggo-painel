@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, forkJoin, Observable, pipe } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, switchMap, tap, filter } from 'rxjs/operators';
 
 import { AtorAgregado } from '../models/atorAgregado.model';
 import { AutoriasService } from 'src/app/shared/services/autorias.service';
@@ -23,6 +23,7 @@ export class ParlamentaresService {
   private orderBy = new BehaviorSubject<string>('');
   private orderType = new BehaviorSubject<'maior'|'menor'>('maior');
   private partido = new BehaviorSubject<string>('');
+  private estado = new BehaviorSubject<string>('');
   readonly ORDER_BY_PADRAO = 'atuacao-parlamentar';
   private interesse: string;
 
@@ -55,17 +56,29 @@ export class ParlamentaresService {
         switchMap(parlamentares => {
           return this.orderType.pipe(map(_ => parlamentares));
         }),
-        /*
-        map(parlamentares => {
-          if (this.filtroPartido.value !== '') {
-            const sigla = this.filtroPartido.value;
-            parlamentares = parlamentares.filter(p => p.partido === sigla);
+        switchMap(parlamentares => {
+          return this.partido.pipe(map(_ => parlamentares));
+        }),
+        switchMap(parlamentares => {
+          return this.estado.pipe(map(_ => parlamentares));
+        }),
+        pipe(map(parla => { // filtra por partido
+          if (this.partido.value === '') {
+            return parla;
           }
 
-          return parlamentares;
-        }),
-        */
-        tap(parlamentares => {
+          const partido = this.partido.value;
+          return parla.filter(p => p.partido === partido);
+        })),
+        pipe(map(parla => { // filtra por estado
+          if (this.estado.value === '') {
+            return parla;
+          }
+
+          const estado = this.estado.value;
+          return parla.filter(p => p.uf === estado);
+        })),
+        tap(parlamentares => { // ordenações
           const orderFunction = this.getOrderFunction();
 
           // parlamentares sem disciplina calculada devem ficar no final da lista
@@ -325,5 +338,13 @@ export class ParlamentaresService {
     }
 
     this.partido.next(sigla);
+  }
+
+  setEstado(estado?: string) {
+    if (estado === undefined) {
+      estado = '';
+    }
+
+    this.estado.next(estado);
   }
 }
