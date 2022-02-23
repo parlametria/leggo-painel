@@ -10,7 +10,7 @@
       (change)="onChanageCurrentPartido($event.target.value)"
     >
       <option
-        *ngFor="let partido of partidos" value="{{partido}}"
+        *ngFor="let partido of partidos"
         [value]="partido.idPartido"
       >
         {{partido.sigla}}
@@ -42,9 +42,13 @@
     <select
       id="local"
       class="form-control"
+      (change)="onChanageCurrentComissao($event.target.value)"
     >
-      <option *ngFor="let comissao of ['Nenhum selecionado']" value="{{comissao}}">
-        {{comissao}}
+      <option
+        *ngFor="let comissao of comissoes"
+        [value]="comissao.idComissaoVoz"
+      >
+        {{ comissao.nome }}
       </option>
     </select>
   </div>

@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { Partido } from '../../../shared/models/partido.model';
 import { PartidosService } from '../../../shared/services/partidos.service';
 import { FiltroLateralService } from '../filtro-lateral.service';
+import { ComissaoService } from '../../../shared/services/comissao.service';
+import { Comissao } from '../../../shared/models/comissao.model';
 
 const DEFAULT_PARTIDO: Partido = { idPartido: 0, sigla: 'Todos' };
+const DEFAULT_COMISSAO: Comissao = { idComissaoVoz: '0', nome: 'Nenhum seleconado', sigla: '' };
 
 const ESTADOS = [
   'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF',
@@ -23,13 +27,26 @@ export class BlocoBuscaComponent implements OnInit {
   partidos: Partido[] = [DEFAULT_PARTIDO];
   currentEstado = 'Todos';
   estados: string[] = ['Todos', ...ESTADOS];
+  currentComissao: Comissao = DEFAULT_COMISSAO;
+  comissoes: Comissao[] = [DEFAULT_COMISSAO];
+  private casa: 'senado'|'camara' = 'senado';
+
 
   constructor(
     private partidosService: PartidosService,
-    private filtroLateralService: FiltroLateralService
+    private filtroLateralService: FiltroLateralService,
+    private comissaoService: ComissaoService,
+    private activatedRoute: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        const casa = params.casa === 'senado' || params.casa === 'camara' ? params.casa : 'senado';
+        this.casa = casa;
+        this.fetchComissoes();
+      });
+
     this.partidosService.getPartidos()
       .subscribe(partidos => {
         this.partidos = [...this.partidos, ...partidos];
@@ -46,6 +63,15 @@ export class BlocoBuscaComponent implements OnInit {
           this.currentEstado = 'Todos';
         } else {
           this.currentEstado = estado;
+        }
+      });
+
+    this.filtroLateralService.selectedComissao
+      .subscribe(comissao => {
+        if (comissao === undefined) {
+          this.currentComissao = DEFAULT_COMISSAO;
+        } else {
+          this.currentComissao = comissao;
         }
       });
   }
@@ -71,13 +97,25 @@ export class BlocoBuscaComponent implements OnInit {
     }
   }
 
-  /*
-  isCurrentPartido(partido: Partido) {
-    if (this.currentPartido === undefined) {
-      return false;
+  onChanageCurrentComissao(idComissaoVoz: string) {
+    if (+idComissaoVoz === 0) {
+      this.filtroLateralService.selectedComissao.next(undefined);
+      return;
     }
 
-    return this.currentPartido.idPartido === partido.idPartido;
+    const comissao = this.comissoes.find(c => c.idComissaoVoz === idComissaoVoz);
+
+    if (comissao !== undefined) {
+      this.filtroLateralService.selectedComissao.next(comissao);
+    }
   }
-  */
+
+  private fetchComissoes() {
+    this.comissaoService.getComissoes(this.casa)
+      .subscribe(comissoes => {
+        console.log('comissoes', comissoes);
+        this.comissoes = [...this.comissoes, ...comissoes];
+      });
+  }
+
 }

@@ -8,6 +8,7 @@ import { takeUntil, take } from 'rxjs/operators';
 import { TemasService } from '../../shared/services/temas.service';
 import { ProposicoesService } from '../../shared/services/proposicoes.service';
 import { ParlamentaresService } from '../../shared/services/parlamentares.service';
+import { ComissaoService } from '../../shared/services/comissao.service';
 
 import { FiltroLateralService } from './filtro-lateral.service';
 
@@ -19,7 +20,7 @@ import { FiltroLateralService } from './filtro-lateral.service';
 export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestroy {
 
   @Input() interesse: string;
-  @Input() casa: string;
+  @Input() casa: 'senado'|'camara';
   @Input() totalParlamentares: number;
   @Output() filterChange = new EventEmitter<any>();
 
@@ -50,6 +51,7 @@ export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestr
     private router: Router,
     private filtroLateralService: FiltroLateralService,
     private parlamentaresService: ParlamentaresService,
+    private comissaoService: ComissaoService,
   ) {
     this.filtro = {
       nome: ''
@@ -90,12 +92,39 @@ export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestr
 
     this.filtroLateralService.selectedPartido
       .subscribe(partido => {
-        this.parlamentaresService.setPartido(partido?.sigla);
+        if (partido === undefined) {
+          this.filtroLateralService.removerFiltrarPorPartido();
+        } else {
+          this.filtroLateralService.filtrarPorPartido(partido);
+        }
+
+        this.parlamentaresService.setFiltroDeParlamentares(this.filtroLateralService.getFiltro());
       });
 
     this.filtroLateralService.selectedEstado
       .subscribe(estado => {
-        this.parlamentaresService.setEstado(estado);
+        if (estado === undefined) {
+          this.filtroLateralService.removerFiltrarPorEstado();
+        } else {
+          this.filtroLateralService.filtrarPorEstado(estado);
+        }
+
+        this.parlamentaresService.setFiltroDeParlamentares(this.filtroLateralService.getFiltro());
+      });
+
+    this.filtroLateralService.selectedComissao
+      .subscribe(comissao => {
+        if ( comissao === undefined) {
+          this.filtroLateralService.removerFiltrarPorComissao();
+          this.parlamentaresService.setFiltroDeParlamentares(this.filtroLateralService.getFiltro());
+          return;
+        }
+
+        this.comissaoService.getParlamentaresComissao(this.casa, comissao.sigla)
+          .subscribe(parlamentares => {
+            this.filtroLateralService.filtrarPorComissao(parlamentares);
+            this.parlamentaresService.setFiltroDeParlamentares(this.filtroLateralService.getFiltro());
+          });
       });
   }
 

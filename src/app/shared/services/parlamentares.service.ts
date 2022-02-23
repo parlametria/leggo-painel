@@ -13,6 +13,8 @@ import { TwitterService } from 'src/app/shared/services/twitter.service';
 
 type OrderFunction = (a: number, b: number, aObj: AtorAgregado, bObj: AtorAgregado) => 1 | -1 | 0;
 
+type ParlamentarFilter = (p: AtorAgregado) => boolean;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,8 +24,9 @@ export class ParlamentaresService {
   private parlamentaresFiltered = new BehaviorSubject<Array<AtorAgregado>>([]);
   private orderBy = new BehaviorSubject<string>('');
   private orderType = new BehaviorSubject<'maior'|'menor'>('maior');
-  private partido = new BehaviorSubject<string>('');
-  private estado = new BehaviorSubject<string>('');
+  // private partido = new BehaviorSubject<string>('');
+  // private estado = new BehaviorSubject<string>('');
+  private filtroDeParlamentares = new BehaviorSubject<ParlamentarFilter>((_) => true);
   readonly ORDER_BY_PADRAO = 'atuacao-parlamentar';
   private interesse: string;
 
@@ -57,26 +60,11 @@ export class ParlamentaresService {
           return this.orderType.pipe(map(_ => parlamentares));
         }),
         switchMap(parlamentares => {
-          return this.partido.pipe(map(_ => parlamentares));
+          return this.filtroDeParlamentares.pipe(map(_ => parlamentares));
         }),
-        switchMap(parlamentares => {
-          return this.estado.pipe(map(_ => parlamentares));
-        }),
-        pipe(map(parla => { // filtra por partido
-          if (this.partido.value === '') {
-            return parla;
-          }
-
-          const partido = this.partido.value;
-          return parla.filter(p => p.partido === partido);
-        })),
-        pipe(map(parla => { // filtra por estado
-          if (this.estado.value === '') {
-            return parla;
-          }
-
-          const estado = this.estado.value;
-          return parla.filter(p => p.uf === estado);
+        pipe(map(parlamentares => {
+          const parlamentarFilter = this.filtroDeParlamentares.value;
+          return parlamentares.filter(parlamentarFilter);
         })),
         tap(parlamentares => { // ordenações
           const orderFunction = this.getOrderFunction();
@@ -332,19 +320,7 @@ export class ParlamentaresService {
     return { orderBy, orderType };
   }
 
-  setPartido(sigla?: string) {
-    if (sigla === undefined) {
-      sigla = '';
-    }
-
-    this.partido.next(sigla);
-  }
-
-  setEstado(estado?: string) {
-    if (estado === undefined) {
-      estado = '';
-    }
-
-    this.estado.next(estado);
+  setFiltroDeParlamentares(filtro: ParlamentarFilter) {
+    this.filtroDeParlamentares.next(filtro);
   }
 }
