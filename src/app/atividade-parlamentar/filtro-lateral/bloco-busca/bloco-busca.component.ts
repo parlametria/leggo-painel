@@ -1,14 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import { Partido } from '../../../shared/models/partido.model';
 import { PartidosService } from '../../../shared/services/partidos.service';
 import { FiltroLateralService } from '../filtro-lateral.service';
 import { ComissaoService } from '../../../shared/services/comissao.service';
+
+import { Partido } from '../../../shared/models/partido.model';
 import { Comissao } from '../../../shared/models/comissao.model';
+import { Lideranca } from 'src/app/shared/models/lideranca.model';
 
 const DEFAULT_PARTIDO: Partido = { idPartido: 0, sigla: 'Todos' };
 const DEFAULT_COMISSAO: Comissao = { idComissaoVoz: '0', nome: 'Nenhum seleconado', sigla: '' };
+const DEFAULT_CARGO: Lideranca = { cargo: 'Nenhum selecionado' };
 
 const ESTADOS = [
   'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF',
@@ -25,11 +28,17 @@ const ESTADOS = [
 export class BlocoBuscaComponent implements OnInit {
   currentPartido: Partido = DEFAULT_PARTIDO;
   partidos: Partido[] = [DEFAULT_PARTIDO];
+
   currentEstado = 'Todos';
   estados: string[] = ['Todos', ...ESTADOS];
+
   currentComissao: Comissao = DEFAULT_COMISSAO;
   comissoes: Comissao[] = [DEFAULT_COMISSAO];
-  private casa: 'senado'|'camara' = 'senado';
+
+  currentCargo: Lideranca = DEFAULT_CARGO;
+  cargos: Lideranca[] = [DEFAULT_CARGO];
+
+  private casa: 'senado' | 'camara' = 'senado';
 
 
   constructor(
@@ -45,6 +54,7 @@ export class BlocoBuscaComponent implements OnInit {
         const casa = params.casa === 'senado' || params.casa === 'camara' ? params.casa : 'senado';
         this.casa = casa;
         this.fetchComissoes();
+        this.fetchCargos();
       });
 
     this.partidosService.getPartidos()
@@ -110,12 +120,32 @@ export class BlocoBuscaComponent implements OnInit {
     }
   }
 
+  onChanageCurrentCargo(cargo: string) {
+    const lideranca = this.cargos.find(c => c.cargo === cargo);
+
+    if (lideranca === undefined || lideranca.cargo === DEFAULT_CARGO.cargo) {
+      this.filtroLateralService.selectedCargo.next(undefined);
+    } else {
+      this.filtroLateralService.selectedCargo.next(lideranca);
+    }
+  }
+
+  checkDisplayCargoSelection(comissao: Comissao) {
+    const id = +comissao.idComissaoVoz;
+    return id > 0;
+  }
+
   private fetchComissoes() {
     this.comissaoService.getComissoes(this.casa)
       .subscribe(comissoes => {
-        console.log('comissoes', comissoes);
-        this.comissoes = [...this.comissoes, ...comissoes];
+        this.comissoes = [DEFAULT_COMISSAO, ...comissoes];
       });
   }
 
+  private fetchCargos() {
+    this.comissaoService.getCargos(this.casa)
+      .subscribe(cargos => {
+        this.cargos = [DEFAULT_CARGO, ...cargos];
+      });
+  }
 }

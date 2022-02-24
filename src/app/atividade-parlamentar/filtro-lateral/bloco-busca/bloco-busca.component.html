@@ -53,20 +53,22 @@
     </select>
   </div>
 
-  <div class="filter-label">
-    <h6>Cargo em comissões</h6>
-  </div>
+  <div *ngIf="checkDisplayCargoSelection(currentComissao)">
+    <div class="filter-label">
+      <h6>Cargo em comissões</h6>
+    </div>
 
-  <div class="form-group">
-    <select
-      id="local"
-      class="form-control"
-      #selectorLocal
-    >
-      <option *ngFor="let cargoEmComissao of ['Nenhum selecionado']" value="{{cargoEmComissao}}">
-        {{cargoEmComissao}}
-      </option>
-    </select>
+    <div class="form-group">
+      <select
+        id="local"
+        class="form-control"
+        (change)="onChanageCurrentCargo($event.target.value)"
+      >
+        <option *ngFor="let cargoEmComissao of cargos" [value]="cargoEmComissao.cargo">
+          {{cargoEmComissao.cargo}}
+        </option>
+      </select>
+    </div>
   </div>
 
   <div class="filter-label">

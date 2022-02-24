@@ -24,8 +24,6 @@ export class ParlamentaresService {
   private parlamentaresFiltered = new BehaviorSubject<Array<AtorAgregado>>([]);
   private orderBy = new BehaviorSubject<string>('');
   private orderType = new BehaviorSubject<'maior'|'menor'>('maior');
-  // private partido = new BehaviorSubject<string>('');
-  // private estado = new BehaviorSubject<string>('');
   private filtroDeParlamentares = new BehaviorSubject<ParlamentarFilter>((_) => true);
   readonly ORDER_BY_PADRAO = 'atuacao-parlamentar';
   private interesse: string;

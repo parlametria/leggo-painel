@@ -114,7 +114,7 @@ export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestr
 
     this.filtroLateralService.selectedComissao
       .subscribe(comissao => {
-        if ( comissao === undefined) {
+        if (comissao === undefined) {
           this.filtroLateralService.removerFiltrarPorComissao();
           this.parlamentaresService.setFiltroDeParlamentares(this.filtroLateralService.getFiltro());
           return;
@@ -122,9 +122,28 @@ export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestr
 
         this.comissaoService.getParlamentaresComissao(this.casa, comissao.sigla)
           .subscribe(parlamentares => {
-            this.filtroLateralService.filtrarPorComissao(parlamentares);
+            this.filtroLateralService.setParlamentaresComissao(parlamentares);
+            this.filtroLateralService.filtrarPorComissao();
             this.parlamentaresService.setFiltroDeParlamentares(this.filtroLateralService.getFiltro());
           });
+      });
+
+    this.filtroLateralService.selectedCargo
+      .subscribe(lideranca => {
+        const comissao = this.filtroLateralService.selectedComissao.value;
+
+        if (comissao === undefined) {
+          console.log('comissao is undefined at cargo selecion');
+          return;
+        }
+
+        if (lideranca === undefined) {
+          this.filtroLateralService.removerFiltrarPorCargo();
+        } else {
+          this.filtroLateralService.filtrarPorCargo(lideranca);
+        }
+
+        this.parlamentaresService.setFiltroDeParlamentares(this.filtroLateralService.getFiltro());
       });
   }
 
