@@ -31,7 +31,7 @@
     <div class="progresso-interesse">
       <app-progress
         [label]="ativo.acoes"
-        [barraClasse]="'bg-primary'"
+        [barraClasse]="'bg-atuacoes'"
         [valor]="ativo.acoes/ativo.interesse.total || 0"
         [exibirLabel]="true"></app-progress>
       <span>{{ativo.interesse.total || 0 | number : '1.0-0'}}</span>

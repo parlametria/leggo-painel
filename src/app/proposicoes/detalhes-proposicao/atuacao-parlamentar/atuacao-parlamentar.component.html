@@ -44,12 +44,8 @@
       >
         <div class="autor">
           <a
-            [routerLink]="[
-              '/',
-              interesse,
-              'parlamentares',
-              parlamentar?.values[0].id_autor_parlametria
-            ]"
+            [routerLink]="['/', 'parlamentares', parlamentar?.values[0].id_autor_parlametria]"
+            [queryParams]="{'interesse': interesse}"
           >
             <span *ngIf="parlamentar?.values[0].casa_autor === 'camara'"
               >Dep.</span
@@ -91,12 +87,8 @@
       >
         <div class="autor">
           <a
-            [routerLink]="[
-              '/',
-              interesse,
-              'parlamentares',
-              parlamentar?.values[0].id_autor_parlametria
-            ]"
+            [routerLink]="['/', 'parlamentares', parlamentar?.values[0].id_autor_parlametria]"
+            [queryParams]="{'interesse': interesse}"
           >
             <span *ngIf="parlamentar?.values[0].casa_autor === 'camara'"
               >Dep.</span
