@@ -40,7 +40,7 @@
 
   <div class="clear-filter-wrapper">
     <div class="clear-filter">
-      <a href="javascript: void(0);" (click)="resetFilters()">Limpar filtros</a>
+      <a class="btn btn-primary" href="javascript: void(0);" (click)="resetFilters()">Limpar filtros</a>
     </div>
   </div>
 
@@ -95,18 +95,4 @@
     </option>
   </select>
   deste painel.-->
-</div>
-<div class="filtro-wrapper mb-4">
-  <div class="col-lg-8">
-    <div class="form-group">
-      <input
-        type="text"
-        class="form-control"
-        id="searchParlamentar"
-        [(ngModel)]="nomePesquisado"
-        (ngModelChange)="aplicarFiltro()"
-        placeholder="Buscar parlamentar..."
-      >
-    </div>
-  </div>
 </div>

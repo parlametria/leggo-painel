@@ -52,19 +52,19 @@
 
   .clear-filter {
     cursor: pointer;
-    color: #81858D;
     text-align: center;
 
     a {
-      color: inherit;
       padding: 10px;
-      border: 1px solid #81858D;
       font-size: 12px;
+      border: 1px solid #34174A;
+      color: #34174A;
+      background-color: #fafcfc;
 
       &:hover {
         text-decoration: none;
-        color: inherit;
-        background-color: #f8f6fb;
+        color: #fafcfc;
+        background-color: #34174A;
       }
     }
   }

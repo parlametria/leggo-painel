@@ -12,6 +12,7 @@
       <option
         *ngFor="let partido of partidos"
         [value]="partido.idPartido"
+        [selected]="currentPartido.idPartido === partido.idPartido"
       >
         {{partido.sigla}}
       </option>
@@ -28,7 +29,7 @@
       class="form-control"
       (change)="onChanageCurrentEstado($event.target.value)"
     >
-      <option *ngFor="let estado of estados" value="{{estado}}">
+      <option *ngFor="let estado of estados" value="{{estado}}" [selected]="currentEstado === estado">
         {{estado}}
       </option>
     </select>
@@ -47,6 +48,7 @@
       <option
         *ngFor="let comissao of comissoes"
         [value]="comissao.idComissaoVoz"
+        [selected]="currentComissao.idComissaoVoz === comissao.idComissaoVoz"
       >
         {{ comissao.nome }}
       </option>
@@ -64,13 +66,18 @@
         class="form-control"
         (change)="onChanageCurrentCargo($event.target.value)"
       >
-        <option *ngFor="let cargoEmComissao of cargos" [value]="cargoEmComissao.cargo">
+        <option
+          *ngFor="let cargoEmComissao of cargos"
+          [value]="cargoEmComissao.cargo"
+          [selected]="currentCargo.cargo === cargoEmComissao.cargo"
+        >
           {{cargoEmComissao.cargo}}
         </option>
       </select>
     </div>
   </div>
 
+  <!--
   <div class="filter-label">
     <h6>Liderança Partidária</h6>
   </div>
@@ -97,4 +104,5 @@
       Líder
     </label>
   </div>
+  -->
 </div>

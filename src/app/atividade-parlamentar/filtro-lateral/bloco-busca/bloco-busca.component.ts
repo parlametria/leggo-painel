@@ -9,6 +9,7 @@ import { Partido } from '../../../shared/models/partido.model';
 import { Comissao } from '../../../shared/models/comissao.model';
 import { Lideranca } from 'src/app/shared/models/lideranca.model';
 
+const DEFAULT_ESTADO = 'Todos';
 const DEFAULT_PARTIDO: Partido = { idPartido: 0, sigla: 'Todos' };
 const DEFAULT_COMISSAO: Comissao = { idComissaoVoz: '0', nome: 'Nenhum seleconado', sigla: '' };
 const DEFAULT_CARGO: Lideranca = { cargo: 'Nenhum selecionado' };
@@ -29,8 +30,8 @@ export class BlocoBuscaComponent implements OnInit {
   currentPartido: Partido = DEFAULT_PARTIDO;
   partidos: Partido[] = [DEFAULT_PARTIDO];
 
-  currentEstado = 'Todos';
-  estados: string[] = ['Todos', ...ESTADOS];
+  currentEstado = DEFAULT_ESTADO;
+  estados: string[] = [DEFAULT_ESTADO, ...ESTADOS];
 
   currentComissao: Comissao = DEFAULT_COMISSAO;
   comissoes: Comissao[] = [DEFAULT_COMISSAO];
@@ -64,13 +65,17 @@ export class BlocoBuscaComponent implements OnInit {
 
     this.filtroLateralService.selectedPartido
       .subscribe(partido => {
-        this.currentPartido = partido;
+        if (partido === undefined) {
+          this.currentPartido = DEFAULT_PARTIDO;
+        } else {
+          this.currentPartido = partido;
+        }
       });
 
     this.filtroLateralService.selectedEstado
       .subscribe(estado => {
         if (estado === undefined || estado === '') {
-          this.currentEstado = 'Todos';
+          this.currentEstado = DEFAULT_ESTADO;
         } else {
           this.currentEstado = estado;
         }
@@ -82,6 +87,15 @@ export class BlocoBuscaComponent implements OnInit {
           this.currentComissao = DEFAULT_COMISSAO;
         } else {
           this.currentComissao = comissao;
+        }
+      });
+
+    this.filtroLateralService.selectedCargo
+      .subscribe(cargo => {
+        if (cargo === undefined) {
+          this.currentCargo = DEFAULT_CARGO;
+        } else {
+          this.currentCargo = cargo;
         }
       });
   }
