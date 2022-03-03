@@ -9,6 +9,7 @@ import { TemasService } from '../../shared/services/temas.service';
 import { ProposicoesService } from '../../shared/services/proposicoes.service';
 import { ParlamentaresService } from '../../shared/services/parlamentares.service';
 import { ComissaoService } from '../../shared/services/comissao.service';
+import { ParlamentaresPerfilParlamentarService } from 'src/app/shared/services/parlamentares-perfil-parlamentar.service';
 
 import { FiltroLateralService } from './filtro-lateral.service';
 
@@ -44,7 +45,6 @@ export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestr
   // filtro: any;
 
   constructor(
-    private temasService: TemasService,
     private proposicoesService: ProposicoesService,
     private activatedRoute: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
@@ -52,6 +52,7 @@ export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestr
     private filtroLateralService: FiltroLateralService,
     private parlamentaresService: ParlamentaresService,
     private comissaoService: ComissaoService,
+    private parlamentaresPerfilParlamentarService: ParlamentaresPerfilParlamentarService,
   ) {
     /*
     this.filtro = {
@@ -74,47 +75,22 @@ export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestr
         this.getContagemProposicoes(this.interesse, this.temaSelecionado);
       });
 
+    /**
+     * TODO: When API adds leaderships to parliamentarians, then fetching
+     * the parliamentarians with leaderships from perfil-parlamentar API won't
+     * be necessary anymore.
+     */
+    this.parlamentaresPerfilParlamentarService.getParlamentarsWithLeadership()
+      .subscribe(parlamentares => {
+        this.filtroLateralService.setParlamentaresComLideranca(parlamentares);
+      });
+
     this.setupFiltroLateralObservers();
   }
 
   ngAfterContentInit() {
     this.cdRef.detectChanges();
   }
-
-  /*
-  getTemas() {
-    this.temasService.getTemas(this.interesse)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(tema => {
-        console.log(tema);
-        tema.forEach(item => this.temasBusca.push(item))}
-      );
-  }
-  */
-  /*
-  onChangeTema(item: string) {
-    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-
-    if (item !== this.FILTRO_PADRAO) {
-      queryParams.tema = item;
-    } else {
-      delete queryParams.tema;
-    }
-    this.router.navigate([], { queryParams });
-  }
-  */
-  /*
-  onChangeCasa(item: string) {
-    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-
-    if (item !== this.FILTRO_PADRAO) {
-      queryParams.casa = item;
-    } else {
-      delete queryParams.casa;
-    }
-    this.router.navigate([], { queryParams });
-  }
-  */
 
   onChangeOrderBy(item: string) {
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
@@ -225,6 +201,17 @@ export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestr
           this.filtroLateralService.removerFiltrarPorCargo();
         } else {
           this.filtroLateralService.filtrarPorCargo(lideranca);
+        }
+
+        this.parlamentaresService.setFiltroDeParlamentares(this.filtroLateralService.getFiltro());
+      });
+
+    this.filtroLateralService.selectedLiderancas
+      .subscribe(liderancas => {
+        if (liderancas.length === 0) {
+          this.filtroLateralService.removerFiltrarPorLiderancas();
+        } else {
+          this.filtroLateralService.filtrarPorLiderancas(liderancas);
         }
 
         this.parlamentaresService.setFiltroDeParlamentares(this.filtroLateralService.getFiltro());

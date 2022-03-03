@@ -7,6 +7,7 @@ import { Partido } from '../../shared/models/partido.model';
 import { Comissao } from '../../shared/models/comissao.model';
 import { ParlamentarComissao } from '../../shared/models/parlamentarComissao.model';
 import { Lideranca } from 'src/app/shared/models/lideranca.model';
+import { ParlamentarPerfilParlamentar } from 'src/app/shared/services/parlamentares-perfil-parlamentar.service';
 
 import {
   FilterFunction,
@@ -15,6 +16,7 @@ import {
   FiltroParlamentaresPartido,
   FiltroParlamentaresComissao,
   FiltroParlamentaresCargoComissao,
+  FiltroParlamentaresComLiderancas,
 } from './filtros.composite';
 
 export type PossibleOrderings
@@ -37,8 +39,10 @@ export class FiltroLateralService {
   selectedEstado = new BehaviorSubject<string | undefined>(undefined);
   selectedComissao = new BehaviorSubject<Comissao | undefined>(undefined);
   selectedCargo = new BehaviorSubject<Lideranca | undefined>(undefined);
+  selectedLiderancas = new BehaviorSubject<string[]>([]);
 
   private parlamentaresComissao: ParlamentarComissao[] = [];
+  private parlamentaresComLideranca: ParlamentarPerfilParlamentar[] = [];
 
   private filtroComposite = new FiltroComposite();
 
@@ -47,10 +51,15 @@ export class FiltroLateralService {
     this.selectedPartido.next(undefined);
     this.selectedEstado.next(undefined);
     this.selectedComissao.next(undefined);
+    this.selectedLiderancas.next([]);
   }
 
   setParlamentaresComissao(parlamentares: ParlamentarComissao[]) {
     this.parlamentaresComissao = parlamentares;
+  }
+
+  setParlamentaresComLideranca(parlamentares: ParlamentarPerfilParlamentar[]) {
+    this.parlamentaresComLideranca = parlamentares;
   }
 
   getFiltro(): FilterFunction {
@@ -103,5 +112,14 @@ export class FiltroLateralService {
 
   removerFiltrarPorCargo() {
     this.filtroComposite.removeFiltro('cargo');
+  }
+
+  filtrarPorLiderancas(liderancas: string[]) {
+    const filtro = new FiltroParlamentaresComLiderancas(liderancas, this.parlamentaresComLideranca);
+    this.filtroComposite.addFiltro('liderancas', filtro);
+  }
+
+  removerFiltrarPorLiderancas() {
+    this.filtroComposite.removeFiltro('liderancas');
   }
 }

@@ -1,6 +1,7 @@
 import { AtorAgregado } from 'src/app/shared/models/atorAgregado.model';
 import { ParlamentarComissao } from 'src/app/shared/models/parlamentarComissao.model';
 import { Lideranca } from 'src/app/shared/models/lideranca.model';
+import { ParlamentarPerfilParlamentar, ParlamentarLideranca } from 'src/app/shared/services/parlamentares-perfil-parlamentar.service';
 
 export type FilterFunction = (p: AtorAgregado) => boolean;
 
@@ -109,5 +110,40 @@ export class FiltroParlamentaresCargoComissao implements FiltroDeParlamentares {
 
   filtrar(parlamentar: AtorAgregado) {
     return this.idsParlamentares.has(parlamentar.id_autor);
+  }
+}
+
+
+export class FiltroParlamentaresComLiderancas implements FiltroDeParlamentares {
+  private idsParlamentares = new Set<number>();
+
+  constructor(liderancas: string[], parlamentaresComLiderancas: ParlamentarPerfilParlamentar[]) {
+    for (const parla of parlamentaresComLiderancas) {
+      const valido = this.verificaSeParlamentarPossuiAlgumaLiderancaSelecionada(liderancas, parla.parlamentarLiderancas);
+
+      // se possue alguma das liderancas selecionadas, salva o id para filtragem
+      if (valido) {
+        this.idsParlamentares.add(+parla.idParlamentar);
+      }
+    }
+  }
+
+  filtrar(parlamentar: AtorAgregado) {
+    return this.idsParlamentares.has(parlamentar.id_autor);
+  }
+
+  private verificaSeParlamentarPossuiAlgumaLiderancaSelecionada(
+    liderancasSelecionadas: string[],
+    liderancasDoParlamentar: ParlamentarLideranca[]
+  ) {
+    // Verifica se o parlamentar possue alguma das licerancas selecionadas
+    const validas = liderancasDoParlamentar.filter(lideranca => {
+      // Vice-líder do Senado Federal --> vice-líder
+      const cargo: string = lideranca.cargo.split(' ')[0].toLocaleLowerCase();
+      const cargosBatem = liderancasSelecionadas.filter(lidSelecionada => lidSelecionada.toLocaleLowerCase() === cargo);
+      return cargosBatem.length > 0;
+    });
+
+    return validas.length > 0;
   }
 }

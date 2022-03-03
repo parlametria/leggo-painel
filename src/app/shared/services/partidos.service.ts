@@ -68,7 +68,7 @@ export class PartidosService {
       return partidos;
     }));
 
-    return apiPartidos$;
+    return this.partidos.asObservable();
   }
 
   private getPageUrl(pagina: number = 1) {

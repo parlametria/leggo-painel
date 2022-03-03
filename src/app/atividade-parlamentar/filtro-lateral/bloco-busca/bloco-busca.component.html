@@ -77,32 +77,20 @@
     </div>
   </div>
 
-  <!--
+
   <div class="filter-label">
     <h6>Liderança Partidária</h6>
   </div>
 
   <div class="form-group party-leadership-wrapper">
-    <label class="checkbox-control">
+    <label class="checkbox-control" *ngFor="let lideranca of liderancas">
       <input
         type="checkbox"
+        [checked]="lideranca.selected"
+        [value]="lideranca.cargo"
+        (change)="onLiderancaChecked(lideranca.cargo)"
       />
-      Representante
-    </label>
-
-    <label class="checkbox-control">
-      <input
-        type="checkbox"
-      />
-      Vice-líder
-    </label>
-
-    <label class="checkbox-control">
-      <input
-        type="checkbox"
-      />
-      Líder
+      {{lideranca.cargo}}
     </label>
   </div>
-  -->
 </div>

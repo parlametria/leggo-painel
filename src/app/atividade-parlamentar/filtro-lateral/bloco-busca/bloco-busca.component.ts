@@ -13,6 +13,11 @@ const DEFAULT_ESTADO = 'Todos';
 const DEFAULT_PARTIDO: Partido = { idPartido: 0, sigla: 'Todos' };
 const DEFAULT_COMISSAO: Comissao = { idComissaoVoz: '0', nome: 'Nenhum seleconado', sigla: '' };
 const DEFAULT_CARGO: Lideranca = { cargo: 'Nenhum selecionado' };
+const LIDERENCAS = [
+  { cargo: 'Representante', selected: false },
+  { cargo: 'Vice-líder', selected: false },
+  { cargo: 'Líder', selected: false },
+];
 
 const ESTADOS = [
   'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF',
@@ -38,6 +43,8 @@ export class BlocoBuscaComponent implements OnInit {
 
   currentCargo: Lideranca = DEFAULT_CARGO;
   cargos: Lideranca[] = [DEFAULT_CARGO];
+
+  liderancas = LIDERENCAS;
 
   private casa: 'senado' | 'camara' = 'senado';
 
@@ -144,6 +151,18 @@ export class BlocoBuscaComponent implements OnInit {
     }
   }
 
+  onLiderancaChecked(cargo: string) {
+    this.liderancas = this.liderancas.map(lideranca => {
+      if (lideranca.cargo === cargo) {
+        lideranca.selected = !lideranca.selected;
+      }
+
+      return lideranca;
+    });
+
+    this.updateLiderancaFilter();
+  }
+
   checkDisplayCargoSelection(comissao: Comissao) {
     const id = +comissao.idComissaoVoz;
     return id > 0;
@@ -161,5 +180,13 @@ export class BlocoBuscaComponent implements OnInit {
       .subscribe(cargos => {
         this.cargos = [DEFAULT_CARGO, ...cargos];
       });
+  }
+
+  private updateLiderancaFilter() {
+    const selectedOnes = this.liderancas.reduce((acc, cur) =>
+      cur.selected ? [...acc, cur.cargo] : [...acc]
+      , [] as string[]);
+
+    this.filtroLateralService.selectedLiderancas.next(selectedOnes);
   }
 }
