@@ -1,0 +1,40 @@
+.filter-order-wrapper {
+  background-color: white;
+  padding: 10px;
+
+  .filter-label {
+    display: flex;
+    align-items: center;
+
+    h6 {
+      color: #81858D;
+      font-size: 14px;
+    }
+  }
+
+  .btn-group {
+    grid-gap: 5px;
+    margin-bottom: 2rem !important;
+
+    .btn {
+      /*
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      flex: 1;
+      */
+      padding: 13px 7px;
+      border-radius: 4px;
+      border: 1px solid #E2E6EA;
+    }
+
+    .btn.btn-selected {
+      background-color: #34174A;
+      color: #ffffff;
+
+      svg {
+        fill: white;
+      }
+    }
+  }
+}

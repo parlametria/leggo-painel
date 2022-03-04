@@ -9,7 +9,7 @@ import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { AtividadeParlamentarComponent } from '../atividade-parlamentar/atividade-parlamentar.component';
 import { CardAtividadeComponent } from '../atividade-parlamentar/card-atividade/card-atividade.component';
-import { FiltroComponent } from '../atividade-parlamentar/filtro/filtro.component';
+// import { FiltroLateralComponent } from '../atividade-parlamentar/filtro-lateral/filtro-lateral.component';
 import { ProposicoesComponent } from '../proposicoes/proposicoes.component';
 import { CardProposicaoComponent } from '../proposicoes/card-proposicao/card-proposicao.component';
 import { CardGridProposicaoComponent } from '../proposicoes/card-grid-proposicao/card-grid-proposicao.component';
@@ -30,14 +30,15 @@ import {
   PartidoIconBlockComponent,
   SenadoIconBlockComponent,
 } from '../atividade-parlamentar/aderencia/aderencia-switch-block/components';
+
 import { FiltroBuscaModule } from '../atividade-parlamentar/filtro-busca/filtro-busca.module';
+import { FiltroLateralModule } from '../atividade-parlamentar/filtro-lateral/filtro-lateral.module';
 
 @NgModule({
   declarations: [
     HomeComponent,
     AtividadeParlamentarComponent,
     CardAtividadeComponent,
-    FiltroComponent,
     ProposicoesComponent,
     CardProposicaoComponent,
     CardGridProposicaoComponent,
@@ -63,7 +64,8 @@ import { FiltroBuscaModule } from '../atividade-parlamentar/filtro-busca/filtro-
     NgbModule,
     NgxPaginationModule,
     FormsModule,
-    FiltroBuscaModule
+    FiltroBuscaModule,
+    FiltroLateralModule
   ]
 })
 export class HomeModule { }
