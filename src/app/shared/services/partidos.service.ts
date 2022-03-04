@@ -40,7 +40,7 @@ export class PartidosService {
 
   getPartidos(): Observable<Partido[]> {
     if (this.partidos.value.length > 0) {
-      return this.partidos;
+      return this.partidos.asObservable();
     }
 
     const pages = [
@@ -68,7 +68,7 @@ export class PartidosService {
       return partidos;
     }));
 
-    return this.partidos.asObservable();
+    return apiPartidos$;
   }
 
   private getPageUrl(pagina: number = 1) {

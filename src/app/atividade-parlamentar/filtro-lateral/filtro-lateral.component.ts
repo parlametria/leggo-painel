@@ -1,11 +1,9 @@
 import { Component, OnInit, AfterContentInit, ChangeDetectorRef, Input, Output, OnDestroy } from '@angular/core';
 import { Params, Router, ActivatedRoute } from '@angular/router';
-import { EventEmitter } from '@angular/core';
 
 import { Subject } from 'rxjs';
-import { takeUntil, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
-import { TemasService } from '../../shared/services/temas.service';
 import { ProposicoesService } from '../../shared/services/proposicoes.service';
 import { ParlamentaresService } from '../../shared/services/parlamentares.service';
 import { ComissaoService } from '../../shared/services/comissao.service';
@@ -19,10 +17,8 @@ import { FiltroLateralService } from './filtro-lateral.service';
   styleUrls: ['./filtro-lateral.component.scss']
 })
 export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestroy {
-
   @Input() interesse: string;
   @Input() casa: 'senado' | 'camara';
-  @Input() totalParlamentares: number;
   // @Output() filterChange = new EventEmitter<any>();
 
   private unsubscribe = new Subject();
@@ -33,16 +29,11 @@ export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestr
   public casaSelecionada: string;
   public orderBySelecionado: string;
 
-  numeroProposicoes: number;
+  get totalParlamentares(): number {
+    return this.casa === 'senado' ? 81 : 512;
+  }
 
-  // temasBusca: any[] = [{ tema: 'todos os temas', tema_slug: 'todos' }, { tema: 'destaque', tema_slug: 'destaque' }];
-  /*casaBusca: any[] = [
-    { casa: 'Parlamentares', casa_slug: 'todos' },
-    { casa: 'Deputados', casa_slug: 'camara' },
-    { casa: 'Senadores', casa_slug: 'senado' }];
-  */
-  // nomePesquisado = '';
-  // filtro: any;
+  numeroProposicoes: number;
 
   constructor(
     private proposicoesService: ProposicoesService,
@@ -53,13 +44,7 @@ export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestr
     private parlamentaresService: ParlamentaresService,
     private comissaoService: ComissaoService,
     private parlamentaresPerfilParlamentarService: ParlamentaresPerfilParlamentarService,
-  ) {
-    /*
-    this.filtro = {
-      nome: ''
-    };
-    */
-  }
+  ) { }
 
   ngOnInit(): void {
     // this.getTemas();

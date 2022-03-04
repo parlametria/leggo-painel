@@ -7,6 +7,12 @@
   </div>
 
   <div class="search-number-results">
-    <span>Encontramos {{ totalParlamentares }} resultados para a sua busca</span>
+    <span *ngIf="totalParlamentares === 0">
+      Não econtramos resultados para sua busca
+    </span>
+
+    <span *ngIf="totalParlamentares > 0">
+      Encontramos {{ totalParlamentares }} resultado{{ totalParlamentares > 1 ? "s" : "" }} para a sua busca
+    </span>
   </div>
 </div>
