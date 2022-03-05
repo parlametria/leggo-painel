@@ -30,7 +30,7 @@ export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestr
   public orderBySelecionado: string;
 
   get totalParlamentares(): number {
-    return this.casa === 'senado' ? 81 : 512;
+    return this.casa === 'senado' ? 80 : 513;
   }
 
   numeroProposicoes: number;

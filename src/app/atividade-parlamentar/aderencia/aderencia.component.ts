@@ -60,7 +60,9 @@ export class AderenciaComponent implements OnInit, OnDestroy {
       return 0;
     }
 
-    return this.parlamentaresCasa.length;
+    let total = this.parlamentaresCasa.length;
+    total = (total === 81) ? 80 : 513;
+    return total;
   }
 
   ngOnInit() {
