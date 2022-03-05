@@ -165,8 +165,7 @@ export class ProposicoesListaService {
   private isDestaque(prop: ProposicaoLista) {
     if (typeof prop.destaques !== 'undefined' && prop.destaques.length !== 0) {
       const destaques = prop.destaques[0];
-      return (destaques.criterio_aprovada_em_uma_casa ||
-        destaques.criterio_req_urgencia_apresentado || destaques.criterio_req_urgencia_aprovado);
+      return (destaques.criterio_aprovada_em_uma_casa || destaques.criterio_req_urgencia_aprovado);
     }
     return false;
   }

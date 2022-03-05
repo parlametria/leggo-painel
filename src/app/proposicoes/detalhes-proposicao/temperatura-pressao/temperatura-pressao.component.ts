@@ -50,8 +50,7 @@ export class TemperaturaPressaoComponent implements OnInit {
     this.eventosService.getEventosTramitacao(idLeggo, 'reforma-tributaria')
       .pipe(indicate(this.isLoading))
       .subscribe(eventos => {
-        this.eventosPrincipais = eventos.filter(e => (typeof e.titulo_evento !== 'undefined' && e.titulo_evento !== 'nan'));
-        this.eventosSecundarios = eventos.filter(e => (typeof e.titulo_evento === 'undefined' || e.titulo_evento === 'nan'));
+        this.eventosPrincipais = eventos;
       });
   }
 

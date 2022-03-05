@@ -44,10 +44,10 @@
             </p>
           </div>
           <p *ngIf="exibeData(fase?.data_inicio)">
-            <strong>Início:</strong> {{ formatDate(fase.data_inicio) }}
+            <strong>Recebido:</strong> {{ formatDate(fase.data_inicio) }}
           </p>
           <p *ngIf="exibeData(fase?.data_fim)">
-            <strong>Fim:</strong> {{ formatDate(fase.data_fim) }}
+            <strong>Enviado:</strong> {{ formatDate(fase.data_fim) }}
           </p>
           <p *ngIf="showHistoricoComissoes(fase)">
             <strong>Histórico de comissões:</strong>
