@@ -13,10 +13,10 @@ const DEFAULT_ESTADO = 'Todos';
 const DEFAULT_PARTIDO: Partido = { idPartido: 0, sigla: 'Todos' };
 const DEFAULT_COMISSAO: Comissao = { idComissaoVoz: '0', nome: 'Nenhum seleconado', sigla: '' };
 const DEFAULT_CARGO: Lideranca = { cargo: 'Nenhum selecionado' };
-const LIDERENCAS = [
-  { cargo: 'Representante', selected: false },
-  { cargo: 'Vice-líder', selected: false },
-  { cargo: 'Líder', selected: false },
+const DEFAULT_LIDERENCAS = [
+  Object.freeze({ cargo: 'Representante', selected: false }),
+  Object.freeze({ cargo: 'Vice-líder', selected: false }),
+  Object.freeze({ cargo: 'Líder', selected: false }),
 ];
 
 const ESTADOS = [
@@ -44,7 +44,7 @@ export class BlocoBuscaComponent implements OnInit {
   currentCargo: Lideranca = DEFAULT_CARGO;
   cargos: Lideranca[] = [DEFAULT_CARGO];
 
-  liderancas = LIDERENCAS;
+  liderancas = [...DEFAULT_LIDERENCAS];
 
   private casa: 'senado' | 'camara' = 'senado';
 
@@ -105,6 +105,13 @@ export class BlocoBuscaComponent implements OnInit {
           this.currentCargo = cargo;
         }
       });
+
+    this.filtroLateralService.selectedLiderancas
+      .subscribe(liderancas => {
+        if (liderancas.length === 0) {
+          this.liderancas = [...DEFAULT_LIDERENCAS];
+        }
+      });
   }
 
   onChanageCurrentPartido(idPartido: string) {
@@ -152,7 +159,9 @@ export class BlocoBuscaComponent implements OnInit {
   }
 
   onLiderancaChecked(cargo: string) {
-    this.liderancas = this.liderancas.map(lideranca => {
+    this.liderancas = this.liderancas.map(current => {
+      const lideranca = { ...current };
+
       if (lideranca.cargo === cargo) {
         lideranca.selected = !lideranca.selected;
       }
