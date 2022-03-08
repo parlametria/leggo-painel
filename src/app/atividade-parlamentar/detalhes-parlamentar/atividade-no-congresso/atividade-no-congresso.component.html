@@ -1,6 +1,23 @@
 <app-loading *ngIf="isLoading | async"></app-loading>
 <div [hidden]="isLoading | async">
   Ações do parlamentar ponderadas pelo número de coautores
+
+  <div class="proposicao-por-interesse">
+    <h3 class="titulo-sessao mt-4">
+      Por Interesse
+    </h3>
+
+    <select (change)="interesseSelecionado($event.target.value)" class="app-seletor">
+      <option
+        *ngFor="let interesse of interesses"
+        [value]="interesse.interesse"
+        [selected]="interesse.interesse === selectedInteresse.interesse"
+      >
+        {{interesse.nome_interesse}}
+      </option>
+    </select>
+  </div>
+
   <div class="titulo-sessao-com-icone">
     <h3 class="titulo-sessao mt-4">Por Tipo</h3>
     <!-- <ng-template #tipContent>
@@ -33,11 +50,13 @@
       </span>
     </p>
   </div>
+
   <div *ngIf="parlamentar && autoriasPorTipo?.length > 0">
     <h3
     class="titulo-sessao mt-4">
     Por Proposição
     </h3>
+
     <app-vis-atividade-detalhada
       [idAtor]="idAtor"
       [interesse]="interesse"></app-vis-atividade-detalhada>
