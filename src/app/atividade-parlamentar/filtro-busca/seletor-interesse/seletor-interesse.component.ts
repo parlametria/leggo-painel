@@ -57,7 +57,10 @@ export class SeletorInteresseComponent implements OnInit {
 
   scrollTo(pos: 'left'|'right') {
     const element = this.scrollList.nativeElement;
-    const MAX_SCROLL = (element as any).scrollLeftMax; // typescript does not like scrollLeftMax on HTMLDivElement
+
+    // chrome does not suport scrollLeftMax on HTMLDivElement
+    const MAX_SCROLL = element.scrollWidth - element.clientWidth;
+
     const NEXT_LEFT = pos === 'left'
       ? element.scrollLeft - this.SCROLL_SPEED
       : element.scrollLeft + this.SCROLL_SPEED;
