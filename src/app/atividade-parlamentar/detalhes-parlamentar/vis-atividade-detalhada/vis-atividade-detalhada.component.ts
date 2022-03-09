@@ -68,7 +68,8 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     this.y = d3.scaleLinear().rangeRound([0, this.altura]);
     this.svg = d3.select('#vis-atividade-detalhada').append('svg')
       .attr('viewBox', `0 0 ${this.largura} ${this.altura}`);
-    this.gPrincipal = this.svg.append('g')
+    this.gPrincipal = this.svg.append('g');
+
     this.activatedRoute.queryParams
       .subscribe(params => {
         this.interesse = params.interesse;
