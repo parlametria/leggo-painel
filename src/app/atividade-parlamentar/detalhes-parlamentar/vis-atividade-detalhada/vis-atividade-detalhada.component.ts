@@ -42,7 +42,6 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
 
   @Input() larguraJanela: number;
   @Input() idAtor: number;
-  @Input() interesse: string;
   @Output() temDados = new EventEmitter();
 
   private unsubscribe = new Subject();
@@ -54,6 +53,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   private svg: any;
   private gPrincipal: any;
   private tema: string;
+  private interesse: string;
   private destaque: boolean;
 
   constructor(
@@ -62,17 +62,16 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.largura = (window.innerWidth > 1100) ? 1100 : window.innerWidth;
-    this.altura = this.largura > 700 ? 450 : 550;
+    this.largura = (window.innerWidth > 700) ? 700 : window.innerWidth - 40;
+    this.altura = this.largura > 500 ? 450 : 550;
     this.x = d3.scaleLinear().rangeRound([0, this.largura]);
     this.y = d3.scaleLinear().rangeRound([0, this.altura]);
     this.svg = d3.select('#vis-atividade-detalhada').append('svg')
-      .attr('viewBox', `0.5 0 ${this.largura} ${this.altura}`);
+      .attr('viewBox', `0 0 ${this.largura} ${this.altura}`);
+    this.gPrincipal = this.svg.append('g')
     this.activatedRoute.queryParams
       .subscribe(params => {
-        this.tema = params.tema;
-        this.destaque = this.tema === 'destaque';
-        this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;
+        this.interesse = params.interesse;
         this.carregaVisAtividade();
       });
   }
@@ -122,10 +121,12 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   }
 
   private carregaVisAtividade() {
-    this.autoriasService.getAutorias(this.idAtor, this.interesse, this.tema, this.destaque)
+    console.log('carrega', this.interesse);
+    this.autoriasService.getAutorias(this.idAtor, this.interesse, '', '')
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(autorias => {
         const autoriasApresentadas = [];
+        console.log(autorias);
         autorias.forEach(dado => {
           if (dado.tipo_documento === 'Prop. Original / Apensada') {
             dado.tipo_documento = dado.tipo_acao;
@@ -142,12 +143,10 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         }
         // Transforma dados tabulares em árvore
         const arvoreAutorias = this.getArvoreAutorias(autoriasApresentadas);
-        // Inicializa visualização
-        if (this.gPrincipal) {
-          this.gPrincipal.selectAll('*').remove();
-        }
-        this.gPrincipal = this.svg.append('g')
-          .call(g => this.atualizaVisAtividade(g, arvoreAutorias));
+
+        this.gPrincipal.selectAll('*').remove();
+        this.gPrincipal.call(g => this.atualizaVisAtividade(g, arvoreAutorias));
+        console.log(this.gPrincipal);
       });
   }
 
@@ -155,7 +154,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     const root = this.treemap(data);
 
     const myColor = d3.scaleOrdinal().domain(['Total', 'Proposta'])
-      .range(['white', '#86BFB4', '#86BFB4', '#86BFB4', '#86BFB4']);
+      .range(['#F8F6FB', '#86BFB4', '#86BFB4', '#86BFB4', '#86BFB4']);
 
     const node = g.selectAll('g')
       .data(d3.nest().key((d: any) => d.data.titulo).entries(root.descendants()))

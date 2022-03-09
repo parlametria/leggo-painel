@@ -1,11 +1,9 @@
 <app-loading *ngIf="isLoading | async"></app-loading>
 <div [hidden]="isLoading | async">
-  Ações do parlamentar ponderadas pelo número de coautores
+  <h3>Ações parlamentares</h3>
+  <p>Ações do parlamentar ponderadas pelo número de coautores.</p>
 
   <div class="proposicao-por-interesse">
-    <h3 class="titulo-sessao mt-4">
-      Por Interesse
-    </h3>
 
     <select (change)="interesseSelecionado($event.target.value)" class="app-seletor">
       <option
@@ -18,47 +16,28 @@
     </select>
   </div>
 
-  <div class="titulo-sessao-com-icone">
-    <h3 class="titulo-sessao mt-4">Por Tipo</h3>
-    <!-- <ng-template #tipContent>
-      Cada traço representa um parlamentar que atuou neste tema. A quantidade de ações do parlamentar atual é representada pela posição do traço preto.
-    </ng-template>
-    <span
-    type="button"
-    class="icon-ajuda title-icon"
-    placement="right"
-    [ngbTooltip]="tipContent"
-    triggers="hover:blur"></span> -->
-  </div>
-  <!-- <app-vis-atividade-parlamentar
-    [idAtor]="idAtor"
-    [interesse]="interesse">
-  </app-vis-atividade-parlamentar> -->
   <div *ngIf="!parlamentar">
     Não foi registrada atuação nas proposições selecionadas.
   </div>
-  <div *ngIf="parlamentar?.ranking_documentos">
-    <p>
-      <strong>{{ parlamentar?.ranking_documentos }}°</strong>
-      parlamentar mais atuante neste painel e tema.
-    </p>
-    <p>
-      Das <strong>{{ totalDocs }}</strong> ações,
-      <span *ngFor="let autoria of autoriasPorTipo; let i = index">
-        <strong>{{ autoria.values.length }}</strong>
-        {{formataTipo(autoria.key, autoria.values.length, (i + 1) === autoriasPorTipo.length)}}
-      </span>
-    </p>
-  </div>
 
-  <div *ngIf="parlamentar && autoriasPorTipo?.length > 0">
-    <h3
-    class="titulo-sessao mt-4">
-    Por Proposição
-    </h3>
-
-    <app-vis-atividade-detalhada
-      [idAtor]="idAtor"
-      [interesse]="interesse"></app-vis-atividade-detalhada>
+  <div class="d-flex">
+    <div class="vis-atividade">
+      <app-vis-atividade-detalhada
+        [idAtor]="idAtor"></app-vis-atividade-detalhada>
+    </div>
+    <div class="vis-detalhes" *ngIf="parlamentar?.ranking_documentos">
+      <p>
+        <strong>{{ parlamentar?.ranking_documentos }}°</strong>
+        parlamentar mais atuante 
+        <span *ngIf="interesse">neste painel. </span>
+      </p>
+      <p>
+        Das <strong>{{ totalDocs }}</strong> ações,
+        <span *ngFor="let autoria of autoriasPorTipo; let i = index">
+          <strong>{{ autoria.values.length }}</strong>
+          {{formataTipo(autoria.key, autoria.values.length, (i + 1) === autoriasPorTipo.length)}}
+        </span>
+      </p>
+    </div>
   </div>
 </div>
