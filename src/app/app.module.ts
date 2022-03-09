@@ -19,12 +19,12 @@ import { ProposicoesListaService } from './shared/services/proposicoes-lista.ser
 import { InsightsService } from './shared/services/insights.service';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-
+// import { VisCabecalhoComponent } from './src/app/atividade-parlamentar/vis-cabecalho/vis-cabecalho.component';
 
 @NgModule({
   declarations: [
     AppComponent
-  ],
+   ],
   imports: [
     BrowserModule,
     HttpClientModule,

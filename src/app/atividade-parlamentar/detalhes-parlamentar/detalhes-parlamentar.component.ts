@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subject, BehaviorSubject, forkJoin } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, skip } from 'rxjs/operators';
 import * as moment from 'moment';
 
 import { indicate } from 'src/app/shared/functions/indicate.function';
@@ -11,6 +11,21 @@ import { AtorDetalhado } from 'src/app/shared/models/atorDetalhado.model';
 import { ParlamentarDetalhadoService } from 'src/app/shared/services/parlamentar-detalhado.service';
 import { AtorService } from 'src/app/shared/services/ator.service';
 import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.service';
+import { VotacoesSumarizadasService } from 'src/app/shared/services/votacoes-sumarizadas.service';
+import { EntidadeService } from 'src/app/shared/services/entidade.service';
+
+
+import { ComissoesCargo } from 'src/app/shared/models/comissaoPresidencia.model';
+import { Relatorias } from 'src/app/shared/models/atorRelator.model';
+import { Autoria } from 'src/app/shared/models/autoria.model';
+
+import { ComissaoService } from 'src/app/shared/services/comissao.service';
+import { RelatoriaService } from 'src/app/shared/services/relatoria.service';
+import { AutoriasService } from 'src/app/shared/services/autorias.service';
+
+import { AtorAgregado } from '../../shared/models/atorAgregado.model';
+import { ParlamentaresService } from '../../shared/services/parlamentares.service';
+
 
 @Component({
   selector: 'app-detalhes-parlamentar',
@@ -22,7 +37,7 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject();
   p = 1;
 
-  public parlamentar: AtorDetalhado;
+  public parlamentar: AtorAgregado;
   public parlamentarInfo: Ator;
   public idAtor: string;
   public interesse: string;
@@ -30,16 +45,34 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
   public isLoading = new BehaviorSubject<boolean>(true);
   public tema: string;
   public destaque: boolean;
+  public comissoes: ComissoesCargo[];
+  
+  public relatorias: Relatorias[];
+  public autorias: Autoria[];
+  public toggleDrawer: boolean;
+  public papeisImportantes;
 
+  
+  
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private parlamentarDetalhadoService: ParlamentarDetalhadoService,
     private atorService: AtorService,
-    private pesoService: PesoPoliticoService
+    private pesoService: PesoPoliticoService,
+    private comissaoService: ComissaoService,
+    private relatoriaService: RelatoriaService,
+    private autoriasService: AutoriasService,
+    private entidadeService: EntidadeService,
+    private parlamentaresService: ParlamentaresService,
+
+    // private votacoesSumarizadasService: //hytacoesSumarizadasService
   ) { }
 
   ngOnInit(): void {
+    console.log("%c INIT !!!", "color: green; font-size: 30px;")
+    console.trace()
+    this.toggleDrawer = true;
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
@@ -54,6 +87,47 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
       this.getParlamentarDetalhado(this.idAtor, this.interesse, this.tema, this.destaque);
     });
     this.getAtorInfo(this.idAtor, this.interesse);
+    this.papeisImportantes = [
+      { value: this.parlamentar?.quantidade_comissao_presidente, 
+        item: "Presidências em comissões"},
+      { value: this.parlamentar?.quantidade_relatorias, 
+        item: "Relatoria em proposições"},
+      { value: this.parlamentar?.quantidade_autorias, 
+        item: "Autoria em proposições"},
+    ]
+  }
+
+  getParlamentarAgregado(casa){
+    const dataInicial = '2019-01-01';
+    const dataFinal = moment().format('YYYY-MM-DD');
+    this.parlamentaresService.setOrderBy('atuacao-parlamentar');
+    this.parlamentaresService.getParlamentares(this.interesse, this.tema, casa, dataInicial, dataFinal, this.destaque)
+      .pipe(
+        skip(1),
+        indicate(this.isLoading),
+        takeUntil(this.unsubscribe))
+      .subscribe(parlamentares => {
+        //ator agregado
+        
+        console.log("%c Ator agregado", "font-size: 14px, font: orange;")
+        console.table(parlamentares)
+        console.dir(parlamentares)
+        console.trace()
+
+        parlamentares.map(prlmntr => {
+          if(prlmntr.idParlamentarVoz === this.idAtor){
+            console.log(prlmntr)
+            this.parlamentar = prlmntr;//hy
+
+          }
+        })
+        this.isLoading.next(false);
+      },
+        error => {
+          console.log(error);
+        }
+      );
+
   }
 
   routeInclude(part: string) {
@@ -63,14 +137,63 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
   getParlamentarDetalhado(idParlamentar, interesse, tema, destaque) {
     const dataInicial = '2019-01-01';
     const dataFinal = moment().format('YYYY-MM-DD');
+
+    //  forkJoin(
+    //   [
+    //     already this.atorService.getAtor(interesse, idAtor),
+    //     this.votacoesSumarizadasService.getVotacoesSumarizadasByID(idParlamentar),
+    //     this.entidadeService.getParlamentaresExercicio('')
+    //   ]
+    // ) .pipe(
+    //     indicate(this.isLoading),
+    //     takeUntil(this.unsubscribe))
+    //   .subscribe(data => {
+    //     const ator = data[0][0];
+    //     const votacoes = data[1][0];
+    //     const parlamentares = data[2];
+
+    //     this.formataData(votacoes);
+    //     this.parlamentarInfo = ator;
+    //     this.parlamentares = parlamentares.filter(p => p.casa_autor === this.parlamentarInfo.casa_autor);
+    //     const parlamentarDestaque = this.parlamentares.filter(p => +p.id_autor_parlametria === this.idParlamentarDestaque)[0];
+    //     console.log(`%c ${parlamentarDestaque}`, "font-size: 20px")
+    //     this.bancadaSuficiente = parlamentarDestaque.bancada_suficiente;
+    //     this.disciplinaCalculada = parlamentarDestaque.disciplina !== null;
+    //     this.governismoCalculado = parlamentarDestaque.governismo !== null;
+    //     this.parlamentaresDisciplina = [...this.parlamentares];
+    //     this.parlamentaresGovernismo = [...this.parlamentares];
+    //     this.isLoading.next(false);
+    //   });
+
+    forkJoin(
+      [
+        this.comissaoService.getComissaoDetalhadaById(idParlamentar),
+        this.relatoriaService.getRelatoriasDetalhadaById(interesse, idParlamentar, tema, destaque),
+        this.autoriasService.getAutoriasOriginais(Number(idParlamentar), interesse, tema, destaque)
+
+      ]
+    )
+    .subscribe(data => {
+      this.comissoes = data[0];
+      this.relatorias = data[1];
+      this.autorias = data[2];
+      console.log(this.comissoes)
+      console.log(this.relatorias)
+      console.log(this.autorias)
+      this.isLoading.next(false);
+    });
     this.parlamentarDetalhadoService
       .getParlamentarDetalhado(idParlamentar, interesse, tema, dataInicial, dataFinal, destaque)
       .pipe(
         indicate(this.isLoading),
         takeUntil(this.unsubscribe))
       .subscribe(parlamentar => {
-        this.parlamentar = parlamentar;
-        this.isLoading.next(false);
+        console.log("%c Parlamentar", "font-size:14px; color: green;")
+        console.log(parlamentar)
+        // console.log(parlamentar?.disciplina)
+        // console.log(parlamentar?.nada)
+        // this.parlamentar = parlamentar;//hy
+        //this.isLoading.next(false);
       });
   }
 
@@ -90,8 +213,11 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
         if (pesoPolitico.length) {
           ator.peso_politico = pesoPolitico[0].pesoPolitico;
         }
-
-        this.parlamentarInfo = ator;
+        console.log('PARLAMENTAR')
+        console.log(ator)
+        this.getParlamentarAgregado(ator.casa_autor)
+        this.parlamentarInfo = ator
+        //parlamentarInfo
       });
   }
 
@@ -101,6 +227,10 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
     const urlFoto = parlamentar.casa_autor === 'camara' ? urlCamara : urlSenado;
 
     return urlFoto;
+  }
+
+  setToggleDrawer(){
+    this.toggleDrawer = !this.toggleDrawer;
   }
 
   getLabel(valor: any, messagem: string): string {
