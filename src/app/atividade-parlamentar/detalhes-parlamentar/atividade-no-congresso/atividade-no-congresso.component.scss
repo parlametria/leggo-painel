@@ -10,3 +10,32 @@
   flex: 1;
   padding: 20px;
 }
+
+.proposicao-por-interesse {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .title {
+    height: 36px;
+    margin-right: 2rem;
+
+    span {
+      font-weight: 600;
+    }
+  }
+
+  .interesses-wrapper {
+    select {
+      width: 580px;
+      color: #6942A3;
+    }
+  }
+}
+
+.quantidade-ativitades {
+  color: #6942A3;
+  font-size: 18px;
+  font-weight: 500;
+  margin: 1rem 0;
+}

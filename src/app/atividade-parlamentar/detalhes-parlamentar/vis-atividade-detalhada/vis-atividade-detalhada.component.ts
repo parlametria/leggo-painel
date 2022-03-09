@@ -5,6 +5,8 @@ import { takeUntil } from 'rxjs/operators';
 
 import { Autoria, ArvoreAutorias } from 'src/app/shared/models/autoria.model';
 import { AutoriasService } from 'src/app/shared/services/autorias.service';
+import { InteresseService } from 'src/app/shared/services/interesse.service';
+import { Interesse } from 'src/app/shared/models/interesse.model';
 
 
 // Importa componentes do d3
@@ -35,7 +37,11 @@ const d3 = Object.assign({}, {
 
 @Component({
   selector: 'app-vis-atividade-detalhada',
-  template: '<div id="vis-atividade-detalhada"></div>',
+  template: `
+    <div class="vis-atividade-detalhada">
+      <span class="nome">{{nomeAtivitade}}</span>
+      <div id="vis-atividade-detalhada"></div>
+    </div>`,
   styleUrls: ['./vis-atividade-detalhada.component.scss']
 })
 export class VisAtividadeDetalhadaComponent implements OnInit {
@@ -54,11 +60,13 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   private gPrincipal: any;
   private tema: string;
   private interesse: string;
+  private interesseAtividade?: Interesse;
   private destaque: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private autoriasService: AutoriasService
+    private autoriasService: AutoriasService,
+    private interesseService: InteresseService,
   ) { }
 
   ngOnInit(): void {
@@ -69,11 +77,36 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     this.svg = d3.select('#vis-atividade-detalhada').append('svg')
       .attr('viewBox', `0 0 ${this.largura} ${this.altura}`);
     this.gPrincipal = this.svg.append('g');
-
     this.activatedRoute.queryParams
       .subscribe(params => {
         this.interesse = params.interesse;
+        this.buscaDadosInteresse();
         this.carregaVisAtividade();
+      });
+  }
+
+  get nomeAtivitade(): string {
+    if (this.interesseAtividade === undefined) {
+      return 'Todas as ações';
+    }
+
+    return this.interesseAtividade.nome_interesse;
+  }
+
+  private buscaDadosInteresse() {
+    if (this.interesse === undefined) {
+      this.interesseAtividade = undefined;
+      return;
+    }
+
+    this.interesseService.getInteresse(this.interesse)
+      .subscribe((data: Interesse[]) => {
+        if (data.length !== 1) {
+          this.interesseAtividade = undefined;
+          return;
+        }
+
+        this.interesseAtividade = data[0];
       });
   }
 
@@ -262,7 +295,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
           texto += '<br>' + `${this.formataNumeroAcoes(prop.data.value)} ` + `${prop.data.categoria}`;
         } else {
           texto += '<br>' + `${this.formataNumeroAcoes(prop.data.value)} ` +
-           `${this.formataCategoriaAcoes(prop.data.categoria)}`;
+            `${this.formataCategoriaAcoes(prop.data.categoria)}`;
         }
       }
     });

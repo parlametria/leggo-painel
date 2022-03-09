@@ -14,9 +14,9 @@ import { AutoriasService } from 'src/app/shared/services/autorias.service';
 const d3 = Object.assign({}, { nest });
 
 const DEFAULT_INTERESSE: Interesse = {
-  nome_interesse: 'Nenhum Selecionado',
+  nome_interesse: 'Todos os painéis',
   descricao_interesse: '',
-  interesse: 'selecione'
+  interesse: 'todos'
 };
 
 @Component({
@@ -66,15 +66,27 @@ export class AtividadeNoCongressoComponent implements OnInit {
         this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;
         this.resgataRanking(this.interesse, this.tema, this.idAtor, this.destaque);
         this.resgataDocumentos(this.interesse, this.tema, parseInt(this.idAtor, 10), this.destaque);
-      });
 
+        if (this.interesses.length === 1) { // apenas o DEFAULT
+          this.resgataInteresses();
+        }
+      });
+  }
+
+  private resgataInteresses() {
     this.interesseService.getInteresses()
       .subscribe((data) => {
         const interesses = data.filter((i) => i.interesse !== 'leggo');
         this.interesses = [DEFAULT_INTERESSE, ...interesses];
+
+        if (this.interesse === undefined) {
+          this.selectedInteresse = DEFAULT_INTERESSE;
+        } else {
+          const found = this.interesses.find(i => i.interesse === this.interesse);
+          this.selectedInteresse = found ?? DEFAULT_INTERESSE;
+        }
       });
   }
-
 
   interesseSelecionado(value: string) {
     const interesse = this.interesses.find(i => i.interesse === value);
