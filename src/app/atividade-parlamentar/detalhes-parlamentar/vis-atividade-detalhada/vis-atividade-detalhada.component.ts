@@ -122,7 +122,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
 
   private carregaVisAtividade() {
     console.log('carrega', this.interesse);
-    this.autoriasService.getAutorias(this.idAtor, this.interesse, '', '')
+    this.autoriasService.getAutorias(this.idAtor, this.interesse, '', false)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(autorias => {
         const autoriasApresentadas = [];
