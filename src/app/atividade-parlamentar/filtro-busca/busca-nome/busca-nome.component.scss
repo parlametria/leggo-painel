@@ -1,0 +1,60 @@
+.busca-nome-wrapper {
+  margin-top: 22px;
+  margin-left: 4rem;
+  width: 460px;
+
+  .search-wrapper {
+    border: solid 1px #ddd;
+    border-radius: 5px;
+
+    &:hover {
+      border: solid 1px #34174A;
+      box-shadow: 0px 11px 15px #34174a1a;
+
+      .material-icons {
+        color: #34174A;
+      }
+    }
+
+    input.form-control:focus {
+      color: #34174A;
+    }
+  }
+
+  .selected-interesse {
+    display: block;
+    position: absolute;
+    margin-top: 5px;
+    width: fit-content;
+    background-color: #fff;
+    border: solid 1px #34174A;
+    padding: 2px 4px;
+    border-radius: 14px;
+    font-size: 10px;
+
+    &:hover {
+      padding: 5px;
+      font-size: 12px;
+      box-shadow: 0px 11px 15px #34174a1a;
+
+      .x-button {
+        padding: 3px 4px 3px 7px;
+      }
+    }
+
+    .x-button {
+      background-color: #494b53;
+      color: #fff;
+      padding: 1px 2px 1px 5px;
+      border-radius: 50%;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .interesse-text {
+      color: #34174A;
+      margin-left: 5px;
+      line-height: 20px;
+    }
+  }
+}

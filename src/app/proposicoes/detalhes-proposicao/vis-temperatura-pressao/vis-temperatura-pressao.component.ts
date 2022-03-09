@@ -10,7 +10,7 @@ import { group, max, min, extent, bisect } from 'd3-array';
 import { axisLeft, axisBottom } from 'd3-axis';
 import { hsl } from 'd3-color';
 import { path } from 'd3-path';
-import { interpolatePurples, interpolateOranges } from 'd3-scale-chromatic';
+import { interpolatePurples, interpolatePiYG } from 'd3-scale-chromatic';
 import { timeParse } from 'd3-time-format';
 import { line, curveMonotoneX } from 'd3-shape';
 import { nest } from 'd3-collection';
@@ -42,7 +42,7 @@ const d3 = Object.assign({}, {
   path,
   scaleSequential,
   interpolatePurples,
-  interpolateOranges,
+  interpolatePiYG,
   line,
   curveMonotoneX,
   timeParse,
@@ -148,7 +148,11 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.idProposicaoDestaque = params.get('id_leggo');
-        this.interesse = params.get('interesse');
+      });
+
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        this.interesse = params.interesse;
         this.carregarVis();
       });
   }
@@ -213,7 +217,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .x((d: any) => this.x(d.data))
       .y((d: any) => this.yPressao(d.valorPressao));
 
-    const colorTemperatura = d3.scaleSequential(d3.interpolatePurples);
+    const colorTemperatura = d3.scaleSequential(d3.interpolatePiYG);
     this.gTemperatura.append('linearGradient')
       .attr('id', 'gradient-temperatura')
       .attr('gradientUnits', 'userSpaceOnUse')
@@ -222,7 +226,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('x2', 0)
       .attr('y2', this.margin.top)
       .selectAll('stop')
-      .data([0.35, 1])
+      .data([0.22, 0.23])
       .enter().append('stop')
       .attr('offset', d => d)
       .attr('stop-color', colorTemperatura.interpolator());
@@ -243,7 +247,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('font-size', '0.8rem')
       .text(`Maior temperatura`);
 
-    const colorPressao = d3.scaleSequential(d3.interpolateOranges);
+    const colorPressao = d3.scaleSequential(d3.interpolatePurples);
     // Remove último elemento da série de pressão
     const dadosPressao = [...dados];
     this.gPressao.append('linearGradient')
@@ -254,7 +258,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('x2', 0)
       .attr('y2', this.margin.top)
       .selectAll('stop')
-      .data([0.35, 1])
+      .data([0.7, 0.8])
       .enter().append('stop')
       .attr('offset', d => d)
       .attr('stop-color', colorPressao.interpolator());
@@ -303,7 +307,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('r', this.r)
       .attr('cx', -100)
       .attr('fill', '#fff')
-      .attr('stroke', '#3f007d')
+      .attr('stroke', '#FF7285')
       .attr('stroke-width', 3)
       .style('cursor', 'pointer');
     const markerPressao = this.gPressao
@@ -311,7 +315,7 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('r', this.r)
       .attr('cx', -100)
       .attr('fill', '#fff')
-      .attr('stroke', '#7f2704')
+      .attr('stroke', '#3f007d')
       .attr('stroke-width', 3);
 
     const mouseArea = this.svg.append('g')
@@ -322,18 +326,24 @@ export class VisTemperaturaPressaoComponent implements OnInit {
       .attr('height', this.height)
       .style('cursor', 'pointer');
 
-    this.dataOnChange.emit(dados[dados.length - 1]);
-    markerTemperatura
-      .style('display', null)
-      .attr('cx', this.x(dados[dados.length - 1].data))
-      .attr('cy', this.yTemperatura(dados[dados.length - 1].valorTemperatura));
-    markerPressao
-      .style('display', null)
-      .attr('cx', this.x(dados[dados.length - 1].data))
-      .attr('cy', this.yPressao(dados[dados.length - 1].valorPressao));
-    bar
-      .style('display', null)
-      .attr('transform', `translate(${this.x(dados[dados.length - 1].data)}, 0)`);
+    const dadosLastItem = dados[dados.length - 1];
+
+    if (dadosLastItem !== undefined) {
+      this.dataOnChange.emit(dadosLastItem);
+      markerTemperatura
+        .style('display', null)
+        .attr('cx', this.x(dadosLastItem.data))
+        .attr('cy', this.yTemperatura(dadosLastItem.valorTemperatura));
+      markerPressao
+        .style('display', null)
+        .attr('cx', this.x(dadosLastItem.data))
+        .attr('cy', this.yPressao(dadosLastItem.valorPressao));
+      bar
+        .style('display', null)
+        .attr('transform', `translate(${this.x(dadosLastItem.data)}, 0)`);
+    } else {
+      console.log('atualizarVis: dadosLastItem is undefined');
+    }
 
     const datas = dados.map(d => d.data);
     mouseArea.on('click', () => {

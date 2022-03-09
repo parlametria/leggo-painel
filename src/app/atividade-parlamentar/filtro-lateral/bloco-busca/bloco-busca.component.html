@@ -1,0 +1,96 @@
+<div class="custom-control search-filters-wrapper">
+  <div class="filter-label">
+    <h6>Partido político</h6>
+  </div>
+
+  <div class="form-group">
+    <select
+      id="local"
+      class="form-control"
+      (change)="onChanageCurrentPartido($event.target.value)"
+    >
+      <option
+        *ngFor="let partido of partidos"
+        [value]="partido.idPartido"
+        [selected]="currentPartido.idPartido === partido.idPartido"
+      >
+        {{partido.sigla}}
+      </option>
+    </select>
+  </div>
+
+  <div class="filter-label">
+    <h6>Estado</h6>
+  </div>
+
+  <div class="form-group">
+    <select
+      id="local"
+      class="form-control"
+      (change)="onChanageCurrentEstado($event.target.value)"
+    >
+      <option *ngFor="let estado of estados" value="{{estado}}" [selected]="currentEstado === estado">
+        {{estado}}
+      </option>
+    </select>
+  </div>
+
+  <div class="filter-label">
+    <h6>Comissões</h6>
+  </div>
+
+  <div class="form-group">
+    <select
+      id="local"
+      class="form-control"
+      (change)="onChanageCurrentComissao($event.target.value)"
+    >
+      <option
+        *ngFor="let comissao of comissoes"
+        [value]="comissao.idComissaoVoz"
+        [selected]="currentComissao.idComissaoVoz === comissao.idComissaoVoz"
+      >
+        {{ comissao.nome }}
+      </option>
+    </select>
+  </div>
+
+  <div *ngIf="checkDisplayCargoSelection(currentComissao)">
+    <div class="filter-label">
+      <h6>Cargo em comissões</h6>
+    </div>
+
+    <div class="form-group">
+      <select
+        id="local"
+        class="form-control"
+        (change)="onChanageCurrentCargo($event.target.value)"
+      >
+        <option
+          *ngFor="let cargoEmComissao of cargos"
+          [value]="cargoEmComissao.cargo"
+          [selected]="currentCargo.cargo === cargoEmComissao.cargo"
+        >
+          {{cargoEmComissao.cargo}}
+        </option>
+      </select>
+    </div>
+  </div>
+
+
+  <div class="filter-label">
+    <h6>Liderança Partidária</h6>
+  </div>
+
+  <div class="form-group party-leadership-wrapper">
+    <label class="checkbox-control" *ngFor="let lideranca of liderancas">
+      <input
+        type="checkbox"
+        [checked]="lideranca.selected"
+        [value]="lideranca.cargo"
+        (change)="onLiderancaChecked(lideranca.cargo)"
+      />
+      {{lideranca.cargo}}
+    </label>
+  </div>
+</div>

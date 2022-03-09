@@ -1,0 +1,83 @@
+$aderencia-purple: #391774;
+$aderencia-blue: #0A367C;
+
+.switch-block-purple {
+  color: $aderencia-purple;
+}
+
+.switch-block-blue {
+  color: $aderencia-blue;
+}
+
+.switch-block {
+  display: flex;
+  flex-direction: column;
+
+  margin: 1rem 0;
+
+  .title {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  .slider {
+    width: 82px;
+    height: 16px;
+    background: #E2E6EA 0% 0% no-repeat padding-box;
+    box-shadow: inset 0px 3px 6px #34174A3B;
+    border-radius: 75px;
+    opacity: 1;
+    position: relative;
+    bottom: 8px;
+  }
+
+  .switch-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 10px;
+  }
+
+  .switch-indicator {
+    font-size: 14px;
+  }
+
+  .switch-indicator.inactive {
+    color: #81858D;
+  }
+
+  .slider-roller {
+    position: relative;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    background-color: #FFF;
+    border-radius: 50%;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  .slider-roller.left {
+    top: -4px;
+    left: 4px;
+  }
+
+  .slider-roller.right {
+    top: -4px;
+    left: 54px;
+  }
+
+  .slider-roller-purple {
+    border: solid 6px $aderencia-purple;
+  }
+  .slider-roller-blue {
+    border: solid 6px $aderencia-blue;
+  }
+}
+
+.camara-component {
+  margin-right: 5px;
+}

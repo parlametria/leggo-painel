@@ -1,10 +1,20 @@
-<div class="container app-container">
-  <app-filtro
-    [interesse]="interesse"
-    (filterChange)="search($event)"
-  ></app-filtro>
+<div class="bg-white">
+  <div class="container">
+    <nav class="aderencia-breadcrumb-wrapper" aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <span> Parlamentares </span>
+        </li>
+      </ol>
+    </nav>
+  </div>
+</div>
+<app-aderencia></app-aderencia>
 
-  <div class="app-content">
+<div class="container app-container">
+  <app-filtro-busca [totalParlamentares]="parlamentares.length"></app-filtro-busca>
+
+  <div class="">
     <app-loading *ngIf="isLoading | async"></app-loading>
 
     <div [hidden]="isLoading | async">
@@ -49,15 +59,24 @@
           </ul>
         </nav>
       </pagination-template>
-      <div *ngFor="
-        let parlamentar of parlamentares
-          | paginate: { itemsPerPage: PARLAMENTARES_POR_PAGINA, currentPage: p };
-        index as i
-      ">
-        <app-card-atividade
-          [parlamentar]="parlamentar"
-          [id]="getParlamentarPosition(i, PARLAMENTARES_POR_PAGINA, p)">
-        </app-card-atividade>
+      <div class="row">
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-4 mb-5"
+              *ngFor="let parlamentar of parlamentares
+              | paginate: { itemsPerPage: PARLAMENTARES_POR_PAGINA, currentPage: p };
+              index as i">
+              <app-card-atividade
+                [parlamentar]="parlamentar"
+                [id]="getParlamentarPosition(i, PARLAMENTARES_POR_PAGINA, p)"
+                (clickModal)="open($event)">
+              </app-card-atividade>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <app-filtro-lateral [casa]="casa"></app-filtro-lateral>
+        </div>
       </div>
       <pagination-template
         #pag="paginationApi"

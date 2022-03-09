@@ -19,27 +19,33 @@ export class AutoriasService {
   constructor(private http: HttpClient) { }
 
   getAutoriasAgregadas(interesse: string, tema: string, destaque: boolean): Observable<AutoriaAgregada[]> {
-    return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas?interesse=${interesse}&tema=${tema}&destaque=${destaque}`);
+    const query = this.getQuery(interesse, tema, destaque);
+    return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas?${query}`);
   }
 
   getAutoriasAgregadasById(interesse: string, idAutor: number, tema: string, destaque: boolean): Observable<AutoriaAgregada[]> {
-    return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas/${idAutor}/?interesse=${interesse}&tema=${tema}&destaque=${destaque}`);
+    const query = this.getQuery(interesse, tema, destaque);
+    return this.http.get<AutoriaAgregada[]>(`${this.autoriaUrl}/agregadas/${idAutor}/?${query}`);
   }
 
   getAutorias(idAtor: number, interesse: string, tema: string, destaque: boolean): Observable<Autoria[]> {
-    return this.http.get<Autoria[]>(`${this.atorUrl}/${idAtor}/autorias/?interesse=${interesse}&tema=${tema}&destaque=${destaque}`);
+    const query = this.getQuery(interesse, tema, destaque);
+    return this.http.get<Autoria[]>(`${this.atorUrl}/${idAtor}/autorias/?${query}`);
   }
 
   getAcoes(interesse: string, tema: string, destaque: boolean): Observable<any[]> {
-    return this.http.get<Autoria[]>(`${this.autoriaUrl}/acoes/?interesse=${interesse}&tema=${tema}&destaque=${destaque}`);
+    const query = this.getQuery(interesse, tema, destaque);
+    return this.http.get<Autoria[]>(`${this.autoriaUrl}/acoes/?${query}`);
   }
 
   getAutoriasOriginais(idAtor: number, interesse: string, tema: string, destaque: boolean): Observable<Autoria[]> {
-    return this.http.get<Autoria[]>(`${this.atorUrl}/${idAtor}/originais/?interesse=${interesse}&tema=${tema}&destaque=${destaque}`);
+    const query = this.getQuery(interesse, tema, destaque);
+    return this.http.get<Autoria[]>(`${this.atorUrl}/${idAtor}/originais/?${query}`);
   }
 
   getAutoriasAgregadasProjetos(interesse: string, tema: string, destaque: boolean): Observable<Autoria[]> {
-    return this.http.get<Autoria[]>(`${this.autoriaUrl}/projetos/?interesse=${interesse}&tema=${tema}&destaque=${destaque}`);
+    const query = this.getQuery(interesse, tema, destaque);
+    return this.http.get<Autoria[]>(`${this.autoriaUrl}/projetos/?${query}`);
   }
 
   getAutoriasPorProposicao(idLeggo: string): Observable<AutoriaProposicao[]> {
@@ -54,4 +60,10 @@ export class AutoriasService {
     return this.http.get<any[]>(`${environment.baseUrl}/coautorias_edge/${idLeggo}`);
   }
 
+  private getQuery(interesse: string, tema: string, destaque: boolean) {
+    let query = interesse ? `interesse=${interesse}&` : '';
+    query = tema ? `${query}tema=${tema}&` : query;
+    query = destaque ? `${query}destaque=${destaque}` : query;
+    return query;
+  }
 }

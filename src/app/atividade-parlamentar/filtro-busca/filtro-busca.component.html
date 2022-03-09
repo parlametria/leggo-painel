@@ -1,0 +1,18 @@
+<div class="filtro-busca-wrapper">
+  <app-seletor-interesse></app-seletor-interesse>
+
+  <div class="casa-e-busca-wrapper">
+    <app-seletor-casa></app-seletor-casa>
+    <app-busca-nome></app-busca-nome>
+  </div>
+
+  <div class="search-number-results">
+    <span *ngIf="totalParlamentares === 0">
+      Não econtramos resultados para sua busca
+    </span>
+
+    <span *ngIf="totalParlamentares > 0">
+      Encontramos {{ totalParlamentares }} resultado{{ totalParlamentares > 1 ? "s" : "" }} para a sua busca
+    </span>
+  </div>
+</div>

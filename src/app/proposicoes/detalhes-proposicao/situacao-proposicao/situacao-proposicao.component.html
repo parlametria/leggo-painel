@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="row">
+    <ol class="situacao-proposicao-content">
+      <li *ngFor="let etapa of proposicao?.etapas">
+        <div class="col p-0 m-0">
+          <p class="m-0">
+            Como está na {{ getNomeCasa(etapa.casa) }}:
+            <a class="app-link" href="{{ etapa.url }}" target="_blank">{{
+              etapa.sigla
+            }}</a>
+          </p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</div>

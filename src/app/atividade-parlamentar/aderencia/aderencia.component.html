@@ -1,0 +1,106 @@
+<div
+  [ngClass]="{'aderencia-component-wrapper': true, 'graph-hidden': !displayGraph}"
+>
+
+  <div class="aderencia">
+    <div class="container">
+
+      <div class="switch-and-graph-wrapper">
+        <div class="aderencia-switchs-wrapper">
+          <div class="row">
+            <div class="col-sm-12" [hidden]="displayGraph">
+              <div class="switch-title-graph-hidden">1 - Selecione o tipo de aderência</div>
+            </div>
+
+            <div class="col-sm-12" [hidden]="!displayGraph">
+              <app-aderencia-switch-block
+                [iconType]="'orientacao'"
+                [title]="'1 - Selecione o tipo de aderência'"
+                [textLeft]="'Governo'"
+                [imgLeft]="'/assets/imgs/temp/governo'"
+                [textRight]="'Partido'"
+                [imgRight]="'/assets/imgs/temp/partido'"
+                [color]="'purple'"
+                (selectedChangedEvent)="orientadorChanged($event)"
+              ></app-aderencia-switch-block>
+            </div>
+
+            <div class="col-sm-12" [hidden]="!displayGraph">
+              <app-aderencia-switch-block
+                [iconType]="'casa'"
+                [title]="'2 - Selecione a casa'"
+                [textLeft]="'Senado'"
+                [imgLeft]="'/assets/imgs/temp/senado'"
+                [textRight]="'Camara'"
+                [imgRight]="'/assets/imgs/temp/camara'"
+                [color]="'blue'"
+                [currentSelected]="casa === 'senado' ? 'left' : 'right'"
+                (selectedChangedEvent)="casaChanged($event)"
+              ></app-aderencia-switch-block>
+            </div>
+
+            <div class="parlamentares" [hidden]="!displayGraph">
+              <div class="total">
+                {{totalParlamentaresCasa}} parlamentares
+              </div>
+
+              <div class="votacoes">
+                {{countVotacoes}} votações apuradas
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="aderencia-graph-wrapper">
+          <div class="row">
+            <div class="col-sm-12 tipo-aderencia">
+              <span>{{ graphTitle }}</span>
+              <img src="/assets/imgs/lampada.svg" alt="lampada" />
+            </div>
+
+            <div class="col-sm-12 aderencia-icons-wrapper" [hidden]="!displayGraph">
+              <span class="poppins-gray">Exibição</span>
+              <button
+                [ngClass]="{'btn btn-light btn-light-icon': true, 'active': view === VIEW_ARC}"
+                (click)="setView('arc')"
+              >
+                <span class="icon-arc"></span>
+              </button>
+              <button
+                [ngClass]="{'btn btn-light btn-light-icon': true, 'active': view === VIEW_BEE}"
+                (click)="setView('bee')"
+              >
+                <span class="icon-beeswarm"></span>
+              </button>
+            </div>
+
+            <div class="col-sm-12" [hidden]="!displayGraph">
+              <app-congresso-chart
+                [parlamentares]="parlamentares"
+                [parlamentaresCompleto]="parlamentaresCasa"
+                [view]="view"
+                [filter]="filtro"
+                [modo]="'aderencia'"
+                class="plot"
+                (viewEvent)="setView($event)"
+                (finishEvent)="setChartVisibility($event)"
+              ></app-congresso-chart>
+
+              <app-congresso-chart-legenda></app-congresso-chart-legenda>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="veja-mais">
+        <img
+          (click)="toggleViewMore()"
+          [ngClass]="{'flipped': displayGraph === false}"
+          src="../../assets/imgs/veja_mais_arrow.svg"
+          alt="veja mais arrow"
+        />
+      </div>
+    </div>
+  </div>
+</div>

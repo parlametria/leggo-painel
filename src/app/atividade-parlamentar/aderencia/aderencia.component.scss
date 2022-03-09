@@ -1,0 +1,152 @@
+$aderencia-purple: #391774;
+$aderencia-blue: #0A367C;
+
+.aderencia-component-wrapper {
+  margin-bottom: 2rem;
+
+  &.graph-hidden {
+    margin-bottom: 4rem;
+
+    .aderencia-switchs-wrapper {
+      display: none;
+    }
+    .aderencia-graph-wrapper {
+      margin: 0;
+    }
+    .poppins-gray {
+      display: none;
+    }
+    .veja-mais {
+      margin-top: -60px;
+    }
+  }
+}
+
+.aderencia {
+  background-color: #FFF;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  padding-right: 2rem;
+  box-shadow: 0px 11px 15px #34174a1a;
+  border-bottom-right-radius: 25px;
+  border-bottom-left-radius: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+.switch-title-graph-hidden {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 400;
+  color: #391774;
+}
+
+.switch-and-graph-wrapper {
+  display: flex;
+}
+
+.aderencia-switchs-wrapper {
+  width: 315px;
+  border-right: #e5e6e7 1px solid;
+  padding: 0 16px 0 40px;
+}
+
+.aderencia-graph-wrapper {
+  margin-left: 2rem;
+  flex: 1;
+}
+
+.poppins-gray {
+  font-family: "Poppins";
+  font-size: 13px;
+  color: #81858D;
+}
+
+.parlamentares {
+  border-top: solid 1px #a0a5a9;
+  padding-right: 40px;
+  margin-top: 2rem;
+  padding-top: 1rem;
+
+  .total {
+    color: #1D2029;
+    font-weight: 400;
+    font-size: 24px;
+  }
+}
+
+.veja-mais {
+  display: flex;
+  justify-content: center;
+  margin-top: -40px;
+
+  img {
+    position: relative;
+    top: 12px;
+    cursor: pointer;
+  }
+
+  img.flipped {
+    position: relative;
+    transform: rotate(180deg);
+    z-index: 1;
+    top: 69px;
+  }
+}
+
+.tipo-aderencia {
+  display: flex;
+
+  span {
+    font-size: 28px;
+    font-weight: 500;
+    color: $aderencia-purple;
+  }
+
+  img {
+    cursor: pointer;
+    margin-left: 8px;
+    width: 16px;
+  }
+}
+
+.aderencia-icons-wrapper {
+  button.btn {
+    padding: 0 0 0 0.5rem;
+  }
+}
+
+
+.btn-light-icon {
+  color: #dee2e6;
+}
+
+.btn-light {
+  background-color: #fff;
+  border: none;
+  opacity: 0.3;
+}
+
+.btn-light-icon:not(:disabled):not(.disabled).active {
+  background-color: #fff;
+  border: none;
+  opacity: 1.0;
+}
+
+button.btn.btn-light.btn-light-icon.active:focus {
+  box-shadow: none;
+}
+
+span.icon-arc, span.icon-beeswarm {
+  display: block;
+  width: 25px;
+  height: 25px;
+}
+
+.icon-arc {
+  background-image: url('/assets/icons/icon-arc.svg');
+}
+
+.icon-beeswarm {
+  background-image: url('/assets/icons/icon-beeswarm.svg');
+}

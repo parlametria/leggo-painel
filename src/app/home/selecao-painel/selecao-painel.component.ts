@@ -32,3 +32,4 @@ export class SelecaoPainelComponent implements OnInit {
   }
 
 }
+

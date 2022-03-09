@@ -1,0 +1,18 @@
+<div class="senado-icon-block-wrapper">
+  <div [ngClass]="{'icon-bow': true, 'inactive': !active}">
+    <img *ngIf="active" src="/assets/imgs/aderencia/senado_bow.svg" />
+    <img *ngIf="!active" src="/assets/imgs/aderencia/senado_bow_inactive.svg" />
+  </div>
+
+  <div class="icon-bar">
+    <img *ngIf="active" src="/assets/imgs/aderencia/senado_bar.svg" />
+    <img *ngIf="!active" src="/assets/imgs/aderencia/senado_bar_inactive.svg" />
+  </div>
+
+  <div class="block-icon">
+    <img *ngIf="active" src="/assets/imgs/aderencia/senado.svg" />
+    <img *ngIf="!active" src="/assets/imgs/aderencia/senado_inactive.svg" />
+  </div>
+
+  <div [ngClass]="{'block-text': true, 'inactive': !active}">Senado</div>
+</div>

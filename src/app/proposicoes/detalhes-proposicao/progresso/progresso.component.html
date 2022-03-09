@@ -1,29 +1,66 @@
-<h3 class="titulo-sessao">Progresso da Tramitação</h3>
+<h3>
+  Progresso da Tramitação
+  <img
+    [ngbPopover]="alertaTip"
+    triggers="mouseenter:mouseleave"
+    src="/assets/icons/popover_icon.svg"
+    alt=""
+  />
+  <ng-template #alertaTip>
+    Traduz o fluxo de tramitação das proposições no Congresso, exibindo em que
+    fase do processo legislativo elas se encontram - tal qual um “GPS”
+  </ng-template>
+</h3>
 <app-loading *ngIf="isLoading | async"></app-loading>
 <div [hidden]="isLoading | async">
-  <div *ngIf="exibeData(ultimaTramitacao?.data)" class="mb-4">
-    Esta proposição está desde <strong>{{ formatDate(ultimaTramitacao?.data) }}</strong> na <strong>{{ ultimaTramitacao?.local }}</strong>.
-  </div>
+  <p *ngIf="exibeData(ultimaTramitacao?.data)" class="mb-4">
+    Esta proposição está na
+    <strong>{{ ultimaTramitacao?.local }}</strong>. Última atualização em
+    <strong>{{ formatDate(ultimaTramitacao?.data) }}</strong>.
+  </p>
   <div class="progresso-wrapper">
     <ul class="progressbar">
       <div
-        [ngbPopover]="popProgresso"
-        [autoClose]="'outside'"
-        *ngFor="let fase of fasesResumidas"
+        class="progress-item"
+        *ngFor="let fase of fasesResumidas; index as i"
       >
-        <ng-template #popProgresso>
+        <li [ngClass]="styleFase(fase)">{{ i + 1 }}</li>
+        <div class="text-center mt-n2">
+          <p *ngIf="exibeCasa(fase)">
+            <small>
+              {{ fase.local_casa == "camara" ? "Câmara" : "Senado" }}
+            </small>
+          </p>
+          <p *ngIf="!exibeCasa(fase)">
+            <small>
+              {{ fase.local }}
+            </small>
+          </p>
+        </div>
+        <div class="detail">
           <div class="mb-2">
-            <p><strong>{{ formataFase(fase) }}</strong></p>
-            <p *ngIf="exibeCasa(fase)">{{ fase.local_casa == 'camara' ? 'Câmara' : 'Senado' }}</p>
+            <p>
+              <strong>{{ formataFase(fase) }}</strong>
+            </p>
           </div>
-          <p *ngIf="exibeData(fase?.data_inicio)"><strong>Início:</strong>  {{ formatDate(fase.data_inicio) }}</p>
-          <p *ngIf="exibeData(fase?.data_fim)"><strong>Fim:</strong> {{ formatDate(fase.data_fim) }}</p>
-          <p *ngIf="showHistoricoComissoes(fase)"><strong>Histórico de comissões:</strong> {{ comissoesHistoric(fase) }}</p>
-          <p *ngIf="fase.pulou">Esta proposição não precisou passar por esta fase.</p>
+          <p *ngIf="exibeData(fase?.data_inicio)">
+            <strong>Recebido:</strong> {{ formatDate(fase.data_inicio) }}
+          </p>
+          <p *ngIf="exibeData(fase?.data_fim)">
+            <strong>Enviado:</strong> {{ formatDate(fase.data_fim) }}
+          </p>
+          <p *ngIf="showHistoricoComissoes(fase)">
+            <strong>Histórico de comissões:</strong>
+            {{ comissoesHistoric(fase) }}
+          </p>
+          <p *ngIf="fase.pulou">
+            Esta proposição não precisou passar por esta fase.
+          </p>
           <p *ngIf="isInProgress(fase)">Fase atual desta proposição.</p>
-          <p *ngIf="isFuture(fase)">Esta proposição ainda não chegou nesta fase.</p>
-        </ng-template>
-        <li [ngClass]="styleFase(fase)"></li>
+          <p *ngIf="isFuture(fase)">
+            Esta proposição ainda não chegou nesta fase.
+          </p>
+        </div>
       </div>
       <hr class="linha" />
     </ul>

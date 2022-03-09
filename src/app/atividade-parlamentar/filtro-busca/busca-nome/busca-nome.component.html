@@ -1,0 +1,40 @@
+<div class="busca-nome-wrapper">
+  <div class="form-inline search-bar">
+    <div class="input-group search-wrapper">
+      <div class="input-group-prepend">
+        <span class="material-icons">search</span>
+      </div>
+
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Pesquise por nome"
+        aria-label="Parlamentares"
+        aria-describedby="basic-addon1"
+        [(ngModel)]="searchText"
+      />
+
+      <div class="input-group-append">
+        <button
+          class="btn btn-primary my-2 my-sm-0"
+          (click)="nomeChanged(searchText)"
+        >
+          Buscar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="interesse !== undefined"
+    class="selected-interesse"
+  >
+    <span
+      class="x-button"
+      (click)="removeInteresse()"
+    >
+      x
+    </span>
+    <span class="interesse-text"> {{ interesse.nome_interesse }}</span>
+  </div>
+</div>

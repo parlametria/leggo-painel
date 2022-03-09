@@ -1,0 +1,27 @@
+<div class="seletor-interesse-wrapper">
+  <div class="title">
+    <h5>Filtrar por painel de interesse</h5>
+  </div>
+
+  <div class="slider-wrapper">
+    <div (click)="scrollTo('left')" class="seletor-arrow-wrapper arrow-left">
+      <img src="/assets/imgs/chevron-solid.svg" alt="Arrow Left" />
+    </div>
+
+    <div class="interest-list" #interestScrollList>
+      <div
+        *ngFor="let interesse of interesses"
+        [ngClass]="{'interest-item': true, 'interest-selected': isInterestSelected(interesse)}"
+        (click)="setSelectedInteresse(interesse)"
+      >
+        <span>
+          {{ interesse?.nome_interesse }}
+        </span>
+      </div>
+    </div>
+
+    <div (click)="scrollTo('right')" class="seletor-arrow-wrapper arrow-right">
+      <img src="/assets/imgs/chevron-solid.svg" alt="Arrow Right" />
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<div class="">
+  <h5>Assuntos relacionados</h5>
+  <div>
+    <ol class="breadcrumb breadcrumb-proposicao m-0 p-0">
+      <li
+        class="breadcrumb-item text-muted"
+        *ngFor="let tema of proposicao?.interesse[0]?.temas"
+      >
+        <span *ngIf="tema !== 'nan'">
+          <p>{{ tema }}</p>
+        </span>
+      </li>
+    </ol>
+  </div>
+</div>

@@ -1,6 +1,66 @@
+@import "../../../shared/variables.scss";
+
 table {
   border-collapse: collapse;
   width: 100%;
+}
+
+.vis-tooltip-titulo-lg {
+  margin-bottom: 20px;
+  .date-with-icon {
+    fill: $primary-color;
+    display: flex;
+    align-items: center;
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+    span {
+      font-size: 16px;
+      margin-left: 5px;
+    }
+  }
+  span {
+    font-size: 20px;
+    color: $primary-color;
+    &.subtitle {
+      font-size: 14px;
+      color: $text-color-3;
+      margin-top: 5px;
+      display: block;
+    }
+  }
+}
+
+.temp-and-press-infos {
+  h5 {
+    img {
+      position: absolute;
+      margin-left: 5px;
+    }
+  }
+  button {
+    background-color: $primary-variant-color-1;
+    border-color: $primary-variant-color-1;
+    &:disabled {
+      color: $util-grey-color;
+      background-color: $util-light-grey-color;
+      border-color: $util-light-grey-color;
+    }
+  }
+}
+
+.modal-header {
+  div {
+    width: 100%;
+    text-align: center;
+    span {
+      color: $util-light-pink-color;
+    }
+  }
+  button {
+    color: #ffffff;
+  }
 }
 
 th,
@@ -8,6 +68,8 @@ td {
   padding: 0.5rem;
   text-align: left;
   vertical-align: top;
+  width: 82%;
+  position: relative;
 }
 
 .date-field {
@@ -15,8 +77,22 @@ td {
   white-space: nowrap;
 }
 
+.vis-wrapper {
+  --nr: 10;
+  --nc: 16;
+  --b: 1px;
+  --g: transparent calc(100% - var(--b)),#f5f3fa 0;
+  background: linear-gradient(to right, var(--g)), linear-gradient(to bottom,var(--g)), #ffffff;
+  background-size: calc((100% - var(--b)*(var(--nc) - 1))/var(--nc) + var(--b)) 100%, 100% calc((100% - var(--b)*(var(--nr) - 1))/var(--nr) + var(--b));
+}
+
 .vis-rodape {
-  margin-top: 1rem;
   margin-bottom: 2rem;
   font-size: .8rem;
+}
+
+.vis-tooltip .btn-xs {
+  padding: 9px;
+  font-size: 12px;
+  border-radius: 2px;
 }

@@ -16,6 +16,8 @@ import { DestaquesProposicaoComponent } from './destaques-proposicao/destaques-p
 import { ProgressStackedComponent } from './progress-stacked/progress-stacked.component';
 import { LegendComponent } from './legend/legend.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { FooterComponent } from './footer/footer.component';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     EmbedTweetComponent,
     ProgressStackedComponent,
     LegendComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    FooterComponent,
+    ModalComponent
   ],
   imports: [
     CommonModule,
@@ -47,7 +51,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     DestaquesProposicaoComponent,
     EmbedTweetComponent,
     ProgressStackedComponent,
-    LegendComponent
+    LegendComponent,
+    FooterComponent,
+    ModalComponent
   ]
 })
 export class SharedComponentsModule { }

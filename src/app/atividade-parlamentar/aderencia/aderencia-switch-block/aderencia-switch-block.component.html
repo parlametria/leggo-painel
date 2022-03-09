@@ -1,0 +1,18 @@
+<div [ngClass]="['aderencia-switch-block', 'switch-block', 'switch-block-'+color]">
+  <div class="title">{{title}}</div>
+
+  <div class="switch-actions">
+    <app-governo-icon-block *ngIf="iconType === 'orientacao'"  [active]="currentSelected === 'left'"></app-governo-icon-block>
+    <app-senado-icon-block *ngIf="iconType === 'casa'" [active]="currentSelected === 'left'"></app-senado-icon-block>
+
+    <div class="slider">
+      <div
+        [ngClass]="['slider-roller', currentSelected, 'slider-roller-'+color]"
+        (click)="toggleCurrentSelected()"
+      ></div>
+    </div>
+
+    <app-partido-icon-block *ngIf="iconType === 'orientacao'" [active]="currentSelected === 'right'"></app-partido-icon-block>
+    <app-camara-icon-block *ngIf="iconType === 'casa'" [active]="currentSelected === 'right'" class="camara-component"></app-camara-icon-block>
+  </div>
+</div>

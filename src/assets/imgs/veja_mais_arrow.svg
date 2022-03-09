@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="165.962" height="83.491" viewBox="0 0 165.962 83.491">
+  <defs>
+    <filter id="Caminho_936" x="0" y="0" width="165.962" height="83.491" filterUnits="userSpaceOnUse">
+      <feOffset dy="-7" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="6.5" result="blur"/>
+      <feFlood flood-color="#34174a" flood-opacity="0.102"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Veja_mais" transform="translate(19.5 26.5)">
+    <g transform="matrix(1, 0, 0, 1, -19.5, -26.5)" filter="url(#Caminho_936)">
+      <path id="Caminho_936-2" data-name="Caminho 936" d="M954.3,484.453h45.576c-44.774-12.184-39.512-34.35-54.2-42.231a19.043,19.043,0,0,0-17.927-.037c-14.491,7.783-9.869,29.92-54.833,42.268Z" transform="translate(-853.41 -413.46)" fill="#fff"/>
+    </g>
+    <g id="Grupo_3415" data-name="Grupo 3415" transform="translate(51.39 14.727)">
+      <g id="expand_more_black_36dp">
+        <path id="Caminho_937" data-name="Caminho 937" d="M24,0H0V24H24Z" fill="none" opacity="0.87"/>
+        <path id="Caminho_938" data-name="Caminho 938" d="M23.65,20.94,16,13.307,8.35,20.94,6,18.59l10-10,10,10Z" transform="translate(-4 -2.765)" fill="#34174a"/>
+      </g>
+    </g>
+  </g>
+</svg>

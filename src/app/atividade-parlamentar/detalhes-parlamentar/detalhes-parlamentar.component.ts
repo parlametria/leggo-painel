@@ -5,10 +5,10 @@ import { Subject, BehaviorSubject, forkJoin } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import * as moment from 'moment';
 
-import { Ator } from 'src/app/shared/models/ator.model';
-import { ParlamentarDetalhadoService } from 'src/app/shared/services/parlamentar-detalhado.service';
 import { indicate } from 'src/app/shared/functions/indicate.function';
+import { Ator } from 'src/app/shared/models/ator.model';
 import { AtorDetalhado } from 'src/app/shared/models/atorDetalhado.model';
+import { ParlamentarDetalhadoService } from 'src/app/shared/services/parlamentar-detalhado.service';
 import { AtorService } from 'src/app/shared/services/ator.service';
 import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.service';
 
@@ -43,11 +43,11 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
-        this.interesse = params.get('interesse');
         this.idAtor = params.get('id');
       });
     this.activatedRoute.queryParams
     .subscribe(params => {
+      this.interesse = params.interesse;
       this.tema = params.tema;
       this.destaque = this.tema === 'destaque';
       this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;

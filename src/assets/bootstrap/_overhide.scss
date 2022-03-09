@@ -1,3 +1,7 @@
+.navbar {
+  border-bottom: solid 1px #adb5bd;
+}
+
 .card-header {
   border-bottom: none;
 }
@@ -15,7 +19,5 @@
 
 /* FORMS */
 .form-control {
-  background-color: $white;
   background-clip: padding-box;
-  border: 2px solid $black;
 }

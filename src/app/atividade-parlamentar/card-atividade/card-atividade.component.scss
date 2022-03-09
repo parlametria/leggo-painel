@@ -1,20 +1,62 @@
 $base-color: #20201e;
 $base-padding: 0.5rem;
 
-.card-atividade-id {
-  width: 52px;
-  min-width: 42px;
-  background-color: $base-color;
-  padding: .25rem .5rem;
-  margin-right: $base-padding;
-  color: #fff;
-  text-align: center;
-  font-size: .8rem;
+.card {
+  margin-top: 35px;
 }
 
 .card-atividade-titulo {
   margin-right: auto;
   line-height: 1.7rem;
+  width: 100%;
+  text-align: center;
+
+  .card-name {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .card-partido {
+    font-size: 13px;
+  }
+}
+
+.card-header {
+  padding: 4.5rem .5rem .2rem;
+  background: white;
+  border-radius: 3px;
+}
+
+hr {
+  margin: 0 0.5rem;
+  border-top: 1px solid #E2E6EA;
+}
+
+.card-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid #efefef;
+  img {
+    width: 100%;
+  }
+}
+
+.card-progress {
+  display: flex;
+  app-progress {
+    flex: 1;
+    margin-right: 5px;
+  }
+  span {
+    font-size: 14px;
+    font-weight: 500;
+  }
 }
 
 .insignias {
@@ -33,3 +75,52 @@ $base-padding: 0.5rem;
 .card-side-icons {
   margin-bottom: 4px;
 }
+
+.card-body {
+  position: relative;
+
+  .jumbotron {
+    background: white;
+    color: #6942A3;
+    transition: all ease .35s;
+    .display-4 {
+      display: none;
+    }
+    h6 {
+      font-size: 14px;
+      margin: 10px 0 0;
+    }
+    p {
+      font-size: 13px;
+    }
+  }
+  .show {
+    position: absolute;
+    display: flex;
+    opacity: 0;
+    transition: all ease .35s;
+    background: #482d71d1;
+    top: 0;
+    left: 0;
+    bottom: -1px;
+    right: 0;
+    border-radius: 3px;
+    align-items: center;
+    justify-content: center;
+    .btn {
+      border-radius: 0;
+      border: 1px solid white;
+      background: transparent;
+      font-size: 14px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+  }
+  &:hover .show {
+    opacity: 1;
+  }
+  &:hover  .jumbotron {
+    filter: blur(1px);
+  }
+}
+

@@ -1,6 +1,20 @@
-<div class="mb-2">
-  <strong>Relator(a)</strong>
-  <div>
-    <span>{{ getRelator() }}</span>
+<div class="mt-4 mb-3">
+  <h5>Relator(a)</h5>
+  <div *ngIf="etapas && etapas.length > 0; else semRelator">
+    <span
+      *ngIf="
+        etapas[etapas.length - 1] && etapas[etapas.length - 1].relatoria;
+        else semRelator
+      "
+      ><p>
+        <a [routerLink]="['/parlamentares', etapas[etapas.length - 1].relatoria.id_relator_parlametria ]"
+           [queryParams]="{'interesse': interesse}"
+           class="app-link">
+          {{ getRelatorFormatado(etapas[etapas.length - 1].relatoria) }}
+        </a>
+        {{ getPartidoUf(etapas[etapas.length - 1].relatoria) }}
+      </p></span
+    >
   </div>
+  <ng-template #semRelator><p>Relator(a) não encontrado</p></ng-template>
 </div>

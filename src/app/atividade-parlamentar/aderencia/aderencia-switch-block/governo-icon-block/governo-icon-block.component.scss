@@ -1,0 +1,21 @@
+.governo-icon-block-wrapper {
+  .icon-bar {
+    position: absolute;
+    left: 5px;
+    bottom: 5px;
+  }
+
+  .block-icon {
+    display: flex;
+    justify-content: center;
+  }
+
+  .block-text {
+    border-bottom: solid 4px #0A367C;
+
+    &.inactive {
+      color: #81858D;
+      border-bottom: solid 4px #81858D;
+    }
+  }
+}

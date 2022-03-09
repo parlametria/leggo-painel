@@ -47,7 +47,12 @@ export class ProgressoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((params) => {
         this.idLeggo = params.get('id_leggo');
-        this.interesse = params.get('interesse');
+      });
+
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        this.interesse = params.interesse;
+
         if (this.idLeggo !== undefined && this.interesse !== undefined) {
           this.getProgressoById(this.idLeggo, this.interesse);
         }
@@ -105,9 +110,10 @@ export class ProgressoComponent implements OnInit, OnDestroy {
         ['Câmara dos Deputados', 'Câmara dos Deputados - Revisão'].includes(
           fase.fase_global
         ),
-      planalto:
-        ['presidência da república', 'congresso'].includes(fase.local_casa) ||
+      presidencia: fase.local_casa === 'presidência da república' ||
         ['Sanção Presidencial/Promulgação'].includes(fase.fase_global),
+      congresso:
+        ['congresso'].includes(fase.local_casa),
       'comissao-mista': ['Comissão Mista'].includes(fase.fase_global),
     };
   }
@@ -146,11 +152,10 @@ export class ProgressoComponent implements OnInit, OnDestroy {
   }
 
   formataFase(fase) {
-    if (fase.is_mpv) {
-      return fase.fase_global;
+    if (['Comissões', 'Plenário'].includes(fase.local)) {
+      return fase.fase_global + ' - ' + fase.local;
     }
-
-    return fase.fase_global + ' - ' + fase.local;
+    return fase.fase_global;
   }
 
   exibeData(data) {

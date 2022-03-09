@@ -5,10 +5,12 @@
       <li class="breadcrumb-item">
         <a
           [routerLink]="['../']"
-          queryParamsHandling="merge"
-          class="btn btn-sm btn-light">
-          &lt; Parlamentares
+          class="">
+          Parlamentares
         </a>
+      </li>
+      <li class="breadcrumb-item">
+        <span> {{ parlamentarInfo?.nome_autor }} </span>
       </li>
     </ol>
   </nav>
@@ -119,8 +121,6 @@
     </div>
   </div>
 </div>
-
-<app-filtra-tema [interesse]="interesse"></app-filtra-tema>
 
 <div class="view-subnav">
   <ul class="nav nav-tabs justify-content-center">

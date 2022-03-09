@@ -9,6 +9,7 @@ import { SelecaoPainelComponent } from './selecao-painel/selecao-painel.componen
 import { PageNotFoundComponent } from '../shared/components/page-not-found/page-not-found.component';
 import { InsightsComponent } from '../insights/insights.component';
 
+
 const routes: Routes = [
   {
     path: 'paineis',
@@ -23,27 +24,16 @@ const routes: Routes = [
     component: PageNotFoundComponent
   },
   {
-    path: ':interesse',
-    component: HomeComponent,
-    children: [
-      {
-        path: '',
-        redirectTo: 'proposicoes',
-        pathMatch: 'full'
-      },
-      {
-        path: 'parlamentares',
-        component: AtividadeParlamentarComponent
-      },
-      {
-        path: 'insights',
-        component: InsightsComponent
-      },
-      {
-        path: 'proposicoes',
-        component: ProposicoesComponent
-      }
-    ],
+    path: 'parlamentares',
+    component: AtividadeParlamentarComponent
+  },
+  {
+    path: 'proposicoes',
+    component: ProposicoesComponent
+  },
+  {
+    path: 'insights',
+    component: InsightsComponent
   },
   {
     path: '',
@@ -51,14 +41,14 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: ':interesse/parlamentares/:id',
+    path: 'parlamentares/:id',
     loadChildren: () =>
       import(
         '../atividade-parlamentar/detalhes-parlamentar/detalhes-parlamentar.module'
       ).then((m) => m.DetalhesParlamentarModule),
   },
   {
-    path: ':interesse/proposicoes/:id_leggo',
+    path: 'proposicoes/:id_leggo',
     loadChildren: () =>
       import(
         '../proposicoes/detalhes-proposicao/detalhes-proposicao.module'

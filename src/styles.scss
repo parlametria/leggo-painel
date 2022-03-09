@@ -1,12 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 /**
  * Importação de fontes padrão
- * Montserrat: 500 Textos em geral
- * Montserrat: 700 Textos fortes (negrito)
- * Roboto: Textos monoespaçados e números de tabelas
  */
-@import url("https://fonts.googleapis.com/css?family=Montserrat:500,700");
-@import url("https://fonts.googleapis.com/css?family=Roboto");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&display=swap");
 
 // Importação e customização do Bootstrap
 @import "./node_modules/bootstrap/scss/functions";
@@ -14,10 +11,85 @@
 @import "./node_modules/bootstrap/scss/bootstrap";
 @import "assets/bootstrap/overhide";
 @import "assets/styles/icons";
+@import "./app/shared/variables.scss";
+
+@font-face {
+  font-family: "Poppins";
+  src: url("assets/fonts/Poppins-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("assets/fonts/Poppins-Bold.ttf") format("truetype");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("assets/fonts/Poppins-Medium.ttf") format("truetype");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("assets/fonts/Poppins-Italic.ttf") format("truetype");
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("assets/fonts/Poppins-Light.ttf") format("truetype");
+  font-weight: 300;
+}
+
+body {
+  font-family: "Poppins" !important;
+  background-color: $background-color;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 10px;
+  color: $text-color;
+  font-family: "Poppins";
+}
+
+h1 {
+  font-size: 48px;
+  font-weight: 300;
+}
+
+h2 {
+  font-size: 34px;
+  font-weight: 500;
+}
+
+h3 {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+h4 {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+h5 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+h6 {
+  font-size: 16px;
+  font-weight: 500;
+}
 
 .app-container {
-  margin-top: 4rem;
-  margin-bottom: 2rem;
+  min-height: 100vh;
 }
 
 .app-titulo {
@@ -112,21 +184,22 @@ a.link-texto:visited {
 .app-link:active,
 .app-link:hover,
 .app-link:visited {
-  color: $secondary;
+  color: $primary-color;
 }
 
 /* Paginação */
 .page-item.active .page-link {
   z-index: 1;
   color: #fff;
-  background-color: #343a40;
-  border-color: #343a40;
+  background-color: $primary-variant-color;
+  border-color: $primary-variant-color;
+  margin: 0 3px;
 }
 .page-link:not(:disabled):not(.disabled) {
   cursor: pointer;
 }
 .page-link {
-  border-radius: 50%;
+  border-radius: 5px;
   width: 35px;
   height: 35px;
   text-align: center;
@@ -136,11 +209,11 @@ a.link-texto:visited {
   position: relative;
   display: block;
   padding: 0.55rem 0.45rem;
-  margin-left: -2px;
+  margin-left: 1px;
   line-height: 0.9;
-  color: #20201e;
+  color: $util-grey-color;
   background-color: #fff;
-  border: 2px solid #fff;
+  border: 1px solid $util-light-grey-color;
 }
 .pagination {
   display: flex;
@@ -279,17 +352,34 @@ a.link-texto:visited {
   z-index: 1001;
   font-size: 0.9rem;
   background-color: $white;
-  border: solid 2px $black;
   padding: 0.25rem 0.5rem;
 
   > p {
     margin: 0;
     padding: 0;
   }
+
+  hr {
+    margin: 0.2rem 0;
+    border-top: 1px solid #ddd;
+  }
+}
+
+.text-color-2 {
+  color: $text-color-2;
+}
+
+p {
+  font-size: 14px;
+  color: $text-color-3;
+}
+
+.text-color-3 {
+  color: $text-color-3;
 }
 
 .vis-tooltip-lg {
-  padding: 1rem 1rem;
+  padding: 1rem 3rem 1rem 1rem;
 }
 
 .vis-tooltip-titulo {
@@ -297,9 +387,7 @@ a.link-texto:visited {
 }
 
 .vis-tooltip-titulo-lg {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .vis-tooltip-table {
@@ -325,53 +413,65 @@ a.link-texto:visited {
 
 /* Backgrounds */
 .bg-temperatura {
-  background-color: #cf7cc9 !important;
+  background-color: $util-light-pink-color !important;
 }
 
 .bg-pressao {
-  background-color: #ffab0f !important;
+  background-color: $util-purple-color !important;
+}
+
+.bg-atuacoes {
+  background-color: #b093d1 !important;
 }
 /* Backgrounds FIM */
 
 /* Fases */
 .fase {
-  width: 14px;
-  height: 14px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background-color: #723234;
-  margin-right: 3px;
-  border: 2px solid #dadada;
+  background-color: $util-grey-color;
+  color: $text-color;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .fase-camara {
-  background-color: #4eb65f;
-  border-color: #4eb65f;
+  background-color: $camara-color;
+  color: #ffffff;
 }
 
 .fase-senado {
-  background-color: #4e8cb6;
-  border-color: #4e8cb6;
+  background-color: $senado-color;
+  color: #ffffff;
 }
 
 .fase-sancao {
-  background-color: #b6af4e;
-  border-color: #b6af4e;
+  background-color: $util-blue-color;
+  color: #ffffff;
+}
+
+.fase-vetos {
+  background-color: $util-orange-color;
+  color: #ffffff;
 }
 
 .fase-comissao-mista {
-  background-color: #037a76;
-  border-color: #037a76;
+  background-color: $util-yellow-color;
+  color: #ffffff;
 }
 
 .fase-nao-realizada {
-  background-color: transparent;
+  background-color: $util-grey-color;
 }
 
 .fase-pulou {
   background-color: #dadada;
-  border-color: #dadada;
+  border-color: #8b7b7b;
 }
+
 /* Fases FIM */
 
 /* Gráficos */
@@ -384,15 +484,15 @@ a.link-texto:visited {
 /* Backgrounds */
 
 .bg-proposicao {
-  background-color: #32626f;
+  background-color: #faa557;
 }
 
 .bg-emenda {
-  background-color: #57b494;
+  background-color: #85cde8;
 }
 
 .bg-requerimento {
-  background-color: #b1eaa3;
+  background-color: #f0e578;
 }
 
 .bg-neutro {
@@ -408,11 +508,11 @@ a.link-texto:visited {
 }
 
 .color-temperatura {
-  color: #3f007d;
+  color: $util-light-pink-color;
 }
 
 .color-pressao {
-  color: #7f2704;
+  color: $util-purple-color;
 }
 /* Backgrounds FIM */
 
@@ -455,4 +555,139 @@ ngb-carousel {
 .btn-in-text {
   padding: 0;
   font-size: 1em;
+}
+
+.truncate-overflow-3 {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.truncate-overflow-1 {
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+//CHIPS STYLE
+
+.chip {
+  display: flex;
+  border: 1px solid;
+  border-radius: 4px;
+  align-items: center;
+  width: fit-content;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+
+  .chip-icon {
+    padding: 3px;
+    background-color: $primary-variant-color;
+    color: white;
+
+    span {
+      display: block;
+      font-size: 18px;
+    }
+  }
+
+  .chip-text {
+    font-size: 13px;
+    padding: 0 5px;
+    color: $text-color-2;
+  }
+}
+
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 720px;
+  }
+}
+
+.breadcrumb {
+  background-color: white;
+  margin: 0;
+  padding: 0.75rem 0;
+}
+
+// ACCORDION
+.accordion {
+  > .card {
+    > .card-header {
+      background-color: #ffffff;
+      padding: 0.75rem 0;
+    }
+  }
+  .card-body {
+    margin-top: -10px;
+    font-size: 14px;
+    color: $text-color-3;
+  }
+
+  .btn:focus {
+    box-shadow: none;
+  }
+}
+
+// CARD GENERIC STYLE
+
+.card {
+  border-width: 1px;
+}
+
+// SELECT GENERIC STYLE
+
+select {
+  &.form-control {
+    border-width: 1px;
+  }
+}
+
+//SEARCH BAR STYLES
+
+.search-bar {
+  .input-group {
+    background-color: #fafcfc;
+    padding: 5px 5px 5px 0;
+    .input-group-prepend {
+      align-items: center;
+      background-color: #fafcfc;
+      padding-left: 5px;
+      color: $util-grey-color;
+    }
+    input {
+      height: 35px;
+      border: none;
+      background-color: #fafcfc;
+      color: $util-grey-color;
+      &:focus {
+        box-shadow: none;
+      }
+    }
+    button {
+      height: 35px;
+      border: 1px solid $primary-variant-color;
+      color: $primary-variant-color;
+      background-color: #fafcfc;
+      border-radius: 5px !important;
+      margin-left: 2px;
+      &:hover {
+        color: #fafcfc;
+        background-color: $primary-variant-color;
+      }
+    }
+  }
+}
+
+// MODAL GENERIC STYLES
+.modal-header {
+  background-color: $primary-color;
+  h1,h2,h3,h4,h5,h6 {
+    color: #ffffff;
+  }
 }

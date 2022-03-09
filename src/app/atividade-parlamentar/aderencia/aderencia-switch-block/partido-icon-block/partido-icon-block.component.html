@@ -1,0 +1,13 @@
+<div class="partido-icon-block-wrapper">
+  <div class="icon-bar">
+    <img *ngIf="active" src="/assets/imgs/aderencia/partido_bar.svg" />
+    <img *ngIf="!active" src="/assets/imgs/aderencia/partido_bar_inactive.svg" />
+  </div>
+
+  <div class="block-icon">
+    <img *ngIf="active" src="/assets/imgs/aderencia/partido.svg" />
+    <img *ngIf="!active" src="/assets/imgs/aderencia/partido_inactive.svg" />
+  </div>
+
+  <div [ngClass]="{'block-text': true, 'inactive': !active}">Partido</div>
+</div>

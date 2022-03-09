@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="163.959" height="17.232" viewBox="0 0 163.959 17.232">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Retângulo_1098" data-name="Retângulo 1098" width="163.959" height="17.232" transform="translate(0 0)" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="seta-tramitacao-destaques" transform="translate(0 0)">
+    <g id="Grupo_4539" data-name="Grupo 4539" clip-path="url(#clip-path)">
+      <path id="Caminho_3231" data-name="Caminho 3231" d="M15,7.3H1a1,1,0,0,0,0,2H15a1,1,0,0,0,0-2" fill="#d0c5e3"/>
+      <path id="Caminho_3232" data-name="Caminho 3232" d="M42,7.3H28a1,1,0,0,0,0,2H42a1,1,0,0,0,0-2" fill="#d0c5e3"/>
+      <path id="Caminho_3233" data-name="Caminho 3233" d="M69,7.3H55a1,1,0,0,0,0,2H69a1,1,0,0,0,0-2" fill="#d0c5e3"/>
+      <path id="Caminho_3234" data-name="Caminho 3234" d="M123,7.3H109a1,1,0,0,0,0,2h14a1,1,0,0,0,0-2" fill="#d0c5e3"/>
+      <path id="Caminho_3235" data-name="Caminho 3235" d="M96,7.3H82a1,1,0,0,0,0,2H96a1,1,0,0,0,0-2" fill="#d0c5e3"/>
+      <path id="Caminho_3236" data-name="Caminho 3236" d="M163.959,8.616,148.974,0V7.3H136a1,1,0,0,0,0,2h12.974v7.934Z" fill="#d0c5e3"/>
+    </g>
+  </g>
+</svg>

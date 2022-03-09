@@ -1,0 +1,162 @@
+@import "../../shared/variables.scss";
+
+$base-padding: 1rem;
+$size: 13px;
+
+.card {
+  min-height: 275px;
+  .card-header {
+    height: 48px;
+    padding: 0;
+    background-color: #ffffff;
+    margin-bottom: 5px;
+    border-bottom: 1px solid $util-light-grey-color;
+
+    .house-name {
+      font-size: 12px;
+      font-weight: bold;
+      color: inherit;
+    }
+
+    .img-wrapper {
+       margin-top: -20px;
+    }
+
+    img {
+      width: 45px;
+      height: 45px;
+      margin: 0 0 0 -15px;
+      cursor: pointer;
+    }
+    h4 {
+      margin-bottom: 0;
+    }
+  }
+
+  .card-body {
+    h5 {
+      color: $text-color-2;
+    }
+    span {
+      display: block;
+    }
+    p {
+      font-size: 14px;
+      color: $text-color-3;
+    }
+    .etapa-tramitacao-block {
+      margin-bottom: 20px;
+      a {
+        cursor: pointer;
+      }
+    }
+    .etapas-steps {
+      align-items: center;
+      padding: 0;
+      margin-bottom: 20px;
+      /*transform: scale(.8) translateX(-40px);*/
+      .fase {
+        width: 24px;
+        height: 24px;
+      }
+      & > div {
+        &:not(:last-child) {
+          .line-between-divs {
+            border: 1px solid #B0B6BA;
+            width: 14px;
+          }
+        }
+      }
+    }
+    .temperatura-block {
+      margin-bottom: 1rem;
+      img {
+        margin-top: -13px;
+        cursor: pointer;
+        margin-left: 2px;
+      }
+      .card-label {
+        margin-bottom: 10px;
+      }
+    }
+    .pressao-block {
+      margin-bottom: 1rem;
+      .d-flex {
+        padding-right: 10%;
+      }
+      .card-label {
+        margin-bottom: 10px;
+      }
+    }
+
+    .temas-block {
+      margin-bottom: 1rem;
+      .temas {
+        font-size: 0.85rem;
+      }
+    }
+  }
+}
+
+.proposicao-info {
+  font-size: 0.85rem;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.tags {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: $base-padding;
+}
+
+.badge-em-alta {
+  font-size: 100%;
+  border-radius: 50%;
+}
+
+.card-muted {
+  border-color: #adb5bd;
+  background-color: #f8f9fa;
+}
+
+.card-header-muted {
+  background-color: #f8f9fa;
+}
+
+.house-camara,
+.house-senado {
+  height: 48px;
+  border-right: 7px solid;
+  margin-left: 5px;
+  margin-bottom: 1px;
+}
+
+.house-camara {
+  color: $camara-color;
+}
+
+.house-senado {
+  color: $senado-color;
+}
+
+.house-symbol-camara,
+.house-symbol-senado {
+  width: $size * 2;
+  height: $size;
+}
+
+.house-symbol-camara {
+  border-bottom-left-radius: $size * 2;
+  border-bottom-right-radius: $size * 2;
+  background: $camara-color;
+}
+
+.house-symbol-senado {
+  border-top-left-radius: $size * 2;
+  border-top-right-radius: $size * 2;
+  background: $senado-color;
+}

@@ -1,7 +1,69 @@
+@import '../../shared/variables.scss';
+
 $base-color: #20201e;
+
+.detalhes-proposicoes-conteiner {
+  background-color: #F8F6Fb;
+
+  .ultimas-atualizacoes-block {
+    margin: -10px 0 30px;
+  }
+}
+
+.top-info-container {
+  background-color: white;
+  box-shadow: 0px 11px 15px #34174A1A;
+  border-radius: 0px 0px 40px 40px;
+  opacity: 1;
+}
 
 .proposicao-temas {
   margin: 0;
   padding-top: 0;
   padding-bottom: 0;
 }
+
+.button-show {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: transparent;
+  border: none;
+  background-image: url("../../../assets/imgs/minimize-form.svg");
+  width: 130px;
+  height: 45px;
+}
+
+.button-show img {
+  width: 16px;
+}
+
+.button-show-more {
+  span {
+    img {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.button-show-less {
+  transform: rotate(180deg);
+  -webkit-filter: drop-shadow( 0px 11px 15px #34174A3A);
+  filter: drop-shadow( 0px 11px 15px #34174A3A);
+
+  span {
+    img {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px 15px;
+  border: none;
+  box-shadow: 0px 2px 5px #34174A1A;
+  border-radius: 2px;
+}
+
+

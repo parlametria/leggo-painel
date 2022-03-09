@@ -1,27 +1,36 @@
-.paineis {
-  display: flex;
-  align-items: center;
-  @media (min-width: 768px) {
-    height: 60vh;
-  }
+.card-inner {
+  padding: 1rem;
 }
 
-.paineis-selecao {
-  padding: 1rem;
-  margin-bottom: 1rem;
+.card-calltoaction {
+  height: 325px;
+  cursor: pointer;
   display: flex;
+  align-items: flex-start;
   justify-content: center;
-  align-items: center;
+  background-size: cover;
+  background-position-x: center;
+  filter: blur(1px) brightness(0.7);
+  transition: filter ease .35s;
+}
 
-  @media (min-width: 576px) {
-    height: 100px;
-  }
+.card-calltoaction-h {
+  color: #ffffff;
+  text-align: center;
+  font-weight: 500;
+  font-size: 23px;
+  font-family: "Poppins";
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+}
 
-  @media (min-width: 992px) {
-    padding: 3rem;
-  }
+.card-calltoaction:hover {
+  filter: blur(0) brightness(1);
+}
 
-  @media (min-width: 1200px) {
-    padding: 3.6rem;
-  }
+.card-calltoaction-link:active,
+.card-calltoaction-link:hover {
+  text-decoration: none;
 }

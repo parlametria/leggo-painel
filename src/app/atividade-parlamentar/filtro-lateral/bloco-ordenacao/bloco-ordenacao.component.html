@@ -1,0 +1,61 @@
+<div class="custom-control filter-order-wrapper">
+  <div *ngFor="let ord of orderBy">
+    <div class="filter-label">
+      <h6>{{ ord.order }}</h6>
+    </div>
+
+    <div class="btn-group d-flex mb-3">
+      <button
+        [ngClass]="{'btn': 1, 'btn-selected': checkSelectedOrder(ord.order_by, 'maior')}"
+        (click)="setOrder(ord.order_by, 'maior')"
+      >
+        <svg
+          id="arrow_upward_black_24dp"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+        >
+          <path
+            id="Caminho_3244"
+            data-name="Caminho 3244"
+            d="M0,0H24V24H0Z"
+            fill="none"
+          />
+          <path
+            id="Caminho_3245"
+            data-name="Caminho 3245"
+            d="M4,12l1.41,1.41L11,7.83V20h2V7.83l5.58,5.59L20,12,12,4Z"
+          />
+        </svg>
+        maior
+      </button>
+
+      <button
+        [ngClass]="{'btn': 1,'btn-selected': checkSelectedOrder(ord.order_by, 'menor')}"
+        (click)="setOrder(ord.order_by, 'menor')"
+      >
+        <svg
+          id="arrow_downward_black_24dp"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+        >
+          <path
+            id="Caminho_3242"
+            data-name="Caminho 3242"
+            d="M0,0H24V24H0Z"
+            fill="none"
+          />
+          <path
+            id="Caminho_3243"
+            data-name="Caminho 3243"
+            d="M20,12l-1.41-1.41L13,16.17V4H11V16.17L5.42,10.58,4,12l8,8Z"
+          />
+        </svg>
+        menor
+      </button>
+    </div>
+  </div>
+</div>

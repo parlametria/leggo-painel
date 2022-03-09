@@ -1,0 +1,23 @@
+<div class="seletor-casa-wrapper">
+  <div class="title">
+    <span>Selecione a casa</span>
+  </div>
+
+  <div class="casa-selector">
+    <div
+      [ngClass]="{'selector-item': 1, 'selector-senado': 1, 'selected-item' : currentSelected === 'senado'}"
+      (click)="setCurrentSelected('senado')"
+    >
+      <img [src]="'/assets/imgs/aderencia/senado' + (currentSelected === 'senado' ? '_white' : '')  +'.svg'" alt="senado img" />
+      <span>Senado</span>
+    </div>
+
+    <div
+      [ngClass]="{'selector-item': 1, 'selector-camara': 1, 'selected-item' : currentSelected === 'camara'}"
+      (click)="setCurrentSelected('camara')"
+    >
+      <img [src]="'/assets/imgs/aderencia/camara' + (currentSelected === 'camara' ? '_white' : '') + '.svg'" alt="camara img" />
+      <span>Câmara</span>
+    </div>
+  </div>
+</div>

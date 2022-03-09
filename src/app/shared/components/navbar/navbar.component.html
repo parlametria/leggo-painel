@@ -1,36 +1,73 @@
-<nav class="navbar bg-light">
+<nav class="navbar">
   <div class="container navbar-container">
-    <div class="navbar-logo-wrapper">
+    <div class="navbar-logo-wrapper align-items-center">
       <div class="text-center pr-2">
-        <a
-          [routerLink]="''"
-          class="navbar-brand">
+        <a [routerLink]="''" class="navbar-brand">
           <img
             src="assets/imgs/logotipo-parlametria.png"
             alt="Parlametria"
             width="200"
-            height="22">
-        </a>
-      </div>
-      <div class="text-center" *ngIf="interesse?.interesse">
-        <a
-          [routerLink]="interesse?.interesse"
-          class="navbar-brand">
-          <span class="d-none d-md-inline-block">&bull;</span>
-          Painel
-          <span class="nome-painel">{{ interesse?.nome_interesse }}</span>
+            height="22"
+          />
         </a>
       </div>
     </div>
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a
-          [routerLink]="'/sobre'"
-          class="navbar-link-icon">
-          <span class="icon-sobre app-icon"></span>
-          <span class="sr-only">Sobre</span>
+    <div class="navbar-links">
+      <ul>
+        <li class="nav-item active">
+          <img src="/assets/icons/proposicoes_icon.svg" alt="">
+          <a class="nav-link" href="/paineis">Proposições</a>
+        </li>
+        <li class="nav-item">
+          <img src="/assets/icons/parlamentares_icon.svg" alt="">
+          <a class="nav-link" href="{{ interesse?.interesse }}/parlamentares">Parlamentares</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<nav
+  class="navbar fixed-top"
+  id="fixed-navbar"
+  *ngIf="router.url !== '/paineis'"
+>
+  <div class="container navbar-container">
+    <div class="navbar-logo-wrapper align-items-center">
+      <div class="text-center pr-2">
+        <a [routerLink]="''" class="navbar-brand">
+          <img
+            src="assets/imgs/logotipo-parlametria-reduzido.svg"
+            alt="Parlametria"
+          />
         </a>
-      </li>
-    </ul>
+      </div>
+      <h4 *ngIf="router.url !== '/paineis'" class="mb-0">
+        {{ interesse?.nome_interesse }}
+      </h4>
+    </div>
+    <div *ngIf="router.url !== '/paineis'" class="form-inline search-bar">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="material-icons">search</span>
+        </div>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Pesquise por proposição"
+          aria-label="Proposições"
+          aria-describedby="basic-addon1"
+          [(ngModel)]="searchText"
+        />
+        <div class="input-group-append">
+          <button
+            class="btn btn-primary my-2 my-sm-0"
+            (click)="navSearch(searchText)"
+          >
+            Buscar
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </nav>

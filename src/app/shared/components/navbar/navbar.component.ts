@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ChildActivationStart, ActivationStart } from '@angular/router';
+import { Component, OnInit, HostListener } from '@angular/core';
+import { Params, ActivatedRoute, Router, ChildActivationStart, ActivationStart } from '@angular/router';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -16,15 +16,23 @@ export class NavbarComponent implements OnInit {
   private unsubscribe = new Subject();
 
   public interesse: Interesse;
+  public interesses: Interesse[];
+  public searchText: string;
 
   public interesseParam: string;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private interesseService: InteresseService,
-    private router: Router,
+    public router: Router,
   ) {}
 
+  @HostListener('window:scroll', ['$event']) onScrollEvent($event) {
+    this.changeNavbar(window.scrollY);
+  }
+
   ngOnInit(): void {
+    this.getInteresses();
     this.router.events
     .pipe(takeUntil(this.unsubscribe))
     .subscribe((event) => {
@@ -35,6 +43,9 @@ export class NavbarComponent implements OnInit {
         }
       }
     });
+    this.activatedRoute.queryParams.subscribe((params) => {
+      this.searchText = params.text || '';
+    });
   }
 
   getInteresse(interesseArg: string) {
@@ -44,5 +55,49 @@ export class NavbarComponent implements OnInit {
       .subscribe((data) => {
         this.interesse = data[0];
       });
+  }
+
+  getInteresses() {
+    this.interesseService
+      .getInteresses()
+      .subscribe((data) => {
+        this.interesses = data.filter((i) => i.interesse !== 'leggo');
+      });
+  }
+
+  navSearch(searchText: string) {
+    let interesse = '';
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        interesse = params.interesse;
+      });
+
+    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+    queryParams.text = searchText;
+    queryParams.interesse = interesse;
+
+    this.router.navigate([`/proposicoes`], { queryParams });
+
+    if (this.router.url.includes(`/proposicoes?interesse=${interesse}`)) {
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+    }
+  }
+
+  onNavigate(painel: any) {
+    this.router.navigate([painel]);
+  }
+
+  changeNavbar(position: number) {
+    if (this.router.url === '/paineis') {
+      return;
+    }
+    const navbar = document.getElementById('fixed-navbar');
+    if (position > 100) {
+      navbar.style.top = '0';
+    } else {
+      navbar.style.top = '-90px';
+    }
   }
 }

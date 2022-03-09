@@ -1,0 +1,40 @@
+@import "../../variables.scss";  
+
+.progresso-interesse {
+  display: flex;
+  margin-top: 5px;
+  app-progress {
+    flex: 13;
+  }
+  span {
+    flex: 1;
+    margin-left:10px;
+  }
+}
+
+.modal-header {
+  & > div {
+  width: 100%;
+  text-align: center;
+    > span {
+      color: #FF7285;
+    }
+    h4 {
+      color: white;
+    }
+  }
+  button {
+    color: white;
+  }
+}
+
+.modal-body {
+  min-height: 440px;
+}
+
+.interesse-ativo {
+  padding: .5rem;
+  .text-muted {
+    font-size: 13px;
+  }
+}

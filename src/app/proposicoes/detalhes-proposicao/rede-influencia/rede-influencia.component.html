@@ -1,3 +1,15 @@
-<h3 class="titulo-sessao">Rede de influência</h3>
+<h3>
+  Rede de influência
+  <img
+    [ngbPopover]="alertaTip"
+    triggers="mouseenter:mouseleave"
+    src="/assets/icons/popover_icon.svg"
+    alt=""
+  />
+  <ng-template #alertaTip>
+    Representação imagética das conexões estabelecidas entre parlamentares
+    (capturadas pela filtragem de documentos conjuntos e por padrão de votação)
+  </ng-template>
+</h3>
 <p>Parlamentares conectados pelos documentos autorados em conjunto.</p>
 <app-vis-rede-influencia></app-vis-rede-influencia>

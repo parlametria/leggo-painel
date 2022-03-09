@@ -1,0 +1,20 @@
+<form
+  (submit)="aplicarFiltro()"
+  action="#">
+  <div class="input-group">
+    <input
+      type="text"
+      class="form-control"
+      id="searchProposicao"
+      [(ngModel)]="proposicaoPesquisada"
+      [ngModelOptions]="{ standalone: true }"
+      placeholder="Buscar proposição...">
+    <div class="input-group-append">
+      <button
+        class="btn btn-dark"
+        type="submit">
+        <span class="icon-insight"></span>
+      </button>
+    </div>
+  </div>
+</form>

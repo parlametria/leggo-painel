@@ -1,14 +1,23 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Subject } from 'rxjs';
+
+import { InteresseService } from 'src/app/shared/services/interesse.service';
+import { Interesse } from 'src/app/shared/models/interesse.model';
 
 import { nest } from 'd3-collection';
 
 import { AutoriasService } from 'src/app/shared/services/autorias.service';
 
 const d3 = Object.assign({}, { nest });
+
+const DEFAULT_INTERESSE: Interesse = {
+  nome_interesse: 'Nenhum Selecionado',
+  descricao_interesse: '',
+  interesse: 'selecione'
+};
 
 @Component({
   selector: 'app-atividade-no-congresso',
@@ -27,6 +36,8 @@ export class AtividadeNoCongressoComponent implements OnInit {
   public isLoading = new BehaviorSubject<boolean>(true);
   public destaque: boolean;
   public temDadosPorProposicao = false;
+  public interesses: Interesse[] = [DEFAULT_INTERESSE];
+  public selectedInteresse: Interesse = DEFAULT_INTERESSE;
 
   readonly ORDER_TIPOS_PROPOSICAO = [
     'Prop. Original / Apensada',
@@ -36,7 +47,9 @@ export class AtividadeNoCongressoComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private autoriaService: AutoriasService
+    private autoriaService: AutoriasService,
+    private interesseService: InteresseService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -44,15 +57,47 @@ export class AtividadeNoCongressoComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.idAtor = params.get('id');
-        this.interesse = params.get('interesse');
       });
     this.activatedRoute.queryParams
       .subscribe(params => {
+        this.interesse = params.interesse;
         this.tema = params.tema;
         this.destaque = this.tema === 'destaque';
         this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;
         this.resgataRanking(this.interesse, this.tema, this.idAtor, this.destaque);
         this.resgataDocumentos(this.interesse, this.tema, parseInt(this.idAtor, 10), this.destaque);
+      });
+
+    this.interesseService.getInteresses()
+      .subscribe((data) => {
+        const interesses = data.filter((i) => i.interesse !== 'leggo');
+        this.interesses = [DEFAULT_INTERESSE, ...interesses];
+      });
+  }
+
+
+  interesseSelecionado(value: string) {
+    const interesse = this.interesses.find(i => i.interesse === value);
+
+    if (interesse === undefined) {
+      console.log('interesse not found');
+      return;
+    }
+
+    this.selectedInteresse = interesse;
+
+    const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+
+    if (this.selectedInteresse.interesse !== DEFAULT_INTERESSE.interesse) {
+      queryParams.interesse = this.selectedInteresse.interesse;
+    } else {
+      queryParams.interesse = undefined;
+    }
+
+    const { scrollX, scrollY } = window;
+    this.router.navigate([], { queryParams })
+      .then(() => {
+        window.scrollTo(scrollX, scrollY);
       });
   }
 

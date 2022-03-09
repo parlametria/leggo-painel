@@ -1,30 +1,45 @@
-<span
+<div
   *ngIf="destaques?.criterio_aprovada_em_uma_casa"
-  class="tag badge badge-danger"
+  class="chip"
   [ngbPopover]="popCriterioAprovadoCasa"
-  [autoClose]="'outside'">
-  {{ getCriterioAprovadoCasa(destaques?.casa_aprovacao) }}
+  triggers="mouseenter:mouseleave">
+  <div class="chip-icon">
+    <span class="material-icons">label_important</span>
+  </div>
+  <div class="chip-text">
+    <span>{{ getCriterioAprovadoCasa(destaques?.casa_aprovacao) }}</span>
+  </div>
   <ng-template #popCriterioAprovadoCasa>
     {{ getCriterioAprovadoCasa(destaques?.casa_aprovacao) }}
   </ng-template>
-</span>
-<span
+</div>
+<div
   *ngIf="temCriterioAvancouComissao(destaques?.comissoes_camara, destaques?.comissoes_senado, destaques?.casa_aprovacao)"
-  class="tag badge badge-warning"
+  class="chip"
   [ngbPopover]="popCriterioAvancouComissao"
-  [autoClose]="'outside'">
-  Avançou nas comissões
+  triggers="mouseenter:mouseleave">
+  <div class="chip-icon">
+    <span class="material-icons">label_important</span>
+  </div>
+  <div class="chip-text">
+    <span>Avançou nas comissões</span>
+  </div>
   <ng-template #popCriterioAvancouComissao>
     {{ getCriterioAvancouComissao(destaques?.comissoes_camara, destaques?.comissoes_senado, destaques?.casa_aprovacao) }}
   </ng-template>
-</span>
-<span
+</div>
+<div
   *ngIf="destaques?.criterio_req_urgencia_apresentado || destaques?.criterio_req_urgencia_aprovado"
-  class="tag badge badge-danger"
+  class="chip"
   [ngbPopover]="popCriterioReqUrgencia"
-  [autoClose]="'outside'">
-  Urgência
+  triggers="mouseenter:mouseleave">
+  <div class="chip-icon">
+    <span class="material-icons">label_important</span>
+  </div>
+  <div class="chip-text">
+    <span>Urgência</span>
+  </div>
   <ng-template #popCriterioReqUrgencia>
     {{ getCriterioRequerimentoUrgencia(destaques) }}
   </ng-template>
-</span>
+</div>

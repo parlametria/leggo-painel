@@ -1,9 +1,19 @@
+@import "../../../shared/variables.scss";
+
+h3 {
+  img {
+    position: absolute;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+}
+
 .progresso-wrapper {
-  max-width: 800px;
+  max-width: 920px;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  padding-top: 8rem;
+  padding-bottom: 11rem;
 }
 
 .progressbar p {
@@ -25,48 +35,85 @@
 
 /* os before fazem os circulos */
 
-.progressbar li:before {
-  width: 30px;
-  height: 30px;
-  content: '';
-  position: relative;
+.progressbar li {
+  width: 38px;
+  height: 38px;
   display: block;
   margin: 0 auto 10px auto;
-  background-size: cover;
+  border-radius: 50%;
+  text-align: center;
+  padding-top: 7px;
+  color: white;
 }
 
 /* linhas */
 .linha {
-  width: 99%;
+  width: calc(5*100%/6);
   height: 2px;
   position: absolute;
-  background-color: #6c757d;
-  top: 5px;
-  left: 1%;
-  z-index: -1;
+  background-color: #b0b6ba;
+  top: 10px;
+  left: calc(100%/12);
+  z-index: 0;
   border: none;
   margin-top: 0.5rem;
 }
 
-.camara:before {
-  background-image: url("../../../../assets/imgs/colored_camara.png");
-  background-size: cover;
+.comissao-mista {
+  background: linear-gradient(45deg, #0a367c 0%, #0a367c 49%, #00b53c 50%, #00b53c 100%);
 }
 
-.senado:before {
-  background-image: url("../../../../assets/imgs/colored_senado.png");
+.camara {
+  background-color: $camara-color;
 }
 
-.future:before {
-  filter: brightness(1.4) saturate(.1);
+.senado {
+  background-color: $senado-color;
 }
 
-.planalto:before {
-  background-image: url("../../../../assets/imgs/colored_planalto.png");
+.presidencia {
+  background-color: $util-blue-color;
 }
 
-.comissao-mista:before {
-  background-image: url("../../../../assets/imgs/colored_comissao_mista.png");
+.congresso {
+  background-color: $util-orange-color;
+}
+
+.future {
+  background-color: $util-grey-color;
+  color: black;
+}
+
+.progress-item {
+  position: relative;
+  width: calc(100%/6);
+  z-index: 1;
+
+  .detail {
+    position: absolute;
+    width: 132%;
+    left: -15%;
+    padding: 10px;
+    border: 1px solid $util-grey-color;
+    margin-top: 10px;
+  }
+  &:nth-child(even) {
+    .detail {
+      top: -7rem;
+    }
+  }
+  li:not(.future).camara + div + .detail {
+    border-color: $camara-color;
+  }
+  li:not(.future).senado + div + .detail {
+    border-color: $senado-color;
+  }
+  li:not(.future).presidencia + div + .detail {
+    border-color: $util-blue-color;
+  }
+  li:not(.future).congresso + div + .detail {
+    border-color: $util-orange-color;
+  }
 }
 
 .jumped:before {

@@ -9,28 +9,53 @@ import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { AtividadeParlamentarComponent } from '../atividade-parlamentar/atividade-parlamentar.component';
 import { CardAtividadeComponent } from '../atividade-parlamentar/card-atividade/card-atividade.component';
-import { FiltroComponent } from '../atividade-parlamentar/filtro/filtro.component';
+// import { FiltroLateralComponent } from '../atividade-parlamentar/filtro-lateral/filtro-lateral.component';
 import { ProposicoesComponent } from '../proposicoes/proposicoes.component';
 import { CardProposicaoComponent } from '../proposicoes/card-proposicao/card-proposicao.component';
+import { CardGridProposicaoComponent } from '../proposicoes/card-grid-proposicao/card-grid-proposicao.component';
 import { FiltroProposicoesComponent } from '../proposicoes/filtro-proposicoes/filtro-proposicoes.component';
+import { FiltroTextoProposicoesComponent } from '../proposicoes/filtro-texto-proposicoes/filtro-texto-proposicoes.component';
 import { SobreComponent } from './sobre/sobre.component';
 import { SelecaoPainelComponent } from './selecao-painel/selecao-painel.component';
 import { InsightsComponent } from '../insights/insights.component';
 import { CardInsightComponent } from '../insights/card-insight/card-insight.component';
+
+import { AderenciaComponent } from '../atividade-parlamentar/aderencia/aderencia.component';
+import { CongressoChartComponent } from '../atividade-parlamentar/aderencia/congresso-chart/congresso-chart.component';
+import { CongressoChartLegendaComponent } from '../atividade-parlamentar/aderencia/congresso-chart-legenda/congresso-chart-legenda.component';
+import {
+  AderenciaSwitchBlockComponent,
+  CamaraIconBlockComponent,
+  GovernoIconBlockComponent,
+  PartidoIconBlockComponent,
+  SenadoIconBlockComponent,
+} from '../atividade-parlamentar/aderencia/aderencia-switch-block/components';
+
+import { FiltroBuscaModule } from '../atividade-parlamentar/filtro-busca/filtro-busca.module';
+import { FiltroLateralModule } from '../atividade-parlamentar/filtro-lateral/filtro-lateral.module';
 
 @NgModule({
   declarations: [
     HomeComponent,
     AtividadeParlamentarComponent,
     CardAtividadeComponent,
-    FiltroComponent,
     ProposicoesComponent,
     CardProposicaoComponent,
+    CardGridProposicaoComponent,
     FiltroProposicoesComponent,
+    FiltroTextoProposicoesComponent,
     SobreComponent,
     SelecaoPainelComponent,
     InsightsComponent,
-    CardInsightComponent
+    CardInsightComponent,
+    AderenciaComponent,
+    AderenciaSwitchBlockComponent,
+    CongressoChartComponent,
+    CongressoChartLegendaComponent,
+    GovernoIconBlockComponent,
+    PartidoIconBlockComponent,
+    SenadoIconBlockComponent,
+    CamaraIconBlockComponent,
   ],
   imports: [
     CommonModule,
@@ -38,7 +63,9 @@ import { CardInsightComponent } from '../insights/card-insight/card-insight.comp
     SharedComponentsModule,
     NgbModule,
     NgxPaginationModule,
-    FormsModule
+    FormsModule,
+    FiltroBuscaModule,
+    FiltroLateralModule
   ]
 })
 export class HomeModule { }

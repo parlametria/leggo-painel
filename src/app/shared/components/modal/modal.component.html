@@ -1,0 +1,40 @@
+<div class="modal-header">
+  <div>
+  <span>Atuação nos painéis de proposições</span>
+  <h4 class="modal-title">
+    <span
+      *ngIf="parlamentar?.casa_autor == 'camara'">
+      Dep.
+    </span>
+    <span
+      *ngIf="parlamentar?.casa_autor == 'senado'">
+      Sen.
+    </span>
+      {{ parlamentar.nome_autor }}
+	</h4>
+  </div>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="loading" *ngIf="isLoading | async">
+    <app-loading></app-loading>
+  </div>
+  <div class="interesse-ativo" *ngFor="let ativo of interessesAtivos" [hidden]="ativo.interesse.interesse === 'leggo'">
+    <a routerLink="../proposicoes"
+       [queryParams]="{ interesse: ativo.interesse.interesse }"
+       (click)="activeModal.dismiss('link click')">
+      {{ ativo.interesse.nome_interesse }}:
+    </a>
+    <span class="text-muted"> Atua em {{ ativo.acoes }} das {{ ativo.interesse.total }} proposições.</span>
+    <div class="progresso-interesse">
+      <app-progress
+        [label]="ativo.acoes"
+        [barraClasse]="'bg-atuacoes'"
+        [valor]="ativo.acoes/ativo.interesse.total || 0"
+        [exibirLabel]="true"></app-progress>
+      <span>{{ativo.interesse.total || 0 | number : '1.0-0'}}</span>
+    </div>
+  </div>
+</div>

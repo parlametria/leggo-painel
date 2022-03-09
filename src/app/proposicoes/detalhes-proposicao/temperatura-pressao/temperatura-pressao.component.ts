@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+
 import { EventosService } from 'src/app/shared/services/eventos.service';
 import { TwitterService } from 'src/app/shared/services/twitter.service';
 import { indicate } from 'src/app/shared/functions/indicate.function';
@@ -27,6 +29,7 @@ export class TemperaturaPressaoComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private modalService: NgbModal,
     private eventosService: EventosService,
     private twitterService: TwitterService
   ) { }
@@ -47,8 +50,7 @@ export class TemperaturaPressaoComponent implements OnInit {
     this.eventosService.getEventosTramitacao(idLeggo, 'reforma-tributaria')
       .pipe(indicate(this.isLoading))
       .subscribe(eventos => {
-        this.eventosPrincipais = eventos.filter(e => (typeof e.titulo_evento !== 'undefined' && e.titulo_evento !== 'nan'));
-        this.eventosSecundarios = eventos.filter(e => (typeof e.titulo_evento === 'undefined' || e.titulo_evento === 'nan'));
+        this.eventosPrincipais = eventos;
       });
   }
 
@@ -73,6 +75,23 @@ export class TemperaturaPressaoComponent implements OnInit {
     }
     return '';
   }
+
+  open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    }, (reason) => {
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
 
   toggleShowMais() {
     this.showMais = !this.showMais;

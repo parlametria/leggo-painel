@@ -17,6 +17,7 @@ export class ProposicoesListaService {
 
   private proposicoes = new BehaviorSubject<Array<ProposicaoLista>>([]);
   private proposicoesFiltered = new BehaviorSubject<Array<ProposicaoLista>>([]);
+  private totalProposicoes = new BehaviorSubject<number>(0);
   private interesse: string;
 
   private orderBy = new BehaviorSubject<string>('');
@@ -121,6 +122,7 @@ export class ProposicoesListaService {
           resumo_progresso: progressos[a.id_leggo],
           max_temperatura_interesse: setUpperBound(maxTemperaturaInteresse.max_temperatura_periodo),
           isDestaque: this.isDestaque(a),
+          fase: this.processaFase(progressos[a.id_leggo]),
           ...a
         }));
 
@@ -132,6 +134,14 @@ export class ProposicoesListaService {
     return this.proposicoesFiltered.asObservable();
   }
 
+  getTotalProposicoes(interesse: string): Observable<number> {
+    this.interesse = interesse;
+    this.proposicoesService.getProposicoes(interesse).subscribe(proposicoes => {
+      this.totalProposicoes.next(proposicoes.length);
+    });
+    return this.totalProposicoes.asObservable();
+  }
+
   private processaProgresso(progresso: any) {
     const progressoProcessado = progresso.reduce((acc, curr) => {
       const k = curr.id_leggo;
@@ -141,7 +151,6 @@ export class ProposicoesListaService {
       acc[k].push(curr);
       return acc;
     }, {});
-
     return progressoProcessado;
   }
 
@@ -156,8 +165,7 @@ export class ProposicoesListaService {
   private isDestaque(prop: ProposicaoLista) {
     if (typeof prop.destaques !== 'undefined' && prop.destaques.length !== 0) {
       const destaques = prop.destaques[0];
-      return (destaques.criterio_aprovada_em_uma_casa ||
-        destaques.criterio_req_urgencia_apresentado || destaques.criterio_req_urgencia_aprovado);
+      return (destaques.criterio_aprovada_em_uma_casa || destaques.criterio_req_urgencia_aprovado);
     }
     return false;
   }
@@ -174,7 +182,8 @@ export class ProposicoesListaService {
     return p.nome === q.nome &&
       p.status === q.status &&
       p.tema === q.tema &&
-      p.local === q.local;
+      p.local === q.local &&
+      p.fase === q.fase;
   }
 
   private filter(proposicoes: ProposicaoLista[], filtro: any) {
@@ -182,15 +191,14 @@ export class ProposicoesListaService {
     const status = filtro.status;
     const tema = filtro.tema;
     const local = filtro.local;
+    const fase = filtro.fase;
     let semApensada = filtro.semApensada;
     // Condição fixa para exibir apensadas no resultado:
     if (nome) {
       semApensada = false;
     }
-
     return proposicoes.filter(p => {
       let filtered = true;
-
       const termos = (p.sigla_camara + p.sigla_senado + p.interesse[0].apelido)
         .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
         .toLowerCase();
@@ -219,6 +227,8 @@ export class ProposicoesListaService {
         semApensada && filtered
           ? p.apensadas.length < 1
           : filtered;
+
+      filtered = fase && filtered ? this.checkFase(p.fase, fase) : filtered;
 
       return filtered;
     });
@@ -279,8 +289,47 @@ export class ProposicoesListaService {
     }
     if (localProp !== undefined && localFiltro !== undefined) {
       const locaisFiltrados = localProp.filter(l => (l.sigla_ultimo_local === localFiltro.sigla_ultimo_local) &&
-      l.casa_ultimo_local === localFiltro.casa_ultimo_local);
+        l.casa_ultimo_local === localFiltro.casa_ultimo_local);
       return locaisFiltrados.length > 0;
+    }
+    return false;
+  }
+
+  private processaFase(progresso: Array<any>) {
+    let fase = 0;
+    const faseTramitacao = ['Iniciadora', 'Revisora', 'Sanção/Veto'];
+    if (!progresso) {
+      return '';
+    }
+    progresso.forEach(pfase => {
+      if (pfase.data_inicio && pfase.data_fim || pfase.pulou === true) {
+        fase += 1;
+      }
+    });
+    switch (fase) {
+      case 0:
+      case 1:
+      case 2:
+        return faseTramitacao[0];
+      case 3:
+      case 4:
+        return faseTramitacao[1];
+      case 5:
+      case 6:
+        return faseTramitacao[2];
+      default:
+        return 'Não tramitada';
+    }
+  }
+
+  private checkFase(faseProposicao: string, fase: Array<string>) {
+    const fases = {
+      iniciadora: 'Iniciadora',
+      revisora: 'Revisora',
+      sancao: 'Sanção/Veto'
+    };
+    if (fase.map(f => fases[f]).includes(faseProposicao) || fase[0] === 'todas' || (faseProposicao === '' && fase[0] === 'nenhuma')) {
+      return true;
     }
     return false;
   }

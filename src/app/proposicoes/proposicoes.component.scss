@@ -1,11 +1,323 @@
-$base-color: #20201e;
+@import "../shared/variables.scss";
+
+@mixin on-circle($item-count, $circle-size, $item-size) {
+  position: relative;
+  width:  $circle-size;
+  height: $circle-size;
+  padding: 0;
+  border-radius: 50%; 
+  list-style: none;       
+  
+  > * {
+    display: block;
+    position: absolute;
+    top:  50%; 
+    left: 50%;
+    width:  $item-size;
+    height: $item-size;
+    margin: -($item-size / 2);
+  
+    $rot: 0;
+
+    @for $i from 1 through ($item-count - 5) {
+    	$angle: (360 / $item-count) * 3 + ($i - $item-count/2);
+      &:nth-of-type(#{$i}) {
+        transform: 
+          rotate($rot * 1deg) 
+          translate($circle-size / 2 - $i * 0.13*$item-size)
+          rotate($rot * -1deg);
+      }
+
+      $rot: $rot + $angle;
+    }
+    &:nth-of-type(#{$item-count}) {
+				
+  	}
+  }
+}
+
+.proposicoes-navbar {
+  padding-top: 1.2rem;
+  padding-bottom: 1rem;
+}
 
 .proposicao-autor {
-    font-size: 20px;
-    color: grey;
+  font-size: 20px;
+}
+
+h5.no-results {
+  padding: 50px;
+  text-align: center;
+}
+
+h5.caption {
+  font-weight: normal;
+  font-size: 14px;
+  color: $text-color-3;
+}
+
+.search-bar {
+  padding: 30px 0 0 30px;
 }
 
 .proposicao-relator {
-    font-size: 20px;
-    color: grey;
+  font-size: 20px;
 }
+
+.proposicoes-em-destaque {
+  background-color: #ffffff;
+  height: 600px;
+  padding: 60px 0 85px;
+  text-align: center;
+  border-radius: 0 0 40px 40px;
+  box-shadow: 0px 11px 15px #34174a1a;
+
+  h2 {
+    margin-bottom: 1rem;
+    color: $primary-variant-color-1;
+
+    img {
+      position: absolute;
+      cursor: pointer;
+    }
+  }
+
+  .destaques-titles {
+    .subtitle {
+      font-size: 14px;
+      color: $primary-variant-color-2;
+      margin-bottom: 2rem;
+      font-weight: 500;
+    }
+    h5 {
+      margin-bottom: 15px;
+      font-size: 18px;
+
+      &.iniciadora-title {
+        padding-right: 100px;
+      }
+
+      &.sancao-title {
+        padding-left: 100px;
+      }
+    }
+  }
+
+  .destaques-block {
+    background: url("../../assets/imgs/destaques_background.svg");
+    display: block;
+    width: 100%;
+    height: 246px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    position: relative;
+
+    .destaques-arrows {
+      .first-arrow {
+        position: absolute;
+        top: 0;
+        left: 270px;
+      }
+
+      .second-arrow {
+        position: absolute;
+        bottom: 0;
+        right: 270px;
+      }
+
+      span {
+        display: block;
+        font-size: 12px;
+        color: $text-color-3;
+      }
+    }
+		.row .circle .circle-inner {
+			@include on-circle($item-count: 29, $circle-size: 200px, $item-size: 20px);
+		}
+
+    .destaques-count {
+      h5 {
+        margin-top: 1rem;
+        font-size: 14px;
+        font-weight: 500;
+        color: $text-color-2;
+
+        &.iniciadora-count {
+          padding-right: 100px;
+        }
+
+        &.sancao-count {
+          padding-left: 100px;
+        }
+      }
+    }
+
+    .subtitles-block {
+      margin-top: 60px;
+      position: relative;
+
+      .subtitles {
+        display: flex;
+        .subtitle {
+          display: flex;
+          align-items: center;
+          margin-right: 20px;
+
+          .proposicao-ball {
+            &:hover {
+              transform: none;
+              cursor: unset;
+            }
+          }
+
+          span {
+            font-size: 12px;
+            color: $text-color-2;
+          }
+        }
+      }
+      .scroll-arrow {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+      }
+    }
+
+    .revisora {
+      display: flex;
+      justify-content: center;
+    }
+
+    .sancao {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .circle {
+      margin: 15px;
+      width: calc(66% - 15px);
+      height: 215px;
+      border-radius: 50%;
+      background-color: white;
+      padding: 0;
+
+      .circle-inner {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    }
+  }
+
+  .proposicao-ball {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin: 5px;
+    display: inline-block;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+      height: 24px !important;
+      width: 24px !important;
+      margin: -12px !important;
+    }
+
+    &:visited {
+      background-color: white;
+    }
+  }
+
+  .camara {
+    background-color: $camara-color;
+    border: 7px solid $camara-color;
+  }
+
+  .senado {
+    background-color: $senado-color;
+    border: 7px solid $senado-color;
+  }
+
+  .popover-title {
+    font-size: 18px;
+    color: $text-color;
+    font-family: "Poppins";
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid $util-grey-color;
+  }
+
+  label {
+    font-weight: 500;
+    color: $text-color-3;
+    font-family: "Poppins";
+    margin-bottom: 0;
+  }
+
+  .popover-text {
+    font-size: 12px;
+    color: $text-color;
+    font-family: "Poppins";
+    color: $text-color;
+  }
+}
+
+.search-title {
+  margin-top: 50px;
+  a {
+    font-size: 14px;
+    margin-left: 20px;
+    text-decoration: underline;
+    color: $text-color-3;
+    display: none;
+  }
+}
+
+.col-9 > pagination-template:first-child {
+  display: none;
+}
+
+.viewmode-selector {
+  margin: 25px 25px 25px 0;
+  .btn {
+    margin-right: 10px;
+    background: white;
+    height: 40px;
+    width: 40px;
+    padding: 3px;
+    .icon {
+      display: inline-block;
+      mask-position: center;
+      background-color: grey;
+      height: 30px;
+      width: 30px;
+    }
+    &.btn-grid .icon {
+      mask-image: url("../../assets/icons/view-grid-icon.svg");
+    }
+    &.btn-list .icon {
+      mask-image: url("../../assets/icons/view-list-icon.svg");
+    }
+    &.btn-selected {
+      background: $primary-variant-color;
+      color: white;
+      .icon {
+        background: white;
+      }
+    }
+  }
+}
+.per-page-selector {
+  margin: 25px 0;
+  select {
+    width: fit-content;
+    &:disabled {
+      background: white;
+      opacity: 0.5;
+    }
+  }
+}
+

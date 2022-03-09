@@ -78,11 +78,15 @@ export class VisRedeInfluenciaComponent implements OnInit {
         'translate(' + this.margin.left + ',' + this.margin.top + ')'
       );
 
+    this.activatedRoute.queryParams
+      .subscribe(params => {
+        this.interesse = params.interesse;
+      });
+
     this.activatedRoute.parent.paramMap
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(params => {
         this.idLeggo = params.get('id_leggo');
-        this.interesse = params.get('interesse');
         this.carregarVis();
       });
   }
@@ -123,9 +127,9 @@ export class VisRedeInfluenciaComponent implements OnInit {
           .range([0.25, 0.75]);
         this.color = (n: any) => {
           if (n.bancada === 'governo') {
-            return d3.interpolatePurples(scaleAux(n.pesoPolitico));
+            return '/assets/icons/influencia-gov.svg';
           }
-          return d3.interpolateGreens(scaleAux(n.pesoPolitico));
+          return '/assets/icons/influencia-op.svg';
         };
 
         const scaleLinkSize = d3.scaleLinear()
@@ -173,11 +177,13 @@ export class VisRedeInfluenciaComponent implements OnInit {
           .attr('stroke-width', 1)
           .selectAll('circle')
           .data(nodes)
-          .join('circle')
-          .attr('r', (d: any) => scaleNodeSize(d.pesoPolitico))
-          .attr('fill', (d: any) => this.color(d))
+          .enter().append('image')
+          .attr('xlink:href', (d: any) => this.color(d))
+          .attr('width', '20px')
+          .attr('height', '20px')
           .style('cursor', 'pointer')
           .style('pointer-events', 'all')
+          .style('transform', 'translate(-10px, -15px)')
           .on('mouseover', (d: any) => {
             tooltip.style('visibility', 'visible')
               .html(this.tooltipText(d));
@@ -189,7 +195,7 @@ export class VisRedeInfluenciaComponent implements OnInit {
           .on('mouseout', () => tooltip.style('visibility', 'hidden'))
           .on('click', (d: any) => {
             tooltip.style('visibility', 'hidden');
-            this.router.navigate([this.interesse, 'parlamentares', d.id_autor_parlametria]);
+            this.router.navigate(['parlamentares', `1${d.id_autor}`], { queryParams: { interesse: this.interesse } });
           });
 
         // node.append('title')
@@ -197,17 +203,17 @@ export class VisRedeInfluenciaComponent implements OnInit {
 
         this.g.append('text')
           .attr('x', this.width * 0.25)
-          .attr('y', this.height)
-          .attr('text-anchor', 'middle')
-          .attr('fill', '#aaa')
-          .text('Centro/Governo');
-
-        this.g.append('text')
-          .attr('x', this.width * 0.75)
-          .attr('y', this.height)
+          .attr('y', this.height * 1.15)
           .attr('text-anchor', 'middle')
           .attr('fill', '#aaa')
           .text('Oposição');
+
+        this.g.append('text')
+          .attr('x', this.width * 0.75)
+          .attr('y', this.height * 1.15)
+          .attr('text-anchor', 'middle')
+          .attr('fill', '#aaa')
+          .text('Centro/Governo');
 
         simulation.on('tick', () => {
           link
@@ -216,16 +222,15 @@ export class VisRedeInfluenciaComponent implements OnInit {
             .attr('x2', d => d.target.x)
             .attr('y2', d => d.target.y);
           node
-            .attr('cx', d => d.x)
-            .attr('cy', d => d.y);
+            .attr('x', d => d.x)
+            .attr('y', d => d.y);
         });
 
       });
   }
 
   private tooltipText(d): any {
-    return `<p class="vis-tooltip-titulo"><strong>${d.nome}</strong> ${d.partido}/${d.uf}</p>
-      <p>Peso político: <strong>${format('.2f')(d.pesoPolitico)}</strong></p>`;
+    return `<p class="vis-tooltip-titulo"><strong>${d.nome}</strong> ${d.partido}/${d.uf}</p>`;
   }
 
 }

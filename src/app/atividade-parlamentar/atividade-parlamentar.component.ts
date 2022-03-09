@@ -1,12 +1,15 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, AfterContentInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 
 import { Subject, BehaviorSubject } from 'rxjs';
 import { takeUntil, skip } from 'rxjs/operators';
 import * as moment from 'moment';
 
+import { ModalComponent } from '../shared/components/modal/modal.component';
 import { AtorAgregado } from '../shared/models/atorAgregado.model';
 import { ParlamentaresService } from '../shared/services/parlamentares.service';
+import { InteresseService } from '../shared/services/interesse.service';
 import { indicate } from '../shared/functions/indicate.function';
 
 @Component({
@@ -18,59 +21,62 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
 
   private unsubscribe = new Subject();
   p = 1;
-  public readonly PARLAMENTARES_POR_PAGINA = 20;
+  public readonly PARLAMENTARES_POR_PAGINA = 21;
   public isLoading = new BehaviorSubject<boolean>(true);
 
-  parlamentares: AtorAgregado[];
+  closeResult: string;
+  modalOptions: NgbModalOptions;
+  interesses: any;
+  parlamentares: AtorAgregado[] = [];
   interesse: string;
   tema: string;
   destaque: boolean;
   casa: string;
-  orderBy: string;
 
   constructor(
     private parlamentaresService: ParlamentaresService,
+    private interesseService: InteresseService,
     private activatedRoute: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
-    private router: Router) { }
+    private modalService: NgbModal,
+    private router: Router) {
+    this.modalOptions = {
+      backdrop: 'static',
+      backdropClass: 'customBackdrop'
+    };
+  }
 
   ngOnInit(): void {
-    this.activatedRoute.parent.paramMap
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(params => {
-        this.interesse = params.get('interesse');
-      });
     this.activatedRoute.queryParams
       .subscribe(params => {
         const pTema = this.replaceUndefined(params.tema);
-        const pCasa = this.replaceUndefined(params.casa);
-        const pOrderBy = this.replaceUndefined(params.orderBy);
+        const pCasa = ['senado', 'camara'].includes(params.casa) ? params.casa : 'senado';
+        const pInteresse = this.replaceUndefined(params.interesse);
 
         let mudouConsulta = true;
 
-        if (this.tema === pTema && this.casa === pCasa && !this.destaque && this.parlamentares) {
-          mudouConsulta = false;
-        }
+        const checks = [
+          this.tema === pTema,
+          this.casa === pCasa,
+          this.interesse === pInteresse,
+          !this.destaque,
+          this.parlamentares.length > 0
+        ];
 
-        let mudouOrdenacao = true;
-        if (this.orderBy === pOrderBy && this.parlamentares) {
-          mudouOrdenacao = false;
+        if (checks.every(v => v)) {
+          mudouConsulta = false;
         }
 
         this.tema = pTema === 'destaque' ? '' : pTema;
         this.destaque = pTema === 'destaque';
         this.casa = pCasa;
-        this.orderBy = pOrderBy;
+        this.interesse = pInteresse;
 
         if (mudouConsulta) {
           this.getDadosAtividadeParlamentar();
         }
-
-        if (mudouOrdenacao) {
-          this.parlamentaresService.setOrderBy(this.orderBy);
-        }
-
       });
+    this.interesseService.getInteresses().subscribe(interesses => { this.interesses = interesses; });
     this.updatePageViaURL();
   }
 
@@ -81,7 +87,7 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
   getDadosAtividadeParlamentar() {
     const dataInicial = '2019-01-01';
     const dataFinal = moment().format('YYYY-MM-DD');
-    this.parlamentaresService.setOrderBy(this.orderBy);
+    // this.parlamentaresService.setOrderBy(this.orderBy);
     this.parlamentaresService.getParlamentares(this.interesse, this.tema, this.casa, dataInicial, dataFinal, this.destaque)
       .pipe(
         skip(1),
@@ -134,6 +140,11 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
 
   search(filtro: any) {
     this.parlamentaresService.search(filtro);
+  }
+
+  open(event) {
+    const modalRef = this.modalService.open(ModalComponent);
+    modalRef.componentInstance.carregaVisAtividade(event.parlamentar, this.interesses);
   }
 
   private replaceUndefined(termo) {

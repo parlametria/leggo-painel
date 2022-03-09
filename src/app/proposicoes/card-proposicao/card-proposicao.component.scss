@@ -1,13 +1,94 @@
-$base-padding: 0.5rem;
+@import "../../shared/variables.scss";
 
-.temas {
-  padding-left: 0.75rem;
-  padding-top: 0.5rem;
-  font-size: 0.85rem;
-}
+$base-padding: 1rem;
+$size: 13px;
 
-.proposicao-title {
-  font-size: 1.5rem;
+.card {
+  width: 100%;
+  .card-header {
+    height: 48px;
+    padding: 0;
+    background-color: #ffffff;
+    margin-bottom: 5px;
+    border-bottom: 1px solid $util-light-grey-color;
+
+    .house-name {
+      font-size: 12px;
+      font-weight: bold;
+      color: inherit;
+    }
+
+    img {
+      width: 70px;
+      height: 70px;
+      margin-left: -15px;
+      cursor: pointer;
+    }
+    h4 {
+      margin-bottom: 0;
+    }
+  }
+
+  .card-body {
+    h5 {
+      color: $text-color-2;
+    }
+    span {
+      display: block;
+    }
+    p {
+      font-size: 14px;
+      color: $text-color-3;
+    }
+    .etapa-tramitacao-block {
+      margin-bottom: 20px;
+      a {
+        cursor: pointer;
+      }
+    }
+    .etapas-steps {
+      align-items: center;
+      padding: 0 15px;
+      margin-bottom: 20px;
+      & > div {
+        &:not(:last-child) {
+          .line-between-divs {
+            border: 1px solid #b0b6ba;
+            width: 30px;
+          }
+        }
+      }
+    }
+    .temperatura-block {
+      margin-bottom: 1rem;
+      img {
+        margin-top: -13px;
+        cursor: pointer;
+        margin-left: 2px;
+        width: 35px;
+        height: 35px;
+      }
+      .card-label {
+        margin-bottom: 10px;
+      }
+    }
+    .pressao-block {
+      margin-bottom: 1rem;
+      .d-flex {
+        padding-right: 10%;
+      }
+      .card-label {
+        margin-bottom: 10px;
+      }
+    }
+
+    .temas-block {
+      margin-bottom: 1rem;
+      .temas {
+        font-size: 0.85rem;
+      }
+    }
+  }
 }
 
 .proposicao-info {
@@ -37,4 +118,38 @@ $base-padding: 0.5rem;
 
 .card-header-muted {
   background-color: #f8f9fa;
+}
+
+.house-camara,
+.house-senado {
+  height: 48px;
+  border-right: 7px solid;
+  margin-left: 2px;
+  margin-bottom: 1px;
+}
+
+.house-camara {
+  color: $camara-color;
+}
+
+.house-senado {
+  color: $senado-color;
+}
+
+.house-symbol-camara,
+.house-symbol-senado {
+  width: $size * 2;
+  height: $size;
+}
+
+.house-symbol-camara {
+  border-bottom-left-radius: $size * 2;
+  border-bottom-right-radius: $size * 2;
+  background: $camara-color;
+}
+
+.house-symbol-senado {
+  border-top-left-radius: $size * 2;
+  border-top-right-radius: $size * 2;
+  background: $senado-color;
 }

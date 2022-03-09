@@ -5,6 +5,7 @@ export interface AtorAgregado {
   partido: string;
   uf: string;
   peso_documentos: number;
+  idParlamentarVoz: number;
   atividade_parlamentar: number;
   atividade_twitter: number;
   quantidade_autorias: number;

@@ -1,35 +1,264 @@
 <div
-  class="card mb-2"
+  class="card mb-4"
   [class.card-muted]="getEhApensada()">
   <div
-    class="card-header d-flex mx-1"
-    [class.card-header-muted]="getEhApensada()">
-    <span
-      class="cracha text-muted temas"
-      [ngbPopover]="popTemas"
-      [autoClose]="'outside'">
-      {{ this.temasResumido(proposicao?.interesse[0]?.temas) }}
-      <ng-template #popTemas>
-        <span *ngFor="let tema of proposicao?.interesse[0]?.temas">
-          {{tema}}
-          <br>
-        </span>
+    class="card-header d-flex flex-row align-items-center"
+    [class.card-header-muted]="getEhApensada()"
+  >
+    <div class="col-sm-1">
+      <div
+        *ngIf="
+          proposicao?.isDestaque;
+          then showDestaqueBadge;
+          else showNoDestaqueBadge
+        "
+      ></div>
+      <ng-template #showDestaqueBadge>
+        <div [ngbPopover]="popDestaque" triggers="mouseenter:mouseleave">
+          <img src="assets/imgs/card_header_destaque.png" />
+        </div>
+        <ng-template #popDestaque> Proposição em alerta </ng-template>
       </ng-template>
-    </span>
-  </div>
-  <div class="card-body">
-    <div [hidden]="getEhApensada()">
-      <a [routerLink]="[proposicao.id_leggo]">
-        <span class="proposicao-title">
-          {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
-          <span *ngIf="proposicao?.interesse[0]?.apelido && proposicao?.interesse[0]?.apelido !== 'nan'">
-            -
-          {{ proposicao?.interesse[0]?.apelido }}
-          </span>
-        </span>
-      </a>
+      <ng-template #showNoDestaqueBadge>
+        <img src="assets/imgs/card_header_no_destaque.png" />
+      </ng-template>
     </div>
-    <div [hidden]="!getEhApensada()">
+    <div class="header-title col-sm-10">
+      <div>
+        <a [routerLink]="[proposicao.id_leggo]" [queryParams]="{'interesse': proposicao?.interesse[0]?.interesse}">
+          <h4 class="truncate-overflow-1">
+            {{ getProposicaoTitle(proposicao) }}
+          </h4>
+        </a>
+      </div>
+    </div>
+    <div
+      class="house-{{
+        proposicao?.etapas[proposicao?.etapas.length - 1]?.casa
+      }} d-flex align-items-center col-sm-1"
+    >
+      <div
+        class="house-symbol-{{
+          proposicao?.etapas[proposicao?.etapas.length - 1]?.casa
+        }}"
+      ></div>
+    </div>
+  </div>
+  <div class="card-body row">
+    <div class="col-sm">
+      <div class="ementa-block">
+        <h5>Ementa</h5>
+        <p class="truncate-overflow-3">
+          {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.ementa }}
+        </p>
+      </div>
+      <div
+        class="etapa-tramitacao-block"
+        *ngIf="proposicao?.locaisProposicao[0]"
+      >
+        <h5>Etapa de Tramitação</h5>
+        <p class="proposicao-info">
+          {{ getArtigoSiglaLocal(proposicao?.locaisProposicao[0]) }}
+          <a [ngbPopover]="popLocalProposicao" triggers="mouseenter:mouseleave">
+            {{ getSiglaLocal(proposicao?.locaisProposicao[0]) }}
+          </a>
+          <ng-template #popLocalProposicao>
+            {{ getNomeLocal(proposicao?.locaisProposicao[0]) }}
+          </ng-template>
+          desde
+          {{
+            proposicao?.locaisProposicao[0].data_ultima_situacao
+              | date: "dd/MM/yyyy"
+          }}
+        </p>
+      </div>
+      <div class="d-flex etapas-steps" *ngIf="proposicao?.locaisProposicao[0]">
+        <div
+          class="d-flex align-items-center"
+          *ngFor="let f of proposicao?.resumo_progresso; let i = index"
+        >
+          <div
+            class="fase pointer"
+            [ngClass]="getClassFaseProgresso(f)"
+            [ngbPopover]="popProgresso"
+            triggers="mouseenter:mouseleave"
+          >
+            <span>{{ i + 1 }}</span>
+          </div>
+          <div class="line-between-divs"></div>
+          <ng-template #popProgresso>
+            <span *ngIf="f?.fase_global_local">{{ f?.fase_global_local }}</span>
+            <span *ngIf="!f?.fase_global_local">{{ f?.fase_global }}</span>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm">
+      <div class="pressao-block">
+        <h5>Pressão</h5>
+        <div class="d-flex flex-row">
+          <div class="flex-grow-1">
+            <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']"
+               [queryParams]="{'interesse': proposicao?.interesse[0]?.interesse}">
+              <app-progress
+                class="pointer"
+                [label]="
+                  'Pressão da semana: ' +
+                  (!proposicao?.ultima_pressao
+                    ? '0'
+                    : (proposicao?.ultima_pressao | number: '1.0-2'))
+                "
+                [barraClasse]="'bg-pressao'"
+                [valor]="proposicao?.ultima_pressao"
+                [max]="100"
+                [exibirLabel]="true"
+              >
+              </app-progress>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="temperatura-block">
+        <h5>Temperatura</h5>
+        <div class="d-flex flex-row">
+          <div class="flex flex-grow-1">
+            <a [routerLink]="[proposicao.id_leggo + '/temperatura-pressao']"
+               [queryParams]="{'interesse': proposicao?.interesse[0]?.interesse}">
+              <app-progress
+                class="pointer"
+                [label]="
+                  'Temperatura da semana: ' + proposicao?.ultima_temperatura
+                "
+                [barraClasse]="'bg-temperatura'"
+                [valor]="proposicao?.ultima_temperatura"
+                [exibirLabel]="true"
+                [max]="proposicao?.max_temperatura_interesse"
+              >
+              </app-progress>
+            </a>
+          </div>
+          <img
+            *ngIf="
+              proposicao?.ultima_temperatura > proposicao?.temp_quinze_dias
+            "
+            [ngbPopover]="temperaturaInfo"
+            triggers="mouseenter:mouseleave"
+            src="assets/icons/aumento_temperatura.svg"
+          />
+          <ng-template #temperaturaInfo>
+            Aumento de temperatura nesta semana
+          </ng-template>
+          <img
+            *ngIf="
+              proposicao?.ultima_temperatura < proposicao?.temp_quinze_dias
+            "
+            src="assets/icons/temperatura_normal.svg"
+          />
+        </div>
+      </div>
+      <div class="temas-block">
+        <h5>Assuntos Relacionados</h5>
+        <span
+          class="cracha text-muted temas truncate-overflow-1"
+          [ngbPopover]="popTemas"
+          triggers="mouseenter:mouseleave"
+        >
+          {{ this.temasResumido(proposicao?.interesse[0]?.temas) }}
+          <ng-template #popTemas>
+            <span *ngFor="let tema of proposicao?.interesse[0]?.temas">
+              {{ tema }}
+              <br />
+            </span>
+          </ng-template>
+        </span>
+      </div>
+      <div class="ultimas-atualizacoes-block">
+        <div
+          class
+          *ngIf="
+            proposicao?.destaques.length ||
+            proposicao?.interesse[0]?.advocacy_link !== 'nan'
+          "
+        >
+          <app-destaques-proposicao
+            [destaques]="destaques"
+            *ngFor="let destaques of proposicao?.destaques"
+          ></app-destaques-proposicao>
+          <div
+            class="chip"
+            *ngIf="
+              proposicao?.interesse[0]?.advocacy_link &&
+              proposicao?.interesse[0]?.advocacy_link !== 'nan'
+            "
+            [ngbPopover]="popAdvocacy"
+            triggers="mouseenter:mouseleave"
+          >
+            <div class="chip-icon">
+              <span class="material-icons">label_important</span>
+            </div>
+            <div class="chip-text">
+              <span>advocacy box</span>
+            </div>
+          </div>
+          <ng-template #popAdvocacy>
+            Existem notas técnicas de OSCs disponíveis para esta proposição.
+            <div class="text-right">
+              <a
+                href="{{ proposicao?.interesse[0]?.advocacy_link }}"
+                target="_blank"
+                class="btn btn-link btn-sm"
+              >
+                Ver notas
+              </a>
+            </div>
+          </ng-template>
+        </div>
+        <div *ngIf="!proposicao?.destaques.length">
+          <div
+            *ngIf="
+              !['Ordinária', 'Indefinido'].includes(
+                proposicao?.etapas[proposicao?.etapas.length - 1]
+                  ?.regime_tramitacao
+              )
+            "
+            class="chip"
+            ngbPopover="Regime de tramitação"
+            triggers="mouseenter:mouseleave"
+          >
+            <div class="chip-icon">
+              <span class="material-icons">label_important</span>
+            </div>
+            <div class="chip-text">
+              <span>{{
+                proposicao?.etapas[proposicao?.etapas.length - 1]
+                  ?.regime_tramitacao
+              }}</span>
+            </div>
+          </div>
+          <div
+            *ngIf="
+              proposicao?.etapas[proposicao?.etapas.length - 1]?.status !==
+              'Ativa'
+            "
+            class="chip"
+            ngbPopover="A proposição foi finalizada"
+            triggers="mouseenter:mouseleave"
+          >
+            <div class="chip-icon">
+              <span class="material-icons">label_important</span>
+            </div>
+            <div class="chip-text">
+              <span>{{
+                proposicao?.etapas[proposicao?.etapas.length - 1]?.status
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TODO: IMPROVE APENSADA LAYOUT -->
+    <!-- <div [hidden]="!getEhApensada()">
       <span class="proposicao-title text-muted">
         {{ proposicao?.etapas[proposicao?.etapas.length - 1]?.sigla }}
       </span>
@@ -39,8 +268,8 @@
       <p *ngIf="getEhApensadaExterna()">
         <span class="text-muted">Apensada à <a [href]="getLinkExterno()" target="_blank">proposição principal <span class="icon-external-link"></span></a></span>
       </p>
-    </div>
-    <div [hidden]="getEhApensada()">
+    </div> -->
+    <!-- <div [hidden]="getEhApensada()">
       <p
         *ngIf="proposicao?.locaisProposicao[0]"
         class="proposicao-info text-muted">
@@ -156,6 +385,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
