@@ -56,6 +56,10 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
     this.getAtorInfo(this.idAtor, this.interesse);
   }
 
+  routeInclude(part: string) {
+    return this.router.url.includes(part);
+  }
+
   getParlamentarDetalhado(idParlamentar, interesse, tema, destaque) {
     const dataInicial = '2019-01-01';
     const dataFinal = moment().format('YYYY-MM-DD');

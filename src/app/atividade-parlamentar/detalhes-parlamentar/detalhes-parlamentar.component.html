@@ -1,4 +1,5 @@
 <app-loading *ngIf="isLoading | async"></app-loading>
+
 <div class="container">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -123,61 +124,77 @@
 </div>
 
 <div class="view-subnav">
-  <ul class="nav nav-tabs justify-content-center">
+  <ul class="nav justify-content-center parla-nav-tabs">
     <li class="nav-item">
+      <div class="triangle-down" *ngIf="routeInclude('/atividades')"></div>
       <a
         class="nav-link"
         [routerLink]="['./atividades']"
         [routerLinkActive]="'active'"
         queryParamsHandling="merge">
+        <!--
         <span class="icon-atividade"></span>
+        -->
         Ações
       </a>
     </li>
     <li class="nav-item">
+      <div class="triangle-down" *ngIf="routeInclude('/papeis')"></div>
       <a
         class="nav-link"
         [routerLink]="['./papeis']"
         [routerLinkActive]="'active'"
         queryParamsHandling="merge">
+        <!--
         <span class="icon-papeis"></span>
+        -->
         Papéis
       </a>
     </li>
     <li class="nav-item">
+      <div class="triangle-down" *ngIf="routeInclude('/votacoes')"></div>
       <a
         class="nav-link"
         [routerLink]="['./votacoes']"
         [routerLinkActive]="'active'"
         queryParamsHandling="merge">
+        <!--
         <span class="icon-grafo"></span>
+        -->
         Votações
       </a>
     </li>
     <li class="nav-item">
+      <div class="triangle-down" *ngIf="routeInclude('/peso')"></div>
       <a
         class="nav-link"
         [routerLink]="['./peso']"
         [routerLinkActive]="'active'"
         queryParamsHandling="merge">
+        <!--
         <span class="icon-peso"></span>
+        -->
         Peso político
       </a>
     </li>
     <li class="nav-item">
+      <div class="triangle-down" *ngIf="routeInclude('/redes-sociais')"></div>
       <a
         class="nav-link"
         [routerLink]="['./redes-sociais']"
         [routerLinkActive]="'active'"
         queryParamsHandling="merge">
+        <!--
         <span class="icon-redes"></span>
+        -->
         Redes sociais
       </a>
     </li>
   </ul>
 </div>
+
 <div class="container">
-  <div class="py-4">
+  <div class="card tabs-content-container">
     <router-outlet></router-outlet>
   </div>
 </div>

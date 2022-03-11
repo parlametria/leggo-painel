@@ -37,11 +37,7 @@ const d3 = Object.assign({}, {
 
 @Component({
   selector: 'app-vis-atividade-detalhada',
-  template: `
-    <div class="vis-atividade-detalhada">
-      <span class="nome">{{nomeAtivitade}}</span>
-      <div id="vis-atividade-detalhada"></div>
-    </div>`,
+  templateUrl: './vis-atividade-detalhada.component.html',
   styleUrls: ['./vis-atividade-detalhada.component.scss']
 })
 export class VisAtividadeDetalhadaComponent implements OnInit {
@@ -60,8 +56,9 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   private gPrincipal: any;
   private tema: string;
   private interesse: string;
-  private interesseAtividade?: Interesse;
   private destaque: boolean;
+
+  interesseAtividade?: Interesse;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -83,14 +80,6 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
         this.buscaDadosInteresse();
         this.carregaVisAtividade();
       });
-  }
-
-  get nomeAtivitade(): string {
-    if (this.interesseAtividade === undefined) {
-      return 'Todas as ações';
-    }
-
-    return this.interesseAtividade.nome_interesse;
   }
 
   private buscaDadosInteresse() {
@@ -155,12 +144,10 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   }
 
   private carregaVisAtividade() {
-    console.log('carrega', this.interesse);
     this.autoriasService.getAutorias(this.idAtor, this.interesse, '', false)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(autorias => {
         const autoriasApresentadas = [];
-        console.log(autorias);
         autorias.forEach(dado => {
           if (dado.tipo_documento === 'Prop. Original / Apensada') {
             dado.tipo_documento = dado.tipo_acao;
@@ -180,7 +167,6 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
 
         this.gPrincipal.selectAll('*').remove();
         this.gPrincipal.call(g => this.atualizaVisAtividade(g, arvoreAutorias));
-        console.log(this.gPrincipal);
       });
   }
 
