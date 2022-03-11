@@ -44,65 +44,83 @@ export class VisCabecalhoComponent implements OnInit {
   private svg: any;
   private svg1: any;
   private svg2: any;
-  private svg3: any;
-
+  private radius1: any;
+  private radius2: any;
+  private donutWidth: any;
   constructor() { }
 
   ngOnInit(): void {
     var width = 200;
     var height = 200;
-    var donutWidth = 75;
-    var radius1 = Math.min(width, height) / 2;
-    var radius2 = radius1 - donutWidth;
+    this.donutWidth = 20;
+    this.radius1 = Math.min(width, height) / 2;
+    this.radius2 = this.radius1 - this.donutWidth;
     
-    var color1 = 'blue'
-    var color2 = 'green'
-
-     var dataset1 = [
-      10, 20, 30, 40
-    ];
-
-
     this.svg = d3
     .select('#vis-cabecalho')
     .append('svg')
-    .attr('width', '400')
-    .attr('height', '400')
+    .attr('width', `${width}`)
+    .attr('height', `${height}`)
 
     this.svg1 = this.svg.append('g')
-      .attr('transform', 'translate(' + (400 / 2) + 
-            ',' + (400 / 2) + ')');
+      .attr('transform', 'translate(' + (width / 2) + 
+            ',' + (height / 2) + ')');
     
     this.svg2 = this.svg.append('g')
-      .attr('transform', 'translate(' + (400 / 2) + 
-            ',' + (400 / 2) + ')');
+      .attr('transform', 'translate(' + (width / 2) + 
+            ',' + (height / 2) + ')');
+
+  }
+
+  ngOnChanges(parlamentar: AtorAgregado){
+    if(!(this.svg && this.svg1 && this.svg2)){
+      return
+    }
+
+    const disciplina = parlamentar?.disciplina || 0;
+    const datasetDisciplina = [disciplina, 1 - disciplina ] 
+
+    const governismo = parlamentar?.governismo || 0;
+    const datasetGovernismo = [governismo, 1 - governismo ] 
+
+    const color_governismo = '#50669A'  
+    const color_disciplina = '#85CDE8' 
+    const color_off = '#e5e6e7'
 
     var arc1 = d3.arc()
-          .innerRadius(radius1 - donutWidth)  
-          .outerRadius(radius1);
+      .innerRadius(this.radius1 - this.donutWidth)  
+      .outerRadius(this.radius1);
 
     var arc2 = d3.arc()
-      .innerRadius(radius2 - donutWidth)  
-      .outerRadius(radius2);
+      .innerRadius(this.radius2 - this.donutWidth)  
+      .outerRadius(this.radius2);
 
-      var pie = d3.pie()
-        .value(function(d:any) { return d; })
-        .sort(null);
+    var pie = d3.pie()
 
-      var path1 = this.svg1.selectAll('path')
-        .data(pie(dataset1))
-        .enter()
-        .append('path')
-        .attr('d', arc1)
-        .attr('fill', function(d, i:number) { 
-          if(i){
-            console.log(d)
-            console.log(i)
-          }
-          return 'blue';
-        });
+    .value(function(d:any) { 
+        return d; 
+      })
+      .sort(null);
 
+    var path1 = this.svg1.selectAll('path')
+      .data(pie(datasetDisciplina))
+      .enter()
+      .append('path')
+      .attr('d', arc1)
+      .attr('fill', function(d, i:number) { 
+        return d.index === 1 ? color_off : color_disciplina;
+      });
 
+    var path2 = this.svg2.selectAll('path')
+      .data(pie(datasetGovernismo))
+      .enter()
+      .append('path')
+      .attr('stroke', '#fff') 
+      .attr('stroke-width', '6') 
+      .attr('d', arc2)
+      .attr('fill', function(d, i) { 
+        return d.index === 1 ? color_off : color_governismo;
+      });
   }
 
 }

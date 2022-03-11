@@ -7,11 +7,9 @@ import * as moment from 'moment';
 
 import { indicate } from 'src/app/shared/functions/indicate.function';
 import { Ator } from 'src/app/shared/models/ator.model';
-import { AtorDetalhado } from 'src/app/shared/models/atorDetalhado.model';
 import { ParlamentarDetalhadoService } from 'src/app/shared/services/parlamentar-detalhado.service';
 import { AtorService } from 'src/app/shared/services/ator.service';
 import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.service';
-import { VotacoesSumarizadasService } from 'src/app/shared/services/votacoes-sumarizadas.service';
 import { EntidadeService } from 'src/app/shared/services/entidade.service';
 
 
@@ -65,13 +63,9 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
     private autoriasService: AutoriasService,
     private entidadeService: EntidadeService,
     private parlamentaresService: ParlamentaresService,
-
-    // private votacoesSumarizadasService: //hytacoesSumarizadasService
   ) { }
 
   ngOnInit(): void {
-    console.log("%c INIT !!!", "color: green; font-size: 30px;")
-    console.trace()
     this.toggleDrawer = true;
     this.activatedRoute.paramMap
       .pipe(takeUntil(this.unsubscribe))
@@ -107,12 +101,6 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
         indicate(this.isLoading),
         takeUntil(this.unsubscribe))
       .subscribe(parlamentares => {
-        //ator agregado
-        
-        console.log("%c Ator agregado", "font-size: 14px, font: orange;")
-        console.table(parlamentares)
-        console.dir(parlamentares)
-        console.trace()
 
         parlamentares.map(prlmntr => {
           if(prlmntr.idParlamentarVoz === this.idAtor){

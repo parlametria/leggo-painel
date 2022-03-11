@@ -32,7 +32,8 @@
       <p>Senador (a) / Partido - {{parlamentarInfo?.partido}}</p>
     </span>
 
-    <div class="container-parlamentar">
+    <div class="container-perfil">
+      
       <div class="foto-parlamentar">
         <img [src]="parlamentarInfo?.url_foto">
       </div>
@@ -50,52 +51,56 @@
       <div>
         <app-vis-cabecalho
           [parlamentar] = "parlamentar"
+          *ngIf="parlamentar?.disciplina && parlamentar?.governismo || true"
         >
-        
         </app-vis-cabecalho>
-        <p class="paragraph">
+        <span class="dot"></span>
+        <span class="paragraph">
           Disciplina partidária
-        </p>
-        <h5 *ngIf="parlamentar?.disciplina">{{ parlamentar?.disciplina }}</h5>
+        </span>
+        <h5 *ngIf="parlamentar?.disciplina">{{ parlamentar?.disciplina }}%</h5>
         <h5 *ngIf="!parlamentar?.disciplina">Disciplina não calculada.</h5>
-  
-        <p class="paragraph">
+        
+        
+        <span class="dot dot-governismo"></span>
+        <span class="paragraph">
           Governismo
-        </p>
-        <h5 *ngIf="parlamentar?.governismo">{{ parlamentar?.governismo }}</h5>
-        <h5 *ngIf="!parlamentar?.governismo">Governismo não calculado.</h5>
-
-  
-      </div>
-
-      <div>
-        <div>
-          <h5 class="papeis-importantes">Papéis importantes</h5>
-          <div *ngFor="let papel of papeisImportantes">
-            <div class="papeis-importantes">
-              <span class="header header5" *ngIf="papel.value">{{papel}} </span>
-              <span class="header header5" *ngIf="!papel.value">0 </span>
-              <span class="paragraph">{{papel.item}}</span>
-            </div>
-          </div>
-          <button class="button">Saiba mais</button>
-        </div>
-       
-
-        <!-- <div *ngIf="parlamentar?.quantidade_autorias">
-          <h5>{{parlamentar?.quantidade_autorias}} - Ações na agenda</h5>
-          <p>Das {{parlamentar?.quantidade_autorias}} ações, 
-            {{}} foram proposições, X foram emendas, 
-            {{}} foram requirimentos</p>
-          <button>Saiba mais</button>
-        </div> -->
+        </span>
+        <h5 *ngIf="parlamentar?.governismo">{{ parlamentar?.governismo }}%</h5>
+        <h5 *ngIf="!parlamentar?.governismo">Governismo não calculado.</h5>   
       </div>
       
-    </div>
-    <div *ngIf="!parlamentar?.quantidade_autorias">
-      <h5>0 - Ações na agenda</h5>
-    </div>
+      <div class="vertical-divider"></div>
 
+      <div >
+        <h5 class="papeis-importantes">Papéis importantes</h5>
+        <div *ngFor="let papel of papeisImportantes">
+          <div class="papeis-importantes item-separation">
+            <span class="header header5" *ngIf="papel.value">{{papel}} </span>
+            <span class="header header5" *ngIf="!papel.value">0 </span>
+            <span class="paragraph">{{papel.item}}</span>
+          </div>
+        </div>
+        <div class="button-position">
+          <button class="button">Saiba mais</button>
+        </div>
+      </div>
+            
+      <!-- <div *ngIf="!parlamentar?.quantidade_autorias">
+        <h5>10 - Ações na agenda</h5>
+      </div> -->
+      <div class="acoes-agenda">
+        <div *ngIf="!parlamentar?.quantidade_autorias">
+          <h5>{{0}} - Ações na agenda</h5>
+          <span class="paragraph">Das {{0}} ações, 
+            {{0}} foram proposições, {{0}} foram emendas, 
+            {{0}} foram requerimentos</span>
+        </div>
+        <div class="button-position">
+          <button class="button">Saiba mais</button>
+        </div>
+      </div>
+    </div>
 
   </div>
   <div class="veja-mais">
@@ -105,9 +110,6 @@
 
 </div>
 <div class="container">
-
-
-
 <div class="view-subnav">
   <ul class="nav justify-content-center parla-nav-tabs">
     <li class="nav-item">

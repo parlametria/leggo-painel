@@ -1,4 +1,7 @@
 $base-padding: 0.5rem;
+$divider: #e5e6e7;
+$button-padding: 30px;
+// @import "../../../assets/bootstrap/variables.scss";
 
 .back-btn {
   display: flex;
@@ -80,8 +83,7 @@ $base-padding: 0.5rem;
   }
 }
 .container-cabecalho {
-  background: "white" !important;
-  background-color: "white" !important;
+  background: white !important;
   border-right: 1px solid #dae0e5;
   border-left: 1px solid #dae0e5;
   border-bottom: 1px solid #dae0e5;
@@ -94,11 +96,32 @@ $base-padding: 0.5rem;
   margin-top: 35px;
 }
 
+.container-perfil {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  row-gap: 30px;
+  column-gap: 10px;
+  flex-wrap: wrap;
+  @media (min-width: 420px) {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+.vertical-divider {
+  @media (min-width: 990px) {
+    height: 310px;
+    border-right: 1px solid $divider;
+  }
+}
+
 .container-parlamentar {
   margin-top: 25px;
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 }
 
 .header {
@@ -123,6 +146,8 @@ $base-padding: 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-self: normal;
+  justify-content: flex-start;
 }
 
 .parlamentar-titulo {
@@ -150,27 +175,6 @@ $base-padding: 0.5rem;
   font-weight: 400;
 }
 
-.square {
-  transition: all 0.75s 0.25s;
-}
-
-.toggle-container {
-  padding: 15px;
-  // border: solid 5px black;
-  // box-shadow: 0px -21px 24px -8px rgba(0, 0, 0, 0.75);
-  // filter: drop-shadow(3px -52px 22px rgb(0 0 0 / 0.4));
-  filter: drop-shadow(3px -15px 2px rgb(0 0 0 / 0.4));
-  margin: auto;
-  width: fit-content;
-}
-.toggle-up {
-  transform: rotate(180deg);
-}
-
-.toggle-down {
-  transform: rotate(0);
-}
-
 .papeis-importantes {
   .paragraph {
     font-weight: normal;
@@ -183,17 +187,39 @@ $base-padding: 0.5rem;
     font-family: "Poppins", sans-serif;
     font-size: 1.125rem;
   }
+}
 
-  .value-item {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
+.acoes-agenda {
+  div {
+    width: 280px;
+  }
+  h5 {
+    margin-bottom: 20px;
+  }
+  button {
+    margin-top: 2 * $button-padding;
   }
 }
 
+.item-separation {
+  padding-top: 10px;
+}
+.button-position {
+  justify-content: flex-end;
+  display: flex;
+}
 .button {
-  border: 1px solid black;
+  margin-top: $button-padding;
+  padding: 10px;
+  border: 1px solid indigo;
+  color: indigo;
   background-color: transparent;
+  border-radius: $base-padding / 2;
+}
+
+.button:hover {
+  background-color: indigo;
+  color: white;
 }
 
 .veja-mais {
@@ -213,4 +239,27 @@ $base-padding: 0.5rem;
     z-index: 1;
     top: 69px;
   }
+}
+
+.label-disciplina-governismo {
+  display: flex;
+  flex-direction: column;
+}
+
+.bullet-disciplina {
+  font-size: 30px;
+  height: 30px;
+  display: block;
+  color: #85cde8;
+}
+.dot {
+  height: 15px;
+  width: 15px;
+  background-color: #85cde8;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-governismo {
+  background-color: #50669a !important;
 }
