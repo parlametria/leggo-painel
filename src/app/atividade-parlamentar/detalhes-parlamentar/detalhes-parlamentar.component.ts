@@ -44,14 +44,12 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
   public tema: string;
   public destaque: boolean;
   public comissoes: ComissoesCargo[];
-  
   public relatorias: Relatorias[];
   public autorias: Autoria[];
   public toggleDrawer: boolean;
   public papeisImportantes;
 
-  
-  
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -82,14 +80,13 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
     });
     this.getAtorInfo(this.idAtor, this.interesse);
     this.papeisImportantes = [
-      { value: this.parlamentar?.quantidade_comissao_presidente, 
-        item: "Presidências em comissões"},
-      { value: this.parlamentar?.quantidade_relatorias, 
-        item: "Relatoria em proposições"},
-      { value: this.parlamentar?.quantidade_autorias, 
-        item: "Autoria em proposições"},
-    ]
-  }
+      { value: this.parlamentar?.quantidade_comissao_presidente,
+        item: 'Presidências em comissões'},
+      { value: this.parlamentar?.quantidade_relatorias,
+        item: 'Relatoria em proposições'},
+      { value: this.parlamentar?.quantidade_autorias,
+        item: 'Autoria em proposições'}
+    ]; }
 
   getParlamentarDetalhado(idParlamentar, interesse, tema, destaque) {
     const dataInicial = '2019-01-01';
@@ -134,9 +131,6 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
       this.comissoes = data[0];
       this.relatorias = data[1];
       this.autorias = data[2];
-      console.log(this.comissoes)
-      console.log(this.relatorias)
-      console.log(this.autorias)
       this.isLoading.next(false);
     });
     this.parlamentarDetalhadoService
@@ -145,12 +139,6 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
         indicate(this.isLoading),
         takeUntil(this.unsubscribe))
       .subscribe(parlamentar => {
-        console.log("%c Parlamentar", "font-size:14px; color: green;")
-        console.log(parlamentar)
-        // console.log(parlamentar?.disciplina)
-        // console.log(parlamentar?.nada)
-        // this.parlamentar = parlamentar;//hy
-        //this.isLoading.next(false);
       });
   }
 
@@ -166,11 +154,11 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
       .subscribe(parlamentares => {
 
         parlamentares.map(prlmntr => {
-          if(prlmntr.idParlamentarVoz === this.idAtor){
-            this.parlamentar = prlmntr;//hy
+          if (prlmntr.idParlamentarVoz === this.idAtor){
+            this.parlamentar = prlmntr;
 
           }
-        })
+        });
         this.isLoading.next(false);
       },
         error => {
@@ -199,8 +187,8 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
         if (pesoPolitico.length) {
           ator.peso_politico = pesoPolitico[0].pesoPolitico;
         }
-        this.getParlamentarAgregado(ator.casa_autor)
-        this.parlamentarInfo = ator
+        this.getParlamentarAgregado(ator.casa_autor);
+        this.parlamentarInfo = ator;
       });
   }
 

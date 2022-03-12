@@ -51,7 +51,7 @@
       <div>
         <app-vis-cabecalho
           [parlamentar] = "parlamentar"
-          *ngIf="parlamentar?.disciplina && parlamentar?.governismo"
+          *ngIf="parlamentar?.disciplina && parlamentar?.governismo || true"
         >
         </app-vis-cabecalho>
         <span class="dot"></span>
