@@ -263,3 +263,46 @@ $button-padding: 30px;
 .dot-governismo {
   background-color: #50669a !important;
 }
+
+.parla-nav-tabs {
+  li.nav-item {
+    display: flex;
+    justify-content: center;
+    margin-right: 2rem;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    a.nav-link {
+      padding: 0.7rem 1.5rem 0.5rem 1.5rem;
+    }
+  }
+
+  li.nav-item a.active {
+    background-color: #34174a;
+    color: #fff;
+  }
+}
+
+.tabs-content-container {
+  padding: 2rem 1rem;
+  border-right: none;
+  border-left: none;
+  border-bottom: none;
+  border-top-color: #34174a;
+  border-top-width: 0.5rem;
+  border-radius: 0;
+  box-shadow: 0px 11px 15px #34174a1a;
+  margin-bottom: 1rem;
+}
+
+.triangle-down {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #fff;
+  position: absolute;
+  z-index: 1;
+}
