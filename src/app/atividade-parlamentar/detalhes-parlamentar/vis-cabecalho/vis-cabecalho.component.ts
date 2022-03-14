@@ -50,8 +50,8 @@ export class VisCabecalhoComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit(): void {
-    const width = 200;
-    const height = 200;
+    const width = 150;
+    const height = 150;
     this.donutWidth = 20;
     this.radius1 = Math.min(width, height) / 2;
     this.radius2 = this.radius1 - this.donutWidth;
