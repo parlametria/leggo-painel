@@ -30,7 +30,7 @@ $button-padding: 30px;
 }
 
 .foto-parlamentar {
-  width: 100px;
+  width: 6.25rem;
 }
 
 .foto-parlamentar > img {
@@ -39,7 +39,7 @@ $button-padding: 30px;
 }
 
 .estado-parlamentar {
-  width: 70px;
+  width: 4.375rem;
 }
 
 .estado-parlamentar {
@@ -75,13 +75,13 @@ $button-padding: 30px;
   border-right: 1px solid #dae0e5;
   border-left: 1px solid #dae0e5;
   border-bottom: 1px solid #dae0e5;
-  border-bottom-right-radius: 25px;
-  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 1.563rem;
+  border-bottom-left-radius: 1.563rem;
   box-shadow: 0px 9px 27px -20px rgba(0, 0, 0, 0.75);
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
 }
 .container-info {
-  margin-top: 35px;
+  margin-top: 2.188rem;
 }
 
 .container-perfil {
@@ -89,8 +89,8 @@ $button-padding: 30px;
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
-  row-gap: 30px;
-  column-gap: 30px;
+  row-gap: 1.875rem;
+  column-gap: 1.875rem;
   flex-wrap: wrap;
   @media (max-width: 480px) {
     flex-direction: row;
@@ -131,7 +131,7 @@ $button-padding: 30px;
 }
 .paragraph {
   font-weight: normal;
-  font-size: 16px;
+  font-size: 1rem;
   color: #81858d;
   font-family: "Poppins regular", sans-serif;
 }
@@ -142,7 +142,7 @@ $button-padding: 30px;
   align-items: center;
   align-self: center;
   justify-content: flex-start;
-  padding-bottom: 60px;
+  padding-bottom: 3.75rem;
   @media (max-width: --breakpoint-sm) {
     width: 40%;
   }
@@ -176,7 +176,7 @@ $button-padding: 30px;
 .papeis-importantes {
   .paragraph {
     font-weight: normal;
-    font-size: 16px;
+    font-size: 1rem;
     color: #81858d;
     font-family: "Poppins regular", sans-serif;
   }
@@ -200,7 +200,7 @@ $button-padding: 30px;
 }
 
 .item-separation {
-  padding-top: 10px;
+  padding-top: 0.625rem;
 }
 .button-position {
   justify-content: flex-end;
@@ -208,7 +208,7 @@ $button-padding: 30px;
 }
 .button {
   margin-top: $button-padding;
-  padding: 5px;
+  padding: 0.313rem;
   border: 1px solid indigo;
   color: indigo;
   background-color: transparent;
@@ -245,14 +245,14 @@ $button-padding: 30px;
 }
 
 .bullet-disciplina {
-  font-size: 30px;
-  height: 30px;
+  font-size: 1.875rem;
+  height: 1.875rem;
   display: block;
   color: #85cde8;
 }
 .dot {
-  height: 15px;
-  width: 15px;
+  height: 0.938rem;
+  width: 0.938rem;
   background-color: #85cde8;
   border-radius: 50%;
   display: inline-block;
