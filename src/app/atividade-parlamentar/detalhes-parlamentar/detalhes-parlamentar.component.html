@@ -87,16 +87,17 @@
           </div>
         </div>
               
-        <!-- <div *ngIf="!parlamentar?.quantidade_autorias">
-          <h5>10 - Ações na agenda</h5>
-        </div> -->
-        <div class="acoes-agenda">
-          <div *ngIf="!parlamentar?.quantidade_autorias">
-            <h5>{{0}} - Ações na agenda</h5>
-            <span class="paragraph">Das {{0}} ações, 
-              {{0}} foram proposições, {{0}} foram emendas, 
-              {{0}} foram requerimentos</span>
-          </div>
+        <div class="acoes-agenda" 
+          *ngIf="totalDocs">
+          <h5>{{totalDocs}} - Ações na agenda</h5>
+          <span class="paragraph">
+            Das <strong>{{ totalDocs }}</strong> ações,
+            <span *ngFor="let autoria of autoriasPorTipo; let i = index" class="paragraph">
+              <strong>{{ autoria.values.length }}</strong>
+              {{formataTipo(autoria.key, autoria.values.length, (i + 1) === autoriasPorTipo.length)}}
+            </span>
+          </span>
+
           <div class="button-position">
             <button class="button">Saiba mais</button>
           </div>

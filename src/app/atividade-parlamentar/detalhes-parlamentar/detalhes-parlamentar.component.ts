@@ -24,6 +24,7 @@ import { AutoriasService } from 'src/app/shared/services/autorias.service';
 import { AtorAgregado } from '../../shared/models/atorAgregado.model';
 import { ParlamentaresService } from '../../shared/services/parlamentares.service';
 
+import { nest } from 'd3-collection';
 
 @Component({
   selector: 'app-detalhes-parlamentar',
@@ -48,6 +49,9 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
   public autorias: Autoria[];
   public toggleDrawer: boolean;
   public papeisImportantes;
+  public totalDocs: number;
+  public autoriasPorTipo: any;
+
 
 
   constructor(
@@ -61,6 +65,7 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
     private autoriasService: AutoriasService,
     private entidadeService: EntidadeService,
     private parlamentaresService: ParlamentaresService,
+
   ) { }
 
   ngOnInit(): void {
@@ -77,47 +82,15 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
       this.destaque = this.tema === 'destaque';
       this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;
       this.getParlamentarDetalhado(this.idAtor, this.interesse, this.tema, this.destaque);
+      this.resgataDocumentos(this.interesse, this.tema, parseInt(this.idAtor, 10), this.destaque);
+
     });
     this.getAtorInfo(this.idAtor, this.interesse);
-    this.papeisImportantes = [
-      { value: this.parlamentar?.quantidade_comissao_presidente,
-        item: 'Presidências em comissões'},
-      { value: this.parlamentar?.quantidade_relatorias,
-        item: 'Relatoria em proposições'},
-      { value: this.parlamentar?.quantidade_autorias,
-        item: 'Autoria em proposições'}
-    ]; }
+    }
 
   getParlamentarDetalhado(idParlamentar, interesse, tema, destaque) {
     const dataInicial = '2019-01-01';
     const dataFinal = moment().format('YYYY-MM-DD');
-
-    //  forkJoin(
-    //   [
-    //     already this.atorService.getAtor(interesse, idAtor),
-    //     this.votacoesSumarizadasService.getVotacoesSumarizadasByID(idParlamentar),
-    //     this.entidadeService.getParlamentaresExercicio('')
-    //   ]
-    // ) .pipe(
-    //     indicate(this.isLoading),
-    //     takeUntil(this.unsubscribe))
-    //   .subscribe(data => {
-    //     const ator = data[0][0];
-    //     const votacoes = data[1][0];
-    //     const parlamentares = data[2];
-
-    //     this.formataData(votacoes);
-    //     this.parlamentarInfo = ator;
-    //     this.parlamentares = parlamentares.filter(p => p.casa_autor === this.parlamentarInfo.casa_autor);
-    //     const parlamentarDestaque = this.parlamentares.filter(p => +p.id_autor_parlametria === this.idParlamentarDestaque)[0];
-    //     console.log(`%c ${parlamentarDestaque}`, "font-size: 20px")
-    //     this.bancadaSuficiente = parlamentarDestaque.bancada_suficiente;
-    //     this.disciplinaCalculada = parlamentarDestaque.disciplina !== null;
-    //     this.governismoCalculado = parlamentarDestaque.governismo !== null;
-    //     this.parlamentaresDisciplina = [...this.parlamentares];
-    //     this.parlamentaresGovernismo = [...this.parlamentares];
-    //     this.isLoading.next(false);
-    //   });
 
     forkJoin(
       [
@@ -132,6 +105,16 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
       this.relatorias = data[1];
       this.autorias = data[2];
       this.isLoading.next(false);
+
+      this.papeisImportantes = [
+      { value: this.comissoes?.length,
+        item: 'Presidências em comissões'},
+      { value: this.relatorias?.length,
+        item: 'Relatoria em proposições'},
+      { value: this.autorias?.length,
+        item: 'Autoria em proposições'}
+      ];
+
     });
     this.parlamentarDetalhadoService
       .getParlamentarDetalhado(idParlamentar, interesse, tema, dataInicial, dataFinal, destaque)
@@ -192,6 +175,41 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
       });
   }
 
+  private resgataDocumentos(interesse, tema, idAtor, destaque) {
+    this.autoriasService.getAutorias(idAtor, interesse, tema, destaque)
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe(autorias => {
+        const autoriasApresentadas = autorias.filter(a => a.tipo_acao === 'Proposição');
+
+        const ORDER_TIPOS_PROPOSICAO = [
+          'Prop. Original / Apensada',
+          'Emenda',
+          'Requerimento'
+        ];
+
+        const d3 = Object.assign({}, { nest });
+        this.autoriasPorTipo = d3.nest()
+          .key((d: any) => d.tipo_documento)
+          .sortKeys((a, b) => {
+            const orderA = ORDER_TIPOS_PROPOSICAO.indexOf(a);
+            const orderB = ORDER_TIPOS_PROPOSICAO.indexOf(b);
+            if (orderA === -1) {
+              return 1;
+            }
+            if (orderB === -1) {
+              return -1;
+            }
+            return orderA - orderB;
+          })
+          .entries(autoriasApresentadas);
+
+        this.totalDocs = this.autoriasPorTipo.reduce((acc: any, current) => {
+          return acc + current.values.length;
+        }, 0);
+      });
+  }
+
+
   private getUrlFoto(parlamentar): string {
     const urlSenado = `https://www.senado.leg.br/senadores/img/fotos-oficiais/senador${parlamentar.id_autor}.jpg`;
     const urlCamara = `https://www.camara.leg.br/internet/deputado/bandep/${parlamentar.id_autor}.jpg`;
@@ -199,6 +217,27 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
 
     return urlFoto;
   }
+
+  public formataTipo(tipo: string, qtd: number, ultimo: boolean): string {
+    let tipoFormatado = tipo.toLowerCase();
+    const isPlural = qtd > 1;
+    const separador = (ultimo) ? '.' : ', ';
+    if (tipoFormatado === 'prop. original / apensada') {
+      if (!isPlural) {
+        tipoFormatado = 'foi proposição';
+      } else {
+        tipoFormatado = 'foram proposições';
+      }
+    } else {
+      if (isPlural) {
+        tipoFormatado = 'foram ' + tipoFormatado + 's';
+      } else {
+        tipoFormatado = 'foi ' + tipoFormatado;
+      }
+    }
+    return tipoFormatado + separador;
+  }
+
 
   setToggleDrawer(){
     this.toggleDrawer = !this.toggleDrawer;

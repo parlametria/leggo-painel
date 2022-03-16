@@ -36,7 +36,7 @@ const d3 = Object.assign({}, {
 
 @Component({
   selector: 'app-vis-cabecalho',
-  template: '<div id="vis-cabecalho"></div>',
+  template: '<div id="vis-cabecalho" class="vis-cabecalho"></div>',
   styleUrls: ['./vis-cabecalho.component.scss']
 })
 export class VisCabecalhoComponent implements OnInit, OnChanges {
@@ -47,14 +47,17 @@ export class VisCabecalhoComponent implements OnInit, OnChanges {
   private radius1: any;
   private radius2: any;
   private donutWidth: any;
+  // private cornerRadius: any;
   constructor() { }
 
   ngOnInit(): void {
     const width = 150;
     const height = 150;
-    this.donutWidth = 20;
+    const donutPadding = 10;
+    // this.cornerRadius = 50;
+    this.donutWidth = 15;
     this.radius1 = Math.min(width, height) / 2;
-    this.radius2 = this.radius1 - this.donutWidth;
+    this.radius2 = this.radius1 - this.donutWidth - donutPadding ;
     this.svg = d3
     .select('#vis-cabecalho')
     .append('svg')
@@ -84,12 +87,13 @@ export class VisCabecalhoComponent implements OnInit, OnChanges {
     const colorOff = '#e5e6e7';
     const arc1 = d3.arc()
       .innerRadius(this.radius1 - this.donutWidth)
-            .outerRadius(this.radius1);
+      .outerRadius(this.radius1);
+      // .cornerRadius(this.cornerRadius);
 
     const arc2 = d3.arc()
       .innerRadius(this.radius2 - this.donutWidth)
       .outerRadius(this.radius2);
-
+      // .cornerRadius(this.cornerRadius);
 
     const drawPie = d3.pie()
     .value((d: number) => {
@@ -110,8 +114,6 @@ export class VisCabecalhoComponent implements OnInit, OnChanges {
       .data(drawPie(datasetGovernismo))
       .enter()
       .append('path')
-      .attr('stroke', '#fff')
-      .attr('stroke-width', '6')
       .attr('d', arc2)
       .attr('fill', (d, i) => {
         return d.index === 1 ? colorOff : colorGoverniso;

@@ -30,10 +30,7 @@ $button-padding: 30px;
 }
 
 .foto-parlamentar {
-  width: 90px;
-  @media (min-width: 576px) {
-    width: 100px;
-  }
+  width: 100px;
 }
 
 .foto-parlamentar > img {
@@ -45,7 +42,7 @@ $button-padding: 30px;
   width: 70px;
 }
 
-.estado-parlamentar > img {
+.estado-parlamentar {
   width: 100%;
 }
 
@@ -95,9 +92,15 @@ $button-padding: 30px;
   row-gap: 30px;
   column-gap: 30px;
   flex-wrap: wrap;
-  @media (min-width: 420px) {
+  @media (max-width: 480px) {
     flex-direction: row;
     justify-content: center;
+    .estado {
+      padding-bottom: unset;
+    }
+    .estado-parlamentar {
+      width: 40%;
+    }
   }
 }
 
@@ -139,7 +142,10 @@ $button-padding: 30px;
   align-items: center;
   align-self: center;
   justify-content: flex-start;
-  padding-bottom: 25px;
+  padding-bottom: 60px;
+  @media (max-width: --breakpoint-sm) {
+    width: 40%;
+  }
 }
 
 .parlamentar-titulo {
