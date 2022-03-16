@@ -1,0 +1,12 @@
+<div class="seletor-de-interesses">
+  <div class="form-group interesses-wrapper">
+    <select (change)="onChangeInteresseSelecionado($event.target.value)" class="form-control">
+      <option
+        *ngFor="let interesse of interesses" [value]="interesse.interesse"
+        [selected]="interesse.interesse === interesseSelecionado.interesse"
+      >
+        {{interesse.nome_interesse}}
+      </option>
+    </select>
+  </div>
+</div>

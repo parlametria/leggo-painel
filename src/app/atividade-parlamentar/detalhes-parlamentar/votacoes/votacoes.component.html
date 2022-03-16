@@ -1,116 +1,275 @@
 <app-loading *ngIf="isLoading | async"></app-loading>
 <div [hidden]="isLoading | async">
 
-  <p
-    *ngIf="governismoCalculado || disciplinaCalculada"
-    class="my-4">
-    <strong>{{ parlamentarInfo?.nome_autor }}</strong>
-    é o ponto em
-    <span class="legenda cor2">laranja</span>
-    abaixo. Parlamentares do partido dele/a ({{ parlamentarInfo?.partido }}) estão em
-    <span class="legenda cor0">roxo</span>
-    e os demais em
-    <span class="legenda cor1">verde</span>
-    .
+  <p class="app-votacoes-titulo">
+    Votações em cada proposição dentro de {{ nomeInteresse }}
   </p>
 
-  <h3 class="titulo-sessao">Governismo</h3>
+  <div class="seletor-de-interesses-wrapper">
+    <div class="seletor-interesse-titulo">Filtrar por painel de interesse</div>
 
-  <p *ngIf="governismoCalculado">
-    O quanto
-    <strong>{{ parlamentarInfo?.nome_autor }}</strong>
-    apoiou o governo em votações nominais disputadas.
-  </p>
+    <app-seletor-de-interesses
+      [nomeSelecionado]="interesseParam"
+      (interesseAlterado)="evtInteresseSelecionado($event)">
+    </app-seletor-de-interesses>
+  </div>
 
-  <p *ngIf="!governismoCalculado">
-    Não foi possível calcular o governismo para
-    <strong>{{ parlamentarInfo?.nome_autor }}</strong>
-    pois não há votos suficientes do/a parlamentar.
-  </p>
+  <div class="medidas-provisorias-wrapper">
+    <div class="medida-provisoria-container">
 
-  <app-vis-governismo
-    [hidden]="!governismoCalculado"
-    [idParlamentarDestaque]="idParlamentarDestaque"
-    [parlamentares]="parlamentaresGovernismo"></app-vis-governismo>
+      <div class="d-flex flex-row">
+        <div class="p-2 titulo-medida">Medida Provisória 867/2018</div>
+        <div class="p-2"><span>ver mais</span></div>
+      </div>
 
-  <p
-    *ngIf="governismoCalculado"
-    class="vis-rodape">
-    Baseado em
-    <strong>
-      {{ votacoesSumarizadas?.num_votacoes_totais_governismo }}
-    </strong>
-    votações
-    no plenário {{ getCasa(parlamentarInfo?.casa_autor) }} no período de
-    <strong>01 de fevereiro de 2019</strong>
-    a
-    <strong>
-      {{ votacoesSumarizadas?.ultima_data_votacao }}
-    </strong>
-    .
-    <strong>{{ parlamentarInfo?.nome_autor }}</strong>
-    votou em
-    <strong>
-      {{ votacoesSumarizadas?.num_votacoes_parlamentar_governismo }}
-    </strong>
-    delas.
-    O governismo é calculado a partir do comportamento dos parlamentares, considerando que apoiar
-    o governo quando a maioria foi contra conta mais que apoiá-lo junto com uma maioria.
-    Usamos o modelo IDEAL de Clinton, Jackman e Rivers.
-  </p>
+      <div class="d-flex flex-row">
+        <div class="p-2 total-votacoes">
+          Total de votações: 26
+        </div>
+      </div>
 
-  <h3 class="titulo-sessao">Disciplina partidária</h3>
+      <div class="d-flex flex-row">
+        <div class="p-2 como-votou-desc">
+          Como votou o(a) Deputado(a):
+        </div>
+      </div>
 
-  <p *ngIf="bancadaSuficiente && disciplinaCalculada">
-    O quanto
-    <strong>{{ parlamentarInfo?.nome_autor }}</strong>
-    seguiu as orientações do
-    <strong>{{ parlamentarInfo?.partido }}</strong>
-    em votações nominais.
-  </p>
+      <div class="d-flex flex-row votacoes-row-descricao">
 
-  <p *ngIf="!bancadaSuficiente">
-    Não foi possível calcular o quanto
-    <strong>{{ parlamentarInfo?.nome_autor }}</strong>
-    seguiu as orientações do
-    <strong>{{ parlamentarInfo?.partido }}</strong>
-    pois a bancada de seu partido é insuficiente.
-  </p>
+        <div class="bloco-votacoes">
+          <div class="p-2">
+            <div class="d-flex flex-row vote-wrapper">
+              <div class="square vota-sim"></div>
+              <div class="quantidade">6 x</div>
+            </div>
 
-  <p *ngIf="!disciplinaCalculada">
-    Não foi possível calcular o quanto
-    <strong>{{ parlamentarInfo?.nome_autor }}</strong>
-    seguiu as orientações do
-    <strong>{{ parlamentarInfo?.partido }}</strong>
-    pois não há votos suficientes do/a parlamentar.
-  </p>
+            <div class="vota-desc">Sim</div>
+          </div>
+        </div>
 
-  <app-vis-disciplina
-    [hidden]="!bancadaSuficiente || !disciplinaCalculada"
-    [idParlamentarDestaque]="idParlamentarDestaque"
-    [parlamentares]="parlamentaresDisciplina"></app-vis-disciplina>
+        <div class="bloco-votacoes">
+          <div class="p-2">
+            <div class="d-flex flex-row vote-wrapper">
+              <div class="square vota-nao"></div>
+              <div class="quantidade">6 x</div>
+            </div>
 
-  <p
-    *ngIf="bancadaSuficiente && disciplinaCalculada"
-    class="vis-rodape">
-    Esse/a parlamentar participou de
-    <strong>
-      {{ votacoesSumarizadas?.num_votacoes_parlamentar_disciplina }}
-    </strong>
-    das
-    <strong>
-      {{ votacoesSumarizadas?.num_votacoes_totais_disciplina }}
-    </strong>
-    votações onde seu partido orientou a votação.
-    A disciplina partidária é a frequência com que os parlamentares seguem a orientação de seus partidos em votações nominais.
-    Usamos votações no período de
-    <strong>01 de fevereiro de 2019</strong>
-    a
-    <strong>
-      {{ votacoesSumarizadas?.ultima_data_votacao }}
-    </strong>
-    onde houve alguma disputa,
-    com pelo menos 10% dos votos contrários à maioria.
-  </p>
+            <div class="vota-desc">Não</div>
+          </div>
+        </div>
 
+        <div class="bloco-votacoes">
+          <div class="p-2">
+            <div class="d-flex flex-row vote-wrapper">
+              <div class="square vota-liberado"></div>
+              <div class="quantidade">6 x</div>
+            </div>
+
+            <div class="vota-desc">Liberado</div>
+          </div>
+        </div>
+
+        <div class="bloco-votacoes">
+          <div class="p-2">
+            <div class="d-flex flex-row vote-wrapper">
+              <div class="square vota-abstencao"></div>
+              <div class="quantidade">6 x</div>
+            </div>
+
+            <div class="vota-desc">Abstenção</div>
+          </div>
+        </div>
+
+        <div class="bloco-votacoes">
+          <div class="p-2">
+            <div class="d-flex flex-row vote-wrapper">
+              <div class="square vota-obstrucao"></div>
+              <div class="quantidade">6 x</div>
+            </div>
+
+            <div class="vota-desc">Obstrução</div>
+          </div>
+        </div>
+
+        <div class="bloco-votacoes">
+          <div class="p-2">
+            <div class="d-flex flex-row vote-wrapper">
+              <div class="square vota-faltou"></div>
+              <div class="quantidade">6 x</div>
+            </div>
+
+            <div class="vota-desc">Faltou/não estava em exercício</div>
+          </div>
+        </div>
+
+        <div class="bloco-exibir-detalhes">
+          <i class="arrow arrow-down"></i>
+          <span>Exibir detalhes</span>
+        </div>
+      </div>
+
+      <div class="votacoes-row-parlamentar">
+        <div class="d-flex flex-row">
+          <div class="p-2 bloco-voto-desc">
+            <div>Deputado</div>
+            <div>Governo</div>
+          </div>
+
+          <div class="d-flex flex-row scroll-lateral">
+
+            <div class="p-2">
+              <div class="bloco-voto-parlamentar">
+                <div class="square vota-sim"></div>
+                <div class="circle vota-sim"></div>
+                <div class="vota-desc">
+                  12/03/20
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2">
+              <div class="bloco-voto-parlamentar">
+                <div class="square vota-sim"></div>
+                <div class="circle vota-sim"></div>
+                <div class="vota-desc">
+                  12/03/20
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2">
+              <div class="bloco-voto-parlamentar">
+                <div class="square vota-sim"></div>
+                <div class="circle vota-sim"></div>
+                <div class="vota-desc">
+                  12/03/20
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2">
+              <div class="bloco-voto-parlamentar">
+                <div class="square vota-sim"></div>
+                <div class="circle vota-sim"></div>
+                <div class="vota-desc">
+                  12/03/20
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2">
+              <div class="bloco-voto-parlamentar">
+                <div class="square vota-sim"></div>
+                <div class="circle vota-sim"></div>
+                <div class="vota-desc">
+                  12/03/20
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2">
+              <div class="bloco-voto-parlamentar">
+                <div class="square vota-sim"></div>
+                <div class="circle vota-sim"></div>
+                <div class="vota-desc">
+                  12/03/20
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2">
+              <div class="bloco-voto-parlamentar">
+                <div class="square vota-sim"></div>
+                <div class="circle vota-sim"></div>
+                <div class="vota-desc">
+                  12/03/20
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2">
+              <div class="bloco-voto-parlamentar">
+                <div class="square vota-sim"></div>
+                <div class="circle vota-sim"></div>
+                <div class="vota-desc">
+                  12/03/20
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2">
+              <div class="bloco-voto-parlamentar">
+                <div class="square vota-sim"></div>
+                <div class="circle vota-sim"></div>
+                <div class="vota-desc">
+                  12/03/20
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2">
+              <div class="bloco-voto-parlamentar">
+                <div class="square vota-sim"></div>
+                <div class="circle vota-sim"></div>
+                <div class="vota-desc">
+                  12/03/20
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2">
+              <div class="bloco-voto-parlamentar">
+                <div class="square vota-sim"></div>
+                <div class="circle vota-sim"></div>
+                <div class="vota-desc">
+                  12/03/20
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2">
+              <div class="bloco-voto-parlamentar">
+                <div class="square vota-sim"></div>
+                <div class="circle vota-sim"></div>
+                <div class="vota-desc">
+                  12/03/20
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2">
+              <div class="bloco-voto-parlamentar">
+                <div class="square vota-sim"></div>
+                <div class="circle vota-sim"></div>
+                <div class="vota-desc">
+                  12/03/20
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2">
+              <div class="bloco-voto-parlamentar">
+                <div class="square vota-sim"></div>
+                <div class="circle vota-sim"></div>
+                <div class="vota-desc">
+                  12/03/20
+                </div>
+              </div>
+            </div>
+
+            <div class="p-2">
+              <div class="bloco-voto-parlamentar">
+                <div class="square vota-sim"></div>
+                <div class="circle vota-sim"></div>
+                <div class="vota-desc">
+                  12/03/20
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
