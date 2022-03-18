@@ -35,11 +35,11 @@
   
       <div class="container-perfil">
         
-        <div class="foto-parlamentar">
+        <div class="foto-parlamentar flex2">
           <img [src]="parlamentarInfo?.url_foto">
         </div>
     
-        <div class="estado">
+        <div class="estado flex2">
           <div class="estado-parlamentar">      
             <img src="assets/imgs/estados/{{parlamentarInfo?.uf }}.svg">
           </div>
@@ -49,7 +49,7 @@
           </h5>
         </div>
         
-        <div>
+        <div class="flex2">
           <app-vis-cabecalho
             [parlamentar] = "parlamentar"
             *ngIf="parlamentar?.disciplina && parlamentar?.governismo || true"
@@ -73,7 +73,7 @@
         
         <div class="vertical-divider"></div>
   
-        <div >
+        <div class="flex3">
           <h5 class="papeis-importantes">Papéis importantes</h5>
           <div *ngFor="let papel of papeisImportantes">
             <div class="papeis-importantes item-separation">
@@ -87,15 +87,18 @@
           </div>
         </div>
               
+        <!-- *ngIf="totalDocs" -->
         <div class="acoes-agenda" 
-          *ngIf="totalDocs">
+          class="flex3"
+          >
           <h5>{{totalDocs}} - Ações na agenda</h5>
           <span class="paragraph">
-            Das <strong>{{ totalDocs }}</strong> ações,
+            Das X ações, 3 foram proposições, 6 foram emendas, 2 foram requerimentos.
+            <!-- Das <strong>{{ totalDocs }}</strong> ações,
             <span *ngFor="let autoria of autoriasPorTipo; let i = index" class="paragraph">
               <strong>{{ autoria.values.length }}</strong>
               {{formataTipo(autoria.key, autoria.values.length, (i + 1) === autoriasPorTipo.length)}}
-            </span>
+            </span> -->
           </span>
 
           <div class="button-position">
