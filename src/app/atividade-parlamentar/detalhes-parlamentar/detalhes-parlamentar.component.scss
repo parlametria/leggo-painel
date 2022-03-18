@@ -31,6 +31,7 @@ $button-padding: 30px;
 
 .foto-parlamentar {
   width: 6.25rem;
+  min-width: 150px;
 }
 
 .foto-parlamentar > img {
@@ -92,15 +93,8 @@ $button-padding: 30px;
   row-gap: 1.875rem;
   column-gap: 1.875rem;
   flex-wrap: nowrap;
-  @media (max-width: 480px) {
-    flex-direction: row;
-    justify-content: center;
-    .estado {
-      padding-bottom: unset;
-    }
-    .estado-parlamentar {
-      width: 40%;
-    }
+  @media (max-width: 1000px) {
+    flex-wrap: wrap !important;
   }
 }
 
@@ -335,7 +329,7 @@ $button-padding: 30px;
 .container-atividades {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr 50px 1fr;
+  grid-template-rows: 0.5fr 1.5fr 0.5fr;
   gap: 20px 20px;
 
   .display-start {
