@@ -65,7 +65,7 @@
               <span class="paragraph">
                 Disciplina partidária
               </span>
-              <h5 *ngIf="parlamentar?.disciplina">{{ parlamentar?.disciplina }}%</h5>
+              <h5 *ngIf="parlamentar?.disciplina">{{ parlamentar?.disciplina * 100 | number: '1.0-0'}}%</h5>
               <h5 *ngIf="!parlamentar?.disciplina">Disciplina não calculada.</h5>
             </div>
 
@@ -74,7 +74,7 @@
               <span class="paragraph">
                 Governismo
               </span>
-              <h5 *ngIf="parlamentar?.governismo">{{ parlamentar?.governismo }}%</h5>
+              <h5 *ngIf="parlamentar?.governismo">{{ parlamentar?.governismo * 100 | number: '1.0-0' }}%</h5>
               <h5 *ngIf="!parlamentar?.governismo">Governismo não calculado.</h5>   
             </div>
             
@@ -110,12 +110,11 @@
             <h5>{{totalDocs}} - Ações na agenda</h5>
             <div class="display-start">
               <span class="paragraph">
-                Das X ações, 3 foram proposições, 6 foram emendas, 2 foram requerimentos.
-                <!-- Das <strong>{{ totalDocs }}</strong> ações,
+                Das <strong>{{ totalDocs }}</strong> ações,
                 <span *ngFor="let autoria of autoriasPorTipo; let i = index" class="paragraph">
                   <strong>{{ autoria.values.length }}</strong>
                   {{formataTipo(autoria.key, autoria.values.length, (i + 1) === autoriasPorTipo.length)}}
-                </span> -->
+                </span>
               </span>
             </div>
             <div class="button-position">
