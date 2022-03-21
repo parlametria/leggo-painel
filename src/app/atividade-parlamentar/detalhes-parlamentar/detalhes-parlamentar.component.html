@@ -90,7 +90,7 @@
               <div
                 *ngFor="let papel of papeisImportantes"
                 class="papeis-importantes">              
-                  <span class="header header5" *ngIf="papel.value">{{papel}} </span>
+                  <span class="header header5" *ngIf="papel.value">{{papel.value}} </span>
                   <span class="header header5" *ngIf="!papel.value">0 </span>
                   <span class="paragraph">{{papel.item}}</span>
               </div>
@@ -118,7 +118,11 @@
               </span>
             </div>
             <div class="button-position">
-              <button class="button">Saiba mais</button>
+              <button class="button"
+                [routerLink]="['./atividades']"
+                [routerLinkActive]="'active'">
+                Saiba mais
+              </button>
             </div>
           </div>
         </div>
