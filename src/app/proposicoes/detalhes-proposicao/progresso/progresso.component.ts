@@ -64,7 +64,7 @@ export class ProgressoComponent implements OnInit, OnDestroy {
   }
 
   resumirFases(fases) {
-    return resumirFasesProgresso(fases);
+    return fases;
   }
 
   getProgressoById(idLeggo: string, interesse: string) {
@@ -116,6 +116,17 @@ export class ProgressoComponent implements OnInit, OnDestroy {
         ['congresso'].includes(fase.local_casa),
       'comissao-mista': ['Comissão Mista'].includes(fase.fase_global),
     };
+  }
+
+  localFase(fase) {
+    let local = fase.local_casa === 'camara' ? 'Câmara' : 'Senado';
+    if (fase.is_mpv ||
+      fase.local_casa === 'presidência da república' ||
+      fase.local_casa === 'congresso'
+    ) {
+      local = fase.local.replace('Presidência', 'Pres.');
+    }
+    return local;
   }
 
   isInProgress(fase) {

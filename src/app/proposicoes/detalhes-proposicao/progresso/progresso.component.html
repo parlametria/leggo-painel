@@ -26,14 +26,9 @@
       >
         <li [ngClass]="styleFase(fase)">{{ i + 1 }}</li>
         <div class="text-center mt-n2">
-          <p *ngIf="exibeCasa(fase)">
+          <p>
             <small>
-              {{ fase.local_casa == "camara" ? "Câmara" : "Senado" }}
-            </small>
-          </p>
-          <p *ngIf="!exibeCasa(fase)">
-            <small>
-              {{ fase.local }}
+              {{ localFase(fase) }}
             </small>
           </p>
         </div>
@@ -58,7 +53,7 @@
           </p>
           <p *ngIf="isInProgress(fase)">Fase atual desta proposição.</p>
           <p *ngIf="isFuture(fase)">
-            Esta proposição ainda não chegou nesta fase.
+            Esta proposição não passou por esta fase.
           </p>
         </div>
       </div>

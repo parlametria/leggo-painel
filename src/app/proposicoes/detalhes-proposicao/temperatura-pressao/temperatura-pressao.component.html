@@ -110,7 +110,7 @@
           de temperatura
         </p>
         <h5>Ações legislativas no período</h5>
-        <p *ngIf="!eventosPrincipais.length && !eventosSecundarios.length">
+        <p *ngIf="!eventosPrincipais?.length && !eventosSecundarios?.length">
           <button
             class="btn btn-xs btn-primary"
             (click)="open(legacoes)"
@@ -119,7 +119,7 @@
             Lista das ações no período selecionado
           </button>
         </p>
-        <p *ngIf="eventosPrincipais.length || eventosSecundarios.length">
+        <p *ngIf="eventosPrincipais?.length || eventosSecundarios?.length">
           <button class="btn btn-xs btn-primary" (click)="open(legacoes)">
             Lista das ações no período selecionado
           </button>
