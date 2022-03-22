@@ -8,29 +8,48 @@
   <div class="seletor-de-interesses-wrapper">
     <div class="seletor-interesse-titulo">Filtrar por painel de interesse</div>
 
-    <app-seletor-de-interesses
-      [nomeSelecionado]="interesseParam"
-      (interesseAlterado)="evtInteresseSelecionado($event)">
-    </app-seletor-de-interesses>
+    <div class="seletor-de-tema">
+      <div class="form-group temas-wrapper">
+        <select (change)="onChangeTema($event.target.value)" class="form-control">
+          <option
+            *ngFor="let tema of temasPerfilParlamentar" [value]="tema.slug"
+            [selected]="tema.slug === temaSelecionado"
+          >
+            {{tema.tema}}
+          </option>
+        </select>
+      </div>
+    </div>
   </div>
 
   <div class="medidas-provisorias-wrapper">
-    <div class="medida-provisoria-container">
+    <div
+      class="medida-provisoria-container"
+      *ngFor="let prop of proposicoesPerfilParlamentar"
+    >
 
       <div class="d-flex flex-row">
-        <div class="p-2 titulo-medida">Medida Provisória 867/2018</div>
-        <div class="p-2"><span>ver mais</span></div>
+        <div class="p-2 titulo-medida">{{prop.projetoLei}}</div>
+        <div class="p-2">
+          <span>
+            <a class="ver-mais" [href]="getUrlProposicao(prop.idProposicao, prop.casa)" target="_blank">ver mais</a>
+          </span>
+        </div>
+        <!--
+          Link ver mais
+          https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2201532
+        -->
       </div>
 
       <div class="d-flex flex-row">
         <div class="p-2 total-votacoes">
-          Total de votações: 26
+          Total de votações: {{prop.proposicaoVotacoes.length}}
         </div>
       </div>
 
       <div class="d-flex flex-row">
         <div class="p-2 como-votou-desc">
-          Como votou o(a) Deputado(a):
+          Como votou o(a) {{ tituloDoAtor }}:
         </div>
       </div>
 
@@ -40,7 +59,7 @@
           <div class="p-2">
             <div class="d-flex flex-row vote-wrapper">
               <div class="square vota-sim"></div>
-              <div class="quantidade">6 x</div>
+              <div class="quantidade">{{ contagemVotosPorProposicao[prop.idProposicao]['vota-sim'] }} x</div>
             </div>
 
             <div class="vota-desc">Sim</div>
@@ -51,7 +70,7 @@
           <div class="p-2">
             <div class="d-flex flex-row vote-wrapper">
               <div class="square vota-nao"></div>
-              <div class="quantidade">6 x</div>
+              <div class="quantidade">{{ contagemVotosPorProposicao[prop.idProposicao]['vota-nao'] }} x</div>
             </div>
 
             <div class="vota-desc">Não</div>
@@ -62,7 +81,7 @@
           <div class="p-2">
             <div class="d-flex flex-row vote-wrapper">
               <div class="square vota-liberado"></div>
-              <div class="quantidade">6 x</div>
+              <div class="quantidade">{{ contagemVotosPorProposicao[prop.idProposicao]['vota-liberado'] }} x</div>
             </div>
 
             <div class="vota-desc">Liberado</div>
@@ -73,7 +92,7 @@
           <div class="p-2">
             <div class="d-flex flex-row vote-wrapper">
               <div class="square vota-abstencao"></div>
-              <div class="quantidade">6 x</div>
+              <div class="quantidade">{{ contagemVotosPorProposicao[prop.idProposicao]['vota-abstencao'] }} x</div>
             </div>
 
             <div class="vota-desc">Abstenção</div>
@@ -84,7 +103,7 @@
           <div class="p-2">
             <div class="d-flex flex-row vote-wrapper">
               <div class="square vota-obstrucao"></div>
-              <div class="quantidade">6 x</div>
+              <div class="quantidade">{{ contagemVotosPorProposicao[prop.idProposicao]['vota-obstrucao'] }} x</div>
             </div>
 
             <div class="vota-desc">Obstrução</div>
@@ -95,20 +114,20 @@
           <div class="p-2">
             <div class="d-flex flex-row vote-wrapper">
               <div class="square vota-faltou"></div>
-              <div class="quantidade">6 x</div>
+              <div class="quantidade">{{ contagemVotosPorProposicao[prop.idProposicao]['vota-faltou'] }} x</div>
             </div>
 
             <div class="vota-desc">Faltou/não estava em exercício</div>
           </div>
         </div>
 
-        <div class="bloco-exibir-detalhes">
-          <i class="arrow arrow-down"></i>
+        <div class="bloco-exibir-detalhes" (click)="onClickToggleMostrarDetalhesProposicao(prop.idProposicao)">
+          <i [ngClass]="['arrow', 'arrow-'+ (mostrarDetalhesProposicoes[prop.idProposicao] ? 'up' : 'down') ]"></i>
           <span>Exibir detalhes</span>
         </div>
       </div>
 
-      <div class="votacoes-row-parlamentar">
+      <div class="votacoes-row-parlamentar" [hidden]="!mostrarDetalhesProposicoes[prop.idProposicao]">
         <div class="d-flex flex-row">
           <div class="p-2 bloco-voto-desc">
             <div>Deputado</div>
@@ -117,152 +136,13 @@
 
           <div class="d-flex flex-row scroll-lateral">
 
-            <div class="p-2">
+            <div class="p-2" *ngFor="let votacao of prop.proposicaoVotacoes">
               <div class="bloco-voto-parlamentar">
-                <div class="square vota-sim"></div>
-                <div class="circle vota-sim"></div>
-                <div class="vota-desc">
-                  12/03/20
-                </div>
-              </div>
-            </div>
+                <div [ngClass]="['square', getVotacaoClass(parlamentarVotos?.votos[votacao.idVotacao], 'parlamentar')]"></div>
 
-            <div class="p-2">
-              <div class="bloco-voto-parlamentar">
-                <div class="square vota-sim"></div>
-                <div class="circle vota-sim"></div>
+                <div [ngClass]="['circle', getVotacaoClass(orientacao?.orientacoes[votacao.idVotacao], 'governo')]"></div>
                 <div class="vota-desc">
-                  12/03/20
-                </div>
-              </div>
-            </div>
-
-            <div class="p-2">
-              <div class="bloco-voto-parlamentar">
-                <div class="square vota-sim"></div>
-                <div class="circle vota-sim"></div>
-                <div class="vota-desc">
-                  12/03/20
-                </div>
-              </div>
-            </div>
-
-            <div class="p-2">
-              <div class="bloco-voto-parlamentar">
-                <div class="square vota-sim"></div>
-                <div class="circle vota-sim"></div>
-                <div class="vota-desc">
-                  12/03/20
-                </div>
-              </div>
-            </div>
-
-            <div class="p-2">
-              <div class="bloco-voto-parlamentar">
-                <div class="square vota-sim"></div>
-                <div class="circle vota-sim"></div>
-                <div class="vota-desc">
-                  12/03/20
-                </div>
-              </div>
-            </div>
-
-            <div class="p-2">
-              <div class="bloco-voto-parlamentar">
-                <div class="square vota-sim"></div>
-                <div class="circle vota-sim"></div>
-                <div class="vota-desc">
-                  12/03/20
-                </div>
-              </div>
-            </div>
-
-            <div class="p-2">
-              <div class="bloco-voto-parlamentar">
-                <div class="square vota-sim"></div>
-                <div class="circle vota-sim"></div>
-                <div class="vota-desc">
-                  12/03/20
-                </div>
-              </div>
-            </div>
-
-            <div class="p-2">
-              <div class="bloco-voto-parlamentar">
-                <div class="square vota-sim"></div>
-                <div class="circle vota-sim"></div>
-                <div class="vota-desc">
-                  12/03/20
-                </div>
-              </div>
-            </div>
-
-            <div class="p-2">
-              <div class="bloco-voto-parlamentar">
-                <div class="square vota-sim"></div>
-                <div class="circle vota-sim"></div>
-                <div class="vota-desc">
-                  12/03/20
-                </div>
-              </div>
-            </div>
-
-            <div class="p-2">
-              <div class="bloco-voto-parlamentar">
-                <div class="square vota-sim"></div>
-                <div class="circle vota-sim"></div>
-                <div class="vota-desc">
-                  12/03/20
-                </div>
-              </div>
-            </div>
-
-            <div class="p-2">
-              <div class="bloco-voto-parlamentar">
-                <div class="square vota-sim"></div>
-                <div class="circle vota-sim"></div>
-                <div class="vota-desc">
-                  12/03/20
-                </div>
-              </div>
-            </div>
-
-            <div class="p-2">
-              <div class="bloco-voto-parlamentar">
-                <div class="square vota-sim"></div>
-                <div class="circle vota-sim"></div>
-                <div class="vota-desc">
-                  12/03/20
-                </div>
-              </div>
-            </div>
-
-            <div class="p-2">
-              <div class="bloco-voto-parlamentar">
-                <div class="square vota-sim"></div>
-                <div class="circle vota-sim"></div>
-                <div class="vota-desc">
-                  12/03/20
-                </div>
-              </div>
-            </div>
-
-            <div class="p-2">
-              <div class="bloco-voto-parlamentar">
-                <div class="square vota-sim"></div>
-                <div class="circle vota-sim"></div>
-                <div class="vota-desc">
-                  12/03/20
-                </div>
-              </div>
-            </div>
-
-            <div class="p-2">
-              <div class="bloco-voto-parlamentar">
-                <div class="square vota-sim"></div>
-                <div class="circle vota-sim"></div>
-                <div class="vota-desc">
-                  12/03/20
+                  {{ getDataVotacao(votacao.horario) }}
                 </div>
               </div>
             </div>

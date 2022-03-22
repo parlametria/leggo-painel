@@ -16,6 +16,13 @@
   margin-left: 1rem;
 
   .medida-provisoria-container {
+    border-bottom: solid 1px #b0b6ba;
+    margin-bottom: 1.5rem;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
     .titulo-medida {
       font-size: 18px;
       font-weight: 500;
@@ -27,7 +34,17 @@
 
     .como-votou-desc {
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 500;
+      color: #81858D;
+    }
+
+    a.ver-mais {
+      color: #81858D;
+      transition: 0.2s;
+
+      &:hover {
+        color: #6942A3;
+      }
     }
   }
 }
@@ -35,7 +52,7 @@
 .votacoes-row-descricao {
   align-items: center;
   justify-content: space-between;
-  border-bottom: solid 2px #b0b6ba;
+  border-bottom: solid 1px #b0b6ba;
 }
 
 .bloco-votacoes, .bloco-voto-parlamentar {
@@ -153,5 +170,11 @@
         }
       }
     }
+  }
+}
+
+.seletor-de-tema {
+  select {
+    color: #6942A3;
   }
 }

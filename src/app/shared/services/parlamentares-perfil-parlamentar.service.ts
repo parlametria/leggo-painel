@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { forkJoin, BehaviorSubject, Observable } from 'rxjs';
-import { filter, map, reduce } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 
@@ -20,6 +20,12 @@ export type ParlamentarLideranca = {
     idPartido: number,
     sigla: string
   }
+};
+
+export type ParlamentarVotos = {
+  idParlamentarVoz: string;
+  genero: string;
+  votos: any;
 };
 
 export type ParlamentarPerfilParlamentar = {
@@ -74,5 +80,10 @@ export class ParlamentaresPerfilParlamentarService {
     }));
 
     return ob;
+  }
+
+  getVotosParlamentar(idParlamentar: string) {
+    const urlVotos = [environment.perfilUrl, '/parlamentares', '/', idParlamentar, '/votos'].join('');
+    return this.http.get<ParlamentarVotos>(urlVotos);
   }
 }
