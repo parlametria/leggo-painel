@@ -18,7 +18,6 @@ import { VotacoesComponent } from './votacoes/votacoes.component';
 import { VisGovernismoComponent } from './vis-governismo/vis-governismo.component';
 import { VisDisciplinaComponent } from './vis-disciplina/vis-disciplina.component';
 import { VisCabecalhoComponent } from './vis-cabecalho/vis-cabecalho.component';
-import { SeletorDeInteressesComponent } from './seletor-de-interesses/seletor-de-interesses.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +33,6 @@ import { SeletorDeInteressesComponent } from './seletor-de-interesses/seletor-de
     VotacoesComponent,
     VisGovernismoComponent,
     VisDisciplinaComponent,
-    SeletorDeInteressesComponent,
     VisCabecalhoComponent
   ],
   imports: [
