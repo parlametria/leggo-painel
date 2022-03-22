@@ -97,7 +97,12 @@
             </div>              
               
             <div class="button-position">
-              <button class="button">Saiba mais</button>
+              <button class="button"
+                [routerLink]="['./papeis']"
+                [routerLinkActive]="'active'"
+                queryParamsHandling="merge"
+                >
+                Saiba mais</button>
             </div>
           </div>
         </div>
@@ -120,7 +125,9 @@
             <div class="button-position">
               <button class="button"
                 [routerLink]="['./atividades']"
-                [routerLinkActive]="'active'">
+                [routerLinkActive]="'active'"
+                queryParamsHandling="merge"  
+              >
                 Saiba mais
               </button>
             </div>

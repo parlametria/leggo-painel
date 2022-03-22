@@ -210,6 +210,10 @@ $button-padding: 30px;
   background-color: indigo;
   color: white;
 }
+.button:active,
+.button:focus {
+  outline: none;
+}
 
 .veja-mais {
   display: flex;
