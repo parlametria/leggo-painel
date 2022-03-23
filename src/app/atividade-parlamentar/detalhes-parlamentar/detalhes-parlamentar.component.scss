@@ -79,7 +79,7 @@ $button-padding: 30px;
   border-bottom-right-radius: 1.563rem;
   border-bottom-left-radius: 1.563rem;
   box-shadow: 0px 9px 27px -20px rgba(0, 0, 0, 0.75);
-  margin-bottom: 1.875rem;
+  margin-bottom: 4.875rem;
 }
 .container-info {
   margin-top: 2.188rem;
@@ -92,6 +92,7 @@ $button-padding: 30px;
   justify-content: space-between;
   row-gap: 1.875rem;
   column-gap: 1.875rem;
+  margin-bottom: 1.5rem;
   flex-wrap: nowrap;
   @media (max-width: 1000px) {
     flex-wrap: wrap !important;

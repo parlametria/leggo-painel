@@ -1,4 +1,16 @@
-<h3>Temperatura e Pressão</h3>
+<h3>
+  Temperatura e Pressão
+  <img
+    [ngbPopover]="alertaTip"
+    triggers="mouseenter:mouseleave"
+    src="/assets/icons/popover_icon.svg"
+    alt=""
+  />
+  <ng-template #alertaTip>      
+    <strong class="color-temperatura">Temperatura:</strong> Indicador de movimentação das proposições, com base na quantidade e qualidade das ações parlamentares.<br/>
+    <strong class="color-pressao">Pressão:</strong> Verificador da incidência de grupos de interesse sobre o processo legislativo.
+  </ng-template>
+</h3>
 <div class="row no-gutters">
   <div class="col-md-7 vis-wrapper">
     <app-vis-temperatura-pressao
