@@ -5,6 +5,8 @@ import { takeUntil } from 'rxjs/operators';
 
 import { Autoria, ArvoreAutorias } from 'src/app/shared/models/autoria.model';
 import { AutoriasService } from 'src/app/shared/services/autorias.service';
+import { InteresseService } from 'src/app/shared/services/interesse.service';
+import { Interesse } from 'src/app/shared/models/interesse.model';
 
 
 // Importa componentes do d3
@@ -35,7 +37,7 @@ const d3 = Object.assign({}, {
 
 @Component({
   selector: 'app-vis-atividade-detalhada',
-  template: '<div id="vis-atividade-detalhada"></div>',
+  templateUrl: './vis-atividade-detalhada.component.html',
   styleUrls: ['./vis-atividade-detalhada.component.scss']
 })
 export class VisAtividadeDetalhadaComponent implements OnInit {
@@ -56,9 +58,12 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   private interesse: string;
   private destaque: boolean;
 
+  interesseAtividade?: Interesse;
+
   constructor(
     private activatedRoute: ActivatedRoute,
-    private autoriasService: AutoriasService
+    private autoriasService: AutoriasService,
+    private interesseService: InteresseService,
   ) { }
 
   ngOnInit(): void {
@@ -69,11 +74,28 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     this.svg = d3.select('#vis-atividade-detalhada').append('svg')
       .attr('viewBox', `0 0 ${this.largura} ${this.altura}`);
     this.gPrincipal = this.svg.append('g');
-
     this.activatedRoute.queryParams
       .subscribe(params => {
         this.interesse = params.interesse;
+        this.buscaDadosInteresse();
         this.carregaVisAtividade();
+      });
+  }
+
+  private buscaDadosInteresse() {
+    if (this.interesse === undefined) {
+      this.interesseAtividade = undefined;
+      return;
+    }
+
+    this.interesseService.getInteresse(this.interesse)
+      .subscribe((data: Interesse[]) => {
+        if (data.length !== 1) {
+          this.interesseAtividade = undefined;
+          return;
+        }
+
+        this.interesseAtividade = data[0];
       });
   }
 
@@ -122,12 +144,10 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
   }
 
   private carregaVisAtividade() {
-    console.log('carrega', this.interesse);
     this.autoriasService.getAutorias(this.idAtor, this.interesse, '', false)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(autorias => {
         const autoriasApresentadas = [];
-        console.log(autorias);
         autorias.forEach(dado => {
           if (dado.tipo_documento === 'Prop. Original / Apensada') {
             dado.tipo_documento = dado.tipo_acao;
@@ -147,7 +167,6 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
 
         this.gPrincipal.selectAll('*').remove();
         this.gPrincipal.call(g => this.atualizaVisAtividade(g, arvoreAutorias));
-        console.log(this.gPrincipal);
       });
   }
 
@@ -262,7 +281,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
           texto += '<br>' + `${this.formataNumeroAcoes(prop.data.value)} ` + `${prop.data.categoria}`;
         } else {
           texto += '<br>' + `${this.formataNumeroAcoes(prop.data.value)} ` +
-           `${this.formataCategoriaAcoes(prop.data.categoria)}`;
+            `${this.formataCategoriaAcoes(prop.data.categoria)}`;
         }
       }
     });

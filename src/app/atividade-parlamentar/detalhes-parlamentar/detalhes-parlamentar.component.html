@@ -1,183 +1,221 @@
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
 <app-loading *ngIf="isLoading | async"></app-loading>
-<div class="container">
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item">
-        <a
-          [routerLink]="['../']"
-          class="">
-          Parlamentares
-        </a>
-      </li>
-      <li class="breadcrumb-item">
-        <span> {{ parlamentarInfo?.nome_autor }} </span>
-      </li>
-    </ol>
-  </nav>
-  <div
-    class="parlamentar"
-    *ngIf="parlamentarInfo">
-    <div class="info-parent">
-      <div class="col1">
-        <div class="foto-parlamentar">
+
+<div class="container-cabecalho">
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a
+            [routerLink]="['../']"
+            class="">
+            Parlamentares
+          </a>
+        </li>
+        <li class="breadcrumb-item">
+          <span> {{ parlamentarInfo?.nome_autor }} </span>
+        </li>
+      </ol>
+    </nav>
+    <div 
+      class="container-info" 
+      id="container-info"
+      *ngIf="toggleDrawer"
+      >
+      <span *ngIf="parlamentarInfo?.casa_autor == 'camara'" class="parlamentar-name">
+        <h4 class="header header4">Dep. {{ parlamentarInfo?.nome_autor }}</h4>
+        <h5 class="header header5"><img src="assets/imgs/parlamentar/dep.svg"> Deputado (a) / Partido - {{parlamentarInfo?.partido}}</h5>  
+      </span>
+      <span *ngIf="parlamentarInfo?.casa_autor == 'senado'" class="parlamentar-name">
+        <img src="assets/imgs/parlamentar/sen.svg">
+        Sen. {{ parlamentarInfo?.nome_autor }}
+        <p>Senador (a) / Partido - {{parlamentarInfo?.partido}}</p>
+      </span>
+  
+      <div class="container-perfil">
+        
+        <div class="foto-parlamentar flex2">
           <img [src]="parlamentarInfo?.url_foto">
         </div>
-      </div>
-      <div class="col2">
-        <div class="parlamentar-titulo">
-          <span *ngIf="parlamentarInfo?.casa_autor == 'camara'" class="text-muted">
-            Dep.
-          </span>
-          <span *ngIf="parlamentarInfo?.casa_autor == 'senado'" class="text-muted">
-            Sen.
-          </span>{{ parlamentarInfo?.nome_autor }}</div>
-        <p class="parlamentar-partido">
-          {{ parlamentarInfo?.partido }}/{{ parlamentarInfo?.uf }}
-        </p>
-        <div>
-          <app-progress
-            class="pogresso"
-            [label]="getLabel(parlamentar?.atividadeParlamentar?.quantidade_autorias, ' ações na agenda')"
-            [barraClasse]="'bg-primary'"
-            [valor]="parlamentar?.atividadeParlamentar?.atividade_parlamentar"
-            [exibirLabel]="true"></app-progress>
+    
+        <div class="flex2">
+          <div class="container-map-graph">
+            <div class="center-map">      
+              <img src="assets/imgs/estados/{{parlamentarInfo?.uf}}.svg">
+            </div>
+            <div class="center-item ">
+              <span class="paragraph">Estado</span>
+              <h5>
+                {{ parlamentarInfo?.uf }}
+              </h5>
+            </div>
+          </div>
         </div>
-        <div class="space-between-bars">
-          <app-progress
-            class="pogresso"
-            [label]="getLabel(parlamentar?.atividadeTwitter?.quantidade_tweets, ' tweets relacionados')"
-            [barraClasse]="'bg-twitter'"
-            [valor]="parlamentar?.atividadeTwitter?.atividade_twitter"
-            [exibirLabel]="true"></app-progress>
-        </div>
-      </div>
-      <div class="col3">
-        <div class="insignias">
-          <div>
-            <span
-              class="cracha"
-              *ngIf="parlamentar?.autorias?.length"
-              [ngbPopover]="popAutorias"
-              [autoClose]="'outside'">
-              <span class="icon-autor app-icon text-danger"></span>
-              <span class="badge badge-danger app-badge badge-color-white">{{ parlamentar?.autorias?.length }}</span>
-              <ng-template #popAutorias>
-                <strong>Autor</strong>
-                &nbsp;de {{ parlamentar?.autorias?.length }}
-                <span *ngIf="parlamentar?.autorias?.length === 1">&nbsp;proposição</span>
-                <span *ngIf="parlamentar?.autorias?.length !== 1">&nbsp;proposições</span>
-                <div class="text-right">
-                  <a [routerLink]="['./papeis']" class="btn btn-link btn-sm">+ Detalhes</a>
-                </div>
-              </ng-template>
-            </span>
-
-            <span
-              class="cracha"
-              *ngIf="parlamentar?.relatorias?.length"
-              [ngbPopover]="popRelatorias"
-              [autoClose]="'outside'">
-              <span class="icon-relator app-icon text-success"></span>
-              <span class="badge badge-success app-badge badge-color-white">{{ parlamentar?.relatorias?.length }}</span>
-              <ng-template #popRelatorias>
-                <strong>Relator</strong>
-                &nbsp;de {{ parlamentar?.relatorias?.length }}
-                <span *ngIf="parlamentar?.relatorias?.length === 1">&nbsp;proposição</span>
-                <span *ngIf="parlamentar?.relatorias?.length !== 1">&nbsp;proposições</span>
-                <div class="text-right">
-                  <a [routerLink]="['./papeis']" class="btn btn-link btn-sm">+ Detalhes</a>
-                </div>
-              </ng-template>
-            </span>
-
-            <span
-              class="cracha"
-              *ngIf="parlamentar?.comissoes?.length"
-              [ngbPopover]="popPresidencia"
-              [autoClose]="'outside'">
-              <span class="icon-presidente app-icon text-warning"></span>
-              <span class="badge badge-warning app-badge badge-color-white">
-                {{ parlamentar?.comissoes?.length }}
+        
+        <div class="flex2">
+          <div class="container-map-graph">
+            <app-vis-cabecalho
+              [parlamentar] = "parlamentar"
+              *ngIf="parlamentar?.disciplina && parlamentar?.governismo || true"
+            >
+            </app-vis-cabecalho>
+            <div>
+              <span class="dot"></span>
+              <span class="paragraph">
+                Disciplina partidária
               </span>
-              <ng-template #popPresidencia>
-                <strong>Presidente</strong>
-                &nbsp;de {{ parlamentar?.comissoes?.length }}
-                <span *ngIf="parlamentar?.comissoes?.length === 1">&nbsp;comissão</span>
-                <span *ngIf="parlamentar?.comissoes?.length !== 1">&nbsp;comissões</span>
-                <div class="text-right">
-                  <a [routerLink]="['./papeis']" class="btn btn-link btn-sm">+ Detalhes</a>
-                </div>
-              </ng-template>
-            </span>
+              <h5 *ngIf="parlamentar?.disciplina">{{ parlamentar?.disciplina * 100 | number: '1.0-0'}}%</h5>
+              <h5 *ngIf="!parlamentar?.disciplina">Disciplina não calculada.</h5>
+            </div>
+
+            <div>
+              <span class="dot dot-governismo"></span>
+              <span class="paragraph">
+                Governismo
+              </span>
+              <h5 *ngIf="parlamentar?.governismo">{{ parlamentar?.governismo * 100 | number: '1.0-0' }}%</h5>
+              <h5 *ngIf="!parlamentar?.governismo">Governismo não calculado.</h5>   
+            </div>
+            
           </div>
-          <div>
-            <app-avaliacao
-              [label]="'Peso'"
-              [valor]="parlamentarInfo?.peso_politico * 5"
-              [exibirLabel]="false"></app-avaliacao>
+        </div>
+        
+        <div class="vertical-divider"></div>
+  
+        <div class="flex3">
+          <div class="container-atividades">
+            <h5>Papéis importantes</h5>
+            <div class="display-start">
+              <div
+                *ngFor="let papel of papeisImportantes"
+                class="papeis-importantes">              
+                  <span class="header header5" *ngIf="papel.value">{{papel.value}} </span>
+                  <span class="header header5" *ngIf="!papel.value">0 </span>
+                  <span class="paragraph">{{papel.item}}</span>
+              </div>
+            </div>              
+              
+            <div class="button-position">
+              <button class="button"
+                [routerLink]="['./papeis']"
+                [routerLinkActive]="'active'"
+                queryParamsHandling="merge"
+                >
+                Saiba mais</button>
+            </div>
+          </div>
+        </div>
+              
+        <!-- *ngIf="totalDocs" -->
+        <div class="acoes-agenda" 
+          class="flex3"
+          >
+          <div class="container-atividades">
+            <h5>{{totalDocs}} - Ações na agenda</h5>
+            <div class="display-start">
+              <span class="paragraph">
+                Das <strong>{{ totalDocs }}</strong> ações,
+                <span *ngFor="let autoria of autoriasPorTipo; let i = index" class="paragraph">
+                  <strong>{{ autoria.values.length }}</strong>
+                  {{formataTipo(autoria.key, autoria.values.length, (i + 1) === autoriasPorTipo.length)}}
+                </span>
+              </span>
+            </div>
+            <div class="button-position">
+              <button class="button"
+                [routerLink]="['./atividades']"
+                [routerLinkActive]="'active'"
+                queryParamsHandling="merge"  
+              >
+                Saiba mais
+              </button>
+            </div>
           </div>
         </div>
       </div>
+  
     </div>
+    <div class="veja-mais">
+      <img (click)="setToggleDrawer()" [ngClass]="{'flipped': toggleDrawer === false}"
+        src="../../assets/imgs/veja_mais_arrow.svg" alt="veja mais arrow" />
+    </div>
+  
   </div>
 </div>
 
 <div class="view-subnav">
-  <ul class="nav nav-tabs justify-content-center">
+  <ul class="nav justify-content-center parla-nav-tabs">
     <li class="nav-item">
+      <div class="triangle-down" *ngIf="routeInclude('/atividades')"></div>
       <a
         class="nav-link"
         [routerLink]="['./atividades']"
         [routerLinkActive]="'active'"
         queryParamsHandling="merge">
+        <!--
         <span class="icon-atividade"></span>
+        -->
         Ações
       </a>
     </li>
     <li class="nav-item">
+      <div class="triangle-down" *ngIf="routeInclude('/papeis')"></div>
       <a
         class="nav-link"
         [routerLink]="['./papeis']"
         [routerLinkActive]="'active'"
         queryParamsHandling="merge">
+        <!--
         <span class="icon-papeis"></span>
+        -->
         Papéis
       </a>
     </li>
     <li class="nav-item">
+      <div class="triangle-down" *ngIf="routeInclude('/votacoes')"></div>
       <a
         class="nav-link"
         [routerLink]="['./votacoes']"
         [routerLinkActive]="'active'"
         queryParamsHandling="merge">
+        <!--
         <span class="icon-grafo"></span>
+        -->
         Votações
       </a>
     </li>
     <li class="nav-item">
+      <div class="triangle-down" *ngIf="routeInclude('/peso')"></div>
       <a
         class="nav-link"
         [routerLink]="['./peso']"
         [routerLinkActive]="'active'"
         queryParamsHandling="merge">
+        <!--
         <span class="icon-peso"></span>
+        -->
         Peso político
       </a>
     </li>
     <li class="nav-item">
+      <div class="triangle-down" *ngIf="routeInclude('/redes-sociais')"></div>
       <a
         class="nav-link"
         [routerLink]="['./redes-sociais']"
         [routerLinkActive]="'active'"
         queryParamsHandling="merge">
+        <!--
         <span class="icon-redes"></span>
+        -->
         Redes sociais
       </a>
     </li>
   </ul>
 </div>
+
 <div class="container">
-  <div class="py-4">
+  <div class="card tabs-content-container">
     <router-outlet></router-outlet>
   </div>
 </div>
