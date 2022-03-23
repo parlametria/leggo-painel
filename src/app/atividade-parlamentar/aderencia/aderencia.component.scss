@@ -1,5 +1,5 @@
 $aderencia-purple: #391774;
-$aderencia-blue: #0A367C;
+$aderencia-blue: #0a367c;
 
 .aderencia-component-wrapper {
   margin-bottom: 2rem;
@@ -23,7 +23,7 @@ $aderencia-blue: #0A367C;
 }
 
 .aderencia {
-  background-color: #FFF;
+  background-color: #fff;
   padding-top: 1rem;
   padding-left: 1rem;
   padding-right: 2rem;
@@ -59,7 +59,7 @@ $aderencia-blue: #0A367C;
 .poppins-gray {
   font-family: "Poppins";
   font-size: 13px;
-  color: #81858D;
+  color: #81858d;
 }
 
 .parlamentares {
@@ -69,7 +69,7 @@ $aderencia-blue: #0A367C;
   padding-top: 1rem;
 
   .total {
-    color: #1D2029;
+    color: #1d2029;
     font-weight: 400;
     font-size: 24px;
   }
@@ -116,7 +116,6 @@ $aderencia-blue: #0A367C;
   }
 }
 
-
 .btn-light-icon {
   color: #dee2e6;
 }
@@ -130,23 +129,24 @@ $aderencia-blue: #0A367C;
 .btn-light-icon:not(:disabled):not(.disabled).active {
   background-color: #fff;
   border: none;
-  opacity: 1.0;
+  opacity: 1;
 }
 
 button.btn.btn-light.btn-light-icon.active:focus {
   box-shadow: none;
 }
 
-span.icon-arc, span.icon-beeswarm {
+span.icon-arc,
+span.icon-beeswarm {
   display: block;
   width: 25px;
   height: 25px;
 }
 
 .icon-arc {
-  background-image: url('/assets/icons/icon-arc.svg');
+  background-image: url("/assets/icons/icon-arc.svg");
 }
 
 .icon-beeswarm {
-  background-image: url('/assets/icons/icon-beeswarm.svg');
+  background-image: url("/assets/icons/icon-beeswarm.svg");
 }

@@ -95,7 +95,6 @@ export class AtividadeParlamentarComponent implements OnInit, OnDestroy, AfterCo
         takeUntil(this.unsubscribe))
       .subscribe(parlamentares => {
         this.parlamentares = parlamentares;
-
         if (parlamentares.length <= (this.PARLAMENTARES_POR_PAGINA * (this.p - 1))) {
           this.pageChange(1); // volta para a primeira página com o novo resultado do filtro
         }

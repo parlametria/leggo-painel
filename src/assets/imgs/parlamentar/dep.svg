@@ -1,0 +1,9 @@
+<svg id="icone-deputado-filled" xmlns="http://www.w3.org/2000/svg" width="35.463" height="36" viewBox="0 0 35.463 36">
+  <rect id="_Color" data-name="↳ 🎨 Color" width="34.415" height="36" rx="1" transform="translate(0.732 0)" fill="none" style="mix-blend-mode: screen;isolation: isolate"/>
+  <g id="Grupo_994" data-name="Grupo 994" transform="translate(0 9.181)">
+    <g id="Grupo_990" data-name="Grupo 990" transform="translate(22.79 13.247)">
+      <path id="Caminho_666" data-name="Caminho 666" d="M1648.848,552.391a6.336,6.336,0,0,1-6.336-6.337h12.673A6.336,6.336,0,0,1,1648.848,552.391Z" transform="translate(-1642.513 -546.054)" fill="#00b53c"/>
+    </g>
+    <path id="Icon_ionic-md-person" data-name="Icon ionic-md-person" d="M14.292,14.292A4.9,4.9,0,1,0,9.4,9.4,4.91,4.91,0,0,0,14.292,14.292Zm0,2.448c-3.243,0-9.792,1.653-9.792,4.9v2.448H24.084V21.636C24.084,18.392,17.535,16.74,14.292,16.74Z" transform="translate(-4.5 -4.5)" fill="#00b53c"/>
+  </g>
+</svg>

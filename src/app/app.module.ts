@@ -20,11 +20,10 @@ import { InsightsService } from './shared/services/insights.service';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
-
 @NgModule({
   declarations: [
     AppComponent
-  ],
+   ],
   imports: [
     BrowserModule,
     HttpClientModule,

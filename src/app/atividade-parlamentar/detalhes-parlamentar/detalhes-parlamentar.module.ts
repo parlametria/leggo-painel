@@ -17,6 +17,7 @@ import { VisProposicoesComMaisTweetsComponent } from './vis-proposicoes-com-mais
 import { VotacoesComponent } from './votacoes/votacoes.component';
 import { VisGovernismoComponent } from './vis-governismo/vis-governismo.component';
 import { VisDisciplinaComponent } from './vis-disciplina/vis-disciplina.component';
+import { VisCabecalhoComponent } from './vis-cabecalho/vis-cabecalho.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { VisDisciplinaComponent } from './vis-disciplina/vis-disciplina.componen
     VisProposicoesComMaisTweetsComponent,
     VotacoesComponent,
     VisGovernismoComponent,
-    VisDisciplinaComponent
+    VisDisciplinaComponent,
+    VisCabecalhoComponent
   ],
   imports: [
     CommonModule,
