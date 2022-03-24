@@ -9,11 +9,9 @@ h3 {
 }
 
 .progresso-wrapper {
-  max-width: 920px;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 8rem;
-  padding-bottom: 11rem;
+  padding: 8rem 3rem 11rem;
 }
 
 .progressbar p {
@@ -48,12 +46,12 @@ h3 {
 
 /* linhas */
 .linha {
-  width: calc(5*100%/6);
+  width: calc(7*100%/8);;
   height: 2px;
   position: absolute;
   background-color: #b0b6ba;
   top: 10px;
-  left: calc(100%/12);
+  left: calc(100%/14);
   z-index: 0;
   border: none;
   margin-top: 0.5rem;
@@ -91,15 +89,18 @@ h3 {
 
   .detail {
     position: absolute;
-    width: 132%;
-    left: -15%;
-    padding: 10px;
+    width: 160%;
+    left: -30%;
+    padding: 8px;
     border: 1px solid $util-grey-color;
     margin-top: 10px;
+    p {
+      font-size: 13px;
+    }
   }
   &:nth-child(even) {
     .detail {
-      top: -7rem;
+      top: -8rem;
     }
   }
   li:not(.future).camara + div + .detail {
