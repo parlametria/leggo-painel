@@ -8,14 +8,14 @@
   <div class="seletor-de-interesses-wrapper">
     <div class="seletor-interesse-titulo">Filtrar por painel de interesse</div>
 
-    <div class="seletor-de-tema">
-      <div class="form-group temas-wrapper">
-        <select (change)="onChangeTema($event.target.value)" class="form-control">
+    <div class="seletor-de-interesse">
+      <div class="form-group interesses-wrapper">
+        <select (change)="onChangeInteresse($event.target.value)" class="form-control">
           <option
-            *ngFor="let tema of temasPerfilParlamentar" [value]="tema.slug"
-            [selected]="tema.slug === temaSelecionado"
+            *ngFor="let interesse of interesses" [value]="interesse.interesse"
+            [selected]="interesse.interesse === interesseSelecionado"
           >
-            {{tema.tema}}
+            {{interesse.nome_interesse}}
           </option>
         </select>
       </div>
@@ -49,7 +49,7 @@
 
       <div class="d-flex flex-row">
         <div class="p-2 como-votou-desc">
-          Como votou o(a) {{ tituloDoAtor }}:
+          Como votou o(a) {{ tituloDoAutor }}:
         </div>
       </div>
 

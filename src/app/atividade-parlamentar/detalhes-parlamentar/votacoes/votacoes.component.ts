@@ -2,14 +2,14 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { takeUntil } from 'rxjs/operators';
-import { Subject, BehaviorSubject, forkJoin, pipe } from 'rxjs';
+import { Subject, BehaviorSubject, forkJoin } from 'rxjs';
 import { indicate } from 'src/app/shared/functions/indicate.function';
 
-// import { InteresseService } from 'src/app/shared/services/interesse.service';
-// import { Interesse } from 'src/app/shared/models/interesse.model';
+import { Interesse } from 'src/app/shared/models/interesse.model';
+import { InteresseService } from 'src/app/shared/services/interesse.service';
 
-import { Tema } from 'src/app/shared/models/tema.model';
-import { TemasPerfilParlamentarService } from 'src/app/shared/services/temas-perfil-parlamentar.service';
+import { Proposicao } from 'src/app/shared/models/proposicao.model';
+import { ProposicoesService } from 'src/app/shared/services/proposicoes.service';
 
 import {
   ProposiccoesPerfilParlamentarService,
@@ -29,6 +29,12 @@ import {
   ParlamentarVotos
 } from 'src/app/shared/services/parlamentares-perfil-parlamentar.service';
 
+const DEFAULT_INTERESSE: Interesse = Object.freeze({
+  interesse: 'todos',
+  nome_interesse: 'Todos os interesses',
+  descricao_interesse: ''
+});
+
 @Component({
   selector: 'app-votacoes',
   templateUrl: './votacoes.component.html',
@@ -46,16 +52,14 @@ export class VotacoesComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject();
 
   idParlamentarDestaque: number;
-  // interesseParam?: string;
-  // interesse?: Interesse;
-  // interesses: Interesse[] = [];
+  interesseParam?: string;
+  interesse?: Interesse;
+  interesses: Interesse[] = [];
+  interesseSelecionado: string;
   ator: Ator;
   parlamentarVotos: ParlamentarVotos;
   orientacao: OrientacaoPerfilParlamentar;
   proposicoesPerfilParlamentar: ProposicaoPerfilParlamentar[] = [];
-  temasPerfilParlamentar: Tema[] = [];
-  temaSelecionado: string;
-  tema: Tema;
   isLoading = new BehaviorSubject<boolean>(true);
   mostrarDetalhesProposicoes = {};
   contagemVotosPorProposicao = {};
@@ -63,12 +67,12 @@ export class VotacoesComponent implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    // private interesseService: InteresseService,
+    private interesseService: InteresseService,
     private atorService: AtorService,
+    private proposicoesService: ProposicoesService,
     private proposiccoesPerfilService: ProposiccoesPerfilParlamentarService,
     private orientacaoPerfilParlamentarService: OrientacaoPerfilParlamentarService,
     private parlamentaresPerfilParlamentarService: ParlamentaresPerfilParlamentarService,
-    private temasPerfilParlamentarService: TemasPerfilParlamentarService,
   ) { }
 
   ngOnInit(): void {
@@ -80,8 +84,8 @@ export class VotacoesComponent implements OnInit, OnDestroy {
 
     this.activatedRoute.queryParams
       .subscribe(params => {
-        // this.interesseParam = params.interesse;
-        this.temaSelecionado = params.tema ?? 'todos';
+        this.interesseParam = params.interesse;
+        this.interesseSelecionado = this.interesseParam ?? 'todos';
 
         this.resgataDadosApi();
       });
@@ -93,15 +97,10 @@ export class VotacoesComponent implements OnInit, OnDestroy {
   }
 
   get nomeInteresse() {
-    // return this.interesse?.nome_interesse ?? 'Todos os temas';
-    if (this.tema?.tema && this.tema?.slug !== 'todos') {
-      return this.tema?.tema;
-    } else {
-      return 'Todos os temas';
-    }
+    return this.interesse?.nome_interesse ?? 'Todos os painéis';
   }
 
-  get tituloDoAtor() {
+  get tituloDoAutor() {
     switch (this.ator.casa_autor) {
       case 'senado':
       case 'senador':
@@ -185,9 +184,14 @@ export class VotacoesComponent implements OnInit, OnDestroy {
     return votosCountMap;
   }
 
-  onChangeTema(selectedTema: string) {
+  onChangeInteresse(selected: string) {
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
-    queryParams.tema = selectedTema;
+
+    if (selected === 'todos') {
+      queryParams.interesse = undefined;
+    } else {
+      queryParams.interesse = selected;
+    }
 
     this.router.navigate([], { queryParams });
   }
@@ -198,38 +202,35 @@ export class VotacoesComponent implements OnInit, OnDestroy {
 
   private resgataDadosApi() {
     forkJoin([
-      // this.interesseService.getInteresse(this.interesseParam),
-      // this.interesseService.getInteresses(),
       this.atorService.getAtor('', String(this.idParlamentarDestaque)),
       this.orientacaoPerfilParlamentarService.getOrientacoesGoverno(),
       this.parlamentaresPerfilParlamentarService.getVotosParlamentar(String(this.idParlamentarDestaque)),
-      this.temasPerfilParlamentarService.getTemas()
+      this.interesseService.getInteresse(this.interesseParam),
+      this.interesseService.getInteresses(),
     ])
       .pipe(
         indicate(this.isLoading),
         takeUntil(this.unsubscribe)
       )
       .subscribe(data => {
-        // this.interesse = data[0][0];
-        // this.interesses = data[1];
         this.ator = data[0][0];
         this.orientacao = data[1];
         this.parlamentarVotos = data[2];
-        this.temasPerfilParlamentar = [{ idTema: -1, slug: 'todos', tema: 'Todos' }, ...data[3]];
-        this.tema = this.temasPerfilParlamentar.find(t => t.slug === this.temaSelecionado);
+        this.interesse = data[3][0] ?? DEFAULT_INTERESSE;
+        this.interesses = [DEFAULT_INTERESSE, ...data[4]];
 
         this.getProposicoesPerfilParlamentar();
       });
   }
 
   private getProposicoesPerfilParlamentar() {
-    this.proposiccoesPerfilService.getProposicoesOrientacao(this.ator.casa_autor)
+    forkJoin([
+      this.proposicoesService.getProposicoes(this.interesseParam),
+      this.proposiccoesPerfilService.getProposicoesOrientacao(this.ator.casa_autor)
+    ])
+      .pipe(takeUntil(this.unsubscribe))
       .subscribe(data => {
-        if (this.temaSelecionado === 'todos') {
-          this.proposicoesPerfilParlamentar = data;
-        } else {
-          this.proposicoesPerfilParlamentar = data.filter(prop => prop.temas.filter(t => t.slug === this.temaSelecionado).length !== 0);
-        }
+        this.proposicoesPerfilParlamentar = this.filtraProposicoesPorSigla(data[0], data[1]);
 
         for (const prop of this.proposicoesPerfilParlamentar) {
           this.mostrarDetalhesProposicoes[prop.idProposicao] = false;
@@ -238,5 +239,22 @@ export class VotacoesComponent implements OnInit, OnDestroy {
 
         this.isLoading.next(false);
       });
+  }
+
+  private filtraProposicoesPorSigla(propsLeggo: Proposicao[], propsPerfil: ProposicaoPerfilParlamentar[]): ProposicaoPerfilParlamentar[] {
+    // quando o interesse é todos proposicoesService.getProposicoes retorna [], então não tem por que filtrar
+    if (propsLeggo.length === 0) {
+      return propsPerfil;
+    }
+
+    // set com as siglas das proposicoes da api do leggo-backend
+    const siglasSet = new Set<string>();
+
+    for (const pLeggo of propsLeggo) {
+      siglasSet.add((pLeggo.sigla_camara || pLeggo.sigla_senado || '').trim());
+    }
+
+    // retorna apenas as proposicoes da api do perfil-parlamentar cuja sigla(projetoLei) bate com as da api do leggo-backend
+    return propsPerfil.filter(prop => siglasSet.has(prop.projetoLei.trim()));
   }
 }
