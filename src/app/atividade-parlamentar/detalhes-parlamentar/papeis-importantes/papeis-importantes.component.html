@@ -1,5 +1,16 @@
 <div>
-  <h3>Papéis Importantes</h3>
+  <h3>
+    Papéis Importantes
+    <img
+      [ngbPopover]="alertaTip"
+      triggers="mouseenter:mouseleave"
+      src="/assets/icons/popover_icon.svg"
+      alt=""
+    />
+    <ng-template #alertaTip>
+
+    </ng-template>
+  </h3>
   <app-loading *ngIf="isLoading | async"></app-loading>
   <div [hidden]="isLoading | async">
     <div class="proposicao-por-interesse">
@@ -19,8 +30,8 @@
         </select>
       </div>
     </div>
-    
-    <div class="row">
+
+    <div class="row mt-4">
       <div class="col-4 mb-4">
         <h6 class="arvore-titulo">
           Presidência
@@ -38,9 +49,9 @@
           </li>
         </ul>
       </div>
-  
+
       <div class="col-4 mb-4">
-  
+
         <h6 class="arvore-titulo">
           Relatoria
           &nbsp;em {{ relatorias?.length }}
@@ -57,9 +68,9 @@
           </li>
         </ul>
       </div>
-  
+
       <div class="col-4 mb-4">
-  
+
         <h6 class="arvore-titulo">
           Autoria
           &nbsp;em {{ autorias?.length }}
@@ -81,5 +92,23 @@
         </ul>
       </div>
     </div>
+  </div>
+</div>
+<div class="mt-4">
+  <h3>
+    Cargos
+    <img
+      [ngbPopover]="alertaTip"
+      triggers="mouseenter:mouseleave"
+      src="/assets/icons/popover_icon.svg"
+      alt=""
+    />
+    <ng-template #alertaTip>
+
+    </ng-template>
+  </h3>
+  <app-loading *ngIf="isLoading | async"></app-loading>
+  <div [hidden]="isLoading | async">
+    <app-cargos></app-cargos>
   </div>
 </div>

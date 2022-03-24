@@ -66,7 +66,7 @@
                 Disciplina partidária
               </span>
               <h5 *ngIf="parlamentar?.disciplina">{{ parlamentar?.disciplina * 100 | number: '1.0-0'}}%</h5>
-              <h5 *ngIf="!parlamentar?.disciplina">Disciplina não calculada.</h5>
+              <h5 *ngIf="!parlamentar?.disciplina">--</h5>
             </div>
 
             <div>
@@ -75,7 +75,7 @@
                 Governismo
               </span>
               <h5 *ngIf="parlamentar?.governismo">{{ parlamentar?.governismo * 100 | number: '1.0-0' }}%</h5>
-              <h5 *ngIf="!parlamentar?.governismo">Governismo não calculado.</h5>   
+              <h5 *ngIf="!parlamentar?.governismo">--</h5>   
             </div>
             
           </div>
