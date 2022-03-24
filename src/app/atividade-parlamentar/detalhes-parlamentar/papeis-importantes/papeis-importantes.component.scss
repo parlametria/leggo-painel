@@ -1,0 +1,21 @@
+.proposicao-por-interesse {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+
+  .title {
+    height: 36px;
+    margin-right: 2rem;
+
+    span {
+      font-weight: 600;
+    }
+  }
+
+  .interesses-wrapper {
+    select {
+      width: 580px;
+      color: #6942A3;
+    }
+  }
+}
