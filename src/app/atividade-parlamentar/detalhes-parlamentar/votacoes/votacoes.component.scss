@@ -1,23 +1,181 @@
-.vis-rodape {
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-  font-size: .8rem;
+.app-votacoes-titulo {
+  font-size: 20px;
+  font-weight: 500;
+  color: #000;
 }
 
-.legenda {
-  padding-left: 3px;
-  padding-right: 3px;
+.seletor-de-interesses-wrapper {
+  width: 50%;
+
+  .seletor-interesse-titulo {
+    font-weight: 600;
+    font-size: 13px;
+  }
 }
 
-.cor0 {
-  background-color: #6f42c1;
-  color: #ffffff;
+.medidas-provisorias-wrapper {
+  margin-left: 1rem;
+
+  .medida-provisoria-container {
+    border-bottom: solid 1px #b0b6ba;
+    margin-bottom: 1.5rem;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .titulo-medida {
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .total-votacoes {
+      font-size: 18px;
+    }
+
+    .como-votou-desc {
+      font-size: 14px;
+      font-weight: 500;
+      color: #81858D;
+    }
+
+    a.ver-mais {
+      color: #81858D;
+      transition: 0.2s;
+
+      &:hover {
+        color: #6942A3;
+      }
+    }
+  }
 }
 
-.cor1 {
-  background-color: #91DABF;
+.votacoes-row-descricao {
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: solid 1px #b0b6ba;
 }
 
-.cor2 {
-  background-color: #fd7e14;
+.bloco-votacoes, .bloco-voto-parlamentar {
+  .vote-wrapper {
+    align-items: center;
+  }
+
+  .square {
+    display: block;
+    width: 15px;
+    height: 15px;
+    border: solid 1px #000;
+  }
+
+  .circle {
+    display: block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: solid 1px #000;
+  }
+
+  .vota-sim {
+    background-color: #03dac6;
+  }
+
+  .vota-nao { background-color: #faa557; }
+  .vota-liberado { background-color: #85cde8; }
+  .vota-abstencao { background-color: #ff7285; }
+  .vota-obstrucao { background-color:#3c414d; }
+  .vota-faltou { background-color: #b0b6ba; }
+
+  .quantidade {
+    font-weight: 500;
+    font-size: 18px;
+    margin-left: 0.5rem;
+  }
+
+  .vota-desc {
+    color: #81858D;
+    font-size: 14px;
+  }
+}
+
+.bloco-exibir-detalhes {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  border: 1px solid #34174A;
+  height: 35px;
+  padding: 0 0.5rem;
+  color: #34174A;
+  background-color: #fafcfc;
+  font-size: 12px;
+  transition: 0.2s;
+
+  &:hover {
+    color: #fafcfc;
+    background-color: #34174A;
+
+    .arrow {
+      border: solid #fff;
+      border-width: 0 3px 3px 0;
+    }
+  }
+
+  .arrow {
+    border: solid #34174A;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+  }
+
+  .arrow-up {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+  }
+
+  .arrow-down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+  }
+
+  span {
+    margin-left: 0.5rem
+  }
+}
+
+
+.votacoes-row-parlamentar {
+  .bloco-voto-desc {
+    div:last-child {
+      margin-top: 12px;
+    }
+  }
+
+  .scroll-lateral {
+    overflow-x: auto;
+
+    .p-2 {
+      .bloco-voto-parlamentar {
+        height: 100px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        border-right: solid 1px #b0b6ba;
+        padding-right: 1rem;
+      }
+
+      &:last-child {
+        .bloco-voto-parlamentar {
+          border-right: none;
+        }
+      }
+    }
+  }
+}
+
+.seletor-de-interesse {
+  select {
+    color: #6942A3;
+  }
 }

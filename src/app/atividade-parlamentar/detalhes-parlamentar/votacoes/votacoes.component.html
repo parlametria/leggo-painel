@@ -1,116 +1,155 @@
 <app-loading *ngIf="isLoading | async"></app-loading>
 <div [hidden]="isLoading | async">
 
-  <p
-    *ngIf="governismoCalculado || disciplinaCalculada"
-    class="my-4">
-    <strong>{{ parlamentarInfo?.nome_autor }}</strong>
-    é o ponto em
-    <span class="legenda cor2">laranja</span>
-    abaixo. Parlamentares do partido dele/a ({{ parlamentarInfo?.partido }}) estão em
-    <span class="legenda cor0">roxo</span>
-    e os demais em
-    <span class="legenda cor1">verde</span>
-    .
+  <p class="app-votacoes-titulo">
+    Votações em cada proposição dentro de {{ nomeInteresse }}
   </p>
 
-  <h3 class="titulo-sessao">Governismo</h3>
+  <div class="seletor-de-interesses-wrapper">
+    <div class="seletor-interesse-titulo">Filtrar por painel de interesse</div>
 
-  <p *ngIf="governismoCalculado">
-    O quanto
-    <strong>{{ parlamentarInfo?.nome_autor }}</strong>
-    apoiou o governo em votações nominais disputadas.
-  </p>
+    <div class="seletor-de-interesse">
+      <div class="form-group interesses-wrapper">
+        <select (change)="onChangeInteresse($event.target.value)" class="form-control">
+          <option
+            *ngFor="let interesse of interesses" [value]="interesse.interesse"
+            [selected]="interesse.interesse === interesseSelecionado"
+          >
+            {{interesse.nome_interesse}}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
 
-  <p *ngIf="!governismoCalculado">
-    Não foi possível calcular o governismo para
-    <strong>{{ parlamentarInfo?.nome_autor }}</strong>
-    pois não há votos suficientes do/a parlamentar.
-  </p>
+  <div class="medidas-provisorias-wrapper">
+    <div
+      class="medida-provisoria-container"
+      *ngFor="let prop of proposicoesPerfilParlamentar"
+    >
 
-  <app-vis-governismo
-    [hidden]="!governismoCalculado"
-    [idParlamentarDestaque]="idParlamentarDestaque"
-    [parlamentares]="parlamentaresGovernismo"></app-vis-governismo>
+      <div class="d-flex flex-row">
+        <div class="p-2 titulo-medida">{{prop.projetoLei}}</div>
+        <div class="p-2">
+          <span>
+            <a class="ver-mais" [href]="getUrlProposicao(prop.idProposicao, prop.casa)" target="_blank">ver mais</a>
+          </span>
+        </div>
+        <!--
+          Link ver mais
+          https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao=2201532
+        -->
+      </div>
 
-  <p
-    *ngIf="governismoCalculado"
-    class="vis-rodape">
-    Baseado em
-    <strong>
-      {{ votacoesSumarizadas?.num_votacoes_totais_governismo }}
-    </strong>
-    votações
-    no plenário {{ getCasa(parlamentarInfo?.casa_autor) }} no período de
-    <strong>01 de fevereiro de 2019</strong>
-    a
-    <strong>
-      {{ votacoesSumarizadas?.ultima_data_votacao }}
-    </strong>
-    .
-    <strong>{{ parlamentarInfo?.nome_autor }}</strong>
-    votou em
-    <strong>
-      {{ votacoesSumarizadas?.num_votacoes_parlamentar_governismo }}
-    </strong>
-    delas.
-    O governismo é calculado a partir do comportamento dos parlamentares, considerando que apoiar
-    o governo quando a maioria foi contra conta mais que apoiá-lo junto com uma maioria.
-    Usamos o modelo IDEAL de Clinton, Jackman e Rivers.
-  </p>
+      <div class="d-flex flex-row">
+        <div class="p-2 total-votacoes">
+          Total de votações: {{prop.proposicaoVotacoes.length}}
+        </div>
+      </div>
 
-  <h3 class="titulo-sessao">Disciplina partidária</h3>
+      <div class="d-flex flex-row">
+        <div class="p-2 como-votou-desc">
+          Como votou o(a) {{ tituloDoAutor }}:
+        </div>
+      </div>
 
-  <p *ngIf="bancadaSuficiente && disciplinaCalculada">
-    O quanto
-    <strong>{{ parlamentarInfo?.nome_autor }}</strong>
-    seguiu as orientações do
-    <strong>{{ parlamentarInfo?.partido }}</strong>
-    em votações nominais.
-  </p>
+      <div class="d-flex flex-row votacoes-row-descricao">
 
-  <p *ngIf="!bancadaSuficiente">
-    Não foi possível calcular o quanto
-    <strong>{{ parlamentarInfo?.nome_autor }}</strong>
-    seguiu as orientações do
-    <strong>{{ parlamentarInfo?.partido }}</strong>
-    pois a bancada de seu partido é insuficiente.
-  </p>
+        <div class="bloco-votacoes">
+          <div class="p-2">
+            <div class="d-flex flex-row vote-wrapper">
+              <div class="square vota-sim"></div>
+              <div class="quantidade">{{ contagemVotosPorProposicao[prop.idProposicao]['vota-sim'] }} x</div>
+            </div>
 
-  <p *ngIf="!disciplinaCalculada">
-    Não foi possível calcular o quanto
-    <strong>{{ parlamentarInfo?.nome_autor }}</strong>
-    seguiu as orientações do
-    <strong>{{ parlamentarInfo?.partido }}</strong>
-    pois não há votos suficientes do/a parlamentar.
-  </p>
+            <div class="vota-desc">Sim</div>
+          </div>
+        </div>
 
-  <app-vis-disciplina
-    [hidden]="!bancadaSuficiente || !disciplinaCalculada"
-    [idParlamentarDestaque]="idParlamentarDestaque"
-    [parlamentares]="parlamentaresDisciplina"></app-vis-disciplina>
+        <div class="bloco-votacoes">
+          <div class="p-2">
+            <div class="d-flex flex-row vote-wrapper">
+              <div class="square vota-nao"></div>
+              <div class="quantidade">{{ contagemVotosPorProposicao[prop.idProposicao]['vota-nao'] }} x</div>
+            </div>
 
-  <p
-    *ngIf="bancadaSuficiente && disciplinaCalculada"
-    class="vis-rodape">
-    Esse/a parlamentar participou de
-    <strong>
-      {{ votacoesSumarizadas?.num_votacoes_parlamentar_disciplina }}
-    </strong>
-    das
-    <strong>
-      {{ votacoesSumarizadas?.num_votacoes_totais_disciplina }}
-    </strong>
-    votações onde seu partido orientou a votação.
-    A disciplina partidária é a frequência com que os parlamentares seguem a orientação de seus partidos em votações nominais.
-    Usamos votações no período de
-    <strong>01 de fevereiro de 2019</strong>
-    a
-    <strong>
-      {{ votacoesSumarizadas?.ultima_data_votacao }}
-    </strong>
-    onde houve alguma disputa,
-    com pelo menos 10% dos votos contrários à maioria.
-  </p>
+            <div class="vota-desc">Não</div>
+          </div>
+        </div>
 
+        <div class="bloco-votacoes">
+          <div class="p-2">
+            <div class="d-flex flex-row vote-wrapper">
+              <div class="square vota-liberado"></div>
+              <div class="quantidade">{{ contagemVotosPorProposicao[prop.idProposicao]['vota-liberado'] }} x</div>
+            </div>
+
+            <div class="vota-desc">Liberado</div>
+          </div>
+        </div>
+
+        <div class="bloco-votacoes">
+          <div class="p-2">
+            <div class="d-flex flex-row vote-wrapper">
+              <div class="square vota-abstencao"></div>
+              <div class="quantidade">{{ contagemVotosPorProposicao[prop.idProposicao]['vota-abstencao'] }} x</div>
+            </div>
+
+            <div class="vota-desc">Abstenção</div>
+          </div>
+        </div>
+
+        <div class="bloco-votacoes">
+          <div class="p-2">
+            <div class="d-flex flex-row vote-wrapper">
+              <div class="square vota-obstrucao"></div>
+              <div class="quantidade">{{ contagemVotosPorProposicao[prop.idProposicao]['vota-obstrucao'] }} x</div>
+            </div>
+
+            <div class="vota-desc">Obstrução</div>
+          </div>
+        </div>
+
+        <div class="bloco-votacoes">
+          <div class="p-2">
+            <div class="d-flex flex-row vote-wrapper">
+              <div class="square vota-faltou"></div>
+              <div class="quantidade">{{ contagemVotosPorProposicao[prop.idProposicao]['vota-faltou'] }} x</div>
+            </div>
+
+            <div class="vota-desc">Faltou/não estava em exercício</div>
+          </div>
+        </div>
+
+        <div class="bloco-exibir-detalhes" (click)="onClickToggleMostrarDetalhesProposicao(prop.idProposicao)">
+          <i [ngClass]="['arrow', 'arrow-'+ (mostrarDetalhesProposicoes[prop.idProposicao] ? 'up' : 'down') ]"></i>
+          <span>Exibir detalhes</span>
+        </div>
+      </div>
+
+      <div class="votacoes-row-parlamentar" [hidden]="!mostrarDetalhesProposicoes[prop.idProposicao]">
+        <div class="d-flex flex-row">
+          <div class="p-2 bloco-voto-desc">
+            <div>Deputado</div>
+            <div>Governo</div>
+          </div>
+
+          <div class="d-flex flex-row scroll-lateral">
+
+            <div class="p-2" *ngFor="let votacao of prop.proposicaoVotacoes">
+              <div class="bloco-voto-parlamentar">
+                <div [ngClass]="['square', getVotacaoClass(parlamentarVotos?.votos[votacao.idVotacao], 'parlamentar')]"></div>
+
+                <div [ngClass]="['circle', getVotacaoClass(orientacao?.orientacoes[votacao.idVotacao], 'governo')]"></div>
+                <div class="vota-desc">
+                  {{ getDataVotacao(votacao.horario) }}
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
