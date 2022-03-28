@@ -1,54 +1,66 @@
-<app-loading *ngIf="isLoading | async"></app-loading>
-<div [hidden]="isLoading | async">
-  <h3>Ações parlamentares</h3>
-  <p>Ações do parlamentar ponderadas pelo número de coautores.</p>
+<div>
+  <h3>
+    Ações parlamentares
+    <img
+      [ngbPopover]="alertaTip"
+      triggers="mouseenter:mouseleave"
+      src="/assets/icons/popover_icon.svg"
+      alt=""
+    />
+    <ng-template #alertaTip>
+      Ações do parlamentar ponderadas pelo número de coautores.
+    </ng-template>
+  </h3>
+  <app-loading *ngIf="isLoading | async"></app-loading>
 
-  <div class="proposicao-por-interesse">
-    <div class="title">
-      <span>Filtrar por painel de interesse</span>
+  <div [hidden]="isLoading | async">
+    <div class="proposicao-por-interesse">
+      <div class="pr-3">
+        <span>Filtrar por painel de interesse</span>
+      </div>
+
+      <div class="form-group interesses-wrapper">
+        <select (change)="interesseSelecionado($event.target.value)" class="form-control">
+          <option
+            *ngFor="let interesse of interesses"
+            [value]="interesse.interesse"
+            [selected]="interesse.interesse === selectedInteresse.interesse"
+          >
+            {{interesse.nome_interesse}}
+          </option>
+        </select>
+      </div>
+    </div>
+    
+    <!--
+    <div class="quantidade-ativitades">
+      Este parlamentar é ativo em X painéis
+    </div>
+    -->
+
+    <div *ngIf="!parlamentar">
+      Não foi registrada atuação nas proposições selecionadas.
     </div>
 
-    <div class="form-group interesses-wrapper">
-      <select (change)="interesseSelecionado($event.target.value)" class="form-control">
-        <option
-          *ngFor="let interesse of interesses"
-          [value]="interesse.interesse"
-          [selected]="interesse.interesse === selectedInteresse.interesse"
-        >
-          {{interesse.nome_interesse}}
-        </option>
-      </select>
-    </div>
-  </div>
-
-  <!--
-  <div class="quantidade-ativitades">
-    Este parlamentar é ativo em X painéis
-  </div>
-  -->
-
-  <div *ngIf="!parlamentar">
-    Não foi registrada atuação nas proposições selecionadas.
-  </div>
-
-  <div class="d-flex">
-    <div class="vis-atividade">
-      <app-vis-atividade-detalhada
-        [idAtor]="idAtor"></app-vis-atividade-detalhada>
-    </div>
-    <div class="vis-detalhes" *ngIf="parlamentar?.ranking_documentos">
-      <p>
-        <strong>{{ parlamentar?.ranking_documentos }}°</strong>
-        parlamentar mais atuante
-        <span *ngIf="interesse">neste painel. </span>
-      </p>
-      <p>
-        Das <strong>{{ totalDocs }}</strong> ações,
-        <span *ngFor="let autoria of autoriasPorTipo; let i = index">
-          <strong>{{ autoria.values.length }}</strong>
-          {{formataTipo(autoria.key, autoria.values.length, (i + 1) === autoriasPorTipo.length)}}
-        </span>
-      </p>
+    <div class="d-flex">
+      <div class="vis-atividade">
+        <app-vis-atividade-detalhada
+          [idAtor]="idAtor"></app-vis-atividade-detalhada>
+      </div>
+      <div class="vis-detalhes" *ngIf="parlamentar?.ranking_documentos">
+        <p>
+          <strong>{{ parlamentar?.ranking_documentos }}°</strong>
+          parlamentar mais atuante
+          <span *ngIf="interesse">neste painel. </span>
+        </p>
+        <p>
+          Das <strong>{{ totalDocs }}</strong> ações,
+          <span *ngFor="let autoria of autoriasPorTipo; let i = index">
+            <strong>{{ autoria.values.length }}</strong>
+            {{formataTipo(autoria.key, autoria.values.length, (i + 1) === autoriasPorTipo.length)}}
+          </span>
+        </p>
+      </div>
     </div>
   </div>
 </div>

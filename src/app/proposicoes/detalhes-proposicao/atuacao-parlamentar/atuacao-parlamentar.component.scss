@@ -1,3 +1,9 @@
+h3 {
+  img {
+    cursor: pointer;
+  }
+}
+
 .legend {
   display: flex;
   flex-wrap: wrap;
@@ -26,10 +32,3 @@
   font-size: 0.8rem;
 }
 
-h3 {
-  img {
-    position: absolute;
-    cursor: pointer;
-    margin-left: 10px;
-  }
-}

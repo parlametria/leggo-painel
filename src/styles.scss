@@ -250,25 +250,6 @@ a.link-texto:visited {
     top: 0;
     bottom: 0;
     left: 0;
-    border-left: 2px solid;
-  }
-
-  &.success {
-    &:before {
-      color: $success;
-    }
-  }
-
-  &.warning {
-    &:before {
-      color: $warning;
-    }
-  }
-
-  &.danger {
-    &:before {
-      color: $danger;
-    }
   }
 
   &:after {
@@ -294,24 +275,7 @@ a.link-texto:visited {
       position: absolute;
       top: 1em;
       left: 0;
-    }
-
-    &.success {
-      &:before {
-        color: $success;
-      }
-    }
-
-    &.warning {
-      &:before {
-        color: $warning;
-      }
-    }
-
-    &.danger {
-      &:before {
-        color: $danger;
-      }
+      opacity: 0.5;
     }
 
     &:last-child:before {

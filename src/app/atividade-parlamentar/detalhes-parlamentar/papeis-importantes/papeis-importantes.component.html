@@ -1,66 +1,114 @@
-<h3 class="titulo-sessao">Papéis Importantes</h3>
-<app-loading *ngIf="isLoading | async"></app-loading>
-<div [hidden]="isLoading | async">
-  <div class="mb-4">
-    <h6 class="arvore-titulo">
-      <span class="app-icon arvore-icon icon-presidente text-warning"></span>
-      <strong>Presidente</strong>
-      &nbsp;de {{ comissoes?.length }}
-      <span *ngIf="comissoes?.length === 1">&nbsp;comissão</span>
-      <span *ngIf="comissoes?.length !== 1">&nbsp;comissões</span>
-    </h6>
-    <ul
-      *ngIf="comissoes?.length"
-      class="arvore warning">
-      <li
-        *ngFor="let comissao of comissoes[0]?.parlamentarComissoes; let i = index"
-        class="warning">
-        {{ comissao?.infoComissao?.sigla }}
-      </li>
-    </ul>
+<div>
+  <h3>
+    Papéis Importantes
+    <img
+      [ngbPopover]="alertaTip"
+      triggers="mouseenter:mouseleave"
+      src="/assets/icons/popover_icon.svg"
+      alt=""
+    />
+    <ng-template #alertaTip>
+
+    </ng-template>
+  </h3>
+  <app-loading *ngIf="isLoading | async"></app-loading>
+  <div [hidden]="isLoading | async">
+    <div class="proposicao-por-interesse">
+      <div class="pr-3">
+        <span>Filtrar por painel de interesse</span>
+      </div>
+
+      <div class="form-group interesses-wrapper">
+        <select (change)="interesseSelecionado($event.target.value)" class="form-control">
+          <option
+            *ngFor="let interesse of interesses"
+            [value]="interesse.interesse"
+            [selected]="interesse.interesse === selectedInteresse.interesse"
+          >
+            {{interesse.nome_interesse}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-4 mb-4">
+        <h6 class="arvore-titulo">
+          Presidência
+          &nbsp;em {{ comissoes?.length }}
+          <span *ngIf="comissoes?.length === 1">&nbsp;comissão</span>
+          <span *ngIf="comissoes?.length !== 1">&nbsp;comissões</span>
+        </h6>
+        <ul
+          *ngIf="comissoes?.length"
+          class="arvore warning">
+          <li
+            *ngFor="let comissao of comissoes[0]?.parlamentarComissoes; let i = index"
+            class="warning">
+            {{ comissao?.infoComissao?.sigla }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-4 mb-4">
+
+        <h6 class="arvore-titulo">
+          Relatoria
+          &nbsp;em {{ relatorias?.length }}
+          <span *ngIf="relatorias?.length === 1">&nbsp;proposição</span>
+          <span *ngIf="relatorias?.length !== 1">&nbsp;proposições</span>
+        </h6>
+        <ul
+          *ngIf="relatorias?.length"
+          class="arvore success">
+          <li
+            *ngFor="let item of relatorias; let i = index"
+            class="success">
+            <a [href]="'https://painel.parlametria.org.br/' + interesse + '/proposicoes/' + item.id_leggo + '/'">{{ item.sigla }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-4 mb-4">
+
+        <h6 class="arvore-titulo">
+          Autoria
+          &nbsp;em {{ autorias?.length }}
+          <span *ngIf="autorias?.length === 1">&nbsp;proposição</span>
+          <span *ngIf="autorias?.length !== 1">&nbsp;proposições</span>
+        </h6>
+        <ul
+          *ngIf="autorias?.length"
+          class="arvore danger">
+          <li
+            *ngFor="let item of autorias; let i = index"
+            class="danger">
+            <a
+              [href]="[item.url_inteiro_teor]"
+              target="_blank">
+              {{ item.sigla }} de {{ item.data | date:'dd/MM/yyyy' }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
+</div>
+<div class="mt-4">
+  <h3>
+    Cargos
+    <img
+      [ngbPopover]="alertaTip"
+      triggers="mouseenter:mouseleave"
+      src="/assets/icons/popover_icon.svg"
+      alt=""
+    />
+    <ng-template #alertaTip>
 
-  <div class="mb-4">
-
-    <h6 class="arvore-titulo">
-      <span class="app-icon arvore-icon icon-relator text-success"></span>
-      <strong>Relator</strong>
-      &nbsp;de {{ relatorias?.length }}
-      <span *ngIf="relatorias?.length === 1">&nbsp;proposição</span>
-      <span *ngIf="relatorias?.length !== 1">&nbsp;proposições</span>
-    </h6>
-    <ul
-      *ngIf="relatorias?.length"
-      class="arvore success">
-      <li
-        *ngFor="let item of relatorias; let i = index"
-        class="success">
-        <a [href]="'https://painel.parlametria.org.br/' + interesse + '/proposicoes/' + item.id_leggo + '/'">{{ item.sigla }}</a>
-      </li>
-    </ul>
-  </div>
-
-  <div class="mb-4">
-
-    <h6 class="arvore-titulo">
-      <span class="app-icon arvore-icon icon-autor text-danger"></span>
-      <strong>Autor</strong>
-      &nbsp;de {{ autorias?.length }}
-      <span *ngIf="autorias?.length === 1">&nbsp;proposição</span>
-      <span *ngIf="autorias?.length !== 1">&nbsp;proposições</span>
-    </h6>
-    <ul
-      *ngIf="autorias?.length"
-      class="arvore danger">
-      <li
-        *ngFor="let item of autorias; let i = index"
-        class="danger">
-        <a
-          [href]="[item.url_inteiro_teor]"
-          target="_blank">
-          {{ item.sigla }} de {{ item.data | date:'dd/MM/yyyy' }}
-        </a>
-      </li>
-    </ul>
+    </ng-template>
+  </h3>
+  <app-loading *ngIf="isLoading | async"></app-loading>
+  <div [hidden]="isLoading | async">
+    <app-cargos></app-cargos>
   </div>
 </div>

@@ -1,5 +1,5 @@
 <div class="vis-atividade-detalhada">
-  <span *ngIf="interesseAtividade === undefined" class="nome">Todas as ações</span>
-  <span *ngIf="interesseAtividade !== undefined" class="nome">Ações em {{interesseAtividade.nome_interesse}}</span>
+  <h6 *ngIf="interesseAtividade === undefined" class="">Todas as ações</h6>
+  <h6 *ngIf="interesseAtividade !== undefined" class="">Ações em {{interesseAtividade.nome_interesse}}</h6>
   <div id="vis-atividade-detalhada"></div>
 </div>
