@@ -9,3 +9,9 @@
 .peso-explicacao {
   font-size: 0.8rem;
 }
+.progress {
+  flex: 1;
+  app-progress {
+    width: 100%;
+  }
+}

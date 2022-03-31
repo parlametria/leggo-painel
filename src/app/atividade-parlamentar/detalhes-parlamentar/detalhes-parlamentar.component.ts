@@ -83,9 +83,8 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
       this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;
       this.getParlamentarDetalhado(this.idAtor, this.interesse, this.tema, this.destaque);
       this.resgataDocumentos(this.interesse, this.tema, parseInt(this.idAtor, 10), this.destaque);
-
+      this.getAtorInfo(this.idAtor, this.interesse);
     });
-    this.getAtorInfo(this.idAtor, this.interesse);
     }
 
   getParlamentarDetalhado(idParlamentar, interesse, tema, destaque) {
@@ -116,13 +115,6 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
       ];
 
     });
-    this.parlamentarDetalhadoService
-      .getParlamentarDetalhado(idParlamentar, interesse, tema, dataInicial, dataFinal, destaque)
-      .pipe(
-        indicate(this.isLoading),
-        takeUntil(this.unsubscribe))
-      .subscribe(parlamentar => {
-      });
   }
 
   getParlamentarAgregado(casa){
@@ -135,13 +127,7 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
         indicate(this.isLoading),
         takeUntil(this.unsubscribe))
       .subscribe(parlamentares => {
-
-        parlamentares.map(prlmntr => {
-          if (prlmntr.idParlamentarVoz === this.idAtor){
-            this.parlamentar = prlmntr;
-
-          }
-        });
+        this.parlamentar = parlamentares.filter(p => (`${p.id_autor_parlametria}` === this.idAtor))[0];
         this.isLoading.next(false);
       },
         error => {
@@ -154,6 +140,7 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
   routeInclude(part: string) {
     return this.router.url.includes(part);
   }
+
   getAtorInfo(idParlamentar, interesse) {
     forkJoin(
       [

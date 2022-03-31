@@ -83,6 +83,12 @@ $button-padding: 30px;
 }
 .container-info {
   margin-top: 2.188rem;
+  transition: opacity ease .35s;
+  opacity: 1;
+  &[hidden] {
+    opacity: 0;
+    display: block !important;
+  }
 }
 
 .container-perfil {

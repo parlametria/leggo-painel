@@ -3,15 +3,25 @@
 <div class="vis">
   <div
     *ngIf="peso"
-    class="row gutters-sm">
-    <div class="col">
+    class="d-flex align-items-center">
+    <div class="progress">
       <app-progress
         [label]="'Peso'"
         [barraClasse]="'bg-mediumgray'"
         [valor]="peso"
         [exibirLabel]="false"></app-progress>
     </div>
-    <div class="col-1">{{ peso | number : '1.0-2' }}</div>
+    <div class="p-2">{{ peso*100 | number : '1.0-0' }}%</div>
+  </div>
+  <div
+    *ngIf="!peso"
+    class="d-flex align-items-center">
+    <div class="progress">
+      <app-progress
+        [label]="'--'"
+        [barraClasse]="'bg-mediumgray'"></app-progress>
+    </div>
+    <div class="p-2">--</div>
   </div>
 </div>
 

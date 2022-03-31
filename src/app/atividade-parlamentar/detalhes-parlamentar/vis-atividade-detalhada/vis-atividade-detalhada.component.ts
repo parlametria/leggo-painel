@@ -68,7 +68,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
 
   ngOnInit(): void {
     this.largura = (window.innerWidth > 700) ? 700 : window.innerWidth - 40;
-    this.altura = this.largura > 500 ? 450 : 550;
+    this.altura = this.largura > 500 ? 400 : 550;
     this.x = d3.scaleLinear().rangeRound([0, this.largura]);
     this.y = d3.scaleLinear().rangeRound([0, this.altura]);
     this.svg = d3.select('#vis-atividade-detalhada').append('svg')
@@ -174,7 +174,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
     const root = this.treemap(data);
 
     const myColor = d3.scaleOrdinal().domain(['Total', 'Proposta'])
-      .range(['#F8F6FB', '#86BFB4', '#86BFB4', '#86BFB4', '#86BFB4']);
+      .range(['white', '#86BFB4', '#86BFB4', '#86BFB4', '#86BFB4']);
 
     const node = g.selectAll('g')
       .data(d3.nest().key((d: any) => d.data.titulo).entries(root.descendants()))
@@ -246,6 +246,7 @@ export class VisAtividadeDetalhadaComponent implements OnInit {
 
     node.selectAll('text')
       .style('visibility', d => d.data.categoria === 'Proposta' ? 'visible' : 'hidden')
+      .style('font-size', '0.8rem')
       .attr('transform', 'translate(5, 2)');
 
     node.filter(d => d.children).selectAll('tspan')

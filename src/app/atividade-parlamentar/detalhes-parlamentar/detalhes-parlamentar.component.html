@@ -21,8 +21,7 @@
     <div 
       class="container-info" 
       id="container-info"
-      *ngIf="toggleDrawer"
-      >
+      [hidden]="isLoading | async">
       <span *ngIf="parlamentarInfo?.casa_autor == 'camara'" class="parlamentar-name">
         <h4 class="header header4">Dep. {{ parlamentarInfo?.nome_autor }}</h4>
         <h5 class="header header5"><img src="assets/imgs/parlamentar/dep.svg"> Deputado (a) / Partido - {{parlamentarInfo?.partido}}</h5>  
@@ -33,7 +32,8 @@
         <p>Senador (a) / Partido - {{parlamentarInfo?.partido}}</p>
       </span>
   
-      <div class="container-perfil">
+      <div class="container-perfil"
+        *ngIf="toggleDrawer">
         
         <div class="foto-parlamentar flex2">
           <img [src]="parlamentarInfo?.url_foto">

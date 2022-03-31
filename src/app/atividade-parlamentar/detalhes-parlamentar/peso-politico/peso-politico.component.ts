@@ -41,7 +41,7 @@ export class PesoPoliticoComponent implements OnInit, OnDestroy {
         indicate(this.isLoading),
         takeUntil(this.unsubscribe))
       .subscribe(parlamentar => {
-        this.peso = +parlamentar[0].pesoPolitico;
+        this.peso = parlamentar.length ? +parlamentar[0].pesoPolitico : 0;
 
         this.isLoading.next(false);
       });
