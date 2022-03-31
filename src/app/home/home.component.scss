@@ -42,6 +42,7 @@
 
         img {
           width: 120px;
+          height: 120px;
         }
 
         .card-text {
@@ -55,6 +56,13 @@
       }
     }
 
+    .hero-painel.left-painel {
+      padding: 3rem 0rem 3rem 3rem;
+    }
+
+    .hero-painel.right-painel {
+      padding: 3rem 3rem 3rem 0rem;
+    }
 
     .hero-painel {
       background: transparent;
@@ -68,6 +76,7 @@
 
       img {
         width: 200px;
+        height: 200px;
       }
 
       .card-title {
