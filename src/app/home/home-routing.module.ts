@@ -12,6 +12,11 @@ import { InsightsComponent } from '../insights/insights.component';
 
 const routes: Routes = [
   {
+    path: '',
+    pathMatch: 'full',
+    component: HomeComponent
+  },
+  {
     path: 'paineis',
     component: SelecaoPainelComponent
   },
@@ -34,11 +39,6 @@ const routes: Routes = [
   {
     path: 'insights',
     component: InsightsComponent
-  },
-  {
-    path: '',
-    redirectTo: 'paineis',
-    pathMatch: 'full',
   },
   {
     path: 'parlamentares/:id',
