@@ -1,0 +1,35 @@
+version: '3.5'
+services:
+  frontend:
+    build:
+      context: ${FRONTEND_PAINEL_PATH:-.}
+    image: agoradigital/frontend-painel-dev
+    container_name: frontend_painel_cypress_test
+    volumes:
+      - ${FRONTEND_PAINEL_PATH:-.}/:/app/
+      - /app/node_modules/
+    ports:
+      - "4200:4200"
+    command: npm run start-cypress-server
+    networks:
+      - AppNetwork
+
+  cypress:
+    build:
+      context: ${FRONTEND_PAINEL_PATH:-.}
+      dockerfile: Dockerfile.cypress
+    container_name: frontend_painel_test_cypress
+    depends_on:
+      - frontend
+    environment:
+      - CYPRESS_baseUrl=http://frontend:4200
+      - CYPRESS_browser=chrome
+    volumes:
+      - ./cypress:/app/cypress
+      - ./cypress.json:/app/cypress.json
+    networks:
+      - AppNetwork
+
+networks:
+  AppNetwork:
+    driver: bridge

@@ -1,0 +1,6 @@
+{
+  "video": false,
+  "env": {
+    "CYPRESS_BASE_URL": "http://frontend:4200"
+  }
+}

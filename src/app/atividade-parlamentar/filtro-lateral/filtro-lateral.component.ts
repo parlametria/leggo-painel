@@ -121,6 +121,7 @@ export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestr
     this.filtroLateralService.selectedOrder
       .subscribe(selectedOrder => {
         if (selectedOrder === undefined) {
+          this.parlamentaresService.setOrderBy(this.parlamentaresService.ORDER_BY_PADRAO);
           return;
         }
 
