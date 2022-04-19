@@ -10,6 +10,8 @@ import { PesoPoliticoService } from 'src/app/shared/services/peso-politico.servi
 import { RelatoriaService } from 'src/app/shared/services/relatoria.service';
 import { EntidadeService } from 'src/app/shared/services/entidade.service';
 import { TwitterService } from 'src/app/shared/services/twitter.service';
+import { AderenciaService } from 'src/app/shared/services/aderencia.service';
+import { ParlamentarAderencia } from 'src/app/shared/models/parlamentarAderencia.model';
 
 type OrderFunction = (a: number, b: number, aObj: AtorAgregado, bObj: AtorAgregado) => 1 | -1 | 0;
 
@@ -36,7 +38,8 @@ export class ParlamentaresService {
     private pesoService: PesoPoliticoService,
     private relatoriaService: RelatoriaService,
     private entidadeService: EntidadeService,
-    private twitterService: TwitterService
+    private twitterService: TwitterService,
+    private aderenciaService: AderenciaService
   ) {
 
     this.parlamentares
@@ -142,7 +145,8 @@ export class ParlamentaresService {
         this.relatoriaService.getAtoresRelatores(interesse, tema, destaque),
         this.pesoService.getPesoPolitico(),
         this.twitterService.getAtividadeTwitter(interesse, tema, dataInicial, dataFinal, destaque),
-        this.autoriaService.getAutoriasAgregadasProjetos(interesse, tema, destaque)
+        this.autoriaService.getAutoriasAgregadasProjetos(interesse, tema, destaque),
+        this.aderenciaService.getAderenciaAsObservable()
       ]
     )
       .subscribe(data => {
@@ -153,6 +157,7 @@ export class ParlamentaresService {
         const pesoPolitico: any = data[4];
         const twitter: any = data[5];
         const autoriasProjetos: any = data[6];
+        const parlamentaresAderencia = this.prepareParlamentaresAderencia(data[7], casa);
 
         const parlamentares = parlamentaresExercicio.map(a => ({
           ...autoriasAgregadas.find(p => a.id_autor_parlametria === p.id_autor_parlametria),
@@ -199,14 +204,52 @@ export class ParlamentaresService {
           }
           p.peso_politico = p.pesoPolitico;
           p.atividade_twitter = this.normalizarAtividade(p.atividade_twitter, Math.min(...tweets), Math.max(...tweets));
-          p.governismo = this.normalizarAtividade(p.governismo, Math.min(...valoresGovernismo), Math.max(...valoresGovernismo));
+          // p.governismo = this.normalizarAtividade(p.governismo, Math.min(...valoresGovernismo), Math.max(...valoresGovernismo));
+          p.governismo = this.getAderenciaParlamentar(parlamentaresAderencia[p.id_autor_parlametria]);
         });
+
         this.parlamentares.next(parlamentares);
       },
         error => console.log(error)
       );
 
     return this.parlamentaresFiltered.asObservable();
+  }
+
+  private prepareParlamentaresAderencia(parlamentares: ParlamentarAderencia[], casa: string) {
+    return parlamentares
+      .reduce((acc: any, cur: ParlamentarAderencia) => {
+        if (cur.casa === casa) { // filter by casa
+          acc[cur.idParlamentarVoz] = cur;
+        }
+        return acc;
+      }, {}) as { [key: string]: ParlamentarAderencia };
+  }
+
+  private getAderenciaParlamentar(parlamentarAderencia?: ParlamentarAderencia) {
+    if (parlamentarAderencia === undefined) {
+      return 0;
+    }
+
+    const temaId = 99; // ID_TEMA_GERAL from CongressoChartComponent
+
+    // Governismo
+    // aderencia.aderenciaTema.idTema === temaId && aderencia.partido.sigla === 'Governo'
+
+    // Partdo
+    // aderencia.aderenciaTema.idTema === temaId && aderencia.partido.idPartido === parlamentarAderencia.parlamentarPartido.idPartido
+
+    const aderencias = parlamentarAderencia
+      .aderencia
+      .filter(aderencia =>
+        aderencia.aderenciaTema.idTema === temaId &&
+        aderencia.partido.sigla === 'Governo');
+
+    if (aderencias !== undefined && aderencias.length > 0) {
+      return aderencias[0].aderencia;
+    } else {
+      return 0; // -1?
+    }
   }
 
   private normalizarAtividade(metrica: number, min: number, max: number): number {
