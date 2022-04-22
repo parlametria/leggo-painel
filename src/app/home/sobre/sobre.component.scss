@@ -1,43 +1,25 @@
 .sobre-container {
-  padding-top: 15px;
-}
+  margin-top: 5rem;
+  margin-bottom: 5rem;
 
-h2 {
-  font-size: 1.9rem;
-}
+  h2 {
+    color: #391774;
+  }
 
-.footer-title {
-  display: inline-block;
-  font-size: 1rem;
-  font-weight: 700;
-}
+  h4 {
+    font-size: 18px;
+    font-weight: 500;
+  }
 
-.footer-title-importantes {
-  display: inline-block;
-  padding: 0.5rem;
-  font-size: 1rem;
-  font-weight: 700;
-}
+  p {
+    margin-top: 2rem;
+  }
 
-.intro-title {
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 3rem;
-  max-width: 720px;
-}
+  .imgs-section {
+    margin-top: 1rem;
 
-.section-inverse {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  color: #ffffff;
-}
-
-.float-title {
-  margin-top: -45px;
-  margin-bottom: 30px;
-}
-
-.img-logo {
-  max-width: 150px;
-  margin-bottom: 1rem;
+    .col-md {
+      max-width: 240px;
+    }
+  }
 }
