@@ -19,6 +19,7 @@ import { SobreComponent } from './sobre/sobre.component';
 import { SelecaoPainelComponent } from './selecao-painel/selecao-painel.component';
 import { InsightsComponent } from '../insights/insights.component';
 import { CardInsightComponent } from '../insights/card-insight/card-insight.component';
+import { ProjetosComponent } from 'src/app/projetos/projetos.component';
 
 import { AderenciaComponent } from '../atividade-parlamentar/aderencia/aderencia.component';
 import { CongressoChartComponent } from '../atividade-parlamentar/aderencia/congresso-chart/congresso-chart.component';
@@ -56,6 +57,7 @@ import { FiltroLateralModule } from '../atividade-parlamentar/filtro-lateral/fil
     PartidoIconBlockComponent,
     SenadoIconBlockComponent,
     CamaraIconBlockComponent,
+    ProjetosComponent,
   ],
   imports: [
     CommonModule,
