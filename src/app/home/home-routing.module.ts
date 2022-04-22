@@ -8,6 +8,7 @@ import { SobreComponent } from './sobre/sobre.component';
 import { SelecaoPainelComponent } from './selecao-painel/selecao-painel.component';
 import { PageNotFoundComponent } from '../shared/components/page-not-found/page-not-found.component';
 import { InsightsComponent } from '../insights/insights.component';
+import { ProjetosComponent } from 'src/app/projetos/projetos.component';
 
 
 const routes: Routes = [
@@ -39,6 +40,10 @@ const routes: Routes = [
   {
     path: 'insights',
     component: InsightsComponent
+  },
+  {
+    path: 'projetos',
+    component: ProjetosComponent
   },
   {
     path: 'parlamentares/:id',

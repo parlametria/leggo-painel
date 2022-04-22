@@ -17,6 +17,7 @@ import { ProgressStackedComponent } from './progress-stacked/progress-stacked.co
 import { LegendComponent } from './legend/legend.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FooterComponent } from './footer/footer.component';
+import { RodapeComponent } from './rodape/rodape.component';
 import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
@@ -33,6 +34,7 @@ import { ModalComponent } from './modal/modal.component';
     LegendComponent,
     PageNotFoundComponent,
     FooterComponent,
+    RodapeComponent,
     ModalComponent
   ],
   imports: [
@@ -53,6 +55,7 @@ import { ModalComponent } from './modal/modal.component';
     ProgressStackedComponent,
     LegendComponent,
     FooterComponent,
+    RodapeComponent,
     ModalComponent
   ]
 })
