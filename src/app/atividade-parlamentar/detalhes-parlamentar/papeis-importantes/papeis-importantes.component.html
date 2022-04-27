@@ -64,7 +64,7 @@
           <li
             *ngFor="let item of relatorias; let i = index"
             class="success">
-            <a [href]="'https://painel.parlametria.org.br/' + interesse + '/proposicoes/' + item.id_leggo + '/'">{{ item.sigla }}</a>
+            <a [href]="'/proposicoes/' + item.id_leggo + '/?interesse=' + (interesse ? interesse :'leggo')">{{ item.sigla }}</a>
           </li>
         </ul>
       </div>
@@ -83,11 +83,7 @@
           <li
             *ngFor="let item of autorias; let i = index"
             class="danger">
-            <a
-              [href]="[item.url_inteiro_teor]"
-              target="_blank">
-              {{ item.sigla }} de {{ item.data | date:'dd/MM/yyyy' }}
-            </a>
+            <a [href]="'/proposicoes/' + item.id_leggo + '/?interesse=' + (interesse ? interesse :'leggo')">{{ item.sigla }}</a>
           </li>
         </ul>
       </div>
