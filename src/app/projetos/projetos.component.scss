@@ -1,0 +1,61 @@
+.projetos-page {
+  margin-top: 5rem;
+  margin-bottom: 7rem;
+
+  .vozativa-img {
+    width: 190px;
+  }
+
+  .congresso_remoto-img {
+    width: 230px;
+  }
+
+  .perfilpolitico-img {
+    width: 250px;
+  }
+
+  .parlametria-img {
+    width: 90px;
+  }
+
+  .card-projeto {
+    padding: 10px;
+    max-width: 560px;
+    height: 270px;
+
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: end;
+    }
+
+    .btn-projetos {
+      padding: 10px;
+      font-size: 12px;
+      border: 1px solid #34174A;
+      color: #34174A;
+      background-color: #fafcfc;
+      width: 5rem;
+      height: 2rem;
+      line-height: 0.6rem;
+      border-radius: 0;
+
+      &:hover {
+        text-decoration: none;
+        color: #fafcfc;
+        background-color: #34174A;
+      }
+    }
+  }
+
+  .row-projetos {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  .col-projetos {
+    margin-bottom: 2rem;
+  }
+}
