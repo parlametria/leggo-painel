@@ -21,6 +21,7 @@ import { InsightsComponent } from '../insights/insights.component';
 import { CardInsightComponent } from '../insights/card-insight/card-insight.component';
 import { ProjetosComponent } from 'src/app/projetos/projetos.component';
 import { NaMidiaComponent } from 'src/app/na-midia/na-midia.component';
+import { RelatoriosComponent } from 'src/app/relatorios/relatorios.component';
 
 import { AderenciaComponent } from '../atividade-parlamentar/aderencia/aderencia.component';
 import { CongressoChartComponent } from '../atividade-parlamentar/aderencia/congresso-chart/congresso-chart.component';
@@ -60,6 +61,7 @@ import { FiltroLateralModule } from '../atividade-parlamentar/filtro-lateral/fil
     CamaraIconBlockComponent,
     ProjetosComponent,
     NaMidiaComponent,
+    RelatoriosComponent,
   ],
   imports: [
     CommonModule,

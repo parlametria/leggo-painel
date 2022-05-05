@@ -1,6 +1,6 @@
 @use '../shared/mixins' as m;
 
-.na-midia-wrapper {
+.relatorios-wrapper {
   margin-top: 5rem;
   margin-bottom: 5rem;
 
@@ -8,10 +8,10 @@
   @include m.btn-info;
 
   .card {
-    width: 22rem !important;
+    width: 100% !important;
   }
 
   .card-title {
-    height: 60px;
+    height: 40px;
   }
 }
