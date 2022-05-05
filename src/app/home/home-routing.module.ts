@@ -9,6 +9,7 @@ import { SelecaoPainelComponent } from './selecao-painel/selecao-painel.componen
 import { PageNotFoundComponent } from '../shared/components/page-not-found/page-not-found.component';
 import { InsightsComponent } from '../insights/insights.component';
 import { ProjetosComponent } from 'src/app/projetos/projetos.component';
+import { NaMidiaComponent } from 'src/app/na-midia/na-midia.component';
 
 
 const routes: Routes = [
@@ -44,6 +45,10 @@ const routes: Routes = [
   {
     path: 'projetos',
     component: ProjetosComponent
+  },
+  {
+    path: 'na-midia',
+    component: NaMidiaComponent
   },
   {
     path: 'parlamentares/:id',

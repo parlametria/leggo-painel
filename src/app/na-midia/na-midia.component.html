@@ -1,0 +1,35 @@
+<app-loading *ngIf="isLoading | async"></app-loading>
+
+<div class="container na-midia-wrapper">
+  <div class="row">
+
+    <div class="col col-4" *ngFor="let article of aticles">
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">
+            {{article.title}}
+          </h5>
+
+          <p class="card-text-date">
+            {{article.date}}
+          </p>
+
+          <p class="card-text">
+            {{article.authors}}
+          </p>
+
+          <p class="card-text">
+            {{article.fromSource}}
+          </p>
+
+          <div class="btn-midia-wrapper">
+            <a href="{{article.sourceLink}}" target="BLANK" class="btn btn-primary btn-midia">Acessar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<app-rodape></app-rodape>
