@@ -1,6 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
-
 import { Subject, BehaviorSubject } from 'rxjs';
 
 type MidiaArticle = {
@@ -79,10 +77,6 @@ export class NaMidiaComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject();
   public isLoading = new BehaviorSubject<boolean>(true);
   public aticles: MidiaArticle[] = ARTICLES;
-
-  constructor(
-    private router: Router,
-  ) { }
 
   ngOnInit(): void {
     this.isLoading.next(false);
