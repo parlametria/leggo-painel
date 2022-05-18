@@ -21,7 +21,7 @@ export function ordenaProgressoProposicao(resumoProgresso) {
         'Avaliação dos Vetos-Congresso'
       ];
 
-      resumoProgresso = resumoProgresso.map(r => {
+      resumoProgresso = resumoProgresso.map((r) => {
         r.fase_global_local = r.fase_global + '-' + r.local;
         return r;
       });
@@ -34,6 +34,12 @@ export function ordenaProgressoProposicao(resumoProgresso) {
         return ORDER.indexOf(a.fase_global) - ORDER.indexOf(b.fase_global);
       });
     }
+    resumoProgresso = resumoProgresso.map((r, i, l) => {
+      if (i%2 && i < 6) {
+        r.local_casa = l[i-1].local_casa;
+      }
+      return r;
+    });
   }
 
   return resumoProgresso;
