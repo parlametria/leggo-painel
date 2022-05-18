@@ -38,22 +38,33 @@
       <span class="card-progress">
         <app-progress
           [label]=""
+          [ngbPopover]="governismoTip"
+          triggers="mouseenter:mouseleave"
           [barraClasse]="'bg-governismo'"
           [valor]="parlamentar?.governismo || 0"
           [exibirLabel]="true"></app-progress>
         <span>{{parlamentar?.governismo * 100 || 0 | number : '1.0-0'}}%</span>
       </span>
+      <ng-template #governismoTip>
+       Calculado a partir do comportamento dos parlamentares, considerando que apoiar o governo quando
+       a maioria foi contra, conta mais do que apoiá-lo junto com uma maioria. É usado o modelo IDEAL de Clinton, Jackman e Rivers.
+      </ng-template>
     </div>
     <div class="space-between-bars">
       <h5>Disciplina</h5>
       <span class="card-progress" *ngIf="parlamentar?.bancada_suficiente">
         <app-progress
           [label]="''"
+          [ngbPopover]="disciplinaTip"
+          triggers="mouseenter:mouseleave"
           [barraClasse]="'bg-disciplina'"
           [valor]="parlamentar?.disciplina || 0"
           [exibirLabel]="true"></app-progress>
         <span>{{parlamentar?.disciplina * 100 || 0 | number : '1.0-0'}}%</span>
       </span>
+      <ng-template #disciplinaTip>
+       É a frequência com que os parlamentares seguem a orientação de seus partidos em votações nominais.
+      </ng-template>
       <span class="card-progress" *ngIf="!parlamentar?.bancada_suficiente">
         <app-progress
           [label]="'Bancada insuficiente'"

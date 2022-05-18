@@ -60,22 +60,33 @@
               *ngIf="parlamentar?.disciplina && parlamentar?.governismo || true"
             >
             </app-vis-cabecalho>
-            <div>
+            <div
+              [ngbPopover]="disciplinaTip"
+              triggers="mouseenter:mouseleave">
               <span class="dot"></span>
               <span class="paragraph">
                 Disciplina partidária
               </span>
               <h5 *ngIf="parlamentar?.disciplina">{{ parlamentar?.disciplina * 100 | number: '1.0-0'}}%</h5>
               <h5 *ngIf="!parlamentar?.disciplina">--</h5>
+              <ng-template #disciplinaTip>
+                É a frequência com que os parlamentares seguem a orientação de seus partidos em votações nominais.
+              </ng-template>
             </div>
 
-            <div>
+            <div
+              [ngbPopover]="governismoTip"
+              triggers="mouseenter:mouseleave">
               <span class="dot dot-governismo"></span>
               <span class="paragraph">
                 Governismo
               </span>
               <h5 *ngIf="parlamentar?.governismo">{{ parlamentar?.governismo * 100 | number: '1.0-0' }}%</h5>
               <h5 *ngIf="!parlamentar?.governismo">--</h5>   
+              <ng-template #governismoTip>
+                Calculado a partir do comportamento dos parlamentares, considerando que apoiar o governo quando
+                a maioria foi contra, conta mais do que apoiá-lo junto com uma maioria. É usado o modelo IDEAL de Clinton, Jackman e Rivers.
+              </ng-template>
             </div>
             
           </div>
