@@ -1,0 +1,179 @@
+@use '../shared/variables' as v;
+
+.background-wrapper {
+  background-image: url(/assets/imgs/homepage-bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 0;
+}
+
+.painels-wrapper {
+  display: flex;
+  padding: 0;
+  margin: 5rem 0 0 0;
+  height: 100%;
+  max-width: 1250px;
+  z-index: 1;
+}
+
+.left-painel {
+  width: 750px;
+  height: 775px;
+  padding: 10px;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+}
+
+.right-painel {
+  width: 500px;
+  height: 775px;
+
+  img {
+    position: absolute;
+    width: 450px;
+    height: 280px;
+    margin: 10px 0 0 20px;
+  }
+}
+
+.parla-logo-row {
+  margin-top: 15rem;
+  font-size: 12px;
+  color: v.$text-color-3;
+  text-align: center;
+
+  img {
+    width: 180px;
+    height: 20px;
+  }
+
+  a {
+    font-size: 14px;
+  }
+}
+
+.cadastro-page {
+  padding: 0;
+  margin: 0;
+
+  .title {
+    color: v.$primary-color;
+    text-align: center;
+    margin: 60px 0 10px 0;
+  }
+
+  .left-painel {
+
+    .form-wrapper {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      border: none;
+      color: v.$primary-variant-color;
+      font-weight: 500;
+
+      .required {
+        color: v.$warning-color;
+      }
+
+      .error {
+        color: v.$warning-color;
+        font-size: 12px;
+      }
+
+      .form-row {
+        width: 600px;
+        align-self: center;
+        margin-top: 20px;
+        display: flex;
+        flex-direction: row;
+        gap: 1.5rem;
+
+        .form-col {
+          max-width: 285px;
+        }
+
+        .form-col-full-width {
+          width: 100%;
+          display: flex;
+          gap: 0.5rem;
+          justify-content: center;
+
+          .btn-secondary {
+            width: 240px;
+            height: 40px;
+            font-size: 12px;
+            margin-top: 10px;
+          }
+        }
+      }
+
+      .check-policies-terms {
+        margin-top: 25px;
+        font-size: 12px;
+        color: v.$text-color-3;
+        line-height: 16px;
+
+        input[type='checkbox'] {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+
+    .display-password-wrapper {
+      display: flex;
+      gap: 3px;
+      cursor: pointer;
+
+      &:hover {
+        .display-password {
+          color: v.$text-color-3;
+        }
+      }
+
+      .display-password {
+        color: v.$util-grey-color;
+        font-size: 12px;
+        line-height: 20px;
+      }
+    }
+  }
+
+  .login-redirect-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 15px;
+    font-size: 12px;
+    color: v.$text-color-3;
+
+    img {
+      width: 180px;
+      height: 20px;
+    }
+
+    a {
+      font-size: 14px;
+    }
+  }
+}
+
+i.icon-eye {
+  display: block;
+  width: 24px;
+  height: 24px;
+  background-image: url(/assets/icons/eye.svg);
+}
+
+i.icon-eye-slash {
+  display: block;
+  width: 24px;
+  height: 24px;
+  background-image: url(/assets/icons/eye-slash.svg);
+}

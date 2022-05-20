@@ -11,6 +11,8 @@ import { InsightsComponent } from '../insights/insights.component';
 import { ProjetosComponent } from 'src/app/projetos/projetos.component';
 import { NaMidiaComponent } from 'src/app/na-midia/na-midia.component';
 import { RelatoriosComponent } from 'src/app/relatorios/relatorios.component';
+import { CadastroComponent } from 'src/app/cadastro/cadastro.component';
+import { LoginComponent } from 'src/app/login/login.conponent';
 
 
 const routes: Routes = [
@@ -54,6 +56,14 @@ const routes: Routes = [
   {
     path: 'relatorios',
     component: RelatoriosComponent
+  },
+  {
+    path: 'cadastro',
+    component: CadastroComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   },
   {
     path: 'parlamentares/:id',
