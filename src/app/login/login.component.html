@@ -1,0 +1,102 @@
+<app-loading *ngIf="isLoading | async"></app-loading>
+
+<div class="background-wrapper"></div>
+
+<div class="container-fluid login-page">
+  <div class="d-flex justify-content-center">
+
+    <div class="painels-wrapper">
+      <div class="left-painel">
+
+        <div class="form-control form-wrapper">
+
+          <div class="row">
+            <div class="col">
+              <h3 class="title">Bem vindo de volta :)</h3>
+              <h5 class="sub-title">Por favor insira os dados abaixo</h5>
+            </div>
+          </div>
+
+          <div [ngClass]="formStage">
+
+            <div [ngClass]="step1">
+
+              <div class="row">
+                <div class="col input-wrapper">
+                  <label for="email" class="form-label">
+                    E-mail
+                  </label>
+
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    placeholder="exemple@email.com"
+                    required
+                    [(ngModel)]="email" #ctrl="ngModel"
+                  >
+                </div>
+              </div>
+
+              <div class="row next-btn-wrapper">
+                <div class="col">
+                  <button class="btn btn-secondary" (click)="showInput('password')">Próximo</button>
+                </div>
+              </div>
+
+            </div>
+
+            <div [ngClass]="step2">
+
+              <div class="row">
+                <div class="col input-wrapper">
+                  <label for="password" class="form-label">
+                    Senha
+                  </label>
+
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    placeholder="*****"
+                    required
+                    [(ngModel)]="password" #ctrl="ngModel"
+                    >
+                </div>
+              </div>
+
+              <div class="row next-btn-wrapper">
+                <div class="col">
+                  <button class="btn" (click)="showInput('email')">Voltar</button>
+                  <button class="btn btn-secondary" (click)="executarLogin()">Entrar</button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="row parla-logo-row">
+            <div class="col">
+              <a routerLink="/">
+                <img src="/assets/imgs/logotipo-parlametria.png" />
+              </a>
+
+              <div>
+                Não tem uma conta? <a routerLink="/cadastro">Cadastre-se</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+
+      <div class="right-painel">
+        <img src="/assets/imgs/logotipo-parlametria-reduzido.svg" />
+      </div>
+    </div>
+
+  </div>
+</div>

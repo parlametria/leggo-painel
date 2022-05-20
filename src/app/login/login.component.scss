@@ -1,0 +1,170 @@
+@use '../shared/variables' as v;
+
+.background-wrapper {
+  background-image: url(/assets/imgs/homepage-bg.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 0;
+}
+
+.painels-wrapper {
+  display: flex;
+  padding: 0;
+  margin: 5rem 0 0 0;
+  height: 100%;
+  max-width: 1250px;
+  z-index: 1;
+}
+
+.left-painel {
+  width: 750px;
+  height: 775px;
+  padding: 10px;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+}
+
+.right-painel {
+  width: 500px;
+  height: 775px;
+
+  img {
+    position: absolute;
+    width: 450px;
+    height: 280px;
+    margin: 10px 0 0 20px;
+  }
+}
+
+.parla-logo-row {
+  margin-top: 15rem;
+  font-size: 12px;
+  color: v.$text-color-3;
+  text-align: center;
+
+  img {
+    width: 180px;
+    height: 20px;
+  }
+
+  a {
+    font-size: 14px;
+  }
+}
+
+.login-page {
+  .form-wrapper {
+    width: 420px;
+    border: none;
+    color: v.$primary-variant-color;
+    font-weight: 500;
+
+    label {
+      color: v.$primary-color;
+    }
+
+    .title {
+      color: v.$primary-color;
+      text-align: center;
+      margin: 90px 0 10px 0;
+    }
+
+    .sub-title {
+      font-size: 12px;
+      font-weight: 400;
+      color: v.$text-color-3;
+      text-align: center;
+    }
+
+    .input-wrapper {
+      margin-top: 50px;
+
+      input {
+        width: 100%;
+      }
+    }
+
+    .next-btn-wrapper {
+      margin-top: 50px;
+
+      .col {
+        text-align: end;
+      }
+    }
+  }
+
+  /*
+  * FORM SLIDE ANIMATION STYLES
+  */
+  @keyframes showMe {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  .step-wrapper {
+    width: 820px;
+    height: 220px;
+    position: relative;
+    display: flex;
+    gap: 10px;
+
+    .step-1,
+    .step-2 {
+      width: 400px;
+      position: relative;
+      display: block;
+    }
+  }
+
+  .step-wrapper.show-email {
+    left: 0px;
+
+    .step-1 {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .step-2 {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  .step-wrapper.show-password {
+    left: -410px;
+
+    .step-1 {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .step-2 {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .step-wrapper.animate {
+    transition: linear;
+    transition-duration: 0.5s;
+  }
+
+  .step-1.step-visible {
+    animation-duration: 0.5s;
+    animation-name: showMe;
+  }
+
+  .step-2.step-visible {
+    animation-duration: 0.5s;
+    animation-name: showMe;
+  }
+}
