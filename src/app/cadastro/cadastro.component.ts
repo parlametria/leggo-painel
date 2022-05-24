@@ -41,6 +41,7 @@ export class CadastroComponent implements OnInit, OnDestroy {
   isLoading = new BehaviorSubject<boolean>(true);
   showPassword = false;
   disableButton = false;
+  stage: 'creation' | 'loading' | 'created' = 'creation';
   primeiroNome = '';
   ultimoNome = '';
   email = '';
@@ -86,14 +87,17 @@ export class CadastroComponent implements OnInit, OnDestroy {
       password: this.password.trim(),
     };
 
+    this.stage = 'loading';
     this.usuarioService.criarNovoUsuario(data)
       .subscribe(
         usuario => {
           console.log(usuario);
           this.disableButton = false;
+          this.stage = 'created';
         }, err => {
           const keys = Object.keys(err.error);
           this.applyErrorOnCheck('email', keys.includes('email'), 'E-mail inválido ou já está em uso');
+          this.stage = 'creation';
         }
       ).add(() => {
         this.disableButton = false;
