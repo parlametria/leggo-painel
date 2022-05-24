@@ -15,10 +15,17 @@ export class LoginComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject();
   isLoading = new BehaviorSubject<boolean>(true);
 
-  private currentStep: 'email' | 'password' = 'email';
-  private animate = false;
-  email: string;
-  password: string;
+  currentStage: 1 | 2 = 1;
+  showDropDown = false;
+  email = '';
+  password = '';
+  showPassword = false;
+  disableButton = false;
+
+  errors = {
+    email: { texto: '', error: false },
+    password: { texto: '', error: false },
+  };
 
   constructor(
     private readonly router: Router,
@@ -34,42 +41,56 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  get formStage(): string[] {
-    return ['step-wrapper', 'show-' + this.currentStep, this.animate ? 'animate' : ''];
-  }
-
-  get step1() {
-    const kclass = ['step-1'];
-
-    if (this.animate && this.currentStep === 'email') {
-      kclass.push('step-visible');
+  verificaEmail() {
+    if (this.email.trim().length === 0) {
+      this.errors.email.error = true;
+      this.errors.email.texto = 'Campo não pode estar vazio';
+      return;
     }
 
-    return kclass;
+    this.mudarStage(2);
   }
 
-  get step2() {
-    const kclass = ['step-2'];
-
-    if (this.animate && this.currentStep === 'password') {
-      kclass.push('step-visible');
+  verificaPassword() {
+    if (this.password.trim().length === 0) {
+      this.errors.password.error = true;
+      this.errors.password.texto = 'Campo não pode estar vazio';
+      return;
     }
 
-    return kclass;
+    this.executarLogin();
   }
 
-  showInput(input: 'email' | 'password') {
-    this.currentStep = input;
-    this.animate = true;
+  mudarStage(stage: 1 | 2) {
+    this.limpaErros();
+    this.currentStage = stage;
+    this.showDropDown = false;
   }
 
   executarLogin() {
+    this.limpaErros();
+    this.disableButton = true;
+
     const email = this.email.trim();
     const password = this.password.trim();
 
     this.autenticacaoService.obterToken(email, password)
       .subscribe(authData => {
         console.log(authData);
+      }, err => {
+        if (err.status === 401 && err.error.detail.includes('credentials')) {
+          this.errors.password.error = true;
+          this.errors.password.texto = 'Email ou senha incorretos';
+        }
+      }).add(() => {
+        this.disableButton = false;
       });
+  }
+
+  limpaErros() {
+    this.errors = {
+      email: { texto: '', error: false },
+      password: { texto: '', error: false },
+    };
   }
 }

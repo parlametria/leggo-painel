@@ -10,6 +10,43 @@
   z-index: 0;
 }
 
+.display-password-wrapper {
+  display: flex;
+  gap: 3px;
+  cursor: pointer;
+}
+
+.form-row {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.display-password, .forgot-password {
+  color: v.$util-grey-color;
+  font-size: 12px;
+  line-height: 20px;
+  cursor: pointer;
+
+  &:hover {
+    color: v.$text-color-3;
+  }
+}
+
+i.icon-eye {
+  display: block;
+  width: 24px;
+  height: 24px;
+  background-image: url(/assets/icons/eye.svg);
+}
+
+i.icon-eye-slash {
+  display: block;
+  width: 24px;
+  height: 24px;
+  background-image: url(/assets/icons/eye-slash.svg);
+}
+
+
 .painels-wrapper {
   display: flex;
   padding: 0;
@@ -26,6 +63,7 @@
   background-color: #fff;
   display: flex;
   justify-content: center;
+  flex-direction: column;
 }
 
 .right-painel {
@@ -41,7 +79,7 @@
 }
 
 .parla-logo-row {
-  margin-top: 15rem;
+  margin-top: 25rem;
   font-size: 12px;
   color: v.$text-color-3;
   text-align: center;
@@ -62,9 +100,22 @@
     border: none;
     color: v.$primary-variant-color;
     font-weight: 500;
+    align-self: center;
+
+    .error {
+      color: v.$warning-color;
+      font-size: 12px;
+    }
 
     label {
       color: v.$primary-color;
+    }
+
+    .stage-title-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
     }
 
     .title {
@@ -88,11 +139,70 @@
       }
     }
 
+    .input-wrapper.email-wrapper {
+      margin-top: 95px;
+    }
+
     .next-btn-wrapper {
       margin-top: 50px;
 
       .col {
         text-align: end;
+      }
+    }
+
+    .dropdown-menu.is-visible {
+      display: block;
+    }
+    .dropdown-menu {
+      border: solid 1px v.$primary-color;
+      font-size: 12px;
+      color: v.$text-color-3;
+
+      .dropdown-item {
+        cursor: pointer;
+      }
+    }
+
+    .display-password-and-forgot-password-wrapper {
+      margin-top: 1rem;
+    }
+  }
+
+  .change-email-wrapper {
+    display: flex;
+    width: fit-content;
+    max-width: 400px;
+    height: 36px;
+    padding: 5px 10px;
+    flex-direction: row;
+    gap: 1rem;
+    border: solid 1px v.$primary-color;
+    border-radius: 25px;
+    margin-top: 2rem;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 0 0 3px rgba(121, 82, 179, 0.25);
+    }
+
+    .avatar-wrapper {}
+
+    .email-wrapper {
+      color: v.$text-color-3;
+      font-size: 12px;
+      line-height: 22px;
+      overflow-x: scroll;
+    }
+
+    .arrow-wrapper {
+      img {
+        width: 12px;
+        height: 12px;
+      }
+
+      img.rotate180 {
+        rotate: 180deg;
       }
     }
   }
@@ -110,60 +220,20 @@
     }
   }
 
-  .step-wrapper {
-    width: 820px;
-    height: 220px;
-    position: relative;
-    display: flex;
-    gap: 10px;
-
-    .step-1,
-    .step-2 {
-      width: 400px;
-      position: relative;
-      display: block;
-    }
+  .stage-1,
+  .stage-2 {
+    width: 400px;
+    display: none;
   }
 
-  .step-wrapper.show-email {
-    left: 0px;
-
-    .step-1 {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .step-2 {
-      opacity: 0;
-      visibility: hidden;
-    }
-  }
-
-  .step-wrapper.show-password {
-    left: -410px;
-
-    .step-1 {
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    .step-2 {
-      opacity: 1;
-      visibility: visible;
-    }
-  }
-
-  .step-wrapper.animate {
-    transition: linear;
-    transition-duration: 0.5s;
-  }
-
-  .step-1.step-visible {
+  .stage-1.stage-visible {
+    display: block;
     animation-duration: 0.5s;
     animation-name: showMe;
   }
 
-  .step-2.step-visible {
+  .stage-2.stage-visible {
+    display: block;
     animation-duration: 0.5s;
     animation-name: showMe;
   }
