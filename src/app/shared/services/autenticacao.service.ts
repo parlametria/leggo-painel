@@ -20,7 +20,7 @@ export class AutenticacaoService {
     private http: HttpClient) { }
 
   obterToken(email: string, password: string): Observable<AutenticacaoModel> {
-    return this.http.post<AuthTokenModel>(`${this.tokenUrl}`, { email, password })
+    return this.http.post<AuthTokenModel>(`${this.tokenUrl}`, { username: email, password })
       .pipe(
         map(token => ({
           email,

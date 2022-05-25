@@ -6,3 +6,15 @@ export interface UsuarioModel {
   ultimo_nome: string;
   empresa?: string;
 }
+
+export interface UsuarioApiModel {
+  empresa: string;
+  usuario: {
+    id?: number;
+    email: string;
+    first_name: string;
+    last_name: string;
+    is_active: true,
+    is_staff: true
+  };
+}

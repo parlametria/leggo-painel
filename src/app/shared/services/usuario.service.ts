@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../../environments/environment';
 
-import { UsuarioModel } from 'src/app/shared/models/usuario.model';
+import { UsuarioModel, UsuarioApiModel } from 'src/app/shared/models/usuario.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,16 @@ export class UsuarioService {
     private http: HttpClient) { }
 
   criarNovoUsuario(dados: UsuarioModel) {
-    return this.http.post<UsuarioModel>(this.usuariosUrl, dados);
+    const criacaoPostData = {
+      empresa: dados.empresa,
+      usuario: {
+        email: dados.email,
+        first_name: dados.primeiro_nome,
+        last_name: dados.ultimo_nome,
+        password: dados.password,
+      }
+    };
+
+    return this.http.post<UsuarioApiModel>(this.usuariosUrl, criacaoPostData);
   }
 }
