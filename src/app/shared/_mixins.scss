@@ -46,3 +46,20 @@
     }
   }
 }
+
+
+@mixin icons-eye {
+  i.icon-eye {
+    display: block;
+    width: 24px;
+    height: 24px;
+    background-image: url(/assets/icons/eye.svg);
+  }
+
+  i.icon-eye-slash {
+    display: block;
+    width: 24px;
+    height: 24px;
+    background-image: url(/assets/icons/eye-slash.svg);
+  }
+}

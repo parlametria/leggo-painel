@@ -1,4 +1,5 @@
 @use '../shared/variables' as v;
+@use '../shared/mixins' as m;
 
 .background-wrapper {
   background-image: url(/assets/imgs/homepage-bg.png);
@@ -60,6 +61,8 @@
 .cadastro-page {
   padding: 0;
   margin: 0;
+
+  @include m.icons-eye;
 
   .new-user-form {
     position: relative;
@@ -227,18 +230,4 @@
       }
     }
   }
-}
-
-i.icon-eye {
-  display: block;
-  width: 24px;
-  height: 24px;
-  background-image: url(/assets/icons/eye.svg);
-}
-
-i.icon-eye-slash {
-  display: block;
-  width: 24px;
-  height: 24px;
-  background-image: url(/assets/icons/eye-slash.svg);
 }

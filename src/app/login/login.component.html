@@ -49,7 +49,9 @@
                 <div class="dropdown">
                   <div [ngClass]="['change-email-wrapper', showDropDown ? 'opened' : '']"
                     (click)="showDropDown = !showDropDown">
-                    <div class="avatar-wrapper">😀</div>
+                    <div class="avatar-wrapper">
+                      <img src="/assets/imgs/avatar.svg" alt="icon avatar" />
+                    </div>
                     <div class="email-wrapper">{{email}}</div>
                     <div class="arrow-wrapper">
                       <img class="rotate180" src="/assets/imgs/chevron-solid.svg" alt="icon arrow" />

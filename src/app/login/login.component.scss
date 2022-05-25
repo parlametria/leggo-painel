@@ -1,4 +1,5 @@
 @use '../shared/variables' as v;
+@use '../shared/mixins' as m;
 
 .background-wrapper {
   background-image: url(/assets/imgs/homepage-bg.png);
@@ -30,20 +31,6 @@
   &:hover {
     color: v.$text-color-3;
   }
-}
-
-i.icon-eye {
-  display: block;
-  width: 24px;
-  height: 24px;
-  background-image: url(/assets/icons/eye.svg);
-}
-
-i.icon-eye-slash {
-  display: block;
-  width: 24px;
-  height: 24px;
-  background-image: url(/assets/icons/eye-slash.svg);
 }
 
 
@@ -95,6 +82,8 @@ i.icon-eye-slash {
 }
 
 .login-page {
+  @include m.icons-eye;
+
   .form-wrapper {
     width: 420px;
     border: none;
@@ -186,7 +175,12 @@ i.icon-eye-slash {
       box-shadow: 0 0 0 3px rgba(121, 82, 179, 0.25);
     }
 
-    .avatar-wrapper {}
+    .avatar-wrapper {
+      img {
+        width: 21px;
+        height: 21px;
+      }
+    }
 
     .email-wrapper {
       color: v.$text-color-3;
