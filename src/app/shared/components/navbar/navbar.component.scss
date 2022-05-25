@@ -77,3 +77,43 @@
 .navbar-link-icon:hover {
   text-decoration: none;
 }
+
+.access-bar {
+  display: flex;
+  padding: 1rem 4rem;
+  line-height: 20px;
+  justify-content: flex-end;
+  align-items: center;
+  background-image: linear-gradient(to right, #6942A3, #391774);
+  height: 34px;
+  color: #ccc0e0;
+  font-size: 14px;
+
+  ul {
+    display: inline-block;
+    list-style: none;
+    padding:0;
+    margin-top: 1rem;
+
+
+    li {
+      display: inline;
+      margin-top: 0;
+      margin-right: 1rem;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  a.login-link {
+    color: #ccc0e0;
+  }
+
+  img.enter-icon {
+    width: 22px;
+    height: 22px;
+    margin-right: 0.2rem;
+  }
+}
