@@ -35,8 +35,8 @@ export function ordenaProgressoProposicao(resumoProgresso) {
       });
     }
     resumoProgresso = resumoProgresso.map((r, i, l) => {
-      if (i%2 && i < 6) {
-        r.local_casa = l[i-1].local_casa;
+      if (i % 2 && i < 6) {
+        r.local_casa = l[i - 1].local_casa;
       }
       return r;
     });

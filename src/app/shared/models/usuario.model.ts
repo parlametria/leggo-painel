@@ -7,14 +7,16 @@ export interface UsuarioModel {
   empresa?: string;
 }
 
+export interface UsuarioBase {
+  id?: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+  is_active: boolean;
+  is_staff: boolean;
+}
+
 export interface UsuarioApiModel {
   empresa: string;
-  usuario: {
-    id?: number;
-    email: string;
-    first_name: string;
-    last_name: string;
-    is_active: true,
-    is_staff: true
-  };
+  usuario: UsuarioBase;
 }
