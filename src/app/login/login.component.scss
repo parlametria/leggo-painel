@@ -1,16 +1,6 @@
 @use '../shared/variables' as v;
 @use '../shared/mixins' as m;
 
-.background-wrapper {
-  background-image: url(/assets/imgs/homepage-bg.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  z-index: 0;
-}
-
 .display-password-wrapper {
   display: flex;
   gap: 3px;
@@ -37,15 +27,14 @@
 .painels-wrapper {
   display: flex;
   padding: 0;
-  margin: 5rem 0 0 0;
-  height: 100%;
-  max-width: 1250px;
+  height: 100vh;
+  width: 100%;
   z-index: 1;
 }
 
 .left-painel {
-  width: 750px;
-  height: 775px;
+  width: 50%;
+  min-width: 675px;
   padding: 10px;
   background-color: #fff;
   display: flex;
@@ -54,19 +43,16 @@
 }
 
 .right-painel {
-  width: 500px;
-  height: 775px;
 
   img {
     position: absolute;
-    width: 450px;
-    height: 280px;
-    margin: 10px 0 0 20px;
+    width: 25%;
+    margin: 2% 0 0 2%;
   }
 }
 
 .parla-logo-row {
-  margin-top: 25rem;
+  margin-top: 30%;
   font-size: 12px;
   color: v.$text-color-3;
   text-align: center;
@@ -81,11 +67,14 @@
   }
 }
 
+@include m.fullscreen-background;
+
 .login-page {
   @include m.icons-eye;
 
   .form-wrapper {
     width: 420px;
+    height: 70%;
     border: none;
     color: v.$primary-variant-color;
     font-weight: 500;

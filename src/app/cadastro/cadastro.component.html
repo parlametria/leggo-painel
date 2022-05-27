@@ -2,8 +2,8 @@
 
 <div class="background-wrapper"></div>
 
-<div class="container-fluid cadastro-page">
-  <div class="d-flex justify-content-center">
+<div class="cadastro-page">
+  <div class="d-flex">
 
     <div *ngIf="stage === 'creation'" class="new-user-form">
 
@@ -107,18 +107,19 @@
               </div>
             </div>
 
-            <div class="form-row">
-              <div class="form-col-full-width login-redirect-block">
-                <a routerLink="/">
-                  <img src="/assets/imgs/logotipo-parlametria.png" />
-                </a>
+          </div><!-- /.form-wrapper -->
 
-                <div>
-                  Já é cadastrado? <a routerLink="/login">Faça o Login</a>
-                </div>
+          <div class="col parla-logo-row">
+            <div class="col">
+              <a routerLink="/">
+                <img src="/assets/imgs/logotipo-parlametria.png" />
+              </a>
+
+              <div>
+                Já é cadastrado? <a routerLink="/login">Faça o Login</a>
               </div>
             </div>
-          </div>
+          </div><!-- /.parla-logo-row -->
 
         </div><!-- /.left-painel-->
 

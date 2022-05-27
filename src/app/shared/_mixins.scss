@@ -63,3 +63,16 @@
     background-image: url(/assets/icons/eye-slash.svg);
   }
 }
+
+@mixin fullscreen-background {
+  .background-wrapper {
+    background-image: url(/assets/imgs/homepage-bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 0;
+    filter: blur(4px);
+  }
+}

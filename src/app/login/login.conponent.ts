@@ -77,6 +77,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.autenticacaoService.obterToken(email, password)
       .subscribe(authData => {
         console.log(authData);
+        this.router.navigate([''], {});
       }, err => {
         if (err.status === 401 && err.error.detail.includes('credentials')) {
           this.errors.password.error = true;
