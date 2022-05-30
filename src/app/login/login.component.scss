@@ -7,11 +7,6 @@
   cursor: pointer;
 }
 
-.form-row {
-  width: 100%;
-  justify-content: space-between;
-}
-
 .display-password, .forgot-password {
   color: v.$util-grey-color;
   font-size: 12px;
@@ -24,69 +19,19 @@
 }
 
 
-.painels-wrapper {
-  display: flex;
-  padding: 0;
-  height: 100vh;
-  width: 100%;
-  z-index: 1;
-}
-
-.left-painel {
-  width: 50%;
-  min-width: 675px;
-  padding: 10px;
-  background-color: #fff;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.right-painel {
-
-  img {
-    position: absolute;
-    width: 25%;
-    margin: 2% 0 0 2%;
-  }
-}
-
-.parla-logo-row {
-  margin-top: 30%;
-  font-size: 12px;
-  color: v.$text-color-3;
-  text-align: center;
-
-  img {
-    width: 180px;
-    height: 20px;
-  }
-
-  a {
-    font-size: 14px;
-  }
-}
-
 @include m.fullscreen-background;
+@include m.cadastro-e-login-estrutura-base;
 
 .login-page {
   @include m.icons-eye;
 
   .form-wrapper {
     width: 420px;
-    height: 70%;
-    border: none;
-    color: v.$primary-variant-color;
-    font-weight: 500;
     align-self: center;
 
-    .error {
-      color: v.$warning-color;
-      font-size: 12px;
-    }
-
-    label {
-      color: v.$primary-color;
+    .form-row {
+      width: 100%;
+      justify-content: space-between;
     }
 
     .stage-title-wrapper {
