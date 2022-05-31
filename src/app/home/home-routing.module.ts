@@ -13,6 +13,7 @@ import { NaMidiaComponent } from 'src/app/na-midia/na-midia.component';
 import { RelatoriosComponent } from 'src/app/relatorios/relatorios.component';
 import { CadastroComponent } from 'src/app/cadastro/cadastro.component';
 import { LoginComponent } from 'src/app/login/login.conponent';
+import { PoliticasDePrivacidadeComponent } from 'src/app/politicas-de-privacidade/politicas-de-privacidade.component';
 
 
 const routes: Routes = [
@@ -64,6 +65,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'politicas-e-termos-de-privacidade',
+    component: PoliticasDePrivacidadeComponent
   },
   {
     path: 'parlamentares/:id',

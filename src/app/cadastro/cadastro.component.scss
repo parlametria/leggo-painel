@@ -66,6 +66,14 @@
           height: 16px;
         }
       }
+
+      .termos-link {
+        text-decoration: underline;
+
+        &:hover {
+          font-weight: 600;
+        }
+      }
     }
 
     .display-password-wrapper {

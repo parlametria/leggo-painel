@@ -24,6 +24,7 @@ import { NaMidiaComponent } from 'src/app/na-midia/na-midia.component';
 import { RelatoriosComponent } from 'src/app/relatorios/relatorios.component';
 import { CadastroComponent } from 'src/app/cadastro/cadastro.component';
 import { LoginComponent } from 'src/app/login/login.conponent';
+import { PoliticasDePrivacidadeComponent } from 'src/app/politicas-de-privacidade/politicas-de-privacidade.component';
 
 import { AderenciaComponent } from '../atividade-parlamentar/aderencia/aderencia.component';
 import { CongressoChartComponent } from '../atividade-parlamentar/aderencia/congresso-chart/congresso-chart.component';
@@ -66,6 +67,7 @@ import { FiltroLateralModule } from '../atividade-parlamentar/filtro-lateral/fil
     RelatoriosComponent,
     CadastroComponent,
     LoginComponent,
+    PoliticasDePrivacidadeComponent,
   ],
   imports: [
     CommonModule,
