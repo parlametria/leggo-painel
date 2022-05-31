@@ -30,7 +30,7 @@ const DEFAULT_ERRORS = Object.freeze({
 });
 
 @Component({
-  selector: 'app-projetos',
+  selector: 'app-cadastro',
   templateUrl: './cadastro.component.html',
   styleUrls: ['./cadastro.component.scss']
 })

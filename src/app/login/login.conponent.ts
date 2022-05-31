@@ -6,7 +6,7 @@ import { Subject, BehaviorSubject } from 'rxjs';
 import { AutenticacaoService } from 'src/app/shared/services/autenticacao.service';
 
 @Component({
-  selector: 'app-projetos',
+  selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
