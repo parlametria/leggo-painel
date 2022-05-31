@@ -31,10 +31,16 @@
   <ul>
     <li>Área restrita</li>
     <li>|</li>
-    <li>
+    <li *ngIf="autenticacao === null">
       <a class="login-link" routerLink="/login">
         <img class="enter-icon" src="/assets/icons/enter.svg" />
         Entrar
+      </a>
+    </li>
+    <li *ngIf="autenticacao !== null">
+      <a class="login-link" (click)="deslogar()">
+        <img class="enter-icon" src="/assets/icons/leave.svg" />
+        Sair
       </a>
     </li>
   </ul>

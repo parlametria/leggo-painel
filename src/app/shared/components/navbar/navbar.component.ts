@@ -7,6 +7,9 @@ import { takeUntil } from 'rxjs/operators';
 import { InteresseService } from '../../services/interesse.service';
 import { Interesse } from '../../models/interesse.model';
 
+import { AutenticacaoService } from 'src/app/shared/services/autenticacao.service';
+import { AutenticacaoModel } from 'src/app/shared/models/autenticacao.model';
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -21,11 +24,14 @@ export class NavbarComponent implements OnInit {
 
   public interesseParam: string;
 
+  public autenticacao: AutenticacaoModel = null;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private interesseService: InteresseService,
     public router: Router,
-  ) {}
+    private autenticacaoService: AutenticacaoService,
+  ) { }
 
   @HostListener('window:scroll', ['$event']) onScrollEvent($event) {
     this.changeNavbar(window.scrollY);
@@ -34,17 +40,20 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.getInteresses();
     this.router.events
-    .pipe(takeUntil(this.unsubscribe))
-    .subscribe((event) => {
-      if (event instanceof ActivationStart) {
-        this.interesseParam = event.snapshot.params.interesse;
-        if (this.interesseParam !== undefined) {
-          this.getInteresse(this.interesseParam);
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((event) => {
+        if (event instanceof ActivationStart) {
+          this.interesseParam = event.snapshot.params.interesse;
+          if (this.interesseParam !== undefined) {
+            this.getInteresse(this.interesseParam);
+          }
         }
-      }
-    });
+      });
     this.activatedRoute.queryParams.subscribe((params) => {
       this.searchText = params.text || '';
+    });
+    this.autenticacaoService.getAutenticacao().subscribe(model => {
+      this.autenticacao = model;
     });
   }
 
@@ -99,5 +108,9 @@ export class NavbarComponent implements OnInit {
     } else {
       navbar.style.top = '-90px';
     }
+  }
+
+  deslogar() {
+    this.autenticacaoService.setAutenticacao(null);
   }
 }

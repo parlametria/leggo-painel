@@ -109,6 +109,11 @@
 
   a.login-link {
     color: #ccc0e0;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   img.enter-icon {
