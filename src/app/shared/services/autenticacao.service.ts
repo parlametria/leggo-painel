@@ -17,8 +17,8 @@ const STORE_TOKEN_KEY = 'autenticacao';
 export class AutenticacaoService {
 
   private readonly tokenUrl = `${environment.baseUrl}/autenticacao/token/`;
-  private readonly refreshTokenUrl = `${this.tokenUrl}/refresh/`;
-  private readonly verifyTokenUrl = `${this.tokenUrl}/verify/`;
+  private readonly refreshTokenUrl = `${this.tokenUrl}refresh/`;
+  private readonly verifyTokenUrl = `${this.tokenUrl}verify/`;
 
   private autenticacao = new BehaviorSubject<AutenticacaoModel | null>(null);
 
