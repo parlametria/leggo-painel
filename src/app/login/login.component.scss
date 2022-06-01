@@ -120,7 +120,8 @@
       color: v.$text-color-3;
       font-size: 12px;
       line-height: 22px;
-      overflow-x: scroll;
+      max-width: 315px;
+      overflow-x: hidden;
     }
 
     .arrow-wrapper {
