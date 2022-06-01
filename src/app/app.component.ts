@@ -22,7 +22,6 @@ export class AppComponent implements OnInit {
   showNavbar = true;
 
   private unsubscribe = new Subject();
-  private refreshTokenExpirado = false;
 
   constructor(
     private readonly router: Router,
@@ -62,12 +61,6 @@ export class AppComponent implements OnInit {
   }
 
   private verificarValidadeAuthToken(model: AutenticacaoModel) {
-    if (this.refreshTokenExpirado) {
-      // desloga usuario se refresh token esta expirado
-      this.autenticacaoService.setAutenticacao(null);
-      return;
-    }
-
     this.autenticacaoService
       .verificarToken(model)
       .pipe(takeUntil(this.unsubscribe))
@@ -96,7 +89,6 @@ export class AppComponent implements OnInit {
         },
         err => {
           // erro na atualização, então o refresh token esta expirado
-          this.refreshTokenExpirado = true;
           console.log('refresh token esta expirado, deslogando usuario');
           this.autenticacaoService.setAutenticacao(null);
         }

@@ -90,7 +90,7 @@
 
   .left-painel {
     width: 50%;
-    min-width: 675px;
+    min-width: 620px;
     height: 100%;
     padding: 10px;
     background-color: #fff;
@@ -107,9 +107,22 @@
     }
   }
 
+  @media (max-width: 1000px) {
+    .right-painel {
+      img {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 680px) {
+    .right-painel {
+      display: none;
+    }
+  }
+
   .parla-logo-row {
-    margin-top: 20%;
-    margin-bottom: 10%;
+    margin-top: 15%;
     font-size: 12px;
     color: v.$text-color-3;
     text-align: center;

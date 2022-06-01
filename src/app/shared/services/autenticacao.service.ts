@@ -79,9 +79,7 @@ export class AutenticacaoService {
 
     if (model === null) {
       this.autenticacao.next(null);
-    }
-
-    if (model.token.access !== current?.token.access) {
+    } else if (model.token.access !== current?.token.access) {
       this.autenticacao.next(model);
     }
 
