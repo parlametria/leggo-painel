@@ -13,6 +13,7 @@ export class Parlamentar {
   public votacoes: any;
   public alinhamento?: any;
   public comissoes?: ComposicaoComissao[];
+  public idPerfilPolitico?: string;
 
   constructor(parlamentar: any) {
     this.idParlamentarVoz = parlamentar.id_parlamentar_voz;
@@ -26,6 +27,7 @@ export class Parlamentar {
     this.votacoes = parlamentar.votacoes;
     this.alinhamento = parlamentar.alinhamento;
     this.comissoes = parlamentar.parlamentarComissoes;
+    this.idPerfilPolitico = parlamentar?.id_perfil_politico;
   }
 
   getFoto(): string {

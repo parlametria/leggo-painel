@@ -1,0 +1,6 @@
+<app-loading *ngIf="isLoading | async"></app-loading>
+
+<div class="patrimonio-e-despesas">
+  <h3 class="titulo-sessao">Evolução de Patrimônio</h3>
+  <app-grafico-patrimonio *ngIf="obtevePatrimonio" [patrimonio]="patrimonio"></app-grafico-patrimonio>
+</div>
