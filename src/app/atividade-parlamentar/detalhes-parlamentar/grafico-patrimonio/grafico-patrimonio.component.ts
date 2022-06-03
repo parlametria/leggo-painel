@@ -7,9 +7,9 @@ import * as d3 from 'd3';
 
 import { Patrimonio } from 'src/app/shared/models/candidato-serenata';
 
-const margin = { top: 10, right: 30, bottom: 30, left: 60 };
-const width = 460 - margin.left - margin.right;
-const height = 400 - margin.top - margin.bottom;
+const margin = { top: 40, right: 30, bottom: 30, left: 60 };
+const width = 620 - margin.left - margin.right;
+const height = 440 - margin.top - margin.bottom;
 
 type GraphData = {
   date: Date;
@@ -26,16 +26,15 @@ export class GraficoPatrimonioComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject();
   @Input() patrimonio: Patrimonio[] = [];
 
-  public isLoading = new BehaviorSubject<boolean>(true);
+  isLoading = new BehaviorSubject<boolean>(true);
 
-  public svg: d3.Selection<SVGGElement, any, HTMLElement, any> = null;
-  public g: d3.Selection<SVGGElement, any, HTMLElement, any> = null;
-  public xScale: d3.ScaleTime<number, number> = null;
-  public yScale: d3.ScaleLinear<number, number> = null;
+  svg: d3.Selection<SVGGElement, any, HTMLElement, any> = null;
+  g: d3.Selection<SVGGElement, any, HTMLElement, any> = null;
+  xScale: d3.ScaleTime<number, number> = null;
+  yScale: d3.ScaleLinear<number, number> = null;
+  yLabel: 'mil' | 'milhões' = 'mil';
 
-  public dataset: GraphData[] = [
-
-  ];
+  dataset: GraphData[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -49,7 +48,15 @@ export class GraficoPatrimonioComponent implements OnInit, OnDestroy {
         value: p.value
       }));
 
-    this.isLoading.next(false);
+    const maxValueDigits =
+      parseInt(
+        this.patrimonio.reduce((acc, cur) => cur.value > acc ? cur.value : acc, 0)
+          .toString(),
+        10)
+        .toString()
+        .length;
+
+    this.yLabel = maxValueDigits >= 7 ? 'milhões' : 'mil';
 
     this.buildGraph();
   }
@@ -81,6 +88,8 @@ export class GraficoPatrimonioComponent implements OnInit, OnDestroy {
     this.addAxis();
     this.scatterDots();
     this.plotLines();
+    this.addLabels();
+    // this.addGridlines();
   }
 
   private addAxis() {
@@ -111,14 +120,13 @@ export class GraficoPatrimonioComponent implements OnInit, OnDestroy {
       .attr('r', 8)
       .attr('transform', 'translate(' + 0 + ',' + 0 + ')')
       .style('fill', '#5a44a0');
-
   }
 
   private plotLines() {
     const line = d3.line<GraphData>()
       .x((d) => this.xScale(d.date))
-      .y((d) => this.yScale(d.value))
-      .curve(d3.curveMonotoneX);
+      .y((d) => this.yScale(d.value));
+      // .curve(d3.curveMonotoneX);
 
     this.svg.append('path')
       .datum(this.dataset)
@@ -128,6 +136,40 @@ export class GraficoPatrimonioComponent implements OnInit, OnDestroy {
       .style('fill', 'none')
       .style('stroke', '#5a44a0')
       .style('stroke-width', 4);
+  }
+
+  private addLabels() {
+    this.svg.append('text')
+      .attr('class', 'y label')
+      .attr('text-anchor', 'end')
+      .attr('y', -20)
+      .attr('x', this.yLabel === 'mil' ? 0 : 28)
+      .attr('dy', '.75em')
+      .attr('transform', 'rotate(0)')
+      .text(`R$ ${this.yLabel}`);
+  }
+
+  private addGridlines() {
+    // add the X gridlines
+    this.svg.append('g')
+      .attr('class', 'grid')
+      .attr('transform', 'translate(0,' + height + ')')
+      .call(
+        d3.axisBottom(this.xScale)
+          .ticks(this.dataset.length)
+          .tickSize(-height)
+          .tickFormat('' as any)
+      );
+
+    // add the Y gridlines
+    this.svg.append('g')
+      .attr('class', 'grid')
+      .call(
+        d3.axisLeft(this.yScale)
+          .ticks(this.dataset.length)
+          .tickSize(-width)
+          .tickFormat('' as any)
+      );
   }
 
   ngOnDestroy() {
