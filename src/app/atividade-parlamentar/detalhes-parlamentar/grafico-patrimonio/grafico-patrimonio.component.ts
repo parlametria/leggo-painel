@@ -1,15 +1,11 @@
 import { Component, OnDestroy, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
-import { Subject, BehaviorSubject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import * as d3 from 'd3';
+import d3Tip from 'd3-tip';
 
 import { Patrimonio } from 'src/app/shared/models/candidato-serenata';
-
-const margin = { top: 40, right: 30, bottom: 30, left: 60 };
-const width = 620 - margin.left - margin.right;
-const height = 440 - margin.top - margin.bottom;
 
 type GraphData = {
   date: Date;
@@ -18,27 +14,38 @@ type GraphData = {
 
 @Component({
   selector: 'app-grafico-patrimonio',
-  template: `<div id='patrimonio-chart' class='grafico-patrimonio'></div>`,
-  styleUrls: ['./grafico-patrimonio.component.scss']
+  template: `
+  <div class='patrimonio-chart'>
+    <div id='patrimonio-chart-wrapper'></div>
+  </div>`,
+  styleUrls: []
 })
 export class GraficoPatrimonioComponent implements OnInit, OnDestroy {
 
   private unsubscribe = new Subject();
+  // Because of Y label "R$ ...", have to move to add 80px distance on the left in the dots and lines
+  private readonly leftDistanceAdjust = 80;
   @Input() patrimonio: Patrimonio[] = [];
 
-  isLoading = new BehaviorSubject<boolean>(true);
+  width: number;
+  height: number;
+  totalWidth: number;
+  totalHeight: number;
+  margin: { top: number, right: number, bottom: number, left: number };
 
   svg: d3.Selection<SVGGElement, any, HTMLElement, any> = null;
   g: d3.Selection<SVGGElement, any, HTMLElement, any> = null;
-  xScale: d3.ScaleTime<number, number> = null;
-  yScale: d3.ScaleLinear<number, number> = null;
-  yLabel: 'mil' | 'milhões' = 'mil';
+  x: d3.ScaleTime<number, number>;
+  y: d3.ScaleLinear<number, number>;
+  xAxis: d3.Axis<number | Date | { valueOf(): number }>;
+  yAxis: d3.Axis<number | Date | { valueOf(): number }>;
+
+  lines: d3.Line<GraphData>;
+  points: d3.Selection<SVGCircleElement, GraphData, SVGGElement, any>;
+  tipPatrimonio: any;
+  numberFormat: any;
 
   dataset: GraphData[] = [];
-
-  constructor(
-    private activatedRoute: ActivatedRoute,
-  ) { }
 
   ngOnInit(): void {
     this.dataset = this.patrimonio
@@ -48,128 +55,199 @@ export class GraficoPatrimonioComponent implements OnInit, OnDestroy {
         value: p.value
       }));
 
-    const maxValueDigits =
-      parseInt(
-        this.patrimonio.reduce((acc, cur) => cur.value > acc ? cur.value : acc, 0)
-          .toString(),
-        10)
-        .toString()
-        .length;
-
-    this.yLabel = maxValueDigits >= 7 ? 'milhões' : 'mil';
-
     this.buildGraph();
   }
 
   private buildGraph() {
+    const container: any = d3.select('#patrimonio-chart-wrapper').node();
+
+    this.width = (container.offsetWidth < 580) ? 300 : 600;
+    this.height = this.width - (this.width * 0.3);
+    this.margin = {
+      left: this.leftDistanceAdjust,
+      right: 20,
+      top: 0,
+      bottom: 30
+    };
+    this.totalWidth = this.width + this.margin.left + this.margin.right + this.leftDistanceAdjust; // +80 for Y label "R$ ..."
+    this.totalHeight = this.height + this.margin.top + this.margin.top + 10; // + 10 for X values
+
     // Prepare SVG
-    this.svg = d3.select('#patrimonio-chart')
+    this.svg = d3.select('#patrimonio-chart-wrapper')
       .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
-      .append('g')
+      .data(this.dataset)
+      .attr('width', this.width + this.margin.left + this.margin.right)
+      .attr('height', this.height + this.margin.top + this.margin.bottom)
+      .attr('viewBox', '0 0 ' + this.totalWidth + ' ' + this.totalHeight);
+    this.g = this.svg.append('g')
       .attr('transform',
-        'translate(' + margin.left + ',' + margin.top + ')');
+        'translate(' + this.margin.left + ',' + this.margin.top + ')');
 
     // Prepare x & y scales
+    this.x = d3.scaleTime().range([0, this.width]);
+    this.y = d3.scaleLinear().range([this.height, 0]);
+    this.xAxis = d3.axisBottom(this.x)
+      .tickFormat(d3.timeFormat('%Y'))
+      .tickSize(this.height)
+      .ticks(d3.timeYear);
+    this.yAxis = d3
+      .axisRight(this.y)
+      .tickSize(this.width);
+    this.numberFormat = d3.format('.2f');
 
-    this.xScale = d3.scaleTime()
-      .domain(d3.extent(this.dataset, (d) => d.date))
-      .range([0, width]);
-
-    this.yScale = d3.scaleLinear()
-      .domain(d3.extent(this.dataset, (d) => d.value))
-      .range([height / 2, 0]);
-
-    // Prepare g
-    this.g = this.svg.append('g')
-      .attr('transform', 'translate(' + 0 + ',' + 0 + ')');
-
-    this.addAxis();
+    this.drawXAxis();
+    this.drawYAxis();
     this.scatterDots();
     this.plotLines();
-    this.addLabels();
-    // this.addGridlines();
+    this.addTooltip();
   }
 
-  private addAxis() {
-    const x = d3.scaleTime()
-      .domain(d3.extent(this.dataset, (d) => d.date))
-      .range([0, width]);
+  private drawXAxis() {
+    const minDate = new Date(+d3.min(this.patrimonio, (d: any) => d.year) - 1, 0, 1);
+    const maxDate = new Date(+d3.max(this.patrimonio, (d: any) => d.year), 11, 30);
+    this.x.domain([minDate, maxDate]);
 
-    this.svg.append('g')
-      .attr('transform', 'translate(0,' + height + ')')
-      .call(d3.axisBottom(x));
+    this.g.append('g')
+      .attr('class', 'axis-patrimonio axis--x')
+      .call(this.xAxis)
+      .call(g => g.select('.domain').style('stroke', 'transparent'))
+      .call(g => g.selectAll('.tick text')
+        .attr('dy', 15)
+        .attr('opacity', 0.9)
+        .style('font-size', '0.95em'))
+      .call(g => g.selectAll('.tick')
+        .attr('class', (d: Date) => {
+          const isOddYear = d.getFullYear() % 2;
 
-    const y = d3.scaleLinear()
-      .domain([0, d3.max(this.dataset, (d) => +d.value)])
-      .range([height, 0]);
+          if (isOddYear) {
+            return 'tick opaque';
+          };
 
-    this.svg.append('g')
-      .call(d3.axisLeft(y));
+          return 'tick normal';
+        }));
+
+    // right arrow
+    this.svg.append('defs').append('marker')
+      .attr('id', 'arrowhead')
+      .attr('refX', 1)
+      .attr('refY', 4.5)
+      .attr('markerWidth', 15)
+      .attr('markerHeight', 10)
+      .attr('orient', '0')
+      .append('path')
+      .attr('d', 'M 0 0 L 5 5 L 0 10')
+      .attr('fill', '#595959');
+    this.g
+      .select('.axis--x path.domain')
+      .attr('marker-end', 'url(#arrowhead)');
+  }
+
+  private drawYAxis() {
+    const maxPatrimonio = d3.max(this.patrimonio, (d: any) => +d.value);
+    const maxValue = maxPatrimonio;
+    const checkValues = {
+      minMax: 900000,
+      middleMax: 1000000,
+      maximum: 10000000
+    };
+    let max = maxValue;
+    if (max < checkValues.minMax) {
+      max = checkValues.minMax;
+    } else if (max < checkValues.middleMax) {
+      max = checkValues.middleMax;
+    } else {
+      max = Math.ceil(max / checkValues.maximum) * checkValues.maximum;
+    }
+
+    this.y.domain([0, maxValue]).nice();
+    this.yAxis.tickFormat((d: number) => {
+      let s = max <= checkValues.minMax ? d / 1000 : d / checkValues.middleMax;
+
+      if (s.toString().length > 4) {
+        s = this.numberFormat(s);
+      }
+      return '\xa0' + s;
+    });
+
+    this.g.append('g')
+      .attr('class', 'axis-patrimonio axis--y')
+      .call(this.yAxis)
+      .call(g => g.select('.domain').remove())
+      .call(g => g.selectAll('.tick text')
+        .attr('text-anchor', 'end')
+        .attr('dx', -this.width - 15)
+        .attr('opacity', 0.9)
+        .style('font-size', '0.95em'));
+
+    this.g.append('text')
+      .style('font-size', '0.60em')
+      .style('font-weight', 'normal')
+      .attr('text-anchor', 'end')
+      .attr('dx', -10)
+      .attr('dy', -15)
+      .text(() => {
+        if (max <= 900000) {
+          return 'R$ mil';
+        }
+        return 'R$ milhões';
+      });
   }
 
   private scatterDots() {
-    this.svg.append('g')
+    this.points = this.svg.append('g')
       .selectAll('dot')
       .data(this.dataset)
       .enter()
       .append('circle')
-      .attr('cx', (d) => this.xScale(d.date))
-      .attr('cy', (d) => this.yScale(d.value))
-      .attr('r', 8)
+      .attr('cx', (d) => this.x(d.date) + this.leftDistanceAdjust)
+      .attr('cy', (d) => this.y(d.value))
+      .attr('r', 10)
       .attr('transform', 'translate(' + 0 + ',' + 0 + ')')
-      .style('fill', '#5a44a0');
+      .attr('stroke', '#e2e2e2')
+      .attr('stroke-width', '4')
+      .attr('fill', '#5a44a0');
   }
 
   private plotLines() {
-    const line = d3.line<GraphData>()
-      .x((d) => this.xScale(d.date))
-      .y((d) => this.yScale(d.value));
-      // .curve(d3.curveMonotoneX);
+    this.lines = d3.line<GraphData>()
+      .x((d) => this.x(d.date) + this.leftDistanceAdjust)
+      .y((d) => this.y(d.value));
+    // .curve(d3.curveMonotoneX);
 
     this.svg.append('path')
       .datum(this.dataset)
       .attr('class', 'line')
       .attr('transform', 'translate(' + 0 + ',' + 0 + ')')
-      .attr('d', line)
+      .attr('d', this.lines)
       .style('fill', 'none')
       .style('stroke', '#5a44a0')
       .style('stroke-width', 4);
   }
 
-  private addLabels() {
-    this.svg.append('text')
-      .attr('class', 'y label')
-      .attr('text-anchor', 'end')
-      .attr('y', -20)
-      .attr('x', this.yLabel === 'mil' ? 0 : 28)
-      .attr('dy', '.75em')
-      .attr('transform', 'rotate(0)')
-      .text(`R$ ${this.yLabel}`);
-  }
+  private addTooltip() {
+    const locale = d3.formatLocale({
+      decimal: ',',
+      thousands: '.',
+      grouping: [3],
+      currency: ['R$ ', ' ']
+    });
+    const currencyFormat = locale.format('$,.2f');
 
-  private addGridlines() {
-    // add the X gridlines
-    this.svg.append('g')
-      .attr('class', 'grid')
-      .attr('transform', 'translate(0,' + height + ')')
-      .call(
-        d3.axisBottom(this.xScale)
-          .ticks(this.dataset.length)
-          .tickSize(-height)
-          .tickFormat('' as any)
-      );
+    this.tipPatrimonio = d3Tip()
+      .attr('class', 'tip-patrimonio')
+      .attr('id', 'tooltip-patrimonio')
+      .style('padding', '0.5rem')
+      .style('border', 'solid 2px #000')
+      .style('border-radius', '5px')
+      .style('background-color', '#fff')
+      .offset([-10, 0])
+      .html((evt: MouseEvent, data: GraphData) => currencyFormat(data.value));
 
-    // add the Y gridlines
-    this.svg.append('g')
-      .attr('class', 'grid')
-      .call(
-        d3.axisLeft(this.yScale)
-          .ticks(this.dataset.length)
-          .tickSize(-width)
-          .tickFormat('' as any)
-      );
+    this.svg.call(this.tipPatrimonio);
+
+    this.svg.selectAll('circle')
+      .on('mouseover', this.tipPatrimonio.show)
+      .on('mouseout', this.tipPatrimonio.hide);
   }
 
   ngOnDestroy() {
