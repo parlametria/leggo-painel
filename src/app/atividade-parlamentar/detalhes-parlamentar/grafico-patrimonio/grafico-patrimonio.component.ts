@@ -61,8 +61,8 @@ export class GraficoPatrimonioComponent implements OnInit, OnDestroy {
   private buildGraph() {
     const container: any = d3.select('#patrimonio-chart-wrapper').node();
 
-    this.width = (container.offsetWidth < 580) ? 300 : 600;
-    this.height = this.width - (this.width * 0.3);
+    this.width = (container.offsetWidth < 580) ? 320 : 700;
+    this.height = this.width - (this.width * 0.35);
     this.margin = {
       left: this.leftDistanceAdjust,
       right: 20,
@@ -90,6 +90,7 @@ export class GraficoPatrimonioComponent implements OnInit, OnDestroy {
       .tickFormat(d3.timeFormat('%Y'))
       .tickSize(this.height)
       .ticks(d3.timeYear);
+
     this.yAxis = d3
       .axisRight(this.y)
       .tickSize(this.width);
@@ -112,19 +113,14 @@ export class GraficoPatrimonioComponent implements OnInit, OnDestroy {
       .call(this.xAxis)
       .call(g => g.select('.domain').style('stroke', 'transparent'))
       .call(g => g.selectAll('.tick text')
-        .attr('dy', 15)
-        .attr('opacity', 0.9)
-        .style('font-size', '0.95em'))
-      .call(g => g.selectAll('.tick')
-        .attr('class', (d: Date) => {
-          const isOddYear = d.getFullYear() % 2;
+        .attr('dy', 30)
+        // .attr('opacity', 0.8)
+        .style('color', '#76797b')
+        .style('font-size', '1.6em'));
 
-          if (isOddYear) {
-            return 'tick opaque';
-          };
-
-          return 'tick normal';
-        }));
+    // hide all years lines
+    this.g.selectAll('line')
+      .style('display', 'none');
 
     // right arrow
     this.svg.append('defs').append('marker')
@@ -175,16 +171,17 @@ export class GraficoPatrimonioComponent implements OnInit, OnDestroy {
       .call(g => g.select('.domain').remove())
       .call(g => g.selectAll('.tick text')
         .attr('text-anchor', 'end')
-        .attr('dx', -this.width - 15)
-        .attr('opacity', 0.9)
-        .style('font-size', '0.95em'));
+        .attr('dx', -this.width - 20)
+        // .attr('opacity', 0.9)
+        .style('color', '#76797b')
+        .style('font-size', '2em'));
 
     this.g.append('text')
-      .style('font-size', '0.60em')
+      .style('font-size', '1.2em')
       .style('font-weight', 'normal')
       .attr('text-anchor', 'end')
-      .attr('dx', -10)
-      .attr('dy', -15)
+      .attr('dx', 30)
+      .attr('dy', -20)
       .text(() => {
         if (max <= 900000) {
           return 'R$ mil';
