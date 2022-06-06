@@ -9,8 +9,13 @@ import { TwitterService } from 'src/app/shared/services/twitter.service';
 import { indicate } from 'src/app/shared/functions/indicate.function';
 
 import { AtorTwitter } from 'src/app/shared/models/atorTwitter.model';
-import { Tweet } from 'src/app/shared/models/tweet.model';
+import { Tweet, ParlamentarPerfil, PerfilNaoEncontrado } from 'src/app/shared/models/tweet.model';
 import { InfoTwitter } from 'src/app/shared/models/infoTwitter.model';
+import { ProposicaoPerfilParlamentar } from 'src/app/shared/services/proposiccoes-perfil-parlamentar.service';
+import { Interesse } from 'src/app/shared/models/interesse.model';
+import { InteresseService } from 'src/app/shared/services/interesse.service';
+
+
 
 @Component({
   selector: 'app-redes-sociais',
@@ -29,6 +34,9 @@ export class RedesSociaisComponent implements OnInit, OnDestroy {
   public tema: string;
   public parlamentar: AtorTwitter;
   public tweets: Tweet[];
+  public parlamentarPerfil: ParlamentarPerfil|PerfilNaoEncontrado ;
+  public interesseParam: string;
+  public todosInteresses: Interesse[];
   public infoTwitter: InfoTwitter;
   public destaque: boolean;
 
@@ -37,6 +45,7 @@ export class RedesSociaisComponent implements OnInit, OnDestroy {
   constructor(
     private activatedRoute: ActivatedRoute,
     private twitterService: TwitterService,
+    private interesseService: InteresseService,
     config: NgbCarouselConfig
   ) {
     config.interval = 6000;
@@ -59,8 +68,32 @@ export class RedesSociaisComponent implements OnInit, OnDestroy {
         this.tema = params.tema;
         this.destaque = this.tema === 'destaque';
         this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;
+        console.log({'interesse: ': this.interesse, 'tema-params: ': params.tema, 'tema: ': this.tema, 'destaque: ': this.destaque});
         this.resgataTwitter(this.interesse, this.tema, this.idAtor, this.destaque);
+        this.processaTweet();
+        this.interesseParam =  params.interesse ?? 'todos';
+
       });
+  }
+
+  private processaTweet(){
+    forkJoin([
+      this.twitterService.getAtividade(this.idAtor),
+      this.interesseService.getInteresses(),
+    ]).pipe(
+      // indicate(this.isLoading),
+      takeUntil(this.unsubscribe)
+    ).subscribe(data => {
+      this.parlamentarPerfil = data[0];
+      this.todosInteresses = data[1];
+      this.print(this.todosInteresses);
+    });
+
+  }
+
+
+  print(data){
+    console.log(data);
   }
 
   private resgataTwitter(interesse, tema, idAtor, destaque) {

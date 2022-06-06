@@ -6,3 +6,16 @@ export interface Tweet {
   text: string;
   url: string;
 }
+
+export interface ParlamentarPerfil {
+  entidade: number;
+  is_personalidade: boolean;
+  name: string;
+  twitter_id: string;
+}
+
+export interface PerfilNaoEncontrado {
+  mensagem: string;
+  pk: string;
+  twitter_id: string;
+}

@@ -1,11 +1,38 @@
+<h3 class="titulo-sessao">Tweets com mais engajamento</h3>
+<p>Tweets cujo o parlamentar mencionou uma proposição</p>
+
 <div class="d-flex">
-  <h3 class="titulo-sessao">Atividade no Twitter</h3>
   <app-tooltip-ajuda
     [posicao]="'top'"
     [descricao]="'Cada parlamentar corresponde a um círculo, que mostra a média de tweets  por mês e a proporção dos tweets do parlamentar que tratam desse tema e  agenda. O tamanho do círculo é a média da soma de curtidas, respostas e  retweets.'">
   </app-tooltip-ajuda>
 </div>
 <app-loading *ngIf="isLoading | async"></app-loading>
+
+
+<div [hidden]="isLoading | async" *ngIf="parlamentarPerfil">
+
+    <p *ngIf="!parlamentarPerfil.twitter_id">
+      Parlamentar não tem o seu perfil social cadastrado na base.
+    </p>
+
+    <p *ngIf="parlamentarPerfil.twitter_id">
+      <strong>{{ parlamentar?.quantidadeTweets }}</strong>
+      dos
+      <strong>{{ parlamentar?.total_tweets }}</strong>
+      tweets de
+      <a href="https://twitter.com/{{parlamentar?.username}}" target="_blank">
+        @{{ parlamentar?.username }}
+      </a>
+      (em destaque) são sobre esse tema e agenda.
+    </p>
+
+
+
+</div>
+
+
+
 <div
   [hidden]="isLoading | async"
   *ngIf="parlamentar && parlamentar?.username !== undefined">
@@ -69,6 +96,7 @@
     *ngIf="tweets?.length"
     class="sessao">
     <h3 class="titulo-sessao">Tweets com mais engajamento</h3>
+    
     <ngb-carousel *ngIf="tweets">
       <ng-container
         *ngFor="let tweet of tweets"

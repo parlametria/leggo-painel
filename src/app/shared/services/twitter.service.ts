@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AtorTwitter } from '../models/atorTwitter.model';
 import { ProposicaoComMaisTweets } from '../models/proposicaoComMaisTweets.model';
-import { Tweet } from '../models/tweet.model';
+import { Tweet, ParlamentarPerfil, PerfilNaoEncontrado } from '../models/tweet.model';
 import { InfoTwitter } from '../models/infoTwitter.model';
 
 @Injectable({
@@ -15,8 +15,19 @@ import { InfoTwitter } from '../models/infoTwitter.model';
 export class TwitterService {
 
   private twitterUrl = `${environment.twitterAPIUrl}/api`;
+  private parlamentarUrl = `${environment.baseUrl}/parlamentar-perfil/`;
 
   constructor(private http: HttpClient) { }
+
+  getAtividade(idAtor: string): Observable<ParlamentarPerfil|PerfilNaoEncontrado>{
+    if (!idAtor) {
+      return;
+    }
+    console.log('Funcionei');
+    const path = `${this.parlamentarUrl}${idAtor}/`;
+    return this.http.get<ParlamentarPerfil|PerfilNaoEncontrado>(path);
+
+  }
 
   getAtividadeTwitter(interesse: string, tema: string, dataInicial: string, dataFinal: string, destaque: boolean): Observable<any[]> {
     const params = new HttpParams()
