@@ -22,7 +22,7 @@ import { CargosComponent } from './cargos/cargos.component';
 import { CargoComponent } from './cargo/cargo.component';
 import { PatrimonioEDespesasComponent } from './patrimonio-e-despesas/patrimonio-e-despesas.component';
 import { GraficoPatrimonioComponent } from './grafico-patrimonio/grafico-patrimonio.component';
-
+import { TrajetoriaPoliticaComponent } from './trajetoria-politica/trajetoria-politica.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +43,7 @@ import { GraficoPatrimonioComponent } from './grafico-patrimonio/grafico-patrimo
     CargoComponent,
     PatrimonioEDespesasComponent,
     GraficoPatrimonioComponent,
+    TrajetoriaPoliticaComponent,
   ],
   imports: [
     CommonModule,
