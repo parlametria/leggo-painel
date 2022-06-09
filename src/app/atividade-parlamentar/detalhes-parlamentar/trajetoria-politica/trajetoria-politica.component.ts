@@ -28,6 +28,7 @@ export class TrajetoriaPoliticaComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject();
 
   @Input() idAtor: string;
+  idAutorParlametriaNoSerenata = false;
 
   trajetoriaPolitica: TimeLapse[] = [];
 
@@ -61,7 +62,11 @@ export class TrajetoriaPoliticaComponent implements OnInit, OnDestroy {
     this.perfilpoliticoSerenata.getCandidato(idPerfilPolitico)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(candidato => {
+        this.idAutorParlametriaNoSerenata = true;
         this.construirTrajetoriaPolitica(candidato.election_history, candidato.affiliation_history);
+      }, err => {
+        console.log('id do parlametria nao esta no serenata');
+        console.log(err);
       });
   }
 
@@ -106,9 +111,17 @@ export class TrajetoriaPoliticaComponent implements OnInit, OnDestroy {
     });
 
     const trajetoria = [...trajetoriaComEleicoes, ...apenasAfiliacoes];
-
     // sorteia do ano mais novo para o mais antigo
-    this.trajetoriaPolitica = trajetoria.sort((a, b) => b.periodo.inicio - a.periodo.inicio);
+    trajetoria.sort((a, b) => b.periodo.inicio - a.periodo.inicio);
+
+    for (const t of trajetoria) {
+      // se ha afiliacoes, tbm ordena do maior para o menor
+      if (t.afiliacoes.length > 0) {
+        t.afiliacoes.sort((a, b) => (new Date(b.started_in)).getFullYear() - (new Date(a.started_in)).getFullYear());
+      }
+    }
+
+    this.trajetoriaPolitica = trajetoria;
   }
 
   private preparaEventosAfilicoes(eventos: TodosOsEventosPorAno, historicoAfiliacoes: Afiliacao[]): TodosOsEventosPorAno {
