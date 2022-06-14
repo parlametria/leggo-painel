@@ -1,5 +1,5 @@
-@use '../shared/variables' as v;
-@use '../shared/mixins' as m;
+@use '../../shared/variables' as v;
+@use '../../shared/mixins' as m;
 
 @include m.fullscreen-background;
 @include m.cadastro-e-login-estrutura-base;

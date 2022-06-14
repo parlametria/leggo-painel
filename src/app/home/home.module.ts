@@ -22,10 +22,10 @@ import { CardInsightComponent } from '../insights/card-insight/card-insight.comp
 import { ProjetosComponent } from 'src/app/projetos/projetos.component';
 import { NaMidiaComponent } from 'src/app/na-midia/na-midia.component';
 import { RelatoriosComponent } from 'src/app/relatorios/relatorios.component';
-import { CadastroComponent } from 'src/app/cadastro/cadastro.component';
-import { LoginComponent } from 'src/app/login/login.conponent';
-import { PoliticasDePrivacidadeComponent } from 'src/app/politicas-de-privacidade/politicas-de-privacidade.component';
+import { CadastroComponent } from 'src/app/autenticacao/cadastro/cadastro.component';
+import { LoginComponent } from 'src/app/autenticacao/login/login.conponent';
 import { VerificacaoEmailComponent } from 'src/app/autenticacao/verificacao-email/verificacao-email.component';
+import { PoliticasDePrivacidadeComponent } from 'src/app/politicas-de-privacidade/politicas-de-privacidade.component';
 
 import { AderenciaComponent } from '../atividade-parlamentar/aderencia/aderencia.component';
 import { CongressoChartComponent } from '../atividade-parlamentar/aderencia/congresso-chart/congresso-chart.component';
@@ -68,8 +68,8 @@ import { FiltroLateralModule } from '../atividade-parlamentar/filtro-lateral/fil
     RelatoriosComponent,
     CadastroComponent,
     LoginComponent,
-    PoliticasDePrivacidadeComponent,
     VerificacaoEmailComponent,
+    PoliticasDePrivacidadeComponent,
   ],
   imports: [
     CommonModule,

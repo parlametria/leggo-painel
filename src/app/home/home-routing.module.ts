@@ -11,10 +11,10 @@ import { InsightsComponent } from '../insights/insights.component';
 import { ProjetosComponent } from 'src/app/projetos/projetos.component';
 import { NaMidiaComponent } from 'src/app/na-midia/na-midia.component';
 import { RelatoriosComponent } from 'src/app/relatorios/relatorios.component';
-import { CadastroComponent } from 'src/app/cadastro/cadastro.component';
-import { LoginComponent } from 'src/app/login/login.conponent';
-import { PoliticasDePrivacidadeComponent } from 'src/app/politicas-de-privacidade/politicas-de-privacidade.component';
+import { CadastroComponent } from 'src/app/autenticacao/cadastro/cadastro.component';
+import { LoginComponent } from 'src/app/autenticacao/login/login.conponent';
 import { VerificacaoEmailComponent } from 'src/app/autenticacao/verificacao-email/verificacao-email.component';
+import { PoliticasDePrivacidadeComponent } from 'src/app/politicas-de-privacidade/politicas-de-privacidade.component';
 
 
 const routes: Routes = [
