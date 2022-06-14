@@ -20,3 +20,9 @@ export interface UsuarioApiModel {
   empresa: string;
   usuario: UsuarioBase;
 }
+
+export interface VerificacaoEmailModel {
+  token: string;
+  usuario: number;
+  verificado: boolean;
+}

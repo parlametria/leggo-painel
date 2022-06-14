@@ -8,8 +8,9 @@ import { AutenticacaoService } from 'src/app/shared/services/autenticacao.servic
 import { AutenticacaoModel } from 'src/app/shared/models/autenticacao.model';
 
 const IGNORE_NAVBAR_ROUTES = [
-  '/cadastro',
-  '/login',
+  /^\/cadastro$/gm,
+  /^\/login$/gm,
+  /^\/verificacao-email\/.*/gm,
 ];
 
 @Component({
@@ -53,11 +54,16 @@ export class AppComponent implements OnInit {
   private checkShowNavBar(fullUrl: string) {
     const url = fullUrl.split('?')[0];
 
-    if (IGNORE_NAVBAR_ROUTES.includes(url)) {
-      this.showNavbar = false;
-    } else {
-      this.showNavbar = true;
+    let found = false;
+    for (const reg of IGNORE_NAVBAR_ROUTES) {
+      found = reg.test(url);
+
+      if (found) {
+        break;
+      }
     }
+
+    this.showNavbar = !found;
   }
 
   private verificarValidadeAuthToken(model: AutenticacaoModel) {

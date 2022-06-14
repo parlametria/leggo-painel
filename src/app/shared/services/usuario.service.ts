@@ -3,13 +3,13 @@ import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../../environments/environment';
 
-import { UsuarioModel, UsuarioApiModel } from 'src/app/shared/models/usuario.model';
+import { UsuarioModel, UsuarioApiModel, VerificacaoEmailModel } from 'src/app/shared/models/usuario.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
-  private readonly usuariosUrl = `${environment.baseUrl}/usuarios/`;
+  private readonly usuariosUrl = `${environment.baseUrl}/usuarios`;
 
   constructor(
     private http: HttpClient) { }
@@ -25,6 +25,10 @@ export class UsuarioService {
       }
     };
 
-    return this.http.post<UsuarioApiModel>(this.usuariosUrl, criacaoPostData);
+    return this.http.post<UsuarioApiModel>(this.usuariosUrl + '/', criacaoPostData);
+  }
+
+  verificaEmail(token: string) {
+    return this.http.patch<VerificacaoEmailModel>(`${this.usuariosUrl}/verificacao-email/${token}/`, {});
   }
 }

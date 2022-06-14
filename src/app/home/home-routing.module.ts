@@ -14,6 +14,7 @@ import { RelatoriosComponent } from 'src/app/relatorios/relatorios.component';
 import { CadastroComponent } from 'src/app/cadastro/cadastro.component';
 import { LoginComponent } from 'src/app/login/login.conponent';
 import { PoliticasDePrivacidadeComponent } from 'src/app/politicas-de-privacidade/politicas-de-privacidade.component';
+import { VerificacaoEmailComponent } from 'src/app/autenticacao/verificacao-email/verificacao-email.component';
 
 
 const routes: Routes = [
@@ -69,6 +70,10 @@ const routes: Routes = [
   {
     path: 'politicas-e-termos-de-privacidade',
     component: PoliticasDePrivacidadeComponent
+  },
+  {
+    path: 'verificacao-email/:token',
+    component: VerificacaoEmailComponent
   },
   {
     path: 'parlamentares/:id',

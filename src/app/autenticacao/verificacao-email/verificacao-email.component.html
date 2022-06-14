@@ -1,0 +1,45 @@
+<div class="background-wrapper"></div>
+
+<div class="verificacao-email">
+  <div class="d-flex">
+
+    <div class="verification-wrapper">
+      <app-loading *ngIf="stage === 'loading'" class="verification-loading"></app-loading>
+
+      <div *ngIf="stage === 'success'" class="verification-success">
+        <h2>E-mail verificado com sucesso!</h2>
+
+        <div class="success-message">
+          Agora você terá acesso a toda nossa base de dados e inteligência política. Aproveite!
+        </div>
+
+        <div class="goto-login">
+          <button class="btn btn-secondary" routerLink="/login">Ir para o Login</button>
+
+          <a routerLink="/">
+            <img src="/assets/imgs/logotipo-parlametria.png" />
+          </a>
+        </div>
+      </div><!-- /.verification-success -->
+
+      <div *ngIf="stage === 'fail'" class="verification-fail">
+        <h2>Ocorreu uma falha ao verificar o E-mail</h2>
+
+        <div class="fail-message">
+          Por favor, tente novamente mais tarde.
+        </div>
+
+        <div class="goto-login">
+          <button class="btn btn-secondary" routerLink="/login">Ir para o Login</button>
+
+          <a routerLink="/">
+            <img src="/assets/imgs/logotipo-parlametria.png" />
+          </a>
+        </div>
+      </div><!-- /.verification-success -->
+
+    </div>
+
+  </div><!-- /.d-flex -->
+
+</div>
