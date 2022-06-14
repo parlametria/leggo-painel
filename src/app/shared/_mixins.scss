@@ -1,3 +1,5 @@
+@use './variables.scss' as v;
+
 @mixin info-card {
   .card {
     margin-bottom: 1.5rem;
@@ -43,6 +45,117 @@
         color: #fafcfc;
         background-color: #34174A;
       }
+    }
+  }
+}
+
+
+@mixin icons-eye {
+  i.icon-eye {
+    display: block;
+    width: 24px;
+    height: 24px;
+    background-image: url(/assets/icons/eye.svg);
+  }
+
+  i.icon-eye-slash {
+    display: block;
+    width: 24px;
+    height: 24px;
+    background-image: url(/assets/icons/eye-slash.svg);
+  }
+}
+
+@mixin fullscreen-background {
+  .background-wrapper {
+    background-image: url(/assets/imgs/homepage-bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 0;
+    filter: blur(4px);
+  }
+}
+
+@mixin cadastro-e-login-estrutura-base {
+  .painels-wrapper {
+    display: flex;
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+  }
+
+  .left-painel {
+    width: 50%;
+    min-width: 620px;
+    height: 100%;
+    padding: 10px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .right-painel {
+    img {
+      position: absolute;
+      width: 25%;
+      margin: 2% 0 0 2%;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    .right-painel {
+      img {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: 680px) {
+    .right-painel {
+      display: none;
+    }
+  }
+
+  .parla-logo-row {
+    margin-top: 15%;
+    font-size: 12px;
+    color: v.$text-color-3;
+    text-align: center;
+
+    img {
+      width: 180px;
+      height: 20px;
+    }
+
+    a {
+      font-size: 14px;
+    }
+  }
+
+  .form-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 70%;
+    border: none;
+    color: v.$primary-variant-color;
+    font-weight: 500;
+
+    .error {
+      color: v.$warning-color;
+      font-size: 12px;
+    }
+
+    .required {
+      color: v.$warning-color;
+    }
+
+    label {
+      color: v.$primary-color;
     }
   }
 }

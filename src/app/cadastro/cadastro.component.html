@@ -1,0 +1,152 @@
+<app-loading *ngIf="isLoading | async"></app-loading>
+
+<div class="background-wrapper"></div>
+
+<div class="cadastro-page">
+  <div class="d-flex">
+
+    <div *ngIf="stage === 'creation'" class="new-user-form">
+
+      <div class="painels-wrapper">
+        <div class="left-painel">
+          <div class="form-control form-wrapper">
+
+            <div class="form-row">
+              <div class="col">
+                <h3 class="title">Cadastro</h3>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-col">
+                <label for="firstName" class="form-label">
+                  Primeiro Nome<span class="required">(*)</span>
+                </label>
+                <input type="text" class="form-control" id="firstName" required [(ngModel)]="primeiroNome"
+                  #ctrl="ngModel" />
+                <span class="error" *ngIf="errors.primeiroNome.error">{{errors.primeiroNome.texto}}</span>
+              </div>
+
+              <div class="form-col">
+                <label for="lastName" class="form-label">
+                  Último Nome<span class="required">(*)</span>
+                </label>
+                <input type="text" class="form-control" id="lastName" required [(ngModel)]="ultimoNome"
+                  #ctrl="ngModel" />
+                <span class="error" *ngIf="errors.ultimoNome.error">{{errors.ultimoNome.texto}}</span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-col">
+                <label for="email" class="form-label">
+                  E-mail<span class="required">(*)</span>
+                </label>
+                <input type="email" class="form-control" id="email" required [(ngModel)]="email" #ctrl="ngModel" />
+                <span class="error" *ngIf="errors.email.error">{{errors.email.texto}}</span>
+              </div>
+
+              <div class="form-col">
+                <label for="company" class="form-label">
+                  Empresa/Entidade
+                </label>
+                <input type="text" class="form-control" id="company" [(ngModel)]="empresa" #ctrl="ngModel" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-col">
+                <label for="password" class="form-label">
+                  Senha<span class="required">(*)</span>
+                </label>
+                <input [type]="showPassword ? 'text' : 'password'" class="form-control" id="password" required
+                  [(ngModel)]="password" #ctrl="ngModel" />
+                <span class="error" *ngIf="errors.password.error">{{errors.password.texto}}</span>
+              </div>
+
+              <div class="form-col">
+                <label for="confirmPassword" class="form-label">
+                  Confirmar Senha<span class="required">(*)</span>
+                </label>
+                <input [type]="showPassword ? 'text' : 'password'" class="form-control" id="confirmPassword" required
+                  [(ngModel)]="confirmPassword" #ctrl="ngModel" />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-col display-password-wrapper" (click)="toggleShowPassword()">
+                <i class="icon-eye" *ngIf="showPassword"></i>
+                <i class="icon-eye-slash" *ngIf="!showPassword"></i>
+
+                <span class="display-password">
+                  {{ showPassword ? 'Esconder senha' : 'Exibir senha' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-col-full-width check-policies-terms">
+                <input type="checkbox" class="form-control" id="checkPoliciesTerms" required
+                  [(ngModel)]="sitePoliciesCheck" #ctrl="ngModel">
+                <label for="checkPoliciesTerms" class="form-label">
+                  Eu estou de acordo com as <a class="termos-link" routerLink="/politicas-e-termos-de-privacidade">Políticas e Termos de privacidade</a>
+                </label>
+              </div>
+
+              <div class="col text-center policies-error-message" *ngIf="errors.sitePoliciesCheck.error">
+                <span class="error">
+                  {{errors.sitePoliciesCheck.texto}}
+                </span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-col-full-width">
+                <button class="btn btn-secondary" [disabled]="disableButton" (click)="createUser()">Criar nova
+                  conta</button>
+              </div>
+            </div>
+
+          </div><!-- /.form-wrapper -->
+
+          <div class="col parla-logo-row">
+            <div class="col">
+              <a routerLink="/">
+                <img src="/assets/imgs/logotipo-parlametria.png" />
+              </a>
+
+              <div>
+                Já é cadastrado? <a routerLink="/login">Faça o Login</a>
+              </div>
+            </div>
+          </div><!-- /.parla-logo-row -->
+
+        </div><!-- /.left-painel-->
+
+        <div class="right-painel">
+          <img src="/assets/imgs/logotipo-parlametria-reduzido.svg" />
+        </div>
+      </div><!-- /.painels-wrapper -->
+    </div><!-- new-user-form -->
+
+    <div *ngIf="stage === 'loading' || stage === 'created'" class="new-user-wrapper">
+      <app-loading *ngIf="stage === 'loading'" class="creation-loading"></app-loading>
+
+      <div *ngIf="stage === 'created'" class="new-user-success">
+        <h5>Bem vindo ao Parlametria!</h5>
+        <h2>Cadastro realizado com sucesso!</h2>
+        <div class="success-message">
+          Agora você terá acesso a toda nossa base de dados e inteligência política. Aproveite!
+        </div>
+        <div class="goto-login">
+          <button class="btn btn-secondary" routerLink="/login">Ir para o Login</button>
+
+          <a routerLink="/">
+            <img src="/assets/imgs/logotipo-parlametria.png" />
+          </a>
+        </div>
+      </div><!-- /.new-user-success -->
+    </div>
+  </div><!-- /.d-flex justify-content-center -->
+
+</div>

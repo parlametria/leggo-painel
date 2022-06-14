@@ -37,10 +37,10 @@ export class CargosComponent implements OnInit, OnDestroy {
   }
 
   getParlamentarById(id: string) {
-    forkJoin(
+    forkJoin([
       this.parlamentarService.getComissoesByid(id),
       this.parlamentarService.getLiderancasByid(id)
-    ).pipe(takeUntil(this.unsubscribe)).subscribe(data => {
+    ]).pipe(takeUntil(this.unsubscribe)).subscribe(data => {
       const comissoes = data[0];
       const liderancas = data[1];
 

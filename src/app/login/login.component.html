@@ -1,0 +1,129 @@
+<app-loading *ngIf="isLoading | async"></app-loading>
+
+<div class="background-wrapper"></div>
+
+<div class="login-page">
+  <div class="d-flex">
+
+    <div class="painels-wrapper">
+      <div class="left-painel">
+
+        <div class="col form-control form-wrapper">
+
+          <div [ngClass]="['stage-1', currentStage === 1 ? 'stage-visible' : '' ]">
+
+            <div class="row">
+              <div class="col">
+                <h3 class="title">Bem vindo de volta :)</h3>
+                <h5 class="sub-title">Por favor insira os dados abaixo</h5>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col input-wrapper email-wrapper">
+                <label for="email" class="form-label">
+                  E-mail
+                </label>
+
+                <input type="email" class="form-control" id="email" placeholder="exemple@email.com" required
+                  [(ngModel)]="email" #ctrl="ngModel">
+                <span class="error" *ngIf="errors.email.error">{{errors.email.texto}}</span>
+              </div>
+            </div>
+
+            <div class="row next-btn-wrapper">
+              <div class="col">
+                <button class="btn btn-secondary" (click)="verificaEmail()">Próximo</button>
+              </div>
+            </div>
+
+          </div><!-- /.stage-1-->
+
+
+          <div [ngClass]="['stage-2', currentStage === 2 ? 'stage-visible' : '' ]">
+
+            <div class="row">
+              <div class="stage-title-wrapper">
+                <h3 class="title">Olá!</h3>
+
+                <div class="dropdown">
+                  <div [ngClass]="['change-email-wrapper', showDropDown ? 'opened' : '']"
+                    (click)="showDropDown = !showDropDown">
+                    <div class="avatar-wrapper">
+                      <img src="/assets/icons/avatar.svg" alt="icon avatar" />
+                    </div>
+                    <div class="email-wrapper">{{email}}</div>
+                    <div class="arrow-wrapper">
+                      <img class="rotate180" src="/assets/imgs/chevron-solid.svg" alt="icon arrow" />
+                    </div>
+                  </div>
+
+                  <ul [ngClass]="['dropdown-menu', showDropDown ? 'is-visible' : '']"
+                    aria-labelledby="dropdownMenuLink">
+                    <li>
+                      <a class="dropdown-item" (click)="mudarStage(1)">Mudar email</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col input-wrapper">
+                <label for="password" class="form-label">
+                  Senha
+                </label>
+
+                <input [type]="showPassword ? 'text' :'password'" class="form-control" id="password" placeholder="*****" required
+                  [(ngModel)]="password" #ctrl="ngModel">
+
+                  <span class="error" *ngIf="errors.password.error">{{errors.password.texto}}</span>
+              </div>
+            </div>
+
+            <div class="form-row display-password-and-forgot-password-wrapper">
+              <div class="form-col display-password-wrapper" (click)="showPassword = !showPassword">
+                <i class="icon-eye" *ngIf="showPassword"></i>
+                <i class="icon-eye-slash" *ngIf="!showPassword"></i>
+
+                <span class="display-password">
+                  {{ showPassword ? 'Esconder senha' : 'Exibir senha' }}
+                </span>
+              </div>
+
+              <div class="form-col">
+                <div class="forgot-password">Esqueceu a senha?</div>
+              </div>
+            </div>
+
+            <div class="row next-btn-wrapper">
+              <div class="col">
+                <app-loading *ngIf="disableButton"></app-loading>
+                <button *ngIf="!disableButton" class="btn btn-secondary" (click)="verificaPassword()">Entrar</button>
+              </div>
+            </div>
+
+          </div><!-- /.stage-2-->
+
+        </div><!-- /.form-control.form-wrapper-->
+
+        <div class="col parla-logo-row">
+          <div class="col">
+            <a routerLink="/">
+              <img src="/assets/imgs/logotipo-parlametria.png" />
+            </a>
+
+            <div>
+              Não tem uma conta? <a routerLink="/cadastro">Cadastre-se</a>
+            </div>
+          </div>
+        </div><!-- /.parla-logo-row -->
+
+      </div><!-- /.left-painel-->
+
+      <div class="right-painel">
+        <img src="/assets/imgs/logotipo-parlametria-reduzido.svg" />
+      </div>
+    </div><!-- /.painels-wrapper -->
+  </div><!-- /.d-flex.justify-content-center -->
+</div><!-- /.login-page -->

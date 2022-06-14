@@ -1,0 +1,169 @@
+@use '../shared/variables' as v;
+@use '../shared/mixins' as m;
+
+.display-password-wrapper {
+  display: flex;
+  gap: 3px;
+  cursor: pointer;
+}
+
+.display-password, .forgot-password {
+  color: v.$util-grey-color;
+  font-size: 12px;
+  line-height: 20px;
+  cursor: pointer;
+
+  &:hover {
+    color: v.$text-color-3;
+  }
+}
+
+
+@include m.fullscreen-background;
+@include m.cadastro-e-login-estrutura-base;
+
+.login-page {
+  @include m.icons-eye;
+
+  .form-wrapper {
+    width: 420px;
+    align-self: center;
+
+    .form-row {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .stage-title-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .title {
+      color: v.$primary-color;
+      text-align: center;
+      margin: 90px 0 10px 0;
+    }
+
+    .sub-title {
+      font-size: 12px;
+      font-weight: 400;
+      color: v.$text-color-3;
+      text-align: center;
+    }
+
+    .input-wrapper {
+      margin-top: 50px;
+
+      input {
+        width: 100%;
+      }
+    }
+
+    .input-wrapper.email-wrapper {
+      margin-top: 95px;
+    }
+
+    .next-btn-wrapper {
+      margin-top: 50px;
+
+      .col {
+        text-align: end;
+      }
+    }
+
+    .dropdown-menu.is-visible {
+      display: block;
+    }
+    .dropdown-menu {
+      border: solid 1px v.$primary-color;
+      font-size: 12px;
+      color: v.$text-color-3;
+
+      .dropdown-item {
+        cursor: pointer;
+      }
+    }
+
+    .display-password-and-forgot-password-wrapper {
+      margin-top: 1rem;
+    }
+  }
+
+  .change-email-wrapper {
+    display: flex;
+    width: fit-content;
+    max-width: 400px;
+    height: 36px;
+    padding: 5px 10px;
+    flex-direction: row;
+    gap: 1rem;
+    border: solid 1px v.$primary-color;
+    border-radius: 25px;
+    margin-top: 2rem;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 0 0 3px rgba(121, 82, 179, 0.25);
+    }
+
+    .avatar-wrapper {
+      img {
+        width: 21px;
+        height: 21px;
+      }
+    }
+
+    .email-wrapper {
+      color: v.$text-color-3;
+      font-size: 12px;
+      line-height: 22px;
+      max-width: 315px;
+      overflow-x: hidden;
+    }
+
+    .arrow-wrapper {
+      img {
+        width: 12px;
+        height: 12px;
+      }
+
+      img.rotate180 {
+        rotate: 180deg;
+      }
+    }
+  }
+
+  /*
+  * FORM SLIDE ANIMATION STYLES
+  */
+  @keyframes showMe {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  .stage-1,
+  .stage-2 {
+    width: 400px;
+    display: none;
+  }
+
+  .stage-1.stage-visible {
+    display: block;
+    animation-duration: 0.5s;
+    animation-name: showMe;
+  }
+
+  .stage-2.stage-visible {
+    display: block;
+    animation-duration: 0.5s;
+    animation-name: showMe;
+  }
+}
