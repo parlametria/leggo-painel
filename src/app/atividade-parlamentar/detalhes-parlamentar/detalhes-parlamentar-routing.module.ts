@@ -5,6 +5,7 @@ import { DetalhesParlamentarComponent } from './detalhes-parlamentar.component';
 import { PesoPoliticoComponent, PapeisImportantesComponent, AtividadeNoCongressoComponent } from './';
 import { RedesSociaisComponent } from './redes-sociais/redes-sociais.component';
 import { VotacoesComponent } from './votacoes/votacoes.component';
+import { PatrimonioEDespesasComponent } from './patrimonio-e-despesas/patrimonio-e-despesas.component';
 
 const routes: Routes = [
   {
@@ -35,6 +36,10 @@ const routes: Routes = [
       {
         path: 'redes-sociais',
         component: RedesSociaisComponent,
+      },
+      {
+        path: 'patrimonio',
+        component: PatrimonioEDespesasComponent,
       }
     ]
   }

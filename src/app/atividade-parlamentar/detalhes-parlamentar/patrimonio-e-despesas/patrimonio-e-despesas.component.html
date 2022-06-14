@@ -1,0 +1,14 @@
+<app-loading *ngIf="isLoading | async"></app-loading>
+
+<div class="patrimonio-e-despesas">
+  <h3 class="titulo">Evolução de Patrimônio</h3>
+
+  <div class="content-wrapper">
+    <div class="patrimonio-desc-wrapper">
+      <div class="patrimonio-circ"></div>
+      <div class="patrimonio-desc">Patrimônio do Parlamentar</div>
+    </div>
+
+    <app-grafico-patrimonio *ngIf="obtevePatrimonio" [patrimonio]="patrimonio"></app-grafico-patrimonio>
+  </div>
+</div>

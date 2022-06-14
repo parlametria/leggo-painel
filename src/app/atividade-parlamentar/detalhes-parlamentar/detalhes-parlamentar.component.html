@@ -18,30 +18,30 @@
         </li>
       </ol>
     </nav>
-    <div 
-      class="container-info" 
+    <div
+      class="container-info"
       id="container-info"
       [hidden]="isLoading | async">
       <span *ngIf="parlamentarInfo?.casa_autor == 'camara'" class="parlamentar-name">
         <h4 class="header header4">Dep. {{ parlamentarInfo?.nome_autor }}</h4>
-        <h5 class="header header5"><img src="assets/imgs/parlamentar/dep.svg"> Deputado (a) / Partido - {{parlamentarInfo?.partido}}</h5>  
+        <h5 class="header header5"><img src="assets/imgs/parlamentar/dep.svg"> Deputado (a) / Partido - {{parlamentarInfo?.partido}}</h5>
       </span>
       <span *ngIf="parlamentarInfo?.casa_autor == 'senado'" class="parlamentar-name">
         <img src="assets/imgs/parlamentar/sen.svg">
         Sen. {{ parlamentarInfo?.nome_autor }}
         <p>Senador (a) / Partido - {{parlamentarInfo?.partido}}</p>
       </span>
-  
+
       <div class="container-perfil"
         *ngIf="toggleDrawer">
-        
+
         <div class="foto-parlamentar flex2">
           <img [src]="parlamentarInfo?.url_foto">
         </div>
-    
+
         <div class="flex2">
           <div class="container-map-graph">
-            <div class="center-map">      
+            <div class="center-map">
               <img src="assets/imgs/estados/{{parlamentarInfo?.uf}}.svg">
             </div>
             <div class="center-item ">
@@ -52,7 +52,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="flex2">
           <div class="container-map-graph">
             <app-vis-cabecalho
@@ -82,31 +82,31 @@
                 Governismo
               </span>
               <h5 *ngIf="parlamentar?.governismo">{{ parlamentar?.governismo * 100 | number: '1.0-0' }}%</h5>
-              <h5 *ngIf="!parlamentar?.governismo">--</h5>   
+              <h5 *ngIf="!parlamentar?.governismo">--</h5>
               <ng-template #governismoTip>
                 Calculado a partir do comportamento dos parlamentares, considerando que apoiar o governo quando
                 a maioria foi contra, conta mais do que apoiá-lo junto com uma maioria. É usado o modelo IDEAL de Clinton, Jackman e Rivers.
               </ng-template>
             </div>
-            
+
           </div>
         </div>
-        
+
         <div class="vertical-divider"></div>
-  
+
         <div class="flex3">
           <div class="container-atividades">
             <h5>Papéis importantes</h5>
             <div class="display-start">
               <div
                 *ngFor="let papel of papeisImportantes"
-                class="papeis-importantes">              
+                class="papeis-importantes">
                   <span class="header header5" *ngIf="papel.value">{{papel.value}} </span>
                   <span class="header header5" *ngIf="!papel.value">0 </span>
                   <span class="paragraph">{{papel.item}}</span>
               </div>
-            </div>              
-              
+            </div>
+
             <div class="button-position">
               <button class="button"
                 [routerLink]="['./papeis']"
@@ -117,9 +117,9 @@
             </div>
           </div>
         </div>
-              
+
         <!-- *ngIf="totalDocs" -->
-        <div class="acoes-agenda" 
+        <div class="acoes-agenda"
           class="flex3"
           >
           <div class="container-atividades">
@@ -137,7 +137,7 @@
               <button class="button"
                 [routerLink]="['./atividades']"
                 [routerLinkActive]="'active'"
-                queryParamsHandling="merge"  
+                queryParamsHandling="merge"
               >
                 Saiba mais
               </button>
@@ -145,13 +145,13 @@
           </div>
         </div>
       </div>
-  
+
     </div>
     <div class="veja-mais">
       <img (click)="setToggleDrawer()" [ngClass]="{'flipped': toggleDrawer === false}"
         src="../../assets/imgs/veja_mais_arrow.svg" alt="veja mais arrow" />
     </div>
-  
+
   </div>
 </div>
 
@@ -194,6 +194,19 @@
         <span class="icon-atividade"></span>
         -->
         Ações
+      </a>
+    </li>
+    <li class="nav-item">
+      <div class="triangle-down" *ngIf="routeInclude('/patrimonio')"></div>
+      <a
+        class="nav-link"
+        [routerLink]="['./patrimonio']"
+        [routerLinkActive]="'active'"
+        queryParamsHandling="merge">
+        <!--
+        <span class="icon-atividade"></span>
+        -->
+        Patrimônio
       </a>
     </li>
     <li class="nav-item">

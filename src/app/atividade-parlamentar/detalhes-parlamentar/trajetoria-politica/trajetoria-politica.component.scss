@@ -1,0 +1,122 @@
+@use '../../../shared/variables.scss' as v;
+
+.trajetoria-politica {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .mandatos-filiacoes {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+    div {
+      width: 50%;
+      font-size: 18px;
+      font-weight: 500;
+      padding: 1rem;
+
+      &:first-child {
+        text-align: right;
+      }
+
+      &:last-child {
+        text-align: left;
+      }
+    }
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+
+    .time-lapse {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      min-height: 100px;
+
+      .left-side {
+        display: flex;
+        justify-content: end;
+        width: 50%;
+        border-right: solid 4px #000;
+
+        .mandato-block {
+          width: 60%;
+          margin-top: 0.5rem;
+          display: flex;
+          flex-direction: column;
+          padding: 5rem 1.5rem 1.5rem 1.5rem;
+          color: #fff;
+          background-color: v.$primary-color;
+          border-top-left-radius: 8px;
+          border-bottom-left-radius: 8px;
+
+
+          .cargo , .ano {
+            text-align: left;
+          }
+        }
+      }
+
+      .left-side.has-arrow {
+        .triangle {
+          width: 0;
+          height: 0;
+          border: 8px solid transparent;
+          border-top: 0;
+          border-bottom: 20px solid #000;
+          position: relative;
+          left: 10px;
+          top: -20px;
+        }
+      }
+
+      .right-side {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 50%;
+
+        .afiliacao-block {
+          display: flex;
+          flex-direction: row;
+          margin-top: 0.5rem;
+
+          .dot {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            position: relative;
+            left: -12px;
+
+            .circle {
+              display: block;
+              width: 20px;
+              height: 20px;
+              border-radius: 50%;
+              background-color: #fff;
+              border: solid 5px #000;
+            }
+
+            .dash {
+              width: 16px;
+              height: 4px;
+              background-color: #000;
+            }
+          }
+
+          .descicao {
+            font-size: 14px;
+
+            .data {
+              color: v.$util-grey-color;
+            }
+          }
+        }
+      }
+    }
+  }
+}
