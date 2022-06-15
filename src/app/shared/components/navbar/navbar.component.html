@@ -1,4 +1,5 @@
 <nav class="navbar">
+
   <div class="container navbar-container">
     <div class="navbar-logo-wrapper align-items-center">
       <div class="text-center pr-2">
@@ -12,19 +13,52 @@
         </a>
       </div>
     </div>
+
     <div class="navbar-links">
-      <ul>
-        <li class="nav-item active">
+      <ul class="rounded-links">
+        <li class="nav-item" routerLinkActive="active">
           <img src="/assets/icons/proposicoes_icon.svg" alt="">
-          <a class="nav-link" href="/paineis">Proposições</a>
+          <a class="nav-link" [routerLink]="'/paineis'">Proposições</a>
         </li>
-        <li class="nav-item">
+
+        <li class="nav-item" routerLinkActive="active">
           <img src="/assets/icons/parlamentares_icon.svg" alt="">
-          <a class="nav-link" href="{{ interesse?.interesse }}/parlamentares">Parlamentares</a>
+          <a class="nav-link" [routerLink]="[interesse?.interesse, 'parlamentares'].join('')">Parlamentares</a>
+        </li>
+      </ul>
+
+      <ul class="underline-links">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'/projetos'" routerLinkActive="active">
+            PROJETOS
+            <div class="hover-marker"></div>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'/relatorios'" routerLinkActive="active">
+            RELATÓRIOS
+            <div class="hover-marker"></div>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'/na-midia'" routerLinkActive="active">
+            NA MÍDIA
+            <div class="hover-marker"></div>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="'/sobre'" routerLinkActive="active">
+            SOBRE
+            <div class="hover-marker"></div>
+          </a>
         </li>
       </ul>
     </div>
   </div>
+
 </nav>
 
 <div class="access-bar">
