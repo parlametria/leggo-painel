@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Subject, BehaviorSubject, forkJoin } from 'rxjs';
@@ -52,6 +52,8 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
   public totalDocs: number;
   public autoriasPorTipo: any;
 
+  @ViewChild('tabslinks')
+  tabslinks: ElementRef;
 
 
   constructor(
@@ -85,7 +87,23 @@ export class DetalhesParlamentarComponent implements OnInit, OnDestroy {
       this.resgataDocumentos(this.interesse, this.tema, parseInt(this.idAtor, 10), this.destaque);
       this.getAtorInfo(this.idAtor, this.interesse);
     });
-    }
+  }
+
+  tabTo(tab: string) {
+    const queryParams = Object.assign({}, this.activatedRoute.snapshot.queryParams);
+
+    const urlSlices = this.router.url.split('?')[0].split('/');
+    urlSlices.pop(); // remove last chunk, tab indicator
+    urlSlices.push(tab); // add tab to switch
+
+    this.router
+      .navigate([urlSlices.join('/')], { queryParams })
+      .then(() => {
+        window.setTimeout(() => {
+          this.tabslinks.nativeElement.scrollIntoView({behavior: 'smooth'});
+        }, 500); // need to wait for tab do load
+      });
+  }
 
   getParlamentarDetalhado(idParlamentar, interesse, tema, destaque) {
     const dataInicial = '2019-01-01';

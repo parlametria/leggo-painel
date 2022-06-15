@@ -108,11 +108,7 @@
             </div>
 
             <div class="button-position">
-              <button class="button"
-                [routerLink]="['./papeis']"
-                [routerLinkActive]="'active'"
-                queryParamsHandling="merge"
-                >
+              <button class="button" (click)="tabTo('papeis')">
                 Saiba mais</button>
             </div>
           </div>
@@ -134,11 +130,7 @@
               </span>
             </div>
             <div class="button-position">
-              <button class="button"
-                [routerLink]="['./atividades']"
-                [routerLinkActive]="'active'"
-                queryParamsHandling="merge"
-              >
+              <button class="button" (click)="tabTo('atividades')">
                 Saiba mais
               </button>
             </div>
@@ -155,7 +147,7 @@
   </div>
 </div>
 
-<div class="view-subnav">
+<div class="view-subnav" #tabslinks>
   <ul class="nav justify-content-center parla-nav-tabs">
     <li class="nav-item">
       <div class="triangle-down" *ngIf="routeInclude('/votacoes')"></div>
