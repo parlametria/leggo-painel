@@ -96,7 +96,7 @@ export class CadastroComponent implements OnInit, OnDestroy {
           this.stage = 'created';
         }, err => {
           const keys = Object.keys(err.error);
-          this.applyErrorOnCheck('email', keys.includes('email'), 'E-mail inválido ou já está em uso');
+          this.applyErrorOnCheck('email', keys.includes('email'), err.error.email);
           this.stage = 'creation';
         }
       ).add(() => {
