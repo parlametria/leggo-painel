@@ -51,7 +51,7 @@ import { TrajetoriaPoliticaComponent } from './trajetoria-politica/trajetoria-po
     SharedComponentsModule,
     NgbModule,
     NgxPaginationModule,
-    FormsModule
+    FormsModule,
   ]
 })
 export class DetalhesParlamentarModule { }
