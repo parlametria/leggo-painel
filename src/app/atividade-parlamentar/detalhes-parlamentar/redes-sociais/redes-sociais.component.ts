@@ -1,8 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, PipeTransform, Pipe } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, forkJoin, Subject } from 'rxjs';
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
 import * as moment from 'moment';
 
 import { TwitterService } from 'src/app/shared/services/twitter.service';
@@ -16,6 +18,15 @@ import { Interesse } from 'src/app/shared/models/interesse.model';
 import { InteresseService } from 'src/app/shared/services/interesse.service';
 
 declare var twttr: any;
+
+@Pipe({ name: 'safeHtml'})
+export class SafeHtmlPipe implements PipeTransform  {
+  constructor(private sanitized: DomSanitizer) {}
+  transform(value) {
+    console.log(this.sanitized.bypassSecurityTrustHtml(value))
+    return this.sanitized.bypassSecurityTrustHtml(value);
+  }
+}
 
 @Component({
   selector: 'app-redes-sociais',
@@ -52,6 +63,7 @@ export class RedesSociaisComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private twitterService: TwitterService,
     private interesseService: InteresseService,
+    private sanitizer: DomSanitizer,
     config: NgbCarouselConfig
   ) {
     config.interval = 6000;

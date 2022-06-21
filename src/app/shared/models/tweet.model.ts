@@ -1,3 +1,5 @@
+import {  SafeHtml } from '@angular/platform-browser';
+
 export interface Tweet {
   created_at: Date;
   id_parlamentar_parlametria: string;
@@ -30,7 +32,7 @@ export interface PerfilNaoEncontrado {
 export interface Embed{
   id_author: string;
   id_tweet: string;
-  text_html: string;
+  text_html: SafeHtml;
   data_criado: Date;
   likes: number;
   retweets: number;

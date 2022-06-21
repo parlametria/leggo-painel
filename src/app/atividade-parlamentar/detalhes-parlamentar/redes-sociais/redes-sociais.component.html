@@ -37,13 +37,17 @@
               
     
   </div>
+
   <div *ngIf="tweetsList">
-    <blockquote  
-      
-      *ngFor="let _tweet of tweetsList"
-      [innerHTML]="formatHtml(_tweet.text_html)">
-      
-    </blockquote>
+    <button>Cima</button>
+    <div class="tweets" id="tweets">
+      <div  
+        *ngFor="let _tweet of tweetsList"
+        [innerHTML]="formatHtml(_tweet.text_html) | safeHtml"
+        >      
+      </div>
+    </div>
+    <button>Baixo</button>
   </div>
 
 
