@@ -35,13 +35,15 @@ export class EmbedTweetComponent implements OnInit, OnDestroy {
   }
 
   private loadTwitterScript(): void {
+    console.log('Eu??');
+    console.log(this.tweetId);
     this.embedTweetService
       .loadScript()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((twitterData: any) => {
-        this.updateTwitterScriptLoadingState();
         twitterData.widgets.createTweet(this.tweetId, this.elementRef.nativeElement,
-          { lang: 'pt-BR', align: 'center', cards: 'hidden' });
+          { lang: 'pt-BR', align: 'left', cards: 'hidden' });
+        this.updateTwitterScriptLoadingState();
       });
   }
 

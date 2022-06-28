@@ -33,12 +33,10 @@
       </strong>
       .
     </p>
-
-              
     
   </div>
 
-  <div *ngIf="tweetsList">
+  <!-- <div *ngIf="tweetsList">
     <button>Cima</button>
     <div class="tweets" id="tweets">
       <div  
@@ -48,7 +46,20 @@
       </div>
     </div>
     <button>Baixo</button>
-  </div>
+  </div> -->
+
+
+
+
+
+  <ngb-carousel *ngIf="tweetsList" showNavigationIndicators=false showNavigationArrows=false>
+    <ng-container *ngFor="let tweet of tweetsList">
+      <ng-template ngbSlide>
+        <app-embed-tweet [tweetId]="tweet?.id_tweet"></app-embed-tweet>
+      </ng-template>
+    </ng-container>
+  </ngb-carousel>
+
 
 
   

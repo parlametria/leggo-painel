@@ -23,7 +23,7 @@ declare var twttr: any;
 export class SafeHtmlPipe implements PipeTransform  {
   constructor(private sanitized: DomSanitizer) {}
   transform(value) {
-    console.log(this.sanitized.bypassSecurityTrustHtml(value))
+    // console.log(this.sanitized.bypassSecurityTrustHtml(value))
     return this.sanitized.bypassSecurityTrustHtml(value);
   }
 }
@@ -32,6 +32,7 @@ export class SafeHtmlPipe implements PipeTransform  {
   selector: 'app-redes-sociais',
   templateUrl: './redes-sociais.component.html',
   styleUrls: ['./redes-sociais.component.scss'],
+  providers: [NgbCarouselConfig],
 })
 export class RedesSociaisComponent implements OnInit, OnDestroy {
 
@@ -68,9 +69,10 @@ export class RedesSociaisComponent implements OnInit, OnDestroy {
   ) {
     config.interval = 6000;
     config.keyboard = true;
-    config.wrap = true;
+    config.wrap = false;
     config.pauseOnHover = true;
     config.showNavigationArrows = true;
+    config.showNavigationIndicators = false;
   }
   ngOnInit(): void {
     this.activatedRoute.parent.paramMap
@@ -137,29 +139,6 @@ export class RedesSociaisComponent implements OnInit, OnDestroy {
     console.log(data);
   }
 
-  // private resgataTwitter(interesse, tema, idAtor, destaque) {
-  //   const dataInicial = '2019-01-01';
-  //   const dataFinal = moment().format('YYYY-MM-DD');
-  //   forkJoin([
-  //     this.twitterService.getUsernameTwitter(idAtor),
-  //     this.twitterService.getAtividadeDetalhadaTwitter(idAtor, interesse, tema, dataInicial, dataFinal, destaque),
-  //     this.twitterService.getTweetsParlamentar(idAtor, interesse, tema, dataInicial, dataFinal, this.NUMERO_TWEETS, destaque),
-  //     this.twitterService.getInfoTwitter()
-  //   ])
-  //     .pipe(
-  //       indicate(this.isLoading),
-  //       takeUntil(this.unsubscribe))
-  //     .subscribe(data => {
-  //       this.parlamentar = data[0];
-  //       this.parlamentar.id_autor_parlametria = data[1].id_parlamentar_parlametria;
-  //       this.parlamentar.quantidadeTweets = data[1].atividade_twitter;
-  //       this.print('id_parlamentar_parlametria');
-  //       this.print(this.parlamentar.id_autor_parlametria);
-  //       this.tweets = data[2];
-  //       this.infoTwitter = data[3];
-  //       // this.isLoading.next(false);
-  //     });
-  // }
 
   ngOnDestroy(): void {
     this.unsubscribe.next();
