@@ -1,0 +1,33 @@
+.container-tweets-info{
+  display: flex;
+  flex-direction: row;
+}
+
+.tweets-size{
+  flex: 1;  
+}
+.evita-indicador-overflow {
+  max-width: 600px;
+}
+
+
+.info-size {
+  flex: 1;
+  height: 471px;
+  overflow-y: scroll;
+  padding-left: 30px;
+  h4{
+    padding-top: 30px;
+    padding-bottom: 40px;
+  }
+}
+
+.interesse-grid{  
+  display: grid;
+  grid-template-columns: repeat(2, 2fr) 1fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 10px;
+  grid-row-gap: 0px;
+}
+
+

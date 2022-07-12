@@ -1,25 +1,24 @@
-<h3 class="titulo-sessao">Tweets com mais engajamento</h3>
-<p>Tweets cujo o parlamentar mencionou uma proposição</p>
-<div class="d-flex">
-  <app-tooltip-ajuda
-    [posicao]="'top'"
-    [descricao]="'Cada parlamentar corresponde a um círculo, que mostra a média de tweets  por mês e a proporção dos tweets do parlamentar que tratam desse tema e  agenda. O tamanho do círculo é a média da soma de curtidas, respostas e  retweets.'">
-  </app-tooltip-ajuda>
-</div>
+
 
 <app-loading *ngIf="isLoading | async"></app-loading>
 
 <div [hidden]="isLoading | async" >
 
   <div class="mt-2"
-    *ngIf="tweetsInfo && tweetsList && !tweetsList.length">
+    *ngIf="!parlamentarPerfil || !temTweets">
     <p>
-      Parlamentar não tem o seu perfil social cadastrado na base.
-      Existem
-      <strong>
-        {{ tweetsInfo?.numero_parlamentares_sem_perfil }}
-      </strong>
-      parlamentares que não possuem atividade ou perfil no Twitter.
+      <span *ngIf="!parlamentarPerfil">
+        Parlamentar não tem o seu perfil social cadastrado na base.
+        Existem
+        <strong>
+          {{ tweetsInfo?.numero_parlamentares_sem_perfil }}
+        </strong>
+        parlamentares que não possuem atividade ou perfil no Twitter.
+        <br>
+      </span>
+      <span *ngIf="parlamentarPerfil && !temTweets">
+        Cadastrado mas sem tweets para o interesse(s) selecionado(s).
+      </span>
       <br>
       Foram capturados
       <strong>{{ tweetsInfo?.numero_total_tweets }}</strong>
@@ -36,32 +35,73 @@
     
   </div>
 
-  <!-- <div *ngIf="tweetsList">
-    <button>Cima</button>
-    <div class="tweets" id="tweets">
-      <div  
-        *ngFor="let _tweet of tweetsList"
-        [innerHTML]="formatHtml(_tweet.text_html) | safeHtml"
-        >      
+  <ng-container *ngIf="engajamentoList && temTweets">
+    <h3 class="titulo-sessao">Tweets com mais engajamento</h3>
+    <p>Tweets cujo o parlamentar mencionou uma proposição</p>
+    <div class="d-flex">
+      <app-tooltip-ajuda [posicao]="'top'"
+        [descricao]="'Cada parlamentar corresponde a um círculo, que mostra a média de tweets  por mês e a proporção dos tweets do parlamentar que tratam desse tema e  agenda. O tamanho do círculo é a média da soma de curtidas, respostas e  retweets.'">
+      </app-tooltip-ajuda>
+    </div>
+  </ng-container>
+
+  <app-grafico-engajamento *ngIf="engajamentoList && temTweets" [engajamento]="engajamentoList">
+
+  </app-grafico-engajamento>
+
+
+  <div class="container-tweets-info" *ngIf="tweetsListInteresse && temTweets">
+    <div class="tweets-size">
+      <div class="evita-indicador-overflow">
+        <ngb-carousel showNavigationIndicators=false showNavigationArrows=false>
+          <!-- loop todos os interesses -->
+          <ng-container *ngFor="let tweets of tweetsListInteresse">
+            <!-- loop todos os tweets dado o interesse -->
+            <ng-container *ngFor="let tweet of tweets.tweets">
+              <!-- renderiza tweets do interesse selecionado -->
+              <ng-container *ngIf="interesse">
+                <ng-container *ngIf="tweets.interesse === interesse">
+                  <ng-template ngbSlide>
+                    <app-embed-tweet [tweetId]="tweet?.id_tweet">
+                    </app-embed-tweet>
+                  </ng-template>
+                </ng-container>                
+              </ng-container>
+              <!-- renderiza todos interesses -->
+              <ng-container *ngIf="!interesse">
+                <ng-template ngbSlide>
+                  <app-embed-tweet [tweetId]="tweet?.id_tweet">
+                  </app-embed-tweet>
+                </ng-template>                        
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </ngb-carousel>
       </div>
     </div>
-    <button>Baixo</button>
-  </div> -->
+    <div class="info-size" *ngIf="tweetsListInteresse">
+      <h4>Interesses e quantidade de tweets</h4>
+      <ng-container *ngFor="let tweets of tweetsListInteresse">
+        <div>
+          <div class="interesse-grid">
+            <p>{{tweets.interesse}}</p>  
+            <div>
+              <app-progress class="pointer" 
+                [label]="
+                'Interesse xpto'
+                " [barraClasse]="'bg-pressao'" 
+                [valor]=tweets.tweets.length 
+                [max]=interesseMaiorQtdTweets 
+                [exibirLabel]="false">
+              </app-progress>
+            </div>
+            <p>{{tweets.tweets.length}}</p>
+          </div>
+        </div>
+      </ng-container>
+    </div>  
+  </div>  
 
 
-
-
-
-  <ngb-carousel *ngIf="tweetsList" showNavigationIndicators=false showNavigationArrows=false>
-    <ng-container *ngFor="let tweet of tweetsList">
-      <ng-template ngbSlide>
-        <app-embed-tweet [tweetId]="tweet?.id_tweet"></app-embed-tweet>
-      </ng-template>
-    </ng-container>
-  </ngb-carousel>
-
-
-
-  
 </div>
 

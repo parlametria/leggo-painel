@@ -1,4 +1,4 @@
-import {  SafeHtml } from '@angular/platform-browser';
+import { SafeHtml } from '@angular/platform-browser';
 
 export interface Tweet {
   created_at: Date;
@@ -10,7 +10,7 @@ export interface Tweet {
   url: string;
 }
 
-export interface ParlamentarPerfil{
+export interface ParlamentarPerfil {
   entidade: number;
   is_personalidade: boolean;
   name: string;
@@ -29,7 +29,7 @@ export interface PerfilNaoEncontrado {
   twitter_id: string;
 }
 
-export interface Embed{
+export interface Embed {
   id_author: string;
   id_tweet: string;
   text_html: SafeHtml;
@@ -37,4 +37,14 @@ export interface Embed{
   likes: number;
   retweets: number;
   resposta: number;
+}
+
+export interface InteresseTweet {
+  interesse: string;
+  tweets: Array<Embed>;
+}
+
+export interface Engajamento {
+  data_consulta: Date;
+  total_engajamento: number;
 }

@@ -10,7 +10,7 @@ import { DetalhesParlamentarComponent } from './detalhes-parlamentar.component';
 import { VisAtividadeDetalhadaComponent } from './vis-atividade-detalhada/vis-atividade-detalhada.component';
 import { PesoPoliticoComponent, PapeisImportantesComponent, AtividadeNoCongressoComponent } from './';
 import { VisAtividadeParlamentarComponent } from './vis-atividade-parlamentar/vis-atividade-parlamentar.component';
-import { RedesSociaisComponent, SafeHtmlPipe } from './redes-sociais/redes-sociais.component';
+import { RedesSociaisComponent } from './redes-sociais/redes-sociais.component';
 import { VisAtividadeTwitterComponent } from './vis-atividade-twitter/vis-atividade-twitter.component';
 import { DetalhesParlamentarRoutingModule } from './detalhes-parlamentar-routing.module';
 import { VisProposicoesComMaisTweetsComponent } from './vis-proposicoes-com-mais-tweets/vis-proposicoes-com-mais-tweets.component';
@@ -23,6 +23,7 @@ import { CargoComponent } from './cargo/cargo.component';
 import { PatrimonioEDespesasComponent } from './patrimonio-e-despesas/patrimonio-e-despesas.component';
 import { GraficoPatrimonioComponent } from './grafico-patrimonio/grafico-patrimonio.component';
 import { TrajetoriaPoliticaComponent } from './trajetoria-politica/trajetoria-politica.component';
+import { GraficoEngajamentoComponent } from './redes-sociais/grafico-engajamento/grafico-engajamento.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,7 @@ import { TrajetoriaPoliticaComponent } from './trajetoria-politica/trajetoria-po
     PatrimonioEDespesasComponent,
     GraficoPatrimonioComponent,
     TrajetoriaPoliticaComponent,
-    SafeHtmlPipe
+    GraficoEngajamentoComponent
   ],
   imports: [
     CommonModule,
