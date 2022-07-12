@@ -21,4 +21,4 @@ jobs:
       - name: Executa lint
         run: npm run lint
       - name: Executa build
-        run: npm run build
+        run: npm run build:dev
