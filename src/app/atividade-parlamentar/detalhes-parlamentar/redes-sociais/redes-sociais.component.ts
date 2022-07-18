@@ -89,14 +89,9 @@ export class RedesSociaisComponent implements OnInit, OnDestroy {
 
   }
 
-  print(text) {
-    console.log(`${text}`, 'background: black; font-size: 14px;');
-  }
 
   private processaTweets(parlamentar: ParlamentarPerfil) {
     if (!parlamentar) {
-      console.log(parlamentar);
-      this.print(parlamentar);
       this.temTweets = false;
       this.isLoading.next(false);
       return;

@@ -23,7 +23,6 @@ export class EmbedTweetComponent implements OnInit, OnDestroy {
 
   private unsubscribe = new Subject();
   public isTwitterScriptLoading = true;
-  public isDOMLoading = new BehaviorSubject<boolean>(true);
 
 
   constructor(
@@ -50,8 +49,6 @@ export class EmbedTweetComponent implements OnInit, OnDestroy {
   private updateTwitterScriptLoadingState(): void {
     this.isTwitterScriptLoading = false;
     this.changeDetectorRef.detectChanges();
-    setTimeout(() => { }, 3000);
-    this.isDOMLoading.next(false);
 
   }
 
