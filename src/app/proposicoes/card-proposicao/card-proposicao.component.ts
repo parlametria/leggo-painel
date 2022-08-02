@@ -19,9 +19,12 @@ export class CardProposicaoComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
+    /*
     this.proposicao.resumo_progresso = this.resumirFases(
       this.ordenaProgresso(this.proposicao.resumo_progresso)
     );
+    */
+    this.proposicao.resumo_progresso = this.ordenaProgresso(this.proposicao.resumo_progresso);
   }
 
   temasResumido(temas) {
