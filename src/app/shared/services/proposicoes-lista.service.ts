@@ -163,7 +163,7 @@ export class ProposicoesListaService {
   }
 
   private isAprovadaEmUmaCasa(prop: ProposicaoLista) {
-    if (typeof prop.destaques == 'undefined' || prop.destaques.length === 0) {
+    if (typeof prop.destaques === 'undefined' || prop.destaques.length === 0) {
       return false;
     }
 
@@ -306,7 +306,7 @@ export class ProposicoesListaService {
   private processaFase(progresso: Array<any>, isAprovadaEmUmaCasa: boolean) {
     const faseTramitacao = ['Iniciadora', 'Revisora', 'Sanção/Veto'];
 
-    if(isAprovadaEmUmaCasa) {
+    if (isAprovadaEmUmaCasa) {
       return faseTramitacao[1];
     }
 
