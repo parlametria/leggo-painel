@@ -122,7 +122,7 @@ export class ProposicoesListaService {
           resumo_progresso: progressos[a.id_leggo],
           max_temperatura_interesse: setUpperBound(maxTemperaturaInteresse.max_temperatura_periodo),
           isDestaque: this.isDestaque(a),
-          fase: this.processaFase(progressos[a.id_leggo]),
+          fase: this.processaFase(progressos[a.id_leggo], this.isAprovadaEmUmaCasa(a)),
           ...a
         }));
 
@@ -160,6 +160,14 @@ export class ProposicoesListaService {
     } else {
       return objeto[property];
     }
+  }
+
+  private isAprovadaEmUmaCasa(prop: ProposicaoLista) {
+    if (typeof prop.destaques === 'undefined' || prop.destaques.length === 0) {
+      return false;
+    }
+
+    return prop.destaques[0].criterio_aprovada_em_uma_casa;
   }
 
   private isDestaque(prop: ProposicaoLista) {
@@ -295,12 +303,18 @@ export class ProposicoesListaService {
     return false;
   }
 
-  private processaFase(progresso: Array<any>) {
-    let fase = 0;
+  private processaFase(progresso: Array<any>, isAprovadaEmUmaCasa: boolean) {
     const faseTramitacao = ['Iniciadora', 'Revisora', 'Sanção/Veto'];
+
+    if (isAprovadaEmUmaCasa) {
+      return faseTramitacao[1];
+    }
+
     if (!progresso) {
       return '';
     }
+
+    let fase = 0;
     progresso.forEach(pfase => {
       if (pfase.data_inicio && pfase.data_fim || pfase.pulou === true) {
         fase += 1;
