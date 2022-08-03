@@ -3,23 +3,22 @@ import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, forkJoin, Subject } from 'rxjs';
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
-import * as moment from 'moment';
+
 
 import { TwitterService } from 'src/app/shared/services/twitter.service';
 import { indicate } from 'src/app/shared/functions/indicate.function';
 
-import { AtorTwitter } from 'src/app/shared/models/atorTwitter.model';
-import { Tweet } from 'src/app/shared/models/tweet.model';
-import { InfoTwitter } from 'src/app/shared/models/infoTwitter.model';
+import { ParlamentarPerfil, InfoTweets, Embed, Engajamento, InteresseTweet } from 'src/app/shared/models/tweet.model';
+import { Interesse } from 'src/app/shared/models/interesse.model';
+import { InteresseService } from 'src/app/shared/services/interesse.service';
 
 @Component({
   selector: 'app-redes-sociais',
   templateUrl: './redes-sociais.component.html',
-  styleUrls: ['./redes-sociais.component.scss']
+  styleUrls: ['./redes-sociais.component.scss'],
+  providers: [NgbCarouselConfig],
 })
 export class RedesSociaisComponent implements OnInit, OnDestroy {
-
-  readonly NUMERO_TWEETS = 5;
 
   private unsubscribe = new Subject();
   public isLoading = new BehaviorSubject<boolean>(true);
@@ -27,25 +26,31 @@ export class RedesSociaisComponent implements OnInit, OnDestroy {
   public idAtor: string;
   public interesse: string;
   public tema: string;
-  public parlamentar: AtorTwitter;
-  public tweets: Tweet[];
-  public infoTwitter: InfoTwitter;
+  public parlamentarPerfil: ParlamentarPerfil;
+  public tweetsList: Array<Embed>;
+  public tweetsListInteresse: Array<InteresseTweet>;
+  public engajamentoList: Array<Engajamento>;
+  public tweetsInfo: InfoTweets;
+  public interesseMaiorQtdTweets: number;
+  public interesseParam: string;
+  public todosInteresses: Interesse[];
   public destaque: boolean;
+  public temTweets: boolean;
 
-  readonly TOTAL_PARLAMENTARES = 594;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private twitterService: TwitterService,
+    private interesseService: InteresseService,
     config: NgbCarouselConfig
   ) {
     config.interval = 6000;
     config.keyboard = true;
-    config.wrap = true;
+    config.wrap = false;
     config.pauseOnHover = true;
     config.showNavigationArrows = true;
+    config.showNavigationIndicators = false;
   }
-
   ngOnInit(): void {
     this.activatedRoute.parent.paramMap
       .pipe(takeUntil(this.unsubscribe))
@@ -59,31 +64,62 @@ export class RedesSociaisComponent implements OnInit, OnDestroy {
         this.tema = params.tema;
         this.destaque = this.tema === 'destaque';
         this.tema === undefined || this.destaque ? this.tema = '' : this.tema = this.tema;
-        this.resgataTwitter(this.interesse, this.tema, this.idAtor, this.destaque);
+        this.processaParlamentar();
+        this.interesseParam = params.interesse ?? 'todos';
       });
+
+
   }
 
-  private resgataTwitter(interesse, tema, idAtor, destaque) {
-    const dataInicial = '2019-01-01';
-    const dataFinal = moment().format('YYYY-MM-DD');
+  private processaParlamentar() {
     forkJoin([
-      this.twitterService.getUsernameTwitter(idAtor),
-      this.twitterService.getAtividadeDetalhadaTwitter(idAtor, interesse, tema, dataInicial, dataFinal, destaque),
-      this.twitterService.getTweetsParlamentar(idAtor, interesse, tema, dataInicial, dataFinal, this.NUMERO_TWEETS, destaque),
-      this.twitterService.getInfoTwitter()
-    ])
-      .pipe(
-        indicate(this.isLoading),
-        takeUntil(this.unsubscribe))
-      .subscribe(data => {
-        this.parlamentar = data[0];
-        this.parlamentar.id_autor_parlametria = data[1].id_parlamentar_parlametria;
-        this.parlamentar.quantidadeTweets = data[1].atividade_twitter;
+      this.twitterService.getAtividade(this.idAtor),
+      this.interesseService.getInteresses(),
+      this.twitterService.getTweetsInfo(),
 
-        this.tweets = data[2];
-        this.infoTwitter = data[3];
-        this.isLoading.next(false);
-      });
+    ]).pipe(
+      indicate(this.isLoading),
+      takeUntil(this.unsubscribe)
+    ).subscribe(data => {
+      this.parlamentarPerfil = data[0];
+      this.todosInteresses = data[1];
+      this.tweetsInfo = data[2];
+      this.processaTweets(data[0]);
+    });
+
+  }
+
+
+  private processaTweets(parlamentar: ParlamentarPerfil) {
+    if (!parlamentar) {
+      this.temTweets = false;
+      this.isLoading.next(false);
+      return;
+    }
+    forkJoin([
+      this.twitterService.getEngajamentoParlamentar(this.parlamentarPerfil),
+      this.twitterService.getTweetsInteresse(this.parlamentarPerfil),
+
+    ]).pipe(
+      indicate(this.isLoading),
+      takeUntil(this.unsubscribe)
+    ).subscribe(data => {
+      this.engajamentoList = data[0];
+      this.tweetsListInteresse = data[1];
+      this.processaInteresseQtdTweets(data[1]);
+      this.temTweets = data[1].length === 0 ? false : true;
+      this.isLoading.next(false);
+    }
+    );
+  }
+
+  private processaInteresseQtdTweets(tweets: Array<InteresseTweet>) {
+    this.interesseMaiorQtdTweets = 0;
+    tweets.map(tweet => {
+      if (tweet.tweets.length > this.interesseMaiorQtdTweets) {
+        this.interesseMaiorQtdTweets = tweet.tweets.length;
+      }
+    });
   }
 
   ngOnDestroy(): void {

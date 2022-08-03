@@ -1,89 +1,107 @@
-<div class="d-flex">
-  <h3 class="titulo-sessao">Atividade no Twitter</h3>
-  <app-tooltip-ajuda
-    [posicao]="'top'"
-    [descricao]="'Cada parlamentar corresponde a um círculo, que mostra a média de tweets  por mês e a proporção dos tweets do parlamentar que tratam desse tema e  agenda. O tamanho do círculo é a média da soma de curtidas, respostas e  retweets.'">
-  </app-tooltip-ajuda>
-</div>
+
+
 <app-loading *ngIf="isLoading | async"></app-loading>
-<div
-  [hidden]="isLoading | async"
-  *ngIf="parlamentar && parlamentar?.username !== undefined">
-  <p *ngIf="parlamentar.quantidadeTweets > 0">
-    <strong>{{ parlamentar?.quantidadeTweets }}</strong>
-    dos
-    <strong>{{ parlamentar?.total_tweets }}</strong>
-    tweets de
-    <a
-      href="https://twitter.com/{{parlamentar?.username}}"
-      target="_blank">
-      @{{ parlamentar?.username }}
-    </a>
-    (em destaque) são sobre esse tema e agenda.
-  </p>
 
-  <p *ngIf="parlamentar.quantidadeTweets == 0">
-    O perfil de
-    <a
-      href="https://twitter.com/{{parlamentar?.username}}"
-      target="_blank">
-      @{{ parlamentar?.username }}
-    </a>
-    não possui tweets para este tema e agenda.
-  </p>
+<div [hidden]="isLoading | async" >
 
-  <app-vis-atividade-twitter *ngIf="parlamentar.quantidadeTweets > 0"></app-vis-atividade-twitter>
-
-  <div class="mt-4">
+  <div class="mt-2"
+    *ngIf="!parlamentarPerfil || !temTweets">
     <p>
-      Existem
-      <strong>
-        {{ TOTAL_PARLAMENTARES - infoTwitter?.total_parlamentares }}
-      </strong>
-      parlamentares que não possuem atividade ou perfil no Twitter.
+      <span *ngIf="!parlamentarPerfil">
+        Parlamentar não tem o seu perfil social cadastrado na base.
+        Existem
+        <strong>
+          {{ tweetsInfo?.numero_parlamentares_sem_perfil }}
+        </strong>
+        parlamentares que não possuem atividade ou perfil no Twitter.
+        <br>
+      </span>
+      <span *ngIf="parlamentarPerfil && !temTweets">
+        Cadastrado mas sem tweets para o interesse(s) selecionado(s).
+      </span>
       <br>
       Foram capturados
-      <strong>{{ infoTwitter?.total_tweets }}</strong>
+      <strong>{{ tweetsInfo?.numero_total_tweets }}</strong>
       tweets de parlamentares entre
       <strong>
-        {{ infoTwitter?.data_inicial | date:'dd/MM/yyyy' }}
+        {{ tweetsInfo?.tweet_mais_antigo | date:'dd/MM/yyyy' }}
       </strong>
       e
       <strong>
-        {{ infoTwitter?.data_final | date:'dd/MM/yyyy' }}
+        {{ tweetsInfo?.tweet_mais_novo | date:'dd/MM/yyyy' }}
       </strong>
       .
     </p>
+    
   </div>
 
-  <div class="sessao">
-    <app-vis-proposicoes-com-mais-tweets
-      [id]='idAtor'
-      [tema]="tema"
-      [interesse]="interesse"
-      [destaque]="destaque">
-    </app-vis-proposicoes-com-mais-tweets>
-  </div>
-
-  <div
-    *ngIf="tweets?.length"
-    class="sessao">
+  <ng-container *ngIf="engajamentoList && temTweets">
     <h3 class="titulo-sessao">Tweets com mais engajamento</h3>
-    <ngb-carousel *ngIf="tweets">
-      <ng-container
-        *ngFor="let tweet of tweets"
-        class="mt-3">
-          <ng-template ngbSlide>
-            <app-embed-tweet [tweetId]="tweet?.id_tweet"></app-embed-tweet>
-          </ng-template>
+    <p>Tweets cujo o parlamentar mencionou uma proposição</p>
+    <div class="d-flex">
+      <app-tooltip-ajuda [posicao]="'top'"
+        [descricao]="'Cada parlamentar corresponde a um círculo, que mostra a média de tweets  por mês e a proporção dos tweets do parlamentar que tratam desse tema e  agenda. O tamanho do círculo é a média da soma de curtidas, respostas e  retweets.'">
+      </app-tooltip-ajuda>
+    </div>
+  </ng-container>
+
+  <app-grafico-engajamento *ngIf="engajamentoList && temTweets" [engajamento]="engajamentoList">
+
+  </app-grafico-engajamento>
+
+
+  <div class="container-tweets-info" *ngIf="tweetsListInteresse && temTweets">
+    <div class="tweets-size">
+      <div class="evita-indicador-overflow">
+        <ngb-carousel showNavigationIndicators=false showNavigationArrows=false>
+          <!-- loop todos os interesses -->
+          <ng-container *ngFor="let tweets of tweetsListInteresse">
+            <!-- loop todos os tweets dado o interesse -->
+            <ng-container *ngFor="let tweet of tweets.tweets">
+              <!-- renderiza tweets do interesse selecionado -->
+              <ng-container *ngIf="interesse">
+                <ng-container *ngIf="tweets.interesse === interesse">
+                  <ng-template ngbSlide>
+                    <app-embed-tweet [tweetId]="tweet?.id_tweet">
+                    </app-embed-tweet>
+                  </ng-template>
+                </ng-container>                
+              </ng-container>
+              <!-- renderiza todos interesses -->
+              <ng-container *ngIf="!interesse">
+                <ng-template ngbSlide>
+                  <app-embed-tweet [tweetId]="tweet?.id_tweet">
+                  </app-embed-tweet>
+                </ng-template>                        
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </ngb-carousel>
+      </div>
+    </div>
+    <div class="info-size" *ngIf="tweetsListInteresse">
+      <h4>Interesses e quantidade de tweets</h4>
+      <ng-container *ngFor="let tweets of tweetsListInteresse">
+        <div>
+          <div class="interesse-grid">
+            <p>{{tweets.interesse}}</p>  
+            <div>
+              <app-progress class="pointer" 
+                [label]="
+                'Interesse xpto'
+                " [barraClasse]="'bg-pressao'" 
+                [valor]=tweets.tweets.length 
+                [max]=interesseMaiorQtdTweets 
+                [exibirLabel]="false">
+              </app-progress>
+            </div>
+            <p>{{tweets.tweets.length}}</p>
+          </div>
+        </div>
       </ng-container>
-    </ngb-carousel>
-  </div>
+    </div>  
+  </div>  
+
+
 </div>
-<div
-  *ngIf="!parlamentar || parlamentar?.username === undefined"
-  [hidden]="isLoading | async">
-  <p class="mt-4">
-    O parlamentar não possui atividade ou perfil no twitter.
-  </p>
-</div>
+

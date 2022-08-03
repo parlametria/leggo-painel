@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AtorTwitter } from '../models/atorTwitter.model';
 import { ProposicaoComMaisTweets } from '../models/proposicaoComMaisTweets.model';
-import { Tweet } from '../models/tweet.model';
+import { Tweet, ParlamentarPerfil, InfoTweets, Embed, Engajamento, InteresseTweet } from '../models/tweet.model';
 import { InfoTwitter } from '../models/infoTwitter.model';
 
 @Injectable({
@@ -15,8 +15,38 @@ import { InfoTwitter } from '../models/infoTwitter.model';
 export class TwitterService {
 
   private twitterUrl = `${environment.twitterAPIUrl}/api`;
+  private parlamentarUrl = `${environment.baseUrl}/parlamentar/`;
+  private twitterInfoUrl = `${environment.baseUrl}/tweets/info/`;
+  private twitter = `${environment.baseUrl}/tweets/`;
+  private engajamentoUrl = `${environment.baseUrl}/engajamento/`;
 
   constructor(private http: HttpClient) { }
+
+  getTweets(parlamentar: ParlamentarPerfil): Observable<Embed[]> {
+    return this.http.get<Embed[]>(`${this.twitter}?parlamentar=${parlamentar.entidade}`);
+  }
+
+  getTweetsInteresse(parlamentar: ParlamentarPerfil): Observable<InteresseTweet[]> {
+    return this.http.get<InteresseTweet[]>(`${this.twitter}${parlamentar.entidade}/`);
+  }
+
+  getTweetsInfo(): Observable<InfoTweets> {
+    return this.http.get<InfoTweets>(this.twitterInfoUrl);
+  }
+
+  getAtividade(idEntidade: string): Observable<ParlamentarPerfil> {
+    if (!idEntidade) {
+      return;
+    }
+    const path = `${this.parlamentarUrl}${idEntidade}/`;
+    return this.http.get<ParlamentarPerfil>(path);
+  }
+
+  getEngajamentoParlamentar(parlamentar: ParlamentarPerfil): Observable<Engajamento[]> {
+    const path = `${this.engajamentoUrl}${parlamentar.entidade}/`;
+    return this.http.get<Engajamento[]>(path);
+  }
+
 
   getAtividadeTwitter(interesse: string, tema: string, dataInicial: string, dataFinal: string, destaque: boolean): Observable<any[]> {
     const params = new HttpParams()
@@ -68,7 +98,7 @@ export class TwitterService {
     return this.http.get<any>(`${this.twitterUrl}/proposicoes/parlamentar/${id}`, { params });
   }
 
-  getProposicoesComMaisTweetsPeriodo(interesse: string, dataInicial: string, dataFinal: string): Observable<ProposicaoComMaisTweets[]>{
+  getProposicoesComMaisTweetsPeriodo(interesse: string, dataInicial: string, dataFinal: string): Observable<ProposicaoComMaisTweets[]> {
     const params = new HttpParams()
       .set('interesse', interesse)
       .set('data_inicial', dataInicial)

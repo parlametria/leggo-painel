@@ -23,6 +23,7 @@ import { CargoComponent } from './cargo/cargo.component';
 import { PatrimonioEDespesasComponent } from './patrimonio-e-despesas/patrimonio-e-despesas.component';
 import { GraficoPatrimonioComponent } from './grafico-patrimonio/grafico-patrimonio.component';
 import { TrajetoriaPoliticaComponent } from './trajetoria-politica/trajetoria-politica.component';
+import { GraficoEngajamentoComponent } from './redes-sociais/grafico-engajamento/grafico-engajamento.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { TrajetoriaPoliticaComponent } from './trajetoria-politica/trajetoria-po
     PatrimonioEDespesasComponent,
     GraficoPatrimonioComponent,
     TrajetoriaPoliticaComponent,
+    GraficoEngajamentoComponent
   ],
   imports: [
     CommonModule,
@@ -51,7 +53,7 @@ import { TrajetoriaPoliticaComponent } from './trajetoria-politica/trajetoria-po
     SharedComponentsModule,
     NgbModule,
     NgxPaginationModule,
-    FormsModule
+    FormsModule,
   ]
 })
 export class DetalhesParlamentarModule { }

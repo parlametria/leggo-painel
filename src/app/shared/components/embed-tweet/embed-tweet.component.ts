@@ -7,7 +7,7 @@ import {
   OnInit
 } from '@angular/core';
 
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { EmbedTweetService } from '../../services/embed-tweet.service';
@@ -24,6 +24,7 @@ export class EmbedTweetComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject();
   public isTwitterScriptLoading = true;
 
+
   constructor(
     private elementRef: ElementRef,
     private embedTweetService: EmbedTweetService,
@@ -39,15 +40,16 @@ export class EmbedTweetComponent implements OnInit, OnDestroy {
       .loadScript()
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((twitterData: any) => {
-        this.updateTwitterScriptLoadingState();
         twitterData.widgets.createTweet(this.tweetId, this.elementRef.nativeElement,
-          { lang: 'pt-BR', align: 'center', cards: 'hidden' });
+          { lang: 'pt-BR', align: 'left', cards: 'hidden' });
+        this.updateTwitterScriptLoadingState();
       });
   }
 
   private updateTwitterScriptLoadingState(): void {
     this.isTwitterScriptLoading = false;
     this.changeDetectorRef.detectChanges();
+
   }
 
   ngOnDestroy(): void {
