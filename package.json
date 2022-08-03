@@ -62,7 +62,7 @@
     "express": "^4.17.1",
     "force-ssl-heroku": "^1.0.2",
     "hare-niemeyer": "^2.0.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.4",
     "ngx-charts": "^3.0.2",
     "ngx-pagination": "^5.0.0",
     "rxjs": "~6.5.4",
