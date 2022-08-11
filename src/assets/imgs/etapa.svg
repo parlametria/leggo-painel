@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="132.27094mm"
+   height="109.61133mm"
+   viewBox="0 0 132.27094 109.61133"
+   version="1.1"
+   id="svg5"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false" />
+  <defs
+     id="defs2">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3942">
+      <path
+         id="path3944"
+         style="fill:#decce4;fill-opacity:1;stroke-width:0.332409;stop-color:#000000"
+         d="M 93.897336,220.85248 A 54.805673,54.805673 0 0 0 39.345375,275.82667 54.805673,54.805673 0 0 0 94.235304,330.46321 54.805673,54.805673 0 0 0 131.60368,315.659 l 0.008,0.008 40.00438,-40.00436 -37.44614,-37.44616 a 54.805673,54.805673 0 0 0 -0.70759,-0.70759 l -1.41744,-1.41745 -0.008,0.008 A 54.805673,54.805673 0 0 0 93.896714,220.85236 Z"
+         inkscape:export-filename="rect456.png"
+         inkscape:export-xdpi="11.995468"
+         inkscape:export-ydpi="11.995468" />
+    </clipPath>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter3946"
+       x="-0.042549126"
+       y="-0.049120974"
+       width="1.0850983"
+       height="1.0982419">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="3.2070315"
+         id="feGaussianBlur3948" />
+    </filter>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-44.639646,-94.387082)">
+    <path
+       id="rect456-6-5-3"
+       style="fill:#decce4;fill-opacity:1;stroke-width:0.332409;stop-color:#000000"
+       d="m 99.191869,94.387605 a 54.805673,54.805673 0 0 0 -54.551962,54.974205 54.805673,54.805673 0 0 0 54.889932,54.63653 54.805673,54.805673 0 0 0 37.368371,-14.80421 l 0.008,0.008 40.00438,-40.00438 -37.44614,-37.44615 a 54.805673,54.805673 0 0 0 -0.70759,-0.70759 l -1.41744,-1.41745 -0.008,0.008 A 54.805673,54.805673 0 0 0 99.191249,94.387485 Z"
+       inkscape:export-filename="vozativa.svg"
+       inkscape:export-xdpi="11.995468"
+       inkscape:export-ydpi="11.995468" />
+    <path
+       id="rect3869"
+       style="mix-blend-mode:normal;fill:#000000;fill-opacity:0.170458;stroke-width:0.529167;filter:url(#filter3946);stop-color:#000000"
+       d="M 13.354832,205.3131 V 362.00534 H 194.24869 V 205.3131 Z m 80.621952,18.6986 a 54.805673,54.805673 0 0 1 38.140306,15.24713 l 0.008,-0.008 1.41748,1.41748 a 54.805673,54.805673 0 0 1 0.70745,0.70745 l 37.4463,37.44629 -40.00428,40.00428 -0.008,-0.008 A 54.805673,54.805673 0 0 1 94.315264,333.62258 54.805673,54.805673 0 0 1 39.425075,278.98612 54.805673,54.805673 0 0 1 93.977301,224.01221 Z"
+       clip-path="url(#clipPath3942)"
+       transform="translate(5.29453,-126.46488)" />
+  </g>
+</svg>

@@ -304,7 +304,7 @@ export class ProposicoesListaService {
   }
 
   private processaFase(progresso: Array<any>, isAprovadaEmUmaCasa: boolean) {
-    const faseTramitacao = ['Iniciadora', 'Revisora', 'Sanção/Veto'];
+    const faseTramitacao = ['Iniciadora', 'Revisora', 'Réplica', 'Sanção/Veto'];
 
     if (isAprovadaEmUmaCasa) {
       return faseTramitacao[1];
@@ -331,6 +331,9 @@ export class ProposicoesListaService {
       case 5:
       case 6:
         return faseTramitacao[2];
+      case 7:
+      case 8:
+        return faseTramitacao[3];
       default:
         return 'Não tramitada';
     }
@@ -340,6 +343,7 @@ export class ProposicoesListaService {
     const fases = {
       iniciadora: 'Iniciadora',
       revisora: 'Revisora',
+      replica: 'Réplica',
       sancao: 'Sanção/Veto'
     };
     if (fase.map(f => fases[f]).includes(faseProposicao) || fase[0] === 'todas' || (faseProposicao === '' && fase[0] === 'nenhuma')) {
