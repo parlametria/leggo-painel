@@ -238,6 +238,15 @@
       <label class="checkbox-control">
         <input
           type="checkbox"
+          [(ngModel)]="replicaSelecionado"
+          (change)="onChangeFase()"
+          [ngModelOptions]="{ standalone: true }"
+        />
+        Réplica
+      </label>
+      <label class="checkbox-control">
+        <input
+          type="checkbox"
           [(ngModel)]="sancaoSelecionado"
           (change)="onChangeFase()"
           [ngModelOptions]="{ standalone: true }"
