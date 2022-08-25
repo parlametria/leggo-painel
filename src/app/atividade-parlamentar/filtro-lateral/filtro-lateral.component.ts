@@ -18,6 +18,7 @@ import { FiltroLateralService } from './filtro-lateral.service';
 })
 export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestroy {
   @Input() interesse: string;
+  @Input() totalParlamentares: number;
   @Input() casa: 'senado' | 'camara';
   // @Output() filterChange = new EventEmitter<any>();
 
@@ -28,10 +29,6 @@ export class FiltroLateralComponent implements OnInit, AfterContentInit, OnDestr
   public temaSelecionado: string;
   public casaSelecionada: string;
   public orderBySelecionado: string;
-
-  get totalParlamentares(): number {
-    return this.casa === 'senado' ? 80 : 513;
-  }
 
   numeroProposicoes: number;
 
