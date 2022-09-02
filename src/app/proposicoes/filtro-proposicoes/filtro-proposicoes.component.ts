@@ -62,6 +62,7 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
 
   public iniciadoraSelecionado: boolean;
   public revisoraSelecionado: boolean;
+  public replicaSelecionado: boolean;
   public sancaoSelecionado: boolean;
 
   proposicaoPesquisada = '';
@@ -154,10 +155,12 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
         if (this.faseSelecionada === undefined || this.faseSelecionada.length === 0) {
           this.iniciadoraSelecionado = true;
           this.revisoraSelecionado = true;
+          this.replicaSelecionado = true;
           this.sancaoSelecionado = true;
         } else if (this.faseSelecionada[0] === 'nenhuma') {
           this.iniciadoraSelecionado = false;
           this.revisoraSelecionado = false;
+          this.replicaSelecionado = false;
           this.sancaoSelecionado = false;
         } else {
           this.faseSelecionada.forEach(element => {
@@ -166,6 +169,9 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
             }
             if (element === 'revisora') {
               this.revisoraSelecionado = true;
+            }
+            if (element === 'replica') {
+              this.replicaSelecionado = true;
             }
             if (element === 'sancao') {
               this.sancaoSelecionado = true;
@@ -307,9 +313,9 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
   onChangeFase() {
     const queryParams: Params = Object.assign({}, this.activatedRoute.snapshot.queryParams);
     this.faseSelecionada = [];
-    if (!this.iniciadoraSelecionado && !this.revisoraSelecionado && !this.sancaoSelecionado) {
+    if (!this.iniciadoraSelecionado && !this.revisoraSelecionado && !this.replicaSelecionado && !this.sancaoSelecionado) {
       this.faseSelecionada = ['nenhuma'];
-    } else if (this.iniciadoraSelecionado && this.revisoraSelecionado && this.sancaoSelecionado) {
+    } else if (this.iniciadoraSelecionado && this.revisoraSelecionado && !this.replicaSelecionado && this.sancaoSelecionado) {
       this.faseSelecionada = ['todas'];
     } else {
       if (this.iniciadoraSelecionado) {
@@ -317,6 +323,9 @@ export class FiltroProposicoesComponent implements OnInit, AfterContentInit, OnD
       }
       if (this.revisoraSelecionado) {
         this.faseSelecionada.push('revisora');
+      }
+      if (this.replicaSelecionado) {
+        this.faseSelecionada.push('replica');
       }
       if (this.sancaoSelecionado) {
         this.faseSelecionada.push('sancao');

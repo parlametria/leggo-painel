@@ -29,6 +29,7 @@ export class ProposicoesComponent implements OnInit, OnDestroy, AfterContentInit
   proposicoesSemDestaque: ProposicaoLista[];
   proposicoesIniciadora: ProposicaoLista[];
   proposicoesRevisora: ProposicaoLista[];
+  proposicoesReplica: ProposicaoLista[] = [];
   proposicoesSancao: ProposicaoLista[];
   orderByProp: string;
   p = 1;
